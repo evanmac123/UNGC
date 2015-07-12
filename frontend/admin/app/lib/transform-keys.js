@@ -6,7 +6,7 @@ function transformKeys(src, transform) {
   if (type === 'array') {
     return src.map((e) => transformKeys(e, transform));
   } else if (type === 'instance' || type === 'object') {
-    return Ember.keys(src).reduce(function(obj, key) {
+    return Object.keys(src).reduce(function(obj, key) {
       obj[transform(key)] = transformKeys(Ember.get(src, key), transform);
       return obj;
     }, {});

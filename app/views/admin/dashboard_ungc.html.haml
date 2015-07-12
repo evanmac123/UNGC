@@ -5,8 +5,6 @@
     %li <a href="#logos">Logo Requests</a>
     %li <a href="#case_stories">Case Stories</a>
     %li <a href="#cops">COPs</a>
-    - if @pending_pages.any?
-      %li= link_to "Pages (#{@pending_pages.count})", '#pages'
 
   - if @pending_organizations.any?
     #organizations.tab_content
@@ -58,16 +56,3 @@
           %th.actions Actions
         = render :partial => 'admin/communication_on_progresses/cop_admin', :collection => @pending_cops
       = will_paginate @pending_cops, param_name: 'cops_page', params: {tab: 'cops'}
-
-  - if @pending_pages.any?
-    #pages.tab_content
-      %h2 Pending Pages
-      %table.dashboard_table#pages_dashboard_table
-        %tr
-          %th.last_updated Last updated on
-          %th.title Title
-          %th.status Status
-          %th.age Days since last update
-          %th.actions
-        = render :partial => 'admin/dashboard/page', collection: @pending_pages
-      = will_paginate @pending_pages, param_name: 'pages_page', params: {tab: 'pages'}

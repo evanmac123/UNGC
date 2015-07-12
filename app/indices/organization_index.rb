@@ -35,8 +35,9 @@ ThinkingSphinx::Index.define :organization,
     facet: true
 
   has sector(:id),
-    as: :sector_id,
-    facet: true
+    as: :sector_ids,
+    facet: true,
+    multi: true
 
   has "CRC32(cop_state)",
     as: :cop_state,

@@ -1,10 +1,7 @@
-<header id='main-page-header'>
-  <h1><i class='fa fa-sitemap fa-fw' aria-hidden='true'></i>Sitemap</h1>
-</header>
-
-{{sitemap/x-tree
-  tree=model
+{{#container-index
+  model=model
+  moveContainer="moveContainer"
   addContainer="addContainer"
-  moveContainer="moveContainer"}}
-
-{{outlet "newModal"}}
+  }}
+  {{outlet "newModal"}}
+{{/container-index}}

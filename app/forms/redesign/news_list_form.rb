@@ -1,5 +1,6 @@
 class Redesign::NewsListForm < Redesign::FilterableForm
   include Virtus.model
+  include Redesign::FilterMacros
 
   attribute :page,        Integer,        default: 1
   attribute :per_page,    Integer,        default: 5
@@ -10,78 +11,57 @@ class Redesign::NewsListForm < Redesign::FilterableForm
   attribute :start_date,  Date
   attribute :end_date,    Date
 
-  def filters
-    [issue_filter, topic_filter, country_filter, news_type_filter]
-  end
-
-  def issue_filter
-    @issue_filter ||= Filters::IssueFilter.new(issues, issues)
-  end
-
-  def topic_filter
-    @topic_filter ||= Filters::TopicFilter.new(topics, topics)
-  end
-
-  def country_filter
-    @country_filter ||= Filters::CountryFilter.new(countries)
-  end
-
-  def news_type_filter
-    @news_type_filter ||= Filters::NewsTypeFilter.new(types)
-  end
+  filter :issue
+  filter :topic
+  filter :country
+  filter :headline_type, selected: :types
 
   def execute
-    headlines = Headline.approved.includes(:country).order('published_on desc')
-
-    if countries.any?
-      headlines = headlines.where('headlines.country_id in (?)', countries)
-    end
-
-    if issues.any?
-      ids = issue_filter.effective_selection_set
-      headlines = headlines.joins(taggings: [:issue]).where('issue_id in (?)', ids)
-    end
-
-    if topics.any?
-      ids = topic_filter.effective_selection_set
-      headlines = headlines.joins(taggings: [:topic]).where('topic_id in (?)', ids)
-    end
-
-    if types.any?
-      headlines = headlines.where(headline_type: types)
-    end
-
-    case
-    when start_date.present? && end_date.present?
-      headlines = headlines.where(created_at: start_date..end_date)
-    when start_date.present?
-      headlines = headlines.where('created_at > ?', start_date)
-    when end_date.present?
-      headlines = headlines.where('created_at < ?', end_date)
-    end
-
-    headlines.distinct('headlines.id').paginate(page: page, per_page: per_page)
+    Headline.search '', options
   end
 
   private
 
-  class Filters::NewsTypeFilter < Filters::SearchFilter
+  def facets
+    Headline.facets '', all_facets: true
+  end
 
-    def initialize(types)
-      super(Headline.headline_types, types)
-      self.key = 'types'
-      self.label = 'Type'
+  def options
+    {
+      page: page,
+      per_page: per_page,
+      order: 'published_on desc',
+      with: reject_blanks(
+        issue_ids: issue_filter.effective_selection_set,
+        topic_ids: topic_filter.effective_selection_set,
+        country_id: countries,
+        headline_type: types,
+        created_at: date_range,
+      ),
+    }
+  end
+
+  def date_range
+    if start_date.present? || end_date.present?
+      start_of_first_date..end_of_last_date
     end
+  end
 
-    def options
-      items.map do |type|
-        k, value = type
-        title = I18n.t(k, scope: :headline)
-        is_selected = selected.include?(value)
-        FilterOption.new(value, title, key, is_selected, label)
-      end
+  def start_of_first_date
+    if start_date.present?
+      start_date.to_datetime.beginning_of_day.to_i
+    else
+      0
     end
+  end
 
+  def end_of_last_date
+    date = if end_date.present?
+      end_date
+    else
+      Date.today
+    end
+    date.to_datetime.end_of_day.to_i
   end
 
 end

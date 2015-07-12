@@ -1,8 +1,8 @@
 import Ember from 'ember';
 
-export default Ember.Object.extend({
+export default Ember.Service.extend({
+  store: Ember.inject.service(),
   _init: function() {
-    const store = this.container.lookup('store:main');
-    this.set('data', store.find('event'));
+    this.set('data', this.get('store').findAll('event'));
   }.on('init')
 });

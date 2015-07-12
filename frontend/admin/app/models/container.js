@@ -33,6 +33,7 @@ Container.attributes = [
   'publicPath',
   'layout',
   'parentContainerId',
+  'draggable',
   'data',
 ];
 

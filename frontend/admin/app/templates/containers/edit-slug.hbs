@@ -1,0 +1,28 @@
+<x-modal close="dismiss">
+  <div class="modal-body">
+    <h1>Update Page Name</h1>
+    <div class="form-group clearfix">
+      {{#sitemap/validated-form-field label='Page name (with dashes)'
+      name='slug'
+      errors=model.container.errors}}
+        {{input class="form-control" id="slug" value=model.container.slug}}
+      {{/sitemap/validated-form-field}}
+
+    </div>
+    <p class="has-error">
+      <label class="control-label">
+        Warning: all these changes apply immediately
+      </label>
+    </p>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal" {{action "dismiss" model.container.id}}>Cancel</button>
+    <button type="button" class="btn btn-danger" {{action "saveContainer" model.container}}>Edit Page</button>
+  </div>
+
+  {{!-- XXX position absolute for these --}}
+  {{#each flashMessages.queue as |flash|}}
+    {{flash-message flash=flash}}
+  {{/each}}
+</x-modal>

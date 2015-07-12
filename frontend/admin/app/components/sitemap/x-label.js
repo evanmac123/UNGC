@@ -7,18 +7,22 @@ const INSIDE = 'inside';
 
 export default Ember.Component.extend({
   classNames: 'sitemap-x-label',
-  //isDroppable: true,
-  //isDraggable: true,
+  isDroppable: true,
+  isDraggable: Ember.computed.oneWay('node.model.draggable'),
 
   attributeBindings: [
     'isDroppable:droppable',
     'isDraggable:draggable'
   ],
 
+  classNameBindings: [
+    'isDraggable'
+  ],
+
   mightDropNode: Ember.on('dragOver', function(event) {
     var y         = event.originalEvent.y;
     var h         = this.$().height();
-    var top       = this.$().offset().top;
+    var top       = this.$().offset().top - Ember.$('body').scrollTop();
     var bot       = top + h;
     var insRng    = h * DROP_OUTSIDE_THRESHOLD;
     var pxFromTop = y - top;

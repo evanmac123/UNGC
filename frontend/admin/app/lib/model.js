@@ -16,7 +16,7 @@ function pojoize(src) {
   if (type === 'array') {
     return src.map((e) => pojoize(e));
   } else if (type === 'instance' || type === 'object') {
-    return Ember.keys(src).reduce(function(json, key) {
+    return Object.keys(src).reduce(function(json, key) {
       json[key] = pojoize(Ember.get(src, key));
       return json;
     }, {});
@@ -68,7 +68,12 @@ var Model = Ember.Object.extend({
     return this.xhr({
       type: 'PUT',
       data: this.asJSON(opts)
-    });
+    }).then(
+      (res) => {
+        this.setPropertiesFromJSON(res.data);
+        return this;
+      }
+    );
   },
 
   xhr(opts = {}) {
@@ -107,6 +112,19 @@ var Model = Ember.Object.extend({
         throw error;
       }
     );
+  },
+
+  destroyModel(opts = {}) {
+    let id = this.get('id');
+    if (Ember.isNone(id)) {
+      return Ember.RSVP.reject({errorThrown: "can not destroy model without ID"});
+    }
+    return request({
+      url: opts.url || this.get('resourcePath'),
+      type: 'DELETE',
+      dataType: 'json',
+      headers: { 'Content-Type': 'application/json' }
+    });
   },
 
   setPropertiesFromJSON(attrs) {

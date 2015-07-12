@@ -122,6 +122,12 @@ GEM
     coffee-script-source (1.9.1)
     columnize (0.9.0)
     connection_pool (2.1.1)
+    coverband (1.0.2)
+      json
+      redis
+      simplecov
+    coverband_ext (1.0.0)
+      coverband
     daemon_controller (1.2.0)
     daemons (1.1.9)
     databasedotcom (1.3.2)
@@ -442,6 +448,8 @@ DEPENDENCIES
   capybara
   ckeditor (= 4.1.1)
   coffee-rails (~> 4.1.0)
+  coverband
+  coverband_ext
   custom_error_message!
   databasedotcom
   devise (~> 3.4.1)

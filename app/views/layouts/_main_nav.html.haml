@@ -18,7 +18,7 @@
     = link_to_current 'Organizations', pending_review_admin_organizations_path, controller.is_a?(Admin::OrganizationsController)
     = link_to_current 'Local Networks', admin_local_networks_path, controller.is_a?(Admin::LocalNetworksController) || controller.is_a?(Admin::LearningController)
     = link_to_current 'Logo Requests', pending_review_admin_logo_requests_path, controller.is_a?(Admin::LogoRequestsController)
-    = link_to_current 'Pages', admin_pages_path, controller.is_a?(Admin::PagesController)
+    = link_to_current 'Sitemap', redesign_admin_root_path, false
     = link_to_current 'Events', admin_events_path, controller.is_a?(Admin::EventsController)
     = link_to_current 'News headlines', admin_headlines_path, controller.is_a?(Admin::NewsController)
     = link_to_current 'Contacts Search', search_admin_contacts_path, controller.is_a?(Admin::ContactsController) && action_name == 'search'

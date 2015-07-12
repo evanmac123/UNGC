@@ -2,7 +2,7 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base
-  rescue_from Riddle::ConnectionError, with: :search_offline
+  rescue_from ThinkingSphinx::ConnectionError, with: :search_offline
 
   before_filter :mailer_set_url_options
 

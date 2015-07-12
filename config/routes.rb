@@ -194,8 +194,8 @@ UNGC::Application.routes.draw do
     namespace :admin, path: '/redesign/admin' do
       namespace :api, format: :json do
         resources :layouts, only: [:index, :show]
-        resources :contacts, only: [:ungc] do
-          get :ungc, on: :collection
+        resources :contacts, only: [:index, :current] do
+          get :current, on: :collection
         end
         resources :events, only: [:index]
         resources :taggings, only: [:topics, :issues, :sectors] do
