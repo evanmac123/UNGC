@@ -16,6 +16,8 @@
     %li
       %a{:href => '#sponsors'} Sponsors
     %li
+      %a{:href => '#additional-tabs'} Additional Tabs
+    %li
       %a{:href => '#redesign_topics'} New Topics*
     %li
       %a{:href => '#redesign_issues'} Issues*
@@ -66,6 +68,23 @@
       %ol
         = default_form.text_area :media_description, {class: 'events-html-editor', style: 'display:none'}, {label: 'Description'}
 
+  #additional-tabs.tab_content
+    %fieldset
+      %legend Additional tabs (1)
+      %ol
+        = default_form.text_field :tab_1_title, {label: "Tab Title"}
+        = default_form.text_area :tab_1_description, {class: 'events-html-editor', style: 'display:none'}, {label: 'Description'}
+    %fieldset
+      %legend Additional tabs (2)
+      %ol
+        = default_form.text_field :tab_2_title, {label: "Tab Title"}
+        = default_form.text_area :tab_2_description, {class: 'events-html-editor', style: 'display:none'}, {label: 'Description'}
+    %fieldset
+      %legend Additional tabs (3)
+      %ol
+        = default_form.text_field :tab_3_title, {label: "Tab Title"}
+        = default_form.text_area :tab_3_description, {class: 'events-html-editor', style: 'display:none'}, {label: 'Description'}
+
   #sponsors.tab_content
     %fieldset
       %legend Sponsors
@@ -76,5 +95,8 @@
               %label{style:"temporary: yes; width: inherit; margin: inherit; float: none;"}
                 = check_box_tag 'event[sponsor_ids][]', sponsor.id, sponsor.selected?
                 = sponsor.name
+      %ol
+        = default_form.text_area :sponsors_description, {class: 'events-html-editor', style: 'display:none'}, {label: 'Extra Sponsors'}
+
 
   =render partial: "admin/shared/tagging_form", locals: {taggable: @event, model_name: 'event'}

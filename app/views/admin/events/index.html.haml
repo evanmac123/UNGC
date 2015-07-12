@@ -1,6 +1,6 @@
 %h2 Events
 
-= link_to 'Create an event', new_admin_event_path, class: 'new', id: 'new_event'
+%p= link_to 'Create a new Event', new_admin_event_path, class: 'new_large', id: 'new_event'
 
 - if paged_events.any?
   %table.dashboard_table
@@ -16,6 +16,7 @@
         %td= event.full_location
         %td
           %ul.actions
+            %li= link_to 'Preview', redesign_event_path(event), class: 'preview', target: "_blank"
             %li= link_to 'Approve', approve_admin_event_path(event), class: 'approve', method: :post if event.can_approve?
             %li= link_to 'Revoke', revoke_admin_event_path(event), class: 'revoke', method: :post if event.can_revoke?
             %li= link_to 'Edit', edit_admin_event_path(event), class: 'edit', :title => 'Edit details'
