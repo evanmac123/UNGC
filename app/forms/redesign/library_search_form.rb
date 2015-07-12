@@ -96,7 +96,7 @@ class Redesign::LibrarySearchForm < Redesign::FilterableForm
   end
 
   def facets
-    search_scope.facets(keywords, {indices: ['resource_new_core']})
+    search_scope.facets('', {indices: ['resource_new_core']})
   end
 
   def search_scope
