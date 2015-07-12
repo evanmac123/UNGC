@@ -6,6 +6,8 @@ class Redesign::ApplicationController < ApplicationController
 
   rescue_from ActiveRecord::RecordNotFound, :with => :catch_all
 
+  rescue_from ThinkingSphinx::ConnectionError, with: :search_offline
+
   def catch_all
     path = request.path.sub(/^\/redesign/, '')
     set_current_container_by_path(path)
@@ -76,5 +78,9 @@ class Redesign::ApplicationController < ApplicationController
 
   def staff?
     current_contact.present? && current_contact.from_ungc?
+  end
+
+  def search_offline
+    render :template => '/redesign/search/offline' and return false
   end
 end
