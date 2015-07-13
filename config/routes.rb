@@ -507,7 +507,6 @@ UNGC::Application.routes.draw do
   end
 
   root :to => 'pages#home'
-  resources :organizations, :only => :index
 
 
   # Front-end routes
@@ -549,7 +548,6 @@ UNGC::Application.routes.draw do
 
   get 'COPs/:navigation/:id' => 'cops#show', :as => :cop_detail_with_nav, :constraints => { :id => /\d+/ }
   get 'COPs/detail/:id' => 'cops#show', :as => :cop_detail, :constraints => { :id => /\d+/ }
-  get 'organizations/new/:org_type' => 'organizations#new'
 
   # Signup
   get   '/HowToParticipate/Business_Organization_Information.html' => 'signup#step1', :defaults => { :org_type =>"business" }
