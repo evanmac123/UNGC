@@ -23,7 +23,7 @@ module Searchable::SearchableOrganization
   end
 
   def organization_url(organization)
-    with_helper { participant_path(organization.id) }
+    with_helper { redesign_participant_path(organization.id) }
   end
 
 end

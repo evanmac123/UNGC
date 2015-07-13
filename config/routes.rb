@@ -512,10 +512,6 @@ UNGC::Application.routes.draw do
   # Front-end routes
   get '/feeds/cops' => 'cops#feed', :format => 'atom'
 
-  get '/participants/search' => 'participants#search', :as => :participant_search
-  get '/participants/:navigation/:id' => 'participants#show', :as => :participant_with_nav, :constraints => { :id => /.*/ }
-  get '/participant/:id' => 'participants#show', :as => :participant, :constraints => { :id => /.*/ }
-
   # Resources
   get '/resources/:id' => 'resources#show', :as => :resource
   post '/resources/link_views' => 'resources#link_views', :as => :resources_link_view

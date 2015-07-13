@@ -32,7 +32,7 @@ module PagesHelper
     if navigation
       participant_with_nav_path(navigation, organization)
     else
-      participant_path(organization)
+      redesign_participant_path(organization)
     end
   end
 

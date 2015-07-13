@@ -23,6 +23,6 @@
         %td= logo_request.approved_on.to_date
         %td
           %ul.actions
-            =popup_link_to 'View Details', participant_path(logo_request.organization), :title => "View participant details", :class => "preview"
+            =popup_link_to 'View Details', redesign_participant_path(logo_request.organization), :title => "View participant details", :class => "preview"
 
 = render partial: 'report_modal'

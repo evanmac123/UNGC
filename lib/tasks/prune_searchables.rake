@@ -135,7 +135,7 @@ class OrganizationPruner < Pruner
   end
 
   def generate_url(organization)
-    participant_path(organization.id)
+    redesign_participant_path(organization.id)
   end
 
   def document_type
