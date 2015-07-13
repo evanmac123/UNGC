@@ -512,29 +512,6 @@ UNGC::Application.routes.draw do
   # Front-end routes
   get '/feeds/cops' => 'cops#feed', :format => 'atom'
 
-  # Alias redirects
-  get '/climate'        => 'pages#redirect_to_page', :page => '/Issues/Environment/Climate_Change/'
-  get '/watermandate'   => 'pages#redirect_to_page', :page => '/Issues/Environment/CEO_Water_Mandate/'
-  get '/weps'           => 'pages#redirect_to_page', :page => '/Issues/human_rights/equality_means_business.html'
-  get '/networks'       => 'pages#redirect_to_page', :page => '/NetworksAroundTheWorld/index.html'
-  get '/rio_resources'  => 'pages#redirect_to_page', :page => '/docs/news_events/upcoming/RioCSF/html/resources.html'
-  get '/leadlab'        => 'pages#redirect_to_page', :page => 'http://leadlab.unglobalcompact.org/'
-  get '/LEADBoardProgramme' => 'pages#redirect_to_page', :page => '/docs/issues_doc/lead/board_programme/'
-  get ':lead'           => 'pages#redirect_to_page', :page => '/HowToParticipate/Lead/', :constraints => { :lead => /lead/i }
-  get '/app'            => 'pages#redirect_to_page', :page => 'http://ungcevents.quickmobile.mobi/'
-  get '/businesspartnershiphub' => 'pages#redirect_to_page', :page => 'http://businesspartnershiphub.org/'
-  get '/HR_Resources'   => 'pages#redirect_to_page', :page => '/docs/issues_doc/human_rights/Resources/HR_Postcard.pdf'
-  get ':fabprinciples'           => 'pages#redirect_to_page', :page => '/Issues/Environment/food_agriculture_business_principles.html', :constraints => { :fabprinciples => /fabprinciples/i }
-  get '/ActionFair'     => 'pages#redirect_to_page', :page => '/docs/news_events/upcoming/ActionFairSources.pdf'
-  get '/lnw'            => 'pages#redirect_to_page', :page => '/docs/networks_around_world_doc/google_earth/'
-  get '/FundraisingToolkit' => 'pages#redirect_to_page', :page => '/docs/networks_around_world_doc/LN_Fundraising_Toolkit.pdf'
-  get '/anti-corruption' => 'pages#redirect_to_page', :page => '/Issues/transparency_anticorruption/call_to_action_post2015.html'
-  get '/UNPrivateSectorForum' => 'pages#redirect_to_page', :page => '/Issues/Business_Partnerships/un_private_sector_forum_2014.html'
-  get '/LEADSymposium' => 'pages#redirect_to_page', :page => '/HowToParticipate/Lead/lead_symposium.html'
-  get ':leadsymposiumonline' => 'pages#redirect_to_page', :page => 'http://un.banks-sadler.com', :constraints => { :leadsymposiumonline => /leadsymposiumonline/i }
-  get ':boardprogramme' => 'pages#redirect_to_page', :page => '/HowToParticipate/Lead/board_programme.html', :constraints => { :boardprogramme => /boardprogramme/i }
-  get ':gc15' => 'pages#redirect_to_page', :page => '/NewsAndEvents/global_compact_15.html', :constraints => { :gc15 => /gc15/i }
-
   get '/NetworksAroundTheWorld/display.html' => 'pages#redirect_local_network', :as => :redirect_local_network
 
   get '/participants/search' => 'participants#search', :as => :participant_search
