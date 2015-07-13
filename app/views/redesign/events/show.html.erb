@@ -9,12 +9,12 @@
     <section class='tabbed-component event-detail-body-wrapper'>
       <menu class='tabs'>
         <li class='tab'>
-          <button type='button' class='active' id="overview" data-tab-content='main-page'>Overview</button>
+          <button type='button' class='active' id="overview" data-tab-content='overview'>Overview</button>
         </li>
 
         <%- if @page.has_overview -%>
           <li class='tab'>
-            <button type='button' id="programme" data-tab-content='overview'>Programme</button>
+            <button type='button' id="programme" data-tab-content='programme'>Programme</button>
           </li>
         <%- end -%>
 
@@ -37,7 +37,11 @@
         <%- end -%>
       </menu>
 
-      <article class='tab-content main-page active'>
+      <article class='tab-content overview active'>
+        <header class='tab-content-header'>
+          <h1>Overview</h1>
+        </header>
+
         <div class='main-content-body'>
           <%= @page.description.try(:html_safe) %>
         </div>
@@ -59,7 +63,11 @@
       </article>
 
       <%- if @page.has_overview -%>
-        <article class='tab-content overview'>
+        <article class='tab-content programme'>
+          <header class='tab-content-header'>
+            <h1>Programme</h1>
+          </header>
+
           <div class='main-content-body'>
             <%= @page.overview_description.try(:html_safe) %>
           </div>
@@ -68,6 +76,9 @@
 
       <%- if @page.has_media -%>
         <article class='tab-content media'>
+          <header class='tab-content-header'>
+            <h1>Media</h1>
+          </header>
           <div class='main-content-body'>
             <%= @page.media_description.try(:html_safe) %>
           </div>
@@ -76,6 +87,10 @@
 
       <%- @page.tabs.each do |t| -%>
         <article class='tab-content <%= t.slug %>'>
+          <header class='tab-content-header'>
+            <h1><%= t.title -%></h1>
+          </header>
+
           <div class='main-content-body'>
             <%= t.description.try(:html_safe) %>
           </div>
@@ -84,6 +99,10 @@
 
       <%- if @page.has_sponsors -%>
         <article class='tab-content sponsors'>
+          <header class='tab-content-header'>
+            <h1>Sponsors</h1>
+          </header>
+
           <ul class='sponsors-list'>
             <%- @page.sponsors.each do |s| -%>
               <li class='sponsor-block'>

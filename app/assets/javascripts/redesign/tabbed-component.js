@@ -36,6 +36,6 @@ $(function() {
   var url = window.location.href;
   var seg = url.split('#')[1];
   if (seg) {
-    $('#'+seg).click();
+    $('#'+seg, $tabbed).click();
   }
 });
