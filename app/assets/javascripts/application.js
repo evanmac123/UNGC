@@ -25,7 +25,6 @@
 //= require cop_form
 //= require dashboard
 //= require page_editor
-//= require resources
 //= require organization_signup
 //= require retina
 
@@ -253,4 +252,3 @@ $(document).ready(function() {
       e.preventDefault();
    });
 });
-

@@ -179,7 +179,7 @@ class ResourcePruner < Pruner
   end
 
   def generate_url(resource)
-    Searchable.with_helper { resource_path(resource) }
+    Searchable.with_helper { redesign_library_resource_path(resource) }
   end
 
   def document_type

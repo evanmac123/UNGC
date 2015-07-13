@@ -23,7 +23,7 @@ module Searchable::SearchableResource
   end
 
   def resource_url(resource)
-    with_helper { resource_path(resource) }
+    with_helper { redesign_library_resource_path(resource) }
   end
 
 end
