@@ -508,13 +508,6 @@ UNGC::Application.routes.draw do
 
   root :to => 'pages#home'
 
-
-  # Front-end routes
-  get '/feeds/cops' => 'cops#feed', :format => 'atom'
-
-  get 'COPs/:navigation/:id' => 'cops#show', :as => :cop_detail_with_nav, :constraints => { :id => /\d+/ }
-  get 'COPs/detail/:id' => 'cops#show', :as => :cop_detail, :constraints => { :id => /\d+/ }
-
   # Signup
   get   '/HowToParticipate/Business_Organization_Information.html' => 'signup#step1', :defaults => { :org_type =>"business" }
   get   '/HowToParticipate/Organization_Information.html' => 'signup#step1', :defaults => { :org_type =>"non_business" }

@@ -14,7 +14,7 @@ module PagesHelper
     if navigation
       cop_detail_with_nav_path(navigation, cop.id)
     else
-      cop_detail_path(cop.id)
+      show_redesign_cops_path(differentiation: cop.differentiation_level_with_default, id: cop.id)
     end
   end
 

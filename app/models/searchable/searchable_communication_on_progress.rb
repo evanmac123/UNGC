@@ -33,7 +33,7 @@ module Searchable::SearchableCommunicationOnProgress
   end
 
   def cop_url(cop)
-    with_helper { cop_detail_path(:id => cop) }
+    with_helper { show_redesign_cops_path(differentiation: cop.differentiation_level_with_default, id: cop) }
   end
 
 end

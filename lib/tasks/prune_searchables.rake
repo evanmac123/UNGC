@@ -77,7 +77,7 @@ class CommunicationOnProgressPruner < Pruner
   end
 
   def generate_url(communication_on_progress)
-    cop_detail_path(:id => communication_on_progress)
+    show_redesign_cops_path(differentiation: communication_on_progress.differentiation_level_with_default, id: communication_on_progress)
   end
 
   def document_type

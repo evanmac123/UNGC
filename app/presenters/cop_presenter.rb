@@ -21,6 +21,7 @@ class CopPresenter
            :differentiation,
            :differentiation_description,
            :differentiation_level_public,
+           :differentiation_level_with_default,
            :ends_on,
            :evaluated_for_differentiation?,
            :format,
