@@ -1,6 +1,10 @@
 $(function() {
-  var $tabbed           = $('.tabbed-component'),
-      $tabs             = $('.tabs .tab button', $tabbed),
+  var $tabbed           = $('.tabbed-component');
+
+  // Only run if page has at least 1 tabbed component
+  if ($tabbed.length <= 0) {return;}
+
+  var $tabs             = $('.tabs .tab button', $tabbed),
       $tabsContents     = $('.tab-content', $tabbed),
       $tabsAndContents  = $tabs.add($tabsContents);
 
@@ -36,6 +40,6 @@ $(function() {
   var url = window.location.href;
   var seg = url.split('#')[1];
   if (seg) {
-    $('#'+seg).click();
+    $('#'+seg, $tabbed).click();
   }
 });
