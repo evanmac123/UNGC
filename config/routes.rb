@@ -512,8 +512,6 @@ UNGC::Application.routes.draw do
   # Front-end routes
   get '/feeds/cops' => 'cops#feed', :format => 'atom'
 
-  get '/NetworksAroundTheWorld/display.html' => 'pages#redirect_local_network', :as => :redirect_local_network
-
   get '/participants/search' => 'participants#search', :as => :participant_search
   get '/participants/:navigation/:id' => 'participants#show', :as => :participant_with_nav, :constraints => { :id => /.*/ }
   get '/participant/:id' => 'participants#show', :as => :participant, :constraints => { :id => /.*/ }
