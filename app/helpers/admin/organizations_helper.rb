@@ -184,5 +184,8 @@ module Admin::OrganizationsHelper
     end
     html.html_safe
   end
-
+  
+  def display_delisted_description(organization)
+    organization.removal_reason == RemovalReason.delisted ? 'Reason for expulsion' : 'Reason for delisting'
+  end
 end
