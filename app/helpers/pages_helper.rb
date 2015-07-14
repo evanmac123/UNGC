@@ -18,16 +18,6 @@ module PagesHelper
     end
   end
 
-
-
-  # NOTE: Used to combine dynamic headlines with old, static content
-  # if there are headlines for old years (< 2009) there will be
-  # duplication of years on the archive page.
-  def news_archive_years
-    # (2009..Date.today.year).to_a.reverse
-    Headline.years
-  end
-
   def participant_link(organization, navigation=nil)
     if navigation
       participant_with_nav_path(navigation, organization)
