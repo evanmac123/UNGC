@@ -508,8 +508,6 @@ UNGC::Application.routes.draw do
 
   root :to => 'pages#home'
 
-  get '/case_story/:id' => 'case_stories#show', :as => 'case_story'
-
   get '/events/:permalink' => 'events#show', :as => :event
 
   # News
