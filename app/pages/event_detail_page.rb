@@ -90,7 +90,7 @@ class EventDetailPage < SimpleDelegator
 
   def tabs
     t = []
-    t << Tab.new('Programme', event.overview_description) if event.overview_description.present?
+    t << Tab.new('Programme', event.programme_description) if event.programme_description.present?
     t << Tab.new('Media', event.media_description) if event.media_description.present?
     t << Tab.new(event.tab_1_title, event.tab_1_description) if event.tab_1_description.present?
     t << Tab.new(event.tab_2_title, event.tab_2_description) if event.tab_2_description.present?

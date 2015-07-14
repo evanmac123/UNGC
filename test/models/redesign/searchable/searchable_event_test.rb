@@ -26,7 +26,7 @@ class Redesign::Searchable::SearchableEventTest < ActiveSupport::TestCase
   private
 
   def event
-    @event ||= create_event({overview_description: '<b>a good event</b>'}).tap do |h|
+    @event ||= create_event({programme_description: '<b>a good event</b>'}).tap do |h|
       h.approve!
     end
   end

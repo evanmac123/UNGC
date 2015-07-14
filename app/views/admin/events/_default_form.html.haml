@@ -10,7 +10,7 @@
     %li
       %a{:href => '#general'} General
     %li
-      %a{:href => '#overview'} Overview
+      %a{:href => '#programme'} Programme
     %li
       %a{:href => '#media'} Media
     %li
@@ -56,11 +56,11 @@
         = default_form.text_field :call_to_action_2_label
         = default_form.text_field :call_to_action_2_url
 
-  #overview.tab_content
+  #programme.tab_content
     %fieldset
-      %legend Overview
+      %legend Programme
       %ol
-        = default_form.text_area :overview_description, {class: 'events-html-editor', style: 'display:none'}, {label: 'Description'}
+        = default_form.text_area :programme_description, {class: 'events-html-editor', style: 'display:none'}, {label: 'Description'}
 
   #media.tab_content
     %fieldset

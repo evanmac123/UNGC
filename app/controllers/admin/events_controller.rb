@@ -85,7 +85,7 @@ class Admin::EventsController < AdminController
         :call_to_action_1_url,
         :call_to_action_2_label,
         :call_to_action_2_url,
-        :overview_description,
+        :programme_description,
         :starts_at_string,
         :ends_at_string,
         :media_description,

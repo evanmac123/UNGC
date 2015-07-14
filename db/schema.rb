@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150712213420) do
+ActiveRecord::Schema.define(version: 20150714150917) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -438,7 +438,7 @@ ActiveRecord::Schema.define(version: 20150712213420) do
     t.string   "call_to_action_1_url",         limit: 255
     t.string   "call_to_action_2_label",       limit: 255
     t.string   "call_to_action_2_url",         limit: 255
-    t.text     "overview_description",         limit: 65535
+    t.text     "programme_description",        limit: 65535
     t.text     "media_description",            limit: 65535
     t.string   "tab_1_title",                  limit: 255
     t.text     "tab_1_description",            limit: 65535
