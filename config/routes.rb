@@ -49,20 +49,6 @@ UNGC::Application.routes.draw do
       end
     end
 
-    resources :pages do
-      collection do
-        get :pending
-        post :save_tree
-        post :create_folder
-      end
-
-      member do
-        put :approve
-        put :check
-        post :rename
-      end
-    end
-
     resources :contacts do
       collection do
         get :search
@@ -505,12 +491,6 @@ UNGC::Application.routes.draw do
     # CATCH ALL
     get '*path'     => 'static#catch_all',  as: :catch_all, :constraints => { :format => 'html' }
   end
-
-  root :to => 'pages#home'
-
-  get '/decorate/*path' => 'pages#decorate', :as => :decorate_page, :format => false
-  get '/preview/*path'  => 'pages#preview',  :as => :preview_page,  :format => false
-  get '/*path'          => 'pages#view',     :as => :view_page,     :format => false
 
   mount Ckeditor::Engine => "/ckeditor"
 end

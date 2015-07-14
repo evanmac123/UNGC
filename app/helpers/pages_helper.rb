@@ -35,13 +35,4 @@ module PagesHelper
       redesign_participant_path(organization)
     end
   end
-
-  def versioned_edit_path
-    if @current_version.approved?
-      edit_page_path(:id => @page)
-    else
-      edit_page_path(:id => @page, :version => @current_version.version_number)
-    end
-  end
-
 end

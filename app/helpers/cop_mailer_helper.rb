@@ -10,7 +10,7 @@ module CopMailerHelper
         raise ActiveRecord::RecordNotFound
       end
     else
-      URI.join(root_url, '/engage-locally').to_s
+      URI.join(redesign_root_url, '/engage-locally').to_s
     end
   end
 
