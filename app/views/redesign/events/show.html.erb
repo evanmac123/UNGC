@@ -1,42 +1,31 @@
 <%= render partial: 'redesign/components/meta_tags' %>
 <%= render partial: 'redesign/components/hero' %>
 
-<%-
-has_overview = @page.overview_description.present?
-has_sponsors = @page.sponsors.present?
-has_media = @page.media_description.present?
--%>
 
 <section class='main-content-section main-content-section-wide event-detail-main-content'>
   <div class='wrapper'>
     <%= content_tag(:header, content_tag(:h1, @page.title), {class: 'main-content-header'}) %>
 
-    <section class='tabbed-component event-detail-body-wrapper'>
-      <menu class='tabs'>
-        <li class='tab'>
-          <button type='button' class='active' id="overview" data-tab-content='main-page'>Overview</button>
-        </li>
-
-        <%- if has_overview -%>
+    <section class='tabbed-component event-detail-body-wrapper <%= 'tabbed-component-has-multiple-tabs' if @page.tabs.any? -%>' data-has-navigation=true>
+      <%- if @page.tabs.any? %>
+        <menu class='tabs'>
           <li class='tab'>
-            <button type='button' id="programme" data-tab-content='overview'>Programme</button>
+            <button type='button' class='tab-overview active' data-tab-content='overview'>Overview</button>
           </li>
-        <%- end -%>
 
-        <%- if has_media -%>
-          <li class='tab'>
-            <button type='button' id="media" data-tab-content='media'>Media</button>
-          </li>
-        <%- end -%>
+          <%- @page.tabs.each do |t| -%>
+            <li class='tab'>
+              <button type='button' class="tab-<%= t.slug %>" data-tab-content='<%= t.slug %>'><%= t.title %></button>
+            </li>
+          <%- end -%>
+        </menu>
+      <%- end -%>
 
-        <%- if has_sponsors -%>
-          <li class='tab'>
-            <button type='button' id="sponsors" data-tab-content='sponsors'>Sponsors</button>
-          </li>
-        <%- end -%>
-      </menu>
+      <article class='tab-content overview active'>
+        <header class='tab-content-header'>
+          <h1>Overview</h1>
+        </header>
 
-      <article class='tab-content main-page active'>
         <div class='main-content-body'>
           <%= @page.description.try(:html_safe) %>
         </div>
@@ -57,33 +46,28 @@ has_media = @page.media_description.present?
         <%- end -%>
       </article>
 
-      <%- if has_overview -%>
-        <article class='tab-content overview'>
+      <%- @page.tabs.each do |t| -%>
+        <article class='tab-content <%= t.slug %>'>
+          <header class='tab-content-header'>
+            <h1><%= t.title -%></h1>
+          </header>
+
+          <%- if t.sponsors.present? -%>
+            <ul class='sponsors-list'>
+              <%- t.sponsors.each do |s| -%>
+                <li class='sponsor-block'>
+                  <%= link_to image_tag(s.logo_url, alt: s.name), s.website_url %>
+                </li>
+              <%- end -%>
+            </ul>
+          <%- end -%>
+
           <div class='main-content-body'>
-            <%= @page.overview_description.try(:html_safe) %>
+            <%= t.description.try(:html_safe) %>
           </div>
         </article>
       <%- end -%>
 
-      <%- if has_media -%>
-        <article class='tab-content media'>
-          <div class='main-content-body'>
-            <%= @page.media_description.try(:html_safe) %>
-          </div>
-        </article>
-      <%- end -%>
-
-      <%- if has_sponsors -%>
-        <article class='tab-content sponsors'>
-          <ul class='sponsors-list'>
-            <%- @page.sponsors.each do |s| -%>
-              <li class='sponsor-block'>
-                <%= link_to image_tag(s.logo_url, alt: s.name), s.website_url %>
-              </li>
-            <%- end -%>
-          </ul>
-        </article>
-      <%- end -%>
     </section>
   </div>
 </section>
