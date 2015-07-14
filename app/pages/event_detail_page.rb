@@ -81,19 +81,8 @@ class EventDetailPage < SimpleDelegator
     end
   end
 
-  def has_overview
-    overview_description.present?
-  end
 
-  def has_sponsors
-    sponsors.present?
-  end
-
-  def has_media
-    media_description.present?
-  end
-
-  Tab = Struct.new(:title, :description) do
+  Tab = Struct.new(:title, :description, :sponsors) do
     def slug
       @slug ||= ActiveSupport::Inflector.parameterize(title)
     end
@@ -101,9 +90,12 @@ class EventDetailPage < SimpleDelegator
 
   def tabs
     t = []
+    t << Tab.new('Programme', event.overview_description) if event.overview_description.present?
+    t << Tab.new('Media', event.media_description) if event.media_description.present?
     t << Tab.new(event.tab_1_title, event.tab_1_description) if event.tab_1_description.present?
     t << Tab.new(event.tab_2_title, event.tab_2_description) if event.tab_2_description.present?
     t << Tab.new(event.tab_3_title, event.tab_3_description) if event.tab_3_description.present?
+    t << Tab.new('Sponsors', event.sponsors_description, event.sponsors) if event.sponsors_description.present? || event.sponsors.present?
     t
   end
 

@@ -12,29 +12,12 @@
           <button type='button' class='active' id="overview" data-tab-content='overview'>Overview</button>
         </li>
 
-        <%- if @page.has_overview -%>
-          <li class='tab'>
-            <button type='button' id="programme" data-tab-content='programme'>Programme</button>
-          </li>
-        <%- end -%>
-
-        <%- if @page.has_media -%>
-          <li class='tab'>
-            <button type='button' id="media" data-tab-content='media'>Media</button>
-          </li>
-        <%- end -%>
-
         <%- @page.tabs.each do |t| -%>
           <li class='tab'>
             <button type='button' id="<%= t.slug %>" data-tab-content='<%= t.slug %>'><%= t.title %></button>
           </li>
         <%- end -%>
 
-        <%- if @page.has_sponsors -%>
-          <li class='tab'>
-            <button type='button' id="sponsors" data-tab-content='sponsors'>Sponsors</button>
-          </li>
-        <%- end -%>
       </menu>
 
       <article class='tab-content overview active'>
@@ -62,34 +45,21 @@
         <%- end -%>
       </article>
 
-      <%- if @page.has_overview -%>
-        <article class='tab-content programme'>
-          <header class='tab-content-header'>
-            <h1>Programme</h1>
-          </header>
-
-          <div class='main-content-body'>
-            <%= @page.overview_description.try(:html_safe) %>
-          </div>
-        </article>
-      <%- end -%>
-
-      <%- if @page.has_media -%>
-        <article class='tab-content media'>
-          <header class='tab-content-header'>
-            <h1>Media</h1>
-          </header>
-          <div class='main-content-body'>
-            <%= @page.media_description.try(:html_safe) %>
-          </div>
-        </article>
-      <%- end -%>
-
       <%- @page.tabs.each do |t| -%>
         <article class='tab-content <%= t.slug %>'>
           <header class='tab-content-header'>
             <h1><%= t.title -%></h1>
           </header>
+
+          <%- if t.sponsors.present? -%>
+            <ul class='sponsors-list'>
+              <%- t.sponsors.each do |s| -%>
+                <li class='sponsor-block'>
+                  <%= link_to image_tag(s.logo_url, alt: s.name), s.website_url %>
+                </li>
+              <%- end -%>
+            </ul>
+          <%- end -%>
 
           <div class='main-content-body'>
             <%= t.description.try(:html_safe) %>
@@ -97,24 +67,6 @@
         </article>
       <%- end -%>
 
-      <%- if @page.has_sponsors -%>
-        <article class='tab-content sponsors'>
-          <header class='tab-content-header'>
-            <h1>Sponsors</h1>
-          </header>
-
-          <ul class='sponsors-list'>
-            <%- @page.sponsors.each do |s| -%>
-              <li class='sponsor-block'>
-                <%= link_to image_tag(s.logo_url, alt: s.name), s.website_url %>
-              </li>
-            <%- end -%>
-          </ul>
-          <div class='main-content-body'>
-            <%= @page.sponsors_description.try(:html_safe) %>
-          </div>
-        </article>
-      <%- end -%>
     </section>
   </div>
 </section>
