@@ -7,18 +7,19 @@
     <%= content_tag(:header, content_tag(:h1, @page.title), {class: 'main-content-header'}) %>
 
     <section class='tabbed-component event-detail-body-wrapper'>
-      <menu class='tabs'>
-        <li class='tab'>
-          <button type='button' class='active' id="overview" data-tab-content='overview'>Overview</button>
-        </li>
-
-        <%- @page.tabs.each do |t| -%>
+      <%- if @page.tabs.any? %>
+        <menu class='tabs'>
           <li class='tab'>
-            <button type='button' id="<%= t.slug %>" data-tab-content='<%= t.slug %>'><%= t.title %></button>
+            <button type='button' class='active' id="overview" data-tab-content='overview'>Overview</button>
           </li>
-        <%- end -%>
 
-      </menu>
+          <%- @page.tabs.each do |t| -%>
+            <li class='tab'>
+              <button type='button' id="<%= t.slug %>" data-tab-content='<%= t.slug %>'><%= t.title %></button>
+            </li>
+          <%- end -%>
+        </menu>
+      <%- end -%>
 
       <article class='tab-content overview active'>
         <header class='tab-content-header'>
