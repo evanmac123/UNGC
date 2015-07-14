@@ -116,7 +116,7 @@ class HeadlinePruner < Pruner
   end
 
   def generate_url(headline)
-    headline_path(headline)
+    redesign_news_path(headline)
   end
 
   def document_type

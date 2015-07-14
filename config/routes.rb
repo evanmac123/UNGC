@@ -508,12 +508,6 @@ UNGC::Application.routes.draw do
 
   root :to => 'pages#home'
 
-  # News
-  get '/news' => 'news#index', :as => :newest_headlines
-  get '/feeds/news' => 'news#index', :format => 'atom'
-  get '/news/:year' => 'news#index', :as => :headline_year, :constraints => { :year => /\d{4}/ }
-  get '/news/:permalink' => 'news#show', :as => :headline
-
   get '/search' => 'search#index', :as => :search
 
   get '/decorate/*path' => 'pages#decorate', :as => :decorate_page, :format => false

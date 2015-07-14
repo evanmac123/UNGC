@@ -21,6 +21,6 @@ module Searchable::SearchableHeadline
   end
 
   def headline_url(headline)
-    with_helper { headline_path(headline) }
+    with_helper { redesign_news_path(headline) }
   end
 end
