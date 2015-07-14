@@ -508,8 +508,6 @@ UNGC::Application.routes.draw do
 
   root :to => 'pages#home'
 
-  get '/search' => 'search#index', :as => :search
-
   get '/decorate/*path' => 'pages#decorate', :as => :decorate_page, :format => false
   get '/preview/*path'  => 'pages#preview',  :as => :preview_page,  :format => false
   get '/*path'          => 'pages#view',     :as => :view_page,     :format => false
