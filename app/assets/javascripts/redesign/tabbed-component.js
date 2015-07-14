@@ -4,31 +4,31 @@ $(function() {
   // Only run if page has at least 1 tabbed component
   if ($tabbed.length <= 0) {return;}
 
-  var $tabs             = $('.tabs .tab button', $tabbed),
-      $tabsContents     = $('.tab-content', $tabbed),
-      $tabsAndContents  = $tabs.add($tabsContents);
+  var $tabs             = $('.tabs .tab button', $tabbed);
+  var $tabsContents     = $('.tab-content', $tabbed);
+  var $tabsAndContents  = $tabs.add($tabsContents);
+  var hasNavigation     = !!$tabbed.data('has-navigation');
 
   $tabs.on('click', function(e) {
     e.preventDefault();
 
-    var $tab            = $(this),
-        tabContent      = $tab.data('tab-content'),
-        $tabContent     = $tabsContents.filter('.' + tabContent),
-        $tabAndContent  = $tab.add($tabContent);
+    var $tab            = $(this);
+    var tabContent      = $tab.data('tab-content');
+    var $tabContent     = $tabsContents.filter('.' + tabContent);
+    var $tabAndContent  = $tab.add($tabContent);
 
     // Add active class to
     $tabAndContent.addClass('active');
 
     // set url based on tab
-    var id = $tab.attr('id');
-    if (id) { // only if we have ids on buttons
+    if (hasNavigation) { // only if we have ids on buttons
       // XXX this is here because we want to update the url
       // without moving the page
       if(history.pushState) {
-        history.pushState(null, null, '#' + id);
+        history.pushState(null, null, '#' + tabContent);
       }
       else {
-        location.hash = id;
+        location.hash = tabContent;
       }
     }
 
@@ -40,6 +40,6 @@ $(function() {
   var url = window.location.href;
   var seg = url.split('#')[1];
   if (seg) {
-    $('#'+seg, $tabbed).click();
+    $('.tab-'+seg, $tabbed).click();
   }
 });

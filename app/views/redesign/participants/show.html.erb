@@ -8,15 +8,15 @@
       <%= link_to(@page.website, @page.website_url, class: 'participant-website-link', target: '_blank') if @page.has_website? %>
     </header>
 
-    <section class='tabbed-component participant-detail-body'>
+    <section class='tabbed-component participant-detail-body' data-has-navigation=true>
       <menu class='tabs'>
         <li class='tab'>
-          <button type='button' class='active' id='company-information' data-tab-content='company-information'>Company Information</button>
+          <button type='button' class='active tab-company-information' data-tab-content='company-information'>Company Information</button>
         </li>
 
         <%- if @page.cops.any? -%>
           <li class='tab'>
-            <button type='button' id='cop' data-tab-content='cop'>
+            <button type='button' class='tab-cop' data-tab-content='cop'>
               <%= @page.cop_short_label -%>
             </button>
           </li>
@@ -24,7 +24,7 @@
 
         <%- if @page.contributions.any? -%>
           <li class='tab'>
-            <button type='button' id='contributions' data-tab-content='contributions'>Contributions</button>
+            <button type='button' class='tab-contributions' data-tab-content='contributions'>Contributions</button>
           </li>
         <%- end -%>
       </menu>
