@@ -55,7 +55,7 @@ class SearchableTest < ActiveSupport::TestCase
     end
 
     should "include the url to an event" do
-      assert_match /^\/events\//, @searchable.url
+      assert_match /^\/take\-action\/events\//, @searchable.url
     end
 
     should "have an event document_type" do

@@ -20,7 +20,7 @@ module Searchable::SearchableEvent
   end
 
   def event_url(event)
-    with_helper { event_path(event) }
+    with_helper { redesign_event_path(event) }
   end
 
 end

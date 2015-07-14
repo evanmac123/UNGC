@@ -508,8 +508,6 @@ UNGC::Application.routes.draw do
 
   root :to => 'pages#home'
 
-  get '/events/:permalink' => 'events#show', :as => :event
-
   # News
   get '/news' => 'news#index', :as => :newest_headlines
   get '/feeds/news' => 'news#index', :format => 'atom'
