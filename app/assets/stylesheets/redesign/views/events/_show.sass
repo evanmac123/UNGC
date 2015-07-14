@@ -178,18 +178,21 @@
 
     .tab-content
       display: none
-      width: 80%
-      left: -1px
       padding: 1em
       margin: 0
-      z-index: 1
-      float: right
-      min-height: 32em
 
       &.active
         display: block
         border-width: 1px
         margin: 0
+
+    &.tabbed-component-has-multiple-tabs
+      .tab-content
+        float: right
+        left: -1px
+        width: 80%
+        min-height: 32em
+        z-index: 1
 
     .article-sidebar
       padding: 0 1em

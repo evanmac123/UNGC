@@ -6,7 +6,7 @@
   <div class='wrapper'>
     <%= content_tag(:header, content_tag(:h1, @page.title), {class: 'main-content-header'}) %>
 
-    <section class='tabbed-component event-detail-body-wrapper' data-has-navigation=true>
+    <section class='tabbed-component event-detail-body-wrapper <%= 'tabbed-component-has-multiple-tabs' if @page.tabs.any? -%>' data-has-navigation=true>
       <%- if @page.tabs.any? %>
         <menu class='tabs'>
           <li class='tab'>
