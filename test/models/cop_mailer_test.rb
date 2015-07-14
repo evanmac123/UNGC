@@ -9,6 +9,15 @@ class CopMailerTest < ActionMailer::TestCase
       @cop = create_cop(@organization.id)
     end
 
+    should "construct URLs properly with CopMailerHelper#link_to_local_network" do
+      response = CopMailer.confirmation_learner(@organization, @cop, @organization_user).deliver
+      assert_match /http:\/\/[a-z0-9\.\:]+\/engage\-locally/, response.body.to_s
+
+      @organization.country.update(region: 'northern_america', local_network_id: LocalNetwork.create(name: 'Foo').id)
+      response = CopMailer.confirmation_learner(@organization, @cop, @organization_user).deliver
+      assert_match /http:\/\/[a-z0-9\.\:]+\/engage\-locally\/north\-america\/foo/, response.body.to_s
+    end
+
     should "send confirmation Learner email" do
       response = CopMailer.confirmation_learner(@organization, @cop, @organization_user).deliver
       assert_equal "text/html; charset=UTF-8", response.content_type

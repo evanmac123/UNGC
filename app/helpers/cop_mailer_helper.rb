@@ -2,9 +2,15 @@ module CopMailerHelper
 
   def link_to_local_network(org)
     if org.local_network_country_code
-      "/NetworksAroundTheWorld/local_network_sheet/#{org.local_network_country_code}.html"
+      continent = Region.find_by(name: org.country.region).param
+
+      if org.country.local_network
+        redesign_networks_show_url(continent, org.country.local_network.name.downcase)
+      else
+        raise ActiveRecord::RecordNotFound
+      end
     else
-      "/NetworksAroundTheWorld/"
+      URI.join(root_url, '/engage-locally').to_s
     end
   end
 
@@ -25,7 +31,7 @@ module CopMailerHelper
       org.inactive_on.present? ? org.inactive_on + 1.year : org.delisting_on
     end
   end
-  
+
   def link_to_letter_of_commitment_if_available(org)
     if org.commitment_letter?
       link_to 'Letter of Commitment', 'http://unglobalcompact.org' + org.commitment_letter.url
