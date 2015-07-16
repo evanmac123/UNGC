@@ -20,6 +20,8 @@ export default Ember.Component.extend({
     },
     setDraftFromPayload(payload) {
       this.set('active', false);
+      // XXX this is needed to rebind correctly all the properties with the new payload
+      // we need to force a rerender and glimmer is too good for us
       Ember.run.next(() => { this.set('active', true);});
       this.sendAction('setDraftFromPayload', payload);
     }
