@@ -25,12 +25,6 @@ UNGC::Application.routes.draw do
 
   get '/admin/local_networks/:id/knowledge_sharing' => 'admin/local_networks#knowledge_sharing', :as => :knowledge_sharing
 
-  # These need to come before resources :pages
-  get '/admin/pages/:id/edit'   => 'admin/pages#edit', as: :edit_page
-  put '/admin/page/:id.:format' => 'admin/pages#update', as: :update_page
-  post '/admin/page/:id/edit'   => 'admin/pages#edit'
-  get '/admin/pages/find'       => 'admin/pages#find_by_path_and_redirect_to_latest', as: :find_page_by
-
   namespace :admin do
     resources :events do
       member do
