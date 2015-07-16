@@ -1,0 +1,49 @@
+.widget-social-links
+  text-align: center
+
+  span
+    display: none
+
+  a
+    display: inline-block
+    color: color('light-grey')
+    margin-left: .125em
+
+    &:before
+      +fa-icon
+      font-size: 2em
+
+    &:hover,
+    &:active
+      color: white
+
+  .twitter
+    &:before
+      content: $fa-var-twitter-square
+    &:hover,
+    &:active
+      color: color('twitter-blue')
+
+  .facebook
+    &:before
+      content: $fa-var-facebook-square
+    &:hover,
+    &:active
+      color: color('facebook-blue')
+
+  .google-plus
+    &:before
+      content: $fa-var-google-plus-square
+    &:hover,
+    &:active
+      color: color('google-plus-red')
+
+  .linkedin
+    &:before
+      content: $fa-var-linkedin-square
+    &:hover,
+    &:active
+      color: color('linkedin-blue')
+
+  @media only screen and (min-width: 601px)
+    text-align: right
