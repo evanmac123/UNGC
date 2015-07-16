@@ -14,9 +14,11 @@
 </header>
 
 <form class='edit-page-form'>
-  {{#container/x-subform record=model.container as |form|}}
-    {{partial form.subformTemplatePath}}
-  {{/container/x-subform}}
+  {{#if active}}
+    {{#container/x-subform record=model.container as |form|}}
+      {{partial form.subformTemplatePath}}
+    {{/container/x-subform}}
+  {{/if}}
 
   <fieldset class='actions-bar'>
     <legend>Actions</legend>

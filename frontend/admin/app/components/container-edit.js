@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+  active: true,
   _scrollTop: function() {
     Ember.run.later(function() {
       Ember.$('body').scrollTop(0);
@@ -18,6 +19,8 @@ export default Ember.Component.extend({
       this.sendAction('destroyModel', container);
     },
     setDraftFromPayload(payload) {
+      this.set('active', false);
+      Ember.run.next(() => { this.set('active', true);});
       this.sendAction('setDraftFromPayload', payload);
     }
   }
