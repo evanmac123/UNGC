@@ -171,21 +171,6 @@ module FixtureReplacement
     o.joined_on = Date.new(2009,10,10)
   end
 
-  attributes_for :page do |a|
-    a.path      = random_url
-    a.title     = FixtureReplacement.random_string
-    a.html_code = FixtureReplacement.random_string
-    a.approval  = 'approved'
-    a.display_in_navigation = true
-  end
-
-  attributes_for :page_group do |a|
-    a.name      = FixtureReplacement.random_string
-    a.html_code = FixtureReplacement.random_string
-
-    a.display_in_navigation = true
-  end
-
   attributes_for :principle do |a|
     a.name = FixtureReplacement.random_string
   end
