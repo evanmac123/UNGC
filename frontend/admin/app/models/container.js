@@ -16,6 +16,23 @@ var Container = Model.extend({
     this.set('data', Ember.Object.create());
   }.on('init'),
 
+  // XXX override putData to avoid resetting properties in case of success
+  // otherwise fields become unbound
+  putData(opts = {}) {
+    if (!this.get('id')) {
+      throw 'can\'t put non-existant resource';
+    }
+
+    return this.xhr({
+      type: 'PUT',
+      data: this.asJSON(opts)
+    }).then(
+      () => {
+        return this;
+      }
+    );
+  },
+
   publish() {
     return this.save().then(() => {
       return this.xhr({
