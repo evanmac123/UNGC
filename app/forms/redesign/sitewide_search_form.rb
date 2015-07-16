@@ -58,8 +58,7 @@ class Redesign::SitewideSearchForm
 
   def facet_options
     {
-      star: true,
-      indices: ['searchable_redesign_core']
+      star: true
     }
   end
 

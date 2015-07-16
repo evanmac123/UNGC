@@ -1,3 +1,4 @@
+# Admin::OrganizationsHelper.duplicate_application + Admin::OrganizationsController.display_search_results still uses this index.
 ThinkingSphinx::Index.define :organization,
   with: :active_record, name: :organization do
   indexes name, :sortable => true
