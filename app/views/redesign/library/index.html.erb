@@ -1,14 +1,7 @@
 <%= render partial: 'redesign/components/meta_tags' %>
 <%= render partial: 'redesign/components/hero' %>
 
-<section class="main-content-section">
-  <div class='wrapper'>
-    <header class="main-content-header">
-      <h1>Featured Resources</h1>
-    </header>
-  </div>
-</section>
-<%= render 'form' %>
+<%= render 'form', title: "Featured Resources" %>
 
 <%= render layout: 'redesign/components/content_blocks', locals: {classes: 'library', blocks: @page.featured} do |block| %>
   <%= render 'redesign/components/resource_block', block: block %>
