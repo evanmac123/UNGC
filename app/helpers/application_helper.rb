@@ -1,19 +1,6 @@
 module ApplicationHelper
-  def body_classes
-    classes = []
-    classes << 'editable_page' if editable_content? # TODO: Editable by the current user?
-    classes << current_section.html_code if current_section
-    classes << @leftnav_selected.html_code if @leftnav_selected.try(:html_code)
-    classes << @subnav_selected.html_code if @subnav_selected.try(:html_code)
-    classes.join(' ')
-  end
-
   def flash_messages_for(*keys)
     keys.collect { |k| content_tag(:div, flash[k], :class => "flash #{k}") if flash[k] }.join.html_safe
-  end
-
-  def participant_search?(key)
-    key == :participant && controller.class.to_s == 'ParticipantsController'
   end
 
   def staff_only(&block)
@@ -31,10 +18,6 @@ module ApplicationHelper
 
   def dashboard_view_only
     yield if current_contact && request.env['PATH_INFO'].include?('admin')
-  end
-
-  def is_staff
-    return current_contact && current_contact.from_ungc?
   end
 
   def link_to_attachment(object)
