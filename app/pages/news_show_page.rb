@@ -34,7 +34,7 @@ class NewsShowPage < SimpleDelegator
 
   private
 
-    def headline
-      __getobj__
-    end
+  def headline
+    __getobj__
+  end
 end
