@@ -66,18 +66,6 @@ module LocalNetworkHelper
     end
   end
 
-  def link_to_public_profile(local_network)
-    if local_network.country_code.present?
-      path = "/NetworksAroundTheWorld/local_network_sheet/#{local_network.country_code}.html"
-      page = Page.find_by_path_and_approval path, 'approved'
-      unless page.nil?
-        link_to local_network.name, page.path
-      else
-        local_network.name
-      end
-    end
-  end
-
   # temporary participant reports until Local Networks can login
   # these should be removed
 
