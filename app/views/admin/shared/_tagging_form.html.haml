@@ -5,6 +5,7 @@
       %ol.topics-list
         - taggable.topic_options.each do |parent_topic, child_topics|
           %li
+            = hidden_field_tag model_name+"[topic_ids][]", nil #needed to clear array on empty submission
             %label{style:"temporary: yes; width: inherit; margin: inherit; float: none;"}
               = check_box_tag model_name+'[topic_ids][]', parent_topic.id, parent_topic.selected?
               = parent_topic.name
@@ -22,6 +23,7 @@
       %ol.topics-list
         - taggable.issue_options.each do |parent_issue, child_issues|
           %li
+            = hidden_field_tag model_name+"[issue_ids][]", nil #needed to clear array on empty submission
             %label{style:"temporary: yes; width: inherit; margin: inherit; float: none;"}
               = check_box_tag model_name+'[issue_ids][]', parent_issue.id, parent_issue.selected?
               = parent_issue.name
@@ -40,6 +42,7 @@
         - taggable.sector_options.each do |parent_sector, child_sectors|
           %li
             %label{style:"temporary: yes; width: inherit; margin: inherit; float: none;"}
+              = hidden_field_tag model_name+"[sector_ids][]", nil #needed to clear array on empty submission
               = check_box_tag model_name+'[sector_ids][]', parent_sector.id, parent_sector.selected?
               = parent_sector.name
               %ol.expanded-list

@@ -308,6 +308,17 @@ class Admin::EventsControllerTest < ActionController::TestCase
           end
         end
       end
+
+      context 'with no sponsor IDs' do
+        should 'remove all sponsors' do
+          @sponsor_ids = 2.times.map { create_sponsor.id }
+          @event = create_event(sponsor_ids: @sponsor_ids)
+
+          assert_difference '@event.sponsors.count', -2 do
+            put :update, id: @event.id, event: { sponsor_ids: [] }
+          end
+        end
+      end
     end
 
     context 'POST /admin/events/:id/approve' do
