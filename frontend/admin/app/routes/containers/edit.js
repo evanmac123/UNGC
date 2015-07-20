@@ -27,7 +27,7 @@ export default Ember.Route.extend({
     setDraftFromPayload(payload) {
       var container;
 
-      if (!confirm('This will discard the current draft and revert the from to this previously published version.')) {
+      if (!confirm('This will discard the current draft and revert to this previously published version.')) {
         return;
       }
 
