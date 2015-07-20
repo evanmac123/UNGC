@@ -1,6 +1,6 @@
 <header id="main-header">
   <div class='wrapper'>
-    <%= link_to_redesign '/', class: 'logo' do %>
+    <%= link_to '/', class: 'logo' do %>
       <h1><%= image_tag 'new-logo-white.svg', alt: 'United Nations Global Compact' -%></h1>
     <% end %>
 
@@ -24,16 +24,16 @@
       <% end %>
 
       <ul id='primary-navigation'>
-        <li><%= link_to_redesign 'What Is UN Global Compact?', '/what-is-gc', class: "nav-link #{request.fullpath =~ /\A\/what-is-gc/ ? 'active' : nil}" -%></li>
-        <li><%= link_to_redesign 'Participation', '/participation', class: "nav-link #{request.fullpath =~ /\A\/participation/ ? 'active' : nil}" -%></li>
-        <li><%= link_to_redesign 'Take Action', '/take-action', class: "nav-link #{request.fullpath =~ /\A\/take-action/ ? 'active' : nil}" -%></li>
-        <li><%= link_to_redesign 'Engage Locally', '/engage-locally', class: "nav-link #{request.fullpath =~ /\A\/engage-locally/ ? 'active' : nil}" -%></li>
-        <li><%= link_to_redesign 'Explore Our Library', '/library', class: "nav-link #{params[:controller] == 'redesign/library' ? 'active' : nil}" -%></li>
+        <li><%= link_to 'What Is UN Global Compact?', '/what-is-gc', class: "nav-link #{request.fullpath =~ /\A\/what-is-gc/ ? 'active' : nil}" -%></li>
+        <li><%= link_to 'Participation', '/participation', class: "nav-link #{request.fullpath =~ /\A\/participation/ ? 'active' : nil}" -%></li>
+        <li><%= link_to 'Take Action', '/take-action', class: "nav-link #{request.fullpath =~ /\A\/take-action/ ? 'active' : nil}" -%></li>
+        <li><%= link_to 'Engage Locally', '/engage-locally', class: "nav-link #{request.fullpath =~ /\A\/engage-locally/ ? 'active' : nil}" -%></li>
+        <li><%= link_to 'Explore Our Library', '/library', class: "nav-link #{params[:controller] == 'redesign/library' ? 'active' : nil}" -%></li>
       </ul>
 
       <ul id='secondary-navigation'>
-        <li><%= link_to_redesign 'About', '/about', class: "nav-link #{params[:action] == 'long_article' ? 'active' : nil}" -%></li>
-        <li><%= link_to_redesign 'News', redesign_news_index_path, class: "nav-link" -%></li>
+        <li><%= link_to 'About', '/about', class: "nav-link #{params[:action] == 'long_article' ? 'active' : nil}" -%></li>
+        <li><%= link_to 'News', redesign_news_index_path, class: "nav-link" -%></li>
         <li><%= link_to 'Sign In', '/login', class: "nav-link" -%></li>
         <li id="google_translate_element"></li>
       </ul>

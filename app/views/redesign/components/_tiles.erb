@@ -3,7 +3,7 @@
     <%- tiles.each do |tile| -%>
       <article class='tile <%= "color-#{tile[:color]}" if tile[:color] -%> <%= 'double-width' if tile[:double_width] -%> <%= 'double-height' if tile[:double_height] -%>'>
         <%- style = tile[:bg_image] ? {style: "background-image: url(#{tile[:bg_image]});"} : {} -%>
-        <%= link_to_redesign tile[:link][:url], style do %>
+        <%= link_to tile[:link][:url], style do %>
           <%= content_tag(:h1, tile[:title], class: 'tile-title') if tile[:title] %>
           <%= content_tag(:p, tile[:blurb], class: 'tile-blurb') if tile[:blurb] %>
           <%= content_tag(:span, tile[:link][:label], class: 'tile-link-label') if tile[:link][:label] %>

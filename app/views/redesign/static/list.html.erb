@@ -15,7 +15,7 @@
 
           <%- if item.image -%>
             <%- if item.url -%>
-              <%= link_to_redesign(image_tag(item.image, alt: item.title), item.url, class: 'content-list-item-image', target: item.external ? '_blank' : '') %>
+              <%= link_to(image_tag(item.image, alt: item.title), item.url, class: 'content-list-item-image', target: item.external ? '_blank' : '') %>
             <%- else -%>
               <span class='content-list-item-image'><%= image_tag(item.image, alt: item.title)%></span>
             <%- end -%>
@@ -24,7 +24,7 @@
           <div class='content-list-item-content-wrapper<%= " has-image" if item.image ||= nil %>'>
 
             <%- if item.url -%>
-              <%= content_tag(:h1, link_to_redesign(item.title, item.url, class: "type-#{item.type}", target: item.external ? '_blank' : '')) %>
+              <%= content_tag(:h1, link_to(item.title, item.url, class: "type-#{item.type}", target: item.external ? '_blank' : '')) %>
             <%- else -%>
               <%= content_tag(:h1, item.title) %>
             <%- end -%>

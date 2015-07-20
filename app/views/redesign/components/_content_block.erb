@@ -1,5 +1,5 @@
 <li class='component-content-block'>
-  <%= link_to_redesign url, class: "component-content-block-link#{" component-content-block-type-#{type}" if type ||= nil}" do %>
+  <%= link_to url, class: "component-content-block-link#{" component-content-block-type-#{type}" if type ||= nil}" do %>
     <div class='component-content-block-image' style='background-image: url(<%= thumbnail -%>)'>
       <%= image_tag thumbnail %>
     </div>

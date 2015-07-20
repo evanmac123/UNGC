@@ -26,7 +26,7 @@
             <tbody>
               <%- participants.list.each do |sector| -%>
               <tr>
-                <th class='sector'><%= link_to_redesign sector.name, redesign_participant_search_path(search: sector.search_params) -%></th>
+                <th class='sector'><%= link_to sector.name, redesign_participant_search_path(search: sector.search_params) -%></th>
                 <td class='count'><%= sector.participants_count -%></td>
               </tr>
               <%- end -%>

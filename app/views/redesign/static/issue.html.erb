@@ -14,7 +14,7 @@
           <%= content[:content].html_safe if content[:content] %>
         </div>
 
-        <%= content_tag(:p, link_to_redesign(content[:call_to_action][:title], content[:call_to_action][:url], class: "button #{content[:call_to_action][:theme]}")) if content[:call_to_action] %>
+        <%= content_tag(:p, link_to(content[:call_to_action][:title], content[:call_to_action][:url], class: "button #{content[:call_to_action][:theme]}")) if content[:call_to_action] %>
       </section>
 
       <%- if sidebar = @page.sidebar_widgets -%>

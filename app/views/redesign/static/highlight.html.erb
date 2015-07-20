@@ -10,7 +10,7 @@
         <section class='main-content-body'>
           <%= section[:content].html_safe if section[:content] %>
 
-          <%= content_tag(:p, link_to_redesign(section[:call_to_action][:title], section[:call_to_action][:url], class: "button #{section[:call_to_action][:theme]}")) if section[:call_to_action] %>
+          <%= content_tag(:p, link_to(section[:call_to_action][:title], section[:call_to_action][:url], class: "button #{section[:call_to_action][:theme]}")) if section[:call_to_action] %>
         </section>
 
         <%- if section[:image] -%>
