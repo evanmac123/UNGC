@@ -111,6 +111,7 @@ module FixtureReplacement
 
   attributes_for :headline do |a|
     a.title = FixtureReplacement.random_string
+    a.description = "<p>#{FixtureReplacement.random_string}</p>"
     a.published_on = Time.now
   end
 
