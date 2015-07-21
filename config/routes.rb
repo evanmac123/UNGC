@@ -437,6 +437,7 @@ UNGC::Application.routes.draw do
     get '/AboutTheGC/TheTenPrinciples/anti-corruption.html', to: redirect('/what-is-gc/our-work/governance/anti-corruption')
     get '/Languages(*path)', to: redirect('/')
     get '/languages(*path)', to: redirect('/')
+    get '/redesign/admin', to: redirect('/sitemap')
 
     # new redirects (to be tested)
     get '/index.html', to: redirect('/')
