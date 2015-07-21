@@ -169,34 +169,34 @@ UNGC::Application.routes.draw do
     post '/sync' => 'api#sync'
   end
 
-  namespace :redesign, path: '/' do
-    namespace :admin, path: '/redesign/admin' do
-      namespace :api, format: :json do
-        resources :layouts, only: [:index, :show]
-        resources :contacts, only: [:index, :current] do
-          get :current, on: :collection
-        end
-        resources :events, only: [:index]
-        resources :taggings, only: [:topics, :issues, :sectors] do
-          get :topics, on: :collection
-          get :issues, on: :collection
-          get :sectors, on: :collection
-        end
-        resources :images do
-          post :signed_url, on: :collection
-        end
-        resources :resources, only: [:index]
-        resources :initiatives, only: [:index]
-        resources :containers do
-          post :publish, on: :member
-          get :needs_approval, on: :collection
-        end
-        resources :payloads
+  namespace :sitemap, path: '/sitemap' do
+    namespace :api, format: :json do
+      resources :layouts, only: [:index, :show]
+      resources :contacts, only: [:index, :current] do
+        get :current, on: :collection
       end
-
-      get '/(*path)' => 'index#frontend', as: :root, format: :html
+      resources :events, only: [:index]
+      resources :taggings, only: [:topics, :issues, :sectors] do
+        get :topics, on: :collection
+        get :issues, on: :collection
+        get :sectors, on: :collection
+      end
+      resources :images do
+        post :signed_url, on: :collection
+      end
+      resources :resources, only: [:index]
+      resources :initiatives, only: [:index]
+      resources :containers do
+        post :publish, on: :member
+        get :needs_approval, on: :collection
+      end
+      resources :payloads
     end
 
+    get '/(*path)' => 'index#frontend', as: :root, format: :html
+  end
+
+  namespace :redesign, path: '/' do
     controller :library do
       get '/library'        => :index,  as: :library
       get '/library/search' => :search, as: :library_search
