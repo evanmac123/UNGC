@@ -52,6 +52,10 @@ class Redesign::ApplicationController < ApplicationController
     @current_container = Redesign::Container.lookup(layout, slug)
   end
 
+  def set_current_container_by_default_path
+    set_current_container_by_path(request.path)
+  end
+
   def current_payload
     return unless @current_container
 
