@@ -5,6 +5,12 @@ class Redesign::SignupController < Redesign::ApplicationController
   BUSINESS_PARAM = 'business'
   NONBUSINESS_PARAM = 'non_business'
 
+  def index
+    set_current_container_by_default_path
+    @page = ArticlePage.new(current_container, current_payload_data)
+    render "redesign/static/#{current_container.layout}"
+  end
+
   # shows organization form
   def step1
     clear_organization_signup
@@ -146,10 +152,6 @@ class Redesign::SignupController < Redesign::ApplicationController
 
     def clear_organization_signup
       session[:signup] = nil
-    end
-
-    def default_navigation
-      DEFAULTS[:signup_form_path]
     end
 
     def send_mail

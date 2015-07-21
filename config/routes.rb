@@ -246,6 +246,7 @@ UNGC::Application.routes.draw do
     end
 
     controller :signup, path: '/participation/join/application/' do
+      get   '/'                 => 'signup#index', :as => :signup
       get   '/step1/:org_type'  => 'signup#step1', :as => :organization_step1
       match '/step2'            => 'signup#step2', :as => :organization_step2, via: [:get, :post]
       match '/step3'            => 'signup#step3', :as => :organization_step3, via: [:get, :post]
