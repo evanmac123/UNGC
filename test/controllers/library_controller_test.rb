@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Redesign::LibraryControllerTest < ActionController::TestCase
+class LibraryControllerTest < ActionController::TestCase
 
   setup do
     create_staff_user

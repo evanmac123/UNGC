@@ -35,7 +35,7 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
   end
 
   should "maintain a list of active filters" do
-    form = Redesign::LibrarySearchForm.new 1, @search_params
+    form = LibrarySearchForm.new 1, @search_params
 
     assert_equal [
       'issue_areas',
@@ -61,7 +61,7 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
   context "Issue selector options" do
 
     setup do
-      @form = Redesign::LibrarySearchForm.new 1, @search_params
+      @form = LibrarySearchForm.new 1, @search_params
       @form.search_scope = all_group_facets(@issues, :issue_ids)
       @options = @form.issue_filter.options
 
@@ -100,7 +100,7 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
   context "Topics selector options" do
 
     setup do
-      @form = Redesign::LibrarySearchForm.new 1, @search_params
+      @form = LibrarySearchForm.new 1, @search_params
       @form.search_scope = all_group_facets(@topics, :topic_ids)
       @options = @form.topic_filter.options
 
@@ -139,7 +139,7 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
   context "Language selector options" do
 
     setup do
-      @form = Redesign::LibrarySearchForm.new 1, @search_params
+      @form = LibrarySearchForm.new 1, @search_params
       @form.search_scope = all_facets(@languages, :language_ids)
       @options = @form.language_filter.options
     end
@@ -159,7 +159,7 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
   context "Sector selector options" do
 
     setup do
-      @form = Redesign::LibrarySearchForm.new 1, @search_params
+      @form = LibrarySearchForm.new 1, @search_params
       @form.search_scope = all_group_facets(@sectors, :sector_ids)
 
       @options = @form.sector_filter.options
@@ -208,7 +208,7 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
     end
 
     should "selecting an option should make it active" do
-      form = Redesign::LibrarySearchForm.new 1, @search_params
+      form = LibrarySearchForm.new 1, @search_params
       form.search_scope = all_group_facets(@sectors, :sector_ids)
       option = form.sector_filter.options[0][1].last # group a, options
       assert option.selected?

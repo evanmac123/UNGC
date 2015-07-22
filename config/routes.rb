@@ -196,13 +196,13 @@ UNGC::Application.routes.draw do
     get '/(*path)' => 'index#frontend', as: :root, format: :html
   end
 
-  namespace :redesign, path: '/' do
-    controller :library do
-      get '/library'        => :index,  as: :library
-      get '/library/search' => :search, as: :library_search
-      get '/library/:id'    => :show,   as: :library_resource
-    end
+  controller :library do
+    get '/library'        => :index,  as: :library
+    get '/library/search' => :search, as: :library_search
+    get '/library/:id'    => :show,   as: :library_resource
+  end
 
+  namespace :redesign, path: '/' do
     controller :contact_us do
       get '/about/contact' => :new, as: :new_contact_us
       post '/about/contact' => :create, as: :contact_us

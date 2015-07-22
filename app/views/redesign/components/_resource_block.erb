@@ -1,2 +1,1 @@
-<%= render 'redesign/components/content_block', type: 'resource', title: block.title, url: redesign_library_resource_path(block), thumbnail: "//www.unglobalcompact.org#{block.cover_image(:show, retina: true)}", tag: t(block.content_type) %>
-
+<%= render 'redesign/components/content_block', type: 'resource', title: block.title, url: library_resource_path(block), thumbnail: "//www.unglobalcompact.org#{block.cover_image(:show, retina: true)}", tag: t(block.content_type) %>

@@ -15,17 +15,17 @@
 
       <%= render layout: 'redesign/components/resource_attributes_list', locals: {attributes: @resource.topics, title: 'Topics'} do |a| %>
         <%- search_hash = a.parent.present? ? {topics: [a.id]} : {topic_groups: [a.id]} -%>
-        <%= link_to a.name, redesign_library_search_path(search: search_hash) -%>
+        <%= link_to a.name, library_search_path(search: search_hash) -%>
       <% end %>
 
       <%= render layout: 'redesign/components/resource_attributes_list', locals: {attributes: @resource.issues, title: 'Issues'} do |a| %>
         <%- search_hash = a.parent.present? ? {issues: [a.id]} : {issue_groups: [a.id]} -%>
-        <%= link_to a.name, redesign_library_search_path(search: search_hash) -%>
+        <%= link_to a.name, library_search_path(search: search_hash) -%>
       <% end %>
 
       <%= render layout: 'redesign/components/resource_attributes_list', locals: {attributes: @resource.sectors, title: 'Sectors'} do |a| %>
         <%- search_hash = a.parent.present? ? {sectors: [a.id]} : {sector_groups: [a.id]} -%>
-        <%= link_to a.name, redesign_library_search_path(search: search_hash) -%>
+        <%= link_to a.name, library_search_path(search: search_hash) -%>
       <% end %>
 
       <%= render layout: 'redesign/components/resource_attributes_list', locals: {attributes: @resource.authors, title: 'Authors'} do |a| %>
