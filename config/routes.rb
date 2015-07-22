@@ -216,11 +216,11 @@ UNGC::Application.routes.draw do
     get '/all' => :index, as: :all_our_work
   end
 
-  namespace :redesign, path: '/' do
-    controller :actions do
-      get '/take-action/action' => :index, as: :actions
-    end
+  controller :actions do
+    get '/take-action/action' => :index, as: :actions
+  end
 
+  namespace :redesign, path: '/' do
     controller :participant_search, path: '/what-is-gc/participants' do
       get '/' => :index
       get '/search' => :search, as: :participant_search
