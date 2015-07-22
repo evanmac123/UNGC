@@ -127,7 +127,7 @@ class AdminController < ApplicationController
   def sign_in_as_contacts_for(organizations)
     if current_contact.can_sign_in_as_contact_points?
       Contact.contact_points
-        .where("organizations.state <> 'rejected'")
+        .where("organizations.state != 'rejected'")
         .joins(:organization)
         .includes(:organization)
         .merge(organizations)
@@ -136,7 +136,7 @@ class AdminController < ApplicationController
           per_page: 100
         )
     else
-      Contact.where('1=2') # TODO replace with none in rails4
+      Contact.none
     end
   end
 

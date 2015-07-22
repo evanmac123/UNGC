@@ -24,8 +24,8 @@ class CanSignInAs
   end
 
   def same_local_network
-    Organization.where(id: @target.organization.id)
-                .visible_to(@current)
+    Organization.visible_to(@current)
+                .where(id: @target.organization.id)
                 .any?
   end
 

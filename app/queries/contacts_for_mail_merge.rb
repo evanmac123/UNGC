@@ -21,7 +21,6 @@ class ContactsForMailMerge < SimpleDelegator
                 contacts.phone,
                 contacts.fax,
                 contacts.username,
-                contacts.plaintext_password,
                 contacts.organization_id,
                 contacts.welcome_package,
                 contacts.local_network_id,
