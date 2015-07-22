@@ -1,16 +1,16 @@
-class Redesign::ContactUsController < Redesign::ApplicationController
+class ContactUsController < Redesign::ApplicationController
 
   def new
-    @contact_us = Redesign::ContactUsForm.new
+    @contact_us = ContactUsForm.new
     @page = load_page
   end
 
   def create
-    @contact_us = Redesign::ContactUsForm.new(contact_us_params)
+    @contact_us = ContactUsForm.new(contact_us_params)
     @page = load_page
 
     if @contact_us.send_email
-      redirect_to redesign_contact_us_path, notice: 'Contact email was sent successfully.'
+      redirect_to contact_us_path, notice: 'Contact email was sent successfully.'
     else
       render :new
     end
@@ -23,7 +23,7 @@ class Redesign::ContactUsController < Redesign::ApplicationController
     end
 
     def contact_us_params
-      params.require(:redesign_contact_us_form).permit(
+      params.require(:contact_us_form).permit(
         :name,
         :email,
         :organization,

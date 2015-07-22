@@ -2,7 +2,7 @@
 <%= render partial: 'redesign/components/hero' %>
 
 <section class='main-content-section main-content-section-narrow'>
-  <%= form_for @contact_us, url: redesign_contact_us_path, method: :post, html: {class: 'form-classic wrapper'} do |f| %>
+  <%= form_for @contact_us, url: contact_us_path, method: :post, html: {class: 'form-classic wrapper'} do |f| %>
     <header class='main-content-header'>
       <h1>Contact Us</h1>
     </header>

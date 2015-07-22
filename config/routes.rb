@@ -202,12 +202,12 @@ UNGC::Application.routes.draw do
     get '/library/:id'    => :show,   as: :library_resource
   end
 
-  namespace :redesign, path: '/' do
-    controller :contact_us do
-      get '/about/contact' => :new, as: :new_contact_us
-      post '/about/contact' => :create, as: :contact_us
-    end
+  controller :contact_us do
+    get '/about/contact' => :new, as: :new_contact_us
+    post '/about/contact' => :create, as: :contact_us
+  end
 
+  namespace :redesign, path: '/' do
     controller :case_example do
       get '/take-action/action/share-story' => :new, as: :new_case_example
       post '/take-action/action/share-story' => :create, as: :case_example

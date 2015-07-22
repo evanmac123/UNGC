@@ -1,4 +1,4 @@
-class Redesign::ContactUsForm
+class ContactUsForm
   include ActiveModel::Model
 
   attr_accessor :name, :email, :organization, :interest_ids, :focus_ids, :comments, :magic
