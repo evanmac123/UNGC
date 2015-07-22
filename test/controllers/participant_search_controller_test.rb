@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Redesign::ParticipantSearchControllerTest < ActionController::TestCase
+class ParticipantSearchControllerTest < ActionController::TestCase
   setup do
     create_staff_user
     sign_in @staff_user
@@ -10,7 +10,7 @@ class Redesign::ParticipantSearchControllerTest < ActionController::TestCase
   context "the search form" do
 
     setup do
-      Redesign::ParticipantSearchForm.any_instance.expects(:execute).returns([])
+      ParticipantSearchForm.any_instance.expects(:execute).returns([])
       get :index
     end
 
@@ -33,10 +33,10 @@ class Redesign::ParticipantSearchControllerTest < ActionController::TestCase
     setup do
       @args = {'organization_types' => ['123']}
 
-      form = Redesign::ParticipantSearchForm.new(1, @args)
+      form = ParticipantSearchForm.new(1, @args)
       form.stubs(execute: [])
 
-      Redesign::ParticipantSearchForm.expects(:new)
+      ParticipantSearchForm.expects(:new)
         .with(1, @args)
         .returns(form)
     end

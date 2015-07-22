@@ -220,12 +220,12 @@ UNGC::Application.routes.draw do
     get '/take-action/action' => :index, as: :actions
   end
 
-  namespace :redesign, path: '/' do
-    controller :participant_search, path: '/what-is-gc/participants' do
-      get '/' => :index
-      get '/search' => :search, as: :participant_search
-    end
+  controller :participant_search, path: '/what-is-gc/participants' do
+    get '/' => :index
+    get '/search' => :search, as: :participant_search
+  end
 
+  namespace :redesign, path: '/' do
     resources :participants, path: '/what-is-gc/participants/', only: [:show]
 
     controller :news, path: '/news' do

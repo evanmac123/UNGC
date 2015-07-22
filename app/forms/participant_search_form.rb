@@ -1,4 +1,4 @@
-class Redesign::ParticipantSearchForm < Redesign::FilterableForm
+class ParticipantSearchForm < Redesign::FilterableForm
   include Virtus.model
   include Redesign::FilterMacros
 

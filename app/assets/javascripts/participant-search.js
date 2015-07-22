@@ -6,7 +6,7 @@ $(function() {
     e.preventDefault();
     var sortField = $(this).data('field');
 
-    // see app/assets/javascripts/redesign/filters-form.js
+    // see app/assets/javascripts/filters-form.js
     participantSearchChangeSortingField(sortField);
   });
 

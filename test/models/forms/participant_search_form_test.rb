@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Redesign::ParticipantSearchFormTest < ActiveSupport::TestCase
+class ParticipantSearchFormTest < ActiveSupport::TestCase
 
   setup do
     @type_names = %w(city public sme)
@@ -12,7 +12,7 @@ class Redesign::ParticipantSearchFormTest < ActiveSupport::TestCase
     @country_names = %w(Canada France Germany)
     @countries = @country_names.map { |name| create_country name: name }
 
-    @subject = Redesign::ParticipantSearchForm.new
+    @subject = ParticipantSearchForm.new
     @subject.search_scope = stub(facets:{
       country_id: stub(keys: @countries.map(&:id)),
       organization_type_id: stub(keys: @types.map(&:id)),
@@ -39,4 +39,3 @@ class Redesign::ParticipantSearchFormTest < ActiveSupport::TestCase
   end
 
 end
-

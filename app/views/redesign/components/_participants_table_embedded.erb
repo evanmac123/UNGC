@@ -5,7 +5,7 @@
     <%- if title ||= nil -%>
       <header class='component-header'>
         <%= content_tag(:h1, title.try(:html_safe)) %>
-        <%= link_to "<span>View the </span>Full List<span> in Who&rsquo;s Involved</span>".html_safe, redesign_participant_search_path(search: {initiatives: [@page.participants.initiative_id]}), class: 'view-all' %>
+        <%= link_to "<span>View the </span>Full List<span> in Who&rsquo;s Involved</span>".html_safe, participant_search_path(search: {initiatives: [@page.participants.initiative_id]}), class: 'view-all' %>
       </header>
     <%- end -%>
 
