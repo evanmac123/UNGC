@@ -1,4 +1,4 @@
-class Redesign::CaseExampleForm
+class CaseExampleForm
   include ActiveModel::Model
 
   attr_accessor :company, :country_id, :sector_ids, :is_participant, :file, :magic

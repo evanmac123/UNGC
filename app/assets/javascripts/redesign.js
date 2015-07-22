@@ -3,3 +3,4 @@
 //= require jquery.tablesorter.min
 //= require_tree ./redesign
 //= require contact-form
+//= require case-example-form

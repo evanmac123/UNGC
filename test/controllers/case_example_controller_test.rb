@@ -1,7 +1,7 @@
 require 'test_helper'
 require 'sidekiq/testing'
 
-class Redesign::CaseExampleControllerTest < ActionController::TestCase
+class CaseExampleControllerTest < ActionController::TestCase
   setup do
     Sidekiq::Testing.inline!
 
@@ -26,17 +26,17 @@ class Redesign::CaseExampleControllerTest < ActionController::TestCase
 
   context 'form renders' do
     should 'have the required #id' do
-      # see app/assets/javascripts/redesign/case-example-form.js
+      # see app/assets/javascripts/case-example-form.js
       get :new
-      assert_select '#new_redesign_case_example_form'
-      assert_select 'input[name="redesign_case_example_form[magic]"]'
+      assert_select '#new_case_example_form'
+      assert_select 'input[name="case_example_form[magic]"]'
     end
   end
 
   context 'given post with valid params' do
     should 'create a case example and send an email' do
       assert_difference ['CaseExample.count','ActionMailer::Base.deliveries.size'] do
-        post :create, redesign_case_example_form: @params
+        post :create, case_example_form: @params
       end
 
       case_example = CaseExample.last
@@ -57,26 +57,26 @@ class Redesign::CaseExampleControllerTest < ActionController::TestCase
       assert_match /Yes/, email.body.to_s
       assert_match /http:\/\/test.host#{Regexp.escape(case_example.file.url)}/, email.body.to_s
 
-      assert_redirected_to redesign_case_example_path
+      assert_redirected_to case_example_path
     end
   end
 
   context 'given post without invalid params' do
     should 'display errors' do
-      post :create, redesign_case_example_form: @params.except(:company, :country_id, :sector_ids, :file)
+      post :create, case_example_form: @params.except(:company, :country_id, :sector_ids, :file)
 
       assert_select '.errors-list li', 4
     end
 
     should 'fail if magic value is not present' do
-      post :create, redesign_case_example_form: @params.except(:magic)
+      post :create, case_example_form: @params.except(:magic)
       assert_select '.errors-list li', 1
     end
   end
 
   context 'given post without a non participant params' do
     should 'be valid' do
-      post :create, redesign_case_example_form: @params.merge(is_participant: false)
+      post :create, case_example_form: @params.merge(is_participant: false)
       case_example = CaseExample.last
       assert_select '#error_explanation ul li', 0
       assert_equal false, case_example.is_participant

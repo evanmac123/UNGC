@@ -207,12 +207,12 @@ UNGC::Application.routes.draw do
     post '/about/contact' => :create, as: :contact_us
   end
 
-  namespace :redesign, path: '/' do
-    controller :case_example do
-      get '/take-action/action/share-story' => :new, as: :new_case_example
-      post '/take-action/action/share-story' => :create, as: :case_example
-    end
+  controller :case_example do
+    get '/take-action/action/share-story' => :new, as: :new_case_example
+    post '/take-action/action/share-story' => :create, as: :case_example
+  end
 
+  namespace :redesign, path: '/' do
     controller :all_our_work, path: '/what-is-gc/our-work' do
       get '/all' => :index, as: :all_our_work
     end
