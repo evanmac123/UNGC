@@ -3,7 +3,7 @@
 
 <%= render 'redesign/components/hero' %>
 
-<%= form_for @search, as: :search, url: redesign_all_our_work_path, method: :get, html: {id: 'filters-form'}  do |form| %>
+<%= form_for @search, as: :search, url: all_our_work_path, method: :get, html: {id: 'filters-form'}  do |form| %>
   <fieldset class='filter-lists'>
     <% @search.filters.each do |filter| %>
       <%= search_filter(filter) %>

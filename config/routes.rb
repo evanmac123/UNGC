@@ -212,11 +212,11 @@ UNGC::Application.routes.draw do
     post '/take-action/action/share-story' => :create, as: :case_example
   end
 
-  namespace :redesign, path: '/' do
-    controller :all_our_work, path: '/what-is-gc/our-work' do
-      get '/all' => :index, as: :all_our_work
-    end
+  controller :all_our_work, path: '/what-is-gc/our-work' do
+    get '/all' => :index, as: :all_our_work
+  end
 
+  namespace :redesign, path: '/' do
     controller :actions do
       get '/take-action/action' => :index, as: :actions
     end

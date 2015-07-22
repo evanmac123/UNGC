@@ -1,8 +1,8 @@
-class Redesign::AllOurWorkController < Redesign::ApplicationController
+class AllOurWorkController < Redesign::ApplicationController
 
   def index
     set_current_container_by_path '/what-is-gc/our-work/all'
-    @search = Redesign::AllOurWorkForm.new(search_params, seed)
+    @search = AllOurWorkForm.new(search_params, seed)
     @page = AllOurWorkPage.new(current_container, current_payload_data, @search.execute)
   end
 
