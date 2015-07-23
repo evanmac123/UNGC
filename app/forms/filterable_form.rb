@@ -145,7 +145,8 @@ class FilterableForm
   end
 
   def enabled_facets(key)
-    @_facets ||= facet_cache.fetch('fml_participant_search_facets') do
+    cache_key = self.class.name.underscore
+    @_facets ||= facet_cache.fetch(cache_key) do
       facets.to_h
     end
     @_facets.fetch(key, {}).keys
