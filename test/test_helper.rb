@@ -433,6 +433,16 @@ class ActionDispatch::IntegrationTest
   Warden.test_mode!
 end
 
+class MockSearchResult < SimpleDelegator
+  def initialize
+    super([])
+  end
+
+  def total_pages
+    0
+  end
+end
+
 module LocalNetworkSubmodelControllerHelper
 
   def seeds
