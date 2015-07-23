@@ -19,7 +19,7 @@
     <tbody>
       <% results.each do |participant| %>
         <tr>
-          <th class='name'><%= link_to participant.name, redesign_participant_path(participant) %></th>
+          <th class='name'><%= link_to participant.name, participant_path(participant) %></th>
           <td class='type'><%= participant.type %></td>
           <td class='sector'><%= participant.sector %></td>
           <td class='country'><%= participant.country %></td>

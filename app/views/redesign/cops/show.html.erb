@@ -12,7 +12,7 @@
         <dt>Participant</dt>
         <dd>
           <ul>
-            <li><%= link_to @communication.organization_name, redesign_participant_path(@communication.organization.id, params[:navigation]) %></li>
+            <li><%= link_to @communication.organization_name, participant_path(@communication.organization.id, params[:navigation]) %></li>
           </ul>
         </dd>
         <%= render :partial => @communication.show_partial, :locals => {:results_partial => @communication.results_partial, :communication_on_progress => @communication } %>

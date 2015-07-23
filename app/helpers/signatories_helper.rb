@@ -28,7 +28,7 @@ module SignatoriesHelper
 
   def link_to_path_if_participant(organization)
     if organization.participant?
-      link_to truncate(organization.name, :length => 40), redesign_participant_path(organization)
+      link_to truncate(organization.name, :length => 40), participant_path(organization)
     else
       truncate(organization.name, :length => 40)
     end

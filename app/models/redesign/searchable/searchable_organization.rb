@@ -14,7 +14,7 @@ class Redesign::Searchable::SearchableOrganization < Redesign::Searchable::Base
   end
 
   def url
-    remove_redesign_prefix redesign_participant_path(organization.id)
+    remove_redesign_prefix participant_path(organization.id)
   end
 
   def content

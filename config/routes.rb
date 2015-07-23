@@ -225,9 +225,9 @@ UNGC::Application.routes.draw do
     get '/search' => :search, as: :participant_search
   end
 
-  namespace :redesign, path: '/' do
-    resources :participants, path: '/what-is-gc/participants/', only: [:show]
+  resources :participants, path: '/what-is-gc/participants/', only: [:show]
 
+  namespace :redesign, path: '/' do
     controller :news, path: '/news' do
       get '/' => :index, as: :news_index
       get '/:id' => :show, constraints: { id: /\d+.*/ }, as: :news

@@ -18,7 +18,7 @@
       %tbody
         - for cop in cop_submitted_days_ago(30) do
           %tr{:title => cop.organization.name}
-            %td= link_to truncate(cop.organization.name, :length => 30), redesign_participant_path(cop.organization)
+            %td= link_to truncate(cop.organization.name, :length => 30), participant_path(cop.organization)
             %td= cop.published_on.to_date
             %td= link_to truncate(cop.title, :length => 30), cop_link(cop, params[:navigation])
             %td= cop.differentiation_level_name
@@ -37,7 +37,7 @@
       %tbody
         - for organization in cop_due_in_days(30) do
           %tr{:title => organization.name}
-            %td= link_to truncate(organization.name, :length => 50), redesign_participant_path(organization)
+            %td= link_to truncate(organization.name, :length => 50), participant_path(organization)
             %td= organization.cop_state.humanize
             %td= organization.joined_on.to_date
             %td= organization.cop_due_on.to_date
@@ -56,7 +56,7 @@
       %tbody
         - for organization in delisted_in_days(30) do
           %tr{:title => organization.name}
-            %td= link_to truncate(organization.name, :length => 30), redesign_participant_path(organization)
+            %td= link_to truncate(organization.name, :length => 30), participant_path(organization)
             %td= organization.joined_on.to_date
             %td= organization.communication_on_progresses.approved.try(:count)
             - projected_delisted_date = organization.cop_due_on + 1.year
@@ -76,7 +76,7 @@
       %tbody
         - for organization in participants_became_noncommunicating(30) do
           %tr{:title => organization.name}
-            %td= link_to truncate(organization.name, :length => 70), redesign_participant_path(organization)
+            %td= link_to truncate(organization.name, :length => 70), participant_path(organization)
             %td= organization.joined_on.to_date
             %td= organization.cop_due_on.to_date
 
@@ -93,7 +93,7 @@
       %tbody
         - for organization in participants_became_delisted(90) do
           %tr{:title => organization.name}
-            %td= link_to truncate(organization.name, :length => 70), redesign_participant_path(organization)
+            %td= link_to truncate(organization.name, :length => 70), participant_path(organization)
 
             %td= organization.joined_on.to_date
             %td= organization.delisted_on.to_date
@@ -109,7 +109,7 @@
       %tbody
         - for organization in participants_requesting_withdrawal() do
           %tr{:title => organization.name}
-            %td= link_to truncate(organization.name, :length => 70), redesign_participant_path(organization)
+            %td= link_to truncate(organization.name, :length => 70), participant_path(organization)
 
             %td= organization.joined_on.to_date
             %td= organization.delisted_on.to_date
@@ -126,7 +126,7 @@
       %tbody
         - for logo_request in approved_logo_requests(30) do
           %tr{:title => logo_request.organization.name}
-            %td= link_to truncate(logo_request.organization.name, :length => 20), redesign_participant_path(logo_request.organization)
+            %td= link_to truncate(logo_request.organization.name, :length => 20), participant_path(logo_request.organization)
             %td= logo_request.publication.name
             %td{:title => logo_request.purpose}= truncate(logo_request.purpose, :length => 20)
             %td= logo_request.approved_on.to_date

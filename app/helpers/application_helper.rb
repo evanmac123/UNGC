@@ -88,7 +88,7 @@ module ApplicationHelper
     if navigation
       participant_with_nav_path(navigation, organization)
     else
-      redesign_participant_path(organization)
+      participant_path(organization)
     end
   end
 end

@@ -1,4 +1,4 @@
-class Redesign::ParticipantsController < Redesign::ApplicationController
+class ParticipantsController < Redesign::ApplicationController
 
   def show
     set_current_container_by_path '/what-is-gc/participants'

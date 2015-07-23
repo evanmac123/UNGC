@@ -22,7 +22,7 @@
         <% for organization in paged_organizations(:noncommunicating) %>
           <tr>
             <td title="<%= organization.name %>" class='participant'>
-              <%= link_to truncate(organization.name, :length => 20), redesign_participant_path(organization, :noncommunicating) %>
+              <%= link_to truncate(organization.name, :length => 20), participant_path(organization, :noncommunicating) %>
             </td>
             <td title="<%= organization.sector_name %>" class='sector'>
               <%= truncate(organization.sector_name, :length => 20) %>
