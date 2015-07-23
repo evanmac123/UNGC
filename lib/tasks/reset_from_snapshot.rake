@@ -1,6 +1,6 @@
 namespace :db do
   desc "re-create the database from yesterday's production snapshot"
-  task reset_from_snapshot: ["db:drop", "db:create", "db:schema:load"] do
+  task reset_from_snapshot: ["db:drop", "db:create", "db:schema:load", "environment"] do
     raise "Must be run from the development environment" unless Rails.env.development?
     host = 'unglobalcompact.org'
     user = 'rails'
@@ -51,6 +51,13 @@ namespace :db do
 
     puts "Migrating development and test environments"
     Rake::Task["db:migrate"].invoke
-    Rake::Task["db:test:prepare"].invoke # TODO rails4 db:test:prepare is deprecated
+    Rake::Task["db:test:prepare"].invoke
+    Rake::Task["db:create_dummy_accounts"].invoke
   end
+
+  desc "create dummy accounts for non-production environments"
+  task create_dummy_accounts: [:environment] do
+    DummyAccounts.create unless Rails.env.production?
+  end
+
 end
