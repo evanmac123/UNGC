@@ -11,15 +11,15 @@ class Redesign::FacetCache
   end
 
   def fetch(key)
-    facets = @redis.hget(KEY, key)
+    json = @redis.hget(KEY, key)
 
-    if facets.nil?
+    if json.nil?
       # cache miss
       put(key, yield)
-      facets = @redis.hget(KEY, key)
+      json = @redis.hget(KEY, key)
     end
 
-    fix_hash(facets)
+    parse(json)
   end
 
   def delete(key)
@@ -34,7 +34,7 @@ class Redesign::FacetCache
 
   private
 
-  def fix_hash(json)
+  def parse(json)
     # converting to json, we loose symbolized keys at the top level
     # and our 2nd level keys are strings instead of integers
     # we can't change the interface now so we'll just have to convert
