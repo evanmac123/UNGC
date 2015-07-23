@@ -98,6 +98,13 @@ class ParticipantSearchForm < FilterableForm
   def facet_options
     {
       indices: ['participant_search_core'],
+      facets: [
+        :organization_type_id,
+        :initiative_ids,
+        :country_id,
+        :sector_ids,
+        :cop_state,
+      ],
     }
   end
 
