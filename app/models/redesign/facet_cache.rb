@@ -1,27 +1,35 @@
 class Redesign::FacetCache
 
+  KEY = 'ungc-facet-cache'
+
   def initialize(redis)
     @redis = redis
   end
 
   def put(key, facets)
-    @redis.set(key, facets.to_json)
+    @redis.hset(KEY, key, facets.to_json)
   end
 
   def fetch(key)
-    facets = @redis.get(key)
+    facets = @redis.hget(KEY, key)
 
     if facets.nil?
       # cache miss
       put(key, yield)
-      facets = @redis.get(key)
+      facets = @redis.hget(KEY, key)
     end
 
     fix_hash(facets)
   end
 
   def delete(key)
-    @redis.del(key)
+    @redis.hdel(KEY, key)
+  end
+
+  def clear
+    @redis.hkeys(KEY).each do |key|
+      @redis.hdel(KEY, key)
+    end
   end
 
   private
