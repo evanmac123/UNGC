@@ -32,3 +32,4 @@
 /Vagrantfile
 /.env
 pages-with-slugs.json
+*.swp
