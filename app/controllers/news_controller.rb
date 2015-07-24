@@ -1,4 +1,4 @@
-class Redesign::NewsController < Redesign::ApplicationController
+class NewsController < Redesign::ApplicationController
   def index
     set_current_container_by_path '/news'
     @page = NewsPage.new(current_container, current_payload_data)
@@ -11,7 +11,7 @@ class Redesign::NewsController < Redesign::ApplicationController
 
   def press_releases
     set_current_container_by_path '/news/press-releases'
-    @search = Redesign::NewsListForm.new(search_params)
+    @search = NewsListForm.new(search_params)
     @page = NewsListPage.new(current_container, current_payload_data, @search.execute)
   end
 

@@ -199,7 +199,7 @@ module IntegrationTestHelper
         assert_select '.tab-content-header', 'News'
         assert_select '.news-items .news-item' do |news_items|
           news_items.each_with_index do |news_item, index|
-            assert_equal news_item.attributes['href'].value, redesign_news_path(equality[:news][index])
+            assert_equal news_item.attributes['href'].value, news_path(equality[:news][index])
             assert_select news_item, 'time', equality[:news][index].published_on.strftime('%Y-%m-%d')
             assert_select news_item, 'address', equality[:news][index].location
             assert_select news_item, 'h2', equality[:news][index].title

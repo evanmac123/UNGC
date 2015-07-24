@@ -6,3 +6,4 @@
 //= require case-example-form
 //= require filters-form
 //= require participant-search
+//= require_tree ./news

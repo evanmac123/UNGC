@@ -1,6 +1,6 @@
 <%= render partial: 'redesign/components/hero' %>
 
-<%= form_for @search, as: :search, url: redesign_press_releases_path, method: :get, html: {id: 'filters-form'} do |form| %>
+<%= form_for @search, as: :search, url: press_releases_path, method: :get, html: {id: 'filters-form'} do |form| %>
 
   <fieldset class='filter-lists'>
     <% @search.filters.each do |filter| %>
@@ -23,4 +23,3 @@
 <%= render layout: 'redesign/components/news_list', locals: {news: @page.news} do %>
   <%= will_paginate @page.news.other, previous_label: "<span>Previous</span>", next_label: "<span>Next</span>" %>
 <%- end -%>
-

@@ -11,25 +11,25 @@ if news ||= nil
     <section class='main-content-body news-list-body'>
       <%- if featured = news.featured -%>
         <article class='news-item news-item-featured'>
-          <%= content_tag(:h1, link_to(featured.title, redesign_news_path(featured))) %>
+          <%= content_tag(:h1, link_to(featured.title, news_path(featured))) %>
           <%= content_tag(:time, featured.published_on) %>
           <%= content_tag(:address, featured.full_location) %>
           <%= content_tag(:p, strip_tags(featured.description).truncate(300)) %>
-          <%= link_to('Read More', redesign_news_path(featured), class: 'read-more') if !is_landing %>
+          <%= link_to('Read More', news_path(featured), class: 'read-more') if !is_landing %>
         </article>
       <%- end -%>
 
       <%- news.other.each do |news_item| -%>
         <article class='news-item'>
-          <%= content_tag(:h1, link_to(news_item.title, redesign_news_path(news_item))) %>
+          <%= content_tag(:h1, link_to(news_item.title, news_path(news_item))) %>
           <%= content_tag(:time, news_item.published_on) %>
           <%= content_tag(:address, news_item.full_location) %>
           <%= content_tag(:p, strip_tags(news_item.description).truncate(300)) if !is_landing %>
-          <%= link_to('Read More', redesign_news_path(news_item), class: 'read-more') if !is_landing %>
+          <%= link_to('Read More', news_path(news_item), class: 'read-more') if !is_landing %>
         </article>
       <%- end -%>
 
-      <%= link_to('View All Press Releases', redesign_press_releases_path, class: 'view-all') if is_landing %>
+      <%= link_to('View All Press Releases', press_releases_path, class: 'view-all') if is_landing %>
     </section>
 
     <%= yield %>

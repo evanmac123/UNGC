@@ -62,7 +62,7 @@
       <%- @page.news.each do |news| -%>
         <ul class='column news-items'>
           <%- news.each do |n| -%>
-            <li><%= link_to redesign_news_path(n[:item]), class: 'news-item' do -%>
+            <li><%= link_to news_path(n[:item]), class: 'news-item' do -%>
               <time datetime="<%= n[:date].strftime('%F') -%>"><%= n[:date] -%></time>
               <address><%= n[:location].html_safe -%></address>
               <h2><%= n[:title].html_safe -%></h2>
@@ -72,7 +72,7 @@
       <%- end -%>
 
       <footer class='events-component-footer'>
-        View <%= link_to 'All News', redesign_press_releases_path -%>
+        View <%= link_to 'All News', press_releases_path -%>
       </footer>
     </article>
   </div>
