@@ -5,7 +5,7 @@ class AllOurWorkControllerTest < ActionController::TestCase
     create_container path: '/what-is-gc/our-work/all'
   end
 
-  test "should get index" do
+  test 'should get index' do
     get :index
     assert_response :success
     assert_not_nil assigns(:search)

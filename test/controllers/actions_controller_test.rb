@@ -7,7 +7,7 @@ class ActionsControllerTest < ActionController::TestCase
     WhatYouCanDoForm.any_instance.stubs(execute: MockSearchResult.new)
   end
 
-  test "should get index" do
+  test 'should get index' do
     get :index
     assert_response :success
     assert_not_nil assigns(:search)

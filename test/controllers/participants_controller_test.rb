@@ -9,7 +9,7 @@ class ParticipantsControllerTest < ActionController::TestCase
     @participant = Organization.last
   end
 
-  test "should get show" do
+  test 'should get show' do
     get :show, id: @participant
 
     assert_response :success
