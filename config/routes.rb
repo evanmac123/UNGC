@@ -226,7 +226,7 @@ UNGC::Application.routes.draw do
   end
 
   resources :participants, path: '/what-is-gc/participants/', only: [:show]
-  
+
   controller :news, path: '/news' do
     get '/' => :index, as: :news_index
     get '/:id' => :show, constraints: { id: /\d+.*/ }, as: :news
@@ -234,12 +234,12 @@ UNGC::Application.routes.draw do
   end
   get '/feeds/news' => 'news#press_releases', :format => 'atom'
 
+  controller :events, path: '/take-action/events' do
+    get '/' => :index, as: :events
+    get '/:id' => :show, constraints: { id: /\d+.*/ }, as: :event
+  end
+  
   namespace :redesign, path: '/' do
-    controller :events, path: '/take-action/events' do
-      get '/' => :index, as: :events
-      get '/:id' => :show, constraints: { id: /\d+.*/ }, as: :event
-    end
-
     controller :networks do
       get '/engage-locally/:region' => :region, as: :networks_region , constraints: { region: /africa|asia|europe|latin-america|mena|north-america|oceania/ }
       get '/engage-locally/:region/:network' => :show, as: :networks_show , constraints: { region: /africa|asia|europe|latin-america|mena|north-america|oceania/ }

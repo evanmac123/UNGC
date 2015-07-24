@@ -1,7 +1,7 @@
-class Redesign::EventsController < Redesign::ApplicationController
+class EventsController < Redesign::ApplicationController
   def index
     set_current_container_by_path '/take-action/events'
-    @search = Redesign::EventsListForm.new(search_params)
+    @search = EventsListForm.new(search_params)
     @page = EventPage.new(current_container, current_payload_data, @search.execute)
   end
 

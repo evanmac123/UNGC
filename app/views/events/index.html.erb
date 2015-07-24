@@ -2,7 +2,7 @@
 
 <%= render partial: 'redesign/components/hero' %>
 
-<%= form_for @search, as: :search, url: redesign_events_path, method: :get, html: {id: 'filters-form'}  do |form| %>
+<%= form_for @search, as: :search, url: events_path, method: :get, html: {id: 'filters-form'}  do |form| %>
 
   <header>
     <h1>Events</h1>
@@ -30,7 +30,7 @@
     <%= render 'redesign/components/content_block',
       type: 'event',
       title: event.title,
-      url: redesign_event_path(event),
+      url: event_path(event),
       thumbnail: event.thumbnail_image.url,
       tag: event.tag,
       date: event.date,

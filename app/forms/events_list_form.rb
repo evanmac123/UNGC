@@ -1,4 +1,4 @@
-class Redesign::EventsListForm < Redesign::FilterableForm
+class EventsListForm < Redesign::FilterableForm
   include Virtus.model
   include Redesign::FilterMacros
 
