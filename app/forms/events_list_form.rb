@@ -52,7 +52,7 @@ class EventsListForm < Redesign::FilterableForm
         in_date_range: true,
         is_online: online?,
         is_invitation_only: invite_only?,
-      ).tap {|a| puts a}
+      )
     }
   end
 

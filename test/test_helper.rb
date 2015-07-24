@@ -434,8 +434,8 @@ class ActionDispatch::IntegrationTest
 end
 
 class MockSearchResult < SimpleDelegator
-  def initialize
-    super([])
+  def initialize(instance=nil)
+    super([instance].compact)
   end
 
   def total_pages
