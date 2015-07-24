@@ -152,7 +152,7 @@ class Redesign::ContactUsForm
       {
         id: 'management_education',
         name: 'Management Education',
-        email: 'prmecommunications@unglobalcompact.org'
+        email: 'info@unprme.org'
       },
       {
         id: 'financial_markets',
