@@ -2,7 +2,7 @@
 
 %p
   Thank you for submitting your Communication on Progress (COP). According to your self-assessment, your COP meets all minimum requirements and qualifies for the GC Active level.
-  == Your COP and the self-assessment are now #{link_to "publicly available", show_redesign_cops_url(differentiation: @cop.differentiation_level_with_default, id: @cop)} on the Global Compact website.
+  == Your COP and the self-assessment are now #{link_to "publicly available", show_cops_url(differentiation: @cop.differentiation_level_with_default, id: @cop)} on the Global Compact website.
 
 - if @cop.additional_questions && @cop.differentiation == 'active'
   %p Although you attempted to submit a COP for the GC Advanced level, your COP is missing one or more required elements:

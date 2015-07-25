@@ -255,19 +255,19 @@ UNGC::Application.routes.draw do
     post  '/step7'            => 'signup#step7', :as => :organization_step7
   end
 
-  namespace :redesign, path: '/' do
-    get '/participation/report/coe/create-and-submit/submitted-coe' => "cops#submitted_coe"
-    get '/participation/report/coe/create-and-submit/submitted-coe/:id' => "cops#show", as: :coe
-    resource :cops, path: '/participation/report/cop/create-and-submit' do
-      get :index, path: '/', on: :collection
-      get :show, path: '/:differentiation/:id', as: :show
-      get :active, on: :collection
-      get :advanced, on: :collection
-      get :expelled, on: :collection
-      get :learner, on: :collection
-      get :non_communicating, on: :collection, path: '/non-communicating'
-    end
+  get '/participation/report/coe/create-and-submit/submitted-coe' => "cops#submitted_coe"
+  get '/participation/report/coe/create-and-submit/submitted-coe/:id' => "cops#show", as: :coe
+  resource :cops, path: '/participation/report/cop/create-and-submit' do
+    get :index, path: '/', on: :collection
+    get :show, path: '/:differentiation/:id', as: :show
+    get :active, on: :collection
+    get :advanced, on: :collection
+    get :expelled, on: :collection
+    get :learner, on: :collection
+    get :non_communicating, on: :collection, path: '/non-communicating'
+  end
 
+  namespace :redesign, path: '/' do
     resources :organizations, :only => :index
 
     get '/feeds/cops' => 'cops#feed', :format => 'atom'

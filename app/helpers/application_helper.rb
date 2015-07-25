@@ -81,7 +81,7 @@ module ApplicationHelper
 
   def cop_link(cop, navigation=nil)
     differentiation = navigation || cop.differentiation_level_with_default
-    show_redesign_cops_path(differentiation: differentiation, id: cop.id)
+    show_cops_path(differentiation: differentiation, id: cop.id)
   end
 
   def participant_link(organization, navigation=nil)

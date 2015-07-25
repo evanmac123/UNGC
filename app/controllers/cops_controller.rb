@@ -1,4 +1,4 @@
-class Redesign::CopsController < Redesign::ApplicationController
+class CopsController < Redesign::ApplicationController
 
   def index
     set_current_container_by_path('/participation/report/cop/create-and-submit')
