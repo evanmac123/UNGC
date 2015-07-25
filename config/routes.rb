@@ -267,9 +267,9 @@ UNGC::Application.routes.draw do
     get :non_communicating, on: :collection, path: '/non-communicating'
   end
 
-  namespace :redesign, path: '/' do
-    resources :organizations, :only => :index
+  resources :organizations, :only => :index
 
+  namespace :redesign, path: '/' do
     get '/feeds/cops' => 'cops#feed', :format => 'atom'
 
     get 'photo-credits' => "images#index", as: :photo_credits

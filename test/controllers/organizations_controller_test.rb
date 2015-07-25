@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Redesign::OrganizationsControllerTest < ActionController::TestCase
+class OrganizationsControllerTest < ActionController::TestCase
   context "given a json request to index" do
     setup do
       @climate    = create_initiative(:id => 2, :name => 'Caring for Climate')
@@ -121,4 +121,3 @@ class Redesign::OrganizationsControllerTest < ActionController::TestCase
     end
   end
 end
-
