@@ -1,4 +1,4 @@
-class Redesign::SignupController < Redesign::ApplicationController
+class SignupController < Redesign::ApplicationController
   before_filter :load_organization_signup
   before_filter :load_page
 
@@ -32,7 +32,7 @@ class Redesign::SignupController < Redesign::ApplicationController
     end
 
     if !@signup.valid?
-      redirect_to redesign_organization_step1_path(:org_type => @signup.org_type)
+      redirect_to organization_step1_path(:org_type => @signup.org_type)
     end
   end
 
@@ -44,12 +44,12 @@ class Redesign::SignupController < Redesign::ApplicationController
       store_organization_signup
     end
 
-    @next_step = @signup.business? ? redesign_organization_step4_path : redesign_organization_step6_path
+    @next_step = @signup.business? ? organization_step4_path : organization_step6_path
 
     if @signup.valid_primary_contact?
       @signup.prepare_ceo
     else
-      redirect_to redesign_organization_step2_path
+      redirect_to organization_step2_path
     end
   end
 
@@ -62,7 +62,7 @@ class Redesign::SignupController < Redesign::ApplicationController
     end
 
     unless @signup.valid_ceo?
-      redirect_to redesign_organization_step3_path
+      redirect_to organization_step3_path
     end
 
     # highlight amount by assigning CSS class
@@ -82,9 +82,9 @@ class Redesign::SignupController < Redesign::ApplicationController
 
     case
     when @signup.pledge_incomplete?
-      redirect_to redesign_organization_step4_path
+      redirect_to organization_step4_path
     when !@signup.require_pledge?
-      redirect_to redesign_organization_step6_path
+      redirect_to organization_step6_path
     else
       # render step5 form
     end
@@ -101,7 +101,7 @@ class Redesign::SignupController < Redesign::ApplicationController
       end
 
       if !@signup.financial_contact.valid? && !@signup.primary_contact.is?(Role.financial_contact)
-        redirect_to redesign_organization_step5_path
+        redirect_to organization_step5_path
       end
     # coming from step3 or 4
     else
@@ -111,7 +111,7 @@ class Redesign::SignupController < Redesign::ApplicationController
       end
 
       unless @signup.valid_ceo?
-        redirect_to redesign_organization_step3_path
+        redirect_to organization_step3_path
       end
     end
   end
@@ -132,7 +132,7 @@ class Redesign::SignupController < Redesign::ApplicationController
       session[:is_jci_referral] = nil
     else
       @signup.organization.commitment_letter = nil
-      redirect_to redesign_organization_step6_path
+      redirect_to organization_step6_path
     end
   end
 

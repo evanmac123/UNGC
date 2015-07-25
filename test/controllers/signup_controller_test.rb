@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Redesign::SignupControllerTest < ActionController::TestCase
+class SignupControllerTest < ActionController::TestCase
   context "given an organization that wants to sign up" do
     setup do
       # TODO remove this on redesign launch
@@ -79,7 +79,7 @@ class Redesign::SignupControllerTest < ActionController::TestCase
       post :step2, organization: {name: 'ACME inc',
                                   url: 'http://www.example.com',
                                   organization_type_id: OrganizationType.sme}
-      assert_redirected_to redesign_organization_step1_path({org_type: 'business'})
+      assert_redirected_to organization_step1_path({org_type: 'business'})
     end
 
     should "get the third step page after posting contact details" do
@@ -120,7 +120,7 @@ class Redesign::SignupControllerTest < ActionController::TestCase
                                            organization_type_id: @non_business_organization_type.id})
       post :step3, contact: @signup_contact
       assert_template 'step3'
-      assert_equal redesign_organization_step6_path, assigns(:next_step)
+      assert_equal organization_step6_path, assigns(:next_step)
     end
 
     should "as a business should get the fifth step page after selecting a contribution amount" do
@@ -140,7 +140,7 @@ class Redesign::SignupControllerTest < ActionController::TestCase
       @signup.set_organization_attributes({name: 'ACME inc',
                                            organization_type_id: OrganizationType.first.id})
       post :step5, organization: {pledge_amount: 0, no_pledge_reason: 'budget'}
-      assert_redirected_to redesign_organization_step6_path
+      assert_redirected_to organization_step6_path
     end
 
     should "as a business should be redirected to 4 step page if they don't select a reason for not pledging" do
@@ -148,7 +148,7 @@ class Redesign::SignupControllerTest < ActionController::TestCase
       @signup.set_organization_attributes({name: 'ACME inc',
                                            organization_type_id: OrganizationType.first.id})
       post :step5, organization: {pledge_amount: 0}
-      assert_redirected_to redesign_organization_step4_path
+      assert_redirected_to organization_step4_path
     end
 
     should "get the sixth step page after posting ceo contact details" do
@@ -243,4 +243,3 @@ class Redesign::SignupControllerTest < ActionController::TestCase
   end
 
 end
-

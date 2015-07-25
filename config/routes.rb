@@ -244,19 +244,18 @@ UNGC::Application.routes.draw do
     get '/:region/:network' => :show, as: :networks_show , constraints: { region: /africa|asia|europe|latin-america|mena|north-america|oceania/ }
   end
 
+  controller :signup, path: '/participation/join/application/' do
+    get   '/'                 => 'signup#index', :as => :signup
+    get   '/step1/:org_type'  => 'signup#step1', :as => :organization_step1
+    match '/step2'            => 'signup#step2', :as => :organization_step2, via: [:get, :post]
+    match '/step3'            => 'signup#step3', :as => :organization_step3, via: [:get, :post]
+    match '/step4'            => 'signup#step4', :as => :organization_step4, via: [:get, :post]
+    match '/step5'            => 'signup#step5', :as => :organization_step5, via: [:get, :post]
+    match '/step6'            => 'signup#step6', :as => :organization_step6, via: [:get, :post]
+    post  '/step7'            => 'signup#step7', :as => :organization_step7
+  end
+
   namespace :redesign, path: '/' do
-
-    controller :signup, path: '/participation/join/application/' do
-      get   '/'                 => 'signup#index', :as => :signup
-      get   '/step1/:org_type'  => 'signup#step1', :as => :organization_step1
-      match '/step2'            => 'signup#step2', :as => :organization_step2, via: [:get, :post]
-      match '/step3'            => 'signup#step3', :as => :organization_step3, via: [:get, :post]
-      match '/step4'            => 'signup#step4', :as => :organization_step4, via: [:get, :post]
-      match '/step5'            => 'signup#step5', :as => :organization_step5, via: [:get, :post]
-      match '/step6'            => 'signup#step6', :as => :organization_step6, via: [:get, :post]
-      post  '/step7'            => 'signup#step7', :as => :organization_step7
-    end
-
     get '/participation/report/coe/create-and-submit/submitted-coe' => "cops#submitted_coe"
     get '/participation/report/coe/create-and-submit/submitted-coe/:id' => "cops#show", as: :coe
     resource :cops, path: '/participation/report/cop/create-and-submit' do
