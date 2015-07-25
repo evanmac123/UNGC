@@ -1,4 +1,4 @@
-class Redesign::NetworksController < Redesign::ApplicationController
+class NetworksController < Redesign::ApplicationController
   def show
     name = params[:network]
     network = LocalNetwork.where("lower(name) = ?", name.downcase).first!
@@ -9,7 +9,6 @@ class Redesign::NetworksController < Redesign::ApplicationController
     region = params[:region]
     set_current_container_by_path "/engage-locally/#{region}"
     @page = EngageLocallyRegionPage.new(current_container, current_payload_data, region)
-    render 'redesign/static/engage_locally'
   end
 
   def redirect_to_network

@@ -18,7 +18,7 @@
           <ul class='regions-nav-countries'>
             <%- networks.each do |network| -%>
               <li class='regions-nav-country'>
-                <%= link_to network.name, redesign_networks_show_path(region.region_param, network.name.downcase) %>
+                <%= link_to network.name, networks_show_path(region.region_param, network.name.downcase) %>
               </li>
             <%- end %>
           </ul>
