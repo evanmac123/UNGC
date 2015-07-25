@@ -266,12 +266,11 @@ UNGC::Application.routes.draw do
     get :learner, on: :collection
     get :non_communicating, on: :collection, path: '/non-communicating'
   end
+  get '/feeds/cops' => 'cops#feed', :format => 'atom'
 
   resources :organizations, :only => :index
 
   namespace :redesign, path: '/' do
-    get '/feeds/cops' => 'cops#feed', :format => 'atom'
-
     get 'photo-credits' => "images#index", as: :photo_credits
 
     get '/search'   => 'search#search',     as: :search
