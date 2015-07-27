@@ -8,7 +8,7 @@ class CopsController < Redesign::ApplicationController
       current_payload_data
     )
 
-    render("/redesign/static/" + current_container.layout)
+    render "static/#{current_container.layout}"
   end
 
   def active

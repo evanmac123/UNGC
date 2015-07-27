@@ -7,6 +7,8 @@ class SignupControllerTest < ActionController::TestCase
       create_staff_user
       sign_in @staff_user
 
+      create_container path: '/participation/join/application', layout: :article
+
       create_roles
       create_organization_type
       @country = create_country
@@ -55,6 +57,12 @@ class SignupControllerTest < ActionController::TestCase
         email: 'michael@example.com',
         role_ids: [Role.financial_contact.id]
       }
+    end
+
+    should 'get index' do
+      get :index
+      assert_response :success
+      assert_not_nil assigns(:page)
     end
 
     should "get the first step page" do

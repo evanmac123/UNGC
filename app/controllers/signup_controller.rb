@@ -8,7 +8,7 @@ class SignupController < Redesign::ApplicationController
   def index
     set_current_container_by_default_path
     @page = ArticlePage.new(current_container, current_payload_data)
-    render "redesign/static/#{current_container.layout}"
+    render "static/#{current_container.layout}"
   end
 
   # shows organization form

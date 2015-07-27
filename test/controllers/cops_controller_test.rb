@@ -1,6 +1,13 @@
 require 'test_helper'
 
 class CopsControllerTest < ActionController::TestCase
+  test 'should get index' do
+    create_container path: '/participation/report/cop/create-and-submit'
+
+    get :index
+    assert_response :success
+    assert_not_nil assigns(:page)
+  end
 
   should "link to a COP" do
     expected = "/participation/report/cop/create-and-submit/learner/#{cop.id}"
