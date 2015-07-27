@@ -270,9 +270,9 @@ UNGC::Application.routes.draw do
 
   resources :organizations, :only => :index
 
-  namespace :redesign, path: '/' do
-    get 'photo-credits' => "images#index", as: :photo_credits
+  get '/photo-credits' => "images#index", as: :photo_credits
 
+  namespace :redesign, path: '/' do
     get '/search'   => 'search#search',     as: :search
 
     get '/'         => 'static#home',       as: :root

@@ -1,4 +1,4 @@
-class Redesign::ImagesController < Redesign::ApplicationController
+class ImagesController < Redesign::ApplicationController
   def index
     @images = UploadedImage.
       where(has_licensing: true).
