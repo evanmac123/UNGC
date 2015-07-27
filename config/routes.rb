@@ -274,10 +274,10 @@ UNGC::Application.routes.draw do
 
   get '/search'   => 'search#search',     as: :search
 
-  namespace :redesign, path: '/' do
-    get '/'         => 'static#home',       as: :root
-    get '/layout-sample' => 'static#layout_sample', as: :layout_sample
+  get '/'         => 'static#home',       as: :root
+  get '/layout-sample' => 'static#layout_sample', as: :layout_sample
 
+  namespace :redesign, path: '/' do
     # REDIRECTS
     get '/AboutTheGC/global_compact_strategy.html' => 'static#redirect_to_page', page: '/what-is-gc/strategy'
     get '/AboutTheGC/TheTenPrinciples/index.html' => 'static#redirect_to_page', page: '/what-is-gc/mission/principles'
@@ -481,10 +481,10 @@ UNGC::Application.routes.draw do
     get ':leadsymposiumonline', to: redirect('http://un.banks-sadler.com'), :constraints => { :leadsymposiumonline => /leadsymposiumonline/i }
     get ':gc15', to: redirect('/take-action/events/31-global-compact-15-business-as-a-force-for-good'), :constraints => { :gc15 => /gc15/i }
     get '/HowToParticipate/Organization_Information.html', to: redirect('/participation/join/application/non-business')
-
-    # CATCH ALL
-    get '*path'     => 'static#catch_all',  as: :catch_all, :constraints => { :format => 'html' }
   end
+
+  # CATCH ALL
+  get '*path'     => 'static#catch_all',  as: :catch_all, :constraints => { :format => 'html' }
 
   mount Ckeditor::Engine => "/ckeditor"
 end

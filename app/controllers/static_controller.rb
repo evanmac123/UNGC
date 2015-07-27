@@ -1,4 +1,4 @@
-class Redesign::StaticController < Redesign::ApplicationController
+class StaticController < Redesign::ApplicationController
   def home
     set_current_container :home
     @page = HomePage.new(current_container, current_payload_data)
@@ -41,12 +41,12 @@ class Redesign::StaticController < Redesign::ApplicationController
   end
 
   def render_404
-    render '/redesign/static/not_found', status: 404
+    render '/static/not_found', status: 404
   end
 
   def layout_template_path(layout)
     # assumes .html and .erb
-    Rails.root.join("app", "views", "redesign", "static", "#{layout}.html.erb")
+    Rails.root.join("app", "views", "static", "#{layout}.html.erb")
   end
 
 end

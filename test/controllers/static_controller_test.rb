@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Redesign::StaticControllerTest < ActionController::TestCase
+class StaticControllerTest < ActionController::TestCase
   setup do
     create_staff_user
     sign_in @staff_user
