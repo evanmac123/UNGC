@@ -1,4 +1,4 @@
-class Redesign::ContainerForm < Redesign::FilterableForm
+class Redesign::ContainerForm < FilterableForm
   include Virtus.model
   include Redesign::FilterMacros
 

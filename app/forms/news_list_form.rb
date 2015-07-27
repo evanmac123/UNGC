@@ -1,4 +1,4 @@
-class NewsListForm < Redesign::FilterableForm
+class NewsListForm < FilterableForm
   include Virtus.model
   include Redesign::FilterMacros
 

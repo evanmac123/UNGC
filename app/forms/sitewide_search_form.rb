@@ -1,4 +1,4 @@
-class Redesign::SitewideSearchForm
+class SitewideSearchForm
   include Virtus.model
 
   attribute :keywords,      String,   default: ''
@@ -53,7 +53,7 @@ class Redesign::SitewideSearchForm
   end
 
   def escaped_keywords
-    Redesign::SearchEscaper.escape(keywords)
+    SearchEscaper.escape(keywords)
   end
 
   def facet_options

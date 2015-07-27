@@ -7,12 +7,12 @@
     <div id='main-navigation-trigger'><div><span></span></div></div>
 
     <nav id='main-navigation-container'>
-      <%= form_for :s, as: :search, url: redesign_search_path, method: :get, html: {id: 'main-search'} do |form| %>
+      <%= form_for :s, as: :search, url: search_path, method: :get, html: {id: 'main-search'} do |form| %>
         <div id='main-search-filters'>
           <fieldset>
 
             <%= label_tag 'search_type_all' do %>All<% end %>
-            <%= radio_button_tag 'search[type]', :all, true, 'data-action' => redesign_search_path -%>
+            <%= radio_button_tag 'search[type]', :all, true, 'data-action' => search_path -%>
 
             <%= label_tag 'search_type_participants' do %>Participants<% end %>
             <%= radio_button_tag 'search[type]', :participants , false, 'data-action' => participant_search_path-%>

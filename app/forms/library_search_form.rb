@@ -1,4 +1,4 @@
-class LibrarySearchForm < Redesign::FilterableForm
+class LibrarySearchForm < FilterableForm
   include Virtus.model
   include Redesign::FilterMacros
 

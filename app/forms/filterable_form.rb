@@ -1,4 +1,4 @@
-class Redesign::FilterableForm
+class FilterableForm
 
   def active_filters
     filters.flat_map(&:selected_options)
@@ -55,7 +55,7 @@ class Redesign::FilterableForm
   end
 
   def escape(keywords)
-    Redesign::SearchEscaper.escape(keywords)
+    SearchEscaper.escape(keywords)
   end
 
   def materialized_filters

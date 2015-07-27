@@ -272,9 +272,9 @@ UNGC::Application.routes.draw do
 
   get '/photo-credits' => "images#index", as: :photo_credits
 
-  namespace :redesign, path: '/' do
-    get '/search'   => 'search#search',     as: :search
+  get '/search'   => 'search#search',     as: :search
 
+  namespace :redesign, path: '/' do
     get '/'         => 'static#home',       as: :root
     get '/layout-sample' => 'static#layout_sample', as: :layout_sample
 

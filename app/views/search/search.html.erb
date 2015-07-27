@@ -1,7 +1,7 @@
 <%= render partial: 'redesign/components/meta_tags' %>
 <%= render partial: 'redesign/components/hero' %>
 
-<%= form_for @search, as: :search, url: redesign_search_path, method: :get, html: {id: 'filters-form'} do |f| %>
+<%= form_for @search, as: :search, url: search_path, method: :get, html: {id: 'filters-form'} do |f| %>
 
   <header>
     <h1>Search</h1>

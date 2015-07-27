@@ -8,3 +8,4 @@
 //= require participant-search
 //= require_tree ./news
 //= require cop-list
+//= require search
