@@ -1,4 +1,4 @@
-module Redesign::ParticipantSearchHelper
+module ParticipantSearchHelper
 
   def participants_table(search, results)
     options = {
