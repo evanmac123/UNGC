@@ -19,9 +19,8 @@ Rails.application.config.assets.precompile += %w(
   themes/apple/style.css
   public-resources.css
   redesign.css
-  redesign.js
   sitemap.css
   sitemap.js
   redesign/sample.css
-  redesign-sample.js
+  sample.js
 )
