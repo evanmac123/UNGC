@@ -12,8 +12,8 @@ Rails.application.config.assets.precompile += %w(
   ckeditor/*
   admin.css
   admin.js
-  ie.css
-  print.css
+  admin/ie.css
+  admin/print.css
   google_analytics.js
   welcome_letter.css
   themes/apple/style.css
