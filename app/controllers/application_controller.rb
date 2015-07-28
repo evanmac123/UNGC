@@ -15,20 +15,6 @@ class ApplicationController < ActionController::Base
   rescue_from ActiveRecord::RecordNotFound, :with => :catch_all
   rescue_from ThinkingSphinx::ConnectionError, with: :search_offline
 
-  def catch_all
-    path = request.path.sub(/^\/redesign/, '')
-    set_current_container_by_path(path)
-
-    @page = page_for_container(current_container).new(
-      current_container,
-      current_payload_data
-    )
-
-    render("/redesign/static/" + current_container.layout)
-  rescue ActiveRecord::RecordNotFound
-    render '/redesign/static/not_found', status: 404
-  end
-
   # Override Devise Settings
   def after_sign_in_path_for(contact)
     if contact.from_rejected_organization?
