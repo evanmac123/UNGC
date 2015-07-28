@@ -1,6 +1,6 @@
 class ParticipantSearchForm < FilterableForm
   include Virtus.model
-  include Redesign::FilterMacros
+  include FilterMacros
 
   attribute :organization_types,  Array[Integer], default: []
   attribute :initiatives,         Array[Integer], default: []

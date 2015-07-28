@@ -1,6 +1,6 @@
 class EventsListForm < FilterableForm
   include Virtus.model
-  include Redesign::FilterMacros
+  include FilterMacros
 
   attribute :page,        Integer,        default: 1
   attribute :per_page,    Integer,        default: 12

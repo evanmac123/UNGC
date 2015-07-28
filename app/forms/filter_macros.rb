@@ -1,4 +1,4 @@
-module Redesign::FilterMacros
+module FilterMacros
 
   def self.included(clazz)
     clazz.extend ClassMethods
