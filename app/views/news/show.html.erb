@@ -1,6 +1,6 @@
-<%= render 'redesign/components/meta_tags' %>
+<%= render 'components/meta_tags' %>
 <%# Body %>
-<%= render 'redesign/components/hero' %>
+<%= render 'components/hero' %>
 
 <section class='main-content-section main-content-section-narrow'>
   <div class='wrapper'>
@@ -11,8 +11,8 @@
       <%= @page.description.html_safe %>
     </section>
 
-    <%= render layout: 'redesign/components/sidebar' do %>
-      <%= render layout: 'redesign/components/widget_social_links' do %>
+    <%= render layout: 'components/sidebar' do %>
+      <%= render layout: 'components/widget_social_links' do %>
         <%-
         wsl_title = u @page.title
         wsl_url   = u request.original_url

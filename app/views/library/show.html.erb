@@ -1,5 +1,5 @@
-<%= render partial: 'redesign/components/meta_tags' %>
-<%= render partial: 'redesign/components/hero' %>
+<%= render partial: 'components/meta_tags' %>
+<%= render partial: 'components/hero' %>
 
 <section class='main-content-section'>
   <div class='wrapper'>
@@ -13,22 +13,22 @@
 
       <time datetime="<%= year = @resource.year -%>" class='resource-year'>(<%= year.to_date.year %>)</time>
 
-      <%= render layout: 'redesign/components/resource_attributes_list', locals: {attributes: @resource.topics, title: 'Topics'} do |a| %>
+      <%= render layout: 'components/resource_attributes_list', locals: {attributes: @resource.topics, title: 'Topics'} do |a| %>
         <%- search_hash = a.parent.present? ? {topics: [a.id]} : {topic_groups: [a.id]} -%>
         <%= link_to a.name, library_search_path(search: search_hash) -%>
       <% end %>
 
-      <%= render layout: 'redesign/components/resource_attributes_list', locals: {attributes: @resource.issues, title: 'Issues'} do |a| %>
+      <%= render layout: 'components/resource_attributes_list', locals: {attributes: @resource.issues, title: 'Issues'} do |a| %>
         <%- search_hash = a.parent.present? ? {issues: [a.id]} : {issue_groups: [a.id]} -%>
         <%= link_to a.name, library_search_path(search: search_hash) -%>
       <% end %>
 
-      <%= render layout: 'redesign/components/resource_attributes_list', locals: {attributes: @resource.sectors, title: 'Sectors'} do |a| %>
+      <%= render layout: 'components/resource_attributes_list', locals: {attributes: @resource.sectors, title: 'Sectors'} do |a| %>
         <%- search_hash = a.parent.present? ? {sectors: [a.id]} : {sector_groups: [a.id]} -%>
         <%= link_to a.name, library_search_path(search: search_hash) -%>
       <% end %>
 
-      <%= render layout: 'redesign/components/resource_attributes_list', locals: {attributes: @resource.authors, title: 'Authors'} do |a| %>
+      <%= render layout: 'components/resource_attributes_list', locals: {attributes: @resource.authors, title: 'Authors'} do |a| %>
         <%= a.full_name -%>
       <% end %>
 
@@ -50,8 +50,8 @@
 
     </section>
 
-    <%= render layout: 'redesign/components/sidebar' do %>
-        <%= render 'redesign/components/widget_image', image: {src: "//www.unglobalcompact.org#{@resource.cover_image(:show, retina: true)}", alt: @resource.title} %>
+    <%= render layout: 'components/sidebar' do %>
+        <%= render 'components/widget_image', image: {src: "//www.unglobalcompact.org#{@resource.cover_image(:show, retina: true)}", alt: @resource.title} %>
     <% end %>
   </div>
 </section>

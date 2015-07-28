@@ -6,7 +6,7 @@ module ParticipantSearchHelper
       sort_field: search.sort_field,
       sort_direction: search.sort_direction
     }
-    raw(render 'redesign/components/participants_table', options)
+    raw(render 'components/participants_table', options)
   end
 
   def sort_headers(sort_field, sort_direction)

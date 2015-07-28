@@ -1,8 +1,8 @@
-<%= render partial: 'redesign/components/meta_tags' %>
-<%= render partial: 'redesign/components/hero' %>
+<%= render partial: 'components/meta_tags' %>
+<%= render partial: 'components/hero' %>
 
 <%= render 'form', title: "Featured Resources" %>
 
-<%= render layout: 'redesign/components/content_blocks', locals: {classes: 'library', blocks: @page.featured} do |block| %>
-  <%= render 'redesign/components/resource_block', block: block %>
+<%= render layout: 'components/content_blocks', locals: {classes: 'library', blocks: @page.featured} do |block| %>
+  <%= render 'components/resource_block', block: block %>
 <% end %>

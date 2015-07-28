@@ -104,7 +104,7 @@ module ApplicationHelper
       options[:child_filter] = filter.child_key
     end
 
-    raw render('redesign/components/filter_options_list', options)
+    raw render('components/filter_options_list', options)
   end
 
   def active_filters(search)
@@ -113,6 +113,6 @@ module ApplicationHelper
       disabled: search.disabled?
     }
 
-    raw render('redesign/components/active_filters_list', options)
+    raw render('components/active_filters_list', options)
   end
 end

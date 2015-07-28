@@ -14,14 +14,14 @@
     <%= javascript_include_tag 'redesign-sample' %>
   </head>
   <body>
-    <%= render 'redesign/components/main_header' %>
+    <%= render 'components/main_header' %>
 
     <main>
       <%= yield %>
     </main>
 
-    <%= render 'redesign/components/main_footer' %>
+    <%= render 'components/main_footer' %>
 
-    <%= render 'redesign/components/legacy_browsers_notice' %>
+    <%= render 'components/legacy_browsers_notice' %>
   </body>
 </html>

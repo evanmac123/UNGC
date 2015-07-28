@@ -1,6 +1,6 @@
-<%= render partial: 'redesign/components/meta_tags' %>
+<%= render partial: 'components/meta_tags' %>
 
-<%= render 'redesign/components/hero' %>
+<%= render 'components/hero' %>
 
 <%= form_for @search, as: :search, url: actions_path, method: :get, html: {id: 'filters-form'}  do |form| %>
   <fieldset class='filter-lists'>
@@ -12,8 +12,8 @@
   <%= form.submit 'Search', class: 'accessible-submit' %>
 <% end %>
 
-<%= render layout: 'redesign/components/content_blocks', locals: {blocks: @page.actions} do |block| %>
-  <%= render 'redesign/components/content_block', title: block.title, url: block.url, thumbnail: block.thumbnail, tag: t(block.issue) %>
+<%= render layout: 'components/content_blocks', locals: {blocks: @page.actions} do |block| %>
+  <%= render 'components/content_block', title: block.title, url: block.url, thumbnail: block.thumbnail, tag: t(block.issue) %>
 <% end %>
 
 <%- if @page.actions.empty? -%>

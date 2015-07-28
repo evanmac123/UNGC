@@ -1,6 +1,6 @@
-<%= render partial: 'redesign/components/meta_tags' %>
+<%= render partial: 'components/meta_tags' %>
 <%# Body %>
-<%= render partial: 'redesign/components/hero' %>
+<%= render partial: 'components/hero' %>
 
 <%- if content = @page.main_content_section -%>
   <section class='main-content-section'>
@@ -14,20 +14,20 @@
       </section>
 
       <%- if sidebar = @page.sidebar_widgets -%>
-        <%= render layout: 'redesign/components/sidebar' do %>
-          <%= render 'redesign/components/widget_contact', contact: sidebar.contact %>
+        <%= render layout: 'components/sidebar' do %>
+          <%= render 'components/widget_contact', contact: sidebar.contact %>
 
-          <%= render 'redesign/components/widget_calls_to_action', calls_to_action: sidebar.calls_to_action %>
+          <%= render 'components/widget_calls_to_action', calls_to_action: sidebar.calls_to_action %>
 
-          <%= render 'redesign/components/widget_links_lists', links_lists: sidebar.links_lists %>
+          <%= render 'components/widget_links_lists', links_lists: sidebar.links_lists %>
         <% end %>
       <%- end -%>
     </div>
   </section>
 <%- end -%>
 
-<%= render layout: 'redesign/components/content_blocks', locals: {classes: 'resources', title: 'From our Library', blocks: @page.resources} do |block| %>
-  <%= render 'redesign/components/resource_block', block: block %>
+<%= render layout: 'components/content_blocks', locals: {classes: 'resources', title: 'From our Library', blocks: @page.resources} do |block| %>
+  <%= render 'components/resource_block', block: block %>
 <% end %>
 
-<%= render partial: 'redesign/components/events_news' %>
+<%= render partial: 'components/events_news' %>

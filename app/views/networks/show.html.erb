@@ -1,5 +1,5 @@
-<%= render partial: 'redesign/components/meta_tags' %>
-<%= render partial: 'redesign/components/hero' %>
+<%= render partial: 'components/meta_tags' %>
+<%= render partial: 'components/hero' %>
 
 <section class='main-content-section main-content-section-wide local-network-main-content'>
   <div class='wrapper'>
@@ -37,10 +37,10 @@
       </section>
 
       <%- if sidebar = @page.sidebar_widgets -%>
-        <%= render layout: 'redesign/components/sidebar' do %>
-          <%= render 'redesign/components/widget_contact', contact: sidebar.contact, network_representative: sidebar.network_representative %>
+        <%= render layout: 'components/sidebar' do %>
+          <%= render 'components/widget_contact', contact: sidebar.contact, network_representative: sidebar.network_representative %>
 
-          <%= render 'redesign/components/widget_calls_to_action', calls_to_action: sidebar.calls_to_action %>
+          <%= render 'components/widget_calls_to_action', calls_to_action: sidebar.calls_to_action %>
         <% end %>
       <%- end -%>
 

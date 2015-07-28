@@ -31,11 +31,11 @@
         <%= link_to(hero_data[:link][:label], hero_data[:link][:url], class: 'button') if hero_data[:link] && hero_data[:link][:url] -%>
       </div>
 
-      <%= render('redesign/components/issues_nav') if hero_data[:show_issues_nav] %>
+      <%= render('components/issues_nav') if hero_data[:show_issues_nav] %>
 
-      <%= render('redesign/components/nav_section') if hero_data[:show_section_nav] %>
+      <%= render('components/nav_section') if hero_data[:show_section_nav] %>
 
-      <%= render('redesign/components/regions_nav') if hero_data[:show_regions_nav] %>
+      <%= render('components/regions_nav') if hero_data[:show_regions_nav] %>
     </div>
   </header>
 <%- end -%>

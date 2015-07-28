@@ -14,13 +14,13 @@
     <%= csrf_meta_tags %>
   </head>
   <body>
-    <%= render 'redesign/components/main_header' %>
+    <%= render 'components/main_header' %>
 
     <main>
       <%= yield %>
     </main>
 
-    <%= render 'redesign/components/main_footer' %>
+    <%= render 'components/main_footer' %>
 
     <%  if current_contact && current_contact.from_ungc? %>
       <%= content_tag(:small, "Last updated: #{current_payload.updated_at.strftime('%a %b %-d, %Y at %l:%M %p %Z')}") if current_payload%>
@@ -29,7 +29,7 @@
       </small>
     <% end %>
 
-    <%= render 'redesign/components/legacy_browsers_notice' %>
+    <%= render 'components/legacy_browsers_notice' %>
 
     <%# Google Translate %>
     <script type="text/javascript">

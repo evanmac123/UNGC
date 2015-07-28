@@ -1,5 +1,5 @@
-<%= render partial: 'redesign/components/meta_tags' %>
-<%= render partial: 'redesign/components/hero' %>
+<%= render partial: 'components/meta_tags' %>
+<%= render partial: 'components/hero' %>
 
 <%- @page.main_content_sections.each do |section| -%>
   <section class='main-content-section <%= section[:classes] -%>' style="<%= section[:styles] -%>">
@@ -14,8 +14,8 @@
         </section>
 
         <%- if section[:image] -%>
-          <%= render layout: 'redesign/components/sidebar' do %>
-            <%= render 'redesign/components/widget_image', image: section[:image] %>
+          <%= render layout: 'components/sidebar' do %>
+            <%= render 'components/widget_image', image: section[:image] %>
           <% end %>
         <%- end -%>
       </div>
@@ -23,6 +23,6 @@
   </section>
 <%- end -%>
 
-<%= render layout: 'redesign/components/content_blocks', locals: {title: 'From our Library', blocks: @page.resources} do |block| %>
-  <%= render 'redesign/components/resource_block', block: block %>
+<%= render layout: 'components/content_blocks', locals: {title: 'From our Library', blocks: @page.resources} do |block| %>
+  <%= render 'components/resource_block', block: block %>
 <% end %>

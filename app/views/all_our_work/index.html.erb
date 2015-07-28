@@ -1,7 +1,7 @@
 
-<%= render partial: 'redesign/components/meta_tags' %>
+<%= render partial: 'components/meta_tags' %>
 
-<%= render 'redesign/components/hero' %>
+<%= render 'components/hero' %>
 
 <%= form_for @search, as: :search, url: all_our_work_path, method: :get, html: {id: 'filters-form'}  do |form| %>
   <fieldset class='filter-lists'>
@@ -14,8 +14,8 @@
 <% end %>
 
 
-<%= render layout: 'redesign/components/content_blocks', locals: {blocks: @page.issues} do |block| %>
-  <%= render 'redesign/components/content_block', title: block.title, url: block.url, thumbnail: block.thumbnail, tag: t(block.issue) %>
+<%= render layout: 'components/content_blocks', locals: {blocks: @page.issues} do |block| %>
+  <%= render 'components/content_block', title: block.title, url: block.url, thumbnail: block.thumbnail, tag: t(block.issue) %>
 <% end %>
 
 <%- if @page.issues.empty? -%>

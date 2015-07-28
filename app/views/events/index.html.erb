@@ -1,6 +1,6 @@
-<%= render partial: 'redesign/components/meta_tags' %>
+<%= render partial: 'components/meta_tags' %>
 
-<%= render partial: 'redesign/components/hero' %>
+<%= render partial: 'components/hero' %>
 
 <%= form_for @search, as: :search, url: events_path, method: :get, html: {id: 'filters-form'}  do |form| %>
 
@@ -26,8 +26,8 @@
 <% end %>
 
 <%- if @page.events.any? -%>
-  <%= render layout: 'redesign/components/content_blocks', locals: {blocks: @page.events} do |event| %>
-    <%= render 'redesign/components/content_block',
+  <%= render layout: 'components/content_blocks', locals: {blocks: @page.events} do |event| %>
+    <%= render 'components/content_block',
       type: 'event',
       title: event.title,
       url: event_path(event),

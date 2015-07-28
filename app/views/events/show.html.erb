@@ -1,5 +1,5 @@
-<%= render partial: 'redesign/components/meta_tags' %>
-<%= render partial: 'redesign/components/hero' %>
+<%= render partial: 'components/meta_tags' %>
+<%= render partial: 'components/hero' %>
 
 
 <section class='main-content-section main-content-section-wide event-detail-main-content'>
@@ -30,7 +30,7 @@
           <%= @page.description.try(:html_safe) %>
         </div>
 
-        <%= render layout: 'redesign/components/sidebar' do %>
+        <%= render layout: 'components/sidebar' do %>
 
           <article class='widget widget-event-date-and-location<%= @page.contact.present? ? " event-has-contact" : nil -%>'>
             <time class='event-date' datetime="<%= @page.date.iso -%>"><span><%= @page.date.string_with_time -%></span></time>
@@ -40,9 +40,9 @@
             <%- end -%>
           </article>
 
-          <%= render 'redesign/components/widget_contact', contact: @page.contact if @page.contact.present?%>
+          <%= render 'components/widget_contact', contact: @page.contact if @page.contact.present?%>
 
-          <%= render 'redesign/components/widget_calls_to_action', calls_to_action: @page.calls_to_action if @page.calls_to_action.any? %>
+          <%= render 'components/widget_calls_to_action', calls_to_action: @page.calls_to_action if @page.calls_to_action.any? %>
         <%- end -%>
       </article>
 
