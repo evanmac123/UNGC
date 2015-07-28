@@ -5,7 +5,7 @@ class StaticController < ApplicationController
   end
 
   def layout_sample
-    render layout: 'redesign/sample'
+    render layout: 'sample'
     @is_sample_layout = true
   end
 
