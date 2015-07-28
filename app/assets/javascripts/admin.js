@@ -13,7 +13,7 @@
 //= require jquery-1.7.2
 //= require jquery_ujs
 //= require jquery-ui
-//= require_tree ./admin/
+//= require_tree ./admin
 //= require moment
 //= require ckeditor/init
 //= require jquery.parsequery.min
@@ -23,10 +23,6 @@
 //= require jquery.tree.min
 //= require chosen.jquery.min
 //= require_self
-//= require cop_form
-//= require dashboard
-//= require page_editor
-//= require organization_signup
 //= require retina
 
 // Array Remove - By John Resig (MIT Licensed)
