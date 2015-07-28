@@ -17,9 +17,8 @@ Rails.application.config.assets.precompile += %w(
   google_analytics.js
   welcome_letter.css
   themes/apple/style.css
-  redesign.css
   sitemap.css
   sitemap.js
-  redesign/sample.css
+  sample.css
   sample.js
 )
