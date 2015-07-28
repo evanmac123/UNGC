@@ -11,6 +11,7 @@ Rails.application.config.assets.version = '1.0'
 Rails.application.config.assets.precompile += %w(
   ckeditor/*
   admin.css
+  admin.js
   ie.css
   print.css
   google_analytics.js
