@@ -32,6 +32,16 @@ Array.prototype.remove = function(from, to) {
   return this.push.apply(this, rest);
 };
 
+$(function() {
+  if ($('.datepicker').length > 0) {
+    $('.datepicker').not('.iso-date').datepicker({ showAnim: 'slide' });
+    $('.datepicker').filter('.iso-date').datepicker({ showAnim: 'slide', dateFormat: 'yy-mm-dd' });
+    $('#participant_search .datepicker').datepicker("option", "yearRange", "2000:+0");
+    $('.datepicker.iso-date.registration').datepicker("option", "yearRange", "1900:+0");
+  }
+
+});
+
 /***** Ready? Aim? Fire! jQuery stuff by Wes *****/
 $(document).ready(function() {
   var box_height = $('#session_info ul').innerHeight();
