@@ -1,4 +1,4 @@
-class OrganizationsController < Redesign::ApplicationController
+class OrganizationsController < ApplicationController
   def index
     page        = params[:page] || 1
     per_page    = params[:per_page] || Organization.per_page

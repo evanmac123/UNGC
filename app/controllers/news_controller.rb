@@ -1,4 +1,4 @@
-class NewsController < Redesign::ApplicationController
+class NewsController < ApplicationController
   def index
     set_current_container_by_path '/news'
     @page = NewsPage.new(current_container, current_payload_data)

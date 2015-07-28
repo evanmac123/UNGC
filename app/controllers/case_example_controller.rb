@@ -1,4 +1,4 @@
-class CaseExampleController < Redesign::ApplicationController
+class CaseExampleController < ApplicationController
 
   def new
     @case_example = CaseExampleForm.new

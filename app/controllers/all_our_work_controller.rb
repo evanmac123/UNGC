@@ -1,4 +1,4 @@
-class AllOurWorkController < Redesign::ApplicationController
+class AllOurWorkController < ApplicationController
 
   def index
     set_current_container_by_path '/what-is-gc/our-work/all'

@@ -1,4 +1,4 @@
-class SearchController < Redesign::ApplicationController
+class SearchController < ApplicationController
 
   def search
     @search = SitewideSearchForm.new(search_params)

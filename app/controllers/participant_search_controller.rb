@@ -1,4 +1,4 @@
-class ParticipantSearchController < Redesign::ApplicationController
+class ParticipantSearchController < ApplicationController
 
   def index
     set_current_container_by_path '/what-is-gc/participants'

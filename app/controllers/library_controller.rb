@@ -1,4 +1,4 @@
-class LibraryController < Redesign::ApplicationController
+class LibraryController < ApplicationController
 
   def index
     set_current_container :library, '/library'

@@ -1,4 +1,4 @@
-class SignupController < Redesign::ApplicationController
+class SignupController < ApplicationController
   before_filter :load_organization_signup
   before_filter :load_page
 

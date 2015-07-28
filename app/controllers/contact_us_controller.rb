@@ -1,4 +1,4 @@
-class ContactUsController < Redesign::ApplicationController
+class ContactUsController < ApplicationController
 
   def new
     @contact_us = ContactUsForm.new

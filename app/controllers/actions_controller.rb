@@ -1,4 +1,4 @@
-class ActionsController < Redesign::ApplicationController
+class ActionsController < ApplicationController
   def index
     set_current_container_by_path '/take-action/action'
     @search = WhatYouCanDoForm.new(search_params, seed)
