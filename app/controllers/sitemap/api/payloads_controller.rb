@@ -1,6 +1,6 @@
 class Sitemap::Api::PayloadsController < Sitemap::ApiController
   def index
-    container = Redesign::Container.find(params[:container])
+    container = Container.find(params[:container])
     payloads  = container.payloads.order(created_at: :desc).limit(10).load
 
     render_json data: payloads.map(&method(:serialize))

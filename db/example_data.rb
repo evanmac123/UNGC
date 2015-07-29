@@ -299,7 +299,7 @@ module FixtureReplacement
     t.name = FixtureReplacement.random_string
   end
 
-  attributes_for :container, class: Redesign::Container do |c|
+  attributes_for :container, class: Container do |c|
     c.layout = :home
     c.slug = FixtureReplacement.random_string
   end

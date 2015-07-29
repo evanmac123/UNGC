@@ -1,4 +1,4 @@
-class Redesign::Container < ActiveRecord::Base
+class Container < ActiveRecord::Base
   LEADING_OR_TRAILING_SLASH = /\A\/|\/\Z/
 
   include RankedModel
@@ -38,12 +38,12 @@ class Redesign::Container < ActiveRecord::Base
     action: 2
   }
 
-  belongs_to :parent_container, class_name: 'Redesign::Container'
+  belongs_to :parent_container, class_name: 'Container'
   belongs_to :public_payload, class_name: 'Redesign::Payload'
   belongs_to :draft_payload, class_name: 'Redesign::Payload'
 
   # TODO remove this and rely on the Taggable concern once we drop the redesign prefix.
-  has_many :taggings, foreign_key: 'redesign_container_id'
+  has_many :taggings, foreign_key: 'container_id'
 
   has_many :payloads, class_name: 'Redesign::Payload'
 
@@ -62,7 +62,7 @@ class Redesign::Container < ActiveRecord::Base
   validates :slug, uniqueness: { scope: :parent_container_id }
 
   scope :by_path, -> (paths) {
-    normalized_paths = Array(paths).map {|p| Redesign::Container.normalize_slug(p)}
+    normalized_paths = Array(paths).map {|p| Container.normalize_slug(p)}
     sanitized_order = self.sanitize_sql "field(path, '#{normalized_paths.join('\',\'')}')"
     where('path in (?)',  normalized_paths).order(sanitized_order)
   }
@@ -93,11 +93,11 @@ class Redesign::Container < ActiveRecord::Base
   end
 
   def slug=(raw)
-    write_attribute :slug, Redesign::Container.normalize_slug(raw)
+    write_attribute :slug, Container.normalize_slug(raw)
   end
 
   def path=(raw)
-    write_attribute :path, Redesign::Container.normalize_slug(raw)
+    write_attribute :path, Container.normalize_slug(raw)
   end
 
   def data=(raw_draft_data)
@@ -123,7 +123,7 @@ class Redesign::Container < ActiveRecord::Base
   end
 
   def child_containers
-    Redesign::Container.where(parent_container_id: id).order(:sort_order, :path)
+    Container.where(parent_container_id: id).order(:sort_order, :path)
   end
 
   def branch_ids
@@ -147,7 +147,7 @@ class Redesign::Container < ActiveRecord::Base
   def schedule_notify_previous_parent_of_child_association_change
     return unless parent_container_id_changed?
     return unless previous_parent_id = parent_container_id_was
-    @previous_parent = Redesign::Container.find(previous_parent_id)
+    @previous_parent = Container.find(previous_parent_id)
     true
   end
 
@@ -161,7 +161,7 @@ class Redesign::Container < ActiveRecord::Base
 
   # TODO make private
   def calculate_path
-    p = Redesign::Container.find(self.parent_container_id).path + self.slug
+    p = Container.find(self.parent_container_id).path + self.slug
     '/' + p.split('/').reject(&:blank?).join('/')
   end
 

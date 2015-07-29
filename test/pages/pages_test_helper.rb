@@ -1,7 +1,7 @@
 module PagesTestHelper
 
   def create_container_with_payload(path, title, layout: :home, parent: nil)
-    c = Redesign::Container.create({
+    c = Container.create({
       slug: path,
       path: path,
       layout: layout,

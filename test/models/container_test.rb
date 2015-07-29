@@ -1,8 +1,8 @@
 require 'test_helper'
 
-class Redesign::ContainerTest < ActiveSupport::TestCase
+class ContainerTest < ActiveSupport::TestCase
   def create_container!(attrs = {})
-    Redesign::Container.create!({
+    Container.create!({
       layout: :article,
       slug: rand.to_s,
       path: rand.to_s
@@ -10,11 +10,11 @@ class Redesign::ContainerTest < ActiveSupport::TestCase
   end
 
   should 'normalize slugs' do
-    assert_equal '/cool', Redesign::Container.normalize_slug('cool')
-    assert_equal '/cool', Redesign::Container.normalize_slug('Cool')
-    assert_equal '/cool', Redesign::Container.normalize_slug('/Cool')
-    assert_equal '/cool', Redesign::Container.normalize_slug('/Cool/')
-    assert_equal '/cool', Redesign::Container.normalize_slug('COOL/')
+    assert_equal '/cool', Container.normalize_slug('cool')
+    assert_equal '/cool', Container.normalize_slug('Cool')
+    assert_equal '/cool', Container.normalize_slug('/Cool')
+    assert_equal '/cool', Container.normalize_slug('/Cool/')
+    assert_equal '/cool', Container.normalize_slug('COOL/')
   end
 
   should 'normalize #path on set' do

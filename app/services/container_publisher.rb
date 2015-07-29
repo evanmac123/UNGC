@@ -53,13 +53,13 @@ class ContainerPublisher
     draft.tags.each do |type, ids|
       tag_type = to_domain_type(type)
       ids.each do |id|
-        params = {redesign_container_id: @container.id}
+        params = {container_id: @container.id}
         params[tag_type] = id
         Tagging.where(params).first_or_create!
       end
 
       Tagging
-        .where(redesign_container_id: @container.id)
+        .where(container_id: @container.id)
         .where("#{tag_type}_id is not NULL")
         .where.not("#{tag_type}_id" => ids)
         .destroy_all

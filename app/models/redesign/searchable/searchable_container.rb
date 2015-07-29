@@ -2,7 +2,7 @@ class Redesign::Searchable::SearchableContainer < Redesign::Searchable::Base
   alias_method :container, :model
 
   def self.all
-    Redesign::Container.published
+    Container.published
   end
 
   def document_type

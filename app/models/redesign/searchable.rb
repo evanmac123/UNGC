@@ -84,7 +84,7 @@ class Redesign::Searchable < ActiveRecord::Base
       # this hardcoded map
       @searchable_map ||= {
         CommunicationOnProgress => Redesign::Searchable::SearchableCommunicationOnProgress,
-        Redesign::Container => Redesign::Searchable::SearchableContainer,
+        Container => Redesign::Searchable::SearchableContainer,
         Headline => Redesign::Searchable::SearchableHeadline,
         Organization => Redesign::Searchable::SearchableOrganization,
         Resource => Redesign::Searchable::SearchableResource,

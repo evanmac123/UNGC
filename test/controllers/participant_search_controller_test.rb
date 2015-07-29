@@ -4,7 +4,7 @@ class ParticipantSearchControllerTest < ActionController::TestCase
   setup do
     create_staff_user
     sign_in @staff_user
-    Redesign::Container.stubs(by_path: stub(first!: container))
+    Container.stubs(by_path: stub(first!: container))
   end
 
   context 'the search form' do

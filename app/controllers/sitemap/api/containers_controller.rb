@@ -2,7 +2,7 @@ class Sitemap::Api::ContainersController < Sitemap::ApiController
   before_action :authorize_editor!, only: [:publish]
 
   def create
-    container = Redesign::Container.create(container_create_params)
+    container = Container.create(container_create_params)
 
     if container.valid?
       render_json data: serialize(container), status: 200
@@ -19,7 +19,7 @@ class Sitemap::Api::ContainersController < Sitemap::ApiController
       update_params[:data] = data
     end
 
-    container = Redesign::Container.find(params[:id])
+    container = Container.find(params[:id])
 
     draft = ContainerDraft.new(container, current_contact)
 
@@ -31,7 +31,7 @@ class Sitemap::Api::ContainersController < Sitemap::ApiController
   end
 
   def publish
-    container = Redesign::Container.
+    container = Container.
       includes(:draft_payload, :public_payload).
       find(params[:id])
 
@@ -46,12 +46,12 @@ class Sitemap::Api::ContainersController < Sitemap::ApiController
   end
 
   def show
-    container = Redesign::Container.find(params[:id])
+    container = Container.find(params[:id])
     render_json data: serialize(container)
   end
 
   def index
-    scope = Redesign::Container.order(:sort_order, :path)
+    scope = Container.order(:sort_order, :path)
 
     containers = if params[:root]
       scope.where(parent_container_id: nil)
@@ -65,12 +65,12 @@ class Sitemap::Api::ContainersController < Sitemap::ApiController
   end
 
   def needs_approval
-    containers = Redesign::Container.where(has_draft: true).order(:path)
+    containers = Container.where(has_draft: true).order(:path)
     render_json data: containers.load.map(&method(:serialize))
   end
 
   def destroy
-    container = Redesign::Container.find(params[:id])
+    container = Container.find(params[:id])
     if !container.draggable
       render text: "This page can not be deleted", status: 422
     elsif container.child_containers.count > 0
@@ -102,7 +102,7 @@ class Sitemap::Api::ContainersController < Sitemap::ApiController
 
   def validate_layout_data!
 
-    if Redesign::Container.layouts[container_params[:layout]]
+    if Container.layouts[container_params[:layout]]
       layout_class = "#{container_params[:layout]}_layout".classify.constantize
     else
       render_errors [{

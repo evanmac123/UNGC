@@ -12,7 +12,7 @@ class Tagging < ActiveRecord::Base
   # subjects
   belongs_to :headline
   belongs_to :organization
-  belongs_to :redesign_container, class_name: "Redesign::Container"
+  belongs_to :container
   belongs_to :resource
 
   # TODO replace the existing principles join tables with implementations here
@@ -24,7 +24,7 @@ class Tagging < ActiveRecord::Base
   end
 
   def subject
-    headline ||organization ||redesign_container || resource
+    headline || organization || container || resource
   end
 
   def content

@@ -14,7 +14,7 @@ class StaticControllerTest < ActionController::TestCase
     end
 
     should 'resolve a container that exists with the provided path' do
-      container = Redesign::Container.create!(
+      container = Container.create!(
         path: '/i/am/exist',
         layout: :article
       )
