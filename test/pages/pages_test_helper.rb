@@ -8,7 +8,7 @@ module PagesTestHelper
       parent_container: parent
     })
 
-    p = Redesign::Payload.create({
+    p = Payload.create({
       container_id: c.id,
       data: {
         meta_tags: {

@@ -304,7 +304,7 @@ module FixtureReplacement
     c.slug = FixtureReplacement.random_string
   end
 
-  attributes_for :payload, class: Redesign::Payload do |p|
+  attributes_for :payload, class: Payload do |p|
     p.container_id = new_container.id
     p.json_data = '{}'
   end

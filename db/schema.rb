@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150728224143) do
+ActiveRecord::Schema.define(version: 20150730234717) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -824,6 +824,17 @@ ActiveRecord::Schema.define(version: 20150728224143) do
   add_index "pages", ["path"], name: "index_pages_on_path", using: :btree
   add_index "pages", ["version_number"], name: "index_pages_on_version_number", using: :btree
 
+  create_table "payloads", force: :cascade do |t|
+    t.integer  "container_id",   limit: 4,     null: false
+    t.text     "json_data",      limit: 65535, null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.integer  "created_by_id",  limit: 4
+    t.integer  "updated_by_id",  limit: 4
+    t.integer  "approved_by_id", limit: 4
+    t.datetime "approved_at"
+  end
+
   create_table "principles", force: :cascade do |t|
     t.string   "name",       limit: 255
     t.integer  "old_id",     limit: 4
@@ -839,17 +850,6 @@ ActiveRecord::Schema.define(version: 20150728224143) do
     t.integer  "resource_id",  limit: 4
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
-  end
-
-  create_table "redesign_payloads", force: :cascade do |t|
-    t.integer  "container_id",   limit: 4,     null: false
-    t.text     "json_data",      limit: 65535, null: false
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-    t.integer  "created_by_id",  limit: 4
-    t.integer  "updated_by_id",  limit: 4
-    t.integer  "approved_by_id", limit: 4
-    t.datetime "approved_at"
   end
 
   create_table "redesign_searchables", force: :cascade do |t|

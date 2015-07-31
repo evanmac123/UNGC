@@ -39,13 +39,13 @@ class Container < ActiveRecord::Base
   }
 
   belongs_to :parent_container, class_name: 'Container'
-  belongs_to :public_payload, class_name: 'Redesign::Payload'
-  belongs_to :draft_payload, class_name: 'Redesign::Payload'
+  belongs_to :public_payload, class_name: 'Payload'
+  belongs_to :draft_payload, class_name: 'Payload'
 
   # TODO remove this and rely on the Taggable concern once we drop the redesign prefix.
   has_many :taggings, foreign_key: 'container_id'
 
-  has_many :payloads, class_name: 'Redesign::Payload'
+  has_many :payloads, class_name: 'Payload'
 
   before_save :schedule_notify_previous_parent_of_child_association_change
   before_save :update_path

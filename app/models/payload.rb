@@ -1,4 +1,4 @@
-class Redesign::Payload < ActiveRecord::Base
+class Payload < ActiveRecord::Base
   include TrackCurrentUser
   belongs_to :approved_by, :class_name => 'Contact', :foreign_key => :approved_by_id
 
@@ -29,7 +29,7 @@ class Redesign::Payload < ActiveRecord::Base
   end
 
   def copy
-    Redesign::Payload.create!(
+    Payload.create!(
       container_id: container_id,
       json_data:    json_data
     )
