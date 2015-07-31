@@ -1,4 +1,4 @@
-class Redesign::Tree
+class Tree
 
   def initialize(relation)
     @relation = relation

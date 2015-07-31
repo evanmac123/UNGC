@@ -1,4 +1,4 @@
-class Redesign::SectorTree < Redesign::Tree
+class SectorTree < Tree
 
   def initialize
     super(Sector.where.not(parent_id: nil)
@@ -10,6 +10,3 @@ class Redesign::SectorTree < Redesign::Tree
       end)
   end
 end
-
-
-

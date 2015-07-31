@@ -1,4 +1,4 @@
-class Redesign::IssueTree < Redesign::Tree
+class IssueTree < Tree
 
   def initialize
     super(Issue.where.not(parent_id: nil)

@@ -1,4 +1,4 @@
-class Redesign::TopicTree < Redesign::Tree
+class TopicTree < Tree
 
   def initialize
     super(Topic.where(parent_id: nil)
