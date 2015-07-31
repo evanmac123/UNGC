@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150730234717) do
+ActiveRecord::Schema.define(version: 20150731001514) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -728,6 +728,21 @@ ActiveRecord::Schema.define(version: 20150730234717) do
 
   add_index "non_business_organization_registrations", ["organization_id"], name: "index_non_business_organization_registrations_on_organization_id", using: :btree
 
+  create_table "old_searchables", force: :cascade do |t|
+    t.string   "title",             limit: 255
+    t.text     "content",           limit: 65535
+    t.string   "url",               limit: 255
+    t.string   "document_type",     limit: 255
+    t.datetime "last_indexed_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "delta",             limit: 1,     default: true, null: false
+    t.datetime "object_created_at"
+    t.datetime "object_updated_at"
+  end
+
+  add_index "old_searchables", ["id", "delta"], name: "index_old_searchables_on_id_and_delta", using: :btree
+
   create_table "organization_types", force: :cascade do |t|
     t.string   "name",          limit: 255
     t.integer  "type_property", limit: 4
@@ -923,21 +938,6 @@ ActiveRecord::Schema.define(version: 20150730234717) do
     t.string   "description",   limit: 255
     t.integer  "position",      limit: 4
   end
-
-  create_table "searchables", force: :cascade do |t|
-    t.string   "title",             limit: 255
-    t.text     "content",           limit: 65535
-    t.string   "url",               limit: 255
-    t.string   "document_type",     limit: 255
-    t.datetime "last_indexed_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.boolean  "delta",             limit: 1,     default: true, null: false
-    t.datetime "object_created_at"
-    t.datetime "object_updated_at"
-  end
-
-  add_index "searchables", ["id", "delta"], name: "index_searchables_on_id_and_delta", using: :btree
 
   create_table "sectors", force: :cascade do |t|
     t.string   "name",       limit: 255
