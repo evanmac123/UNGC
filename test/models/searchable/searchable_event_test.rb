@@ -1,13 +1,13 @@
 require 'test_helper'
 
-class Redesign::Searchable::SearchableEventTest < ActiveSupport::TestCase
+class Searchable::SearchableEventTest < ActiveSupport::TestCase
   include SearchableTagTests
   include SearchableModelTests
 
   should "NOT index an unapproved event" do
     create_event
-    assert_no_difference -> { Redesign::Searchable.count } do
-      Redesign::Searchable.index_all
+    assert_no_difference -> { Searchable.count } do
+      Searchable.index_all
     end
   end
 
@@ -33,7 +33,7 @@ class Redesign::Searchable::SearchableEventTest < ActiveSupport::TestCase
   alias_method :subject, :event
 
   def searchable
-    @searchable ||= Redesign::Searchable::SearchableEvent.new(event)
+    @searchable ||= Searchable::SearchableEvent.new(event)
   end
 
 end

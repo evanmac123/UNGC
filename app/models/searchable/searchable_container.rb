@@ -1,4 +1,4 @@
-class Redesign::Searchable::SearchableContainer < Redesign::Searchable::Base
+class Searchable::SearchableContainer < Searchable::Base
   alias_method :container, :model
 
   def self.all

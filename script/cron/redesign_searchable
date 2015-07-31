@@ -4,4 +4,4 @@ APP_DIR=/srv/unglobalcompact/current
 RAILS_ENV=production
 
 PATH=/usr/local/bin:$PATH
-(date && cd $APP_DIR && nice -n19 bundle exec rails runner -e $RAILS_ENV "STDOUT.sync = true; Redesign::Searchable.index_all") >> $APP_DIR/log/cron-redesign_searchable.log 2>&1
+(date && cd $APP_DIR && nice -n19 bundle exec rails runner -e $RAILS_ENV "STDOUT.sync = true; Searchable.index_all") >> $APP_DIR/log/cron-redesign_searchable.log 2>&1

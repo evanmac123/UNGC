@@ -7,7 +7,7 @@ class SitewideSearchForm
   attribute :document_type, String
 
   def facets
-    Redesign::Searchable.facets(escaped_keywords, facet_options)[:document_type].sort.map do |type, count|
+    Searchable.facets(escaped_keywords, facet_options)[:document_type].sort.map do |type, count|
       FacetPresenter.new(type, count, type == document_type)
     end
   end
@@ -40,12 +40,12 @@ class SitewideSearchForm
   private
 
   def faceted_search
-    matching_facets = Redesign::Searchable.facets(escaped_keywords, options)
+    matching_facets = Searchable.facets(escaped_keywords, options)
     matching_facets.for(document_type: document_type)
   end
 
   def keyword_search
-    Redesign::Searchable.search(escaped_keywords, options)
+    Searchable.search(escaped_keywords, options)
   end
 
   def empty_search

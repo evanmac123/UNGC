@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150731001514) do
+ActiveRecord::Schema.define(version: 20150731001515) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -867,20 +867,6 @@ ActiveRecord::Schema.define(version: 20150731001514) do
     t.datetime "updated_at",             null: false
   end
 
-  create_table "redesign_searchables", force: :cascade do |t|
-    t.datetime "last_indexed_at"
-    t.string   "url",             limit: 255
-    t.string   "document_type",   limit: 255
-    t.text     "title",           limit: 65535
-    t.text     "content",         limit: 65535
-    t.text     "meta",            limit: 65535
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "redesign_searchables", ["document_type", "url"], name: "index_redesign_searchables_on_document_type_and_url", using: :btree
-  add_index "redesign_searchables", ["url"], name: "index_redesign_searchables_on_url", using: :btree
-
   create_table "removal_reasons", force: :cascade do |t|
     t.string   "description", limit: 255
     t.integer  "old_id",      limit: 4
@@ -938,6 +924,20 @@ ActiveRecord::Schema.define(version: 20150731001514) do
     t.string   "description",   limit: 255
     t.integer  "position",      limit: 4
   end
+
+  create_table "searchables", force: :cascade do |t|
+    t.datetime "last_indexed_at"
+    t.string   "url",             limit: 255
+    t.string   "document_type",   limit: 255
+    t.text     "title",           limit: 65535
+    t.text     "content",         limit: 65535
+    t.text     "meta",            limit: 65535
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "searchables", ["document_type", "url"], name: "index_searchables_on_document_type_and_url", using: :btree
+  add_index "searchables", ["url"], name: "index_searchables_on_url", using: :btree
 
   create_table "sectors", force: :cascade do |t|
     t.string   "name",       limit: 255

@@ -1,4 +1,4 @@
-class Redesign::Searchable::SearchableHeadline < Redesign::Searchable::Base
+class Searchable::SearchableHeadline < Searchable::Base
   alias_method :headline, :model
 
   def self.all

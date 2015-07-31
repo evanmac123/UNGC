@@ -1,11 +1,11 @@
-class Redesign::Searchable < ActiveRecord::Base
+class Searchable < ActiveRecord::Base
 
   class << self
 
     attr_accessor :searchable_map
 
     def index_all
-      log.info "starting Redesign::Searchable.index_all"
+      log.info "starting Searchable.index_all"
 
       searchables.each do |searchable|
         searchable.all
@@ -83,12 +83,12 @@ class Redesign::Searchable < ActiveRecord::Base
       # Ideally classes that include Indexable would register themselves instead of
       # this hardcoded map
       @searchable_map ||= {
-        CommunicationOnProgress => Redesign::Searchable::SearchableCommunicationOnProgress,
-        Container => Redesign::Searchable::SearchableContainer,
-        Headline => Redesign::Searchable::SearchableHeadline,
-        Organization => Redesign::Searchable::SearchableOrganization,
-        Resource => Redesign::Searchable::SearchableResource,
-        Event => Redesign::Searchable::SearchableEvent,
+        CommunicationOnProgress => Searchable::SearchableCommunicationOnProgress,
+        Container => Searchable::SearchableContainer,
+        Headline => Searchable::SearchableHeadline,
+        Organization => Searchable::SearchableOrganization,
+        Resource => Searchable::SearchableResource,
+        Event => Searchable::SearchableEvent,
       }
     end
 

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Redesign::SearchableTest < ActiveSupport::TestCase
+class SearchableTest < ActiveSupport::TestCase
 
   setup do
     @first = create_approved_headline(title: 'one', date: Date.new(2000, 1, 1))
@@ -8,31 +8,31 @@ class Redesign::SearchableTest < ActiveSupport::TestCase
   end
 
   should "index searchables" do
-    assert_difference 'Redesign::Searchable.count', 2 do
-      Redesign::Searchable.index_all
+    assert_difference 'Searchable.count', 2 do
+      Searchable.index_all
     end
   end
 
   should "index new searchables" do
-    assert_difference 'Redesign::Searchable.count', 1 do
+    assert_difference 'Searchable.count', 1 do
       cutoff = Date.new(2004, 2, 2)
-      Redesign::Searchable.index_new_or_updated(cutoff)
+      Searchable.index_new_or_updated(cutoff)
     end
   end
 
   should "remove old searchables" do
-    Redesign::Searchable.index_all
-    assert_difference 'Redesign::Searchable.count', -1 do
-      Redesign::Searchable.remove(@first)
+    Searchable.index_all
+    assert_difference 'Searchable.count', -1 do
+      Searchable.remove(@first)
     end
   end
 
   should "update existing searchables" do
-    Redesign::Searchable.index_all
+    Searchable.index_all
     @first.update_attribute(:title, 'updated')
 
-    assert_no_difference 'Redesign::Searchable.count' do
-      Redesign::Searchable.index_all # re-index
+    assert_no_difference 'Searchable.count' do
+      Searchable.index_all # re-index
     end
 
     assert_equal 'updated', @first.title
@@ -41,8 +41,8 @@ class Redesign::SearchableTest < ActiveSupport::TestCase
   context "the searchable model" do
 
     setup do
-      Redesign::Searchable.index_all
-      @searchable = Redesign::Searchable.find_by(title: 'one')
+      Searchable.index_all
+      @searchable = Searchable.find_by(title: 'one')
     end
 
     should "set url" do

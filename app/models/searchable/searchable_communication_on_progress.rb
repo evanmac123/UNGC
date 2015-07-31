@@ -1,4 +1,4 @@
-class Redesign::Searchable::SearchableCommunicationOnProgress < Redesign::Searchable::Base
+class Searchable::SearchableCommunicationOnProgress < Searchable::Base
   alias_method :cop, :model
 
   def self.all

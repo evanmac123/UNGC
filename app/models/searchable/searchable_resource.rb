@@ -1,4 +1,4 @@
-class Redesign::Searchable::SearchableResource < Redesign::Searchable::Base
+class Searchable::SearchableResource < Searchable::Base
   alias_method :resource, :model
 
   def self.all

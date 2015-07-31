@@ -1,4 +1,4 @@
-class Redesign::Searchable::Base
+class Searchable::Base
   include ActionView::Helpers::SanitizeHelper
   include Rails.application.routes.url_helpers
 

@@ -1,34 +1,34 @@
 require 'test_helper'
 
-class Redesign::Searchable::SearchableContainerTest < ActiveSupport::TestCase
+class Searchable::SearchableContainerTest < ActiveSupport::TestCase
   include SearchableModelTests
   include SearchableTagTests
 
   should "not include a container with only a draft_payload" do
     create_container
-    Redesign::Searchable.index_all
-    assert_equal 0, Redesign::Searchable.all.count
+    Searchable.index_all
+    assert_equal 0, Searchable.all.count
   end
 
   should "include published containers" do
     create_published_contaner
-    Redesign::Searchable.index_all
-    assert_equal 1, Redesign::Searchable.all.count
+    Searchable.index_all
+    assert_equal 1, Searchable.all.count
   end
 
   should "have an empty title if there is no meta title" do
     container = published_container(data: {})
-    searchable = Redesign::Searchable::SearchableContainer.new(container)
+    searchable = Searchable::SearchableContainer.new(container)
     assert_equal '', searchable.title
   end
 
   should "index the title from the payload" do
-    searchable = Redesign::Searchable::SearchableContainer.new(published_container)
+    searchable = Searchable::SearchableContainer.new(published_container)
     assert_equal 'some title',  searchable.title
   end
 
   should "index the url from the container's path" do
-    searchable = Redesign::Searchable::SearchableContainer.new(published_container)
+    searchable = Searchable::SearchableContainer.new(published_container)
     assert_equal '/one/two/three', searchable.url
   end
 
@@ -55,7 +55,7 @@ class Redesign::Searchable::SearchableContainerTest < ActiveSupport::TestCase
       title1: 12345,
       key_with_no_value: nil,
     }
-    searchable = Redesign::Searchable::SearchableContainer.new(published_container(data: data))
+    searchable = Searchable::SearchableContainer.new(published_container(data: data))
     assert_equal 'meta_title meta_description one two', searchable.meta
   end
 
@@ -80,14 +80,14 @@ class Redesign::Searchable::SearchableContainerTest < ActiveSupport::TestCase
       title1: 12345,
       key_with_no_value: nil,
     }
-    searchable = Redesign::Searchable::SearchableContainer.new(published_container(data: data))
+    searchable = Searchable::SearchableContainer.new(published_container(data: data))
     assert_equal 'baseball nested-hash-value 12345', searchable.content
   end
 
   should "delete the searchable when the Container is deleted" do
     container = create_published_contaner
-    Redesign::Searchable.index_all
-    assert_difference 'Redesign::Searchable.count', -1 do
+    Searchable.index_all
+    assert_difference 'Searchable.count', -1 do
       container.destroy
     end
   end
@@ -95,17 +95,17 @@ class Redesign::Searchable::SearchableContainerTest < ActiveSupport::TestCase
   should "should replace the searchable when the container changes path" do
     # create and index a container
     container = create_published_contaner
-    Redesign::Searchable.index_all
+    Searchable.index_all
 
     # update the path and re-index
     container.update_attribute(:path, '/new/path')
-    Redesign::Searchable.index_all
+    Searchable.index_all
 
     # there should be a searchable with the new path
-    assert_not_nil Redesign::Searchable.find_by(url: '/new/path')
+    assert_not_nil Searchable.find_by(url: '/new/path')
 
     # there should no longer be a searchable with the old path
-    assert_nil Redesign::Searchable.find_by(url: '/one/two/three')
+    assert_nil Searchable.find_by(url: '/one/two/three')
   end
 
   private

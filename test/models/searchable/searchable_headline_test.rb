@@ -1,13 +1,13 @@
 require 'test_helper'
 
-class Redesign::Searchable::SearchableHeadlineTest < ActiveSupport::TestCase
+class Searchable::SearchableHeadlineTest < ActiveSupport::TestCase
   include SearchableTagTests
   include SearchableModelTests
 
   should "NOT index an unapproved headline" do
     create_headline
-    assert_no_difference -> { Redesign::Searchable.count } do
-      Redesign::Searchable.index_all
+    assert_no_difference -> { Searchable.count } do
+      Searchable.index_all
     end
   end
 

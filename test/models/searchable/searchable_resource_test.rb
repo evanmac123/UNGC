@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Redesign::Searchable::SearchableResourceTest < ActiveSupport::TestCase
+class Searchable::SearchableResourceTest < ActiveSupport::TestCase
   include SearchableModelTests
   include SearchableTagTests
 

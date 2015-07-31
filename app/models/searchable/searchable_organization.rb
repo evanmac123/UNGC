@@ -1,4 +1,4 @@
-class Redesign::Searchable::SearchableOrganization < Redesign::Searchable::Base
+class Searchable::SearchableOrganization < Searchable::Base
   alias_method :organization, :model
 
   def self.all

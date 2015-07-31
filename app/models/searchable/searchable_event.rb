@@ -1,4 +1,4 @@
-class Redesign::Searchable::SearchableEvent < Redesign::Searchable::Base
+class Searchable::SearchableEvent < Searchable::Base
   alias_method :event, :model
 
   def self.all
