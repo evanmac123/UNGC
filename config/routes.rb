@@ -475,6 +475,7 @@ UNGC::Application.routes.draw do
     get '/aboutthegc/contact_us.html', to: redirect('/about/contact')
     get '/howtoparticipate/business_participation/index.html', to: redirect('/participation/join')
     get '/newsandevents/event_calendar/webinars.html', to: redirect('/take-action/events')
+    get '/NewsAndEvents/event_calendar/webinars.html', to: redirect('/take-action/events')
     get '/Issues/financial_markets/global_compact_100.html', to: redirect('/take-action/action/global-compact-100')
 
     # old redirects porting
