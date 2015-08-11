@@ -52,7 +52,6 @@ class CopStatusUpdater
 
   def error(message, error=nil, params={})
     log("error", message)
-    debugger
     Honeybadger.notify(
       error_class:    "CopStatusUpdater",
       error_message:  "message #{error}",
