@@ -1,7 +1,7 @@
 namespace :db do
   desc "re-create the database from yesterday's production snapshot"
   task reset_from_snapshot: ["db:drop", "db:create", "db:schema:load", "environment"] do
-    raise "Must be run from the development environment" unless Rails.env.development?
+    raise "Must be NOT be run from the production environment" if Rails.env.production?
     host = 'unglobalcompact.org'
     user = 'rails'
 
@@ -31,19 +31,9 @@ namespace :db do
     password = config[Rails.env]["password"]
 
     cmd = ['mysql', '-D', database]
-
-    if username.present?
-      cmd << '-u'
-      cmd << username
-    end
-
-    if password.present?
-      cmd << '-p'
-      cmd << password
-    end
-
-    cmd << '<'
-    cmd << snapshot_path
+    cmd << "-u#{username}" if username.present?
+    cmd << "-p#{password}" if password.present?
+    cmd << "< #{snapshot_path}"
 
     system cmd.join(" ")
 
