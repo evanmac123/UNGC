@@ -54,7 +54,7 @@ class CopStatusUpdater
     log("error", message)
     Honeybadger.notify(
       error_class:    "CopStatusUpdater",
-      error_message:  "message #{error}",
+      error_message:  "#{message} #{error}",
       parameters:     params
     )
   end
