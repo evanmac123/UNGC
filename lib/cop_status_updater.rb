@@ -9,7 +9,7 @@ class CopStatusUpdater
   def move_active_organizations_to_noncommunicating
     info "Running move_active_organizations_to_noncommunicating"
     organizations = Organization.businesses.participants.active.about_to_become_noncommunicating
-    organizations.each do |organization|
+    organizations.find_each do |organization|
       move_to_noncommunicating(organization)
     end
   end
@@ -17,7 +17,7 @@ class CopStatusUpdater
   def move_noncommunicating_organizations_to_delisted
     info "Running move_noncommunicating_organizations_to_delisted"
     organizations = Organization.businesses.participants.active.about_to_become_delisted
-    organizations.each do |organization|
+    organizations.find_each do |organization|
       move_to_noncommunicating(organization)
       delist(organization)
     end
