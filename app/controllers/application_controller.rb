@@ -50,14 +50,6 @@ class ApplicationController < ActionController::Base
     "#{container.layout}_page".classify.constantize
   end
 
-  # TODO remove this on launch
-  def only_ungc_contacts!
-    unless current_contact.from_ungc?
-      flash[:error] = "You do not have permission to access that resource."
-      redirect_to dashboard_path
-    end
-  end
-
   def current_container
     @current_container
   end
