@@ -80,11 +80,8 @@ module ApplicationHelper
   end
 
   def cop_link(cop, navigation=nil)
-    if navigation
-      cop_detail_with_nav_path(navigation, cop.id)
-    else
-      show_redesign_cops_path(differentiation: cop.differentiation_level_with_default, id: cop.id)
-    end
+    differentiation = navigation || cop.differentiation_level_with_default
+    show_redesign_cops_path(differentiation: differentiation, id: cop.id)
   end
 
   def participant_link(organization, navigation=nil)
