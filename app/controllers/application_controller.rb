@@ -16,17 +16,18 @@ class ApplicationController < ActionController::Base
   rescue_from ThinkingSphinx::ConnectionError, with: :search_offline
 
   def catch_all
-    path = request.path.sub(/^\/redesign/, '')
+    render_container_at(request.path)
+  end
+
+  def render_container_at(path)
     set_current_container_by_path(path)
 
-    @page = page_for_container(current_container).new(
-      current_container,
-      current_payload_data
-    )
+    page_class = page_for_container(current_container)
+    @page = page_class.new(current_container, current_payload_data)
 
-    render("/redesign/static/" + current_container.layout)
+    render_default_template(current_container.layout)
   rescue ActiveRecord::RecordNotFound
-    render '/redesign/static/not_found', status: 404
+    render_404
   end
 
   # Override Devise Settings
@@ -120,4 +121,24 @@ class ApplicationController < ActionController::Base
   def mailer_set_url_options
     ActionMailer::Base.default_url_options[:host] = request.host_with_port
   end
+
+  private
+
+  def render_default_template(layout)
+    if File.exists? layout_template_path(layout)
+      render(layout.to_sym)
+    else
+      render_404
+    end
+  end
+
+  def render_404
+    render '/static/not_found', status: 404
+  end
+
+  def layout_template_path(layout)
+    # assumes .html and .erb
+    Rails.root.join("app", "views", "static", "#{layout}.html.erb")
+  end
+
 end
