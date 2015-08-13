@@ -8,7 +8,7 @@ class NewsFeedTest < ActionDispatch::IntegrationTest
   end
 
   test 'the news feed' do
-    visit redesign_feeds_news_path
+    visit feeds_news_path
 
     feed = Nokogiri::XML(page.body)
     link = feed.css("entry link[rel=alternate]").first

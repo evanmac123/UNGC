@@ -23,6 +23,6 @@
         %td= cop.differentiation_level_name
         %td
           %ul.actions
-            =popup_link_to 'View Details', show_redesign_cops_path(differentiation: cop.differentiation_level_with_default, id: cop), :title => "View COP Details", :class => "preview"
+            =popup_link_to 'View Details', show_cops_path(differentiation: cop.differentiation_level_with_default, id: cop), :title => "View COP Details", :class => "preview"
 
 = render partial: 'report_modal'

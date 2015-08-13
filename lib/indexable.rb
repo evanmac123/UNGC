@@ -5,11 +5,11 @@ module Indexable
   def self.included(receiver)
     receiver.class_eval do
       before_save do
-        Redesign::Searchable.update_url(self)
+        Searchable.update_url(self)
       end
 
       before_destroy do
-        Redesign::Searchable.remove(self)
+        Searchable.remove(self)
       end
     end
   end

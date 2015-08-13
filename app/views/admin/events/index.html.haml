@@ -16,7 +16,7 @@
         %td= event.full_location
         %td
           %ul.actions
-            %li= link_to 'Preview', redesign_event_path(event), class: 'preview', target: "_blank"
+            %li= link_to 'Preview', event_path(event), class: 'preview', target: "_blank"
             %li= link_to 'Approve', approve_admin_event_path(event), class: 'approve', method: :post if event.can_approve?
             %li= link_to 'Revoke', revoke_admin_event_path(event), class: 'revoke', method: :post if event.can_revoke?
             %li= link_to 'Edit', edit_admin_event_path(event), class: 'edit', :title => 'Edit details'

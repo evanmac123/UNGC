@@ -2,7 +2,7 @@
 
 %p
   Thank you for submitting your company's Communication on Progress (COP).
-  == It is now #{link_to "publicly available", show_redesign_cops_url(differentiation: @cop.differentiation_level_with_default, id: @cop.id)} on the Global Compact website.
+  == It is now #{link_to "publicly available", show_cops_url(differentiation: @cop.differentiation_level_with_default, id: @cop.id)} on the Global Compact website.
 
 %p== Your COP is missing <strong>#{@cop.number_missing_items}</strong> of the required elements:
 

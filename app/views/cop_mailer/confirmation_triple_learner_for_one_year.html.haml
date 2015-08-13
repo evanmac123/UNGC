@@ -2,7 +2,7 @@
 
 %p Thank you for submitting your company's Communication on Progress (COP) and for the effort you have invested. Our records show that your company's last two Communications on Progress (COPs) have not met all the required elements and that your latest submission is the third consecutive incomplete COP.
 
-%p== Your #{link_to "latest COP", show_redesign_cops_url(differentiation: @cop.differentiation_level_with_default, id: @cop)} is missing <strong>#{@cop.number_missing_items}</strong> of the required elements:
+%p== Your #{link_to "latest COP", show_cops_url(differentiation: @cop.differentiation_level_with_default, id: @cop)} is missing <strong>#{@cop.number_missing_items}</strong> of the required elements:
 
 %ul
   - unless @cop.include_continued_support_statement?

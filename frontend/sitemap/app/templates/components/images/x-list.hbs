@@ -1,0 +1,17 @@
+<table class="ungc-sitemap-table">
+  <thead>
+    <tr>
+      <th class='image-preview'>Preview</th>
+      <th class='image-filename'>Filename</th>
+      <th class='image-url'>URL</th>
+      <th class='image-destroy'>Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each model as |image|}}
+      {{images/x-image model=image}}
+    {{/each}}
+  </tbody>
+</table>
+
+{{page-numbers content=model}}

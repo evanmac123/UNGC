@@ -1,4 +1,4 @@
-ThinkingSphinx::Index.define :'redesign/searchable', :with => :active_record do
+ThinkingSphinx::Index.define :'searchable', :with => :active_record do
   indexes title
   indexes content
   indexes meta

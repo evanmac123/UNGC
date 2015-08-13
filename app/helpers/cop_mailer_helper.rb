@@ -5,12 +5,12 @@ module CopMailerHelper
       continent = Region.find_by(name: org.country.region).param
 
       if org.country.local_network
-        redesign_networks_show_url(continent, org.country.local_network.name.downcase)
+        networks_show_url(continent, org.country.local_network.name.downcase)
       else
         raise ActiveRecord::RecordNotFound
       end
     else
-      URI.join(redesign_root_url, '/engage-locally').to_s
+      URI.join(root_url, '/engage-locally').to_s
     end
   end
 

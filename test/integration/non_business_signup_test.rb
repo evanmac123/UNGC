@@ -24,7 +24,7 @@ class NonBusinessSignupTest < ActionDispatch::IntegrationTest
     fill_in 'Registration number', with: '12345'
 
     click_on 'Next'
-    assert_equal redesign_organization_step2_path, current_path, validation_errors
+    assert_equal organization_step2_path, current_path, validation_errors
 
     # step2
     fill_in 'Prefix', with: 'Mr.'
@@ -44,7 +44,7 @@ class NonBusinessSignupTest < ActionDispatch::IntegrationTest
     fill_in 'Password', with: 'xou5Eboh'
 
     click_on 'Next'
-    assert_equal redesign_organization_step3_path, current_path, validation_errors
+    assert_equal organization_step3_path, current_path, validation_errors
 
     # step 3
     fill_in 'Prefix', with: 'Ms.'
@@ -62,14 +62,14 @@ class NonBusinessSignupTest < ActionDispatch::IntegrationTest
     check('contact_welcome_package')
 
     click_on 'Next'
-    assert_equal redesign_organization_step6_path, current_path, validation_errors
+    assert_equal organization_step6_path, current_path, validation_errors
 
     # step 6
     fill_in 'non_business_organization_registration_mission_statement', with: 'This is my mission.'
     attach_file 'organization_commitment_letter', 'test/fixtures/files/untitled.pdf'
 
     click_on 'Submit'
-    assert_equal redesign_organization_step7_path, current_path, validation_errors
+    assert_equal organization_step7_path, current_path, validation_errors
 
     # verify
     # organization

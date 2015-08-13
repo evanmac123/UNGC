@@ -299,12 +299,12 @@ module FixtureReplacement
     t.name = FixtureReplacement.random_string
   end
 
-  attributes_for :container, class: Redesign::Container do |c|
+  attributes_for :container, class: Container do |c|
     c.layout = :home
     c.slug = FixtureReplacement.random_string
   end
 
-  attributes_for :payload, class: Redesign::Payload do |p|
+  attributes_for :payload, class: Payload do |p|
     p.container_id = new_container.id
     p.json_data = '{}'
   end

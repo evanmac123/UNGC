@@ -157,7 +157,7 @@ module UNGC
     end
 
     def self.containers
-      model = ::Redesign::Container
+      model = ::Container
       model.where(layout: model.layouts[layout])
     end
 

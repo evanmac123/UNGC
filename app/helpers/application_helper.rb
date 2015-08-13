@@ -81,14 +81,38 @@ module ApplicationHelper
 
   def cop_link(cop, navigation=nil)
     differentiation = navigation || cop.differentiation_level_with_default
-    show_redesign_cops_path(differentiation: differentiation, id: cop.id)
+    show_cops_path(differentiation: differentiation, id: cop.id)
   end
 
   def participant_link(organization, navigation=nil)
     if navigation
       participant_with_nav_path(navigation, organization)
     else
-      redesign_participant_path(organization)
+      participant_path(organization)
     end
+  end
+
+  def search_filter(filter, disabled: false)
+    options = {
+      label: filter.label,
+      filter: filter.key,
+      options: filter.options,
+      disabled: disabled,
+    }
+
+    if filter.child_key
+      options[:child_filter] = filter.child_key
+    end
+
+    raw render('components/filter_options_list', options)
+  end
+
+  def active_filters(search)
+    options = {
+      active_filters: search.active_filters,
+      disabled: search.disabled?
+    }
+
+    raw render('components/active_filters_list', options)
   end
 end

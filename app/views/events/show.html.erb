@@ -1,0 +1,73 @@
+<%= render partial: 'components/meta_tags' %>
+<%= render partial: 'components/hero' %>
+
+
+<section class='main-content-section main-content-section-wide event-detail-main-content'>
+  <div class='wrapper'>
+    <%= content_tag(:header, content_tag(:h1, @page.title), {class: 'main-content-header'}) %>
+
+    <section class='tabbed-component event-detail-body-wrapper <%= 'tabbed-component-has-multiple-tabs' if @page.tabs.any? -%>' data-has-navigation=true>
+      <%- if @page.tabs.any? %>
+        <menu class='tabs'>
+          <li class='tab'>
+            <button type='button' class='tab-overview active' data-tab-content='overview'>Overview</button>
+          </li>
+
+          <%- @page.tabs.each do |t| -%>
+            <li class='tab'>
+              <button type='button' class="tab-<%= t.slug %>" data-tab-content='<%= t.slug %>'><%= t.title %></button>
+            </li>
+          <%- end -%>
+        </menu>
+      <%- end -%>
+
+      <article class='tab-content overview active'>
+        <header class='tab-content-header'>
+          <h1>Overview</h1>
+        </header>
+
+        <div class='main-content-body'>
+          <%= @page.description.try(:html_safe) %>
+        </div>
+
+        <%= render layout: 'components/sidebar' do %>
+
+          <article class='widget widget-event-date-and-location<%= @page.contact.present? ? " event-has-contact" : nil -%>'>
+            <time class='event-date' datetime="<%= @page.date.iso -%>"><span><%= @page.date.string_with_time -%></span></time>
+
+            <%- if @page.location.present? -%>
+              <div class='event-location'><span><%= @page.location %></span></div>
+            <%- end -%>
+          </article>
+
+          <%= render 'components/widget_contact', contact: @page.contact if @page.contact.present?%>
+
+          <%= render 'components/widget_calls_to_action', calls_to_action: @page.calls_to_action if @page.calls_to_action.any? %>
+        <%- end -%>
+      </article>
+
+      <%- @page.tabs.each do |t| -%>
+        <article class='tab-content <%= t.slug %>'>
+          <header class='tab-content-header'>
+            <h1><%= t.title -%></h1>
+          </header>
+
+          <%- if t.sponsors.present? -%>
+            <ul class='sponsors-list'>
+              <%- t.sponsors.each do |s| -%>
+                <li class='sponsor-block'>
+                  <%= link_to image_tag(s.logo_url, alt: s.name), s.website_url %>
+                </li>
+              <%- end -%>
+            </ul>
+          <%- end -%>
+
+          <div class='main-content-body'>
+            <%= t.description.try(:html_safe) %>
+          </div>
+        </article>
+      <%- end -%>
+
+    </section>
+  </div>
+</section>
