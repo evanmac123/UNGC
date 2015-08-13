@@ -221,11 +221,6 @@ class Admin::ReportsController < AdminController
     render_report(report, "foundation_pledges_#{@year}_#{@month}.xls")
   end
 
-  def published_webpages
-    report = PublishedWebpages.new
-    render_report(report, "published_webpages_#{date_as_filename}.xls")
-  end
-
   private
 
   def contact_id

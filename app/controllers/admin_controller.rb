@@ -21,7 +21,6 @@ class AdminController < ApplicationController
         .paginate(page: params[:case_stories_page])
         .order('updated_at DESC')
       @pending_cops = CommunicationOnProgress.for_feed.paginate(page: params[:cops_page])
-      @pending_pages = Page.with_approval('pending').paginate(page: params[:pages_page]).order('updated_at DESC')
     elsif current_contact.from_network? || current_contact.from_regional_center?
       @local_network = current_contact.local_network
       @organizations = Organization.visible_to(current_contact)

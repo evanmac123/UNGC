@@ -11,16 +11,14 @@ Rails.application.config.assets.version = '1.0'
 Rails.application.config.assets.precompile += %w(
   ckeditor/*
   admin.css
-  ie.css
-  print.css
+  admin.js
+  admin/ie.css
+  admin/print.css
   google_analytics.js
   welcome_letter.css
   themes/apple/style.css
-  public-resources.css
-  redesign.css
-  redesign.js
-  redesign-admin.css
-  redesign-admin.js
-  redesign/sample.css
-  redesign-sample.js
+  sitemap.css
+  sitemap.js
+  sample.css
+  sample.js
 )

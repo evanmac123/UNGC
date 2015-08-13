@@ -25,19 +25,19 @@ class TaggingTest < ActiveSupport::TestCase
     assert_equal tagging.subject, organization
   end
 
-  should "tag redesign_container with author" do
+  should "tag container with author" do
     author = create_author
-    redesign_container = create_container
-    tagging = Tagging.create! author: author, redesign_container: redesign_container
+    container = create_container
+    tagging = Tagging.create! author: author, container: container
     assert_not_nil tagging
     assert_equal tagging.domain, author
-    assert_equal tagging.subject, redesign_container
+    assert_equal tagging.subject, container
   end
 
   should "tag container with author" do
     author = create_author
     container = create_container
-    tagging = Tagging.create! author: author, redesign_container: container
+    tagging = Tagging.create! author: author, container: container
     assert_not_nil tagging
     assert_equal tagging.domain, author
     assert_equal tagging.subject, container
@@ -61,19 +61,19 @@ class TaggingTest < ActiveSupport::TestCase
     assert_equal tagging.subject, organization
   end
 
-  should "tag redesign_container with topic" do
+  should "tag container with topic" do
     topic = create_topic
-    redesign_container = create_container
-    tagging = Tagging.create! topic: topic, redesign_container: redesign_container
+    container = create_container
+    tagging = Tagging.create! topic: topic, container: container
     assert_not_nil tagging
     assert_equal tagging.domain, topic
-    assert_equal tagging.subject, redesign_container
+    assert_equal tagging.subject, container
   end
 
   should "tag container with topic" do
     topic = create_topic
     container = create_container
-    tagging = Tagging.create! topic: topic, redesign_container: container
+    tagging = Tagging.create! topic: topic, container: container
     assert_not_nil tagging
     assert_equal tagging.domain, topic
     assert_equal tagging.subject, container
@@ -97,19 +97,19 @@ class TaggingTest < ActiveSupport::TestCase
     assert_equal tagging.subject, organization
   end
 
-  should "tag redesign_container with issue" do
+  should "tag container with issue" do
     issue = create_issue
-    redesign_container = create_container
-    tagging = Tagging.create! issue: issue, redesign_container: redesign_container
+    container = create_container
+    tagging = Tagging.create! issue: issue, container: container
     assert_not_nil tagging
     assert_equal tagging.domain, issue
-    assert_equal tagging.subject, redesign_container
+    assert_equal tagging.subject, container
   end
 
   should "tag container with issue" do
     issue = create_issue
     container = create_container
-    tagging = Tagging.create! issue: issue, redesign_container: container
+    tagging = Tagging.create! issue: issue, container: container
     assert_not_nil tagging
     assert_equal tagging.domain, issue
     assert_equal tagging.subject, container
@@ -133,19 +133,19 @@ class TaggingTest < ActiveSupport::TestCase
     assert_equal tagging.subject, organization
   end
 
-  should "tag redesign_container with principle" do
+  should "tag container with principle" do
     principle = create_principle
-    redesign_container = create_container
-    tagging = Tagging.create! principle: principle, redesign_container: redesign_container
+    container = create_container
+    tagging = Tagging.create! principle: principle, container: container
     assert_not_nil tagging
     assert_equal tagging.domain, principle
-    assert_equal tagging.subject, redesign_container
+    assert_equal tagging.subject, container
   end
 
   should "tag container with principle" do
     principle = create_principle
     container = create_container
-    tagging = Tagging.create! principle: principle, redesign_container: container
+    tagging = Tagging.create! principle: principle, container: container
     assert_not_nil tagging
     assert_equal tagging.domain, principle
     assert_equal tagging.subject, container
@@ -169,19 +169,19 @@ class TaggingTest < ActiveSupport::TestCase
     assert_equal tagging.subject, organization
   end
 
-  should "tag redesign_container with principle_area" do
+  should "tag container with principle_area" do
     principle_area = create_principle_area
-    redesign_container = create_container
-    tagging = Tagging.create! principle: principle_area, redesign_container: redesign_container
+    container = create_container
+    tagging = Tagging.create! principle: principle_area, container: container
     assert_not_nil tagging
     assert_equal tagging.domain, principle_area
-    assert_equal tagging.subject, redesign_container
+    assert_equal tagging.subject, container
   end
 
   should "tag container with principle_area" do
     principle_area = create_principle_area
     container = create_container
-    tagging = Tagging.create! principle: principle_area, redesign_container: container
+    tagging = Tagging.create! principle: principle_area, container: container
     assert_not_nil tagging
     assert_equal tagging.domain, principle_area
     assert_equal tagging.subject, container
@@ -205,19 +205,19 @@ class TaggingTest < ActiveSupport::TestCase
     assert_equal tagging.subject, organization
   end
 
-  should "tag redesign_container with country" do
+  should "tag container with country" do
     country = create_country
-    redesign_container = create_container
-    tagging = Tagging.create! country: country, redesign_container: redesign_container
+    container = create_container
+    tagging = Tagging.create! country: country, container: container
     assert_not_nil tagging
     assert_equal tagging.domain, country
-    assert_equal tagging.subject, redesign_container
+    assert_equal tagging.subject, container
   end
 
   should "tag container with country" do
     country = create_country
     container = create_container
-    tagging = Tagging.create! country: country, redesign_container: container
+    tagging = Tagging.create! country: country, container: container
     assert_not_nil tagging
     assert_equal tagging.domain, country
     assert_equal tagging.subject, container
@@ -241,19 +241,19 @@ class TaggingTest < ActiveSupport::TestCase
     assert_equal tagging.subject, organization
   end
 
-  should "tag redesign_container with initiative" do
+  should "tag container with initiative" do
     initiative = create_initiative
-    redesign_container = create_container
-    tagging = Tagging.create! initiative: initiative, redesign_container: redesign_container
+    container = create_container
+    tagging = Tagging.create! initiative: initiative, container: container
     assert_not_nil tagging
     assert_equal tagging.domain, initiative
-    assert_equal tagging.subject, redesign_container
+    assert_equal tagging.subject, container
   end
 
   should "tag container with initiative" do
     initiative = create_initiative
     container = create_container
-    tagging = Tagging.create! initiative: initiative, redesign_container: container
+    tagging = Tagging.create! initiative: initiative, container: container
     assert_not_nil tagging
     assert_equal tagging.domain, initiative
     assert_equal tagging.subject, container
@@ -277,19 +277,19 @@ class TaggingTest < ActiveSupport::TestCase
     assert_equal tagging.subject, organization
   end
 
-  should "tag redesign_container with language" do
+  should "tag container with language" do
     language = create_language
-    redesign_container = create_container
-    tagging = Tagging.create! language: language, redesign_container: redesign_container
+    container = create_container
+    tagging = Tagging.create! language: language, container: container
     assert_not_nil tagging
     assert_equal tagging.domain, language
-    assert_equal tagging.subject, redesign_container
+    assert_equal tagging.subject, container
   end
 
   should "tag container with language" do
     language = create_language
     container = create_container
-    tagging = Tagging.create! language: language, redesign_container: container
+    tagging = Tagging.create! language: language, container: container
     assert_not_nil tagging
     assert_equal tagging.domain, language
     assert_equal tagging.subject, container
@@ -313,19 +313,19 @@ class TaggingTest < ActiveSupport::TestCase
     assert_equal tagging.subject, organization
   end
 
-  should "tag redesign_container with sector" do
+  should "tag container with sector" do
     sector = create_sector
-    redesign_container = create_container
-    tagging = Tagging.create! sector: sector, redesign_container: redesign_container
+    container = create_container
+    tagging = Tagging.create! sector: sector, container: container
     assert_not_nil tagging
     assert_equal tagging.domain, sector
-    assert_equal tagging.subject, redesign_container
+    assert_equal tagging.subject, container
   end
 
   should "tag container with sector" do
     sector = create_sector
     container = create_container
-    tagging = Tagging.create! sector: sector, redesign_container: container
+    tagging = Tagging.create! sector: sector, container: container
     assert_not_nil tagging
     assert_equal tagging.domain, sector
     assert_equal tagging.subject, container

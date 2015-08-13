@@ -1,6 +1,29 @@
-//= require_tree ./admin/
+// This is a manifest file that'll be compiled into admin.js, which will include all the files
+// listed below.
+//
+// Any JavaScript/Coffee file within this directory, lib/assets/javascripts, vendor/assets/javascripts,
+// or vendor/assets/javascripts of plugins, if any, can be referenced here using a relative path.
+//
+// It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
+// the compiled file.
+//
+// WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
+// GO AFTER THE REQUIRES BELOW.
+//
+//= require jquery-1.7.2
+//= require jquery_ujs
+//= require jquery-ui
+//= require_tree ./admin
 //= require moment
+//= require ckeditor/init
+//= require jquery.parsequery.min
+//= require jquery.tablesorter.min
+//= require jquery.tablesorter.pager
+//= require jquery.jeditable.mini
+//= require jquery.tree.min
+//= require chosen.jquery.min
 //= require_self
+//= require retina
 
 // Array Remove - By John Resig (MIT Licensed)
 Array.prototype.remove = function(from, to) {
@@ -9,448 +32,7 @@ Array.prototype.remove = function(from, to) {
   return this.push.apply(this, rest);
 };
 
-// Really only used when creating new folders
-var Folder = {
-  rename: function(element, tree) {
-    // TODO: Should "freeze" other actions until this is done
-    var name = tree.get_text(element);
-    var url = window.location.pathname + '/create_folder.js';
-    jQuery.ajax({
-      type: 'post',
-      url: url,
-      dataType: 'json',
-      data: "&name="+name,
-      success: function(data) {
-        var folder = data.page_group;
-        element.attr({id: "section_"+folder.id});
-        tree.select_branch(element);
-      }
-    });
-  }
-}
-
-var Page = {
-  selected: null,
-  hasBeenChanged: null,
-  attributes: {},
-  id: null,
-  parent_id: null,
-  editor: null,
-  approved: null,
-  editMode: null,
-  approveAndSave: function(e) {
-    Page.approved = true;
-    Page.saveChanges(e);
-  },
-  dynamicallyLoad: function(node) {
-    var url = $(node).children('a').attr('href');
-    if (url != '') {
-      $('#loading').show();
-      var area = $('#pageArea');
-      area.addClass('loading');
-      url += '.js';
-      jQuery.ajax({
-        type: 'get',
-        url: url,
-        dataType: 'script',
-        success: function() {
-          Page.launchEditor();
-          Treeview.showPage();
-          area.removeClass('loading');
-        }
-      });
-    }
-  },
-  gatherData: function(e) {
-    $('#pageArea').addClass('loading');
-    if (Page.id) {
-      // this is an update
-      var url = $(e.target).attr('href') + '.js';
-      var data = '_method=put';
-    } else {
-      var url = window.location.pathname + '.js';
-      var data = '';
-    }
-    if (Page.approved)
-      data += '&approved=true';
-    for (var key in Page.attributes) {
-      data += '&page['+key+']='+encodeURIComponent(Page.attributes[key]);
-    }
-    if (Page.editor && Page.editor.checkDirty()) {
-      var content = Page.editor.getData();
-      data += '&page[content]='+encodeURIComponent(content);
-    }
-    return({data: data, url: url});
-  },
-  finishedSaving: function(response) {
-    if (Page.editMode) {
-      var url = window.location.pathname;
-      var id = response.page.id;
-      url = url.replace(/\/\d+\/edit/, '/'+id+'/edit');
-      window.location.href = url;
-    } else {
-      console.log("not using edit mode");
-      Page.updateNode(response.page); // needs to happen before Page.selected is cleared
-      Page.initialize(Page.selected);
-      $('#pageArea').removeClass('loading');
-    }
-  },
-  hasChanges: function() {
-    if (Page.selected) {
-      if (Page.hasBeenChanged)
-        return true
-      if (Page.approved)
-        return true;
-      if (Page.editor)
-        return Page.editor.checkDirty();
-    }
-    return false;
-  },
-  idForPage: function(element) {
-    var id = element.attr('id');
-    var matching = id.match(/(page)?\D*_(\d+)/);
-    var page_id = null;
-    if ((matching) && (matching[1] == 'page')) { // it's a page
-      page_id = matching[2];
-    }
-    return page_id;
-  },
-  initialize: function(element) {
-    if (Page.editor) {
-      $('#pageReplace form').hide()
-      Page.editor.destroy();
-    }
-    Page.selected = element;
-    Page.dynamicallyLoad(element);
-    element = $(element);
-    Page.approved = null;
-    Page.hasBeenChanged = null;
-    Page.attributes = {};
-    var page_id = Page.idForPage(element);
-    if (page_id)
-      Page.id = page_id;
-  },
-  launchEditor: function() {
-    // e.preventDefault();
-    Page.editor = startEditor('page_content');
-  },
-  newPageCreated: function(node, ref_node, type, tree_obj) {
-    Page.storeParent(node, ref_node, type);
-    Page.selected = node;
-    $(node).addClass('updateAfterRename').children('a').addClass('pending'); // Pending on the child refers to the approval status of the page
-    tree_obj.rename(node);
-  },
-  saveChanges: function(e) {
-    e.preventDefault();
-    if (!Page.hasChanges())
-      return;
-    var options = Page.gatherData(e);
-    Page.saveViaAjax(options);
-  },
-  saveViaAjax: function(options) {
-    var url  = options.url;
-    var data = options.data;
-    jQuery.ajax({
-      type: 'post',
-      url: url,
-      data: data,
-      dataType: 'json',
-      success: function(response) { Page.finishedSaving(response) },
-      error: function(request, status, error) {
-        $('#pageArea').removeClass('loading');
-        if (request.status == 403)
-          alert("Unable to save changes, please try again.")
-      }
-    });
-  },
-  select: function(element) {
-    Page.initialize(element);
-  },
-  setEditing: function(id) {
-    Page.selected = id;
-    Page.id = id;
-    Page.editMode = true;
-    Page.launchEditor();
-  },
-  store: function(elements) {
-    elements.each( function(i) {
-      var element = $(this);
-      var name = element.attr('name');
-      // bypass write so that we don't mark this as hasChanges
-      Page.attributes[name] = element.text();
-    });
-  },
-  storeParent: function(node, ref_node, type) {
-    if (type == 'after') {
-      Page.parent_id = $(ref_node).parents('li').attr('id');
-    } else if (type == 'inside') {
-      Page.parent_id = $(ref_node).attr('id');
-    }
-  },
-  read: function(name) {
-    return Page.attributes[name];
-  },
-  rename: function(element, tree) {
-    var url = window.location.pathname + '.js';
-    var title = tree.get_text(element);
-    var position  = $('#'+Page.parent_id+' ul > li').size();
-    jQuery.ajax({
-      type: 'post',
-      url: url,
-      dataType: 'json',
-      data: "page[title]="+title+"&page[derive_path_from]="+Page.parent_id+"&page[position]="+position,
-      success: function(response) {
-        var href = window.location.pathname;
-        var page_id = response.page.id;
-        element.removeClass('updateAfterRename').attr( { id: "page_"+ page_id} ).children('a').attr({ 'href': href + '/' + page_id });
-        Treeview.handleSelect(element[0], tree); // needs to pass the node, not the element
-      },
-      error: function(response) {
-        alert("Something went wrong during save operation. Please try again.");
-      }
-    });
-
-  },
-  // using write allows us to track changes, and alert the user before they are lost
-  toggleDynamicContent: function(e) {
-    var element = $(e.target);
-    Page.write('dynamic_content', element.val());
-  },
-  updateNode: function(response) {
-    var node = $(Page.selected);
-    var child = node.children('a');
-    var status = response.approval;
-    node.attr({id: 'page_'+response.id});
-    var href = child.attr('href');
-    child.attr({href: href.replace(/\d+/, response.id)});
-    $.tree.focused().rename(node, response.title);
-    if (status == 'pending')
-      child.addClass('pending');
-    else if (status == 'approved')
-      child.removeClass('pending');
-  },
-  write: function(name, value) {
-    var old_value = Page.read(name);
-    if (value != old_value) {
-      Page.attributes[name] = value;
-      Page.hasBeenChanged = true;
-    }
-  },
-  warnBeforeChange: function() {
-    return confirm("You have unsaved changes, they will be lost if you continue.");
-  }
-}
-
-var Treeview = {
-  changeVisibility: function(e) {
-    e.preventDefault();
-    var node = $.tree.focused().selected;
-    if (!node)
-      return;
-    var child = $('#' + node.attr('id') + ' > a');
-    if (child.hasClass('hidden')) {
-      child.removeClass('hidden');
-      Treeview.markShown(node);
-    } else {
-      child.addClass('hidden');
-      Treeview.markHidden(node);
-    }
-  },
-  refresh: function(response) {
-    $.tree.focused().refresh();
-    Treeview.deletedNodes = [];
-    Treeview.shownNodes   = [];
-    Treeview.hiddenNodes  = [];
-    $('#site_tree, #pageArea').removeClass('loading');
-  },
-  saveNewPagePlaceholder: function(node, ref_node, type, tree_obj, rollback) {
-
-  },
-  save: function(e) {
-    e.preventDefault();
-    $('#site_tree, #pageArea').addClass('loading');
-    var url  = $(e.target).attr('href');
-    var data = $.tree.focused().get();
-    var deleted = Treeview.initNodesForSave(Treeview.deletedNodes);
-    var hidden = Treeview.initNodesForSave(Treeview.hiddenNodes);
-    var shown = Treeview.initNodesForSave(Treeview.shownNodes);
-    var data_json = encodeURIComponent(JSON.stringify(data));
-    jQuery.ajax({
-        type: 'post',
-        url: url,
-        data: "tree="+data_json+'&deleted='+deleted+'&hidden='+hidden+'&shown='+shown,
-        dataType: 'json',
-        complete: Treeview.refresh
-    });
-  },
-  initNodesForSave: function(array) {
-    var temp  = {pages: [], sections: []};
-    temp = Treeview.addNodes(temp, array);
-    var isBlank = ((temp.pages.length == 0) && (temp.sections.length == 0));
-    if (isBlank)
-      return('');
-    else
-      return(encodeURIComponent(JSON.stringify(temp)));
-  },
-  addNodes: function(hash, array) {
-    for(i=0; i<array.length; i++) {
-      var matching = array[i].match(/(page)?\D*_(\d+)/)
-      if ((matching) && (matching[1] == 'page')) { // it's a page
-        hash.pages.push(matching[2]);
-      } else { // it's a section
-        hash.sections.push(matching[2]);
-      }
-    }
-    return hash
-  },
-  newSection: function(e) {
-    e.preventDefault();
-    var tree = $.tree.focused();
-    var time = new Date().getTime();
-    var node = tree.create(
-      {
-        data: {
-          title: 'New section',
-          attributes: { 'class': 'hidden' }
-        },
-        attributes: {id: 'new-section_'+time, rel: 'section'}
-      },
-      -1);
-    tree.rename(node);
-  },
-  newPage: function(e) {
-    e.preventDefault();
-    if (Treeview.safeToChangePages())
-      var donothing = true; // they don't want to lose changes, put it back
-    else
-      Treeview.createNewPage();
-  },
-  safeToChangePages: function() {
-    return (Page.selected && Page.hasChanges() && !Page.warnBeforeChange());
-  },
-  createNewPage: function() {
-    var tree = $.tree.focused();
-    if (tree.selected) {
-      var time = new Date().getTime();
-      var node = tree.create(
-        {
-          data: { title: 'New page', attributes: { 'class': 'hidden' } },
-          attributes: {id: 'new_page_'+time, rel: 'page'}
-        }
-      );
-    }
-  },
-  showPage: function() {
-    $('#loading').hide();
-    setEditable();
-    Page.store($('.editable'));
-  },
-  onrename: function(node, tree, rollback) {
-    var element = $(node);
-    if (element.attr('rel') == 'section')
-      Folder.rename(element, tree);
-    else if (element.hasClass('updateAfterRename'))
-      Page.rename(element, tree);
-    tree.select_branch(node);
-  },
-  onselect: function(node, tree) {
-    var isSection = $(node).attr('rel') == 'section';
-    if (isSection)
-      tree.open_branch(node);
-    if (Page.selected == node)
-      return false;
-    else if (Treeview.safeToChangePages())
-      tree.select_branch(Page.selected); // they don't want to lose changes, put it back
-    else
-      Treeview.handleSelect(node, tree);
-  },
-  handleSelect: function(node, tree) {
-    Page.initialize(node);
-  },
-  deletedNodes: [],
-  hiddenNodes: [],
-  shownNodes: [],
-  markDeleted: function(e) {
-    e.preventDefault();
-    var selected = $.tree.focused().selected;
-    if (selected) {
-      var node = $($.tree.focused().selected[0]); // selected can potentially be multiple, so jsTree returns an array, even if multi-select is disabled
-      var children = $('ul > li', node);
-      Treeview.deletedNodes.push(node.attr('id'));
-      if (children.length > 0) {
-        children.each( function(i) { Treeview.deletedNodes.push($(this).attr('id')) } );
-      }
-      $.tree.focused().remove();
-    }
-  },
-  markHidden: function(node) {
-    swapNodeFromArrays(node, Treeview.hiddenNodes, Treeview.shownNodes);
-  },
-  markShown: function(node) {
-    swapNodeFromArrays(node, Treeview.shownNodes, Treeview.hiddenNodes);
-  }
-}
-
-function swapNodeFromArrays(node, addTo, removeFrom) {
-  var id = $(node).attr('id');
-  addTo.push(id);
-  jQuery.unique(addTo);
-  var position = jQuery.inArray(id, removeFrom);
-  if (position != -1) {
-    removeFrom.remove(position);
-  }
-  jQuery.unique(removeFrom);
-}
-
-
-function storeEditable (value, settings) {
-  var element = $(this);
-  var name = element.attr('name');
-  var rel = element.attr('rel');
-  if (rel) { // we have a URL to hit, to validate the change
-    var url = element.attr('rel') + '.js';
-    // check via Ajax if this change is allowed
-    jQuery.ajax({
-      type: 'post',
-      url: url,
-      data: '_method=put&page['+name+"]="+value,
-      error: function(request, status, error) {
-        if (request.status == 403) {
-          alert("The proposed change is invalid, please try again.");
-          element.text(Page.read(name));
-        }
-      },
-      success: function(r,s,e) { Page.write(name, value); }
-    });
-  } else { // we're not validating this change at all
-    Page.write(name, value);
-  }
-  return value;
-}
-
-function setEditable() {
-  $('.editable').editable( storeEditable, {
-    cssclass: 'editable_field',
-    width: 'none',
-    submit: 'OK',
-    tooltip: 'Click to edit'
-  } );
-}
-
-
 $(function() {
-  // Wire up the buttons for the treeview
-  $('a#save_tree').live('click', Treeview.save );
-  $('a#new_section').live('click', Treeview.newSection );
-  $('a#new_page').live('click', Treeview.newPage );
-  $('a#delete_page').live('click', Treeview.markDeleted );
-  $('a.save_page').live('click', Page.saveChanges );
-  $('a.approve_page').live('click', Page.approveAndSave );
-  $('a#visibility_page').live('click', Treeview.changeVisibility );
-  $('.dynamic_when_clicked > input').live('click', Page.toggleDynamicContent );
-
-  $('.disabled a, a.disabled').unbind('click').live('click', function(e) { e.preventDefault(); });
-
   if ($('.datepicker').length > 0) {
     $('.datepicker').not('.iso-date').datepicker({ showAnim: 'slide' });
     $('.datepicker').filter('.iso-date').datepicker({ showAnim: 'slide', dateFormat: 'yy-mm-dd' });
@@ -460,10 +42,7 @@ $(function() {
 
 });
 
-
-
 /***** Ready? Aim? Fire! jQuery stuff by Wes *****/
-
 $(document).ready(function() {
   var box_height = $('#session_info ul').innerHeight();
   var state = 'closed';
@@ -623,4 +202,229 @@ $(document).ready(function() {
 
     regionSelect.change(populateLocalNetworkSelect);
     populateLocalNetworkSelect();
+});
+
+$.datepicker.setDefaults({ changeYear: true, duration: 'slow' });
+
+var EditorToolbar = [
+  ['Source','-','-'],
+  ['Maximize','Preview'],
+  ['PasteText','PasteFromWord'],
+  ['Undo','Redo'],
+  ['Image','Table','HorizontalRule','SpecialChar'],
+  ['Link','Unlink','Anchor'],
+  '/',
+  ['Format','Bold','Italic','Underline','Subscript','Superscript','RemoveFormat'],
+  ['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
+  ['Outdent','Indent','NumberedList','BulletedList']
+];
+
+// public participant search controls
+function showBusinessOnly (argument) {
+  $('.for_stakeholders_only').fadeOut('slow');
+  $('.for_business_only').fadeIn('slow');
+}
+
+function showStakeholdersOnly (argument) {
+  $('.for_business_only').fadeOut('slow');
+  $('.for_stakeholders_only').fadeIn('slow');
+}
+
+function hideBusinessAndStakeholders (argument) {
+  $('.for_stakeholders_only').fadeOut('slow');
+  $('.for_business_only').fadeOut('slow');
+}
+
+function makeChildrenVisible (id) {
+  var parent = $("#"+id);
+  var children = parent.children('ul');
+  if (children[0])
+    children[0].style.visibility = 'visible';
+}
+
+function include(path_to_file) {
+  $.ajax({
+    url: path_to_file,
+    dataType: "script",
+    async: false,
+    success: function(js){if(jQuery.browser.safari){eval(js);}}
+  });
+}
+
+function makeChildrenInvisible (id) {
+  var parent = $("#"+id);
+  var children = parent.children('ul');
+  if (children[0])
+    children[0].style.visibility = 'hidden';
+}
+
+function versionNumberAnchor() {
+  if (window.location.href.match(/\#/)) {
+    var anchor = window.location.href.split('#')[1];
+    if (anchor) {
+      var version_match = anchor.match(/version_([0-9]+)/);
+      if (version_match) {
+        return version_match[1];
+      }
+    }
+  }
+  return false;
+}
+
+var Watcher = {
+  watcher: null,
+  fetched: null,
+  included: null,
+  init: function() {
+    this.watcher = setInterval( Watcher.watchForVersion, 500 );
+  },
+  stop: function() {
+    clearInterval(Watcher.watcher);
+  },
+  watchForVersion: function() {
+    var versionNumber = versionNumberAnchor();
+    if (versionNumber)
+      Watcher.goDecorate(versionNumber);
+    else
+      Watcher.goDecorate();
+  },
+  alreadyFetched: function(url) {
+    if (Watcher.fetched == url) {
+      return true;
+    } else {
+      Watcher.fetched = url;
+      return false;
+    }
+  },
+  goDecorate: function(number) {
+    if ((window.location.pathname != '/') && (window.location.pathname != '')) {
+      var url = "/decorate"+window.location.pathname;
+      url = url.replace(/preview\//, '');
+      if (number != null) url += '?version=' + number;
+
+      if (Watcher.alreadyFetched(url)) {
+        return false;
+      } else {
+        jQuery.ajax({
+          type: 'get',
+          url: url,
+          dataType: 'json',
+          success: Watcher.decoratePage
+        });
+      }
+    }
+  },
+  decoratePage: function(response) {
+    if (response.csrf_token) {
+      $('head').append('<meta content="authenticity_token" name="csrf-param" />');
+      $('head').append('<meta content="'+response.csrf_token+'" name="csrf-token" />');
+    }
+    if (!Watcher.included) {
+      Watcher.included = true;
+    }
+    if (response.content) {
+      var possible_editor = $('#rightcontent .click_to_edit');
+      if (possible_editor.size() > 0) { possible_editor.remove(); }
+      $('#rightcontent').prepend(response.editor);
+      $('#rightcontent .copy').html(response.content);
+    } else {
+      $('#rightcontent').prepend(response.editor);
+    }
+  }
+};
+
+$(document).ready(function() {
+  if ($('table.sortable').size() > 0) {
+    $('table.sortable').tablesorter({widgets: ['zebra']});
+  }
+
+  $('.sort.server').click(function() {
+
+    new_window_location = window.location.href;
+    new_direction = 'ASC';
+    new_sort_by = this.id;
+    previous_sort_by = (/sort_by=(\w+)/.test(new_window_location)) ? new_window_location.match(/sort_by=(\w+)/)[1] : 'n/a'
+    previous_direction = (/direction=(\w+)/.test(new_window_location)) ? new_window_location.match(/direction=(\w+)/)[1] : 'n/a'
+
+    // Cut the previous sort_by and direction params out
+    new_window_location = new_window_location.replace(/&direction=(\w+)/g, '');
+    new_window_location = new_window_location.replace(/&sort_by=(\w+)/g, '');
+    new_window_location = new_window_location.replace(/&amp;direction=(\w+)/g, '');
+    new_window_location = new_window_location.replace(/&amp;sort_by=(\w+)/g, '');
+
+    if(new_sort_by == previous_sort_by) {
+      if(previous_direction != 'undefined' && previous_direction == 'ASC') {
+        new_direction = 'DESC';
+      }
+    }
+
+    // Add the new sort params to the end of the URL and redirect
+    new_window_location += '&sort_by=' + new_sort_by + '&direction=' + new_direction;
+    window.location = new_window_location
+  });
+
+
+  if ($('body.editable_page').length > 0) {
+    Watcher.init();
+  }
+
+  // $(".tablesorter").tablesorter({widgets: ['zebra']});
+
+  $('body').on('click','a.edit_content', function(event) {
+    // jQuery.get(event.target.href, [], null, 'script');
+    Editor.loading();
+    jQuery.ajax({
+      type: 'get',
+      url: event.target.href,
+      dataType: 'json',
+      success: function(json) {
+        Editor.doneLoading();
+        Editor.create(json.page);
+      }
+    });
+    return false;
+  });
+
+  $('#nav > ul > li').each( function(elem) {
+    $(this).bind('mouseover', function() { makeChildrenVisible(this.className) } );
+    $(this).bind('mouseout', function() { makeChildrenInvisible(this.className) } );
+  } );
+
+  $('body').on('change','select.autolink', function(e) {
+    var select = $(e.target);
+    var go = select.val();
+    var anchor = window.location.hash;
+    if (go !== '') {
+      window.location = go.replace(/\&amp;/, '&') + anchor;
+    }
+  });
+
+  $('body').on('click', 'form #business_only', showBusinessOnly);
+  $('body').on('click', 'form #stakeholders_only', showStakeholdersOnly);
+  $('body').on('click', 'form #hide_business_and_stakeholders', hideBusinessAndStakeholders);
+  $('body').on('change', '#listing_status_id', function() {
+    selected_listing_status = jQuery.trim($("#listing_status_id option:selected").text());
+    if (selected_listing_status === "Publicly Listed") {
+      $('.public_company_only').show();
+    } else {
+      $('.public_company_only').hide();
+    }
+  });
+
+  // hide and show sections for FAQs, titles and descriptions etc.
+  $("body").on('click', ".hint_toggle", function(){
+    $(this).next(".hint_text").slideToggle();
+    $(this).toggleClass('selected');
+  });
+
+  // called from views/signup/step5.html.haml
+  $("body").on("click", "#contact_foundation_contact", function() {
+    $('#errorExplanation').toggle();
+    $('#contact_form').toggle();
+  });
+
+  $("body").on('click', 'a[data-popup]', function(e) {
+      window.open(this.href, 'newWindow', 'left=50,top=50,height=600,width=1024,resizable=1,scrollbars=1');
+      e.preventDefault();
+   });
 });

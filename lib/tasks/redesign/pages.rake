@@ -66,7 +66,7 @@ namespace :redesign do
     /welcome/non-business
     }
     containers.each do |c|
-      container = Redesign::Container.find_by path: c
+      container = Container.find_by path: c
       container.update_attribute :draggable, false
     end
   end
@@ -74,8 +74,8 @@ namespace :redesign do
   desc "create stub pages to fill out the site map"
   task create_sitemap: :environment do
     raise "Must be run from the development environment" unless Rails.env.development?
-    Tagging.where.not(redesign_container_id: nil).delete_all
-    Redesign::Container.delete_all
+    Tagging.where.not(container_id: nil).delete_all
+    Container.delete_all
     root = Node.new
 
     ancestors = []
@@ -97,14 +97,14 @@ namespace :redesign do
       page_slug = scrub(page[:slug] || page[:path])
       url = (path + [page_slug]).join("/")
 
-      page[:slug] = Redesign::Container.normalize_slug(page_slug)
+      page[:slug] = Container.normalize_slug(page_slug)
       page[:url] = url
 
       previous_page = page
       previous_depth = depth
 
       if page[:template].present?
-        container = Redesign::Container.create!(
+        container = Container.create!(
           layout: page[:template].downcase,
           slug: page[:slug],
           path: page[:url]
@@ -128,7 +128,7 @@ namespace :redesign do
       page
     end
 
-    Redesign::Container.
+    Container.
       find_each(&:cache_child_containers_count)
 
     File.open('pages-with-slugs.json', 'w+') do |f|
@@ -137,8 +137,8 @@ namespace :redesign do
   end
 
   task update_sitemap: :environment do
-    #Tagging.where.not(redesign_container_id: nil).delete_all
-    #Redesign::Container.delete_all
+    #Tagging.where.not(container_id: nil).delete_all
+    #Container.delete_all
 
     ancestors = []
     previous_depth = -1
@@ -159,7 +159,7 @@ namespace :redesign do
       page_slug = scrub(page[:slug] || page[:path])
       url = (path + [page_slug]).join("/")
 
-      page[:slug] = Redesign::Container.normalize_slug(page_slug)
+      page[:slug] = Container.normalize_slug(page_slug)
       if url.blank?
         url = '/'
       end
@@ -171,9 +171,9 @@ namespace :redesign do
       if page[:template].present?
         oldpath = page[:old_path]
         container = nil
-        if oldpath && container = Redesign::Container.find_by(path: oldpath)
+        if oldpath && container = Container.find_by(path: oldpath)
         else
-          container = Redesign::Container.find_or_initialize_by(path: page[:url])
+          container = Container.find_or_initialize_by(path: page[:url])
         end
         container.path = page[:url]
         container.layout = page[:template].downcase
@@ -193,7 +193,7 @@ namespace :redesign do
         end
 
         if page[:delete]
-          Tagging.where(redesign_container_id: container.id).each(&:destroy)
+          Tagging.where(container_id: container.id).each(&:destroy)
           container.destroy
         end
 
@@ -203,7 +203,7 @@ namespace :redesign do
       page
     end
 
-    Redesign::Container.
+    Container.
       find_each(&:cache_child_containers_count)
 
     File.open('pages-with-slugs.json', 'w+') do |f|

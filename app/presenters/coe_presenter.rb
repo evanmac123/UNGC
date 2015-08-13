@@ -25,6 +25,7 @@ class CoePresenter
            :is_grace_letter?,
            :is_reporting_cycle_adjustment?,
            :organization,
+           :differentiation_level_with_default,
            to: :coe
 
   def initialize(coe, contact)

@@ -1,0 +1,5 @@
+<%- if calls_to_action ||= nil -%>
+  <%- calls_to_action.each do |call_to_action| -%>
+    <%= link_to(call_to_action[:label], call_to_action[:url], class: 'widget widget-call-to-action', target: call_to_action[:external] ? "_blank" : "") if call_to_action[:label] && call_to_action[:url] %>
+  <%- end -%>
+<%- end -%>

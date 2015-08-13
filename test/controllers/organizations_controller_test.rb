@@ -1,6 +1,5 @@
 require 'test_helper'
 
-# TODO REMOVE, moved to Redesign::OrganizationsControllerTest
 class OrganizationsControllerTest < ActionController::TestCase
   context "given a json request to index" do
     setup do

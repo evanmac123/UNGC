@@ -17,6 +17,7 @@ class ReportingCycleAdjustmentPresenter
            :organization,
            :title,
            :differentiation,
+           :differentiation_level_with_default,
            to: :cop
 
   def initialize(cop, current_contact)
@@ -31,7 +32,6 @@ class ReportingCycleAdjustmentPresenter
   def files
     cop.cop_files
   end
-
 
   def organization_name
     organization.name

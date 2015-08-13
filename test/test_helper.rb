@@ -40,23 +40,6 @@ class ActiveSupport::TestCase
     assert_equal "layouts/#{layout}", @response.layout
   end
 
-  def create_approved_content(options)
-    create_page(options)
-  end
-
-  def create_approved_page(options)
-    create_page(options)
-  end
-
-  def create_simple_tree
-    @root = create_page position: 0, path: '/index.html'
-    @parent1 = create_page position: 0, path: '/parent1/index.html'
-    @parent2 = create_page position: 1, path: '/parent2/index.html'
-    @child1 = create_page parent: @parent1, position: 0, path: '/parent1/child1/index.html'
-    @child2 = create_page parent: @parent1, position: 1, path: '/parent1/child2.html'
-    @sub1 = create_page parent: @child1, position: 0, path: '/parent1/child1/sub1.html'
-  end
-
   def create_new_logo_request
     create_organization_and_user
     create_ungc_organization_and_user
@@ -448,6 +431,16 @@ class ActionDispatch::IntegrationTest
   include Capybara::DSL
   include Warden::Test::Helpers
   Warden.test_mode!
+end
+
+class MockSearchResult < SimpleDelegator
+  def initialize(instance=nil)
+    super([instance].compact)
+  end
+
+  def total_pages
+    0
+  end
 end
 
 module LocalNetworkSubmodelControllerHelper

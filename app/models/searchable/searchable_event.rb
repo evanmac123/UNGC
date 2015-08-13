@@ -1,26 +1,28 @@
-module Searchable::SearchableEvent
+class Searchable::SearchableEvent < Searchable::Base
+  alias_method :event, :model
 
-  def index_event(event)
-    title = event.title
-    description = with_helper {strip_tags(event.description)}
-    url = event_url(event)
-    import 'Event', url: url, title: title, content: description, object: event
+  def self.all
+    Event.approved
   end
 
-  def index_events
-    Event.approved.each { |e| index_event e }
+  def document_type
+    'Event'
   end
 
-  def index_events_since(time)
-    Event.approved.where(new_or_updated_since(time)).each { |e| index_event e }
+  def title
+    event.title
   end
 
-  def remove_event(event)
-    remove 'Event', event_url(event)
+  def url
+    remove_redesign_prefix event_path(event)
   end
 
-  def event_url(event)
-    with_helper { event_path(event) }
+  def content
+    "#{strip_tags(event.description)} #{strip_tags(event.programme_description)} #{strip_tags(event.media_description)}"
+  end
+
+  def meta
+    event.taggings.map(&:content).join(' ')
   end
 
 end

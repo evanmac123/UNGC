@@ -7,7 +7,7 @@ class ContainerDraft
   end
 
   def save(params)
-    update = Redesign::Container.transaction do
+    update = Container.transaction do
       container.draft_payload.as_user(contact) if container.draft_payload.present?
       container.update(params)
     end

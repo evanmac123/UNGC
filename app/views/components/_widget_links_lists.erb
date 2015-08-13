@@ -1,0 +1,12 @@
+<%- if links_lists ||= nil -%>
+  <%- links_lists.each do |links_list| -%>
+  <article class='widget widget-links-list'>
+    <%= content_tag(:h1, links_list[:title]) if links_list[:title] %>
+    <ul>
+      <%- links_list[:links].each do |l| -%>
+      <%= content_tag(:li, link_to(l[:label], l[:url], {target: l[:external] ? "_blank" : "", class: "links-list-link-item"})) if l[:label] && l[:url] %>
+      <%- end -%>
+    </ul>
+  </article>
+  <%- end -%>
+<%- end -%>

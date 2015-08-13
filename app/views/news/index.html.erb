@@ -1,0 +1,21 @@
+<%= render partial: 'components/meta_tags' %>
+
+<%= render partial: 'components/hero' %>
+
+<%= render layout: 'components/news_list', locals: {news: @page.news, is_landing: true} do %>
+  <%= render layout: 'components/sidebar' do %>
+    <%= render('components/widget_contact', contact: @page.sidebar_widgets.contact) if @page.sidebar_widgets.contact %>
+
+    <%= render('components/widget_calls_to_action', calls_to_action: @page.sidebar_widgets.calls_to_action) if @page.sidebar_widgets.calls_to_action %>
+  <% end %>
+<% end %>
+
+<%- @page.related_contents.each do |c| -%>
+  <%= render layout: 'components/content_blocks', locals: {title: c.title, blocks: c.boxes} do |block| %>
+    <%= render 'components/content_block', title: block.title, url: block.url, thumbnail: block.thumbnail, tag: t(block.issue) %>
+  <% end %>
+<%- end -%>
+
+<%= render layout: 'components/content_blocks', locals: {title: 'From our Library', blocks: @page.resources} do |block| %>
+  <%= render 'components/resource_block', block: block %>
+<% end %>

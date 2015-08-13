@@ -1,8 +1,15 @@
 class SignupController < ApplicationController
-  before_filter :determine_navigation, :load_organization_signup
+  before_filter :load_organization_signup
+  before_filter :load_page
 
   BUSINESS_PARAM = 'business'
   NONBUSINESS_PARAM = 'non_business'
+
+  def index
+    set_current_container_by_default_path
+    @page = ArticlePage.new(current_container, current_payload_data)
+    render "static/#{current_container.layout}"
+  end
 
   # shows organization form
   def step1
@@ -131,6 +138,10 @@ class SignupController < ApplicationController
 
   private
 
+    def load_page
+      @page = SignupPage.new
+    end
+
     def load_organization_signup
       @signup = session["signup"] || create_signup(params[:org_type])
     end
@@ -141,10 +152,6 @@ class SignupController < ApplicationController
 
     def clear_organization_signup
       session[:signup] = nil
-    end
-
-    def default_navigation
-      DEFAULTS[:signup_form_path]
     end
 
     def send_mail
@@ -226,5 +233,4 @@ class SignupController < ApplicationController
       non_business_params = params.fetch(:non_business_organization_registration, {})
       organization_params.merge(non_business_params)
     end
-
 end

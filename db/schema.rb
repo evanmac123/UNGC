@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150714150917) do
+ActiveRecord::Schema.define(version: 20150731001515) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -265,6 +265,31 @@ ActiveRecord::Schema.define(version: 20150714150917) do
 
   add_index "contacts_roles", ["contact_id"], name: "index_contacts_roles_on_contact_id", using: :btree
   add_index "contacts_roles", ["role_id"], name: "index_contacts_roles_on_role_id", using: :btree
+
+  create_table "containers", force: :cascade do |t|
+    t.integer  "layout",                 limit: 4,                  null: false
+    t.string   "slug",                   limit: 255, default: "/",  null: false
+    t.integer  "parent_container_id",    limit: 4
+    t.integer  "public_payload_id",      limit: 4
+    t.integer  "draft_payload_id",       limit: 4
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
+    t.string   "path",                   limit: 255
+    t.integer  "depth",                  limit: 4,   default: 0,    null: false
+    t.string   "tree_path",              limit: 255, default: "",   null: false
+    t.integer  "child_containers_count", limit: 4,   default: 0,    null: false
+    t.integer  "content_type",           limit: 4,   default: 1,    null: false
+    t.boolean  "has_draft",              limit: 1,   default: true
+    t.integer  "sort_order",             limit: 4,   default: 0
+    t.boolean  "visible",                limit: 1,   default: true
+    t.boolean  "draggable",              limit: 1,   default: true
+  end
+
+  add_index "containers", ["content_type"], name: "index_containers_on_content_type", using: :btree
+  add_index "containers", ["depth"], name: "index_containers_on_depth", using: :btree
+  add_index "containers", ["parent_container_id", "slug"], name: "index_containers_on_parent_container_id_and_slug", unique: true, using: :btree
+  add_index "containers", ["parent_container_id"], name: "index_containers_on_parent_container_id", using: :btree
+  add_index "containers", ["path"], name: "index_containers_on_path", unique: true, using: :btree
 
   create_table "contribution_descriptions", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4,     null: false
@@ -703,6 +728,21 @@ ActiveRecord::Schema.define(version: 20150714150917) do
 
   add_index "non_business_organization_registrations", ["organization_id"], name: "index_non_business_organization_registrations_on_organization_id", using: :btree
 
+  create_table "old_searchables", force: :cascade do |t|
+    t.string   "title",             limit: 255
+    t.text     "content",           limit: 65535
+    t.string   "url",               limit: 255
+    t.string   "document_type",     limit: 255
+    t.datetime "last_indexed_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "delta",             limit: 1,     default: true, null: false
+    t.datetime "object_created_at"
+    t.datetime "object_updated_at"
+  end
+
+  add_index "old_searchables", ["id", "delta"], name: "index_old_searchables_on_id_and_delta", using: :btree
+
   create_table "organization_types", force: :cascade do |t|
     t.string   "name",          limit: 255
     t.integer  "type_property", limit: 4
@@ -799,6 +839,17 @@ ActiveRecord::Schema.define(version: 20150714150917) do
   add_index "pages", ["path"], name: "index_pages_on_path", using: :btree
   add_index "pages", ["version_number"], name: "index_pages_on_version_number", using: :btree
 
+  create_table "payloads", force: :cascade do |t|
+    t.integer  "container_id",   limit: 4,     null: false
+    t.text     "json_data",      limit: 65535, null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.integer  "created_by_id",  limit: 4
+    t.integer  "updated_by_id",  limit: 4
+    t.integer  "approved_by_id", limit: 4
+    t.datetime "approved_at"
+  end
+
   create_table "principles", force: :cascade do |t|
     t.string   "name",       limit: 255
     t.integer  "old_id",     limit: 4
@@ -815,56 +866,6 @@ ActiveRecord::Schema.define(version: 20150714150917) do
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
   end
-
-  create_table "redesign_containers", force: :cascade do |t|
-    t.integer  "layout",                 limit: 4,                  null: false
-    t.string   "slug",                   limit: 255, default: "/",  null: false
-    t.integer  "parent_container_id",    limit: 4
-    t.integer  "public_payload_id",      limit: 4
-    t.integer  "draft_payload_id",       limit: 4
-    t.datetime "created_at",                                        null: false
-    t.datetime "updated_at",                                        null: false
-    t.string   "path",                   limit: 255
-    t.integer  "depth",                  limit: 4,   default: 0,    null: false
-    t.string   "tree_path",              limit: 255, default: "",   null: false
-    t.integer  "child_containers_count", limit: 4,   default: 0,    null: false
-    t.integer  "content_type",           limit: 4,   default: 1,    null: false
-    t.boolean  "has_draft",              limit: 1,   default: true
-    t.integer  "sort_order",             limit: 4,   default: 0
-    t.boolean  "visible",                limit: 1,   default: true
-    t.boolean  "draggable",              limit: 1,   default: true
-  end
-
-  add_index "redesign_containers", ["content_type"], name: "index_redesign_containers_on_content_type", using: :btree
-  add_index "redesign_containers", ["depth"], name: "index_redesign_containers_on_depth", using: :btree
-  add_index "redesign_containers", ["parent_container_id", "slug"], name: "index_redesign_containers_on_parent_container_id_and_slug", unique: true, using: :btree
-  add_index "redesign_containers", ["parent_container_id"], name: "index_redesign_containers_on_parent_container_id", using: :btree
-  add_index "redesign_containers", ["path"], name: "index_redesign_containers_on_path", unique: true, using: :btree
-
-  create_table "redesign_payloads", force: :cascade do |t|
-    t.integer  "container_id",   limit: 4,     null: false
-    t.text     "json_data",      limit: 65535, null: false
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-    t.integer  "created_by_id",  limit: 4
-    t.integer  "updated_by_id",  limit: 4
-    t.integer  "approved_by_id", limit: 4
-    t.datetime "approved_at"
-  end
-
-  create_table "redesign_searchables", force: :cascade do |t|
-    t.datetime "last_indexed_at"
-    t.string   "url",             limit: 255
-    t.string   "document_type",   limit: 255
-    t.text     "title",           limit: 65535
-    t.text     "content",         limit: 65535
-    t.text     "meta",            limit: 65535
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "redesign_searchables", ["document_type", "url"], name: "index_redesign_searchables_on_document_type_and_url", using: :btree
-  add_index "redesign_searchables", ["url"], name: "index_redesign_searchables_on_url", using: :btree
 
   create_table "removal_reasons", force: :cascade do |t|
     t.string   "description", limit: 255
@@ -925,19 +926,18 @@ ActiveRecord::Schema.define(version: 20150714150917) do
   end
 
   create_table "searchables", force: :cascade do |t|
-    t.string   "title",             limit: 255
-    t.text     "content",           limit: 65535
-    t.string   "url",               limit: 255
-    t.string   "document_type",     limit: 255
     t.datetime "last_indexed_at"
+    t.string   "url",             limit: 255
+    t.string   "document_type",   limit: 255
+    t.text     "title",           limit: 65535
+    t.text     "content",         limit: 65535
+    t.text     "meta",            limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "delta",             limit: 1,     default: true, null: false
-    t.datetime "object_created_at"
-    t.datetime "object_updated_at"
   end
 
-  add_index "searchables", ["id", "delta"], name: "index_searchables_on_id_and_delta", using: :btree
+  add_index "searchables", ["document_type", "url"], name: "index_searchables_on_document_type_and_url", using: :btree
+  add_index "searchables", ["url"], name: "index_searchables_on_url", using: :btree
 
   create_table "sectors", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -988,7 +988,7 @@ ActiveRecord::Schema.define(version: 20150714150917) do
     t.integer  "headline_id",                  limit: 4
     t.integer  "organization_id",              limit: 4
     t.integer  "resource_id",                  limit: 4
-    t.integer  "redesign_container_id",        limit: 4
+    t.integer  "container_id",                 limit: 4
     t.datetime "created_at",                               null: false
     t.datetime "updated_at",                               null: false
     t.integer  "topic_id",                     limit: 4
@@ -999,6 +999,7 @@ ActiveRecord::Schema.define(version: 20150714150917) do
   add_index "taggings", ["author_id"], name: "index_taggings_on_author_id", using: :btree
   add_index "taggings", ["case_example_id"], name: "index_taggings_on_case_example_id", using: :btree
   add_index "taggings", ["communication_on_progress_id"], name: "index_taggings_on_communication_on_progress_id", using: :btree
+  add_index "taggings", ["container_id"], name: "index_taggings_on_container_id", using: :btree
   add_index "taggings", ["country_id"], name: "index_taggings_on_country_id", using: :btree
   add_index "taggings", ["event_id"], name: "index_taggings_on_event_id", using: :btree
   add_index "taggings", ["headline_id"], name: "index_taggings_on_headline_id", using: :btree
@@ -1008,7 +1009,6 @@ ActiveRecord::Schema.define(version: 20150714150917) do
   add_index "taggings", ["organization_id"], name: "index_taggings_on_organization_id", using: :btree
   add_index "taggings", ["principle_id"], name: "index_taggings_on_principle_id", using: :btree
   add_index "taggings", ["principle_type"], name: "index_taggings_on_principle_type", using: :btree
-  add_index "taggings", ["redesign_container_id"], name: "index_taggings_on_redesign_container_id", using: :btree
   add_index "taggings", ["resource_id"], name: "index_taggings_on_resource_id", using: :btree
   add_index "taggings", ["sector_id"], name: "index_taggings_on_sector_id", using: :btree
   add_index "taggings", ["topic_id"], name: "index_taggings_on_topic_id", using: :btree
@@ -1052,6 +1052,7 @@ ActiveRecord::Schema.define(version: 20150714150917) do
   add_foreign_key "taggings", "authors"
   add_foreign_key "taggings", "case_examples"
   add_foreign_key "taggings", "communication_on_progresses"
+  add_foreign_key "taggings", "containers"
   add_foreign_key "taggings", "countries"
   add_foreign_key "taggings", "events"
   add_foreign_key "taggings", "headlines"
@@ -1060,7 +1061,6 @@ ActiveRecord::Schema.define(version: 20150714150917) do
   add_foreign_key "taggings", "languages"
   add_foreign_key "taggings", "organizations"
   add_foreign_key "taggings", "principles"
-  add_foreign_key "taggings", "redesign_containers"
   add_foreign_key "taggings", "resources"
   add_foreign_key "taggings", "sectors"
   add_foreign_key "taggings", "topics"

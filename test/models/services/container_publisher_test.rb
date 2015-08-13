@@ -35,17 +35,17 @@ class ContainerPublisherTest < ActiveSupport::TestCase
       )
 
       # start the container with some tags
-      Tagging.create! redesign_container: container, issue: water
-      Tagging.create! redesign_container: container, issue: earth
-      Tagging.create! redesign_container: container, topic: fire
-      Tagging.create! redesign_container: container, topic: slush
-      Tagging.create! redesign_container: container, sector: sector1
-      Tagging.create! redesign_container: container, sector: sector2
+      Tagging.create! container: container, issue: water
+      Tagging.create! container: container, issue: earth
+      Tagging.create! container: container, topic: fire
+      Tagging.create! container: container, topic: slush
+      Tagging.create! container: container, sector: sector1
+      Tagging.create! container: container, sector: sector2
 
       publisher = ContainerPublisher.new(container, @staff_user)
       publisher.publish
 
-      tags = Tagging.where(redesign_container: container).includes(:issue).includes(:topic)
+      tags = Tagging.where(container: container).includes(:issue).includes(:topic)
       @tag_names = tags.map {|t| t.domain.name}
     end
 

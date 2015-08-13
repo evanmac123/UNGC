@@ -1,0 +1,170 @@
+<%= render partial: 'components/meta_tags' %>
+<%= render partial: 'components/hero' %>
+
+<section class='main-content-section main-content-section-wide participants-show-main-content'>
+  <div class='wrapper'>
+    <header class='main-content-header'>
+      <h1><%= @page.name %></h1>
+      <%= link_to(@page.website, @page.website_url, class: 'participant-website-link', target: '_blank') if @page.has_website? %>
+    </header>
+
+    <section class='tabbed-component participant-detail-body' data-has-navigation=true>
+      <menu class='tabs'>
+        <li class='tab'>
+          <button type='button' class='active tab-company-information' data-tab-content='company-information'>Company Information</button>
+        </li>
+
+        <%- if @page.cops.any? -%>
+          <li class='tab'>
+            <button type='button' class='tab-cop' data-tab-content='cop'>
+              <%= @page.cop_short_label -%>
+            </button>
+          </li>
+        <%- end -%>
+
+        <%- if @page.contributions.any? -%>
+          <li class='tab'>
+            <button type='button' class='tab-contributions' data-tab-content='contributions'>Contributions</button>
+          </li>
+        <%- end -%>
+      </menu>
+
+      <article class='tab-content company-information active'>
+        <header class='tab-content-header'>
+          <h1>Company Information</h1>
+        </header>
+
+        <%- if @page.joined_on.present? || @page.cop_due_on.present? -%>
+          <div class='column company-information-dates'>
+            <%- if @page.joined_on.present? -%>
+              <div class='company-information-since'>
+                <h3>Participant Since</h3>
+                <time><%= @page.joined_on -%></time>
+              </div>
+            <%- end -%>
+
+            <%- if @page.cop_due_on.present? -%>
+              <div class='company-information-cop-due'><strong>Next <%= @page.cop_short_label %> due on:</strong> <time><%= @page.cop_due_on -%></time></div>
+            <%- end -%>
+          </div>
+        <%- end -%>
+
+        <div class='column company-information-overview'>
+          <h2>Overview</h2>
+
+          <dl>
+            <%- if @page.country.present? -%>
+              <dt>Country:</dt>
+              <dd><%= @page.country -%></dd>
+            <%- end -%>
+
+            <%- if @page.type.present? -%>
+              <dt>Org. Type:</dt>
+              <dd><%= @page.type -%></dd>
+            <%- end -%>
+
+            <%- if @page.sector.present? -%>
+              <dt>Sector:</dt>
+              <dd><%= @page.sector -%></dd>
+            <%- end -%>
+
+            <dt>Global Compact Status</dt>
+            <dd><%= @page.global_compact_status %></dd>
+
+            <%- if @page.employees.present? -%>
+              <dt>Employees:</dt>
+              <dd><%= @page.employees -%></dd>
+            <%- end -%>
+
+            <%- if @page.ownership.present? -%>
+              <dt>Ownership:</dt>
+              <dd><%= @page.ownership -%></dd>
+            <%- end -%>
+
+          </dl>
+
+          <%= link_to('Letter of Commitment', @page.commitment_letter.url, target: '_blank') if @page.commitment_letter.present? %>
+          <br>
+          <%= link_to('Letter of Re-commitment', @page.recommitment_letter.url, target: '_blank') if @page.recommitment_letter.present? %>
+        </div>
+
+        <div class='column company-information-financial-information'>
+          <%- if @page.has_extra_information? -%>
+            <%- if @page.has_financial_information? -%>
+              <h2>Financial Information</h2>
+              <%= render('components/widget_links_lists', links_lists: @page.financial_information) %>
+            <%- end %>
+
+            <hr>
+            <%- if @page.has_non_financial_information? -%>
+              <h2>Non-Financial Information</h2>
+              <%= render('components/widget_links_lists', links_lists: @page.non_financial_information) %>
+            <%- end %>
+          <%- end %>
+        </div>
+      </article>
+
+      <%- if @page.cops.any? -%>
+        <article class='tab-content cop'>
+
+          <header class='tab-content-header'>
+            <h1><%= @page.cop_short_label %></h1>
+          </header>
+          <h2><%= @page.cop_label %></h2>
+
+          <table class='table-embedded'>
+            <thead>
+              <th class='year'>Year</th>
+              <th class='published-on'>Published On</th>
+              <th class='title'>Title</th>
+              <th class='level'>Level</th>
+            </thead>
+            <tbody>
+              <% @page.cops.each do |cop| %>
+                <tr>
+                  <th class='year'><%= cop.year %></th>
+                  <td class='published-on'><%= cop.published_on %></td>
+                  <td class='title'><%= link_to cop.title, show_cops_path(cop.differentiation_level_with_default, cop.id) %></td>
+                  <td class='level'><%= cop.differentiation_level_name %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+
+          <p><strong>Note:</strong> Responsibility for the content of participants' public communication related to the Global Compact principles and their implementation lies with participants themselves and not with the UN Global Compact.</p>
+        </article>
+      <%- end -%>
+
+      <%- if @page.contributions.any? -%>
+        <article class='tab-content contributions'>
+          <header class='tab-content-header'>
+            <h1>Contributions</h1>
+          </header>
+
+          <h2>Voluntary Contributions to the Foundation for the Global Compact</h2>
+
+          <table class='table-embedded'>
+            <thead>
+              <th>Year</th>
+              <th>Contribution Received</th>
+            </thead>
+            <tbody>
+              <% @page.contributions.each do |year, campaigns| %>
+                <tr>
+                  <th><%= year %></th>
+                  <td>
+                    <ul>
+                      <% campaigns.each do |campaign| %>
+                        <li><%= campaign.name %></li>
+                      <% end %>
+                    </ul>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </article>
+      <%- end -%>
+    </section>
+  </div>
+</section>

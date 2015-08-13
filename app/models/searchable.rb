@@ -1,117 +1,113 @@
-# == Schema Information
-#
-# Table name: searchables
-#
-#  id                :integer          not null, primary key
-#  title             :string(255)
-#  content           :text
-#  url               :string(255)
-#  document_type     :string(255)
-#  last_indexed_at   :datetime
-#  created_at        :datetime
-#  updated_at        :datetime
-#  delta             :boolean          default(TRUE), not null
-#  object_created_at :datetime
-#  object_updated_at :datetime
-#
-
-class SearchableHelper
-  include Rails.application.routes.url_helpers
-  include ActionView::Helpers::SanitizeHelper
-  default_url_options[:host] = DEFAULTS[:url_host]
-end
-
-require 'ostruct'
-
 class Searchable < ActiveRecord::Base
-  before_create :set_object_created_at
-  before_save   :set_object_updated_at
-  before_save   :set_indexed_at
-  attr_accessor :object
-
-  extend SearchableCaseStory
-  extend SearchableEvent
-  extend SearchableFiles
-  extend SearchableHeadline
-  extend SearchableOrganization
-  extend SearchablePage
-  extend SearchableCommunicationOnProgress
-  extend SearchableResource
 
   class << self
-    def convert_to_utf8(text)
-      text.encode('UTF-8')
-    end
 
-    def faceted_search(document_type, keyword, options={})
-      matching_facets = self.facets(keyword, options)
-      matching_facets.for(document_type: document_type)
-    end
+    attr_accessor :searchable_map
 
-    def import(document_type, options)
-      url = options.delete(:url)
-      searchable = find_by_url(url) || create(url: url, object: options.delete(:object))
-      searchable.attributes = {document_type: document_type}.merge(options || {})
-      searchable.save
-      searchable
-    end
-
-    # The intent here appears to be that this method is called manually once at
-    # install time to seed the Searchables table. See index_new_or_updated.
     def index_all
-      index_pages
-      index_events
-      index_headlines
-      index_case_stories
-      index_organizations
-      index_communications_on_progress
-      index_resources
-    end
+      log.info "starting Searchable.index_all"
 
-    # This method is called by cron to periodically update the searchables.
-    # See scripts/cron/searchable
-    def index_new_or_updated(since = nil)
-      max = since || maximum(:last_indexed_at)
-      raise "You can't call index_new_or_updated unless you've run index_all at least once".inspect unless max
-      index_pages_since(max)
-      index_events_since(max)
-      index_headlines_since(max)
-      index_case_stories_since(max)
-      index_organizations_since(max)
-      index_communications_on_progress_since(max)
-      index_resources_since(max)
-    end
+      searchables.each do |searchable|
+        searchable.all
+          .find_in_batches(batch_size: batch_size)
+          .each_with_index do |group, batch|
+            break if stop_before?(batch)
 
-    def new_or_updated_since(time)
-      ["(created_at > ?) OR (updated_at > ?)", time, time]
-    end
-
-    def with_helper(&block)
-      unless @helper
-        @helper = SearchableHelper.new
+            log.info "Processing batch ##{batch}"
+            group.each do |model|
+              import(searchable.new(model))
+            end
+        end
       end
-      @helper.instance_eval(&block)
+
+      log.info "done indexing all the searchables."
     end
 
-    def remove(document_type, url)
-      where(document_type: document_type, url: url).destroy_all
+    def index_new_or_updated(cutoff = nil)
+      cutoff ||= maximum(:last_indexed_at)
+      searchables.each do |searchable|
+        searchable.since(cutoff).each do |model|
+          import(searchable.new(model))
+        end
+      end
     end
 
-    def remove_redesign_container(container)
-      # no-op to satisfy indexable
+    def index(model)
+      import(new_searchable(model))
     end
-  end
 
-  def set_indexed_at
-    self.last_indexed_at = Time.now
-  end
+    def update_url(model)
+      searchable = new_searchable(model)
+      return if searchable.nil?
 
-  def set_object_created_at
-    self.object_created_at ||= object.created_at if object && object.respond_to?(:created_at)
-  end
+      if searchable.url_changed?
+        if record = find_by(document_type: searchable.document_type,
+                            url: searchable.url_was)
+          record.update_attributes(searchable.attributes)
+        end
+      end
+    end
 
-  def set_object_updated_at
-    self.object_updated_at = object.updated_at if object && object.respond_to?(:updated_at)
+    def remove(model)
+      searchable = new_searchable(model)
+      return if searchable.nil?
+
+      where(document_type: searchable.document_type, url: searchable.url).destroy_all
+    end
+
+    private
+
+    def new_searchable(model)
+      if searchable_class = searchable_map[model.class]
+        searchable_class.new(model)
+      end
+    end
+
+    def import(searchable)
+      searchable_model = self.where(url: searchable.url).first_or_initialize
+      searchable_model.assign_attributes(searchable.attributes)
+      searchable_model.last_indexed_at = Time.now
+      searchable_model.save
+      searchable_model
+    rescue ActiveRecord::StatementInvalid => e
+      log.error "INVALID SEARCHABLE ID: #{searchable.model.id}"
+      log.error e.to_s
+    end
+
+    def searchables
+      searchable_map.values
+    end
+
+    def searchable_map
+      # TODO
+      # Ideally classes that include Indexable would register themselves instead of
+      # this hardcoded map
+      @searchable_map ||= {
+        CommunicationOnProgress => Searchable::SearchableCommunicationOnProgress,
+        Container => Searchable::SearchableContainer,
+        Headline => Searchable::SearchableHeadline,
+        Organization => Searchable::SearchableOrganization,
+        Resource => Searchable::SearchableResource,
+        Event => Searchable::SearchableEvent,
+      }
+    end
+
+    def batch_size
+      if Rails.env.production? then 1000 else 10 end
+    end
+
+    def stop_before?(batch)
+      Rails.env.production? == false && batch > 0
+    end
+
+    def log
+      @log ||= if Rails.env.production?
+        Logger.new(STDOUT)
+      else
+        Rails.logger
+      end
+    end
+
   end
 
 end

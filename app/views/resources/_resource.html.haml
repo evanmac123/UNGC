@@ -1,9 +1,0 @@
-%li.resource
-  %a{href: resource_path(resource), title: resource.title}
-    - if resource.image.present?
-      .image
-        = retina_image resource, :featured
-
-    %h5.title
-      = truncate(resource.title, length: 46, separator: ' ')
-
