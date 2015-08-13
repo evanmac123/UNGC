@@ -85,6 +85,8 @@ class Redesign::ApplicationController < ApplicationController
   end
 
   def search_offline
+    @page = SearchOfflinePage.new
     render :template => '/redesign/search/offline' and return false
   end
+
 end
