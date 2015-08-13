@@ -7,7 +7,7 @@ class NewsFeedTest < ActionDispatch::IntegrationTest
     Headline.stubs(search: [headline])
   end
 
-  test 'stuff' do
+  test 'the news feed' do
     visit redesign_feeds_news_path
 
     feed = Nokogiri::XML(page.body)
