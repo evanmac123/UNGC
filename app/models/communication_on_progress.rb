@@ -245,6 +245,10 @@ class CommunicationOnProgress < ActiveRecord::Base
     items.count - items.collect{|r| r if r}.compact.count
   end
 
+  def complete?
+    !missing_items? && !questions_missing_answers.any?
+  end
+
   def missing_items?
     number_missing_items > 0
   end
@@ -305,10 +309,10 @@ class CommunicationOnProgress < ActiveRecord::Base
         # don't evaluate coverage of exempted groups and initiative questions
         # TODO: create a scope to filter or use method in CopQuestion to test for these conditions
         if CopQuestion::EXEMPTED_GROUPS.include? attribute.cop_question.grouping
-          next  
+          next
         elsif attribute.cop_question.initiative.present?
           next
-        else 
+        else
           questions << attribute.cop_question
         end
 
