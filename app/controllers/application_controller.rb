@@ -126,7 +126,7 @@ class ApplicationController < ActionController::Base
 
   def render_default_template(layout)
     if File.exists? layout_template_path(layout)
-      render(layout.to_sym)
+      render("static/#{layout}")
     else
       render_404
     end
