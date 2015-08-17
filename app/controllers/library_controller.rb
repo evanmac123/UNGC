@@ -8,12 +8,21 @@ class LibraryController < ApplicationController
   end
 
   def show
-    set_current_container_by_path('/library')
-    resource = Resource.
-      includes([issues: [:parent], sectors: [:parent], topics: [:parent], links: [:language]])
-      .find(params[:id])
-    @resource = LibraryDetailPresenter.new(resource)
-    @page = LibraryDetailPage.new(current_container, resource)
+    show_resource do |resource|
+      resource.find(params[:id])
+    end
+  end
+
+  def blueprint_for_corporate_sustainability
+    show_resource do |resource|
+      resource.find_by!(title: "Blueprint for Corporate Sustainability Leadership within the Global Compact")
+    end
+  end
+
+  def advanced_cop_submission_guide
+    show_resource do |resource|
+      resource.find_by!(title: "GC Advanced COP Submission Guide")
+    end
   end
 
   def search
@@ -24,6 +33,20 @@ class LibraryController < ApplicationController
   end
 
   private
+
+  def show_resource
+    set_current_container_by_path('/library')
+    resource = Resource.includes([
+      issues: [:parent],
+      sectors: [:parent],
+      topics: [:parent],
+      links: [:language]
+    ])
+    resource = yield(resource)
+    @resource = LibraryDetailPresenter.new(resource)
+    @page = LibraryDetailPage.new(current_container, resource)
+    render :show
+  end
 
   def search_params
     params.fetch(:search, {}).permit(

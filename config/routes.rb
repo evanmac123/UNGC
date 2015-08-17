@@ -196,10 +196,12 @@ UNGC::Application.routes.draw do
     get '/(*path)' => 'index#frontend', as: :root, format: :html
   end
 
-  controller :library do
-    get '/library'        => :index,  as: :library
-    get '/library/search' => :search, as: :library_search
-    get '/library/:id'    => :show,   as: :library_resource
+  controller :library, path: 'library' do
+    get ''                                        => :index,  as: :library
+    get 'search'                                  => :search, as: :library_search
+    get 'blueprint-for-corporate-sustainability'  => :blueprint_for_corporate_sustainability
+    get 'advanced-cop-submission-guide'           => :advanced_cop_submission_guide
+    get ':id'                                     => :show,   as: :library_resource
   end
 
   controller :contact_us do
@@ -294,6 +296,7 @@ UNGC::Application.routes.draw do
   get '/ParticipantsAndStakeholders/index.html' => 'static#redirect_to_page', page: '/what-is-gc/participants'
   get '/participants/search' => 'static#redirect_to_page', page: '/what-is-gc/participants'
   get '/participant/:id', to: redirect('/what-is-gc/participants/%{id}')
+  get '/HowToParticipate/Business_Participation/blueprint_for_corporate_sustainability_leadership.html', to: redirect('/library/blueprint-for-corporate-sustainability')
   get '/Issues/supply_chain/index.html'=> 'static#redirect_to_page', page: '/what-is-gc/our-work/supply-chain'
   get '/Issues/supply_chain/advisory_group.html'=> 'static#redirect_to_page', page: '/what-is-gc/our-work/supply-chain/supply-chain-advisory-group'
   get '/Issues/supply_chain/background.html'=> 'static#redirect_to_page', page: '/what-is-gc/our-work/supply-chain/business-case'
@@ -336,6 +339,7 @@ UNGC::Application.routes.draw do
   get '/COP/analyzing_progress/advanced_cops.html'=> 'static#redirect_to_page', page: '/participation/report/cop/create-and-submit/advanced'
   get '/COPs/advanced/:id', to: redirect('/participation/report/cop/create-and-submit/advanced/%{id}')
   get '/COPs/detail/:id', to: redirect('/participation/report/cop/create-and-submit/detail/%{id}')
+  get '/COP/differentiation/GCAdvanced_level.html', to: redirect('/library/advanced-cop-submission-guide')
   get '/AboutTheGC/Global_Compact_Logo/index.html'=> 'static#redirect_to_page', page: '/participation/getting-started/brand-guidelines'
   get '/AboutTheGC/Global_Compact_Logo/GC_Logo_Policy.html'=> 'static#redirect_to_page', page: '/participation/getting-started/brand-guidelines'
   get '/AboutTheGC/guide_to_corporate_sustainability.html'=> 'static#redirect_to_page', page: '/library/1151'
