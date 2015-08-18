@@ -80,6 +80,7 @@ class LocalNetworkPage < SimpleDelegator
           'sectors.parent_id',
           'sectors.name',
           'count(sectors.id) as participants_count')
+        .where('sectors.name != ?', 'Not Applicable')
         .order('participants_count desc')
         .limit(5)
 
@@ -120,4 +121,3 @@ class LocalNetworkPage < SimpleDelegator
       __getobj__
     end
 end
-
