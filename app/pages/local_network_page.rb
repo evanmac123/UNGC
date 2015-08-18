@@ -108,11 +108,7 @@ class LocalNetworkPage < SimpleDelegator
       end
 
       def name
-        if sector.name == Sector::NOT_APPLICABLE
-          'Non Business'
-        else
-          sector.name
-        end
+        sector.name
       end
 
     end
