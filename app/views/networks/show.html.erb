@@ -13,6 +13,9 @@
 
         <%= @page.description.try(:html_safe) %>
 
+        <h3 class='local-network-benefits-of-participation'>Benefits of Participation</h3>
+        <%= link_to_local_network_value_proposition @page.name, @page.country_code %>
+
         <%- if participants = @page.participants -%>
           <h3 class='local-network-participants-header'><%= participants.total -%> Participants (<%= link_to 'See All', participant_search_path(search: {countries: @page.country_id}) -%>)</h3>
 
