@@ -53,7 +53,7 @@ module LocalNetworkHelper
     possible.try(:first).try(:name)
   end
 
-  def link_to_local_network_value_proposition local_network_name, local_network_country_code
+  def list_local_network_participation_benefits local_network_name, local_network_country_code
     html = ''
     [2011].each do |year|
       filename = "/docs/networks_around_world_doc/communication/network_reports/#{year}/#{local_network_country_code}_VP.pdf"
