@@ -25,7 +25,7 @@ class ContactUsForm
         interests: self.interests,
         focuses: self.focuses,
         comments: self.comments,
-        to: to_addresses
+        to: ['info@unglobalcompact.org']
       })
       true
     else
@@ -33,6 +33,9 @@ class ContactUsForm
     end
   end
 
+  # TODO: Remove #to_addresses, #interest_addresses, #focus_addresses, and emails from
+  # #interest_options_data and #focus_options_data if there is no intention to use
+  # #to_addresses to send emails to specific emails depnding on interest and focus.
   def to_addresses
     emails = interest_addresses.concat(focus_addresses)
     if emails.empty?
