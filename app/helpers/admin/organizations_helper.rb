@@ -185,10 +185,6 @@ module Admin::OrganizationsHelper
     html.html_safe
   end
 
-  def display_delisted_description(organization)
-    organization.removal_reason == RemovalReason.delisted ? 'Reason for expulsion' : 'Reason for delisting'
-  end
-
   # transplanted from the old participant_helper.rb
 
   def display_delisted_description(organization)
