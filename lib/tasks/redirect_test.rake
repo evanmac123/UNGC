@@ -244,7 +244,8 @@ class RedirectTest
       {old: '/NetworksAroundTheWorld/local_network_sheet/US.html', new: '/engage-locally/north-america/usa'},
       {old: '/NetworksAroundTheWorld/local_network_sheet/VE.html', new: '/engage-locally/latin-america/venezuela'},
       {old: '/NetworksAroundTheWorld/local_network_sheet/VN.html', new: '/engage-locally/asia/viet%20nam'},
-      {old: '/NetworksAroundTheWorld/local_network_sheet/ZM.html', new: '/engage-locally/africa/zambia'}
+      {old: '/NetworksAroundTheWorld/local_network_sheet/ZM.html', new: '/engage-locally/africa/zambia'},
+      {old: '/UNPrivateSectorForum2015', new: '/take-action/events/61-united-nations-private-sector-forum-2015'}
     ]
 
     @runs = 0
