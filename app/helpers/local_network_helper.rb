@@ -53,19 +53,6 @@ module LocalNetworkHelper
     possible.try(:first).try(:name)
   end
 
-  def link_to_value_proposition_if_file_exists
-    unless local_network.nil?
-      html = ''
-      [2011].each do |year|
-        filename = "/docs/networks_around_world_doc/communication/network_reports/#{year}/#{@country_code}_VP.pdf"
-        if FileTest.exists?("public/#{filename}")
-          html += content_tag :li, link_to("#{local_network.try(:name)} - Value Proposition", filename, {:class => 'pdf'})
-        end
-      end
-     html.present? ? (content_tag :ul, html.html_safe, :class => 'links') : (content_tag :p, "No document is available")
-    end
-  end
-
   def link_to_local_network_value_proposition local_network_name, local_network_country_code
     html = ''
     [2011].each do |year|
