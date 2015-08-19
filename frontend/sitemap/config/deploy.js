@@ -16,7 +16,7 @@ module.exports = {
       port: 6380
     },
     assets: {
-      accessKeyId: 'AKIAIAHEVV5B2KXIPNGA',
+      accessKeyId: 'AKIAJ5AWZYVEUUIZBFLA',
       secretAccessKey: process.env['AWS_SECRET_KEY'],
       bucket: 'ungc-development'
     }
@@ -30,7 +30,7 @@ module.exports = {
       port: 6380
     },
     assets: {
-      accessKeyId: 'AKIAIAHEVV5B2KXIPNGA',
+      accessKeyId: 'AKIAJ5AWZYVEUUIZBFLA',
       secretAccessKey: process.env['AWS_SECRET_KEY'],
       bucket: 'ungc-development'
     }
