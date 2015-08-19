@@ -1,24 +1,19 @@
 development:
   mem_limit: 32M
-  max_matches: 15000
 test:
   mem_limit: 32M
-  max_matches: 15000
   quiet_deltas: true
 preview:
   mem_limit: 32M
-  max_matches: 15000
   indices_location: /srv/unglobalcompact/shared/sphinx/preview
   configuration_file: /srv/unglobalcompact/shared/config/sphinx.conf
 staging:
   mem_limit: 32M
-  max_matches: 15000
   indices_location: /srv/unglobalcompact/shared/sphinx/staging
   configuration_file: /srv/unglobalcompact/shared/config/sphinx.conf
   quiet_deltas: true
 production:
   mem_limit: 32M
-  max_matches: 15000
   indices_location: /srv/unglobalcompact/shared/sphinx/production
   configuration_file: /srv/unglobalcompact/shared/config/sphinx.conf
   quiet_deltas: true
