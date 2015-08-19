@@ -99,8 +99,12 @@ class Admin::ContactsController < AdminController
       true
     end
 
+    def authorized_for_image_upload?
+      current_contact.from_ungc? || (current_contact == @contact && @contact.roles.where('name = ?', "Network Contact Person").count > 0)
+    end
+
     def contact_params
-      params.fetch(:contact, {}).permit(
+      allowed_params = [
         :prefix,
         :first_name,
         :middle_name,
@@ -116,9 +120,15 @@ class Admin::ContactsController < AdminController
         :postal_code,
         :country_id,
         :username,
-        :image,
-        :password,
-        role_ids: []
+        :password
+      ]
+
+      allowed_params << :image if authorized_for_image_upload?
+
+      allowed_params << { role_ids: [] }
+
+      foo = params.fetch(:contact, {}).permit(
+        *allowed_params
       )
     end
 
