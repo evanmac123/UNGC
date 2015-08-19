@@ -108,6 +108,31 @@ class Searchable::SearchableContainerTest < ActiveSupport::TestCase
     assert_nil Searchable.find_by(url: '/one/two/three')
   end
 
+  should "become searchable when published" do
+    container = create(:container)
+    Searchable.index_all
+
+    attach_payload(container)
+    publisher = ContainerPublisher.new(container, create(:contact))
+    assert publisher.publish
+    container.save!
+
+    assert_difference 'Searchable.count', +1 do
+      Searchable.index_all
+    end
+  end
+
+  should "no longer be searchable when unpublished" do
+    container = create_published_contaner
+    Searchable.index_all
+
+    publisher = ContainerPublisher.new(container, create(:contact))
+
+    assert_difference ' Searchable.count', -1 do
+      assert publisher.unpublish
+    end
+  end
+
   private
 
   def unpublished_container
@@ -131,11 +156,18 @@ class Searchable::SearchableContainerTest < ActiveSupport::TestCase
       }
     }
 
-    create(:country) # required for the create_contact
     container = create(:container, params)
     container.draft_payload = create(:payload, container_id: container.id, json_data: data.to_json)
     assert ContainerPublisher.new(container, create(:contact)).publish
     container
+  end
+
+  def attach_payload(container, data = nil)
+    data ||= { meta_tags: { title: 'some title' }}
+    container.draft_payload = create(:payload,
+      container_id: container.id,
+      json_data: data.to_json
+    )
   end
 
 end
