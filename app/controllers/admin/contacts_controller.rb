@@ -127,7 +127,7 @@ class Admin::ContactsController < AdminController
 
       allowed_params << { role_ids: [] }
 
-      foo = params.fetch(:contact, {}).permit(
+      params.fetch(:contact, {}).permit(
         *allowed_params
       )
     end
