@@ -14,10 +14,10 @@
         <%= @page.description.try(:html_safe) %>
 
         <h3 class='local-network-benefits-of-participation'>Benefits of Participation</h3>
-        <%- if @page.participation_benefits.count > 0 -%>
+        <%- if @page.value_proposition_paths.count > 0 -%>
           <ul class='links'>
-            <%- @page.participation_benefits.each do |filename| -%>
-              <%= content_tag :li, link_to("#{@page.name} - Value Proposition", filename, {:class => 'pdf'}) %>
+            <%- @page.value_proposition_paths.each do |path| -%>
+              <%= content_tag :li, link_to("#{@page.name} - Value Proposition", path, {:class => 'pdf'}) %>
             <%- end -%>
           </ul>
         <%- else -%>
