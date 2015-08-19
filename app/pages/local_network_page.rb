@@ -51,6 +51,15 @@ class LocalNetworkPage < SimpleDelegator
       })
   end
 
+  def participation_benefits
+    [2011].map do |year|
+      filename = "/docs/networks_around_world_doc/communication/network_reports/#{year}/#{local_network.country_code}_VP.pdf"
+      if FileTest.exists?("public/#{filename}")
+        filename
+      end
+    end.compact
+  end
+
   private
 
     def network_contact

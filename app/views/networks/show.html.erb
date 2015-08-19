@@ -14,7 +14,15 @@
         <%= @page.description.try(:html_safe) %>
 
         <h3 class='local-network-benefits-of-participation'>Benefits of Participation</h3>
-        <%= list_local_network_participation_benefits @page.name, @page.country_code %>
+        <%- if @page.participation_benefits.count > 0 -%>
+          <ul class='links'>
+            <%- @page.participation_benefits.each do |filename| -%>
+              <%= content_tag :li, link_to("#{@page.name} - Value Proposition", filename, {:class => 'pdf'}) %>
+            <%- end -%>
+          </ul>
+        <%- else -%>
+          <%= content_tag :p, 'No document is available.' %>
+        <%- end -%>
 
         <%- if participants = @page.participants -%>
           <h3 class='local-network-participants-header'><%= participants.total -%> Participants (<%= link_to 'See All', participant_search_path(search: {countries: @page.country_id}) -%>)</h3>
