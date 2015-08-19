@@ -57,9 +57,7 @@ class SitewideSearchForm
   end
 
   def facet_options
-    {
-      star: true
-    }
+    {}
   end
 
   def options

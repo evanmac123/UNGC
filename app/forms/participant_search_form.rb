@@ -97,7 +97,6 @@ class ParticipantSearchForm < FilterableForm
 
   def facet_options
     {
-      star: true,
       indices: ['participant_search_core'],
     }
   end
