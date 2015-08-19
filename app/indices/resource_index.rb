@@ -10,7 +10,6 @@ ThinkingSphinx::Index.define :resource, with: :active_record, name: 'resource_ol
 
   where "approval = 'approved'"
 
-  set_property enable_star: true
   set_property min_prefix_len: 4
 end
 
@@ -28,6 +27,5 @@ ThinkingSphinx::Index.define :resource, with: :active_record, name: 'resource_ne
 
   where "approval = 'approved'"
 
-  set_property enable_star: true
   set_property min_prefix_len: 4
 end

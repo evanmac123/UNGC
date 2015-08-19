@@ -17,7 +17,6 @@ ThinkingSphinx::Index.define :organization,
   has is_ft_500, :facet => true
   has state, active, participant
   # set_property :delta => true # TODO: Switch this to :delayed once we have DJ working
-  set_property :enable_star => true
   set_property :min_prefix_len => 4
 end
 
@@ -68,6 +67,5 @@ ThinkingSphinx::Index.define :organization,
 
   has state, active, participant
 
-  set_property :enable_star => true
   set_property :min_prefix_len => 4
 end
