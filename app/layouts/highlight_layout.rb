@@ -51,12 +51,14 @@ class HighlightLayout < UNGC::Layout
       field :alt, type: :string
       field :src,   type: :href
       field :url,   type: :href
+      field :external, type: :boolean, default: false
     end
     scope :call_to_action do
       field :theme, type: :string, enum: BUTTON_COLORS, default: 'light-blue'
       field :title, type: :string, limit: 50
       field :url,   type: :href
       field :enabled,  type: :boolean, default: false
+      field :external, type: :boolean, default: false
     end
   end
 

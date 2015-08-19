@@ -22,6 +22,7 @@
           {{container/x-field key="enabled" label="Show" type="boolean" default=false scope=callToAction}}
           {{container/x-field key="title" type="string-addon" label="Text" limit=50 scope=callToAction}}
           {{container/x-field key="url" type="href-addon" limit=50 scope=callToAction}}
+          {{container/x-field key="external" type="boolean" scope=callToAction}}
           {{container/x-field label="Color" key="theme" type="button-color-select" limit=50 scope=callToAction}}
         {{/container/x-fields}}
 
@@ -30,6 +31,7 @@
           {{container/x-field label="Image title" key="alt" type="string" limit=50 scope=image}}
           {{container/x-field label="Image Url" key="src" type="image-upload" scope=image}}
           {{container/x-field label="Image Link" key="url" type="href" scope=image}}
+          {{container/x-field key="external" type="boolean" scope=image}}
         {{/container/x-fields}}
       </div>
     {{/container/x-fields}}
