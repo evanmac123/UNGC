@@ -7,9 +7,6 @@ class CaseExampleControllerTest < ActionController::TestCase
 
     create_container path: '/take-action/action/share-story'
 
-    create_staff_user
-    sign_in @staff_user
-
     @sector = create_sector
     @sector2 = create_sector
     @country = create_country

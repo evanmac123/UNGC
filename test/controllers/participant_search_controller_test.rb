@@ -2,8 +2,6 @@ require 'test_helper'
 
 class ParticipantSearchControllerTest < ActionController::TestCase
   setup do
-    create_staff_user
-    sign_in @staff_user
     Container.stubs(by_path: stub(first!: container))
   end
 

@@ -3,9 +3,6 @@ require 'test_helper'
 class LibraryControllerTest < ActionController::TestCase
 
   setup do
-    create_staff_user
-    sign_in @staff_user
-
     Resource.stubs(search: stub(
       total_entries: 0,
       total_pages: 0,

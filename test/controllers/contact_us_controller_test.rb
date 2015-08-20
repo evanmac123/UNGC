@@ -7,9 +7,6 @@ class ContactUsControllerTest < ActionController::TestCase
 
     create_container path: '/about/contact'
 
-    create_staff_user
-    sign_in @staff_user
-
     @params = {
       name: 'Venu Keesari',
       email: 'keesari@unglobalcompact.org',
