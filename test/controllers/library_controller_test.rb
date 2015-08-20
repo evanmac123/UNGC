@@ -44,6 +44,7 @@ class LibraryControllerTest < ActionController::TestCase
     end
 
     should "show draft content to staff when asked" do
+      create_staff_user
       sign_in @staff_user
       get :index, draft: true
 
