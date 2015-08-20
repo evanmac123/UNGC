@@ -79,10 +79,8 @@ module IntegrationTestHelper
   def assert_render_sidebar_call_to_action_component(equality, count)
     assert_select '.widget-call-to-action', count do |calls|
       calls.each_with_index do |call, index|
-        href = call.attributes['href'].value.sub('/redesign','')
-
         assert_equal equality[index][:label], call.content
-        assert_equal equality[index][:url], href
+        assert_equal equality[index][:url], call.attributes['href'].value
       end
     end
   end
@@ -94,8 +92,7 @@ module IntegrationTestHelper
         assert_select links_list, '.links-list-link-item' do |link_items|
           link_items.each_with_index do |link_item, link_index|
             assert_equal equality[list_index][:links][link_index][:label], link_item.content
-            # FIXME: Use assert_equal once links no longer have '/redesign' prepended to them.
-            assert_match Regexp.new(Regexp.escape(equality[list_index][:links][link_index][:url])), link_item.attributes['href'].value
+            assert_equal equality[list_index][:links][link_index][:url], link_item.attributes['href'].value
           end
         end
       end
