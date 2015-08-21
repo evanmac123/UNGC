@@ -1,4 +1,4 @@
-#redesign_topics.tab_content
+#topics.tab_content
   %fieldset
     %legend Topics
     .topics-tree
@@ -16,7 +16,7 @@
                     = check_box_tag model_name+'[topic_ids][]', child_topic.id, child_topic.selected?
                     = child_topic.name
 
-#redesign_issues.tab_content
+#issues.tab_content
   %fieldset
     %legend Issues
     .topics-tree
@@ -34,7 +34,7 @@
                     = check_box_tag model_name+'[issue_ids][]', child_issue.id, child_issue.selected?
                     = child_issue.name
 
-#redesign_sectors.tab_content
+#sectors.tab_content
   %fieldset
     %legend Sectors
     .topics-tree
