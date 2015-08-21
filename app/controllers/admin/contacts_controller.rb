@@ -100,7 +100,9 @@ class Admin::ContactsController < AdminController
     end
 
     def authorized_for_image_upload?
-      current_contact.from_ungc? || (current_contact == @contact && @contact.roles.where('name = ?', "Network Contact Person").count > 0)
+      # UNGC contacts can upload images on any contact and contacts with the
+      # network contact person role can on any contact they can edit normally
+      current_contact.from_ungc? || current_contact.is?(Role.network_focal_point)
     end
 
     def contact_params

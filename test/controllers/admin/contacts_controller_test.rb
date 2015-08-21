@@ -210,12 +210,11 @@ class Admin::ContactsControllerTest < ActionController::TestCase
     end
 
     context 'given the contact is a not a UNGC staff user or contact with the network contact person role' do
-      should 'ignore image and save and redirect' do
-        put :update, local_network_id: @local_network.id, id: @network_contact.to_param, contact: {
-          :username    => 'aaa',
-          :password => 'password'
-        }.merge({:image => fixture_file_upload('files/untitled.jpg', 'image/jpeg')})
+      should 'update image' do
+        put :update, id: @network_contact.to_param, local_network_id: @local_network.id, contact: @new_contact_attributes.merge({:image => fixture_file_upload('files/untitled.jpg', 'image/jpeg') })
+        @network_contact.reload
 
+        assert @network_contact.image.file?
         assert_redirected_to admin_local_network_path(@local_network.id, tab: :contacts)
       end
     end
@@ -247,12 +246,11 @@ class Admin::ContactsControllerTest < ActionController::TestCase
     end
 
     context 'given the contact is a not itself' do
-      should 'ignore image and save and redirect' do
-        put :update, id: @another_network_contact_person, local_network_id: @another_network_contact_person.local_network, contact: {
-          :username    => 'aaa',
-          :password => 'password'
-        }.merge({:image => fixture_file_upload('files/untitled.jpg', 'image/jpeg')})
+      should 'update image' do
+        put :update, id: @another_network_contact_person, local_network_id: @another_network_contact_person.local_network, contact: @new_contact_attributes.merge({:image => fixture_file_upload('files/untitled.jpg', 'image/jpeg') })
+        @another_network_contact_person.reload
 
+        assert @another_network_contact_person.image.file?
         assert_redirected_to admin_local_network_path(@another_network_contact_person.local_network.id, tab: :contacts)
       end
     end
