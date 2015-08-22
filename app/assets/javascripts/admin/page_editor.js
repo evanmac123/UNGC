@@ -1,4 +1,4 @@
-var CKEDITOR_BASEPATH = '/ckeditor/'
+var CKEDITOR_BASEPATH = '/assets/ckeditor/'
 
 function startEditor(replaceMe) {
 	var mode = $('#'+replaceMe).attr('rel');
