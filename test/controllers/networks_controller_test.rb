@@ -5,6 +5,7 @@ class NetworksControllerTest < ActionController::TestCase
     create_container path: '/engage-locally/north-america'
 
     @local_network = create_local_network(name: 'Canada')
+    @country = create_country(name: 'Canada', code: 'CA', local_network_id: @local_network.id)
   end
 
   test 'should get show' do

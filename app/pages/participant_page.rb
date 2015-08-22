@@ -63,7 +63,7 @@ class ParticipantPage < SimpleDelegator
   end
 
   def joined_on
-    participant.joined_on.try(:strftime, '%B, %Y')
+    participant.joined_on.try(:strftime, '%d %B %Y')
   end
 
   def cop_due_on

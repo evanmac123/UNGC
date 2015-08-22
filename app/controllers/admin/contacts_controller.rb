@@ -99,8 +99,14 @@ class Admin::ContactsController < AdminController
       true
     end
 
+    def authorized_for_image_upload?
+      # UNGC contacts can upload images on any contact and contacts with the
+      # network contact person role can on any contact they can edit normally
+      current_contact.from_ungc? || current_contact.is?(Role.network_focal_point)
+    end
+
     def contact_params
-      params.fetch(:contact, {}).permit(
+      allowed_params = [
         :prefix,
         :first_name,
         :middle_name,
@@ -116,9 +122,15 @@ class Admin::ContactsController < AdminController
         :postal_code,
         :country_id,
         :username,
-        :image,
-        :password,
-        role_ids: []
+        :password
+      ]
+
+      allowed_params << :image if authorized_for_image_upload?
+
+      allowed_params << { role_ids: [] }
+
+      params.fetch(:contact, {}).permit(
+        *allowed_params
       )
     end
 

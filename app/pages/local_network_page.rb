@@ -51,6 +51,15 @@ class LocalNetworkPage < SimpleDelegator
       })
   end
 
+  def value_proposition_paths
+    [2011].map do |year|
+      filename = "/docs/networks_around_world_doc/communication/network_reports/#{year}/#{local_network.country_code}_VP.pdf"
+      if FileTest.exists?("public/#{filename}")
+        filename
+      end
+    end.compact
+  end
+
   private
 
     def network_contact
@@ -80,6 +89,7 @@ class LocalNetworkPage < SimpleDelegator
           'sectors.parent_id',
           'sectors.name',
           'count(sectors.id) as participants_count')
+        .where('sectors.name != ?', 'Not Applicable')
         .order('participants_count desc')
         .limit(5)
 
@@ -107,11 +117,7 @@ class LocalNetworkPage < SimpleDelegator
       end
 
       def name
-        if sector.name == Sector::NOT_APPLICABLE
-          'Non Business'
-        else
-          sector.name
-        end
+        sector.name
       end
 
     end
@@ -120,4 +126,3 @@ class LocalNetworkPage < SimpleDelegator
       __getobj__
     end
 end
-

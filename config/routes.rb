@@ -440,6 +440,7 @@ UNGC::Application.routes.draw do
   get '/Languages(*path)', to: redirect('/')
   get '/languages(*path)', to: redirect('/')
   get '/redesign/admin', to: redirect('/sitemap')
+  get '/UNPrivateSectorForum2015', to: redirect('/take-action/events/61-united-nations-private-sector-forum-2015')
 
   # new redirects (to be tested)
   get '/index.html', to: redirect('/')

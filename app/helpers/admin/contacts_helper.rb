@@ -11,6 +11,10 @@ module Admin::ContactsHelper
     "role_for_login_fields" if Role.login_roles.include? role
   end
 
+  def current_contact_can_upload_image current_contact
+    current_contact.from_ungc? || current_contact.is?(Role.network_focal_point)
+  end
+
   def current_contact_can_delete(current_contact, tabbed_contact)
     return false if current_contact == tabbed_contact
 
@@ -20,5 +24,4 @@ module Admin::ContactsHelper
       return current_contact.organization.participant ? true : false
     end
   end
-
 end

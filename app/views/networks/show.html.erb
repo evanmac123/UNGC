@@ -13,8 +13,19 @@
 
         <%= @page.description.try(:html_safe) %>
 
+        <h3 class='local-network-benefits-of-participation'>Benefits of Participation</h3>
+        <%- if @page.value_proposition_paths.count > 0 -%>
+          <ul class='links'>
+            <%- @page.value_proposition_paths.each do |path| -%>
+              <%= content_tag :li, link_to("#{@page.name} - Value Proposition", path, {:class => 'pdf'}) %>
+            <%- end -%>
+          </ul>
+        <%- else -%>
+          <%= content_tag :p, 'No document is available.' %>
+        <%- end -%>
+
         <%- if participants = @page.participants -%>
-          <h3 class='local-network-participants-header'><%= participants.total -%> Participants</h3>
+          <h3 class='local-network-participants-header'><%= participants.total -%> Participants (<%= link_to 'See All', participant_search_path(search: {countries: @page.country_id}) -%>)</h3>
 
           <table class='table-embedded'>
             <thead>

@@ -80,8 +80,6 @@ class Contact < ActiveRecord::Base
                               :with => /\A[A-Za-z0-9.'_%+-]+@[A-Za-z0-9'.-]+\.[A-Za-z]{2,6}\z/,
                               :message => "is not a valid email address"
 
-  validate :validate_image_only_for_ungc_contacts
-
   belongs_to :country
   belongs_to :organization
   belongs_to :local_network
@@ -360,15 +358,5 @@ class Contact < ActiveRecord::Base
 
     def self.old_encrypted_password(password)
       Digest::SHA1.hexdigest("#{password}--UnGc--")
-    end
-
-    def validate_image_only_for_ungc_contacts
-      if self.from_ungc?
-        return true
-      end
-
-      if self.image.present?
-        errors.add :image, "should not be present"
-      end
     end
 end
