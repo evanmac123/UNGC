@@ -10,17 +10,15 @@
     %li
       %a{:href => '#general'} General
     %li
-      %a{:href => '#topics'} Topics
-    %li
       %a{:href => '#authors'} Authors
     %li
       %a{:href => '#links'} Links
     %li
-      %a{:href => '#redesign_topics'} New Topics*
+      %a{:href => '#topics'} Topics
     %li
-      %a{:href => '#redesign_issues'} Issues*
+      %a{:href => '#issues'} Issues
     %li
-      %a{:href => '#redesign_sectors'} Sectors*
+      %a{:href => '#sectors'} Sectors
 
 
   #general.tab_content
@@ -40,11 +38,6 @@
           %label Preview
           .resource-img-preview
             = retina_image @resource, :featured, title: @resource.title
-
-  #topics.tab_content
-    %fieldset
-      %legend Topics
-      = render '/shared/topics_menu', prefix: 'resource', topics: @topics, topics_ids: @resource.principle_ids
 
   #authors.tab_content
     %fieldset

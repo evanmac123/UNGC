@@ -111,6 +111,7 @@ module FixtureReplacement
 
   attributes_for :headline do |a|
     a.title = FixtureReplacement.random_string
+    a.description = "<p>#{FixtureReplacement.random_string}</p>"
     a.published_on = Time.now
   end
 
@@ -169,21 +170,6 @@ module FixtureReplacement
     o.url = 'http://www.example.com'
     o.pledge_amount = 1000
     o.joined_on = Date.new(2009,10,10)
-  end
-
-  attributes_for :page do |a|
-    a.path      = random_url
-    a.title     = FixtureReplacement.random_string
-    a.html_code = FixtureReplacement.random_string
-    a.approval  = 'approved'
-    a.display_in_navigation = true
-  end
-
-  attributes_for :page_group do |a|
-    a.name      = FixtureReplacement.random_string
-    a.html_code = FixtureReplacement.random_string
-
-    a.display_in_navigation = true
   end
 
   attributes_for :principle do |a|
@@ -313,12 +299,12 @@ module FixtureReplacement
     t.name = FixtureReplacement.random_string
   end
 
-  attributes_for :container, class: Redesign::Container do |c|
+  attributes_for :container, class: Container do |c|
     c.layout = :home
     c.slug = FixtureReplacement.random_string
   end
 
-  attributes_for :payload, class: Redesign::Payload do |p|
+  attributes_for :payload, class: Payload do |p|
     p.container_id = new_container.id
     p.json_data = '{}'
   end

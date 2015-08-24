@@ -1,0 +1,42 @@
+<header id="main-header">
+  <div class='wrapper'>
+    <%= link_to '/', class: 'logo' do %>
+      <h1><%= image_tag 'new-logo-white.svg', alt: 'United Nations Global Compact' -%></h1>
+    <% end %>
+
+    <div id='main-navigation-trigger'><div><span></span></div></div>
+
+    <nav id='main-navigation-container'>
+      <%= form_for :s, as: :search, url: search_path, method: :get, html: {id: 'main-search'} do |form| %>
+        <div id='main-search-filters'>
+          <fieldset>
+
+            <%= label_tag 'search_type_all' do %>All<% end %>
+            <%= radio_button_tag 'search[type]', :all, true, 'data-action' => search_path -%>
+
+            <%= label_tag 'search_type_participants' do %>Participants<% end %>
+            <%= radio_button_tag 'search[type]', :participants , false, 'data-action' => participant_search_path-%>
+
+          </fieldset>
+        </div>
+        <%= text_field_tag 'search[keywords]', nil, placeholder: 'Search', class: 'search-field' -%>
+        <button type="submit" class='search-button'><span>Search</span></button>
+      <% end %>
+
+      <ul id='primary-navigation'>
+        <li><%= link_to 'What Is UN Global Compact?', '/what-is-gc', class: "nav-link #{request.fullpath =~ /\A\/what-is-gc/ ? 'active' : nil}" -%></li>
+        <li><%= link_to 'Participation', '/participation', class: "nav-link #{request.fullpath =~ /\A\/participation/ ? 'active' : nil}" -%></li>
+        <li><%= link_to 'Take Action', '/take-action', class: "nav-link #{request.fullpath =~ /\A\/take-action/ ? 'active' : nil}" -%></li>
+        <li><%= link_to 'Engage Locally', '/engage-locally', class: "nav-link #{request.fullpath =~ /\A\/engage-locally/ ? 'active' : nil}" -%></li>
+        <li><%= link_to 'Explore Our Library', '/library', class: "nav-link #{params[:controller] == 'redesign/library' ? 'active' : nil}" -%></li>
+      </ul>
+
+      <ul id='secondary-navigation'>
+        <li><%= link_to 'About', '/about', class: "nav-link #{params[:action] == 'long_article' ? 'active' : nil}" -%></li>
+        <li><%= link_to 'News', news_index_path, class: "nav-link" -%></li>
+        <li><%= link_to 'Sign In', '/login', class: "nav-link" -%></li>
+        <li id="google_translate_element"></li>
+      </ul>
+    </nav>
+  </div>
+</header>

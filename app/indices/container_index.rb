@@ -1,4 +1,4 @@
-ThinkingSphinx::Index.define 'redesign/container', with: :active_record do
+ThinkingSphinx::Index.define 'container', with: :active_record do
   indexes content_type
   indexes layout
 

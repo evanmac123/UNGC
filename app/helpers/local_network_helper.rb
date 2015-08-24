@@ -53,31 +53,6 @@ module LocalNetworkHelper
     possible.try(:first).try(:name)
   end
 
-  def link_to_value_proposition_if_file_exists
-    unless local_network.nil?
-      html = ''
-      [2011].each do |year|
-        filename = "/docs/networks_around_world_doc/communication/network_reports/#{year}/#{@country_code}_VP.pdf"
-        if FileTest.exists?("public/#{filename}")
-          html += content_tag :li, link_to("#{local_network.try(:name)} - Value Proposition", filename, {:class => 'pdf'})
-        end
-      end
-     html.present? ? (content_tag :ul, html.html_safe, :class => 'links') : (content_tag :p, "No document is available")
-    end
-  end
-
-  def link_to_public_profile(local_network)
-    if local_network.country_code.present?
-      path = "/NetworksAroundTheWorld/local_network_sheet/#{local_network.country_code}.html"
-      page = Page.find_by_path_and_approval path, 'approved'
-      unless page.nil?
-        link_to local_network.name, page.path
-      else
-        local_network.name
-      end
-    end
-  end
-
   # temporary participant reports until Local Networks can login
   # these should be removed
 

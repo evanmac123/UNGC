@@ -9,6 +9,23 @@ class CopMailerTest < ActionMailer::TestCase
       @cop = create_cop(@organization.id)
     end
 
+    should "send confirmation Blueprint email for complete COPs" do
+      cop = stub(
+        complete?: true,
+        differentiation_level_with_default: :active,
+        to_param: '123'
+      )
+      response = CopMailer.confirmation_blueprint(@organization, cop, @organization_user).deliver
+      assert_match /\/participation\/report\/cop\/create-and-submit\/active\/123/, response.body.raw_source
+    end
+
+    should "send confirmation Blueprint email for incomplete COPs" do
+      response = CopMailer.confirmation_blueprint(@organization, @cop, @organization_user).deliver
+      assert_equal "text/html; charset=UTF-8", response.content_type
+      assert_equal "Global Compact LEAD - COP Status", response.subject
+      assert_equal @organization_user.email, response.to.first
+    end
+
     should "send confirmation Learner email" do
       response = CopMailer.confirmation_learner(@organization, @cop, @organization_user).deliver
       assert_equal "text/html; charset=UTF-8", response.content_type
@@ -29,14 +46,6 @@ class CopMailerTest < ActionMailer::TestCase
       assert_equal "UN Global Compact Status - GC Advanced", response.subject
       assert_equal @organization_user.email, response.to.first
     end
-
-    should "send confirmation Blueprint email" do
-      response = CopMailer.confirmation_blueprint(@organization, @cop, @organization_user).deliver
-      assert_equal "text/html; charset=UTF-8", response.content_type
-      assert_equal "Global Compact LEAD - COP Status", response.subject
-      assert_equal @organization_user.email, response.to.first
-    end
-
   end
 
   context "given a COP from a Non Business" do
@@ -233,5 +242,4 @@ class CopMailerTest < ActionMailer::TestCase
       assert_equal @network_contact.email, response.cc.first
     end
   end
-
 end

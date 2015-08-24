@@ -79,10 +79,8 @@ module IntegrationTestHelper
   def assert_render_sidebar_call_to_action_component(equality, count)
     assert_select '.widget-call-to-action', count do |calls|
       calls.each_with_index do |call, index|
-        href = call.attributes['href'].value.sub('/redesign','')
-
         assert_equal equality[index][:label], call.content
-        assert_equal equality[index][:url], href
+        assert_equal equality[index][:url], call.attributes['href'].value
       end
     end
   end
@@ -94,8 +92,7 @@ module IntegrationTestHelper
         assert_select links_list, '.links-list-link-item' do |link_items|
           link_items.each_with_index do |link_item, link_index|
             assert_equal equality[list_index][:links][link_index][:label], link_item.content
-            # FIXME: Use assert_equal once links no longer have '/redesign' prepended to them.
-            assert_match Regexp.new(Regexp.escape(equality[list_index][:links][link_index][:url])), link_item.attributes['href'].value
+            assert_equal equality[list_index][:links][link_index][:url], link_item.attributes['href'].value
           end
         end
       end
@@ -152,7 +149,7 @@ module IntegrationTestHelper
       assert_select '.component-header', 'From our Library'
       assert_select '.component-content-block', 3 do |blocks|
         blocks.each_with_index do |block, index|
-          assert_select block, '.component-content-block-link', href: redesign_library_resource_path(equality[index])
+          assert_select block, '.component-content-block-link', href: library_resource_path(equality[index])
           assert_select block, '.component-content-block-image img', src: equality[index].cover_image # Note: This is /images/original/missing.png during test.
           assert_select block, '.component-content-block-title', equality[index].title
           assert_select block, '.component-content-block-tag', equality[index].content_type # Note: This is nil during test.
@@ -184,7 +181,7 @@ module IntegrationTestHelper
         assert_select '.tab-content-header', 'Events'
         assert_select '.future-events .event', 3 do |events|
           events.sort.each_with_index do |event, index|
-            assert_equal event.attributes['href'].value, redesign_event_path(equality[:events][index])
+            assert_equal event.attributes['href'].value, event_path(equality[:events][index])
             assert_select event, 'time', equality[:events][index].starts_at.strftime('%d-%b-%Y')
             assert_select event, 'address', equality[:events][index].full_location
             assert_select event, 'h2', equality[:events][index].title
@@ -199,7 +196,7 @@ module IntegrationTestHelper
         assert_select '.tab-content-header', 'News'
         assert_select '.news-items .news-item' do |news_items|
           news_items.each_with_index do |news_item, index|
-            assert_equal news_item.attributes['href'].value, redesign_news_path(equality[:news][index])
+            assert_equal news_item.attributes['href'].value, news_path(equality[:news][index])
             assert_select news_item, 'time', equality[:news][index].published_on.strftime('%Y-%m-%d')
             assert_select news_item, 'address', equality[:news][index].location
             assert_select news_item, 'h2', equality[:news][index].title

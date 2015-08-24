@@ -1,0 +1,51 @@
+<footer id='main-footer'>
+  <div class='wrapper'>
+    <article class='column'>
+      <div class='contribute'>
+        <h2>Help us transform the world through business</h2>
+        <%= link_to 'Contribute Today', '/about/foundation' %>
+      </div>
+
+      <div class='contact'>
+        <h2>Contact</h2>
+        Use our <%= link_to 'contact form', new_contact_us_path -%> to get in touch.
+      </div>
+    </article>
+
+    <article class='column'>
+      <h2>Follow Us</h2>
+      <ul class='social'>
+        <li>
+          <a href="https://twitter.com/globalcompact" class='twitter' target='_blank'><span>Twitter</span></a>
+          <a href="https://www.facebook.com/UNGlobalCompact" class='facebook' target='_blank'><span>Facebook</span></a>
+          <a href="https://www.linkedin.com/company/united-nations-global-compact" class='linkedin' target='_blank'><span>LinkedIn</span></a>
+          <a href="https://www.youtube.com/channel/UCvGxh25-RUvCcZJXHj32Zzg" class='youtube' target='_blank'><span>YouTube</span></a>
+          <a href="http://www.flickr.com/photos/ungc" class='flickr' target='_blank'><span>Flickr</span></a>
+          <a href="http://feeds.unglobalcompact.org/UnitedNationsGlobalCompact-LatestNews" class='rss' target='_blank'><span>RSS</span></a>
+        </li>
+      </ul>
+
+      <h2>QuickLinks</h2>
+      <ul class='quick-links'>
+        <li><%= link_to 'The Ten Principles', '/what-is-gc/mission/principles' -%></li>
+        <li><%= link_to 'All Our Work', '/what-is-gc/our-work/all' -%></li>
+        <li><%= link_to 'What You Can Do', '/take-action/action' -%></li>
+        <li><%= link_to 'Events', events_path -%></li>
+        <li><%= link_to 'Join Now', signup_path -%></li>
+        <li><%= link_to 'Submit your COP', '/participation/report' -%></li>
+      </ul>
+    </article>
+
+    <article class='column'>
+      <a class="twitter-timeline" data-dnt="true" href="https://twitter.com/globalcompact" data-widget-id="571824679078604800">Tweets by @globalcompact</a>
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    </article>
+
+    <ul class='colophon'>
+      <li><a href="http://www.un.org/en/" target="_blank">United Nations</a></li>
+      <li><a href="/privacy-policy">Privacy Policy</a></li>
+      <li><a href="/copyright">Copyright</a></li>
+      <li><a href="/photo-credits">Photo Credits</a></li>
+    </ul>
+  </div>
+</footer>

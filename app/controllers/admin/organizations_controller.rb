@@ -4,7 +4,7 @@ class Admin::OrganizationsController < AdminController
   before_filter :no_rejected_organizations_access, :only => :edit
   before_filter :no_access_to_other_organizations
   before_filter :fetch_registration, only: [:edit, :update]
-  helper :participants, 'admin/contacts'
+  helper 'admin/contacts'
 
   def index
     @organizations = Organization.order(order_from_params)

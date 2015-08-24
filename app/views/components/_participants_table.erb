@@ -1,0 +1,32 @@
+
+<% participants.no_results do %>
+  No results.
+<% end %>
+
+<% participants.with_results do |results| %>
+  <table class='participants-table'>
+    <thead>
+      <tr>
+        <% sort_headers(sort_field, sort_direction) do |h| %>
+          <%= h.header 'Name', 'name' %>
+          <%= h.header 'Type', 'type' %>
+          <%= h.header 'Sector', 'sector' %>
+          <%= h.header 'Country', 'country' %>
+          <%= h.header 'Joined On', 'joined_on' %>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% results.each do |participant| %>
+        <tr>
+          <th class='name'><%= link_to participant.name, participant_path(participant) %></th>
+          <td class='type'><%= participant.type %></td>
+          <td class='sector'><%= participant.sector %></td>
+          <td class='country'><%= participant.country %></td>
+          <td class='joined-on'><%= participant.joined_on %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= will_paginate participants, previous_label: "<span>Previous</span>", next_label: "<span>Next</span>" %>
+<% end %>

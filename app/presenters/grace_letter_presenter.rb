@@ -17,6 +17,7 @@ class GraceLetterPresenter
            :organization,
            :title,
            :differentiation,
+           :differentiation_level_with_default,
            to: :cop
 
   def initialize(cop, current_contact)

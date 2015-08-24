@@ -2,7 +2,7 @@
 
 %p
   Thank you for submitting your company's Communication on Progress (COP).
-  == It is now #{link_to "publicly available", 'http://www.unglobalcompact.org' + cop_detail_path(@cop.id)} on the Global Compact website.
+  == It is now #{link_to "publicly available", show_cops_url(differentiation: @cop.differentiation_level_with_default, id: @cop.id)} on the Global Compact website.
 
 %p== Your COP is missing <strong>#{@cop.number_missing_items}</strong> of the required elements:
 
@@ -27,7 +27,7 @@
 
 %p The Global Compact is working with Local Networks and other partners, including the Global Reporting Initiative, to help companies in the Learner Platform to meet all COP requirements.
 
-%p== If you need any assistance in improving your COP, please do not hesitate to contact the COP team #{mail_to 'cop@unglobalcompact.org'} or your #{link_to 'Local Network', 'http://www.unglobalcompact.org' + link_to_local_network(@organization)} Contact Person.
+%p== If you need any assistance in improving your COP, please do not hesitate to contact the COP team #{mail_to 'cop@unglobalcompact.org'} or your #{link_to 'Local Network', link_to_local_network(@organization)} Contact Person.
 
 %p Sincerely,
 %p

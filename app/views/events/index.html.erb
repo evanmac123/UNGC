@@ -1,0 +1,48 @@
+<%= render partial: 'components/meta_tags' %>
+
+<%= render partial: 'components/hero' %>
+
+<%= form_for @search, as: :search, url: events_path, method: :get, html: {id: 'filters-form'}  do |form| %>
+
+  <header>
+    <h1>Events</h1>
+  </header>
+
+  <fieldset class='filter-lists'>
+    <% @search.filters.each do |filter| %>
+      <%= search_filter(filter) %>
+    <% end %>
+  </fieldset>
+
+  <%= active_filters(@search) %>
+
+  <footer>
+    <fieldset class='filter-sorting'>
+      <%= form.text_field :start_date, placeholder: 'Start Date', class: 'datepicker' %>
+      <%= form.text_field :end_date, placeholder: 'End Date', class: 'datepicker' %>
+      <%= form.submit 'Search', class: 'button' %>
+    </fieldset>
+  </footer>
+<% end %>
+
+<%- if @page.events.any? -%>
+  <%= render layout: 'components/content_blocks', locals: {blocks: @page.events} do |event| %>
+    <%= render 'components/content_block',
+      type: 'event',
+      title: event.title,
+      url: event_path(event),
+      thumbnail: event.thumbnail_image.url,
+      tag: event.tag,
+      date: event.date,
+      location: event.location
+    %>
+  <% end %>
+<%- else -%>
+  <section class="main-content-section main-content-section-wide">
+    <div class='wrapper'>
+      <h2>No events found.</h2>
+    </div>
+  </section>
+<%- end -%>
+
+<%= will_paginate @page.results, previous_label: "<span>Previous</span>", next_label: "<span>Next</span>" %>

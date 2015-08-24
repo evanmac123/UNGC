@@ -13,7 +13,7 @@ class ListingStatus < ActiveRecord::Base
   validates_presence_of :name
 
   def self.not_applicable
-    find_by_name("Not Applicable")
+    find_by(name: "Not Applicable")
   end
 
   def self.applicable
@@ -21,7 +21,7 @@ class ListingStatus < ActiveRecord::Base
   end
 
   def self.publicly_listed
-    find_by_name("Publicly Listed")
+    find_by(name: "Publicly Listed")
   end
 
 

@@ -1,0 +1,8 @@
+<%- image ||= nil -%>
+<%- if image && image[:src] -%>
+  <%- if image[:url].present? %>
+    <%= link_to image_tag(image[:src], alt: image[:alt]), image[:url], target: image[:external] ? "_blank" : "", class: 'widget widget-image' %>
+  <%- else -%>
+    <div class='widget widget-image'><%= image_tag(image[:src], alt: image[:alt]) if image && image[:src] %></div>
+  <%- end -%>
+<%- end -%>

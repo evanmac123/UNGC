@@ -21,7 +21,7 @@ class Components::RelatedContent
                      boxes = related_content[:content_boxes]
                      return [] unless boxes
                      paths = boxes.map {|r| r[:container_path] }
-                     Redesign::Container.includes(:public_payload).by_path(paths)
+                     Container.includes(:public_payload).by_path(paths)
                    end
   end
 

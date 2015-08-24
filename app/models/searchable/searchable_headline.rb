@@ -1,26 +1,30 @@
-module Searchable::SearchableHeadline
-  def index_headline(headline)
-    title = headline.title
+class Searchable::SearchableHeadline < Searchable::Base
+  alias_method :headline, :model
+
+  def self.all
+    Headline.approved
+  end
+
+  def document_type
+    'Headline'
+  end
+
+  def title
+    headline.title
+  end
+
+  def url
+    news_path(headline)
+  end
+
+  def content
     country = headline.country.try(:name)
-    description = with_helper { strip_tags(headline.description) }
+    description = strip_tags(headline.description)
     content = "#{headline.location}\n#{country}#{description}"
-    url = headline_url(headline)
-    import 'Headline', url: url, title: title, content: content, object: headline
   end
 
-  def index_headlines
-    Headline.approved.each { |h| index_headline h }
+  def meta
+    headline.taggings.map(&:content).join(' ')
   end
 
-  def index_headlines_since(time)
-    Headline.approved.where(new_or_updated_since(time)).each { |h| index_headline h }
-  end
-
-  def remove_headline(headline)
-    remove 'Headline', headline_url(headline)
-  end
-
-  def headline_url(headline)
-    with_helper { headline_path(headline) }
-  end
 end

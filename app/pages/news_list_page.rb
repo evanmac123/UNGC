@@ -17,10 +17,13 @@ class NewsListPage < ContainerPage
   end
 
   def news
-    news = OpenStruct.new({
+    OpenStruct.new(
       title: "Press Releases",
       other: results
-    })
-    news
+    )
+  end
+
+  def last_updated_at
+    results.first.approved_at
   end
 end

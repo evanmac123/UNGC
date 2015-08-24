@@ -118,5 +118,7 @@ module AdminHelper
     link_to text.html_safe, url, :title => options[:title], :class => options[:class], :data => {'popup' => true}
   end
 
-
+  def staff_user?
+    current_contact && current_contact.from_ungc?
+  end
 end

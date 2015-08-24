@@ -1,29 +1,24 @@
-module Searchable::SearchableOrganization
-  def index_organization(organization)
-    title   = organization.name
-    content = ''
-    url     = organization_url(organization)
-    import 'Participant', url: url, title: title, content: content, object: organization
-  end
+class Searchable::SearchableOrganization < Searchable::Base
+  alias_method :organization, :model
 
-  def indexable_organizations
+  def self.all
     Organization.participants.active.approved
   end
 
-  def index_organizations
-    indexable_organizations.each { |o| index_organization o }
+  def document_type
+    'Participant'
   end
 
-  def index_organizations_since(time)
-    indexable_organizations.where(new_or_updated_since(time)).each { |o| index_organization o }
+  def title
+    organization.name
   end
 
-  def remove_organization(organization)
-    remove 'Participant', organization_url(organization)
+  def url
+    remove_redesign_prefix participant_path(organization.id)
   end
 
-  def organization_url(organization)
-    with_helper { participant_path(organization.id) }
+  def content
+    ''
   end
 
 end

@@ -7,8 +7,8 @@ module SearchableTagTests
       topic = create_topic
       subject.topics << topic
 
-      Redesign::Searchable.index_all
-      searchable = Redesign::Searchable.last
+      Searchable.index_all
+      searchable = Searchable.last
 
       assert_match(/#{topic.name}/, searchable.meta)
     end
@@ -17,8 +17,8 @@ module SearchableTagTests
       issue = create_issue
       subject.issues << issue
 
-      Redesign::Searchable.index_all
-      searchable = Redesign::Searchable.last
+      Searchable.index_all
+      searchable = Searchable.last
 
       assert_match(/#{issue.name}/, searchable.meta)
     end
@@ -27,8 +27,8 @@ module SearchableTagTests
       sector = create_sector
       subject.sectors << sector
 
-      Redesign::Searchable.index_all
-      searchable = Redesign::Searchable.last
+      Searchable.index_all
+      searchable = Searchable.last
 
       assert_match(/#{sector.name}/, searchable.meta)
     end

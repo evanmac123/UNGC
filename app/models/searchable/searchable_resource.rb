@@ -1,29 +1,28 @@
-module Searchable::SearchableResource
-  def index_resource(resource)
-    title = resource.title
-    content = [resource.title, resource.description].join(' ')
-    url = resource_url(resource)
-    import 'Resource', url: url, title: title, content: content, object: resource
-  end
+class Searchable::SearchableResource < Searchable::Base
+  alias_method :resource, :model
 
-  def indexable_resources
+  def self.all
     Resource.approved
   end
 
-  def index_resources
-    indexable_resources.each { |r| index_resource r }
+  def document_type
+    'Resource'
   end
 
-  def index_resources_since(time)
-    indexable_resources.where(new_or_updated_since(time)).each { |r| index_resource r }
+  def title
+    resource.title
   end
 
-  def remove_resource(resource)
-    remove 'Resource', resource_url(resource)
+  def url
+    remove_redesign_prefix library_resource_path(resource)
   end
 
-  def resource_url(resource)
-    with_helper { resource_path(resource) }
+  def content
+    resource.slice(:title, :description).values.join(' ')
+  end
+
+  def meta
+    resource.taggings.map(&:content).join(' ')
   end
 
 end

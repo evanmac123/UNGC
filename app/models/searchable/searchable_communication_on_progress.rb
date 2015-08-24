@@ -1,12 +1,29 @@
-module Searchable::SearchableCommunicationOnProgress
-  def index_communication_on_progress(cop)
-    title   = cop.title
-    url     = cop_url(cop)
+class Searchable::SearchableCommunicationOnProgress < Searchable::Base
+  alias_method :cop, :model
+
+  def self.all
+    CommunicationOnProgress.approved
+  end
+
+  def document_type
+    'CommunicationOnProgress'
+  end
+
+  def title
+    cop.title
+  end
+
+  def url
+    remove_redesign_prefix show_cops_path(differentiation: cop.differentiation_level_with_default, id: cop.id)
+  end
+
+  def content
     # import cop files
     file_content = []
     for file in cop.cop_files
       file_content << FileTextExtractor.extract(file)
     end
+
     content = <<-EOF
       #{cop.description}
       #{cop.principles.map(&:name).join(' ')}
@@ -15,25 +32,7 @@ module Searchable::SearchableCommunicationOnProgress
 
     str = file_content.join(' ')
     content = "#{content.force_encoding('UTF-8')} #{str}"
-    content = content.mb_chars.limit(65000).to_s
-
-    import 'CommunicationOnProgress', url: url, title: title, content: content, object: cop
-  end
-
-  def index_communications_on_progress
-    CommunicationOnProgress.approved.each { |cop| index_communication_on_progress cop }
-  end
-
-  def index_communications_on_progress_since(time)
-    CommunicationOnProgress.approved.where(new_or_updated_since(time)).each { |cop| index_communication_on_progress cop }
-  end
-
-  def remove_communication_on_progress(cop)
-    remove 'CommunicationOnProgress', cop_url(cop)
-  end
-
-  def cop_url(cop)
-    with_helper { cop_detail_path(:id => cop) }
+    content.mb_chars.limit(65000).to_s
   end
 
 end
