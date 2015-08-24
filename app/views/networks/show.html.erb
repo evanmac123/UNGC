@@ -25,7 +25,7 @@
         <%- end -%>
 
         <%- if participants = @page.participants -%>
-          <h3 class='local-network-participants-header'><%= participants.total -%> Participants (<%= link_to 'See All', participant_search_path(search: {countries: @page.country_id}) -%>)</h3>
+          <h3 class='local-network-participants-header'><%= participants.total -%> Participants (<%= link_to 'See All', participant_search_path(search: {countries: [@page.country_id]}) -%>)</h3>
 
           <table class='table-embedded'>
             <thead>
