@@ -89,7 +89,7 @@ class LocalNetworkPage < SimpleDelegator
           'sectors.parent_id',
           'sectors.name',
           'count(sectors.id) as participants_count')
-        .where('sectors.name != ?', 'Not Applicable')
+        .where.not('sectors.name' => Sector::NOT_APPLICABLE)
         .order('participants_count desc')
         .limit(5)
 
