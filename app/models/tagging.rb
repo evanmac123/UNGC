@@ -18,7 +18,6 @@ class Tagging < ActiveRecord::Base
 
   # TODO replace the existing principles join tables with implementations here
   # belongs_to :communication_on_progress
-  # belongs_to :event
 
   def domain
     author || principle || country || initiative || language || sector || topic || issue
