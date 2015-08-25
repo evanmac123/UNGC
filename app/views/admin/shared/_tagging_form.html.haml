@@ -51,3 +51,15 @@
                     %label{style:"temporary: yes; width: inherit; margin: inherit; float: none;"}
                       = check_box_tag model_name+'[sector_ids][]', child_sector.id, child_sector.selected?
                       = child_sector.name
+
+#sustainable-development-goals.tab_content
+  %fieldset
+    %legend Sustainable Development Goals
+    .sustainable-development-goals-tree
+      %ol.sustainable-development-goals-list
+        - taggable.sustainable_development_goal_options.each do |sustainable_development_goal|
+          %li
+            %label{style:"temporary: yes; width: inherit; margin: inherit; float: none;"}
+              = hidden_field_tag model_name+'[sustainable_development_goal_ids][]', nil
+              = check_box_tag model_name+'[sustainable_development_goal_ids][]', sustainable_development_goal.id, sustainable_development_goal.selected?
+              = sustainable_development_goal.name

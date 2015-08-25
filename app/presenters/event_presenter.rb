@@ -1,5 +1,5 @@
 class EventPresenter < SimpleDelegator
-  delegate(:topic_options, :issue_options, :sector_options, to: :tagging_presenter)
+  delegate(:topic_options, :issue_options, :sector_options, :sustainable_development_goal_options, to: :tagging_presenter)
 
   def priority_options
     Event.priorities.keys.map do |value|
