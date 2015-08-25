@@ -2,19 +2,21 @@ class EventsListForm < FilterableForm
   include Virtus.model
   include FilterMacros
 
-  attribute :page,        Integer,        default: 1
-  attribute :per_page,    Integer,        default: 12
-  attribute :issues,      Array[Integer], default: []
-  attribute :topics,      Array[Integer], default: []
-  attribute :countries,   Array[Integer], default: []
-  attribute :types,       Array[String],  default: []
-  attribute :start_date,  Date,           default: -> (page, attribute) { Date.today }
-  attribute :end_date,    Date
+  attribute :page,                          Integer,        default: 1
+  attribute :per_page,                      Integer,        default: 12
+  attribute :issues,                        Array[Integer], default: []
+  attribute :topics,                        Array[Integer], default: []
+  attribute :countries,                     Array[Integer], default: []
+  attribute :types,                         Array[String],  default: []
+  attribute :sustainable_development_goals, Array[Integer], default: []
+  attribute :start_date,                    Date,           default: -> (page, attribute) { Date.today }
+  attribute :end_date,                      Date
 
   filter :issue
   filter :topic
   filter :country
   filter :event_type
+  filter :sustainable_development_goal
 
   # http://stackoverflow.com/questions/535721/ruby-max-integer
   FIXNUM_MAX = (2**(0.size * 8 -2) -1)
