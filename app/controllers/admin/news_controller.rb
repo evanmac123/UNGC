@@ -79,7 +79,8 @@ class Admin::NewsController < AdminController
         :headline_type,
         topic_ids: [],
         issue_ids: [],
-        sector_ids: []
+        sector_ids: [],
+        sustainable_development_goal_ids: []
       )
     end
 end
