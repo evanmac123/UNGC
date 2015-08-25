@@ -15,6 +15,7 @@ class ContainerPublisherTest < ActiveSupport::TestCase
       topic_3  = create_topic name: 'Topic 3'
       sector_1   = create_sector name: 'Sector 1'
       sector_2  = create_sector name: 'Sector 2'
+      sdg_1 = create_sustainable_development_goal name: 'Sustainable Development Goal 1'
 
       # Create a container with some tags
       container = create_container
@@ -24,6 +25,7 @@ class ContainerPublisherTest < ActiveSupport::TestCase
       Tagging.create! container: container, topic: topic_2
       Tagging.create! container: container, sector: sector_1
       Tagging.create! container: container, sector: sector_2
+      Tagging.create! container: container, sustainable_development_goal: sdg_1
 
       # Add a draft payload with updated tags
       container.draft_payload = create_payload(
@@ -32,7 +34,8 @@ class ContainerPublisherTest < ActiveSupport::TestCase
           taggings: {
             issues: [issue_1.id, issue_3.id],
             topics: [topic_1.id, topic_3.id],
-            sector: []
+            sector: [],
+            sustainable_development_goals: [sdg_1.id]
           }
         }.deep_stringify_keys.to_json
       )
@@ -53,6 +56,7 @@ class ContainerPublisherTest < ActiveSupport::TestCase
     should 'include unchanged tags' do
       assert_includes @tag_names, 'Issue 1'
       assert_includes @tag_names, 'Topic 1'
+      assert_includes @tag_names, 'Sustainable Development Goal 1'
     end
 
     should 'not include removed tags' do

@@ -75,6 +75,6 @@ class ContainerPublisher
   end
 
   def to_domain_type(input)
-    input.to_s.singularize.gsub(/[^a-z]/, '')
+    input.to_s.singularize
   end
 end
