@@ -100,7 +100,8 @@ class Admin::EventsController < AdminController
         :sponsor_ids => [],
         :topic_ids => [],
         :issue_ids => [],
-        :sector_ids => []
+        :sector_ids => [],
+        :sustainable_development_goal_ids => []
       )
     end
 end

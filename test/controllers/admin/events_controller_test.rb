@@ -10,6 +10,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
     @topic = create_topic
     @issue = create_issue
     @sector = create_sector
+    @sdg = create_sustainable_development_goal
 
     @starts_at = DateTime.new(2015, 06, 15, 19, 0, 0)
     @ends_at = DateTime.new(2015, 06, 15, 22, 0, 0)
@@ -44,7 +45,8 @@ class Admin::EventsControllerTest < ActionController::TestCase
       sponsor_ids: [@sponsor.id],
       topic_ids: [@topic.id],
       issue_ids: [@issue.id],
-      sector_ids: [@sector.id]
+      sector_ids: [@sector.id],
+      sustainable_development_goal_ids: [@sdg.id]
     }
   end
 
@@ -153,6 +155,10 @@ class Admin::EventsControllerTest < ActionController::TestCase
 
         should 'set sector IDs' do
           assert_equal @params[:sector_ids], @event.sector_ids
+        end
+
+        should 'set sustainale development goal IDs' do
+          assert_equal @params[:sustainable_development_goal_ids], @event.sustainable_development_goal_ids
         end
 
         should 'redirects to index' do
@@ -293,6 +299,10 @@ class Admin::EventsControllerTest < ActionController::TestCase
           assert_equal @params[:sector_ids], @event.sector_ids
         end
 
+        should 'set sustainale development goal IDs' do
+          assert_equal @params[:sustainable_development_goal_ids], @event.sustainable_development_goal_ids
+        end
+
         should 'redirects to index' do
           assert_redirected_to_index
         end
@@ -316,6 +326,17 @@ class Admin::EventsControllerTest < ActionController::TestCase
 
           assert_difference '@event.sponsors.count', -2 do
             put :update, id: @event.id, event: { sponsor_ids: [] }
+          end
+        end
+      end
+
+      context 'with no sustainable development goal IDs' do
+        should 'remove all sustainable development goals' do
+          @sdg = 2.times.map { create_sustainable_development_goal.id }
+          @event = create_event(sustainable_development_goal_ids: @sdg)
+
+          assert_difference '@event.sustainable_development_goals.count', -2 do
+            put :update, id: @event.id, event: { sustainable_development_goal_ids: [] }
           end
         end
       end
