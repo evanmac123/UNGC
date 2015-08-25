@@ -358,4 +358,66 @@ class TaggingTest < ActiveSupport::TestCase
     assert_equal tagging.subject, container
   end
 
+  context 'create' do
+    context 'sustainable development goal tagging' do
+      setup do
+        @sdg = create_sustainable_development_goal
+      end
+
+      should 'support container' do
+        @container = create_container
+
+        assert_difference 'Tagging.count', 1 do
+          @tagging = Tagging.create sustainable_development_goal: @sdg, container: @container
+        end
+
+        assert_equal @sdg, @tagging.domain
+        assert_equal @container, @tagging.subject
+      end
+
+      should 'support event' do
+        @event = create_event
+
+        assert_difference 'Tagging.count', 1 do
+          @tagging = Tagging.create sustainable_development_goal: @sdg, event: @event
+        end
+
+        assert_equal @sdg, @tagging.domain
+        assert_equal @event, @tagging.subject
+      end
+
+      should 'support headline' do
+        @headline = create_headline
+
+        assert_difference 'Tagging.count', 1 do
+          @tagging = Tagging.create sustainable_development_goal: @sdg, headline: @headline
+        end
+
+        assert_equal @sdg, @tagging.domain
+        assert_equal @headline, @tagging.subject
+      end
+
+      should 'support organization' do
+        @organization = create_organization
+
+        assert_difference 'Tagging.count', 1 do
+          @tagging = Tagging.create sustainable_development_goal: @sdg, organization: @organization
+        end
+
+        assert_equal @sdg, @tagging.domain
+        assert_equal @organization, @tagging.subject
+      end
+
+      should 'support resource' do
+        @resource = create_resource
+
+        assert_difference 'Tagging.count', 1 do
+          @tagging = Tagging.create sustainable_development_goal: @sdg, resource: @resource
+        end
+
+        assert_equal @sdg, @tagging.domain
+        assert_equal @resource, @tagging.subject
+      end
+    end
+  end
 end

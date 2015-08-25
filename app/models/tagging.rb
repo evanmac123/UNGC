@@ -8,6 +8,7 @@ class Tagging < ActiveRecord::Base
   belongs_to :initiative
   belongs_to :language
   belongs_to :sector
+  belongs_to :sustainable_development_goal
 
   # subjects
   belongs_to :event
@@ -20,7 +21,7 @@ class Tagging < ActiveRecord::Base
   # belongs_to :communication_on_progress
 
   def domain
-    author || principle || country || initiative || language || sector || topic || issue
+    author || principle || country || initiative || language || sector || topic || issue || sustainable_development_goal
   end
 
   def subject
