@@ -10,6 +10,7 @@ class Tagging < ActiveRecord::Base
   belongs_to :sector
 
   # subjects
+  belongs_to :event
   belongs_to :headline
   belongs_to :organization
   belongs_to :container
@@ -24,7 +25,7 @@ class Tagging < ActiveRecord::Base
   end
 
   def subject
-    headline || organization || container || resource
+    event || headline || organization || container || resource
   end
 
   def content

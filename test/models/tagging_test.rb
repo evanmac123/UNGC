@@ -43,6 +43,15 @@ class TaggingTest < ActiveSupport::TestCase
     assert_equal tagging.subject, container
   end
 
+  should "tag event with topic" do
+    topic = create_topic
+    event = create_event
+    tagging = Tagging.create! topic: topic, event: event
+    assert_not_nil tagging
+    assert_equal tagging.domain, topic
+    assert_equal tagging.subject, event
+  end
+
   should "tag headline with topic" do
     topic = create_topic
     headline = create_headline
@@ -77,6 +86,15 @@ class TaggingTest < ActiveSupport::TestCase
     assert_not_nil tagging
     assert_equal tagging.domain, topic
     assert_equal tagging.subject, container
+  end
+
+  should "tag event with issue" do
+    issue = create_issue
+    event = create_event
+    tagging = Tagging.create! issue: issue, event: event
+    assert_not_nil tagging
+    assert_equal tagging.domain, issue
+    assert_equal tagging.subject, event
   end
 
   should "tag headline with issue" do
@@ -293,6 +311,15 @@ class TaggingTest < ActiveSupport::TestCase
     assert_not_nil tagging
     assert_equal tagging.domain, language
     assert_equal tagging.subject, container
+  end
+
+  should "tag event with sector" do
+    sector = create_sector
+    event = create_event
+    tagging = Tagging.create! sector: sector, event: event
+    assert_not_nil tagging
+    assert_equal tagging.domain, sector
+    assert_equal tagging.subject, event
   end
 
   should "tag headline with sector" do
