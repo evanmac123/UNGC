@@ -50,6 +50,7 @@ class EventsListForm < FilterableForm
       with: reject_blanks(
         issue_ids: issue_filter.effective_selection_set,
         topic_ids: topic_filter.effective_selection_set,
+        sustainable_development_goal_ids: sustainable_development_goals,
         country_id: countries,
         in_date_range: true,
         is_online: online?,
