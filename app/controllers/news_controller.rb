@@ -34,7 +34,8 @@ class NewsController < ApplicationController
         issues: [],
         topics: [],
         countries: [],
-        types: []
+        types: [],
+        sustainable_development_goals: []
       ).merge(page: page)
     end
 
