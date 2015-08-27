@@ -8,7 +8,7 @@ class TaggingSerializer < ApplicationSerializer
   private
 
   def name
-    if !object.parent_id.present?
+    if !object.try(:parent_id).present?
       "PARENT: #{object.name}"
     else
       object.name
