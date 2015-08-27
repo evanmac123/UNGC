@@ -28,4 +28,8 @@ class Sector < ActiveRecord::Base
   def self.children
     self.participant_search_options
   end
+
+  def parent?
+    self.parent_id.nil?
+  end
 end
