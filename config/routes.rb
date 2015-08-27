@@ -202,6 +202,7 @@ UNGC::Application.routes.draw do
     get 'blueprint-for-corporate-sustainability'  => :blueprint_for_corporate_sustainability
     get 'advanced-cop-submission-guide'           => :advanced_cop_submission_guide
     get ':id'                                     => :show,   as: :library_resource
+    post 'link_views'                              => :link_views, as: :library_link_views
   end
 
   controller :contact_us do
