@@ -32,6 +32,10 @@ class LinkPresenter
     type == 'video'
   end
 
+  def id
+    @link.id
+  end
+
   def is_youtube?
     if is_video?
       host = URI.parse(url).host

@@ -2,6 +2,7 @@
 //= require 'jquery-ui'
 //= require jquery.tablesorter.min
 //= require_tree ./news
+//= require_tree ./library
 //= require accordion
 //= require case-example-form
 //= require contact-form
