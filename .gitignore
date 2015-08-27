@@ -33,3 +33,5 @@
 /.env
 pages-with-slugs.json
 *.swp
+node_modules/
+bower_components/
