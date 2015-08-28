@@ -2,7 +2,7 @@ require 'test_helper'
 
 class SustainableDevelopmentGoalTest < ActiveSupport::TestCase
   should 'require a name' do
-    assert_raise ActiveRecord::StatementInvalid do
+    assert_raise ActiveRecord::RecordInvalid do
       create_sustainable_development_goal name: nil
     end
   end
