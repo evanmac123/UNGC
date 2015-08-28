@@ -18,11 +18,13 @@ class EventsListForm < FilterableForm
   filter :event_type
   filter :sustainable_development_goal
 
+  attr_writer :search_scope
+
   # http://stackoverflow.com/questions/535721/ruby-max-integer
   FIXNUM_MAX = (2**(0.size * 8 -2) -1)
 
   def execute
-    Event.search '', options
+    search_scope.search '', options
   end
 
   def event_type_filter
@@ -36,10 +38,6 @@ class EventsListForm < FilterableForm
   end
 
   private
-
-  def facets
-    Event.facets('', all_facets: true)
-  end
 
   def options
     {
@@ -100,6 +98,14 @@ class EventsListForm < FilterableForm
     else
       FIXNUM_MAX
     end
+  end
+
+  def facets
+    search_scope.facets('', all_facets: true)
+  end
+
+  def search_scope
+    @search_scope ||= Event
   end
 
   class EventFacetFilter < Filters::FacetFilter

@@ -18,15 +18,13 @@ class NewsListForm < FilterableForm
   filter :headline_type, selected: :types
   filter :sustainable_development_goal
 
+  attr_writer :search_scope
+
   def execute
-    Headline.search '', options
+    search_scope.search '', options
   end
 
   private
-
-  def facets
-    Headline.facets '', all_facets: true
-  end
 
   def options
     {
@@ -67,4 +65,11 @@ class NewsListForm < FilterableForm
     date.to_datetime.end_of_day.to_i
   end
 
+  def facets
+    search_scope.facets '', all_facets: true
+  end
+
+  def search_scope
+    @search_scope ||= Headline
+  end
 end
