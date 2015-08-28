@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class EvenstListFormTest < ActiveSupport::TestCase
+class EventsListFormTest < ActiveSupport::TestCase
   def self.should_search_event(should_msg, starts_offset: 0, ends_offset: 0, today: Date.today, start_date: nil, end_date: nil)
     should should_msg do
       event = create_approved_event(
