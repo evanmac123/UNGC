@@ -35,7 +35,7 @@ class Admin::CountriesControllerTest < ActionController::TestCase
   end
 
   test "should update country" do
-    put :update, :id => @country.to_param, country: actually_valid_country_attributes
+    put :update, :id => @country.to_param, country: params
     assert_redirected_to admin_countries_path
   end
 
@@ -49,15 +49,15 @@ class Admin::CountriesControllerTest < ActionController::TestCase
 
   private
 
-  def actually_valid_country_attributes
-    valid_country_attributes.select{ |k| [
-      "code",
-      "name",
-      "region",
-      "manager_id",
-      "local_network_id",
-      "regional_center_id",
-      "participant_manager_id"
-    ].include? k }
+  def params
+    valid_initiative_attributes.with_indifferent_access.slice(
+      :code,
+      :name,
+      :region,
+      :manager_id,
+      :local_network_id,
+      :regional_center_id,
+      :participant_manager_id
+    )
   end
 end
