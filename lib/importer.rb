@@ -63,10 +63,6 @@ class Importer
           o.send("#{field}=", Contact.find_by_old_id(row[i]).try(:id)) if row[i]
         elsif field == :organization_type_id
           o.organization_type_id = OrganizationType.find_by_name(row[i]).try(:id) if row[i]
-        elsif field == :category
-          # CaseStory.CATEGORY becomes two fields - is_partnership_project and is_internalization_project
-          o.is_partnership_project = [1, 3].include?(row[i].to_i)
-          o.is_internalization_project = [2, 3].include?(row[i].to_i)
         elsif [:added_on, :modified_on, :joined_on, :delisted_on, :one_year_member_on, :inactive_on, :cop_due_on].include?(field) and lookup = row[i]
           if lookup =~ /\d{4}-\d{2}-\d{2} .*/
             year, month, day = lookup.split(' ').first.split('-')

@@ -16,10 +16,6 @@ class AdminController < ApplicationController
         .includes(:organization)
         .paginate(page: params[:logo_requests_page])
         .order('updated_at DESC')
-      @pending_case_stories = CaseStory.where('state in (?)', pending_states)
-        .includes(:organization)
-        .paginate(page: params[:case_stories_page])
-        .order('updated_at DESC')
       @pending_cops = CommunicationOnProgress.for_feed.paginate(page: params[:cops_page])
     elsif current_contact.from_network? || current_contact.from_regional_center?
       @local_network = current_contact.local_network

@@ -1,8 +1,6 @@
 module AdminHelper
   def path_for_polymorphic_commentables(commentable)
     case commentable
-    when CaseStory
-      admin_case_story_comments_path(commentable)
     when Organization
       admin_organization_comments_path(commentable.id)
     when CommunicationOnProgress
@@ -14,8 +12,6 @@ module AdminHelper
 
   def path_for_polymorphic_commentable(commentable, comment)
     case commentable
-    when CaseStory
-      new_admin_case_story_comment_path(commentable)
     when Organization
       new_admin_organization_comment_path(commentable.id)
     when CommunicationOnProgress
