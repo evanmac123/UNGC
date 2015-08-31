@@ -219,7 +219,8 @@ class SignupController < ApplicationController
         :country_id,
         :username,
         :password,
-        :welcome_package
+        :welcome_package,
+        :role_ids => []
       )
     end
 
