@@ -123,8 +123,8 @@ module IntegrationTestHelper
       assert_select '.component-header', 'Related Content'
       assert_select '.component-content-block', 3 do |blocks|
         blocks.each_with_index do |block, index|
-          assert_select block, '.component-content-block-link', href: equality[index].path
-          assert_select block, '.component-content-block-image img', src: equality[index].public_payload.data[:meta_tags][:thumbnail] # Passes even though img[src] is empty.
+          assert_select block, '.component-content-block-link[href=?]', equality[index].path
+          assert_select block, '.component-content-block-image img[src=?]', equality[index].public_payload.data[:meta_tags][:thumbnail] # Passes even though img[src] is empty.
           assert_select block, '.component-content-block-title', equality[index].public_payload.data[:meta_tags][:title]
           assert_select block, '.component-content-block-tag', 'No Label'
         end
@@ -149,8 +149,8 @@ module IntegrationTestHelper
       assert_select '.component-header', 'From our Library'
       assert_select '.component-content-block', 3 do |blocks|
         blocks.each_with_index do |block, index|
-          assert_select block, '.component-content-block-link', href: library_resource_path(equality[index])
-          assert_select block, '.component-content-block-image img', src: equality[index].cover_image # Note: This is /images/original/missing.png during test.
+          assert_select block, '.component-content-block-link[href=?]', library_resource_path(equality[index])
+          assert_select block, '.component-content-block-image img[src=?]', equality[index].cover_image(:show, retina: true) # Note: This is /images/show@2x/missing.png during test due to no image and app/views/components/_resource_block.erb
           assert_select block, '.component-content-block-title', equality[index].title
           assert_select block, '.component-content-block-tag', equality[index].content_type # Note: This is nil during test.
         end
@@ -246,8 +246,8 @@ module IntegrationTestHelper
         partners.each_with_index do |partner, index|
           assert_equal partner.attributes['href'].value, equality[index][:url]
           assert_equal partner.attributes['target'].value, '_blank' if equality[index][:external]
-          assert_select partner, 'img', src: equality[index][:logo]
-          assert_select partner, 'img', alt: equality[index][:name]
+          assert_select partner, 'img[src=?]', equality[index][:logo]
+          assert_select partner, 'img[alt=?]', equality[index][:name]
         end
       end
     end
