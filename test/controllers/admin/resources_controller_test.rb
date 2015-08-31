@@ -109,14 +109,14 @@ class Admin::ResourcesControllerTest < ActionController::TestCase
     context "with valid attributes" do
 
       should "create and redirect to the index" do
-        post :create, resource:valid_resource_attributes
+        post :create, resource:actually_valid_resource_attributes
         assert_redirected_to action: :index
         assert_equal 1, Resource.count
       end
 
       should "update and redirect to show" do
         resource = create_resource
-        params = valid_resource_attributes
+        params = actually_valid_resource_attributes
 
         put :update, id:resource, resource:params
 
@@ -143,7 +143,7 @@ class Admin::ResourcesControllerTest < ActionController::TestCase
 
     context "adding a resource with links" do
       should "create and redirect to the index" do
-        post :create, resource:valid_resource_attributes.merge(links: [
+        post :create, resource:actually_valid_resource_attributes.merge(links: [
           {id: nil, title: "test", url: 'http://url1.com', language_id: 1, link_type: 'pdf'},
           {id: nil, title: "test2", url: 'http://url2.com', language_id: 12, link_type: 'pdf'}
         ])
@@ -158,7 +158,7 @@ class Admin::ResourcesControllerTest < ActionController::TestCase
         id1 = resource.links.create({title: "test", url: 'http://url1.com', language_id: 1, link_type: 'pdf'})
         id2 = resource.links.create({title: "test2", url: 'http://url2.com', language_id: 1, link_type: 'pdf'})
 
-        put :update, id: resource, resource:valid_resource_attributes.merge(links: [
+        put :update, id: resource, resource: actually_valid_resource_attributes.merge(links: [
           {title: "test3", url: 'http://url3.com', language_id: 3, link_type: 'pdf'},
           {id: id2, title: "test2 2", url: 'http://url2.com', language_id: 1, link_type: 'pdf'},
           {title: "test4", url: 'http://url4.com', language_id: 1, link_type: 'pdf'}
@@ -170,7 +170,7 @@ class Admin::ResourcesControllerTest < ActionController::TestCase
 
     context "upload an image for a resource" do
       should "create and redirect to the index" do
-        post :create, resource: valid_resource_attributes.merge({:image => fixture_file_upload('files/untitled.jpg', 'image/jpeg') })
+        post :create, resource: actually_valid_resource_attributes.merge({:image => fixture_file_upload('files/untitled.jpg', 'image/jpeg') })
         assert_redirected_to action: :index
         assert Resource.last.image.file?
       end
@@ -178,12 +178,16 @@ class Admin::ResourcesControllerTest < ActionController::TestCase
 
     context "set the content_type for a resource" do
       should "create and redirect to the index" do
-        post :create, resource: valid_resource_attributes.merge({content_type: 'webinar' })
+        post :create, resource: actually_valid_resource_attributes.merge({content_type: 'webinar' })
         assert_redirected_to action: :index
         assert_equal Resource.last.content_type, 'webinar'
       end
     end
-
   end
 
+  private
+
+  def actually_valid_resource_attributes
+    valid_resource_attributes.select{ |k| ["title", "description"].include? k }
+  end
 end
