@@ -9,7 +9,14 @@ class LibraryController < ApplicationController
 
   def show
     show_resource do |resource|
-      resource.find(params[:id])
+      resource.find(params[:id]).tap { |r| r.increment_views! }
+    end
+  end
+
+  def link_views
+    ResourceLink.find(params[:resource_link_id]).increment_views!
+    respond_to do |format|
+      format.js { render nothing: true }
     end
   end
 

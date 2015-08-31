@@ -202,6 +202,7 @@ UNGC::Application.routes.draw do
     get 'blueprint-for-corporate-sustainability'  => :blueprint_for_corporate_sustainability
     get 'advanced-cop-submission-guide'           => :advanced_cop_submission_guide
     get ':id'                                     => :show,   as: :library_resource
+    post 'link_views'                              => :link_views, as: :library_link_views
   end
 
   controller :contact_us do
@@ -485,6 +486,7 @@ UNGC::Application.routes.draw do
   get ':leadsymposiumonline', to: redirect('http://un.banks-sadler.com'), :constraints => { :leadsymposiumonline => /leadsymposiumonline/i }
   get ':gc15', to: redirect('/take-action/events/31-global-compact-15-business-as-a-force-for-good'), :constraints => { :gc15 => /gc15/i }
   get '/HowToParticipate/Organization_Information.html', to: redirect('/participation/join/application/non-business')
+  get '/Issues/conflict_prevention/', to: redirect('/what-is-gc/our-work/governance/peace')
 
   # CATCH ALL
   get '*path'     => 'static#catch_all',  as: :catch_all, :constraints => { :format => 'html' }
