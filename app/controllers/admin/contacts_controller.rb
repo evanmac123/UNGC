@@ -4,13 +4,13 @@ class Admin::ContactsController < AdminController
   def new
     @contact = @parent.contacts.new
     @contact.country_id = @parent.country_id if @parent.respond_to?(:country_id)
-    @roles = Role.visible_to(@contact, current_contact)
+    @roles = visible_roles
     @return_path = return_path
   end
 
   def create
     @contact = @parent.contacts.new(contact_params)
-    @roles = Role.visible_to(@contact)
+    @roles = visible_roles
     @return_path = return_path
 
     if @contact.save
@@ -23,7 +23,7 @@ class Admin::ContactsController < AdminController
 
   def edit
     @needs_to_update = params[:update]
-    @roles = Role.visible_to(@contact, current_contact)
+    @roles = visible_roles
     @return_path = return_path
   end
 
@@ -68,8 +68,12 @@ class Admin::ContactsController < AdminController
 
       if params[:id]
         @contact = @parent.contacts.find params[:id]
-        @roles = Role.visible_to(@contact)
+        @roles = visible_roles
       end
+    end
+
+    def visible_roles
+      Role.visible_to(@contact, current_contact)
     end
 
     def display_search_results

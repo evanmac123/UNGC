@@ -39,8 +39,11 @@ class Role < ActiveRecord::Base
     case user.user_type
     when Contact::TYPE_ORGANIZATION
       roles_ids = [Role.contact_point].collect(&:id)
+
       # give option to check Highlest Level Executive if no CEO has been assigned
-      roles_ids << Role.ceo.id if user.is?(Role.ceo) || user.organization.contacts.ceos.count <= 0
+      if user.is?(Role.ceo) || user.organization.contacts.ceos.count <= 0
+        roles_ids << Role.ceo.id
+      end
 
       # only editable by Global Compact staff
       if current_contact && current_contact.from_ungc?
@@ -71,7 +74,7 @@ class Role < ActiveRecord::Base
       roles_ids = [Role.network_focal_point, Role.network_representative, Role.network_report_recipient, Role.general_contact].collect(&:id)
       where('id in (?)', roles_ids.flatten)
     else
-      where('1=2') # TODO replace with none in rails4
+      none
     end
   end
 
