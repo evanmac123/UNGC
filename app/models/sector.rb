@@ -29,7 +29,7 @@ class Sector < ActiveRecord::Base
     self.participant_search_options
   end
 
-  def parent?
+  def is_parent?
     self.parent_id.nil?
   end
 end

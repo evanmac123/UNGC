@@ -4,7 +4,7 @@ class Topic < ActiveRecord::Base
 
   scope :children, -> { where.not(parent_id: nil) }
 
-  def parent?
+  def is_parent?
     self.parent_id.nil?
   end
 end

@@ -4,7 +4,7 @@ class Issue < ActiveRecord::Base
 
   scope :children, -> { where(type: nil) }
 
-  def parent?
+  def is_parent?
     self.parent_id.nil?
   end
 end
