@@ -15,6 +15,7 @@ class EventPresenterTest < ActiveSupport::TestCase
         @child_issue = create_issue(parent: @parent_issue)
         @parent_sector = create_sector
         @child_sector = create_sector(parent: @parent_sector)
+        @sdg = create_sustainable_development_goal
         @event = create_event
 
         @event.update_attributes({
@@ -22,7 +23,8 @@ class EventPresenterTest < ActiveSupport::TestCase
           sponsor_ids: [@sponsor.id],
           topic_ids: [@topic.id],
           issue_ids: [@parent_issue.id],
-          sector_ids: [@parent_sector.id]
+          sector_ids: [@parent_sector.id],
+          sustainable_development_goal_ids: [@sdg.id]
         })
 
         @presenter = EventPresenter.new(@event)
@@ -65,6 +67,16 @@ class EventPresenterTest < ActiveSupport::TestCase
           }
 
           assert unsaved_sector[0].selected?, 'Unsaved sector was not selected.'
+        end
+      end
+
+      context 'given #sustainable_development_goal_options' do
+        should 'return the unsaved sustainable development goal as selected' do
+          unsaved_sustainable_development_goal = @presenter.sustainable_development_goal_options.find { |sustainable_development_goal_option|
+            sustainable_development_goal_option.id == @sdg.id
+          }
+
+          assert unsaved_sustainable_development_goal.selected?, 'Unsaved sustainable development goal was not selected.'
         end
       end
     end

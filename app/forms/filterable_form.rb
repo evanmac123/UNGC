@@ -48,6 +48,10 @@ class FilterableForm
     materialized_filters[:initiative]
   end
 
+  def sustainable_development_goal_filter
+    materialized_filters[:sustainable_development_goal]
+  end
+
   protected
 
   def reject_blanks(options)
@@ -125,6 +129,13 @@ class FilterableForm
     facet = options.fetch(:facet, :initiative_ids)
 
     facet_filter facet, Filters::InitiativeFilter.new(selected)
+  end
+
+  def create_sustainable_development_goal_filter(options)
+    selected = public_send(options.fetch(:selected, :sustainable_development_goals))
+    facet = options.fetch(:facet, :sustainable_development_goal_ids)
+
+    facet_filter facet, Filters::SustainableDevelopmentGoalFilter.new(selected)
   end
 
   def enabled_facets(key)

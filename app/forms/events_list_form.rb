@@ -2,25 +2,29 @@ class EventsListForm < FilterableForm
   include Virtus.model
   include FilterMacros
 
-  attribute :page,        Integer,        default: 1
-  attribute :per_page,    Integer,        default: 12
-  attribute :issues,      Array[Integer], default: []
-  attribute :topics,      Array[Integer], default: []
-  attribute :countries,   Array[Integer], default: []
-  attribute :types,       Array[String],  default: []
-  attribute :start_date,  Date,           default: -> (page, attribute) { Date.today }
-  attribute :end_date,    Date
+  attribute :page,                          Integer,        default: 1
+  attribute :per_page,                      Integer,        default: 12
+  attribute :issues,                        Array[Integer], default: []
+  attribute :topics,                        Array[Integer], default: []
+  attribute :countries,                     Array[Integer], default: []
+  attribute :types,                         Array[String],  default: []
+  attribute :sustainable_development_goals, Array[Integer], default: []
+  attribute :start_date,                    Date,           default: -> (page, attribute) { Date.today }
+  attribute :end_date,                      Date
 
   filter :issue
   filter :topic
   filter :country
   filter :event_type
+  filter :sustainable_development_goal
+
+  attr_writer :search_scope
 
   # http://stackoverflow.com/questions/535721/ruby-max-integer
   FIXNUM_MAX = (2**(0.size * 8 -2) -1)
 
   def execute
-    Event.search '', options
+    search_scope.search '', options
   end
 
   def event_type_filter
@@ -35,10 +39,6 @@ class EventsListForm < FilterableForm
 
   private
 
-  def facets
-    Event.facets('', all_facets: true)
-  end
-
   def options
     {
       page: page,
@@ -48,6 +48,7 @@ class EventsListForm < FilterableForm
       with: reject_blanks(
         issue_ids: issue_filter.effective_selection_set,
         topic_ids: topic_filter.effective_selection_set,
+        sustainable_development_goal_ids: sustainable_development_goals,
         country_id: countries,
         in_date_range: true,
         is_online: online?,
@@ -97,6 +98,14 @@ class EventsListForm < FilterableForm
     else
       FIXNUM_MAX
     end
+  end
+
+  def facets
+    search_scope.facets('', all_facets: true)
+  end
+
+  def search_scope
+    @search_scope ||= Event
   end
 
   class EventFacetFilter < Filters::FacetFilter

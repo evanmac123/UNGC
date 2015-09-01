@@ -1,47 +1,46 @@
 require 'test_helper'
 
 class ContainerPublisherTest < ActiveSupport::TestCase
-
   setup do
     @staff_user = create_staff_user
   end
 
-  context "tags" do
+  context 'tags' do
     setup do
-      # create some issues and topics to tag with
-      water  = create_issue name: 'water'
-      earth  = create_issue name: 'earth'
-      wind   = create_issue name: 'wind'
-      # topics
-      fire   = create_topic name: 'fire'
-      slush  = create_topic name: 'slush'
-      jello  = create_topic name: 'jello'
+      issue_1  = create_issue name: 'Issue 1'
+      issue_2  = create_issue name: 'Issue 2'
+      issue_3   = create_issue name: 'Issue 3'
+      topic_1   = create_topic name: 'Topic 1'
+      topic_2  = create_topic name: 'Topic 2'
+      topic_3  = create_topic name: 'Topic 3'
+      sector_1   = create_sector name: 'Sector 1'
+      sector_2  = create_sector name: 'Sector 2'
+      sdg_1 = create_sustainable_development_goal name: 'Sustainable Development Goal 1'
 
-      # sectors
-      sector1   = create_sector name: 'sector1'
-      sector2  = create_sector name: 'sector2'
-
-      # create a container with a draft payload including tags
+      # Create a container with some tags
       container = create_container
+      Tagging.create! container: container, issue: issue_1
+      Tagging.create! container: container, issue: issue_2
+      Tagging.create! container: container, topic: topic_1
+      Tagging.create! container: container, topic: topic_2
+      Tagging.create! container: container, sector: sector_1
+      Tagging.create! container: container, sector: sector_2
+      Tagging.create! container: container, sustainable_development_goal: sdg_1
+
+      # Add a draft payload with updated tags
       container.draft_payload = create_payload(
         container_id: container.id,
         json_data: {
           taggings: {
-            issues: [water.id, wind.id],
-            topics: [fire.id, jello.id],
-            sector: []
+            issues: [issue_1.id, issue_3.id],
+            topics: [topic_1.id, topic_3.id],
+            sector: [],
+            sustainable_development_goals: [sdg_1.id]
           }
         }.deep_stringify_keys.to_json
       )
 
-      # start the container with some tags
-      Tagging.create! container: container, issue: water
-      Tagging.create! container: container, issue: earth
-      Tagging.create! container: container, topic: fire
-      Tagging.create! container: container, topic: slush
-      Tagging.create! container: container, sector: sector1
-      Tagging.create! container: container, sector: sector2
-
+      # Publish draft payload
       publisher = ContainerPublisher.new(container, @staff_user)
       publisher.publish
 
@@ -49,24 +48,25 @@ class ContainerPublisherTest < ActiveSupport::TestCase
       @tag_names = tags.map {|t| t.domain.name}
     end
 
-    should "add tags" do
-      assert_includes @tag_names, 'wind'
-      assert_includes @tag_names, 'jello'
+    should 'include new tags' do
+      assert_includes @tag_names, 'Issue 3'
+      assert_includes @tag_names, 'Topic 3'
     end
 
-    should "not remove existing tags" do
-      assert_includes @tag_names, 'water'
-      assert_includes @tag_names, 'fire'
+    should 'include unchanged tags' do
+      assert_includes @tag_names, 'Issue 1'
+      assert_includes @tag_names, 'Topic 1'
+      assert_includes @tag_names, 'Sustainable Development Goal 1'
     end
 
-    should "remove old tags" do
-      assert_not_includes @tag_names, 'earth'
-      assert_not_includes @tag_names, 'slush'
+    should 'not include removed tags' do
+      assert_not_includes @tag_names, 'Issue 2'
+      assert_not_includes @tag_names, 'Topic 2'
     end
 
-    should "remove old tags if new tag array is empty" do
-      assert_not_includes @tag_names, 'sector1'
-      assert_not_includes @tag_names, 'sector2'
+    should 'not include tags if new tag array is empty' do
+      assert_not_includes @tag_names, 'Sector 1'
+      assert_not_includes @tag_names, 'Sector 2'
     end
   end
 
@@ -85,7 +85,7 @@ class ContainerPublisherTest < ActiveSupport::TestCase
 
     end
 
-    should "apply the content_type" do
+    should 'apply the content_type' do
       assert_equal @container.content_type, 'default'
       publisher = ContainerPublisher.new(@container, @staff_user)
       publisher.publish
@@ -108,7 +108,7 @@ class ContainerPublisherTest < ActiveSupport::TestCase
       )
     end
 
-    should "set the user that published" do
+    should 'set the user that published' do
       publisher = ContainerPublisher.new(@container, @staff_user)
       assert_equal @container.has_draft, true
       publisher.publish

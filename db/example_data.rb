@@ -196,6 +196,10 @@ module FixtureReplacement
     s.added_on = Date.today
   end
 
+  attributes_for :sustainable_development_goal do |s|
+    s.name = "Goal: #{FixtureReplacement.random_string}"
+  end
+
   attributes_for :resource do |r|
     r.title = FixtureReplacement.random_string
     r.description = FixtureReplacement.random_string

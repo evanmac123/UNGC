@@ -6,13 +6,13 @@
         - taggable.topic_options.each do |parent_topic, child_topics|
           %li
             = hidden_field_tag model_name+"[topic_ids][]", nil #needed to clear array on empty submission
-            %label{style:"temporary: yes; width: inherit; margin: inherit; float: none;"}
+            %label.tagging
               = check_box_tag model_name+'[topic_ids][]', parent_topic.id, parent_topic.selected?
               = parent_topic.name
             %ol.expanded-list
               - child_topics.each do |child_topic|
                 %li
-                  %label{style:"temporary: yes; width: inherit; margin: inherit; float: none;"}
+                  %label.tagging
                     = check_box_tag model_name+'[topic_ids][]', child_topic.id, child_topic.selected?
                     = child_topic.name
 
@@ -24,13 +24,13 @@
         - taggable.issue_options.each do |parent_issue, child_issues|
           %li
             = hidden_field_tag model_name+"[issue_ids][]", nil #needed to clear array on empty submission
-            %label{style:"temporary: yes; width: inherit; margin: inherit; float: none;"}
+            %label.tagging
               = check_box_tag model_name+'[issue_ids][]', parent_issue.id, parent_issue.selected?
               = parent_issue.name
             %ol.expanded-list
               - child_issues.each do |child_issue|
                 %li
-                  %label{style:"temporary: yes; width: inherit; margin: inherit; float: none;"}
+                  %label.tagging
                     = check_box_tag model_name+'[issue_ids][]', child_issue.id, child_issue.selected?
                     = child_issue.name
 
@@ -41,13 +41,25 @@
       %ol.topics-list
         - taggable.sector_options.each do |parent_sector, child_sectors|
           %li
-            %label{style:"temporary: yes; width: inherit; margin: inherit; float: none;"}
+            %label.tagging
               = hidden_field_tag model_name+"[sector_ids][]", nil #needed to clear array on empty submission
               = check_box_tag model_name+'[sector_ids][]', parent_sector.id, parent_sector.selected?
               = parent_sector.name
               %ol.expanded-list
                 - child_sectors.each do |child_sector|
                   %li
-                    %label{style:"temporary: yes; width: inherit; margin: inherit; float: none;"}
+                    %label.tagging
                       = check_box_tag model_name+'[sector_ids][]', child_sector.id, child_sector.selected?
                       = child_sector.name
+
+#sustainable-development-goals.tab_content
+  %fieldset
+    %legend Sustainable Development Goals
+    .sustainable-development-goals-tree
+      %ol.sustainable-development-goals-list
+        - taggable.sustainable_development_goal_options.each do |sustainable_development_goal|
+          %li
+            %label.tagging
+              = hidden_field_tag model_name+'[sustainable_development_goal_ids][]', nil
+              = check_box_tag model_name+'[sustainable_development_goal_ids][]', sustainable_development_goal.id, sustainable_development_goal.selected?
+              = sustainable_development_goal.name

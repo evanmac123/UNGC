@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150731001515) do
+ActiveRecord::Schema.define(version: 20150824194708) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -975,25 +975,32 @@ ActiveRecord::Schema.define(version: 20150731001515) do
     t.datetime "updated_at",              null: false
   end
 
+  create_table "sustainable_development_goals", force: :cascade do |t|
+    t.string   "name",       limit: 255, null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
   create_table "taggings", force: :cascade do |t|
-    t.integer  "author_id",                    limit: 4
-    t.integer  "principle_id",                 limit: 4
-    t.string   "principle_type",               limit: 255
-    t.integer  "country_id",                   limit: 4
-    t.integer  "initiative_id",                limit: 4
-    t.integer  "language_id",                  limit: 4
-    t.integer  "sector_id",                    limit: 4
-    t.integer  "communication_on_progress_id", limit: 4
-    t.integer  "event_id",                     limit: 4
-    t.integer  "headline_id",                  limit: 4
-    t.integer  "organization_id",              limit: 4
-    t.integer  "resource_id",                  limit: 4
-    t.integer  "container_id",                 limit: 4
-    t.datetime "created_at",                               null: false
-    t.datetime "updated_at",                               null: false
-    t.integer  "topic_id",                     limit: 4
-    t.integer  "issue_id",                     limit: 4
-    t.integer  "case_example_id",              limit: 4
+    t.integer  "author_id",                       limit: 4
+    t.integer  "principle_id",                    limit: 4
+    t.string   "principle_type",                  limit: 255
+    t.integer  "country_id",                      limit: 4
+    t.integer  "initiative_id",                   limit: 4
+    t.integer  "language_id",                     limit: 4
+    t.integer  "sector_id",                       limit: 4
+    t.integer  "communication_on_progress_id",    limit: 4
+    t.integer  "event_id",                        limit: 4
+    t.integer  "headline_id",                     limit: 4
+    t.integer  "organization_id",                 limit: 4
+    t.integer  "resource_id",                     limit: 4
+    t.integer  "container_id",                    limit: 4
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
+    t.integer  "topic_id",                        limit: 4
+    t.integer  "issue_id",                        limit: 4
+    t.integer  "case_example_id",                 limit: 4
+    t.integer  "sustainable_development_goal_id", limit: 4
   end
 
   add_index "taggings", ["author_id"], name: "index_taggings_on_author_id", using: :btree
@@ -1011,6 +1018,7 @@ ActiveRecord::Schema.define(version: 20150731001515) do
   add_index "taggings", ["principle_type"], name: "index_taggings_on_principle_type", using: :btree
   add_index "taggings", ["resource_id"], name: "index_taggings_on_resource_id", using: :btree
   add_index "taggings", ["sector_id"], name: "index_taggings_on_sector_id", using: :btree
+  add_index "taggings", ["sustainable_development_goal_id"], name: "index_taggings_on_sustainable_development_goal_id", using: :btree
   add_index "taggings", ["topic_id"], name: "index_taggings_on_topic_id", using: :btree
 
   create_table "topics", force: :cascade do |t|
@@ -1063,6 +1071,7 @@ ActiveRecord::Schema.define(version: 20150731001515) do
   add_foreign_key "taggings", "principles"
   add_foreign_key "taggings", "resources"
   add_foreign_key "taggings", "sectors"
+  add_foreign_key "taggings", "sustainable_development_goals"
   add_foreign_key "taggings", "topics"
   add_foreign_key "topics", "topics", column: "parent_id"
 end

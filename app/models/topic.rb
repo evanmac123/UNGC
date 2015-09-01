@@ -3,4 +3,8 @@ class Topic < ActiveRecord::Base
   has_many :children, class_name: 'Topic', foreign_key: :parent_id
 
   scope :children, -> { where.not(parent_id: nil) }
+
+  def is_parent?
+    self.parent_id.nil?
+  end
 end
