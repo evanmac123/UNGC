@@ -48,6 +48,7 @@ input.checkbox, input.radio {
 form.inline { line-height:3; }
 form.inline p { margin-bottom:0; }
 
+label.tagging { width: inherit; margin: inherit; float: none; }
 
 /* Success, notice and error boxes
 -------------------------------------------------------------- */

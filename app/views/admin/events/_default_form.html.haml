@@ -94,7 +94,7 @@
         %ol.sponsors-list
           - @event.sponsor_options.each do |sponsor|
             %li
-              %label{style:"temporary: yes; width: inherit; margin: inherit; float: none;"}
+              %label.tagging
                 = hidden_field_tag "event[sponsor_ids][]", nil
                 = check_box_tag 'event[sponsor_ids][]', sponsor.id, sponsor.selected?
                 = sponsor.name
