@@ -28,6 +28,11 @@
         <%= link_to a.name, library_search_path(search: search_hash) -%>
       <% end %>
 
+      <%= render layout: 'components/resource_attributes_list', locals: {attributes: @resource.sustainable_development_goals, title: 'SDG'} do |a| %>
+        <%- search_hash = {sustainable_development_goals: [a.id]} -%>
+        <%= link_to a.name, library_search_path(search: search_hash) -%>
+      <% end %>
+
       <%= render layout: 'components/resource_attributes_list', locals: {attributes: @resource.authors, title: 'Authors'} do |a| %>
         <%= a.full_name -%>
       <% end %>
