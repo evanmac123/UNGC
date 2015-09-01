@@ -44,12 +44,12 @@ class ListPageTest < ActionDispatch::IntegrationTest
       assert_select_html '.main-content-blurb', @data[:list_block][:blurb]
       assert_select '.content-list-item' do |items|
         items.each_with_index do |item, index|
-          assert_select item, '.content-list-item-image', href: @data[:list_block][:items][index][:url]
-          assert_select item, '.content-list-item-image img', alt: @data[:list_block][:items][index][:title]
-          assert_select item, '.content-list-item-image img', src: @data[:list_block][:items][index][:image]
+          assert_select item, '.content-list-item-image[href=?]', @data[:list_block][:items][index][:url]
+          assert_select item, '.content-list-item-image img[alt=?]', @data[:list_block][:items][index][:title]
+          assert_select item, '.content-list-item-image img[src=?]', @data[:list_block][:items][index][:image]
           assert_select item, '.content-list-item-content-wrapper' do
             assert_select 'h1 a', @data[:list_block][:items][index][:title]
-            assert_select 'h1 a', href: @data[:list_block][:items][index][:url]
+            assert_select 'h1 a[href=?]', @data[:list_block][:items][index][:url]
             assert_select_html '.blurb', @data[:list_block][:items][index][:blurb]
           end
         end
