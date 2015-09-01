@@ -60,7 +60,6 @@ class LibrarySearchForm < FilterableForm
       page: self.page || 1,
       per_page: self.per_page || 12,
       order: order,
-      star: true,
       with: reject_blanks(options),
     }
   end

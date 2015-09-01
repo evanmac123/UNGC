@@ -31,6 +31,8 @@ class ContainerForm < FilterableForm
       page: page,
       per_page: per_page,
       with: facet_options,
+      order: 'rand()',
+      rand_seed: seed,
     }
   end
 

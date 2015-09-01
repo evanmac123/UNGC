@@ -74,9 +74,10 @@ class Admin::ContactsController < AdminController
 
     def display_search_results
       keyword = params[:keyword].force_encoding("UTF-8")
-      options = {per_page: (params[:per_page] || 15).to_i,
-                 page: params[:page],
-                 star: true}
+      options = {
+        per_page: (params[:per_page] || 15).to_i,
+        page: params[:page]
+      }
       options[:with] ||= {}
       options[:with].merge!(email: params[:email]) if params[:email]
 
