@@ -127,9 +127,13 @@ class DummyAccounts
   end
 
   def register(organization)
-    attrs = FixtureReplacement.valid_non_business_registration_attributes
-    attrs.delete('id')
-    organization.registration.update_attributes!(attrs)
+    organization.registration.update_attributes!(
+      date: Date.today - 1.year,
+      place: 'Registration place',
+      authority: 'Some authority',
+      mission_statement: 'We will support the UNGC',
+      number: rand(999).to_s
+    )
     organization
   end
 
