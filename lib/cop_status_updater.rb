@@ -18,8 +18,7 @@ class CopStatusUpdater
     info "Running move_noncommunicating_organizations_to_delisted"
     organizations = Organization.businesses.participants.active.about_to_become_delisted
     organizations.find_each do |organization|
-      move_to_noncommunicating(organization)
-      delist(organization)
+      move_to_delisted(organization)
     end
   end
 
@@ -32,11 +31,19 @@ class CopStatusUpdater
     error "Failed to move organization to Non-Communicating #{organization.id}:#{organization.name}", e
   end
 
+  def move_to_delisted(organization)
+    if delist(organization)
+      notify_of_delisting(organization)
+    end
+  end
+
   def delist(organization)
     organization.delist!
     info "Delisted #{organization.id}:#{organization.name}"
+    true
   rescue => e
     error "Failed to delist #{organization.id}:#{organization.name}", e
+    false
   end
 
   def notify_of_delisting(organization)
