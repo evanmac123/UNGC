@@ -1,7 +1,7 @@
 module ImporterMapping
   FILES = [:country, :organization_type, :sector, :exchange, :listing_status, :language, :removal_reason,
             :cop_score, :principle, :role, :organization, :contact, :communication_on_progress,
-            :logo_publication, :logo_request, :logo_file, :logo_comment, :case_story, :initiative, :signing,
+            :logo_publication, :logo_request, :logo_file, :logo_comment, :initiative, :signing,
             :bulletin_subscriber]
   CONFIG = {
     #fields: ID	NAME
@@ -112,19 +112,6 @@ module ImporterMapping
                                                :url2, :url3, :added_on, :modified_on, :contact_name,
                                                :end_year, :status, :include_ceo_letter, :include_actions, :use_indicators,
                                                :cop_score_id, :use_gri, :has_certification]},
-    # fields: CASE_ID	R01_ORG_NAME	CASE_TITLE	CASE_STORY_TYPE	CASE_CATEGORY	CASE_DATE	CASE_DESCRIPTION
-    #         CASE_URL_LINK1	CASE_URL_LINK2	CASE_URL_LINK3	CASE_AUTHOR	CASE_AUTHOR_INSTITUTION
-    #         CASE_AUTHOR_EMAIL	CASE_AUTHOR2	CASE_AUTHOR2_INSTITUTION	CASE_AUTHOR2_EMAIL	CASE_REVIEWER
-    #         CASE_REVIEWER_INSTITUTION	CASE_REVIEWER_EMAIL	CASE_REVIEWER2	CASE_REVIEWER2_INSTITUTION
-    #         CASE_REVIEWER2_EMAIL	CASE_FILE	CASE_CONTACT1_NAME	CASE_CONTACT1_EMAIL	CASE_CONTACT2_NAME
-    #         CASE_CONTACT2_EMAIL	CASE_STATUS	CASE_DOC_EXT
-    :case_story => {:file   => 'R07_CASE_STORY.csv',
-                    :fields => [:identifier, :organization_id, :title, nil, :category, :case_date, :description,
-                                :url1, :url2, :url3, :author1, :author1_institution,
-                                :author1_email, :author2, :author2_institution, :author2_email, :reviewer1,
-                                :reviewer1_institution, :reviewer1_email, :reviewer2, :reviewer2_institution,
-                                :reviewer2_email, :uploaded, :contact1, :contact1_email, :contact2,
-                                :contact2_email, :status, :extension]},
 
     #fields: "ID","FIRST_NAME","LAST_NAME","ORG_NAME","EMAIL"
     :bulletin_subscriber => {:file  => 'TR20_GCB_SUBSCRIBERS.csv',
