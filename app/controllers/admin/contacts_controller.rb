@@ -9,10 +9,10 @@ class Admin::ContactsController < AdminController
   end
 
   def create
-    contact = @parent.contacts.new(contact_params)
-    @contact = Contact::Creator.new(contact, policy)
+    @contact = @parent.contacts.new(contact_params)
+    creator = Contact::Creator.new(@contact, policy)
 
-    if @contact.create
+    if creator.create
       flash[:notice] = 'Contact was successfully created.'
       redirect_to return_path
     else
@@ -30,9 +30,9 @@ class Admin::ContactsController < AdminController
   end
 
   def update
-    @contact = Contact::Updater.new(find_contact, policy)
+    updater = Contact::Updater.new(@contact, policy)
 
-    if @contact.update(contact_params)
+    if updater.update(contact_params)
       if @contact.id == current_contact.id
         sign_in(@contact, :bypass => true)
       end
@@ -76,13 +76,9 @@ class Admin::ContactsController < AdminController
       end
 
       if params[:id]
-        @contact = find_contact
+        @contact = @parent.contacts.find(params[:id])
         @roles = visible_roles
       end
-    end
-
-    def find_contact
-      @parent.contacts.find(params[:id])
     end
 
     def visible_roles

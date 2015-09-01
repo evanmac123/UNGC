@@ -1,7 +1,7 @@
-class Contact::Creator < SimpleDelegator
+class Contact::Creator
 
   def initialize(contact, policy)
-    super(contact)
+    @contact = contact
     @policy = policy
   end
 
@@ -20,10 +20,6 @@ class Contact::Creator < SimpleDelegator
 
   private
 
-  attr_reader :policy
-
-  def contact
-    __getobj__
-  end
+  attr_reader :contact, :policy
 
 end
