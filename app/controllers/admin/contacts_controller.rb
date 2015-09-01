@@ -10,13 +10,22 @@ class Admin::ContactsController < AdminController
 
   def create
     @contact = @parent.contacts.new(contact_params)
-    @roles = visible_roles
-    @return_path = return_path
 
-    if @contact.save
+    unless policy.can_upload_image?(@contact)
+      @contact.image = nil
+    end
+
+    can_create = policy.can_create?(@contact)
+    if can_create && @contact.save
       flash[:notice] = 'Contact was successfully created.'
       redirect_to return_path
     else
+      @roles = visible_roles
+      @return_path = return_path
+
+      unless can_create
+        flash[:error] = 'You are not authorized to create that contact.'
+      end
       render :action => "new"
     end
   end
@@ -32,13 +41,24 @@ class Admin::ContactsController < AdminController
       contact_params.delete('password')
     end
 
-    @return_path = return_path
-    if @contact.update_attributes(contact_params)
+    unless policy.can_upload_image?(@contact)
+      # TODO ensure this actually deletes image from the strong params object
+      contact_params.delete(:image)
+    end
+
+    can_update = policy.can_update?(@contact)
+    if can_update && @contact.update(contact_params)
       sign_in(@contact, :bypass => true) if @contact == current_contact
 
       flash[:notice] = 'Contact was successfully updated.'
       redirect_to return_path
     else
+      @roles = visible_roles
+      @return_path = return_path
+
+      unless can_update
+        flash[:error] = 'You are not authorized to edit that contact.'
+      end
       render :action => "edit"
     end
   end
@@ -104,14 +124,8 @@ class Admin::ContactsController < AdminController
       true
     end
 
-    def authorized_for_image_upload?
-      # UNGC contacts can upload images on any contact and contacts with the
-      # network contact person role can on any contact they can edit normally
-      current_contact.from_ungc? || current_contact.is?(Role.network_focal_point)
-    end
-
     def contact_params
-      allowed_params = [
+      params.fetch(:contact, {}).permit(
         :prefix,
         :first_name,
         :middle_name,
@@ -127,14 +141,14 @@ class Admin::ContactsController < AdminController
         :postal_code,
         :country_id,
         :username,
-        :password
-      ]
+        :password,
+        :image,
+        role_ids: []
+      )
+    end
 
-      allowed_params << :image if authorized_for_image_upload?
-
-      allowed_params << { role_ids: [] }
-
-      params.fetch(:contact, {}).permit(*allowed_params)
+    def policy
+      @policy ||= ContactPolicy.new(current_contact)
     end
 
 end
