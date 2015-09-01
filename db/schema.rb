@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150824194708) do
+ActiveRecord::Schema.define(version: 20150901180757) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -85,58 +85,6 @@ ActiveRecord::Schema.define(version: 20150824194708) do
   end
 
   add_index "case_examples", ["country_id"], name: "index_case_examples_on_country_id", using: :btree
-
-  create_table "case_stories", force: :cascade do |t|
-    t.string   "identifier",                 limit: 255
-    t.integer  "organization_id",            limit: 4
-    t.string   "title",                      limit: 255
-    t.date     "case_date"
-    t.string   "url1",                       limit: 255
-    t.string   "url2",                       limit: 255
-    t.string   "url3",                       limit: 255
-    t.string   "author1",                    limit: 255
-    t.string   "author1_institution",        limit: 255
-    t.string   "author1_email",              limit: 255
-    t.string   "author2",                    limit: 255
-    t.string   "author2_institution",        limit: 255
-    t.string   "author2_email",              limit: 255
-    t.string   "reviewer1",                  limit: 255
-    t.string   "reviewer1_institution",      limit: 255
-    t.string   "reviewer1_email",            limit: 255
-    t.string   "reviewer2",                  limit: 255
-    t.string   "reviewer2_institution",      limit: 255
-    t.string   "reviewer2_email",            limit: 255
-    t.boolean  "uploaded",                   limit: 1
-    t.string   "contact1",                   limit: 255
-    t.string   "contact1_email",             limit: 255
-    t.string   "contact2",                   limit: 255
-    t.string   "contact2_email",             limit: 255
-    t.integer  "status",                     limit: 4
-    t.string   "extension",                  limit: 255
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.boolean  "is_partnership_project",     limit: 1
-    t.boolean  "is_internalization_project", limit: 1
-    t.string   "state",                      limit: 255
-    t.string   "attachment_file_name",       limit: 255
-    t.string   "attachment_content_type",    limit: 255
-    t.integer  "attachment_file_size",       limit: 4
-    t.datetime "attachment_updated_at"
-    t.integer  "contact_id",                 limit: 4
-    t.text     "description",                limit: 65535
-    t.boolean  "replied_to",                 limit: 1
-    t.integer  "reviewer_id",                limit: 4
-  end
-
-  create_table "case_stories_countries", id: false, force: :cascade do |t|
-    t.integer "case_story_id", limit: 4
-    t.integer "country_id",    limit: 4
-  end
-
-  create_table "case_stories_principles", id: false, force: :cascade do |t|
-    t.integer "case_story_id", limit: 4
-    t.integer "principle_id",  limit: 4
-  end
 
   create_table "comments", force: :cascade do |t|
     t.text     "body",                    limit: 65535
