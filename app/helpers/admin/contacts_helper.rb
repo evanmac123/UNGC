@@ -12,7 +12,7 @@ module Admin::ContactsHelper
   end
 
   def can_upload_image?(current_contact, target:)
-    ContactPolicy.new(current_contact).can_upload?(target)
+    ContactPolicy.new(current_contact).can_upload_image?(target)
   end
 
   def current_contact_can_delete(current_contact, tabbed_contact)

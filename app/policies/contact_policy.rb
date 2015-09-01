@@ -32,9 +32,13 @@ class ContactPolicy
     can_create?(target_contact)
   end
 
+  def can_destroy?(target_contact)
+    true # TODO implement me
+  end
+
   private
 
-  attr_reader :contact
+  attr_reader :current_contact
 
   def from_same_network(target_contact)
     target_contact.from_network? \

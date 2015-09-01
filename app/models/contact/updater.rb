@@ -18,7 +18,7 @@ class Contact::Updater
     if policy.can_update?(contact)
       contact.update(params)
     else
-      contact.errors.add(:base, 'You are not authorized to edit that contact.'
+      contact.errors.add(:base, 'You are not authorized to edit that contact.')
       false
     end
   end
