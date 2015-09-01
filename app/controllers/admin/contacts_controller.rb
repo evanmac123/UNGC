@@ -10,7 +10,7 @@ class Admin::ContactsController < AdminController
 
   def create
     contact = @parent.contacts.new(contact_params)
-    @contact = ContactUpdater.new(contact, current_contact)
+    @contact = Contact::Creator.new(contact, policy)
 
     if @contact.create
       flash[:notice] = 'Contact was successfully created.'
@@ -30,7 +30,7 @@ class Admin::ContactsController < AdminController
   end
 
   def update
-    @contact = ContactUpdater.new(find_contact, current_contact)
+    @contact = Contact::Updater.new(find_contact, policy)
 
     if @contact.update(contact_params)
       if @contact.id == current_contact.id
@@ -48,8 +48,6 @@ class Admin::ContactsController < AdminController
   end
 
   def destroy
-    policy = ContactPolicy.new(current_contact)
-
     can_destroy = policy.can_destroy?(@contact)
     unless can_destroy
       @contact.error.add(:base, "You are not authorized to delete that contact.")
@@ -140,6 +138,10 @@ class Admin::ContactsController < AdminController
         :image,
         role_ids: []
       )
+    end
+
+    def policy
+      @policy ||= ContactPolicy.new(current_contact)
     end
 
 end

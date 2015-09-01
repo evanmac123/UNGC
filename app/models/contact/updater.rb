@@ -1,21 +1,8 @@
-class ContactUpdater < SimpleDelegator
+class Contact::Updater < SimpleDelegator
 
-  def initialize(contact, current_contact)
+  def initialize(contact, policy)
     super(contact)
-    @current_contact = current_contact
-  end
-
-  def create
-    unless policy.can_upload_image?(contact)
-      contact.image = nil
-    end
-
-    if policy.can_create?(contact)
-      contact.save
-    else
-      contact.errors.add(:base, 'You are not authorized to create that contact.')
-      false
-    end
+    @policy = policy
   end
 
   def update(params)
@@ -38,14 +25,10 @@ class ContactUpdater < SimpleDelegator
 
   private
 
-  attr_reader :current_contact
+  attr_reader :policy
 
   def contact
     __getobj__
-  end
-
-  def policy
-    @policy ||= ContactPolicy.new(current_contact)
   end
 
 end
