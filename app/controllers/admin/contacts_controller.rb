@@ -9,23 +9,16 @@ class Admin::ContactsController < AdminController
   end
 
   def create
-    @contact = @parent.contacts.new(contact_params)
+    contact = @parent.contacts.new(contact_params)
+    @contact = ContactUpdater.new(contact, current_contact)
 
-    unless policy.can_upload_image?(@contact)
-      @contact.image = nil
-    end
-
-    can_create = policy.can_create?(@contact)
-    if can_create && @contact.save
+    if @contact.create
       flash[:notice] = 'Contact was successfully created.'
       redirect_to return_path
     else
       @roles = visible_roles
       @return_path = return_path
 
-      unless can_create
-        flash[:error] = 'You are not authorized to create that contact.'
-      end
       render :action => "new"
     end
   end
@@ -37,18 +30,12 @@ class Admin::ContactsController < AdminController
   end
 
   def update
-    if contact_params && contact_params[:password].try(:empty?)
-      contact_params.delete('password')
-    end
+    @contact = ContactUpdater.new(find_contact, current_contact)
 
-    unless policy.can_upload_image?(@contact)
-      # TODO ensure this actually deletes image from the strong params object
-      contact_params.delete(:image)
-    end
-
-    can_update = policy.can_update?(@contact)
-    if can_update && @contact.update(contact_params)
-      sign_in(@contact, :bypass => true) if @contact == current_contact
+    if @contact.update(contact_params)
+      if @contact.id == current_contact.id
+        sign_in(@contact, :bypass => true)
+      end
 
       flash[:notice] = 'Contact was successfully updated.'
       redirect_to return_path
@@ -56,20 +43,24 @@ class Admin::ContactsController < AdminController
       @roles = visible_roles
       @return_path = return_path
 
-      unless can_update
-        flash[:error] = 'You are not authorized to edit that contact.'
-      end
       render :action => "edit"
     end
   end
 
   def destroy
-    if @contact.destroy
+    policy = ContactPolicy.new(current_contact)
+
+    can_destroy = policy.can_destroy?(@contact)
+    unless can_destroy
+      @contact.error.add(:base, "You are not authorized to delete that contact.")
+    end
+
+    if can_destroy && @contact.destroy
       flash[:notice] = 'Contact was successfully deleted.'
     else
-      flash[:error] =  @contact.errors.full_messages.to_sentence
+      flash[:error] = @contact.errors.full_messages.to_sentence
     end
-      redirect_to return_path
+    redirect_to return_path
   end
 
   def search
@@ -87,9 +78,13 @@ class Admin::ContactsController < AdminController
       end
 
       if params[:id]
-        @contact = @parent.contacts.find params[:id]
+        @contact = find_contact
         @roles = visible_roles
       end
+    end
+
+    def find_contact
+      @parent.contacts.find(params[:id])
     end
 
     def visible_roles
@@ -145,10 +140,6 @@ class Admin::ContactsController < AdminController
         :image,
         role_ids: []
       )
-    end
-
-    def policy
-      @policy ||= ContactPolicy.new(current_contact)
     end
 
 end
