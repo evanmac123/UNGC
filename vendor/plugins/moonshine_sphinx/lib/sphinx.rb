@@ -14,7 +14,8 @@ module Sphinx
 
   module ClassMethods
     def sphinx_yml
-      @sphinx_yml ||= Pathname.new(configuration[:deploy_to]) + 'shared/config/sphinx.yml'
+      configuration[:sphinx][:sphinx_yml] ||= 'thinking_sphinx.yml'
+      @sphinx_yml ||= Pathname.new(configuration[:deploy_to]) + "shared/config/#{configuration[:sphinx][:sphinx_yml]}"
     end
 
     def sphinx_configuration
@@ -45,7 +46,7 @@ module Sphinx
       end
     end
 
-    configure :sphinx => YAML::load(template(sphinx_template_dir + 'sphinx.yml', binding))
+    configure :sphinx => YAML::load(template(sphinx_template_dir + 'thinking_sphinx.yml', binding))
     sphinx_config_only
 
     [:searchd_files, :searchd_file_path].each do |config|
@@ -68,7 +69,7 @@ module Sphinx
       :mode => '664',
       :alias => 'searchd shared files'
 
-    rake "thinking_sphinx:configure",
+    rake "ts:configure",
       :refreshonly => true,
       :subscribe => file(sphinx_yml),
       :require => [
@@ -77,40 +78,76 @@ module Sphinx
         file('searchd shared files')
       ]
 
-    file sphinx_configuration[:config_file],
+    file sphinx_configuration[:configuration_file],
       :ensure => :file,
       :owner => configuration[:user],
       :group => configuration[:group] || configuration[:user],
       :mode => '664'
 
     unless configuration[:sphinx][:index_on_deploy] == false
-      rake "thinking_sphinx:index",
+      rake "ts:index",
         :require => [
           file(sphinx_configuration[:searchd_files]),
-          exec('rake thinking_sphinx:configure'),
+          exec('rake ts:configure'),
           exec('rake db:migrate'),
           exec('sphinx'),
           exec('rails_gems')
         ],
-        :subscribe => file(sphinx_configuration[:config_file])
+        :subscribe => file(sphinx_configuration[:configuration_file])
     end
 
     package 'wget', :ensure => :installed
 
-# http://sphinxsearch.com/files/sphinx-2.0.8-release.tar.gz
+    version = configuration[:sphinx][:version]
+    file_version = "#{version}"
+    if file_version =~ /beta/
+      version = file_version.split("-").first
+    else
+      file_version = "#{version}-release" if version =~ /^2/
+    end
+
+    libstemmer = configuration[:sphinx][:libstemmer] || false
+
+    sphinx_version = Gem::Version.new(version)
+    ver2 = Gem::Version.new('2.0')
+    exec 'download sphinx',
+      :command => "wget http://sphinxsearch.com/files#{'/archive' if sphinx_version < ver2 }/sphinx-#{file_version}.tar.gz",
+      :cwd => '/tmp',
+      :require => package('wget'),
+      :unless => "test -f /usr/local/bin/searchd && test #{version} = `searchd --help | head -n1 | awk '{print $2}' | awk -F- '{print $1}'`"
+
+    exec 'extract sphinx',
+      :command => "tar xzf sphinx-#{file_version}.tar.gz",
+      :cwd => '/tmp',
+      :require => exec('download sphinx'),
+      :unless => "test -f /usr/local/bin/searchd && test #{version} = `searchd --help | head -n1 | awk '{print $2}' | awk -F- '{print $1}'`"
+
+    if libstemmer
+      exec 'download and extract libstemmer',
+        :command => [
+          "wget http://snowball.tartarus.org/dist/libstemmer_c.tgz",
+          "tar xzf libstemmer_c.tgz",
+          "cp -R libstemmer_c/* sphinx-#{file_version}/libstemmer_c/"
+        ].join(' && '),
+        :cwd => '/tmp',
+        :require => exec('extract sphinx'),
+        :unless => "test -f /usr/local/bin/searchd && test #{version} = `searchd --help | head -n1 | awk '{print $2}' | awk -F- '{print $1}'`"
+    else
+      exec 'download and extract libstemmer',
+        :command => 'true',
+        :require => exec('extract sphinx'),
+        :unless => "test -f /usr/local/bin/searchd && test #{version} = `searchd --help | head -n1 | awk '{print $2}' | awk -F- '{print $1}'`"
+    end
 
     exec 'sphinx',
       :command => [
-        "wget http://sphinxsearch.com/files/sphinx-#{configuration[:sphinx][:version]}-release.tar.gz",
-        "tar xzf sphinx-#{configuration[:sphinx][:version]}-release.tar.gz",
-        "cd sphinx-#{configuration[:sphinx][:version]}-release",
-        './configure',
+        "/tmp/sphinx-#{file_version}/configure #{ '--with-libstemmer' if libstemmer}",
         'make',
         'make install'
       ].join(' && '),
-      :cwd => '/tmp',
-      :require => package('wget'),
-      :unless => "test -f /usr/local/bin/searchd && test #{configuration[:sphinx][:version]} = `searchd --help | grep #{configuration[:sphinx][:version]} | awk '{print $2}' | awk -F- '{print $1}'`"
+      :cwd => "/tmp/sphinx-#{file_version}",
+      :require => [exec('extract sphinx'), exec('download and extract libstemmer')],
+      :unless => "test -f /usr/local/bin/searchd && test #{version} = `searchd --help | head -n1 | awk '{print $2}' | awk -F- '{print $1}'`"
 
     postrotate = configuration[:rails_logrotate][:postrotate] || "touch #{configuration[:deploy_to]}/current/tmp/restart.txt"
     configure(:rails_logrotate => {
@@ -126,27 +163,27 @@ module Sphinx
 
     unless configuration[:sphinx][:index_cron] == false
       current_rails_root = "#{configuration[:deploy_to]}/current"
-      thinking_sphinx_index = "(date && cd #{current_rails_root} && RAILS_ENV=#{rails_env} bundle exec rake thinking_sphinx:index) >> #{current_rails_root}/log/cron-thinking_sphinx-index.log 2>&1"
+      thinking_sphinx_index = "(date && cd #{current_rails_root} && RAILS_ENV=#{rails_env} bundle exec rake ts:index) >> #{current_rails_root}/log/cron-thinking_sphinx-index.log 2>&1"
       cron_options = {
         :command => thinking_sphinx_index,
         :user => configuration[:user]
       }.merge(configuration[:sphinx][:index_cron] || {:minute => 9}) # Set default here instead of in included so that :minute doesn't get deep_merged with user settings
 
-      cron "thinking_sphinx:index", cron_options
+      cron "ts:index", cron_options
     end
   end
 
-  # Just configure sphinx.yml. Useful on app servers when sphinx is on a shared
+  # Just configure thinking_sphinx.yml. Useful on app servers when sphinx is on a shared
   # server
   def sphinx_config_only
     file sphinx_yml.to_s,
-      :content => template(sphinx_template_dir.join('sphinx.yml')),
+      :content => template(sphinx_template_dir.join('thinking_sphinx.yml')),
       :ensure => :file,
       :owner => configuration[:user],
       :group => configuration[:group] || configuration[:user],
       :mode => '664'
 
-    file rails_root + 'config/sphinx.yml',
+    file rails_root + "config/#{configuration[:sphinx][:sphinx_yml]}",
       :ensure => sphinx_yml.to_s,
       :require => file(sphinx_yml.to_s),
       :before => exec('rake tasks')
