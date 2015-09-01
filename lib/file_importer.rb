@@ -69,39 +69,6 @@ class FileImporter
     end
   end
 
-  # path is the folder that contain the doc and xml folder for case stories
-  def import_case_stories(path)
-    if File.directory? path
-      CaseStory.all.each do |case_story|
-        # let's try to find the XML file for this case story
-        xml_file = File.join(path, "xml", "#{case_story.identifier}.xml")
-        log "Working on #{case_story.identifier}"
-        if File.exist?(xml_file)
-          begin
-            doc = Hpricot(open(xml_file)) # REXML::Document.new(File.new(xml_file))
-            # there's a single element
-            description = (doc/'description').inner_text
-            unless description.encoding.name == 'UTF-8'
-              description = description.encode('UTF-8')
-            end
-            case_story.description = description
-          rescue Encoding::CompatibilityError => e
-            log "Invalid xml file #{xml_file} -- #{e.inspect}"
-          end
-        end
-        # user uploaded DOC/PDF for this case story
-        [:doc, :pdf, :ppt].each do |extension|
-          doc_file = File.join(path, "doc", "#{case_story.identifier}.#{extension}")
-          if File.exist?(doc_file)
-            case_story.attachment = File.new(doc_file)
-          end
-        end
-
-        case_story.save
-      end
-    end
-  end
-
   def import_cop_xml(path = nil)
     require 'hpricot'
     require 'facets'

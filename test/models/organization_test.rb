@@ -6,7 +6,6 @@ class OrganizationTest < ActiveSupport::TestCase
   should validate_presence_of :name
   should have_many :contacts
   should have_many :logo_requests
-  should have_many :case_stories
   should have_many :communication_on_progresses
   should have_many :comments
   should belong_to :sector

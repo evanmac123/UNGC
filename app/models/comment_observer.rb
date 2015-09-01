@@ -1,13 +1,7 @@
 class CommentObserver < ActiveRecord::Observer
   def after_create(comment)
     if comment.contact.from_ungc?
-      if comment.commentable.is_a? CaseStory
-        case comment.commentable.state
-          when CaseStory::STATE_IN_REVIEW then CaseStoryMailer.in_review(comment.commentable).deliver
-          when CaseStory::STATE_APPROVED then CaseStoryMailer.approved(comment.commentable).deliver
-          when CaseStory::STATE_REJECTED then CaseStoryMailer.rejected(comment.commentable).deliver
-        end
-      elsif comment.commentable.is_a? Organization
+      if comment.commentable.is_a? Organization
         case comment.commentable.state
           when Organization::STATE_IN_REVIEW then email_in_review_organization(comment)
           when Organization::STATE_NETWORK_REVIEW then OrganizationMailer.network_review(comment.commentable).deliver
