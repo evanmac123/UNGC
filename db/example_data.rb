@@ -308,4 +308,13 @@ module FixtureReplacement
     p.container_id = new_container.id
     p.json_data = '{}'
   end
+
+  attributes_for :non_business_registration, class: NonBusinessOrganizationRegistration do |r|
+    r.date = rand(3.years).seconds.ago
+    r.place = random_string
+    r.authority = random_string
+    r.mission_statement = random_string
+    r.number = random_string
+  end
+
 end
