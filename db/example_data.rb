@@ -5,10 +5,6 @@ module FixtureReplacement
     "/#{[FixtureReplacement.random_string, FixtureReplacement.random_string, FixtureReplacement.random_string].join('/')}.html"
   end
 
-  attributes_for :case_story do |c|
-    c.title = FixtureReplacement.random_string
-  end
-
   attributes_for :comment do |c|
     c.body = FixtureReplacement.random_string
   end
