@@ -4,35 +4,35 @@ require './lib/dummy_accounts'
 class DummyAccountsTest < ActiveSupport::TestCase
 
   setup do
+    create_sector
+    create_organization_types
+    create_listing_statuses
+    create_staff_user
     create_country(code: 'ca', local_network: create_local_network)
     subject = DummyAccounts.new
   end
 
-  [
-    :business_organization,
-    :non_business_organization,
-    :reporting_business_organization,
-    :reporting_non_business_organization,
-  ].each do |method|
-    test "creates #{method}" do
-      # creates an organization
-      org = subject.public_send(method)
-      assert_not_nil org, 'failed to create organization'
+  test 'creates a business_organization' do
+    assert_creates_organization_and_user do
+      subject.business_organization
+    end
+  end
 
-      # creates a contact
-      contact = org.contacts.first
-      assert_not_nil contact, 'failed to create contac'
-      assert_not_nil contact.password, 'missing password'
+  test 'creates a non_business_organization' do
+    assert_creates_organization_and_user do
+      subject.non_business_organization
+    end
+  end
 
-      # should only create 1 organization
-      assert_no_difference -> { Organization.count } do
-        subject.public_send(method)
-      end
+  test 'creates a reporting_business_organization' do
+    assert_creates_organization_and_user do
+      subject.reporting_business_organization
+    end
+  end
 
-      # should only create 1 contact
-      assert_no_difference -> { Organization.count } do
-        subject.public_send(method)
-      end
+  test 'creates a reporting_non_business_organization' do
+    assert_creates_organization_and_user do
+      subject.reporting_non_business_organization
     end
   end
 
@@ -46,6 +46,50 @@ class DummyAccountsTest < ActiveSupport::TestCase
       assert_not_nil contact.local_network, 'missing local network'
       assert_not_nil contact.password, 'missing password'
     end
+  end
+
+  private
+
+  def assert_creates_organization_and_user
+    # creates an organization
+    org = yield
+    assert_not_nil org, 'failed to create organization'
+
+    # creates a contact
+    contact = org.contacts.first
+    assert_not_nil contact, 'failed to create contac'
+    assert_not_nil contact.password, 'missing password'
+
+    # should pass through the OrganizationUpdater
+    reg = org.registration
+    updater = OrganizationUpdater.new(org.attributes, reg.attributes)
+    assert updater.update(org, @staff_user), updater.error_message
+
+    # should not create a second instance of organization
+    assert_no_difference 'Organization.count' do
+      yield
+    end
+
+    # should not create a second instance of contact
+    assert_no_difference 'Organization.count' do
+      yield
+    end
+  end
+
+  def create_organization_types
+    create_organization_type(
+      name: 'Academic',
+      type_property: OrganizationType::NON_BUSINESS
+    )
+    create_organization_type(
+      name: 'SME',
+      type_property: OrganizationType::BUSINESS
+    )
+  end
+
+  def create_listing_statuses
+    create_listing_status(name: "Not Applicable")
+    create_listing_status(name: "Publicly Listed")
   end
 
 end

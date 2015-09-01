@@ -14,10 +14,13 @@ class DummyAccounts
   end
 
   def business_organization
-    create_organization(
+    create_approved_organization(
       name: 'Dummy Business',
       employees: 23,
       organization_type: OrganizationType.sme,
+      sector: Sector.first,
+      listing_status: ListingStatus.publicly_listed,
+      stock_symbol: 'DUMMY_BUSINESS',
       contact: {
         username: 'dummy.business',
         password: 'dummy.business',
@@ -29,7 +32,7 @@ class DummyAccounts
   end
 
   def non_business_organization
-    create_organization(
+    register(create_approved_organization(
       name: 'Dummy Non-Business',
       employees: 10000,
       organization_type: OrganizationType.academic,
@@ -40,7 +43,7 @@ class DummyAccounts
         last_name: 'Contact',
         email: 'dummy.non-business@unglobalcompact.org'
       }
-    )
+    ))
   end
 
   def local_network_account
@@ -55,10 +58,13 @@ class DummyAccounts
   end
 
   def reporting_business_organization
-    create_organization(
+    create_approved_organization(
       name: 'Dummy Reporting Business',
       employees: 64,
       organization_type: OrganizationType.sme,
+      sector: Sector.first,
+      listing_status: ListingStatus.publicly_listed,
+      stock_symbol: 'DUMMY_REPORTING_BUSINESS',
       contact: {
         username: 'dummy.reporting.business',
         password: 'dummy.reporting.business',
@@ -70,7 +76,7 @@ class DummyAccounts
   end
 
   def reporting_non_business_organization
-    create_organization(
+    organization = create_approved_organization(
       name: 'Non-Business Org',
       employees: 659,
       organization_type: OrganizationType.academic,
@@ -82,6 +88,7 @@ class DummyAccounts
         email: 'dummy.reporting.non-business@unglobalcompact.org'
       }
     )
+    register(organization)
   end
 
   def reporting_local_network_account
@@ -94,6 +101,8 @@ class DummyAccounts
       local_network: canada.local_network,
     )
   end
+
+  private
 
   def create_contact(params)
     params.reverse_merge!(
@@ -108,17 +117,19 @@ class DummyAccounts
     Contact.where(username: username).first_or_create!(params)
   end
 
-  def create_organization(params)
+  def create_approved_organization(params)
     contact_params = params.delete(:contact)
     params.reverse_merge!(contacts: [create_contact(contact_params)])
-    name = params.fetch(:name)
-    organization = Organization.where(name: name).first
+    params.reverse_merge!(country: canada)
 
-    if organization.nil?
-      organization = Organization.create!(params)
-      organization.approve!
-    end
+    Organization.where(name: params.fetch(:name))
+                .first_or_create!(params, &:approve!)
+  end
 
+  def register(organization)
+    attrs = FixtureReplacement.valid_non_business_registration_attributes
+    attrs.delete('id')
+    organization.registration.update_attributes!(attrs)
     organization
   end
 
