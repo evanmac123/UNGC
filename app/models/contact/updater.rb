@@ -6,16 +6,15 @@ class Contact::Updater
   end
 
   def update(params)
-    if params[:password].try(:empty?)
-      params.delete('password')
-    end
-
-    unless policy.can_upload_image?(contact)
-      # TODO ensure this actually deletes image from the strong params object
-      params.delete(:image)
-    end
-
     if policy.can_update?(contact)
+      if params[:password].try(:empty?)
+        params.delete(:password)
+      end
+
+      if params[:image] && !policy.can_upload_image?(contact)
+        params.delete(:image)
+      end
+
       contact.update(params)
     else
       contact.errors.add(:base, 'You are not authorized to edit that contact.')
