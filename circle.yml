@@ -13,6 +13,8 @@ general:
 
 dependencies:
   pre:
+    - apt-add-repository ppa:builds/sphinxsearch-rel22 -y; apt-get update; apt-get install sphinxsearch;
+
     - git clone https://github.com/euske/pdfminer.git && cd pdfminer && make cmap && sudo python setup.py install
     - cp config/secrets.yml.ci config/secrets.yml
 
