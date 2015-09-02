@@ -6,11 +6,11 @@ class Contact::Creator
   end
 
   def create
-    unless policy.can_upload_image?(contact)
-      contact.image = nil
-    end
-
     if policy.can_create?(contact)
+      unless policy.can_upload_image?(contact)
+        contact.image = nil
+      end
+
       contact.save
     else
       contact.errors.add(:base, 'You are not authorized to create that contact.')
