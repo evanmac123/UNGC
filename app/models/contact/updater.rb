@@ -7,7 +7,7 @@ class Contact::Updater
 
   def update(params)
     if params[:password].try(:empty?)
-      contact_params.delete('password')
+      params.delete('password')
     end
 
     unless policy.can_upload_image?(contact)
