@@ -1,59 +1,69 @@
 require 'test_helper'
 
 class Contact::UpdaterTest < ActiveSupport::TestCase
+  setup do
+    create_country # Needed by create_contact. See example_data.rb.
+    @contact = create_contact(
+      username: 'venu',
+      password: 'password'
+    )
+  end
+
   context 'update' do
     context 'policy allows update' do
-      should 'update contact' do
-        contact = mock()
-
-        contact.expects(:update).once
+      setup do
         policy = stub(can_update?: true)
-        params = {}
+        params = { username: 'keesari' }
+        Contact::Updater.new(@contact, policy).update(params)
+      end
 
-        Contact::Updater.new(contact, policy).update(params)
+      should 'update contact' do
+        assert_equal 'keesari', @contact.username
       end
     end
   end
 
   context 'policy allows update and params include empty password' do
-    should 'remove password from params and update contact' do
-      contact = mock()
-      params = mock()
-
-      contact.expects(:update).once
+    setup do
       policy = stub(can_update?: true)
-      params.expects(:"[]").with(:password).returns('')
-      params.expects(:delete).with(:password).once
-      params.expects(:"[]").with(:image).returns(nil)
+      params = { username: 'keesari', password: '' }
+      Contact::Updater.new(@contact, policy).update(params)
+    end
 
-      Contact::Updater.new(contact, policy).update(params)
+    should 'remove password from params' do
+      assert_equal 'password', @contact.password
+    end
+
+    should 'update contact' do
+      assert_equal 'keesari', @contact.username
     end
   end
 
   context 'policy allows update but not image' do
-    should 'remove image from params and update contact' do
-      contact = mock()
-      params = mock()
-
-      contact.expects(:update).once
+    setup do
       policy = stub(can_update?: true, can_upload_image?: false)
-      params.expects(:"[]").with(:password).returns(nil)
-      params.expects(:"[]").with(:image).returns('anything_but_nil')
-      params.expects(:delete).with(:image).once
+      params = { username: 'keesari', image: fixture_file_upload('files/untitled.jpg', 'image/jpeg') }
+      Contact::Updater.new(@contact, policy).update(params)
+    end
 
-      Contact::Updater.new(contact, policy).update(params)
+    should 'not set image' do
+      assert_not @contact.image?
+    end
+
+    should 'update contact' do
+      assert_equal 'keesari', @contact.username
     end
   end
 
   context 'policy does not allow update' do
-    should 'add an error to contact' do
-      contact = mock()
-
-      contact.expects(:errors).once.returns(stub(:add))
+    setup do
       policy = stub(can_update?: false)
-      params = {}
+      params = { username: 'keesari' }
+      Contact::Updater.new(@contact, policy).update(params)
+    end
 
-      Contact::Updater.new(contact, policy).update(params)
+    should 'add an error to contact' do
+      assert_equal @contact.errors[:base].first, 'You are not authorized to edit that contact.'
     end
   end
 end
