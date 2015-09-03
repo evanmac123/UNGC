@@ -17,7 +17,7 @@ class Contact::CreatorTest < ActiveSupport::TestCase
           Contact::Creator.new(@contact, @policy).create
         end
 
-        assert @contact.image, true
+        assert @contact.image?
       end
     end
   end
@@ -32,7 +32,7 @@ class Contact::CreatorTest < ActiveSupport::TestCase
         Contact::Creator.new(@contact, @policy).create
       end
 
-      assert @contact.image, nil
+      assert_not @contact.image?
     end
   end
 
