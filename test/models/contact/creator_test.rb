@@ -46,8 +46,7 @@ class Contact::CreatorTest < ActiveSupport::TestCase
         Contact::Creator.new(@contact, @policy).create
       end
 
-      assert_equal @contact.errors.count, 1
-      assert_equal @contact.errors[:base].first, 'You are not authorized to create that contact.'
+      assert_contains @contact.errors, 'You are not authorized to create that contact.'
     end
   end
 end
