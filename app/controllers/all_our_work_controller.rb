@@ -10,7 +10,11 @@ class AllOurWorkController < ApplicationController
 
   def search_params
     params.fetch(:search, {})
-      .permit(issues: [], topics: [])
+      .permit(
+        issues: [],
+        topics: [],
+        sustainable_development_goals: []
+      )
       .merge(page: page)
   end
 
