@@ -16,7 +16,7 @@ class EventsListForm < FilterableForm
   filter :topic
   filter :country
   filter :event_type
-  filter :sustainable_development_goal
+  # filter :sustainable_development_goal
 
   attr_writer :search_scope
 
