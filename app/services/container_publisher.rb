@@ -52,16 +52,17 @@ class ContainerPublisher
     # add any new tags and remove the old ones.
     draft.tags.each do |type, ids|
       tag_type = to_domain_type(type)
+      tag_fk_id = "#{tag_type}_id"
       ids.each do |id|
         params = {container_id: @container.id}
-        params[tag_type] = id
+        params[tag_fk_id] = id
         Tagging.where(params).first_or_create!
       end
 
       Tagging
         .where(container_id: @container.id)
-        .where("#{tag_type}_id is not NULL")
-        .where.not("#{tag_type}_id" => ids)
+        .where.not(tag_fk_id => nil)
+        .where.not(tag_fk_id => ids)
         .destroy_all
     end
   end
@@ -75,6 +76,6 @@ class ContainerPublisher
   end
 
   def to_domain_type(input)
-    input.to_s.singularize.gsub(/[^a-z]/, '')
+    input.to_s.singularize.gsub(/[^a-z_]/, '')
   end
 end

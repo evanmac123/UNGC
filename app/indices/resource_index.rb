@@ -10,7 +10,6 @@ ThinkingSphinx::Index.define :resource, with: :active_record, name: 'resource_ol
 
   where "approval = 'approved'"
 
-  set_property enable_star: true
   set_property min_prefix_len: 4
 end
 
@@ -20,14 +19,14 @@ ThinkingSphinx::Index.define :resource, with: :active_record, name: 'resource_ne
   indexes :year,          sortable: true
   indexes links.title,    sortable: true,   as: :link_title
 
-  has :content_type,      facet: true
-  has languages(:id),     facet: true,      as: :language_ids,  multi: true
-  has sectors(:id),       facet: true,      as: :sector_ids,    multi: true
-  has issues(:id),        facet: true,      as: :issue_ids,     multi: true
-  has topics(:id),        facet: true,      as: :topic_ids,     multi: true
+  has :content_type,                      facet: true
+  has languages(:id),                     facet: true,      as: :language_ids,                        multi: true
+  has "SELECT resource_id * 18 + 6 as `id`, sector_id as `sector_ids` FROM `taggings` ORDER BY resource_id", as: :sector_ids, source: :query, facet: true, multi: true, type: :integer
+  has "SELECT resource_id * 18 + 6 as `id`, topic_id as `topic_ids` FROM `taggings` ORDER BY resource_id", as: :topic_ids, source: :query, facet: true, multi: true, type: :integer
+  has "SELECT resource_id * 18 + 6 as `id`, issue_id as `issue_ids` FROM `taggings` ORDER BY resource_id", as: :issue_ids, source: :query, facet: true, multi: true, type: :integer
+  has "SELECT resource_id * 18 + 6 as `id`, sustainable_development_goal_id as `sustainable_development_goal_ids` FROM `taggings` ORDER BY resource_id", as: :sustainable_development_goal_ids, source: :query, facet: true, multi: true, type: :integer
 
   where "approval = 'approved'"
 
-  set_property enable_star: true
   set_property min_prefix_len: 4
 end

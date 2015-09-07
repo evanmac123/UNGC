@@ -51,7 +51,7 @@ class Importer
         elsif field == :removal_reason_id
           o.removal_reason_id = RemovalReason.find_by_old_id(row[i]).try(:id) if row[i]
         elsif field == :organization_id
-          if [:contact, :communication_on_progress, :case_story].include? name
+          if [:contact, :communication_on_progress].include? name
             # some tables are linked to organization by name
             o.organization_id = Organization.find_by_name(row[i].strip).try(:id) if row[i]
           else
@@ -63,10 +63,6 @@ class Importer
           o.send("#{field}=", Contact.find_by_old_id(row[i]).try(:id)) if row[i]
         elsif field == :organization_type_id
           o.organization_type_id = OrganizationType.find_by_name(row[i]).try(:id) if row[i]
-        elsif field == :category
-          # CaseStory.CATEGORY becomes two fields - is_partnership_project and is_internalization_project
-          o.is_partnership_project = [1, 3].include?(row[i].to_i)
-          o.is_internalization_project = [2, 3].include?(row[i].to_i)
         elsif [:added_on, :modified_on, :joined_on, :delisted_on, :one_year_member_on, :inactive_on, :cop_due_on].include?(field) and lookup = row[i]
           if lookup =~ /\d{4}-\d{2}-\d{2} .*/
             year, month, day = lookup.split(' ').first.split('-')
@@ -141,9 +137,6 @@ class Importer
         when :logo_request then
           # (0: “Pending Review” 1: “In Review”, 2”:“Declined” or 3:“Accepted)
           model.state = ['pending_review', 'in_review', 'rejected', 'approved'][model.status.to_i]
-        when :case_story then
-          # Case Story Status. Values( -1: “Rejected”, 0:”In Review”, 1:”Accepted”
-          model.state = ['rejected', 'in_review', 'approved'][model.status.to_i + 1]
         when :organization then
           # all organizations in R01_ORGANIZATION were approved
           model.state = 'approved'

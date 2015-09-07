@@ -43,6 +43,15 @@ class TaggingTest < ActiveSupport::TestCase
     assert_equal tagging.subject, container
   end
 
+  should "tag event with topic" do
+    topic = create_topic
+    event = create_event
+    tagging = Tagging.create! topic: topic, event: event
+    assert_not_nil tagging
+    assert_equal tagging.domain, topic
+    assert_equal tagging.subject, event
+  end
+
   should "tag headline with topic" do
     topic = create_topic
     headline = create_headline
@@ -70,13 +79,22 @@ class TaggingTest < ActiveSupport::TestCase
     assert_equal tagging.subject, container
   end
 
-  should "tag container with topic" do
+  should "tag resource with topic" do
     topic = create_topic
-    container = create_container
-    tagging = Tagging.create! topic: topic, container: container
+    resource = create_resource
+    tagging = Tagging.create! topic: topic, resource: resource
     assert_not_nil tagging
     assert_equal tagging.domain, topic
-    assert_equal tagging.subject, container
+    assert_equal tagging.subject, resource
+  end
+
+  should "tag event with issue" do
+    issue = create_issue
+    event = create_event
+    tagging = Tagging.create! issue: issue, event: event
+    assert_not_nil tagging
+    assert_equal tagging.domain, issue
+    assert_equal tagging.subject, event
   end
 
   should "tag headline with issue" do
@@ -106,13 +124,13 @@ class TaggingTest < ActiveSupport::TestCase
     assert_equal tagging.subject, container
   end
 
-  should "tag container with issue" do
+  should "tag resource with issue" do
     issue = create_issue
-    container = create_container
-    tagging = Tagging.create! issue: issue, container: container
+    resource = create_resource
+    tagging = Tagging.create! issue: issue, resource: resource
     assert_not_nil tagging
     assert_equal tagging.domain, issue
-    assert_equal tagging.subject, container
+    assert_equal tagging.subject, resource
   end
 
   should "tag headline with principle" do
@@ -295,6 +313,15 @@ class TaggingTest < ActiveSupport::TestCase
     assert_equal tagging.subject, container
   end
 
+  should "tag event with sector" do
+    sector = create_sector
+    event = create_event
+    tagging = Tagging.create! sector: sector, event: event
+    assert_not_nil tagging
+    assert_equal tagging.domain, sector
+    assert_equal tagging.subject, event
+  end
+
   should "tag headline with sector" do
     sector = create_sector
     headline = create_headline
@@ -322,13 +349,75 @@ class TaggingTest < ActiveSupport::TestCase
     assert_equal tagging.subject, container
   end
 
-  should "tag container with sector" do
+  should "tag resource with sector" do
     sector = create_sector
-    container = create_container
-    tagging = Tagging.create! sector: sector, container: container
+    resource = create_resource
+    tagging = Tagging.create! sector: sector, resource: resource
     assert_not_nil tagging
     assert_equal tagging.domain, sector
-    assert_equal tagging.subject, container
+    assert_equal tagging.subject, resource
   end
 
+  context 'create' do
+    context 'sustainable development goal tagging' do
+      setup do
+        @sdg = create_sustainable_development_goal
+      end
+
+      should 'support container' do
+        @container = create_container
+
+        assert_difference 'Tagging.count', 1 do
+          @tagging = Tagging.create sustainable_development_goal: @sdg, container: @container
+        end
+
+        assert_equal @sdg, @tagging.domain
+        assert_equal @container, @tagging.subject
+      end
+
+      should 'support event' do
+        @event = create_event
+
+        assert_difference 'Tagging.count', 1 do
+          @tagging = Tagging.create sustainable_development_goal: @sdg, event: @event
+        end
+
+        assert_equal @sdg, @tagging.domain
+        assert_equal @event, @tagging.subject
+      end
+
+      should 'support headline' do
+        @headline = create_headline
+
+        assert_difference 'Tagging.count', 1 do
+          @tagging = Tagging.create sustainable_development_goal: @sdg, headline: @headline
+        end
+
+        assert_equal @sdg, @tagging.domain
+        assert_equal @headline, @tagging.subject
+      end
+
+      should 'support organization' do
+        @organization = create_organization
+
+        assert_difference 'Tagging.count', 1 do
+          @tagging = Tagging.create sustainable_development_goal: @sdg, organization: @organization
+        end
+
+        assert_equal @sdg, @tagging.domain
+        assert_equal @organization, @tagging.subject
+      end
+
+      should 'support resource' do
+        @resource = create_resource
+
+        assert_difference 'Tagging.count', 1 do
+          @tagging = Tagging.create sustainable_development_goal: @sdg, resource: @resource
+        end
+
+        assert_equal @sdg, @tagging.domain
+        assert_equal @resource, @tagging.subject
+      end
+    end
+  end
 end

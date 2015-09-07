@@ -11,8 +11,6 @@
       %li==<a href="#peers">Peers (#{Organization.peer_organizations(@organization).count})</a>
     - if @organization.communication_on_progresses.any?
       %li== <a href="#cops">#{@organization.cop_acronym}s</a>
-    - if @organization.case_stories.any?
-      %li <a href="#case_stories">Case Stories</a>
     - if @organization.logo_requests.any?
       %li <a href="#logo_requests">Logo Requests</a>
     - if @organization.contributions.any?
@@ -171,17 +169,6 @@
             %th.status Differentiation
           %th.actions Actions
         = render :partial => 'admin/communication_on_progresses/communication_on_progress', :collection => @organization.communication_on_progresses.order("published_on DESC")
-
-  - if @organization.case_stories.any?
-    #case_stories.tab_content
-      %h2 Case Stories
-      %table.dashboard_table#case_stories_dashboard_table
-        %tr
-          %th.last_updated Updated
-          %th.title Title
-          %th.status Status
-          %th.actions Actions
-        = render :partial => 'admin/case_stories/case_story', :collection => @organization.case_stories.order("created_at DESC")
 
   - if @organization.logo_requests.any?
     #logo_requests.tab_content

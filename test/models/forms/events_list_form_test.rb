@@ -1,6 +1,30 @@
 require 'test_helper'
 
-class EvenstListFormTest < ActiveSupport::TestCase
+class EventsListFormTest < ActiveSupport::TestCase
+  context 'search with sustainable development goals in params' do
+    setup do
+      @sdgs = 2.times.collect { create_sustainable_development_goal }
+      @params = { sustainable_development_goals: [@sdgs.first.id] }.deep_stringify_keys
+
+      @search = EventsListForm.new @params
+      @search.search_scope = all_facets(@sdgs, :sustainable_development_goal_ids)
+    end
+
+    context '#sustainable_development_goal_filter#options' do
+      should 'return all sustainable development goal options' do
+        skip
+        assert_equal @sdgs.map(&:id), @search.sustainable_development_goal_filter.options.map(&:id)
+      end
+    end
+
+    context '#sustainable_development_goal_filter#options#select(&:selected?)' do
+      should 'equal the selected sustainable development goal' do
+        skip
+        assert_equal [@sdgs.first.id], @search.sustainable_development_goal_filter.options.select(&:selected?).map(&:id)
+      end
+    end
+  end
+
   def self.should_search_event(should_msg, starts_offset: 0, ends_offset: 0, today: Date.today, start_date: nil, end_date: nil)
     should should_msg do
       event = create_approved_event(
@@ -86,5 +110,11 @@ class EvenstListFormTest < ActiveSupport::TestCase
   def create_approved_event(params = {})
     params.reverse_merge! starts_at: Date.today
     create_event(params).tap(&:approve!)
+  end
+
+  def all_facets(items, key)
+    stub(facets: {
+      key => stub(keys: items.map(&:id))
+    })
   end
 end

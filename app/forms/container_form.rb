@@ -2,13 +2,15 @@ class ContainerForm < FilterableForm
   include Virtus.model
   include FilterMacros
 
-  attribute :page,        Integer,        default: 1
-  attribute :per_page,    Integer,        default: 12
-  attribute :issues,      Array[Integer], default: []
-  attribute :topics,      Array[Integer], default: []
+  attribute :page,                          Integer,        default: 1
+  attribute :per_page,                      Integer,        default: 12
+  attribute :issues,                        Array[Integer], default: []
+  attribute :topics,                        Array[Integer], default: []
+  attribute :sustainable_development_goals, Array[Integer], default: []
 
   filter :issue
   filter :topic
+  # filter :sustainable_development_goal
 
   def initialize(params, seed, sphinx_scope:)
     super(params)
@@ -31,6 +33,8 @@ class ContainerForm < FilterableForm
       page: page,
       per_page: per_page,
       with: facet_options,
+      order: 'rand()',
+      rand_seed: seed,
     }
   end
 
@@ -38,6 +42,7 @@ class ContainerForm < FilterableForm
     {
       issue_ids: issue_filter.effective_selection_set,
       topic_ids: topic_filter.effective_selection_set,
+      sustainable_development_goal_ids: sustainable_development_goals,
     }.reject { |_, value| value.blank? }
   end
 

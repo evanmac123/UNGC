@@ -8,3 +8,14 @@ module ActionView
    end
  end
 end
+
+class ThinkingSphinx::Middlewares::SphinxQL
+
+  # this added rand_seed to thinking_sphinx supported options
+  # should be removed once thinking_sphinx adds native support for it
+  SELECT_OPTIONS = [:agent_query_timeout, :boolean_simplify, :comment, :cutoff,
+    :field_weights, :global_idf, :idf, :index_weights, :max_matches,
+    :max_query_time, :max_predicted_time, :ranker, :retry_count, :retry_delay,
+    :reverse_scan, :sort_method, :rand_seed]
+
+  end

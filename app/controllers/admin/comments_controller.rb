@@ -47,9 +47,7 @@ class Admin::CommentsController < AdminController
     end
 
     def load_commentable
-      if params[:case_story_id]
-        @commentable = CaseStory.find params[:case_story_id]
-      elsif params[:communication_on_progress_id]
+      if params[:communication_on_progress_id]
         @commentable = CommunicationOnProgress.find params[:communication_on_progress_id]
       elsif params[:organization_id]
         @commentable = Organization.find params[:organization_id]
@@ -58,8 +56,6 @@ class Admin::CommentsController < AdminController
 
     def commentable_path(commentable)
       case commentable
-      when CaseStory
-        admin_organization_case_story_path(commentable.organization.id, commentable)
       when CommunicationOnProgress
         admin_organization_communication_on_progress_path(commentable.organization.id, commentable)
       when Organization

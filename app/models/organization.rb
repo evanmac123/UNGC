@@ -73,7 +73,6 @@ class Organization < ActiveRecord::Base
   has_many :initiatives, :through => :signings
   has_many :contacts
   has_many :logo_requests
-  has_many :case_stories, -> { order 'case_stories.updated_at ASC' }
   has_many :communication_on_progresses
   has_many :contributions
   belongs_to :sector

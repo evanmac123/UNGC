@@ -2,23 +2,25 @@ class LibrarySearchForm < FilterableForm
   include Virtus.model
   include FilterMacros
 
-  attribute :issue_areas,         Array[Integer], default: []
-  attribute :issues,              Array[Integer], default: []
-  attribute :topic_groups,        Array[Integer], default: []
-  attribute :topics,              Array[Integer], default: []
-  attribute :languages,           Array[Integer], default: []
-  attribute :sector_groups,       Array[Integer], default: []
-  attribute :sectors,             Array[Integer], default: []
-  attribute :content_type,        String,         default: ''
-  attribute :keywords,            String,         default: ''
-  attribute :page,                Integer
-  attribute :per_page,            Integer,        default: 12
-  attribute :sort_field,          String,         default: 'year desc'
+  attribute :issue_areas,                   Array[Integer], default: []
+  attribute :issues,                        Array[Integer], default: []
+  attribute :topic_groups,                  Array[Integer], default: []
+  attribute :topics,                        Array[Integer], default: []
+  attribute :languages,                     Array[Integer], default: []
+  attribute :sector_groups,                 Array[Integer], default: []
+  attribute :sectors,                       Array[Integer], default: []
+  attribute :content_type,                  String,         default: ''
+  attribute :sustainable_development_goals, Array[Integer], default: []
+  attribute :keywords,                      String,         default: ''
+  attribute :page,                          Integer
+  attribute :per_page,                      Integer,        default: 12
+  attribute :sort_field,                    String,         default: 'year desc'
 
   filter :issue,      parent: :issue_areas
   filter :topic,      parent: :topic_groups
   filter :sector,     parent: :sector_groups
   filter :language
+  # filter :sustainable_development_goal
 
   attr_writer :search_scope
 
@@ -50,6 +52,7 @@ class LibrarySearchForm < FilterableForm
       language_ids: languages,
       sector_ids: sector_filter.effective_selection_set,
       content_type: content_type,
+      sustainable_development_goal_ids: sustainable_development_goals
     }
 
     {
@@ -57,7 +60,6 @@ class LibrarySearchForm < FilterableForm
       page: self.page || 1,
       per_page: self.per_page || 12,
       order: order,
-      star: true,
       with: reject_blanks(options),
     }
   end

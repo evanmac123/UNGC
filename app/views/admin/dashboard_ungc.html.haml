@@ -3,7 +3,6 @@
   %ul.tab_nav
     %li <a href="#organizations">Organizations</a>
     %li <a href="#logos">Logo Requests</a>
-    %li <a href="#case_stories">Case Stories</a>
     %li <a href="#cops">COPs</a>
 
   - if @pending_organizations.any?
@@ -31,18 +30,6 @@
           %th.actions Actions
         = render :partial => 'admin/logo_requests/logo_request', :collection => @pending_logo_requests
       = will_paginate @pending_logo_requests, param_name: 'logo_requests_page', params: {tab: 'logos'}
-
-  - if @pending_case_stories.any?
-    #case_stories.tab_content
-      %h2 Pending Case Stories
-      %table.dashboard_table#case_stories_dashboard_table
-        %tr
-          %th.last_updated Last updated on
-          %th.title Title
-          %th.status Status
-          %th.actions Actions
-        = render :partial => 'admin/case_stories/case_story', :collection => @pending_case_stories
-      = will_paginate @pending_case_stories, param_name: 'case_stories_page', params: {tab: 'case_stories'}
 
   - if @pending_cops.any?
     #cops.tab_content

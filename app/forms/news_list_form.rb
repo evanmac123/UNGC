@@ -2,29 +2,29 @@ class NewsListForm < FilterableForm
   include Virtus.model
   include FilterMacros
 
-  attribute :page,        Integer,        default: 1
-  attribute :per_page,    Integer,        default: 5
-  attribute :issues,      Array[Integer], default: []
-  attribute :topics,      Array[Integer], default: []
-  attribute :countries,   Array[Integer], default: []
-  attribute :types,       Array[Integer], default: []
-  attribute :start_date,  Date
-  attribute :end_date,    Date
+  attribute :page,                          Integer,        default: 1
+  attribute :per_page,                      Integer,        default: 5
+  attribute :issues,                        Array[Integer], default: []
+  attribute :topics,                        Array[Integer], default: []
+  attribute :countries,                     Array[Integer], default: []
+  attribute :types,                         Array[Integer], default: []
+  attribute :sustainable_development_goals, Array[Integer], default: []
+  attribute :start_date,                    Date
+  attribute :end_date,                      Date
 
   filter :issue
   filter :topic
   filter :country
   filter :headline_type, selected: :types
+  # filter :sustainable_development_goal
+
+  attr_writer :search_scope
 
   def execute
-    Headline.search '', options
+    search_scope.search '', options
   end
 
   private
-
-  def facets
-    Headline.facets '', all_facets: true
-  end
 
   def options
     {
@@ -36,6 +36,7 @@ class NewsListForm < FilterableForm
         topic_ids: topic_filter.effective_selection_set,
         country_id: countries,
         headline_type: types,
+        sustainable_development_goal_ids: sustainable_development_goals,
         created_at: date_range,
       ),
     }
@@ -64,4 +65,11 @@ class NewsListForm < FilterableForm
     date.to_datetime.end_of_day.to_i
   end
 
+  def facets
+    search_scope.facets '', all_facets: true
+  end
+
+  def search_scope
+    @search_scope ||= Headline
+  end
 end

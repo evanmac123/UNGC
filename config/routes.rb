@@ -82,7 +82,6 @@ UNGC::Application.routes.draw do
         end
       end
 
-      resources :case_stories
       resources :communication_on_progresses, :controller => 'cops' do
         resources :files, :controller => 'cop_files', only: [:index, :new, :create, :destroy]
         member do
@@ -95,10 +94,6 @@ UNGC::Application.routes.draw do
       resources :reporting_cycle_adjustments, except: :index
 
       resources :contacts
-    end
-
-    resources :case_stories do
-      resources :comments
     end
 
     resources :logo_requests do
@@ -176,10 +171,11 @@ UNGC::Application.routes.draw do
         get :current, on: :collection
       end
       resources :events, only: [:index]
-      resources :taggings, only: [:topics, :issues, :sectors] do
+      resources :taggings, only: [:topics, :issues, :sectors, :sustainable_development_goals] do
         get :topics, on: :collection
         get :issues, on: :collection
         get :sectors, on: :collection
+        get :sustainable_development_goals, on: :collection
       end
       resources :images do
         post :signed_url, on: :collection

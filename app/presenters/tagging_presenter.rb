@@ -20,6 +20,10 @@ class TaggingPresenter < SimpleDelegator
     Filters::SectorFilter.new(selected_sector_ids, selected_sector_ids).options
   end
 
+  def sustainable_development_goal_options
+    Filters::SustainableDevelopmentGoalFilter.new(selected_sustainable_development_goal_ids).options
+  end
+
   private
 
     def taggable
@@ -36,5 +40,9 @@ class TaggingPresenter < SimpleDelegator
 
     def selected_sector_ids
       taggable.sector_ids
+    end
+
+    def selected_sustainable_development_goal_ids
+      taggable.sustainable_development_goal_ids
     end
 end

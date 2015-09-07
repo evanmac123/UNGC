@@ -8,6 +8,7 @@ class Admin::NewsControllerTest < ActionController::TestCase
     @topic = create_topic
     @issue = create_issue
     @sector = create_sector
+    @sdg = create_sustainable_development_goal
 
     @params = {
       title: 'New Website Launch',
@@ -18,7 +19,8 @@ class Admin::NewsControllerTest < ActionController::TestCase
       headline_type: 'press_release',
       topic_ids: [@topic.id],
       issue_ids: [@issue.id],
-      sector_ids: [@sector.id]
+      sector_ids: [@sector.id],
+      sustainable_development_goal_ids: [@sdg.id]
     }
   end
 
@@ -75,6 +77,10 @@ class Admin::NewsControllerTest < ActionController::TestCase
 
         should "set sector IDs" do
           assert_equal @params[:sector_ids], @headline.sector_ids
+        end
+
+        should 'set sustainale development goal IDs' do
+          assert_equal @params[:sustainable_development_goal_ids], @headline.sustainable_development_goal_ids
         end
 
         should "redirect to index" do
@@ -162,6 +168,10 @@ class Admin::NewsControllerTest < ActionController::TestCase
           assert_equal @params[:sector_ids], @headline.sector_ids
         end
 
+        should 'set sustainale development goal IDs' do
+          assert_equal @params[:sustainable_development_goal_ids], @headline.sustainable_development_goal_ids
+        end
+
         should "redirect to index" do
           assert_redirected_to_index
         end
@@ -174,6 +184,17 @@ class Admin::NewsControllerTest < ActionController::TestCase
 
           assert_difference '@headline.topics.count', -2 do
             put :update, id: @headline.id, headline: { topic_ids: [] }
+          end
+        end
+      end
+
+      context 'with no sustainable development goal IDs' do
+        should 'remove all sustainable development goals' do
+          @sdg = 2.times.map { create_sustainable_development_goal.id }
+          @headline = create_headline(sustainable_development_goal_ids: @sdg)
+
+          assert_difference '@headline.sustainable_development_goals.count', -2 do
+            put :update, id: @headline.id, headline: { sustainable_development_goal_ids: [] }
           end
         end
       end

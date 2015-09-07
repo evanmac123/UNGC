@@ -48,7 +48,6 @@ input.checkbox, input.radio {
 form.inline { line-height:3; }
 form.inline p { margin-bottom:0; }
 
-
 /* Success, notice and error boxes
 -------------------------------------------------------------- */
 #main_content div.field_with_errors { display: inline; }

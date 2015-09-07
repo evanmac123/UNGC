@@ -5,10 +5,6 @@ module FixtureReplacement
     "/#{[FixtureReplacement.random_string, FixtureReplacement.random_string, FixtureReplacement.random_string].join('/')}.html"
   end
 
-  attributes_for :case_story do |c|
-    c.title = FixtureReplacement.random_string
-  end
-
   attributes_for :comment do |c|
     c.body = FixtureReplacement.random_string
   end
@@ -196,6 +192,10 @@ module FixtureReplacement
     s.added_on = Date.today
   end
 
+  attributes_for :sustainable_development_goal do |s|
+    s.name = "Goal: #{FixtureReplacement.random_string}"
+  end
+
   attributes_for :resource do |r|
     r.title = FixtureReplacement.random_string
     r.description = FixtureReplacement.random_string
@@ -308,4 +308,13 @@ module FixtureReplacement
     p.container_id = new_container.id
     p.json_data = '{}'
   end
+
+  attributes_for :non_business_registration, class: NonBusinessOrganizationRegistration do |r|
+    r.date = rand(3.years).seconds.ago
+    r.place = random_string
+    r.authority = random_string
+    r.mission_statement = random_string
+    r.number = random_string
+  end
+
 end

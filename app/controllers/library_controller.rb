@@ -66,7 +66,8 @@ class LibraryController < ApplicationController
       topics: [],
       languages: [],
       sector_groups: [],
-      sectors: []
+      sectors: [],
+      sustainable_development_goals: []
     )
   end
 

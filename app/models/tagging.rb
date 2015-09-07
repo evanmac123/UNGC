@@ -8,8 +8,10 @@ class Tagging < ActiveRecord::Base
   belongs_to :initiative
   belongs_to :language
   belongs_to :sector
+  belongs_to :sustainable_development_goal
 
   # subjects
+  belongs_to :event
   belongs_to :headline
   belongs_to :organization
   belongs_to :container
@@ -17,14 +19,13 @@ class Tagging < ActiveRecord::Base
 
   # TODO replace the existing principles join tables with implementations here
   # belongs_to :communication_on_progress
-  # belongs_to :event
 
   def domain
-    author || principle || country || initiative || language || sector || topic || issue
+    author || principle || country || initiative || language || sector || topic || issue || sustainable_development_goal
   end
 
   def subject
-    headline || organization || container || resource
+    event || headline || organization || container || resource
   end
 
   def content
