@@ -25,7 +25,7 @@ class ActionsController < ApplicationController
     if !params[:page]
       session[:random_seed_action] = rand(100)
     else
-      session[:random_seed_action]
+      session[:random_seed_action] ||= rand(100)
     end
   end
 

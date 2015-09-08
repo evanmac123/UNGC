@@ -26,7 +26,7 @@ class AllOurWorkController < ApplicationController
     if !params[:page]
       session[:random_seed_all_our_work] = rand(100)
     else
-      session[:random_seed_all_our_work]
+      session[:random_seed_all_our_work] ||= rand(100)
     end
   end
 
