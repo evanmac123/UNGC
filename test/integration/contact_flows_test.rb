@@ -9,10 +9,10 @@ class ContactFlowsTest < ActionDispatch::IntegrationTest
   end
 
   test 'contact flow' do
-    # should sign in
+    # sign in
     visit '/login'
     fill_in 'Username', with: @ungc_contact.username
-    fill_in 'Password', with: @ungc_contact.plaintext_password
+    fill_in 'Password', with: 'password' # the default password. see create_ungc_organization_and_user
     click_on 'Login'
     assert_equal dashboard_path, current_path
 
@@ -21,13 +21,11 @@ class ContactFlowsTest < ActionDispatch::IntegrationTest
     assert_equal admin_organization_path(@ungc_organization), current_path
 
     # navigate to new contact form
-    click_on 'Contacts'
     click_on 'New Contact'
-    # 😓: gsub because SexyPermalinks do the wrong thing.
-    assert_equal new_admin_organization_contact_path(@ungc_organization).gsub('-UNGC',''), current_path
+
+    assert_equal new_admin_organization_contact_path(@ungc_organization.id), current_path
 
     # create new contact
-    # 😓: class names because labels lack for-attribute
     fill_in 'contact_prefix', with: 'Mr.'
     fill_in 'contact_first_name', with: 'Venu'
     fill_in 'contact_last_name', with: 'Keesari'
@@ -40,7 +38,7 @@ class ContactFlowsTest < ActionDispatch::IntegrationTest
     assert_difference 'Contact.count', 1 do
       click_on 'Create'
     end
-    assert_equal admin_organization_path(@ungc_organization).gsub('-UNGC',''), current_path
+    assert_equal admin_organization_path(@ungc_organization.id), current_path
     assert_equal 'Contact was successfully created.', find('.flash.notice').text
 
     # navigate to edit contact
