@@ -4,52 +4,61 @@ class Admin::ContactsController < AdminController
   def new
     @contact = @parent.contacts.new
     @contact.country_id = @parent.country_id if @parent.respond_to?(:country_id)
-    @roles = Role.visible_to(@contact, current_contact)
+    @roles = visible_roles
     @return_path = return_path
   end
 
   def create
     @contact = @parent.contacts.new(contact_params)
-    @roles = Role.visible_to(@contact)
-    @return_path = return_path
+    creator = Contact::Creator.new(@contact, policy)
 
-    if @contact.save
+    if creator.create
       flash[:notice] = 'Contact was successfully created.'
       redirect_to return_path
     else
+      @roles = visible_roles
+      @return_path = return_path
+
       render :action => "new"
     end
   end
 
   def edit
     @needs_to_update = params[:update]
-    @roles = Role.visible_to(@contact, current_contact)
+    @roles = visible_roles
     @return_path = return_path
   end
 
   def update
-    if contact_params && contact_params[:password].try(:empty?)
-      contact_params.delete('password')
-    end
+    updater = Contact::Updater.new(@contact, policy)
 
-    @return_path = return_path
-    if @contact.update_attributes(contact_params)
-      sign_in(@contact, :bypass => true) if @contact == current_contact
+    if updater.update(contact_params)
+      if @contact.id == current_contact.id
+        sign_in(@contact, :bypass => true)
+      end
 
       flash[:notice] = 'Contact was successfully updated.'
       redirect_to return_path
     else
+      @roles = visible_roles
+      @return_path = return_path
+
       render :action => "edit"
     end
   end
 
   def destroy
-    if @contact.destroy
+    can_destroy = policy.can_destroy?(@contact)
+    unless can_destroy
+      @contact.error.add(:base, "You are not authorized to delete that contact.")
+    end
+
+    if can_destroy && @contact.destroy
       flash[:notice] = 'Contact was successfully deleted.'
     else
-      flash[:error] =  @contact.errors.full_messages.to_sentence
+      flash[:error] = @contact.errors.full_messages.to_sentence
     end
-      redirect_to return_path
+    redirect_to return_path
   end
 
   def search
@@ -67,9 +76,13 @@ class Admin::ContactsController < AdminController
       end
 
       if params[:id]
-        @contact = @parent.contacts.find params[:id]
-        @roles = Role.visible_to(@contact)
+        @contact = @parent.contacts.find(params[:id])
+        @roles = visible_roles
       end
+    end
+
+    def visible_roles
+      Role.visible_to(@contact, current_contact)
     end
 
     def display_search_results
@@ -100,14 +113,8 @@ class Admin::ContactsController < AdminController
       true
     end
 
-    def authorized_for_image_upload?
-      # UNGC contacts can upload images on any contact and contacts with the
-      # network contact person role can on any contact they can edit normally
-      current_contact.from_ungc? || current_contact.is?(Role.network_focal_point)
-    end
-
     def contact_params
-      allowed_params = [
+      params.fetch(:contact, {}).permit(
         :prefix,
         :first_name,
         :middle_name,
@@ -123,14 +130,14 @@ class Admin::ContactsController < AdminController
         :postal_code,
         :country_id,
         :username,
-        :password
-      ]
+        :password,
+        :image,
+        role_ids: []
+      )
+    end
 
-      allowed_params << :image if authorized_for_image_upload?
-
-      allowed_params << { role_ids: [] }
-
-      params.fetch(:contact, {}).permit(*allowed_params)
+    def policy
+      @policy ||= ContactPolicy.new(current_contact)
     end
 
 end
