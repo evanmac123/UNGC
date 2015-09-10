@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.1'
+gem 'rails', '4.2.4'
 
 gem 'redis-session-store'
 gem 'mysql2',               '~> 0.3.17'
@@ -24,7 +24,7 @@ gem 'dynamic_form',         '~> 1.1.4'
 gem 'skylight',             '~> 0.6.0'
 gem 'honeybadger', '~> 2.0'
 
-gem 'sass-rails',           '~> 5.0'
+gem 'sass-rails',           '5.0.3'
 gem 'coffee-rails',         '~> 4.1.0'
 gem 'jquery-rjs',                       github: 'amatsuda/jquery-rjs', ref: 'master'
 gem 'jquery-rails'
