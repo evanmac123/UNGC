@@ -5,7 +5,7 @@ export default Ember.Component.extend({
   name: null,
   errors: [],
 
-  error: Ember.computed('errors', 'errors.@each', 'name', function() {
+  error: Ember.computed('errors', 'errors.[]', 'name', function() {
     return this.get('errors').filterBy('path', this.get('name')).get('firstObject');
   }),
 

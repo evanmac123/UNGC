@@ -34,7 +34,7 @@ export default Ember.Component.extend({
   //   return err.get('path') === this.get('path');
   // }),
 
-  errors: Ember.computed('scope.errors.@each', 'path', function() {
+  errors: Ember.computed('scope.errors.[]', 'path', function() {
     return this.get('scope.errors').filterBy('path', this.get('path'));
   }),
 

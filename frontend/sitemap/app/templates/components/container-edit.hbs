@@ -55,7 +55,7 @@
         <tbody>
           {{#each model.payloads as |payload|}}
             <tr>
-              <td>{{ago payload.createdAt}}</td>
+              <td>{{moment-from-now payload.createdAt}}</td>
               <td>
                 <a target="_blank" href="{{model.container.publicPath}}?payload={{payload.id}}">
                   View

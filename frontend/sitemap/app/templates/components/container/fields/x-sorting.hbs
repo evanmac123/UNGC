@@ -2,12 +2,16 @@
   <label class="control-label" for={{uid}}>
     {{field.label}}
   </label>
-  {{fast-select
-      class="form-control"
-      valuePath="id"
-      id=field.uid
-      items=items
-      value=field.value}}
+
+  {{select-2
+    class="form-control"
+    optionValuePath="id"
+    optionLabelPath="label"
+    placeholder="Sorting"
+    id=field.uid
+    content=items
+    value=field.value}}
+
   {{#if field.errors}}
     <p class="help-block">{{field.errors.firstObject.detail}}</p>
   {{/if}}

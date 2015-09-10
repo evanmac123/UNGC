@@ -3,11 +3,13 @@
     {{field.label}}
   </label>
 
-  {{fast-select
+  {{select-2
     class="form-control"
-    valuePath="id"
+    optionValuePath="id"
+    optionLabelPath="label"
+    placeholder="Color"
     id=field.uid
-    items=items
+    content=items
     value=field.value}}
 
   {{#if field.errors}}

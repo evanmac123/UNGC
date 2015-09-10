@@ -28,7 +28,7 @@ export default Ember.Object.extend({
     return sorted;
   }),
 
-  hasMore: Ember.computed('nodes.@each', 'hasDescendants', function() {
+  hasMore: Ember.computed('nodes.[]', 'hasDescendants', function() {
     return this.get('nodes.length') === 0 && this.get('hasDescendants');
   }),
 

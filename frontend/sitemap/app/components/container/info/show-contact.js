@@ -15,7 +15,7 @@ export default Ember.Component.extend({
   //api
   contactId: null,
 
-  contact: Ember.computed('items.@each', 'contactId', function() {
+  contact: Ember.computed('items.[]', 'contactId', function() {
     return this.get('items').find( (i) => {
       return parseInt(i.get('id'),10) === this.get('contactId');
     });
