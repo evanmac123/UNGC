@@ -69,7 +69,7 @@ class ParticipantSearchForm < FilterableForm
   end
 
   def default_order
-    'joined_on asc'
+    'joined_on desc'
   end
 
   def options
