@@ -19,6 +19,17 @@ class ContactPolicy
     case
     when current_contact.from_ungc?
       true
+    when current_contact.from_organization?
+      from_same_organization(target_contact)
+    else
+      false # local_network contacts can't create other contacts
+    end
+  end
+
+  def can_update?(target_contact)
+    case
+    when current_contact.from_ungc?
+      true
     when current_contact.from_network?
       from_same_network(target_contact)
     when current_contact.from_organization?
@@ -28,11 +39,9 @@ class ContactPolicy
     end
   end
 
-  def can_update?(target_contact)
-    can_create?(target_contact)
-  end
-
   def can_destroy?(target_contact)
+    # todo use delete poicy from admin/contacts_helper current_contact_can_delete
+    # also fix it....
     true # TODO implement me
   end
 

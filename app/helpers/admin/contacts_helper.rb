@@ -16,6 +16,7 @@ module Admin::ContactsHelper
   end
 
   def current_contact_can_delete(current_contact, tabbed_contact)
+    # make this use contact policy.
     return false if current_contact == tabbed_contact
 
     return true if current_contact.from_ungc? || current_contact.from_network?
