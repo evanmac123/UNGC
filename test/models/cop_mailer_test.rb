@@ -123,7 +123,7 @@ class CopMailerTest < ActionMailer::TestCase
     end
 
     should "be able to send 90 days reminder" do
-      response = CopMailer.cop_due_in_90_days(@organization)
+      response = CopMailer.communication_due_in_90_days(@organization)
       assert_equal "text/html; charset=UTF-8", response.content_type
       assert_equal "UN Global Compact COP Deadline - 90 Days", response.subject
       assert_equal @organization_user.email, response.to.first
@@ -131,7 +131,7 @@ class CopMailerTest < ActionMailer::TestCase
     end
 
     should "be able to send 30 days reminder" do
-      response = CopMailer.cop_due_in_30_days(@organization).deliver
+      response = CopMailer.communication_due_in_30_days(@organization).deliver
       assert_equal "text/html; charset=UTF-8", response.content_type
       assert_equal "UN Global Compact COP Deadline - 30 Days", response.subject
       assert_equal @organization_user.email, response.to.first
@@ -142,7 +142,7 @@ class CopMailerTest < ActionMailer::TestCase
       today = Time.new(2000, 1, 2, 3, 4, 5)
       @organization.stubs(:cop_due_on).returns(today)
 
-      response = CopMailer.cop_due_today(@organization).deliver
+      response = CopMailer.communication_due_today(@organization).deliver
 
       assert_equal "text/html; charset=UTF-8", response.content_type
       assert_equal "UN Global Compact COP Deadline - 2 January, 2000 23:00 UTC", response.subject
@@ -151,7 +151,7 @@ class CopMailerTest < ActionMailer::TestCase
     end
 
     should "be able to send the overdue reminder" do
-      response = CopMailer.cop_due_yesterday(@organization).deliver
+      response = CopMailer.communication_due_yesterday(@organization).deliver
       assert_equal "text/html; charset=UTF-8", response.content_type
       assert_equal "UN Global Compact COP Deadline - Non-Communicating COP Status", response.subject
       assert_equal @organization_user.email, response.to.first
