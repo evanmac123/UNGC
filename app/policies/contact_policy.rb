@@ -9,7 +9,7 @@ class ContactPolicy
     when current_contact.from_ungc?
       true
     when current_contact.from_network?
-      from_same_network(target_contact)
+      from_same_network_as?(target_contact)
     else
       false # organization contacts can't upload images.
     end
@@ -20,7 +20,7 @@ class ContactPolicy
     when current_contact.from_ungc?
       true
     when current_contact.from_organization?
-      from_same_organization(target_contact)
+      from_same_organization_as?(target_contact)
     else
       false # local_network contacts can't create other contacts
     end
@@ -31,30 +31,38 @@ class ContactPolicy
     when current_contact.from_ungc?
       true
     when current_contact.from_network?
-      from_same_network(target_contact)
+      from_same_network_as?(target_contact)
     when current_contact.from_organization?
-      from_same_organization(target_contact)
+      from_same_organization_as?(target_contact)
     else
       false
     end
   end
 
   def can_destroy?(target_contact)
-    # todo use delete poicy from admin/contacts_helper current_contact_can_delete
-    # also fix it....
-    true # TODO implement me
+    case
+    when current_contact == target_contact
+      false # can't destroy yourself
+    when current_contact.from_ungc?
+      true
+    when current_contact.from_network?
+      from_same_network_as?(target_contact)
+    when current_contact.from_organization?
+      current_contact.organization.participant? && from_same_organization_as?(target_contact)
+    else
+      false
+    end.tap {|v| debugger }
   end
 
   private
 
   attr_reader :current_contact
 
-  def from_same_network(target_contact)
-    target_contact.from_network? \
-    && target_contact.local_network_id == current_contact.local_network_id
+  def from_same_network_as?(target_contact)
+    target_contact.belongs_to_network?(current_contact.local_network)
   end
 
-  def from_same_organization(target_contact)
+  def from_same_organization_as?(target_contact)
     target_contact.from_organization? \
     && target_contact.organization_id == current_contact.organization_id
   end

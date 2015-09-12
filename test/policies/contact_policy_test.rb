@@ -1,12 +1,13 @@
 require 'test_helper'
 
 class ContactPolicyTest < ActiveSupport::TestCase
+
   setup do
-    @ungc_contact = stub(from_ungc?: true, from_network?: false, from_organization?: false)
-    @network_contact = stub(from_ungc?: false, from_network?: true, from_organization?: false, local_network_id: 1)
-    @network_contact_2 = stub(from_ungc?: false, from_network?: true, from_organization?: false, local_network_id: 2)
-    @organization_contact = stub(from_ungc?: false, from_network?: false, from_organization?: true, organization_id: 1)
-    @organization_contact_2 = stub(from_ungc?: false, from_network?: false, from_organization?: true, organization_id: 2)
+    @ungc_contact = stub_contact(from_ungc?: true)
+    @network_contact = stub_contact(from_network?: true)
+    @network_contact_2 = stub_contact(from_network?: true)
+    @organization_contact = stub_contact(from_organization?: true, organization_id: 1)
+    @organization_contact_2 = stub_contact(from_organization?: true, organization_id: 2)
 
     @ungc_contact_policy = ContactPolicy.new(@ungc_contact)
     @network_contact_policy = ContactPolicy.new(@network_contact)
@@ -34,6 +35,7 @@ class ContactPolicyTest < ActiveSupport::TestCase
       end
 
       should 'allow image upload for associated network contacts' do
+        @network_contact.stubs(belongs_to_network?: true)
         assert @network_contact_policy.can_upload_image?(@network_contact)
       end
 
@@ -81,8 +83,8 @@ class ContactPolicyTest < ActiveSupport::TestCase
         assert_not @network_contact_policy.can_create?(@ungc_contact)
       end
 
-      should 'allow creation of associated network contacts' do
-        assert @network_contact_policy.can_create?(@network_contact)
+      should 'not allow creation of associated network contacts' do
+        assert_not @network_contact_policy.can_create?(@network_contact)
       end
 
       should 'not allow creation of unassociated network contacts' do
@@ -134,6 +136,7 @@ class ContactPolicyTest < ActiveSupport::TestCase
       end
 
       should 'allow update of associated network contacts' do
+        @network_contact.stubs(belongs_to_network?: true)
         assert @network_contact_policy.can_update?(@network_contact)
       end
 
@@ -163,5 +166,130 @@ class ContactPolicyTest < ActiveSupport::TestCase
         assert_not @organization_contact_policy.can_update?(@organization_contact_2)
       end
     end
+  end
+
+
+  context 'can destroy?' do
+    context 'UNGC contact policy' do
+
+      should 'allow destroy of UNGC contacts' do
+        assert @ungc_contact_policy.can_destroy?(new_staff_contact)
+      end
+
+      should 'allow destroy of network contacts' do
+        assert @ungc_contact_policy.can_destroy?(@network_contact)
+      end
+
+      should 'allow destroy of organization contacts' do
+        assert @ungc_contact_policy.can_destroy?(@organization_contact)
+      end
+
+      should 'not allow destroying oneself' do
+        assert_not @ungc_contact_policy.can_destroy?(@ungc_contact)
+      end
+    end
+
+    context 'network contact policy' do
+
+      should 'not allow destroy of UNGC contacts' do
+        contact = stub_contact(from_network?: true)
+        target =  stub_contact(from_ungc?: true)
+
+        policy = ContactPolicy.new(contact)
+        assert_not policy.can_destroy?(target)
+      end
+
+      should 'allow destroy of associated network contacts' do
+        # two contacts from the same network
+        contact = stub_contact(from_network?: true)
+        target =  stub_contact(belongs_to_network?: true)
+
+        policy = ContactPolicy.new(contact)
+        assert policy.can_destroy?(target)
+      end
+
+      should 'not allow destroy of unassociated network contacts' do
+        # two contacts from different networks
+        contact = stub_contact(from_network?: true)
+        target =  stub_contact(from_network?: true, belongs_to_network?: false)
+
+        policy = ContactPolicy.new(contact)
+        assert_not policy.can_destroy?(target)
+      end
+
+      should 'allow destroy of associated organization contacts' do
+        # two contacts from the same participant organization
+        contact = stub_contact(from_organization?: true, organization_id: 123,
+                               organization: stub(participant?: true))
+        target =  stub_contact(from_organization?: true, organization_id: 123)
+
+        policy = ContactPolicy.new(contact)
+        assert policy.can_destroy?(target)
+      end
+
+      should 'not allow destroy of unassociated organization contacts' do
+        # two organization contacts from different organizations
+        contact = stub_contact(from_organization?: true, organization_id: 123)
+        target =  stub_contact(from_organization?: true, organization_id: 321)
+
+        policy = ContactPolicy.new(contact)
+        assert_not policy.can_destroy?(target)
+      end
+    end
+
+    context 'organization contact policy' do
+      should 'not allow destroy of UNGC contacts' do
+        contact = stub_contact(from_organization?: true)
+        target =  stub_contact(from_ungc?: true)
+
+        policy = ContactPolicy.new(contact)
+        assert_not policy.can_destroy?(target)
+      end
+
+      should 'not allow destroy of network contacts' do
+        contact = stub_contact(from_organization?: true)
+        target =  stub_contact(from_network?: true)
+
+        policy = ContactPolicy.new(contact)
+        assert_not policy.can_destroy?(target)
+      end
+
+      should 'allow destroy of associated organization contacts' do
+        contact = stub_contact(from_organization?: true, organization_id: 123)
+        target =  stub_contact(from_organization?: true, organization_id: 123)
+
+        policy = ContactPolicy.new(contact)
+        assert policy.can_destroy?(target)
+      end
+
+      should 'not allow destroy of unassociated organization contacts' do
+        contact = stub_contact(from_organization?: true, organization_id: 123)
+        target =  stub_contact(from_organization?: true, organization_id: 321)
+
+        policy = ContactPolicy.new(contact)
+        assert_not policy.can_destroy?(target)
+      end
+
+      should 'not allow destroy of organizations by non-participant organization contacts' do
+        contact = stub_contact(from_organization?: true, organization: stub(participant?: false))
+        target = stub_contact
+
+        policy = ContactPolicy.new(contact)
+        assert_not policy.can_destroy?(target)
+      end
+    end
+
+  end
+
+  def stub_contact(stubs = {})
+    defaults = {
+      from_ungc?: false,
+      from_network?: false,
+      from_organization?: false,
+      belongs_to_network?: false,
+      local_network: nil,
+      organization: stub(participant?: true)
+    }
+    stub(stubs.reverse_merge(defaults))
   end
 end
