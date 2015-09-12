@@ -73,6 +73,7 @@ class Admin::ContactsControllerTest < ActionController::TestCase
     end
 
     should "destroy contact" do
+      @organization.update(participant: true)
       @contact_to_be_deleted = create_contact(:organization_id => @organization.id,
                                               :email           => "dude2@example.com")
       assert_difference('Contact.count', -1) do
