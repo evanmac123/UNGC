@@ -54,7 +54,6 @@ module Admin::LocalNetworksHelper
   end
 
   def current_contact_can_edit_network?
-    # TODO move this to ContactPolicy
     current_contact.from_ungc? || (current_contact.local_network == @local_network)
   end
 

@@ -51,7 +51,7 @@ class ContactPolicy
       current_contact.organization.participant? && from_same_organization_as?(target_contact)
     else
       false
-    end.tap {|v| debugger }
+    end
   end
 
   private
