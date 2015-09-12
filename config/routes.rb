@@ -484,6 +484,10 @@ UNGC::Application.routes.draw do
   get '/HowToParticipate/Organization_Information.html', to: redirect('/participation/join/application/non-business')
   get '/Issues/conflict_prevention/', to: redirect('/what-is-gc/our-work/governance/peace')
 
+  # ensure the rails mailers paths don't get caught in the catch_all
+  get '/rails/mailers' => "rails/mailers#index"
+  get '/rails/mailers/*path' => "rails/mailers#preview"
+
   # CATCH ALL
   get '*path'     => 'static#catch_all',  as: :catch_all, :constraints => { :format => 'html' }
 
