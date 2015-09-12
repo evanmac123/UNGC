@@ -173,7 +173,8 @@ class ContactPolicyTest < ActiveSupport::TestCase
     context 'UNGC contact policy' do
 
       should 'allow destroy of UNGC contacts' do
-        assert @ungc_contact_policy.can_destroy?(@ungc_contact)
+        other_ungc_contact = stub_contact(from_ungc?: true)
+        assert @ungc_contact_policy.can_destroy?(other_ungc_contact)
       end
 
       should 'allow destroy of network contacts' do
