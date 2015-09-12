@@ -192,7 +192,7 @@ class Contact < ActiveRecord::Base
   end
 
   def from_ungc?
-    organization_id? && organization.name == DEFAULTS[:ungc_organization_name]
+    (organization_id? || organization.present?) && organization.name == DEFAULTS[:ungc_organization_name]
   end
 
   def from_organization?
@@ -200,11 +200,11 @@ class Contact < ActiveRecord::Base
   end
 
   def from_network?
-    local_network_id?
+    (local_network_id? || local_network.present?)
   end
 
   def belongs_to_network?(network)
-    local_network_id? && local_network == network
+    from_network? && local_network == network
   end
 
   def from_regional_center?
