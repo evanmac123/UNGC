@@ -16,6 +16,6 @@ module Admin::ContactsHelper
   end
 
   def current_contact_can_delete(current_contact, tabbed_contact)
-    ContactPolicy.new(current_contact).can_delete?(tabbed_contact)
+    ContactPolicy.new(current_contact).can_destroy?(tabbed_contact)
   end
 end
