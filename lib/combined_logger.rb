@@ -12,7 +12,7 @@ class CombinedLogger
 
   def error(message, error = nil, params = {})
     @loggers.each do |logger|
-      logger.info(message, error, params)
+      logger.error(message, error, params)
     end
   end
 
