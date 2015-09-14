@@ -3,7 +3,8 @@ class CopReminder
 
   def initialize(logger = nil)
     @logger = logger || BackgroundJobLogger.new('cop_reminder.log')
-    @organization_scope = Organization.businesses.participants
+    # participants that are not signatories/micro-enterprises
+    @organization_scope = Organization.participants.joins(:organization_type).merge(OrganizationType.participants)
   end
 
   def notify_all
