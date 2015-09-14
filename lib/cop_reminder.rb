@@ -45,16 +45,12 @@ class CopReminder
   end
 
   private
-  # a separate email for Local Networks is no longer used
-    def notify_communication_due_on (organizations, mailer, network_mailer = nil)
+
+    def notify_communication_due_on(organizations, mailer)
       organizations.each do |org|
         log "Emailing organization #{org.id}:#{org.name}"
         begin
           CopMailer.send(mailer, org).deliver
-          if network_mailer && org.network_report_recipients.any?
-            log "Emailing local network"
-            CopMailer.send(network_mailer, org).deliver
-          end
         rescue
           error "Could not send email: #{$!}"
         end
