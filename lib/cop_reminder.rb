@@ -51,8 +51,8 @@ class CopReminder
         log "Emailing organization #{org.id}:#{org.name}"
         begin
           CopMailer.send(mailer, org).deliver
-        rescue
-          error "Could not send email: #{$!}"
+        rescue => e
+          error "Could not send email", e
         end
       end
     end
@@ -61,8 +61,8 @@ class CopReminder
       @logger.info(message)
     end
 
-    def error(message)
-      @logger.error(message)
+    def error(message, error)
+      @logger.error(message, error)
     end
 
     def non_communicating
