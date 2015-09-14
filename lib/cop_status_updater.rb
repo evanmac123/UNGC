@@ -2,7 +2,7 @@ class CopStatusUpdater
   attr_reader :logger, :mailer
 
   def self.update_all
-    self.new(default_logger, CopMailer).update_all
+    self.new(BackgroundJobLogger.new, CopMailer).update_all
   end
 
   def initialize(logger, mailer)
@@ -58,14 +58,6 @@ class CopStatusUpdater
     logger.info "emailed delisted #{organization.id}:#{organization.name}"
   rescue => e
     logger.error "Could not email #{organization.id}:#{organization.name}", e
-  end
-
-  private
-
-  def self.default_logger
-    file_logger = FileSystemLogger.new('cop_reminder.log')
-    honeybadger = NotificationServiceLogger.new
-    CombinedLogger.new(file_logger, honeybadger)
   end
 
 end
