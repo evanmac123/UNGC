@@ -9,6 +9,7 @@ class CopStatusUpdater
   def initialize(logger, mailer)
     @logger = logger
     @mailer = mailer
+    @organization_scope = Organization.businesses.participants.active
   end
 
   def update_all
@@ -61,10 +62,6 @@ class CopStatusUpdater
     logger.info "emailed delisted #{organization.id}:#{organization.name}"
   rescue => e
     logger.error "Could not email #{organization.id}:#{organization.name}", e
-  end
-
-  def organization_scope
-    @organization_scope ||= Organization.businesses.participants.active
   end
 
 end
