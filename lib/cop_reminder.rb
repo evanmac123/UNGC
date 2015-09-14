@@ -1,6 +1,6 @@
 class CopReminder
   def initialize(logger = nil)
-    @logger = logger || BackgroundJobLogger.new
+    @logger = logger || BackgroundJobLogger.new('cop_reminder.log')
   end
 
   def notify_all

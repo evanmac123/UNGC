@@ -2,7 +2,8 @@ class CopStatusUpdater
   attr_reader :logger, :mailer
 
   def self.update_all
-    self.new(BackgroundJobLogger.new, CopMailer).update_all
+    logger = BackgroundJobLogger.new('cop_reminder.log')
+    self.new(logger, CopMailer).update_all
   end
 
   def initialize(logger, mailer)
