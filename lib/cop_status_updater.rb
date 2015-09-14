@@ -1,5 +1,5 @@
 class CopStatusUpdater
-  attr_reader :logger, :mailer
+  attr_accessor :logger, :mailer, :organization_scope
 
   def self.update_all
     logger = BackgroundJobLogger.new('cop_reminder.log')
@@ -16,9 +16,11 @@ class CopStatusUpdater
     move_noncommunicating_organizations_to_delisted
   end
 
+  private
+
   def move_active_organizations_to_noncommunicating
     logger.info "Running move_active_organizations_to_noncommunicating"
-    organizations = Organization.businesses.participants.active.about_to_become_noncommunicating
+    organizations = organization_scope.about_to_become_noncommunicating
     organizations.find_each do |organization|
       move_to_noncommunicating(organization)
     end
@@ -26,7 +28,7 @@ class CopStatusUpdater
 
   def move_noncommunicating_organizations_to_delisted
     logger.info "Running move_noncommunicating_organizations_to_delisted"
-    organizations = Organization.businesses.participants.active.about_to_become_delisted
+    organizations = organization_scope.about_to_become_delisted
     organizations.find_each do |organization|
       move_to_delisted(organization)
     end
@@ -59,6 +61,10 @@ class CopStatusUpdater
     logger.info "emailed delisted #{organization.id}:#{organization.name}"
   rescue => e
     logger.error "Could not email #{organization.id}:#{organization.name}", e
+  end
+
+  def organization_scope
+    @organization_scope ||= Organization.businesses.participants.active
   end
 
 end
