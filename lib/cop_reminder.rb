@@ -1,6 +1,6 @@
 class CopReminder
-  def initialize
-    @logger = Logger.new(File.join(Rails.root, 'log', 'cop_reminder.log'))
+  def initialize(logger = nil)
+    @logger = logger || BackgroundJobLogger.new
   end
 
   def notify_all
@@ -56,13 +56,17 @@ class CopReminder
             CopMailer.send(network_mailer, org).deliver
           end
         rescue
-          log :error, "Could not send email: #{$!}"
+          error "Could not send email: #{$!}"
         end
       end
     end
 
-    def log (method="info", string)
-      @logger.send method.to_sym, "#{Time.now.strftime "%Y-%m-%d %H:%M:%S"} : #{string}"
+    def log(message)
+      @logger.info(message)
+    end
+
+    def error(message)
+      @logger.error(message)
     end
 
     def non_communicating
