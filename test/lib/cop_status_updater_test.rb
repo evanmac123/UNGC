@@ -117,17 +117,13 @@ class CopStatusUpdaterTest < ActiveSupport::TestCase
   end
 
   def create_business(params = {})
-    defaults = { participant: true }
-
-    create_organization(params.reverse_merge(defaults)).tap do |o|
-      o.approve!
-
-      # this has to be done after approval
-      o.update(
-        cop_due_on: params[:cop_due_on],
-        cop_state: params[:cop_state],
-      )
-    end
+    defaults = {
+      active: true,
+      participant: true,
+      state: Organization::STATE_APPROVED,
+      cop_state: Organization::COP_STATE_ACTIVE,
+    }
+    create_organization(params.reverse_merge(defaults))
   end
 
   def mailer
