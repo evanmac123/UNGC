@@ -1,13 +1,22 @@
 class CopStatusUpdater
+  attr_reader :logger, :mailer
 
   def self.update_all
-    updater = self.new
-    updater.move_active_organizations_to_noncommunicating
-    updater.move_noncommunicating_organizations_to_delisted
+    self.new(default_logger, CopMailer).update_all
+  end
+
+  def initialize(logger, mailer)
+    @logger = logger
+    @mailer = mailer
+  end
+
+  def update_all
+    move_active_organizations_to_noncommunicating
+    move_noncommunicating_organizations_to_delisted
   end
 
   def move_active_organizations_to_noncommunicating
-    info "Running move_active_organizations_to_noncommunicating"
+    logger.info "Running move_active_organizations_to_noncommunicating"
     organizations = Organization.businesses.participants.active.about_to_become_noncommunicating
     organizations.find_each do |organization|
       move_to_noncommunicating(organization)
@@ -15,20 +24,18 @@ class CopStatusUpdater
   end
 
   def move_noncommunicating_organizations_to_delisted
-    info "Running move_noncommunicating_organizations_to_delisted"
+    logger.info "Running move_noncommunicating_organizations_to_delisted"
     organizations = Organization.businesses.participants.active.about_to_become_delisted
     organizations.find_each do |organization|
       move_to_delisted(organization)
     end
   end
 
-  private
-
   def move_to_noncommunicating(organization)
-    info "#{organization.id}: #{organization.name} is Non-Communicating"
+    logger.info "#{organization.id}: #{organization.name} is Non-Communicating"
     organization.communication_late!
   rescue => e
-    error "Failed to move organization to Non-Communicating #{organization.id}:#{organization.name}", e
+    logger.error "Failed to move organization to Non-Communicating #{organization.id}:#{organization.name}", e
   end
 
   def move_to_delisted(organization)
@@ -39,36 +46,26 @@ class CopStatusUpdater
 
   def delist(organization)
     organization.delist!
-    info "Delisted #{organization.id}:#{organization.name}"
+    logger.info "Delisted #{organization.id}:#{organization.name}"
     true
   rescue => e
-    error "Failed to delist #{organization.id}:#{organization.name}", e
+    logger.error "Failed to delist #{organization.id}:#{organization.name}", e
     false
   end
 
   def notify_of_delisting(organization)
-    CopMailer.delisting_today(organization).deliver
-    info "emailed delisted #{organization.id}:#{organization.name}"
+    mailer.delisting_today(organization).deliver
+    logger.info "emailed delisted #{organization.id}:#{organization.name}"
   rescue => e
-    error "Could not email #{organization.id}:#{organization.name}", e
+    logger.error "Could not email #{organization.id}:#{organization.name}", e
   end
 
-  def info(message)
-    log(message)
-  end
+  private
 
-  def error(message, error=nil, params={})
-    log("error", message)
-    Honeybadger.notify(
-      error_class:    "CopStatusUpdater",
-      error_message:  "#{message} #{error}",
-      parameters:     params
-    )
-  end
-
-  def log (method="info", string)
-    @logger ||= Logger.new(File.join(Rails.root, 'log', 'cop_reminder.log'))
-    @logger.send method.to_sym, "#{Time.now.strftime "%Y-%m-%d %H:%M:%S"} : #{string}"
+  def self.default_logger
+    file_logger = FileSystemLogger.new('cop_reminder.log')
+    honeybadger = NotificationServiceLogger.new
+    CombinedLogger.new(file_logger, honeybadger)
   end
 
 end
