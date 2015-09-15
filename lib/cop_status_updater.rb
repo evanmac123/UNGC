@@ -3,10 +3,10 @@ class CopStatusUpdater
 
   def self.update_all
     logger = BackgroundJobLogger.new('cop_reminder.log')
-    self.new(logger, CopMailer).update_all
+    self.new(logger).update_all
   end
 
-  def initialize(logger, mailer)
+  def initialize(logger, mailer = nil)
     @logger = logger
     @mailer = mailer
     # active participants that are not signatories/micro-enterprises
@@ -59,7 +59,8 @@ class CopStatusUpdater
   end
 
   def notify_of_delisting(organization)
-    mailer.delisting_today(organization).deliver
+    m = CommunicationMailer.new(organization: organization, mailer: mailer)
+    m.delisting_today(organization).deliver
     logger.info "emailed delisted #{organization.id}:#{organization.name}"
   rescue => e
     logger.error "Could not email #{organization.id}:#{organization.name}", e

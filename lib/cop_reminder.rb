@@ -60,11 +60,12 @@ class CopReminder
 
   private
 
-    def notify(mailer, organizations)
+    def notify(mail_method, organizations)
       organizations.each do |org|
         log "Emailing organization #{org.id}:#{org.name}"
+        mailer = CommunicationMailer.new(organization: org)
         begin
-          CopMailer.send(mailer, org).deliver
+          mailer.public_send(mail_method, org).deliver
         rescue => e
           error "Could not send email", e
         end
