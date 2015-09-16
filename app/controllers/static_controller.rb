@@ -12,13 +12,4 @@ class StaticController < ApplicationController
   def catch_all
     render_container_at(params[:path])
   end
-
-  def redirect_to_page
-    if params[:page]
-      redirect_to params[:page], status: :moved_permanently
-    else
-      redirect_to root_path
-    end
-  end
-
 end
