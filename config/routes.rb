@@ -307,7 +307,7 @@ UNGC::Application.routes.draw do
   get '/Issues/human_rights/Human_Rights_Working_Group.html', to: redirect('/what-is-gc/our-work/social/human-rights/working-group')
   get '/Issues/Labour/index.html', to: redirect('/what-is-gc/our-work/social/labour')
   get '/Issues/human_rights/indigenous_peoples_rights.html', to: redirect('/what-is-gc/our-work/social/indigenous-people')
-  get '/HowToParticipate/index.html' => "static#redirect_to_page", page: '/participation'
+  get '/HowToParticipate/index.html', to: redirect('/participation')
   get '/HowToParticipate/Business_Participation/index.html', to: redirect('/participation/join')
   get '/HowToParticipate/cities.html', to: redirect('/participation/join/who-should-join/non-business')
   get '/HowToParticipate/civil_society/index.html', to: redirect('/participation/join/who-should-join/non-business')
