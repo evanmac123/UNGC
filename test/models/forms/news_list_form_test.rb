@@ -12,14 +12,12 @@ class NewsListFormTest < ActiveSupport::TestCase
 
     context '#sustainable_development_goal_filter#options' do
       should 'return all sustainable development goal options' do
-        skip
         assert_equal @sdgs.map(&:id), @search.sustainable_development_goal_filter.options.map(&:id)
       end
     end
 
     context '#sustainable_development_goal_filter#options#select(&:selected?)' do
       should 'equal the selected sustainable development goal' do
-        skip
         assert_equal [@sdgs.first.id], @search.sustainable_development_goal_filter.options.select(&:selected?).map(&:id)
       end
     end
