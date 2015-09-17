@@ -2,32 +2,44 @@ class FacetCache
 
   KEY = 'ungc-facet-cache'
 
-  def initialize(redis)
-    @redis = redis
+  def with_redis
+    UNGC::Redis.with_connection do |redis|
+      yield redis
+    end
   end
 
   def put(key, facets)
-    @redis.hset(KEY, key, facets.to_json)
+    with_redis do |redis|
+      redis.hset(KEY, key, facets.to_json)
+    end
   end
 
   def fetch(key)
-    json = @redis.hget(KEY, key)
+    json = with_redis do |redis|
+      val = redis.hget(KEY, key)
 
-    if json.nil?
-      # cache miss
-      put(key, yield)
-      json = @redis.hget(KEY, key)
+      if val.nil? && block_given?
+        # cache miss
+        put(key, yield)
+        redis.hget(KEY, key)
+      else
+        val
+      end
     end
 
-    parse(json)
+    parse(json) unless json.nil?
   end
 
   def delete(key)
-    @redis.hdel(KEY, key)
+    with_redis do |redis|
+      redis.hdel(KEY, key)
+    end
   end
 
   def clear
-    @redis.del(KEY)
+    with_redis do |redis|
+      redis.del(KEY)
+    end
   end
 
   private
