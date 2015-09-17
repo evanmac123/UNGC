@@ -27,9 +27,7 @@ class Redesign::FacetCache
   end
 
   def clear
-    @redis.hkeys(KEY).each do |key|
-      @redis.hdel(KEY, key)
-    end
+    @redis.del(KEY)
   end
 
   private
