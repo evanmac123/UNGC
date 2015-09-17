@@ -10,7 +10,7 @@ class ContainerForm < FilterableForm
 
   filter :issue
   filter :topic
-  # filter :sustainable_development_goal
+  filter :sustainable_development_goal
 
   def initialize(params, seed, sphinx_scope:)
     super(params)
