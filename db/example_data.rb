@@ -193,6 +193,7 @@ module FixtureReplacement
   end
 
   attributes_for :sustainable_development_goal do |s|
+    s.goal_number = rand(100)
     s.name = "Goal: #{FixtureReplacement.random_string}"
   end
 
