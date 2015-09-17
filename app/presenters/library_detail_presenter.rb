@@ -4,6 +4,15 @@ class LibraryDetailPresenter < SimpleDelegator
       LinkPresenter.new(l)
     end
   end
+
+  def sustainable_development_goals
+    resource.sustainable_development_goals.order('goal_number asc')
+  end
+
+  private
+  def resource
+    __getobj__
+  end
 end
 
 class LinkPresenter
