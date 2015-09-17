@@ -15,4 +15,4 @@
 #    cron "ts:index", cron_options
 #  end
 PATH=/usr/local/bin:$PATH
-(date && cd /srv/unglobalcompact/current && RAILS_ENV=production nice -n19 bundle exec rake ts:reindex) >> /srv/unglobalcompact/current/log/cron-thinking_sphinx-index.log 2>&1
+(date && cd /srv/unglobalcompact/current && RAILS_ENV=production nice -n19 bundle exec rake search:index) >> /srv/unglobalcompact/current/log/cron-thinking_sphinx-index.log 2>&1
