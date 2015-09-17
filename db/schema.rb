@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150901180757) do
+ActiveRecord::Schema.define(version: 20150917192549) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -924,9 +924,10 @@ ActiveRecord::Schema.define(version: 20150901180757) do
   end
 
   create_table "sustainable_development_goals", force: :cascade do |t|
-    t.string   "name",       limit: 255, null: false
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.string   "name",        limit: 255, null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.integer  "goal_number", limit: 4,   null: false
   end
 
   create_table "taggings", force: :cascade do |t|

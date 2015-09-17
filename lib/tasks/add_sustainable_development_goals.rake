@@ -30,10 +30,11 @@ namespace :db do
     sdgs.each do |sdg|
       s = SustainableDevelopmentGoal.where("name like :search", search: "%Goal #{sdg[:goal]}:%").first
       if s
+        s.goal_number = sdg[:goal]
         s.name = sdg[:name]
         s.save!
       else
-        SustainableDevelopmentGoal.create(name: sdg[:name])
+        SustainableDevelopmentGoal.create(name: sdg[:name], goal_number: sdg[:goal])
       end
     end
   end
