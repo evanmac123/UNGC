@@ -1,4 +1,4 @@
-class Redesign::FacetCache
+class FacetCache
 
   KEY = 'ungc-facet-cache'
 

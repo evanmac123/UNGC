@@ -15,7 +15,7 @@ class FilterableForm
   end
 
   def facet_cache
-    @facet_cache ||= Redesign::FacetCache.new(Redis.new)
+    @facet_cache ||= FacetCache.new(Redis.new)
   end
 
   def filters

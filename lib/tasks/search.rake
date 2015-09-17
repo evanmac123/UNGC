@@ -8,7 +8,7 @@ namespace :search do
 
   desc "rebuild clearing the facets cache"
   task rebuild: [:environment] do
-    cache = Redesign::FacetCache.new(Redis.new)
+    cache = FacetCache.new(Redis.new)
     cache.clear
     Rake::Task["ts:clear"].invoke
     Rake::Task["ts:index"].invoke
@@ -16,7 +16,7 @@ namespace :search do
 
   desc "index clearing the facets cache"
   task index: [:environment] do
-    cache = Redesign::FacetCache.new(Redis.new)
+    cache = FacetCache.new(Redis.new)
     cache.clear
     Rake::Task["ts:index"].invoke
   end
