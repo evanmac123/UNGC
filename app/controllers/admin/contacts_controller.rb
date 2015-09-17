@@ -50,7 +50,7 @@ class Admin::ContactsController < AdminController
   def destroy
     can_destroy = policy.can_destroy?(@contact)
     unless can_destroy
-      @contact.error.add(:base, "You are not authorized to delete that contact.")
+      @contact.errors.add(:base, "You are not authorized to delete that contact.")
     end
 
     if can_destroy && @contact.destroy
