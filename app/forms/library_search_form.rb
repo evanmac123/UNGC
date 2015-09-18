@@ -18,9 +18,9 @@ class LibrarySearchForm < FilterableForm
 
   filter :issue,      parent: :issue_areas
   filter :topic,      parent: :topic_groups
+  filter :sustainable_development_goal
   filter :sector,     parent: :sector_groups
   filter :language
-  filter :sustainable_development_goal
 
   attr_writer :search_scope
 
