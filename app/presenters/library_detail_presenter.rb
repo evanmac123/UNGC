@@ -6,7 +6,7 @@ class LibraryDetailPresenter < SimpleDelegator
   end
 
   def sustainable_development_goals
-    resource.sustainable_development_goals.order('goal_number asc')
+    resource.sustainable_development_goals.order('goal_number asc').select(:id, :name)
   end
 
   private
