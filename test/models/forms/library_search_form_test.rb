@@ -242,19 +242,18 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
   private
 
   def all_facets(items, key)
-    stub(facets: {
-      key => stub(keys: items.map(&:id))
-    })
+    facets = items.each_with_object({}) do |item, acc|
+      acc[item.id] = 1
+    end
+    stub(facets: {key => facets})
   end
 
   def all_group_facets(items, key)
-    stub(
-      facets: {
-        key => stub(
-          keys: items.flat_map { |i| [i.id, i.children.flat_map(&:id)] }.flatten
-        )
-      }
-    )
+    ids = items.flat_map { |i| [i.id, i.children.flat_map(&:id)] }.flatten
+    facets = ids.each_with_object({}) do |id, acc|
+      acc[id] = 1
+    end
+    stub(facets: {key => facets})
   end
 
 end

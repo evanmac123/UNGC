@@ -14,9 +14,9 @@ class ParticipantSearchFormTest < ActiveSupport::TestCase
 
     @subject = ParticipantSearchForm.new
     @subject.search_scope = stub(facets:{
-      country_id: stub(keys: @countries.map(&:id)),
-      organization_type_id: stub(keys: @types.map(&:id)),
-      initiative_ids: stub(keys: @initiatives.map(&:id)),
+      country_id: fake_facet_results(@countries),
+      organization_type_id: fake_facet_results(@types),
+      initiative_ids: fake_facet_results(@initiatives),
     })
   end
 
@@ -36,6 +36,12 @@ class ParticipantSearchFormTest < ActiveSupport::TestCase
 
   def assert_has_options(filter, named)
     assert_equal named, filter.options.map(&:name)
+  end
+
+  def fake_facet_results(models)
+    models.each_with_object({}) do |model, acc|
+      acc[model.id] = 1
+    end
   end
 
 end
