@@ -1,27 +1,23 @@
 class FacetCache
 
-  KEY = 'ungc-facet-cache'
-
-  def with_redis
-    UNGC::Redis.with_connection do |redis|
-      yield redis
-    end
+  def initialize(cache_key = 'ungc-facet-cache')
+    @cache_key
   end
 
   def put(key, facets)
     with_redis do |redis|
-      redis.hset(KEY, key, facets.to_json)
+      redis.hset(cache_key, key, facets.to_json)
     end
   end
 
-  def fetch(key)
+  def fetch(key, &default_value_block)
     json = with_redis do |redis|
-      val = redis.hget(KEY, key)
+      val = redis.hget(cache_key, key)
 
       if val.nil? && block_given?
         # cache miss
-        put(key, yield)
-        redis.hget(KEY, key)
+        put(key, default_value_block.call)
+        redis.hget(cache_key, key)
       else
         val
       end
@@ -32,17 +28,31 @@ class FacetCache
 
   def delete(key)
     with_redis do |redis|
-      redis.hdel(KEY, key)
+      redis.hdel(cache_key, key)
     end
   end
 
   def clear
     with_redis do |redis|
-      redis.del(KEY)
+      redis.del(cache_key)
+    end
+  end
+
+  def count
+    with_redis do |redis|
+      redis.hlen(cache_key)
     end
   end
 
   private
+
+  attr_reader :cache_key
+
+  def with_redis
+    UNGC::Redis.with_connection do |redis|
+      yield redis
+    end
+  end
 
   def parse(json)
     # converting to json, we loose symbolized keys at the top level
