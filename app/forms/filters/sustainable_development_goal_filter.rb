@@ -9,7 +9,7 @@ class Filters::SustainableDevelopmentGoalFilter < Filters::FlatSearchFilter
   def options
     # HACK to add a line break after "Goal X:"
     super.map do |option|
-      option.name = raw(option.name.split(':').join(":\n"))
+      option.name = option.name.split(':').join(":\n")
       option
     end
   end
