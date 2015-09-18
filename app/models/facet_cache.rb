@@ -2,6 +2,7 @@ class FacetCache
 
   def initialize(cache_key = 'ungc-facet-cache')
     @cache_key
+    clear if Rails.env.test?
   end
 
   def put(key, facets)
@@ -10,13 +11,13 @@ class FacetCache
     end
   end
 
-  def fetch(key, &default_value_block)
+  def fetch(key)
     json = with_redis do |redis|
       val = redis.hget(cache_key, key)
 
       if val.nil? && block_given?
         # cache miss
-        put(key, default_value_block.call)
+        put(key, yield)
         redis.hget(cache_key, key)
       else
         val
