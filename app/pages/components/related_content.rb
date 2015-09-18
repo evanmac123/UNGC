@@ -34,9 +34,11 @@ class Components::RelatedContent
     cs = fetch_containers
     es = fetch_events
 
-    @paths.inject([]) do |s, p|
-      s << (cs.find {|c| c.url == p} || es.find {|e| e.url == p })
-    end
+    @paths.map do |path|
+      container_box = cs.find {|c| c.url == path}
+      event_box = es.find {|e| e.url == path }
+      container_box || event_box
+    end.compact
   end
 
   def events_path
