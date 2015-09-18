@@ -25,8 +25,9 @@ class WhatYouCanDoFormTest < ActiveSupport::TestCase
   private
 
   def all_facets(items, key)
-    stub(facets: {
-      key => stub(keys: items.map(&:id))
-    })
+    facets = items.each_with_object({}) do |item, acc|
+      acc[item.id] = 1
+    end
+    stub(facets: {key => facets})
   end
 end
