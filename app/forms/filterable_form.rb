@@ -1,5 +1,7 @@
 class FilterableForm
 
+  attr_writer :facet_cache
+
   def active_filters
     filters.flat_map(&:selected_options)
   end
@@ -10,6 +12,10 @@ class FilterableForm
 
   def facets
     raise 'override me'
+  end
+
+  def facet_cache
+    @facet_cache ||= FacetCache.new
   end
 
   def filters
@@ -139,7 +145,10 @@ class FilterableForm
   end
 
   def enabled_facets(key)
-    @_facets ||= facets.to_h
+    cache_key = self.class.name.underscore
+    @_facets ||= facet_cache.fetch(cache_key) do
+      facets.to_h
+    end
     @_facets.fetch(key, {}).keys
   end
 
