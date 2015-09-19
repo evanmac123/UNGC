@@ -238,7 +238,7 @@ class Admin::ContactsControllerTest < ActionController::TestCase
                                          :password => "password" }.
                                          merge({:image => fixture_file_upload('files/untitled.jpg', 'image/jpeg')})
 
-      assert_template 'admin/contacts/edit'
+      assert_redirected_to admin_local_network_path(@local_network.id, tab: :contacts)
     end
   end
 
