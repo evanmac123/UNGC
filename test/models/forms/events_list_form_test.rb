@@ -7,7 +7,7 @@ class EventsListFormTest < ActiveSupport::TestCase
       @params = { sustainable_development_goals: [@sdgs.first.id] }.deep_stringify_keys
 
       @search = EventsListForm.new @params
-      @search.search_scope = all_facets(@sdgs, :sustainable_development_goal_ids)
+      @search.search_scope = FakeFacetResponse.with(:sustainable_development_goal_ids, @sdgs.map(&:id))
     end
 
     context '#sustainable_development_goal_filter#options' do
@@ -110,10 +110,4 @@ class EventsListFormTest < ActiveSupport::TestCase
     create_event(params).tap(&:approve!)
   end
 
-  def all_facets(items, key)
-    facets = items.each_with_object({}) do |item, acc|
-      acc[item.id] = 1
-    end
-    stub(facets: {key => facets})
-  end
 end

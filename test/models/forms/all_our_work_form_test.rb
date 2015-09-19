@@ -6,7 +6,8 @@ class AllOurWorkFormTest < ActiveSupport::TestCase
       @sdgs = 2.times.collect { create_sustainable_development_goal }
       @params = { sustainable_development_goals: [@sdgs.first.id] }.deep_stringify_keys
 
-      @search = AllOurWorkForm.new @params, rand(100), all_facets(@sdgs, :sustainable_development_goal_ids)
+      facet_response = FakeFacetResponse.with(:sustainable_development_goal_ids, @sdgs.map(&:id))
+      @search = AllOurWorkForm.new @params, rand(100), facet_response
     end
 
     context '#sustainable_development_goal_filter#options' do

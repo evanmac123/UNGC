@@ -4,9 +4,11 @@ class WhatYouCanDoFormTest < ActiveSupport::TestCase
   context 'search with sustainable development goals in params' do
     setup do
       @sdgs = 2.times.collect { create_sustainable_development_goal }
-      @params = { sustainable_development_goals: [@sdgs.first.id] }.deep_stringify_keys
+      input_params = { sustainable_development_goals: [@sdgs.first.id] }.deep_stringify_keys
+      seed = rand(100)
+      facet_response = FakeFacetResponse.with(:sustainable_development_goal_ids, @sdgs.map(&:id))
 
-      @search = WhatYouCanDoForm.new @params, rand(100), all_facets(@sdgs, :sustainable_development_goal_ids)
+      @search = WhatYouCanDoForm.new(input_params, seed, facet_response)
     end
 
     context '#sustainable_development_goal_filter#options' do
@@ -22,12 +24,4 @@ class WhatYouCanDoFormTest < ActiveSupport::TestCase
     end
   end
 
-  private
-
-  def all_facets(items, key)
-    facets = items.each_with_object({}) do |item, acc|
-      acc[item.id] = 1
-    end
-    stub(facets: {key => facets})
-  end
 end

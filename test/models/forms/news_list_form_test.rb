@@ -7,7 +7,7 @@ class NewsListFormTest < ActiveSupport::TestCase
       @params = { sustainable_development_goals: [@sdgs.first.id] }.deep_stringify_keys
 
       @search = NewsListForm.new @params
-      @search.search_scope = all_facets(@sdgs, :sustainable_development_goal_ids)
+      @search.search_scope = FakeFacetResponse.with(:sustainable_development_goal_ids, @sdgs.map(&:id))
     end
 
     context '#sustainable_development_goal_filter#options' do
@@ -23,12 +23,4 @@ class NewsListFormTest < ActiveSupport::TestCase
     end
   end
 
-  private
-
-  def all_facets(items, key)
-    facets = items.each_with_object({}) do |item, acc|
-      acc[item.id] = 1
-    end
-    stub(facets: {key => facets})
-  end
 end

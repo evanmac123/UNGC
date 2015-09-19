@@ -140,7 +140,7 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
 
     setup do
       @form = LibrarySearchForm.new 1, @search_params
-      @form.search_scope = all_facets(@languages, :language_ids)
+      @form.search_scope = FakeFacetResponse.with(:language_ids, @languages.map(&:id))
       @options = @form.language_filter.options
     end
 
@@ -223,7 +223,7 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
       @params = { sustainable_development_goals: [@sdgs.first.id] }.deep_stringify_keys
 
       @search = LibrarySearchForm.new 1, @params
-      @search.search_scope = all_facets(@sdgs, :sustainable_development_goal_ids)
+      @search.search_scope = FakeFacetResponse.with(:sustainable_development_goal_ids, @sdgs.map(&:id))
     end
 
     context '#sustainable_development_goal_filter#options' do
@@ -241,19 +241,11 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
 
   private
 
-  def all_facets(items, key)
-    facets = items.each_with_object({}) do |item, acc|
-      acc[item.id] = 1
-    end
-    stub(facets: {key => facets})
-  end
-
   def all_group_facets(items, key)
-    ids = items.flat_map { |i| [i.id, i.children.flat_map(&:id)] }.flatten
-    facets = ids.each_with_object({}) do |id, acc|
-      acc[id] = 1
+    ids = items.map do |item|
+      [item.id, item.children.map(&:id)]
     end
-    stub(facets: {key => facets})
+    FakeFacetResponse.with(key, ids.flatten)
   end
 
 end
