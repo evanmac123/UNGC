@@ -14,9 +14,9 @@ class NewsListForm < FilterableForm
 
   filter :issue
   filter :topic
+  filter :sustainable_development_goal
   filter :country
   filter :headline_type, selected: :types
-  # filter :sustainable_development_goal
 
   attr_writer :search_scope
 

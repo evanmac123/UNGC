@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150901180757) do
+ActiveRecord::Schema.define(version: 20150917192549) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -26,9 +26,9 @@ ActiveRecord::Schema.define(version: 20150901180757) do
   create_table "annual_reports", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
     t.date     "year"
-    t.boolean  "future_plans",     limit: 1
-    t.boolean  "activities",       limit: 1
-    t.boolean  "financials",       limit: 1
+    t.boolean  "future_plans"
+    t.boolean  "activities"
+    t.boolean  "financials"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -63,10 +63,10 @@ ActiveRecord::Schema.define(version: 20150901180757) do
     t.date     "start_date"
     t.date     "end_date"
     t.integer  "initiative_id", limit: 4
-    t.boolean  "is_deleted",    limit: 1,   default: false, null: false
+    t.boolean  "is_deleted",                default: false, null: false
     t.datetime "created_at",                                null: false
     t.datetime "updated_at",                                null: false
-    t.boolean  "is_private",    limit: 1,   default: false
+    t.boolean  "is_private",                default: false
   end
 
   add_index "campaigns", ["campaign_id"], name: "index_campaigns_on_campaign_id", unique: true, using: :btree
@@ -75,7 +75,7 @@ ActiveRecord::Schema.define(version: 20150901180757) do
   create_table "case_examples", force: :cascade do |t|
     t.string   "company",           limit: 255
     t.integer  "country_id",        limit: 4
-    t.boolean  "is_participant",    limit: 1
+    t.boolean  "is_participant"
     t.string   "file_file_name",    limit: 255
     t.string   "file_content_type", limit: 255
     t.integer  "file_file_size",    limit: 4
@@ -107,31 +107,31 @@ ActiveRecord::Schema.define(version: 20150901180757) do
     t.integer  "organization_id",                     limit: 4
     t.string   "title",                               limit: 255
     t.string   "contact_info",                        limit: 255
-    t.boolean  "include_actions",                     limit: 1
-    t.boolean  "include_measurement",                 limit: 1
-    t.boolean  "use_indicators",                      limit: 1
+    t.boolean  "include_actions"
+    t.boolean  "include_measurement"
+    t.boolean  "use_indicators"
     t.integer  "cop_score_id",                        limit: 4
-    t.boolean  "use_gri",                             limit: 1
-    t.boolean  "has_certification",                   limit: 1
-    t.boolean  "notable_program",                     limit: 1
+    t.boolean  "use_gri"
+    t.boolean  "has_certification"
+    t.boolean  "notable_program"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "description",                         limit: 65535
     t.string   "state",                               limit: 255
-    t.boolean  "include_continued_support_statement", limit: 1
+    t.boolean  "include_continued_support_statement"
     t.string   "format",                              limit: 255
-    t.boolean  "references_human_rights",             limit: 1
-    t.boolean  "references_labour",                   limit: 1
-    t.boolean  "references_environment",              limit: 1
-    t.boolean  "references_anti_corruption",          limit: 1
-    t.boolean  "meets_advanced_criteria",             limit: 1
-    t.boolean  "additional_questions",                limit: 1
+    t.boolean  "references_human_rights"
+    t.boolean  "references_labour"
+    t.boolean  "references_environment"
+    t.boolean  "references_anti_corruption"
+    t.boolean  "meets_advanced_criteria"
+    t.boolean  "additional_questions"
     t.date     "starts_on"
     t.date     "ends_on"
     t.string   "method_shared",                       limit: 255
     t.string   "differentiation",                     limit: 255
-    t.boolean  "references_business_peace",           limit: 1
-    t.boolean  "references_water_mandate",            limit: 1
+    t.boolean  "references_business_peace"
+    t.boolean  "references_water_mandate"
     t.string   "cop_type",                            limit: 255
     t.date     "published_on"
   end
@@ -197,7 +197,7 @@ ActiveRecord::Schema.define(version: 20150901180757) do
     t.datetime "current_sign_in_at"
     t.string   "current_sign_in_ip",        limit: 255
     t.string   "last_sign_in_ip",           limit: 255
-    t.boolean  "welcome_package",           limit: 1
+    t.boolean  "welcome_package"
     t.string   "image_file_name",           limit: 255
     t.string   "image_content_type",        limit: 255
     t.integer  "image_file_size",           limit: 4
@@ -227,10 +227,10 @@ ActiveRecord::Schema.define(version: 20150901180757) do
     t.string   "tree_path",              limit: 255, default: "",   null: false
     t.integer  "child_containers_count", limit: 4,   default: 0,    null: false
     t.integer  "content_type",           limit: 4,   default: 1,    null: false
-    t.boolean  "has_draft",              limit: 1,   default: true
+    t.boolean  "has_draft",                          default: true
     t.integer  "sort_order",             limit: 4,   default: 0
-    t.boolean  "visible",                limit: 1,   default: true
-    t.boolean  "draggable",              limit: 1,   default: true
+    t.boolean  "visible",                            default: true
+    t.boolean  "draggable",                          default: true
   end
 
   add_index "containers", ["content_type"], name: "index_containers_on_content_type", using: :btree
@@ -284,7 +284,7 @@ ActiveRecord::Schema.define(version: 20150901180757) do
     t.string   "payment_type",       limit: 255
     t.integer  "organization_id",    limit: 4,                   null: false
     t.string   "campaign_id",        limit: 255
-    t.boolean  "is_deleted",         limit: 1,   default: false, null: false
+    t.boolean  "is_deleted",                     default: false, null: false
     t.datetime "created_at",                                     null: false
     t.datetime "updated_at",                                     null: false
   end
@@ -296,7 +296,7 @@ ActiveRecord::Schema.define(version: 20150901180757) do
   create_table "cop_answers", force: :cascade do |t|
     t.integer  "cop_id",           limit: 4
     t.integer  "cop_attribute_id", limit: 4
-    t.boolean  "value",            limit: 1
+    t.boolean  "value"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "text",             limit: 65535, null: false
@@ -311,7 +311,7 @@ ActiveRecord::Schema.define(version: 20150901180757) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "hint",            limit: 65535,                 null: false
-    t.boolean  "open",            limit: 1,     default: false
+    t.boolean  "open",                          default: false
   end
 
   add_index "cop_attributes", ["cop_question_id", "position"], name: "index_cop_attributes_on_cop_question_id_and_position", using: :btree
@@ -394,9 +394,9 @@ ActiveRecord::Schema.define(version: 20150901180757) do
     t.datetime "approved_at"
     t.integer  "approved_by_id",               limit: 4
     t.string   "approval",                     limit: 255
-    t.boolean  "is_all_day",                   limit: 1
-    t.boolean  "is_online",                    limit: 1
-    t.boolean  "is_invitation_only",           limit: 1
+    t.boolean  "is_all_day"
+    t.boolean  "is_online"
+    t.boolean  "is_invitation_only"
     t.integer  "priority",                     limit: 4,     default: 1
     t.integer  "contact_id",                   limit: 4
     t.string   "thumbnail_image_file_name",    limit: 255
@@ -464,7 +464,7 @@ ActiveRecord::Schema.define(version: 20150901180757) do
     t.integer  "old_id",     limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "active",     limit: 1,   default: true
+    t.boolean  "active",                 default: true
   end
 
   create_table "integrity_measures", force: :cascade do |t|
@@ -508,17 +508,17 @@ ActiveRecord::Schema.define(version: 20150901180757) do
     t.string   "event_type",                       limit: 255
     t.integer  "num_participants",                 limit: 4
     t.integer  "gc_participant_percentage",        limit: 4
-    t.boolean  "stakeholder_company",              limit: 1
-    t.boolean  "stakeholder_sme",                  limit: 1
-    t.boolean  "stakeholder_business_association", limit: 1
-    t.boolean  "stakeholder_labour",               limit: 1
-    t.boolean  "stakeholder_un_agency",            limit: 1
-    t.boolean  "stakeholder_ngo",                  limit: 1
-    t.boolean  "stakeholder_foundation",           limit: 1
-    t.boolean  "stakeholder_academic",             limit: 1
-    t.boolean  "stakeholder_government",           limit: 1
-    t.boolean  "stakeholder_media",                limit: 1
-    t.boolean  "stakeholder_others",               limit: 1
+    t.boolean  "stakeholder_company"
+    t.boolean  "stakeholder_sme"
+    t.boolean  "stakeholder_business_association"
+    t.boolean  "stakeholder_labour"
+    t.boolean  "stakeholder_un_agency"
+    t.boolean  "stakeholder_ngo"
+    t.boolean  "stakeholder_foundation"
+    t.boolean  "stakeholder_academic"
+    t.boolean  "stakeholder_government"
+    t.boolean  "stakeholder_media"
+    t.boolean  "stakeholder_others"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "country_id",                       limit: 4
@@ -542,14 +542,14 @@ ActiveRecord::Schema.define(version: 20150901180757) do
     t.datetime "updated_at"
     t.date     "sg_global_compact_launch_date"
     t.date     "sg_local_network_launch_date"
-    t.boolean  "sg_annual_meeting_appointments",                      limit: 1
+    t.boolean  "sg_annual_meeting_appointments"
     t.integer  "sg_annual_meeting_appointments_file_id",              limit: 4
-    t.boolean  "sg_selected_appointees_local_network_representative", limit: 1
-    t.boolean  "sg_selected_appointees_steering_committee",           limit: 1
-    t.boolean  "sg_selected_appointees_contact_point",                limit: 1
-    t.boolean  "sg_established_as_a_legal_entity",                    limit: 1
+    t.boolean  "sg_selected_appointees_local_network_representative"
+    t.boolean  "sg_selected_appointees_steering_committee"
+    t.boolean  "sg_selected_appointees_contact_point"
+    t.boolean  "sg_established_as_a_legal_entity"
     t.integer  "sg_established_as_a_legal_entity_file_id",            limit: 4
-    t.boolean  "membership_subsidiaries",                             limit: 1
+    t.boolean  "membership_subsidiaries"
     t.integer  "membership_companies",                                limit: 4
     t.integer  "membership_sme",                                      limit: 4
     t.integer  "membership_micro_enterprise",                         limit: 4
@@ -560,22 +560,22 @@ ActiveRecord::Schema.define(version: 20150901180757) do
     t.integer  "membership_academic_institutions",                    limit: 4
     t.integer  "membership_government",                               limit: 4
     t.integer  "membership_other",                                    limit: 4
-    t.boolean  "fees_participant",                                    limit: 1
+    t.boolean  "fees_participant"
     t.integer  "fees_amount_company",                                 limit: 4
     t.integer  "fees_amount_sme",                                     limit: 4
     t.integer  "fees_amount_other_organization",                      limit: 4
     t.integer  "fees_amount_participant",                             limit: 4
     t.integer  "fees_amount_voluntary_private",                       limit: 4
     t.integer  "fees_amount_voluntary_public",                        limit: 4
-    t.boolean  "stakeholder_company",                                 limit: 1
-    t.boolean  "stakeholder_sme",                                     limit: 1
-    t.boolean  "stakeholder_business_association",                    limit: 1
-    t.boolean  "stakeholder_labour",                                  limit: 1
-    t.boolean  "stakeholder_un_agency",                               limit: 1
-    t.boolean  "stakeholder_ngo",                                     limit: 1
-    t.boolean  "stakeholder_foundation",                              limit: 1
-    t.boolean  "stakeholder_academic",                                limit: 1
-    t.boolean  "stakeholder_government",                              limit: 1
+    t.boolean  "stakeholder_company"
+    t.boolean  "stakeholder_sme"
+    t.boolean  "stakeholder_business_association"
+    t.boolean  "stakeholder_labour"
+    t.boolean  "stakeholder_un_agency"
+    t.boolean  "stakeholder_ngo"
+    t.boolean  "stakeholder_foundation"
+    t.boolean  "stakeholder_academic"
+    t.boolean  "stakeholder_government"
     t.string   "twitter",                                             limit: 255
     t.string   "facebook",                                            limit: 255
     t.string   "linkedin",                                            limit: 255
@@ -639,9 +639,9 @@ ActiveRecord::Schema.define(version: 20150901180757) do
     t.integer  "organization_id", limit: 4
     t.integer  "contact_id",      limit: 4
     t.integer  "reviewer_id",     limit: 4
-    t.boolean  "replied_to",      limit: 1
+    t.boolean  "replied_to"
     t.string   "purpose",         limit: 255
-    t.boolean  "accepted",        limit: 1
+    t.boolean  "accepted"
     t.date     "accepted_on"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -684,7 +684,7 @@ ActiveRecord::Schema.define(version: 20150901180757) do
     t.datetime "last_indexed_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "delta",             limit: 1,     default: true, null: false
+    t.boolean  "delta",                           default: true, null: false
     t.datetime "object_created_at"
     t.datetime "object_updated_at"
   end
@@ -703,14 +703,14 @@ ActiveRecord::Schema.define(version: 20150901180757) do
     t.string   "name",                           limit: 255
     t.integer  "organization_type_id",           limit: 4
     t.integer  "sector_id",                      limit: 4
-    t.boolean  "participant",                    limit: 1
+    t.boolean  "participant"
     t.integer  "employees",                      limit: 4
     t.string   "url",                            limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "joined_on"
     t.date     "delisted_on"
-    t.boolean  "active",                         limit: 1
+    t.boolean  "active"
     t.integer  "country_id",                     limit: 4
     t.string   "stock_symbol",                   limit: 255
     t.integer  "removal_reason_id",              limit: 4
@@ -718,7 +718,7 @@ ActiveRecord::Schema.define(version: 20150901180757) do
     t.string   "state",                          limit: 255
     t.integer  "exchange_id",                    limit: 4
     t.integer  "listing_status_id",              limit: 4
-    t.boolean  "is_ft_500",                      limit: 1
+    t.boolean  "is_ft_500"
     t.date     "cop_due_on"
     t.date     "inactive_on"
     t.string   "commitment_letter_file_name",    limit: 255
@@ -727,7 +727,7 @@ ActiveRecord::Schema.define(version: 20150901180757) do
     t.datetime "commitment_letter_updated_at"
     t.integer  "pledge_amount",                  limit: 4
     t.string   "cop_state",                      limit: 255
-    t.boolean  "replied_to",                     limit: 1
+    t.boolean  "replied_to"
     t.integer  "reviewer_id",                    limit: 4
     t.string   "bhr_url",                        limit: 255
     t.date     "rejected_on"
@@ -737,9 +737,9 @@ ActiveRecord::Schema.define(version: 20150901180757) do
     t.date     "non_comm_dialogue_on"
     t.string   "review_reason",                  limit: 255
     t.integer  "participant_manager_id",         limit: 4
-    t.boolean  "is_local_network_member",        limit: 1
-    t.boolean  "is_landmine",                    limit: 1
-    t.boolean  "is_tobacco",                     limit: 1
+    t.boolean  "is_local_network_member"
+    t.boolean  "is_landmine"
+    t.boolean  "is_tobacco"
     t.string   "no_pledge_reason",               limit: 255
     t.string   "isin",                           limit: 255
   end
@@ -751,7 +751,7 @@ ActiveRecord::Schema.define(version: 20150901180757) do
 
   create_table "page_groups", force: :cascade do |t|
     t.string   "name",                  limit: 255
-    t.boolean  "display_in_navigation", limit: 1
+    t.boolean  "display_in_navigation"
     t.string   "html_code",             limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -766,18 +766,18 @@ ActiveRecord::Schema.define(version: 20150901180757) do
     t.text     "content",               limit: 65535
     t.integer  "parent_id",             limit: 4
     t.integer  "position",              limit: 4
-    t.boolean  "display_in_navigation", limit: 1
+    t.boolean  "display_in_navigation"
     t.datetime "approved_at"
     t.integer  "approved_by_id",        limit: 4
     t.integer  "created_by_id",         limit: 4
     t.integer  "updated_by_id",         limit: 4
-    t.boolean  "dynamic_content",       limit: 1
+    t.boolean  "dynamic_content"
     t.integer  "version_number",        limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "group_id",              limit: 4
     t.string   "approval",              limit: 255
-    t.boolean  "top_level",             limit: 1
+    t.boolean  "top_level"
     t.string   "change_path",           limit: 255
   end
 
@@ -924,9 +924,10 @@ ActiveRecord::Schema.define(version: 20150901180757) do
   end
 
   create_table "sustainable_development_goals", force: :cascade do |t|
-    t.string   "name",       limit: 255, null: false
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.string   "name",        limit: 255, null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.integer  "goal_number", limit: 4,   null: false
   end
 
   create_table "taggings", force: :cascade do |t|
@@ -998,7 +999,7 @@ ActiveRecord::Schema.define(version: 20150901180757) do
     t.datetime "created_at",                                   null: false
     t.datetime "updated_at",                                   null: false
     t.text     "licensing_data", limit: 65535
-    t.boolean  "has_licensing",  limit: 1,     default: false
+    t.boolean  "has_licensing",                default: false
   end
 
   add_foreign_key "event_sponsors", "events"

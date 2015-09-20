@@ -10,13 +10,13 @@
         <label for="layout" class="control-label">
           Layout
         </label>
-        {{fast-select
-            items=model.layouts
-            selected=model.container.layoutRecord
-            labelPath="label"
-            valuePath="id"
-            class="form-control"
-            id="layout"}}
+        {{select-2
+          class="form-control"
+          optionLabelPath="label"
+          id="layout"
+          content=model.layouts
+          placeholder="Choose a layout"
+          value=model.container.layoutRecord}}
       </div>
 
       {{#sitemap/validated-form-field label='Page name (with dashes)'

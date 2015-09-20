@@ -67,7 +67,7 @@ class Contact < ActiveRecord::Base
   # if they haven't logged in then we redirect them to their edit page to confirm their contact information
   MONTHS_SINCE_LOGIN = 6
 
-  validates_presence_of     :prefix, :first_name, :email, :last_name, :job_title, :address, :city, :country_id
+  validates_presence_of     :prefix, :first_name, :email, :last_name, :job_title, :address, :city, :country
   validates_presence_of     :phone, unless: :from_ungc?
   validates_presence_of     :username, :if => :can_login?
   validates_presence_of     :plaintext_password, :if => :password_required?
@@ -192,7 +192,7 @@ class Contact < ActiveRecord::Base
   end
 
   def from_ungc?
-    organization_id? && organization.name == DEFAULTS[:ungc_organization_name]
+    (organization_id? || organization.present?) && organization.name == DEFAULTS[:ungc_organization_name]
   end
 
   def from_organization?
@@ -200,11 +200,11 @@ class Contact < ActiveRecord::Base
   end
 
   def from_network?
-    local_network_id?
+    (local_network_id? || local_network.present?)
   end
 
   def belongs_to_network?(network)
-    local_network_id? && local_network == network
+    from_network? && local_network == network
   end
 
   def from_regional_center?

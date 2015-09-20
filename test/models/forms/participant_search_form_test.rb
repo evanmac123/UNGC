@@ -13,11 +13,7 @@ class ParticipantSearchFormTest < ActiveSupport::TestCase
     @countries = @country_names.map { |name| create_country name: name }
 
     @subject = ParticipantSearchForm.new
-    @subject.search_scope = stub(facets:{
-      country_id: stub(keys: @countries.map(&:id)),
-      organization_type_id: stub(keys: @types.map(&:id)),
-      initiative_ids: stub(keys: @initiatives.map(&:id)),
-    })
+    @subject.search_scope = facet_response
   end
 
   should "have organization_type_options" do
@@ -36,6 +32,14 @@ class ParticipantSearchFormTest < ActiveSupport::TestCase
 
   def assert_has_options(filter, named)
     assert_equal named, filter.options.map(&:name)
+  end
+
+  def facet_response
+    @facet_response ||= FakeFacetResponse.new.tap do |resp|
+      resp.add(:country_id, @countries.map(&:id))
+      resp.add(:organization_type_id, @types.map(&:id))
+      resp.add(:initiative_ids, @initiatives.map(&:id))
+    end
   end
 
 end

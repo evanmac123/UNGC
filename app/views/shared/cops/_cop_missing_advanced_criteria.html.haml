@@ -10,6 +10,6 @@
   - unless communication_on_progress.include_measurement?
     %li.unselected_question A measurement of outcomes
 
-  - if communication_on_progress.questions_missing_answers.any?
+  - if communication_on_progress.questions_missing_answers?
     - communication_on_progress.questions_missing_answers.each do |question|
       %li.unselected_question= question.text

@@ -1,11 +1,6 @@
 require 'test_helper'
 
 class StaticControllerTest < ActionController::TestCase
-  setup do
-    create_staff_user
-    sign_in @staff_user
-  end
-
   context '#catch_all' do
     should 'redirect to not_found when the path does not resolve a container' do
       get :catch_all, path: '/herp/i/dont/exist'

@@ -3,10 +3,6 @@ require 'test_helper'
 class SignupControllerTest < ActionController::TestCase
   context "given an organization that wants to sign up" do
     setup do
-      # TODO remove this on redesign launch
-      create_staff_user
-      sign_in @staff_user
-
       create_container path: '/participation/join/application', layout: :article
 
       create_roles

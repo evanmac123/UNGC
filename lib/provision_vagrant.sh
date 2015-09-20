@@ -79,6 +79,8 @@ install-java() {
 }
 
 install-sphinx() {
+  add-apt-repository ppa:builds/sphinxsearch-rel22
+  apt-get -qq -y update
   apt-get -qq -y install sphinxsearch
 }
 

@@ -6,19 +6,18 @@ class AllOurWorkFormTest < ActiveSupport::TestCase
       @sdgs = 2.times.collect { create_sustainable_development_goal }
       @params = { sustainable_development_goals: [@sdgs.first.id] }.deep_stringify_keys
 
-      @search = AllOurWorkForm.new @params, rand(100), all_facets(@sdgs, :sustainable_development_goal_ids)
+      facet_response = FakeFacetResponse.with(:sustainable_development_goal_ids, @sdgs.map(&:id))
+      @search = AllOurWorkForm.new @params, rand(100), facet_response
     end
 
     context '#sustainable_development_goal_filter#options' do
       should 'return all sustainable development goal options' do
-        skip
         assert_equal @sdgs.map(&:id), @search.sustainable_development_goal_filter.options.map(&:id)
       end
     end
 
     context '#sustainable_development_goal_filter#options#select(&:selected?)' do
       should 'equal the selected sustainable development goal' do
-        skip
         assert_equal [@sdgs.first.id], @search.sustainable_development_goal_filter.options.select(&:selected?).map(&:id)
       end
     end
@@ -27,8 +26,9 @@ class AllOurWorkFormTest < ActiveSupport::TestCase
   private
 
   def all_facets(items, key)
-    stub(facets: {
-      key => stub(keys: items.map(&:id))
-    })
+    facets = items.each_with_object({}) do |item, acc|
+      acc[item.id] = 1
+    end
+    stub(facets: {key => facets})
   end
 end

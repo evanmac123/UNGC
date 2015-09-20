@@ -1,7 +1,9 @@
 class StaticController < ApplicationController
   def home
     set_current_container :home
-    @page = HomePage.new(current_container, current_payload_data)
+    if stale?(last_modified: current_container.updated_at.utc, etag: current_container.cache_key)
+      @page = HomePage.new(current_container, current_payload_data)
+    end
   end
 
   def layout_sample
@@ -12,13 +14,4 @@ class StaticController < ApplicationController
   def catch_all
     render_container_at(params[:path])
   end
-
-  def redirect_to_page
-    if params[:page]
-      redirect_to params[:page], status: :moved_permanently
-    else
-      redirect_to root_path
-    end
-  end
-
 end

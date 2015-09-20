@@ -73,6 +73,7 @@ class Admin::ContactsControllerTest < ActionController::TestCase
     end
 
     should "destroy contact" do
+      @organization.update(participant: true)
       @contact_to_be_deleted = create_contact(:organization_id => @organization.id,
                                               :email           => "dude2@example.com")
       assert_difference('Contact.count', -1) do
@@ -174,85 +175,5 @@ class Admin::ContactsControllerTest < ActionController::TestCase
       assert_redirected_to admin_local_network_path(@local_network.id, :tab => :contacts)
     end
 
-  end
-
-  # TODO: Integrate image tests into test above.
-  context 'given a UNGC staff user uploading an image' do
-    setup do
-      sign_in create_staff_user
-      create_local_network_with_report_recipient
-
-      @network_contact_person = create_contact(
-        local_network_id: LocalNetwork.last.id,
-        role_ids: [Role.network_focal_point.id],
-        organization_id: create_organization.id
-      )
-    end
-
-    context 'given the contact is a UNGC staff user' do
-      should 'update image' do
-        put :update, id: @staff_user.id, organization_id: @staff_user.organization, contact: @new_contact_attributes.merge({:image => fixture_file_upload('files/untitled.jpg', 'image/jpeg') })
-        @staff_user.reload
-
-        assert @staff_user.image.file?
-        assert_redirected_to admin_organization_path(@staff_user.organization.id, tab: :contacts)
-      end
-    end
-
-    context 'given the contact is a contact with the network contact person role' do
-      should 'update image' do
-        put :update, id: @network_contact_person.id, organization_id: @network_contact_person.organization, contact: @new_contact_attributes.merge({:image => fixture_file_upload('files/untitled.jpg', 'image/jpeg') })
-        @network_contact_person.reload
-
-        assert @network_contact_person.image.file?
-        assert_redirected_to admin_organization_path(@network_contact_person.organization.id, tab: :contacts)
-      end
-    end
-
-    context 'given the contact is a not a UNGC staff user or contact with the network contact person role' do
-      should 'update image' do
-        put :update, id: @network_contact.to_param, local_network_id: @local_network.id, contact: @new_contact_attributes.merge({:image => fixture_file_upload('files/untitled.jpg', 'image/jpeg') })
-        @network_contact.reload
-
-        assert @network_contact.image.file?
-        assert_redirected_to admin_local_network_path(@local_network.id, tab: :contacts)
-      end
-    end
-  end
-
-  context 'given a contact with the network contact person role uploading an image' do
-    setup do
-      @network_contact_person = create_contact(
-        local_network_id: create_local_network.id,
-        role_ids: [Role.network_focal_point.id]
-      )
-
-      @another_network_contact_person = create_contact(
-        local_network_id: create_local_network.id,
-        role_ids: [Role.network_focal_point.id]
-      )
-
-      sign_in @network_contact_person
-    end
-
-    context 'given the contact is itself' do
-      should 'update image' do
-        put :update, id: @network_contact_person, local_network_id: @network_contact_person.local_network, contact: @new_contact_attributes.merge({:image => fixture_file_upload('files/untitled.jpg', 'image/jpeg') })
-        @network_contact_person.reload
-
-        assert @network_contact_person.image.file?
-        assert_redirected_to admin_local_network_path(@network_contact_person.local_network.id, tab: :contacts)
-      end
-    end
-
-    context 'given the contact is a not itself' do
-      should 'update image' do
-        put :update, id: @another_network_contact_person, local_network_id: @another_network_contact_person.local_network, contact: @new_contact_attributes.merge({:image => fixture_file_upload('files/untitled.jpg', 'image/jpeg') })
-        @another_network_contact_person.reload
-
-        assert @another_network_contact_person.image.file?
-        assert_redirected_to admin_local_network_path(@another_network_contact_person.local_network.id, tab: :contacts)
-      end
-    end
   end
 end

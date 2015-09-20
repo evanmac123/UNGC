@@ -140,7 +140,7 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
 
     setup do
       @form = LibrarySearchForm.new 1, @search_params
-      @form.search_scope = all_facets(@languages, :language_ids)
+      @form.search_scope = FakeFacetResponse.with(:language_ids, @languages.map(&:id))
       @options = @form.language_filter.options
     end
 
@@ -223,19 +223,17 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
       @params = { sustainable_development_goals: [@sdgs.first.id] }.deep_stringify_keys
 
       @search = LibrarySearchForm.new 1, @params
-      @search.search_scope = all_facets(@sdgs, :sustainable_development_goal_ids)
+      @search.search_scope = FakeFacetResponse.with(:sustainable_development_goal_ids, @sdgs.map(&:id))
     end
 
     context '#sustainable_development_goal_filter#options' do
       should 'return all sustainable development goal options' do
-        skip
         assert_equal @sdgs.map(&:id), @search.sustainable_development_goal_filter.options.map(&:id)
       end
     end
 
     context '#sustainable_development_goal_filter#options#select(&:selected?)' do
       should 'equal the selected sustainable development goal' do
-        skip
         assert_equal [@sdgs.first.id], @search.sustainable_development_goal_filter.options.select(&:selected?).map(&:id)
       end
     end
@@ -243,20 +241,11 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
 
   private
 
-  def all_facets(items, key)
-    stub(facets: {
-      key => stub(keys: items.map(&:id))
-    })
-  end
-
   def all_group_facets(items, key)
-    stub(
-      facets: {
-        key => stub(
-          keys: items.flat_map { |i| [i.id, i.children.flat_map(&:id)] }.flatten
-        )
-      }
-    )
+    ids = items.map do |item|
+      [item.id, item.children.map(&:id)]
+    end
+    FakeFacetResponse.with(key, ids.flatten)
   end
 
 end

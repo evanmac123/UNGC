@@ -43,6 +43,7 @@ class CopPresenter
            :organization_business_entity?,
            :principles,
            :questions_missing_answers,
+           :questions_missing_answers?,
            :references_anti_corruption?,
            :references_environment?,
            :references_human_rights?,
