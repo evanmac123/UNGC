@@ -1,0 +1,28 @@
+Dear Contact Points for
+%strong== #{@organization.name},
+
+%p== Please note that #{@organization.name} is in danger of being expelled from the United Nations Global Compact due to failure to communicate on engagement.
+
+%p== We urge you to submit your organization's #{link_to 'Communication on Engagement (COE)', 'https://www.unglobalcompact.org/library/1861'} through our website by #{dd_month_yyyy @organization.cop_due_on}.
+  == Expelled organizations will be removed from our list of participants and will be included among the #{link_to 'Expelled Participants', 'https://www.unglobalcompact.org/participation/report/cop/create-and-submit/expelled'} found on our website.
+
+%p== If you will not be able to meet the deadline, and if you have not requested an extension within your last reporting cycle, you can submit a #{'Grace Letter', 'http://www.unglobalcompact.org/docs/communication_on_progress/Grace_Letter_Step_by_Step_Guide.pdf'} 
+  == to expend your deadline by 90 days.
+
+%p== To submit your organization's COE you will need to log-in to the Global Compact website. If you have forgotten your password, please use the #{link_to 'Forgot your username or password', 'http://unglobalcompact.org/password/new'} link to request a new one.
+
+%p== Your organization can also choose to
+%strong== voluntarily withdraw
+  == before being expelled from the UN Global Compact to ensure that your organization’s name does not appear on the expelled list and our quarterly press release. Please reply to this message to let us know how you would like to proceed, and do not hesitate to contact your
+  == Relationship Manager directly via email #{mail_to @organization.participant_manager_email.to_s} with any questions.
+
+%p == We hope you will continue your participation in our global movement and we strongly believe that our collective action will yield sustainable and positive impact.
+
+%p Sincerely,
+
+%p
+  Reporting Team
+  %br/
+  = render :partial => '/shared/ungc_signature'
+
+= render :partial => '/shared/cops/cop_resources_for_email.html.haml'
