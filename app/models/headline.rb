@@ -36,7 +36,8 @@ class Headline < ActiveRecord::Base
 
   enum headline_type: {
     press_release: 1,
-    announcement: 2
+    announcement: 2,
+    executive_update: 3,
   }
 
   scope :published, -> { where('approval = ?', 'approved') }

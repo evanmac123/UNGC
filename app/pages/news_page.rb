@@ -9,7 +9,7 @@ class NewsPage < ContainerPage
 
   def news
     news = OpenStruct.new({
-      title: "Press Releases",
+      title: "News Desk",
       featured: featured,
       other: other
     })

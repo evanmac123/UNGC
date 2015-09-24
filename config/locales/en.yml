@@ -62,6 +62,7 @@ en:
   headline:
     press_release: 'Press Release'
     announcement: 'Announcement'
+    executive_update: 'Executive Update'
 
   document_types:
     communication_on_progress: "Communication on Progress"
