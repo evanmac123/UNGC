@@ -6,7 +6,7 @@
       <h1><%= signup_type -%> Organization Application</h1>
     </header>
 
-    <%= form_for(@signup.organization, url: organization_step5_path, html: {multipart: true, class: 'form-classic'}) do |form| %>
+    <%= form_for(@signup.organization, url: organization_step5_path, html: {multipart: true, class: 'form-classic signup'}) do |form| %>
 
       <%= form.error_messages(message: false) %>
 

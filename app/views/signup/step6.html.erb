@@ -8,7 +8,7 @@
 
     <%= flash_messages_for :error %>
 
-    <%= form_for(@signup.organization, :url => organization_step7_path, :html => {:multipart => true, class: 'form-classic'}) do |form| %>
+    <%= form_for(@signup.organization, :url => organization_step7_path, :html => {:multipart => true, class: 'form-classic signup'}) do |form| %>
 
       <%= form.error_messages %>
 
