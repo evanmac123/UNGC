@@ -8,7 +8,7 @@
 
     <%- content_tag(:p, "Welcome, JCI Member.") if @jci_referral -%>
 
-    <%= form_for @signup.organization, url: organization_step2_path, html: {class: 'form-classic'} do |form| %>
+    <%= form_for @signup.organization, url: organization_step2_path, html: {class: 'form-classic signup'} do |form| %>
 
       <%= hidden_field_tag :org_type, @signup.org_type %>
 

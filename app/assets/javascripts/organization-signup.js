@@ -42,12 +42,18 @@ $(function(){
     hideLegalStatus();
   }
 
-  $('#new_organization').submit(function(e){
+  $('.signup.form-classic').submit(function() {
     var ret = true;
+    var $submit = $(this).find(':submit');
+    var originalText = $submit.prop('value');
+    $submit.attr('disabled','disabled');
+    $submit.prop('value', 'Submitting...');
 
     if(isNonBusiness() && emptyNumber() && emptyStatus()){
       if(hidden === false) alert("Either a registration number or proof of legal status is required");
       ret = false;
+      $submit.attr('disabled',false);
+      $submit.prop('value', originalText);
     }
 
     if(isNonBusiness() && emptyNumber()){
