@@ -8,9 +8,8 @@ class CopStatusUpdater
 
   def initialize(logger, mailer = nil)
     @logger = logger
-    @mailer = mailer
-    # active participants that are not signatories/micro-enterprises
-    @organization_scope = Organization.active.participants.joins(:organization_type).merge(OrganizationType.participants)
+    @mailer = mailer || CopMailer
+    @organization_scope = Organization.businesses.participants.active
   end
 
   def update_all

@@ -3,8 +3,7 @@ class CopReminder
 
   def initialize(logger = nil)
     @logger = logger || BackgroundJobLogger.new('cop_reminder.log')
-    # participants that are not signatories/micro-enterprises
-    @organization_scope = Organization.participants.joins(:organization_type).merge(OrganizationType.participants)
+    @organization_scope = Organization.businesses.participants.active
   end
 
   def notify_all
@@ -25,7 +24,7 @@ class CopReminder
   def notify_communication_due_in_90_days
     log "Running notify_communication_due_in_90_days"
     notify :communication_due_in_90_days,
-      active_organizations.with_cop_due_on(90.days.from_now.to_date)
+      active.with_cop_due_on(90.days.from_now.to_date)
 
     notify :delisting_in_90_days,
       non_communicating.with_cop_due_on(90.days.from_now.to_date - 1.year)
@@ -34,7 +33,7 @@ class CopReminder
   def notify_communication_due_in_30_days
     log "Running notify_communication_due_in_30_days"
     notify :communication_due_in_30_days,
-      active_organizations.with_cop_due_on(30.days.from_now.to_date)
+      active.with_cop_due_on(30.days.from_now.to_date)
 
     notify :delisting_in_30_days,
       non_communicating.with_cop_due_on(30.days.from_now.to_date - 1.year)
@@ -49,13 +48,13 @@ class CopReminder
   def notify_communication_due_today
     log "Running notify_communication_due_today"
     notify :communication_due_today,
-      active_organizations.with_cop_due_on(Date.today + 1.day)
+      active.with_cop_due_on(Date.today + 1.day)
   end
 
   def notify_communication_due_yesterday
     log "Running notify_communication_due_yesterday"
     notify :communication_due_yesterday,
-      non_communicating.with_cop_due_on(Date.today.to_date - 1.day)
+      non_communicating.with_cop_due_on(Date.today - 1.day)
   end
 
   private
@@ -63,13 +62,20 @@ class CopReminder
     def notify(mail_method, organizations)
       organizations.each do |org|
         log "Emailing organization #{org.id}:#{org.name}"
-        mailer = CommunicationMailer.new(organization: org)
         begin
-          mailer.public_send(mail_method, org).deliver
+          CopMailer.public_send(mail_method, org).deliver
         rescue => e
           error "Could not send email", e
         end
       end
+    end
+
+    def non_communicating
+      organization_scope.with_cop_status(:noncommunicating)
+    end
+
+    def active
+      organization_scope.with_cop_status(:active)
     end
 
     def log(message)
@@ -78,14 +84,6 @@ class CopReminder
 
     def error(message, error)
       logger.error(message, error)
-    end
-
-    def non_communicating
-      organization_scope.with_cop_status(:noncommunicating)
-    end
-
-    def active_organizations
-      organization_scope.with_cop_status(:active)
     end
 
 end
