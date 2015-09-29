@@ -3,9 +3,6 @@ class CoeMailer < ActionMailer::Base
 
   default :from => UNGC::Application::EMAIL_SENDER
 
-  # TODO confirm addresses
-  # TODO communication_on_engagement_1_month_after_nc subject
-
   def communication_on_engagement_90_days(organization)
     @organization = organization
     mail \
