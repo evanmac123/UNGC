@@ -2,7 +2,7 @@ Dear Contact Points for
 %strong== #{@organization.name},
 
 %p
-  == This message is regarding the potential expulsion of #{@organization.name} from the UN Global Compact for failing to submit a Communication on Engagement (COE) to our website by #{dd_month_yyyy @organization.cop_due_on}.
+  == This message is regarding the potential expulsion of #{@organization.name} from the UN Global Compact for failing to submit a Communication on Engagement (COE) to our website by #{@expulsion}.
   == For your convenience, at the end of this email, you will find a list of tools and resources that can help you to draft and submit your COE.
 
 %p
@@ -11,14 +11,14 @@ Dear Contact Points for
 
 %p
   == If your organization needs additional time to meet the COE requirement, and if you have not requested an extension within your last reporting cycle, you can request a deadline extension of 90 days by uploading a #{link_to 'Grace Letter', 'https://www.unglobalcompact.org/library/2941'}
-  == to our website. Please note that this letter must be submitted before your expulsion date on #{dd_month_yyyy @organization.cop_due_on}.
+  == to our website. Please note that this letter must be submitted before your expulsion date on #{@expulsion}.
 
 %p== For your convenience, at the end of this email, you will find a list of tools and resources that can help you to draft and submit your COE.
 
 %p
   == Please do not hesitate to contact your Relationship Manager, #{@organization.participant_manager_name} via email at #{mail_to @organization.participant_manager_email.to_s} should you experience any difficulties in submitting your COE.
   - if @organization.network_report_recipients.any?
-    == Your Local Network contact point, #{@organization.network_report_recipient_name} [Email] would also be happy to answer any questions or provide you with assistance.
+    == Your Local Network contact point, #{@organization.network_report_recipient_name} #{@nrr_email} would also be happy to answer any questions or provide you with assistance.
 
 %p We look forward to hearing from you,
 %p Sincerely,

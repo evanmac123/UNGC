@@ -5,6 +5,7 @@ class CoeMailer < ActionMailer::Base
 
   def communication_on_engagement_90_days(organization)
     @organization = organization
+    @coe_deadline = organization.coe_due_on + 1.year
     mail \
       to:       contact_points(organization),
       cc:       report_recipients(organization),
@@ -14,6 +15,7 @@ class CoeMailer < ActionMailer::Base
 
   def communication_on_engagement_30_days(organization)
     @organization = organization
+    @coe_deadline = organization.coe_due_on + 1.year
     mail \
       to:       contact_points(organization),
       cc:       report_recipients(organization),
@@ -23,6 +25,7 @@ class CoeMailer < ActionMailer::Base
 
   def communication_on_engagement_1_week_before_nc(organization)
     @organization = organization
+    @coe_deadline = organization.coe_due_on + 1.year
     mail \
       to:       contact_points(organization),
       cc:       report_recipients(organization),
@@ -31,7 +34,7 @@ class CoeMailer < ActionMailer::Base
   end
 
   def communication_on_engagement_due_today(organization)
-    due_date = organization.cop_due_on.strftime('%e %B, %Y')
+    due_date = organization.coe_due_on.strftime('%e %B, %Y')
     @organization = organization
     mail \
       to:       contact_points(organization),
@@ -51,6 +54,8 @@ class CoeMailer < ActionMailer::Base
 
   def communication_on_engagement_1_month_after_nc(organization)
     @organization = organization
+    @username = organization.contacts.contact_points.first.username
+    @expulsion = organization.coe_due_on + organization.years_until_next_cop_due.years
     mail \
       to:       contact_points(organization),
       cc:       report_recipients(organization),
@@ -60,6 +65,7 @@ class CoeMailer < ActionMailer::Base
 
   def communication_on_engagement_9_months_before_expulsion(organization)
     @organization = organization
+    @expulsion = organization.coe_due_on + organization.years_until_next_cop_due.years
     mail \
       to:       contact_points(organization),
       cc:       report_recipients(organization),
@@ -68,7 +74,9 @@ class CoeMailer < ActionMailer::Base
   end
 
   def communication_on_engagement_3_months_before_expulsion(organization)
+    @nrr_email = organization.network_report_recipients.first.email
     @organization = organization
+    @expulsion = organization.coe_due_on + organization.years_until_next_cop_due.years
     mail \
       to:       contact_points(organization),
       cc:       report_recipients(organization),
@@ -78,6 +86,7 @@ class CoeMailer < ActionMailer::Base
 
   def communication_on_engagement_1_month_before_expulsion(organization)
     @organization = organization
+    @expulsion = organization.coe_due_on + organization.years_until_next_cop_due.years
     mail \
       to:       contact_points(organization),
       cc:       report_recipients(organization),
@@ -87,6 +96,7 @@ class CoeMailer < ActionMailer::Base
 
   def communication_on_engagement_2_weeks_before_expulsion(organization)
     @organization = organization
+    @expulsion = organization.coe_due_on + organization.years_until_next_cop_due.years
     mail \
       to:       contact_points(organization),
       cc:       report_recipients(organization),
@@ -96,6 +106,7 @@ class CoeMailer < ActionMailer::Base
 
   def communication_on_engagement_1_week_before_expulsion(organization)
     @organization = organization
+    @expulsion = organization.coe_due_on + organization.years_until_next_cop_due.years
     mail \
       to:       contact_points(organization),
       cc:       report_recipients(organization),

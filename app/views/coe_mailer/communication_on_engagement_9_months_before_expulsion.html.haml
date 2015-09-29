@@ -1,10 +1,10 @@
 Dear Contact Points for
 %strong== #{@organization.name},
 
-%p==#{@organization.name} is in danger of being removed from the UN Global Compact's list of active participants on [Projected Expulsion Date] for failing to submit its biennial Communication on Engagement (COE).
+%p==#{@organization.name} is in danger of being removed from the UN Global Compact's list of active participants on #{@expulsion} for failing to submit its biennial Communication on Engagement (COE).
 
 %p
-  ==Non-business organizations in the UN Global Compact are required to issue biennial COE, a public disclosure to stakeholders on the ways in which they support the Global Compact and promote the implementation of the ten principles among businesses. To remain a UN Global Compact participant, #{@organization.name} must submit a COE by [Projected Expulsion Date]. This will prevent your organization from being publicly listed on our websites as an %strong== expelled participant
+  ==Non-business organizations in the UN Global Compact are required to issue biennial COE, a public disclosure to stakeholders on the ways in which they support the Global Compact and promote the implementation of the ten principles among businesses. To remain a UN Global Compact participant, #{@organization.name} must submit a COE by  #{@expulsion}. This will prevent your organization from being publicly listed on our websites as an <strong>expelled participant</strong>
   == due to failure to submit a COE. For your reference, at the end of this email, you will find a list of resources that can help you in drafting and submitting your COE.
 
 %p==To submit your organization's COE you will need to log-in to the Global Compact website. In case you have forgotten your password, please use the #{link_to 'Forgot your username or password', 'http://unglobalcompact.org/password/new'} link to request a new one. For your convenience, at the end of this email, you will find a list of tools and resources that can help you in drafting and submitting your COE.

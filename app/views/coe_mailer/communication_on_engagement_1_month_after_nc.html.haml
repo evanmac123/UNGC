@@ -1,0 +1,16 @@
+Dear Contact Points for
+%strong== #{@organization.name},
+
+%p== As your Relationship Manager, I noticed that #{@organization.name} is currently listed as "Non-communicating" on the UN Global Compact website for failure to submit a COE by the deadline. As you may know, if your organization does not submit a #{link_to 'COE', 'https://www.unglobalcompact.org/library/1861'} or #{link_to 'Grace Letter', 'https://www.unglobalcompact.org/library/2941'} by #{@expulsion}, it will be listed on the UN Global Compact's website as an <strong>expelled participant</strong> and will appear in our next press release announcing the names of expelled companies.
+
+%p== To submit your organization's COE you will need to log-in to the Global Compact website. As a reminder, your username is #{@username}. In case you have you have forgotten your password, please use the #{link_to 'Forgot your username or password', 'http://unglobalcompact.org/password/new'} link to request a new one.
+
+%p== To submit your organization's COE you will need to log-in to the Global Compact website. If you have forgotten your password, please use the #{link_to 'Forgot your username or password', 'http://unglobalcompact.org/password/new'} link to request a new one.
+
+%p== I stand ready to offer you direct support and would be happy to schedule a call with you to find a solution that best suits your ORGANIZATION.
+
+%p Looking forward to hearing from you,
+
+  == #{@organization.participant_manager_name}
+
+= render :partial => '/shared/cops/cop_resources_for_email.html.haml'

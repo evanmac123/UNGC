@@ -6,12 +6,16 @@ Dear Contact Points for
 %p== Organizations that fail to submit a COE by the due date will be listed as “Non-communicating” on our website’s public list of participants and on the organization’s individual UN Global Compact page.
 
 %p== For your convenience, at the end of this email, you will find a list of tools and resources that can help you in drafting and submitting your COE.
-%p== In case you have forgotten your password, please use the #{link_to 'Forgot your username or password', 'http://unglobalcompact.org/password/new'} link to request a new one. For your convenience, at the end of this email, you will find a list of tools and resources that can help you in drafting and submitting your COE.
-
-%p== If you require additional time to prepare your COE, and if you have not requested a grace period within the last three months, you can submit a #{link_to 'Grace Letter', 'https://www.unglobalcompact.org/library/2941'} through the Global Compact website, extending your deadline by 90 days. In order to maintain your “Active” status and to avoid becoming “Non-communicating” during this grace period, the letter must be submitted before your COE deadline.
 
 %p
-  ==If you have any questions related to your COE or to any other aspect of your participation in the Global Compact, please do not hesitate to contact your Relationship Manager, #{@organization.participant_manager_name} at #{mail_to @organization.participant_manager_email.to_s}.
+  == Companies whose deadlines are approaching typically benefit from the following resources:
+
+  == The #{link_to 'Grace Letter', 'https://www.unglobalcompact.org/library/2941'} or an #{link_to 'Adjustment Letter', 'https://www.unglobalcompact.org/library/2931'} to modify an upcoming deadline.
+
+%p== In case you have forgotten your password, please use the #{link_to 'Forgot your username or password', 'http://unglobalcompact.org/password/new'} link to request a new one. For your convenience, at the end of this email, you will find a list of tools and resources that can help you in drafting and submitting your COE.
+
+%p
+  ==Please do not hesitate to contact your Relationship Manager, #{@organization.participant_manager_name} at #{mail_to @organization.participant_manager_email.to_s}.
 
   - if @organization.network_report_recipients.any?
     == Additionally, your Local Network contact point, #{@organization.network_report_recipient_name} in #{@organization.country_name}, copied on this email, would be happy to provide you with further support and information.   We look forward to the timely submission of your COE.
