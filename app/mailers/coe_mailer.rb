@@ -55,7 +55,7 @@ class CoeMailer < ActionMailer::Base
       to:       contact_points(organization),
       cc:       report_recipients(organization),
       bcc:      archives,
-      subject:  "UN Global Compact COE Deadline - ???" # TODO confirm subject
+      subject:  "#{@organization.name} at risk of expulsion from UN Global Compact"
   end
 
   def communication_on_engagement_9_months_before_expulsion(organization)
