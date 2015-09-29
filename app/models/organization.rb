@@ -240,7 +240,8 @@ class Organization < ActiveRecord::Base
   scope :companies_and_smes, lambda { joins(:organization_type).merge(OrganizationType.for_filter(:sme, :companies)).includes(:organization_type) }
   scope :companies, lambda { where("organization_type_id IN (?)", OrganizationType.for_filter(:companies)).includes(:organization_type) }
   scope :smes, lambda { where("organization_type_id IN (?)", OrganizationType.for_filter(:sme).pluck(:id)).includes(:organization_type) }
-  scope :businesses, lambda { joins(:organization_type).where("organization_types.type_property = ?", OrganizationType::BUSINESS) }
+  scope :businesses, lambda { joins(:organization_type).merge(OrganizationType.business) }
+  scope :non_businesses, lambda { joins(:organization_type).merge(OrganizationType.non_business) }
   scope :by_type, lambda { |filter_type| where("organization_type_id IN (?)", OrganizationType.for_filter(filter_type).map(&:id)).includes(:organization_type) }
 
   scope :for_initiative, lambda { |symbol| joins(:initiatives).where("initiatives.id IN (?)", Initiative.for_filter(symbol).map(&:id)).includes(:initiatives).order("organizations.name ASC") }
