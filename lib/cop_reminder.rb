@@ -3,7 +3,7 @@ class CopReminder
 
   def initialize(logger = nil)
     @logger = logger || BackgroundJobLogger.new('cop_reminder.log')
-    @organization_scope = Organization.businesses.participants.active
+    @organization_scope = Organization.businesses.participants
   end
 
   def notify_all
