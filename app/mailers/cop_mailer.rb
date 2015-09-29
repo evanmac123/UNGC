@@ -82,7 +82,7 @@ class CopMailer < ActionMailer::Base
       :subject => "UN Global Compact - COE Published"
   end
 
-  def communication_due_in_90_days(organization)
+  def cop_due_in_90_days(organization)
     @organization = organization
     mail \
       :to => organization.contacts.contact_points.collect(&:email_recipient),
@@ -91,7 +91,7 @@ class CopMailer < ActionMailer::Base
       :subject => "UN Global Compact COP Deadline - 90 Days"
   end
 
-  def communication_due_in_30_days(organization)
+  def cop_due_in_30_days(organization)
     @organization = organization
     mail \
       :to => organization.contacts.contact_points.collect(&:email_recipient),
@@ -100,7 +100,7 @@ class CopMailer < ActionMailer::Base
       :subject => "UN Global Compact COP Deadline - 30 Days"
   end
 
-  def communication_due_today(organization)
+  def cop_due_today(organization)
     @organization = organization
     mail \
       :to => organization.contacts.contact_points.collect(&:email_recipient),
@@ -109,7 +109,7 @@ class CopMailer < ActionMailer::Base
       :subject => "UN Global Compact COP Deadline - #{@organization.cop_due_on.strftime('%e %B, %Y')} 23:00 UTC"
   end
 
-  def communication_due_yesterday(organization)
+  def cop_due_yesterday(organization)
     @organization = organization
     mail \
       :to => organization.contacts.contact_points.collect(&:email_recipient),

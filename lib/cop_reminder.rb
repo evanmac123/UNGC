@@ -8,11 +8,11 @@ class CopReminder
 
   def notify_all
     delisting_in_9_months
-    notify_communication_due_in_90_days
-    notify_communication_due_in_30_days
+    notify_cop_due_in_90_days
+    notify_cop_due_in_30_days
     delisting_in_7_days
-    notify_communication_due_today
-    notify_communication_due_yesterday
+    notify_cop_due_today
+    notify_cop_due_yesterday
   end
 
   def delisting_in_9_months
@@ -21,18 +21,18 @@ class CopReminder
       non_communicating.with_cop_due_on(9.months.from_now.to_date - 1.year)
   end
 
-  def notify_communication_due_in_90_days
-    log "Running notify_communication_due_in_90_days"
-    notify :communication_due_in_90_days,
+  def notify_cop_due_in_90_days
+    log "Running notify_cop_due_in_90_days"
+    notify :cop_due_in_90_days,
       active.with_cop_due_on(90.days.from_now.to_date)
 
     notify :delisting_in_90_days,
       non_communicating.with_cop_due_on(90.days.from_now.to_date - 1.year)
   end
 
-  def notify_communication_due_in_30_days
-    log "Running notify_communication_due_in_30_days"
-    notify :communication_due_in_30_days,
+  def notify_cop_due_in_30_days
+    log "Running notify_cop_due_in_30_days"
+    notify :cop_due_in_30_days,
       active.with_cop_due_on(30.days.from_now.to_date)
 
     notify :delisting_in_30_days,
@@ -45,15 +45,15 @@ class CopReminder
       non_communicating.with_cop_due_on(7.days.from_now.to_date - 1.year)
   end
 
-  def notify_communication_due_today
-    log "Running notify_communication_due_today"
-    notify :communication_due_today,
+  def notify_cop_due_today
+    log "Running notify_cop_due_today"
+    notify :cop_due_today,
       active.with_cop_due_on(Date.today + 1.day)
   end
 
-  def notify_communication_due_yesterday
-    log "Running notify_communication_due_yesterday"
-    notify :communication_due_yesterday,
+  def notify_cop_due_yesterday
+    log "Running notify_cop_due_yesterday"
+    notify :cop_due_yesterday,
       non_communicating.with_cop_due_on(Date.today - 1.day)
   end
 

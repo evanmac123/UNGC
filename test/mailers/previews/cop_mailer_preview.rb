@@ -30,20 +30,20 @@ class CopMailerPreview < ActionMailer::Preview
     CopMailer.confirmation_non_business(organization, cop, user)
   end
 
-  def communication_due_in_90_days
-    CopMailer.communication_due_in_90_days(organization)
+  def cop_due_in_90_days
+    CopMailer.cop_due_in_90_days(organization)
   end
 
-  def communication_due_in_30_days
-    CopMailer.communication_due_in_30_days(organization)
+  def cop_due_in_30_days
+    CopMailer.cop_due_in_30_days(organization)
   end
 
-  def communication_due_today
-    CopMailer.communication_due_today(organization)
+  def cop_due_today
+    CopMailer.cop_due_today(organization)
   end
 
-  def communication_due_yesterday
-    CopMailer.communication_due_yesterday(organization)
+  def cop_due_yesterday
+    CopMailer.cop_due_yesterday(organization)
   end
 
   def delisting_in_9_months

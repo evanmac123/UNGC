@@ -63,13 +63,13 @@ class CopReminderTest < ActiveSupport::TestCase
 
     should "send email to the 1 organization with COP due for today" do
       assert_difference 'ActionMailer::Base.deliveries.size' do
-        @reminder.notify_communication_due_today
+        @reminder.notify_cop_due_today
       end
     end
 
     should "send email to the 1 organization with COP due yesterday" do
       assert_difference 'ActionMailer::Base.deliveries.size' do
-        @reminder.notify_communication_due_yesterday
+        @reminder.notify_cop_due_yesterday
       end
     end
 
@@ -81,13 +81,13 @@ class CopReminderTest < ActiveSupport::TestCase
 
     should "send email to the 1 organization with COP due in 30 days" do
       assert_difference 'ActionMailer::Base.deliveries.size' do
-        @reminder.notify_communication_due_in_30_days
+        @reminder.notify_cop_due_in_30_days
       end
     end
 
     should "send email to 1 active organization with COP due in 90 days, and 1 non-communicating organization about to be expelled in 90 days" do
       assert_difference 'ActionMailer::Base.deliveries.size', 2 do
-        @reminder.notify_communication_due_in_90_days
+        @reminder.notify_cop_due_in_90_days
       end
     end
 
@@ -113,7 +113,7 @@ class CopReminderTest < ActiveSupport::TestCase
                                           :country_id           => @country.id)
       assert_equal 1, @organization.network_report_recipients.count
       assert_difference 'ActionMailer::Base.deliveries.size', 3 do
-        @reminder.notify_communication_due_in_90_days
+        @reminder.notify_cop_due_in_90_days
       end
     end
 
