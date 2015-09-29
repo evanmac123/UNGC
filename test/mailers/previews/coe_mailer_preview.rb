@@ -2,8 +2,52 @@ require './db/example_data'
 
 class CoeMailerPreview < ActionMailer::Preview
 
-  def example
-    CoeMailer.example(organization, cop, user)
+  def communication_on_engagement_90_days
+    CoeMailer.communication_on_engagement_90_days(organization)
+  end
+
+  def communication_on_engagement_30_days
+    CoeMailer.communication_on_engagement_30_days(organization)
+  end
+
+  def communication_on_engagement_1_week_before_nc
+    CoeMailer.communication_on_engagement_1_week_before_nc(organization)
+  end
+
+  def communication_on_engagement_due_today
+    CoeMailer.communication_on_engagement_due_today(organization)
+  end
+
+  def communication_on_engagement_nc_day_notification
+    CoeMailer.communication_on_engagement_nc_day_notification(organization)
+  end
+
+  def communication_on_engagement_1_month_after_nc
+    CoeMailer.communication_on_engagement_1_month_after_nc(organization)
+  end
+
+  def communication_on_engagement_9_months_before_expulsion
+    CoeMailer.communication_on_engagement_9_months_before_expulsion(organization)
+  end
+
+  def communication_on_engagement_3_months_before_expulsion
+    CoeMailer.communication_on_engagement_3_months_before_expulsion(organization)
+  end
+
+  def communication_on_engagement_1_month_before_expulsion
+    CoeMailer.communication_on_engagement_1_month_before_expulsion(organization)
+  end
+
+  def communication_on_engagement_2_weeks_before_expulsion
+    CoeMailer.communication_on_engagement_2_weeks_before_expulsion(organization)
+  end
+
+  def communication_on_engagement_1_week_before_expulsion
+    CoeMailer.communication_on_engagement_1_week_before_expulsion(organization)
+  end
+
+  def communication_on_engagement_expulsion_day
+    CoeMailer.communication_on_engagement_expulsion_day(organization)
   end
 
   private

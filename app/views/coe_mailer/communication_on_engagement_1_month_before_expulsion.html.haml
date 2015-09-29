@@ -1,14 +1,17 @@
 Dear Contact Points for
 %strong== #{@organization.name},
 
-%p== This message is regarding the potential expulsion of #{@organization.name} from the UN Global Compact for failing to submit a Communication on Engagement (COE) to our website by #{dd_month_yyyy @organization.cop_due_on}.
+%p
+  == This message is regarding the potential expulsion of #{@organization.name} from the UN Global Compact for failing to submit a Communication on Engagement (COE) to our website by #{dd_month_yyyy @organization.cop_due_on}.
   == For your convenience, at the end of this email, you will find a list of tools and resources that can help you to draft and submit your COE.
 
-%p== To rectify this urgent matter, please access your profile on the #{link_to 'Un Global Compact Website', 'https://www.unglobalcompact.org/login'} and submit a #{link_to 'COE', 'https://www.unglobalcompact.org/library/1861'}.
+%p
+  == To rectify this urgent matter, please access your profile on the #{link_to 'Un Global Compact Website', 'https://www.unglobalcompact.org/login'} and submit a #{link_to 'COE', 'https://www.unglobalcompact.org/library/1861'}.
   == To submit your organization's COE you will need to log-in to the Global Compact website. In case you have forgotten your password, please use the #{link_to 'Forgot your username or password', 'http://unglobalcompact.org/password/new'} link to request a new one.
 
-%p== If your organization needs additional time to meet the COE requirement, and if you have not requested an extension within your last reporting cycle, you can request a deadline extension of 90 days by uploading a #{link_to 'Grace Letter', 'https://www.unglobalcompact.org/library/2941'}
- == to our website. Please note that this letter must be submitted before your expulsion date on #{dd_month_yyyy @organization.cop_due_on}.
+%p
+  == If your organization needs additional time to meet the COE requirement, and if you have not requested an extension within your last reporting cycle, you can request a deadline extension of 90 days by uploading a #{link_to 'Grace Letter', 'https://www.unglobalcompact.org/library/2941'}
+  == to our website. Please note that this letter must be submitted before your expulsion date on #{dd_month_yyyy @organization.cop_due_on}.
 
 %p== For your convenience, at the end of this email, you will find a list of tools and resources that can help you to draft and submit your COE.
 
