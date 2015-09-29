@@ -46,8 +46,8 @@ class CoeMailerPreview < ActionMailer::Preview
     CoeMailer.communication_on_engagement_1_week_before_expulsion(organization)
   end
 
-  def communication_on_engagement_expulsion_day
-    CoeMailer.communication_on_engagement_expulsion_day(organization)
+  def delisting_today
+    CoeMailer.delisting_today(organization)
   end
 
   private

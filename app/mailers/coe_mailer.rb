@@ -106,7 +106,7 @@ class CoeMailer < ActionMailer::Base
       subject:  "#{@organization.name} at risk of expulsion from UN Global Compact - 1 week"
   end
 
-  def communication_on_engagement_expulsion_day(organization)
+  def delisting_today(organization)
     @organization = organization
     mail \
       to:       contact_points(organization),
