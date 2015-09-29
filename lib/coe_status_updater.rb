@@ -1,4 +1,4 @@
-class CopStatusUpdater
+class CoeStatusUpdater
   attr_accessor :logger, :mailer, :organization_scope
 
   def self.update_all
@@ -8,8 +8,8 @@ class CopStatusUpdater
 
   def initialize(logger, mailer = nil)
     @logger = logger
-    @mailer = mailer || CopMailer
-    @organization_scope = Organization.businesses.participants.active
+    @mailer = mailer || CoeMailer
+    @organization_scope = Organization.non_businesses.participants.active
   end
 
   def update_all
@@ -58,7 +58,7 @@ class CopStatusUpdater
   end
 
   def notify_of_delisting(organization)
-    CopMailer.delisting_today(organization).deliver
+    CoeMailer.delisting_today(organization).deliver
     logger.info "emailed delisted #{organization.id}:#{organization.name}"
   rescue => e
     logger.error "Could not email #{organization.id}:#{organization.name}", e

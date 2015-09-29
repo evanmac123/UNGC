@@ -24,10 +24,10 @@ Rails.application.configure do
   }
   config.action_mailer.delivery_method = :test
   config.action_mailer.smtp_settings = {
-    address: 'localhost',
+    address: '192.168.168.106',
     # address: '192.168.168.89',
     # address: '172.16.22.1',
-    port: 1025,
+    port: 3000,
     domain: 'www.unglobalcompact.org'
   }
 
