@@ -738,7 +738,9 @@ class Organization < ActiveRecord::Base
 
   # currently, both COPs and COEs get their due date from cop_due_on
   # which is calculated and set to the proper due date for their type (1yr, 2yr...)
-  alias_method :communication_due_on, :cop_due_on
+  def communication_due_on
+    cop_due_on
+  end
 
   def projected_expulsion_date
     communication_due_on + EXPULSION_THRESHOLD
