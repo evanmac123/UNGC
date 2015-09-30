@@ -24,7 +24,7 @@ class BackdateCommunicationOnProgress
 
     def update_status_on_most_recent_communication
       if most_recent_communication?
-        cop_due_on = date + organization.years_until_next_cop_due.years
+        cop_due_on = date + organization.years_until_next_cop_due
         organization.set_next_cop_due_date_and_cop_status(cop_due_on)
       else
         true

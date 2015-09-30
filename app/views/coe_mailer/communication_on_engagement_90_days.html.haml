@@ -1,0 +1,27 @@
+Dear Contact Points for
+%strong== #{@organization.name},
+
+%p==This is a friendly reminder to submit your organization's Communication on Engagement (COE) to the UN Global Compact website by #{dd_month_yyyy @organization.communication_due_on}.
+
+%p==UN Global Compact non-business participants have the opportunity of disclosing their engagement with the initiative in a  #{link_to 'COE', 'https://www.unglobalcompact.org/library/1861'} submitted at least every two years through the Global Compact #{link_to 'website', 'http://www.unglobalcompact.org'}.
+%p==In case you have forgotten your password, please use the #{link_to 'Forgot your username or password', 'http://unglobalcompact.org/password/new'} link to request a new one. For your convenience, at the end of this email, you will find a list of tools and resources that can help you in drafting and submitting your COE.
+
+%p
+  ==If you have any questions related to your COE or to any other aspect of your participation in the UN Global Compact, please do not hesitate to contact your Relationship Manager, #{@organization.participant_manager_name} via phone at or email at #{mail_to @organization.participant_manager_email.to_s}.
+
+  - if @organization.network_report_recipients.any?
+    == Additionally, your Local Network contact point, #{@organization.network_report_recipient_name} in #{@organization.country_name}, copied on this email, would be happy to provide you with support and information about how to engage locally.
+
+  We look forward to the timely submission of your COE and we stand ready to answer your questions.
+
+%p We appreciate your participation in our global movement and we strongly believe that our collective action will yield sustainable and positive impact.
+
+
+%p Sincerely,
+
+%p
+  Reporting Team
+  %br/
+  = render :partial => '/shared/ungc_signature'
+
+  = render :partial => '/shared/coes/coe_resources_for_email.html.haml'

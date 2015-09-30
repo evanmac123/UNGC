@@ -69,16 +69,17 @@ Rails.application.configure do
     host: 'www.unglobalcompact.org',
     protocol: 'http',
   }
-  config.action_mailer.delivery_method = :test
-  config.action_mailer.smtp_settings = {
-    enable_starttls_auto: true,
-    address:              'smtp.gmail.com',
-    port:                 587,
-    domain:               'unglobalcompact.org',
-    authentication:       :login,
-    user_name:            'info@unglobalcompact.org',
-    password:             'ungcmail2010'
-  }
+
+  config.action_mailer.delivery_method = :file
+  # config.action_mailer.smtp_settings = {
+  #   enable_starttls_auto: true,
+  #   address:              'smtp.gmail.com',
+  #   port:                 587,
+  #   domain:               'unglobalcompact.org',
+  #   authentication:       :login,
+  #   user_name:            'info@unglobalcompact.org',
+  #   password:             'ungcmail2010'
+  # }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).

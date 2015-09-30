@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class InvoiceReminderTest < ActiveSupport::TestCase
-  context "given a new CopReminder object" do
+  context "given a new InvoiceReminder object" do
     setup do
       @reminder = InvoiceReminder.new
 

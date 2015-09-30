@@ -146,6 +146,7 @@ class Organization < ActiveRecord::Base
   COP_TEMPORARY_PERIOD = 90
   NEXT_BUSINESS_COP_YEAR = 1
   NEXT_NON_BUSINESS_COP_YEAR = 2
+  EXPULSION_THRESHOLD = 1.year
 
   REVENUE_LEVELS = {
     1 => 'less than USD 50 million',
@@ -240,7 +241,8 @@ class Organization < ActiveRecord::Base
   scope :companies_and_smes, lambda { joins(:organization_type).merge(OrganizationType.for_filter(:sme, :companies)).includes(:organization_type) }
   scope :companies, lambda { where("organization_type_id IN (?)", OrganizationType.for_filter(:companies)).includes(:organization_type) }
   scope :smes, lambda { where("organization_type_id IN (?)", OrganizationType.for_filter(:sme).pluck(:id)).includes(:organization_type) }
-  scope :businesses, lambda { joins(:organization_type).where("organization_types.type_property = ?", OrganizationType::BUSINESS) }
+  scope :businesses, lambda { joins(:organization_type).merge(OrganizationType.business) }
+  scope :non_businesses, lambda { joins(:organization_type).merge(OrganizationType.non_business) }
   scope :by_type, lambda { |filter_type| where("organization_type_id IN (?)", OrganizationType.for_filter(filter_type).map(&:id)).includes(:organization_type) }
 
   scope :for_initiative, lambda { |symbol| joins(:initiatives).where("initiatives.id IN (?)", Initiative.for_filter(symbol).map(&:id)).includes(:initiatives).order("organizations.name ASC") }
@@ -262,7 +264,7 @@ class Organization < ActiveRecord::Base
 
   scope :with_pledge, lambda { where('pledge_amount > 0') }
   scope :about_to_become_noncommunicating, lambda { where("cop_state=? AND cop_due_on<=?", COP_STATE_ACTIVE, Date.today) }
-  scope :about_to_become_delisted, lambda { where("cop_state=? AND cop_due_on<=?", COP_STATE_NONCOMMUNICATING, 1.year.ago.to_date) }
+  scope :about_to_become_delisted, lambda { where("cop_state=? AND cop_due_on<=?", COP_STATE_NONCOMMUNICATING, EXPULSION_THRESHOLD.ago.to_date) }
 
   scope :ready_for_invoice, lambda {where("joined_on >= ? AND joined_on <= ?", 2.days.ago.beginning_of_day, 2.days.ago.end_of_day)}
 
@@ -726,11 +728,22 @@ class Organization < ActiveRecord::Base
   end
 
   def years_until_next_cop_due
-    company? ? NEXT_BUSINESS_COP_YEAR : NEXT_NON_BUSINESS_COP_YEAR
+    n = company? ? NEXT_BUSINESS_COP_YEAR : NEXT_NON_BUSINESS_COP_YEAR
+    n.years
   end
 
   def extend_cop_temporary_period
     self.update_attribute(:cop_due_on, COP_TEMPORARY_PERIOD.days.from_now)
+  end
+
+  # currently, both COPs and COEs get their due date from cop_due_on
+  # which is calculated and set to the proper due date for their type (1yr, 2yr...)
+  def communication_due_on
+    cop_due_on
+  end
+
+  def projected_expulsion_date
+    communication_due_on + EXPULSION_THRESHOLD
   end
 
   # COP's next due date is 1 year from current date, 2 years for non-business
@@ -738,7 +751,7 @@ class Organization < ActiveRecord::Base
   def set_next_cop_due_date_and_cop_status(date= nil)
     self.update_attribute :rejoined_on, Date.today if delisted?
     self.communication_received
-    self.update_attribute :cop_due_on, (date || years_until_next_cop_due.year.from_now)
+    self.update_attribute :cop_due_on, (date || years_until_next_cop_due.from_now)
     self.update_attribute :active, true
     self.update_attribute :cop_state, triple_learner_for_one_year? ? COP_STATE_NONCOMMUNICATING : COP_STATE_ACTIVE
   end
@@ -808,7 +821,7 @@ class Organization < ActiveRecord::Base
     if cop_state == COP_STATE_DELISTED
       nil
     else
-      cop_due_on + years_until_next_cop_due.year unless cop_due_on.nil?
+      cop_due_on + years_until_next_cop_due unless cop_due_on.nil?
     end
   end
 
