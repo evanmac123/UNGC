@@ -59,7 +59,7 @@ config.vm.synced_folder '.', '/vagrant'
 
 to
 ```
-config.vm.synced_folder '.', '/vagrant', nfs: true 
+config.vm.synced_folder '.', '/vagrant', nfs: true
 ```
 
 Once you've completed the above steps, you've successfully created a development
@@ -233,14 +233,14 @@ The application requires a daily scheduled cron job to notify organizations of
 their COP submission deadline:
 
 ```
-rails runner 'CopReminder.new.notify_all' RAILS_ENV=production
+rails runner 'CommunicationReminder.notify_all' RAILS_ENV=production
 ```
 
 The application also requires a daily scheduled cron job to update
 organizations' COP state:
 
 ```
-rails runner 'CopStatusUpdater.new.update_all' RAILS_ENV=production
+rails runner 'CommunicationStatusUpdater.update_all' RAILS_ENV=production
 ```
 
 ## Maintenance
