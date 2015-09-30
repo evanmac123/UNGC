@@ -727,7 +727,8 @@ class Organization < ActiveRecord::Base
   end
 
   def years_until_next_cop_due
-    company? ? NEXT_BUSINESS_COP_YEAR : NEXT_NON_BUSINESS_COP_YEAR
+    n = company? ? NEXT_BUSINESS_COP_YEAR : NEXT_NON_BUSINESS_COP_YEAR
+    n.years
   end
 
   def extend_cop_temporary_period
@@ -742,7 +743,7 @@ class Organization < ActiveRecord::Base
   def set_next_cop_due_date_and_cop_status(date= nil)
     self.update_attribute :rejoined_on, Date.today if delisted?
     self.communication_received
-    self.update_attribute :cop_due_on, (date || years_until_next_cop_due.year.from_now)
+    self.update_attribute :cop_due_on, (date || years_until_next_cop_due.from_now)
     self.update_attribute :active, true
     self.update_attribute :cop_state, triple_learner_for_one_year? ? COP_STATE_NONCOMMUNICATING : COP_STATE_ACTIVE
   end
@@ -812,7 +813,7 @@ class Organization < ActiveRecord::Base
     if cop_state == COP_STATE_DELISTED
       nil
     else
-      cop_due_on + years_until_next_cop_due.year unless cop_due_on.nil?
+      cop_due_on + years_until_next_cop_due unless cop_due_on.nil?
     end
   end
 
