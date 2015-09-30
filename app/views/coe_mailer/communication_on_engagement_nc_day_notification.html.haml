@@ -1,0 +1,22 @@
+Dear Contact Points for
+%strong== #{@organization.name},
+
+%p== As of today, your organization is listed as "Non-communicating" period, an organization will be automatically expelled from the UN Global Compact. To regain your organization's "Active" status, you will need to submit your COE through our website.
+
+%p== For your reference, at the end of this email you will find a list of resources that can help you in drafting and submitting your organization's COE.
+
+%p== To submit your organization's COE you will need to log-in to the Global Compact website. If you have forgotten your password, please use the #{link_to 'Forgot your username or password', 'http://unglobalcompact.org/password/new'} link to request a new one.
+
+%p== If you require additional time to prepare your COE, and if you have not requested a grace period within the last three months, you can submit a #{link_to 'Grace Letter', 'https://www.unglobalcompact.org/library/2941'} through the Global Compact website, extending your deadline by 90 days. In order to maintain your “Active” status and to avoid becoming “Non-communicating” during this grace period, the letter must be submitted before your COE deadline.
+
+%p
+  ==If you have any questions related to your COE or to any other aspect of your participation in the Global Compact, please do not hesitate to contact your Relationship Manager or your Local Network contact point (both of whom are copied to this email).
+
+%p Sincerely,
+
+%p
+  Reporting Team
+  %br/
+  = render :partial => '/shared/ungc_signature'
+
+  = render :partial => '/shared/coes/coe_resources_for_email.html.haml'

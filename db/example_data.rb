@@ -168,6 +168,39 @@ module FixtureReplacement
     o.joined_on = Date.new(2009,10,10)
   end
 
+  attributes_for :business, class: Organization do |o|
+    o.name = random_string
+    o.organization_type = default_business_organization_type
+    o.employees = 500
+    o.url = 'http://www.example.com'
+    o.pledge_amount = 1000
+    o.joined_on = Date.new(2009,10,10)
+    o.active = true
+    o.participant = true
+    o.state = Organization::STATE_APPROVED
+    o.cop_state = Organization::COP_STATE_ACTIVE
+  end
+
+  attributes_for :non_business, class: Organization do |o|
+    o.name = random_string
+    o.organization_type = new_organization_type(type_property: OrganizationType::NON_BUSINESS)
+    o.employees = 500
+    o.url = 'http://www.example.com'
+    o.pledge_amount = 1000
+    o.joined_on = Date.new(2009,10,10)
+    o.active = true
+    o.participant = true
+    o.state = Organization::STATE_APPROVED
+    o.cop_state = Organization::COP_STATE_ACTIVE
+  end
+
+  def default_business_organization_type
+    OrganizationType.company || create_organization_type(
+      name: OrganizationType::FILTERS[:companies],
+      type_property: OrganizationType::BUSINESS
+    )
+  end
+
   attributes_for :principle do |a|
     a.name = FixtureReplacement.random_string
   end

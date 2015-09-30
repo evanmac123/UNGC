@@ -21,21 +21,21 @@ class CopReminderTest < ActiveSupport::TestCase
 
       create_organization(:cop_due_on           => 90.days.from_now.to_date,
                           :participant          => true,
-                          :cop_state            => Organization::COP_STATE_ACTIVE,                          
+                          :cop_state            => Organization::COP_STATE_ACTIVE,
                           :organization_type_id => @business_organization_type.id)
-                          
+
       create_organization(:cop_due_on           => Date.today.to_date - 1.day,
                           :participant          => true,
                           :cop_state            => Organization::COP_STATE_NONCOMMUNICATING,
                           :organization_type_id => @business_organization_type.id)
-                          
+
 
       # adding organization about to be expelled in 90 days
       @non_communicating_org = create_organization(:cop_due_on           => 90.days.from_now.to_date - 1.year,
                                                    :participant          => true,
                                                    :organization_type_id => @business_organization_type.id)
       @non_communicating_org.communication_late
-      
+
       # adding organization about to be expelled in 9 months
       create_organization(:cop_due_on           => 9.months.from_now.to_date - 1.year,
                           :participant          => true,
@@ -46,7 +46,7 @@ class CopReminderTest < ActiveSupport::TestCase
       create_organization(:cop_due_on           => 7.days.from_now.to_date - 1.year,
                           :participant          => true,
                           :cop_state            => Organization::COP_STATE_NONCOMMUNICATING,
-                          :organization_type_id => @business_organization_type.id)      
+                          :organization_type_id => @business_organization_type.id)
 
       # adding organizations that shouldn't be notified
       create_organization(:cop_due_on => 45.days.from_now.to_date)
@@ -75,7 +75,7 @@ class CopReminderTest < ActiveSupport::TestCase
 
     should "send email to the 1 organization about to be expelled in 7 days" do
       assert_difference 'ActionMailer::Base.deliveries.size' do
-        @reminder.notify_cop_due_in_7_days
+        @reminder.delisting_in_7_days
       end
     end
 
@@ -83,17 +83,17 @@ class CopReminderTest < ActiveSupport::TestCase
       assert_difference 'ActionMailer::Base.deliveries.size' do
         @reminder.notify_cop_due_in_30_days
       end
-    end    
+    end
 
     should "send email to 1 active organization with COP due in 90 days, and 1 non-communicating organization about to be expelled in 90 days" do
       assert_difference 'ActionMailer::Base.deliveries.size', 2 do
         @reminder.notify_cop_due_in_90_days
       end
     end
-    
+
     should "send email to the 1 organization about to be expelled in 9 months" do
       assert_difference 'ActionMailer::Base.deliveries.size' do
-        @reminder.notify_cop_due_in_9_months
+        @reminder.delisting_in_9_months
       end
     end
 

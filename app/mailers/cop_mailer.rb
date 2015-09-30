@@ -144,7 +144,7 @@ class CopMailer < ActionMailer::Base
       :bcc => ['archive@unglobalcompact.org'],
       :subject => "#{@organization.name} at risk of expulsion from UN Global Compact - 1 month"
   end
-  
+
   def delisting_in_7_days(organization)
     @organization = organization
     mail \
