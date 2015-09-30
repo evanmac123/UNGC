@@ -2,7 +2,7 @@ class CoeStatusUpdater
   attr_accessor :logger, :mailer, :organization_scope
 
   def self.update_all
-    logger = BackgroundJobLogger.new('cop_reminder.log')
+    logger = BackgroundJobLogger.new('coe_reminder.log')
     self.new(logger).update_all
   end
 
