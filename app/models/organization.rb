@@ -146,6 +146,7 @@ class Organization < ActiveRecord::Base
   COP_TEMPORARY_PERIOD = 90
   NEXT_BUSINESS_COP_YEAR = 1
   NEXT_NON_BUSINESS_COP_YEAR = 2
+  EXPULSION_THRESHOLD = 1.year
 
   REVENUE_LEVELS = {
     1 => 'less than USD 50 million',
@@ -263,7 +264,7 @@ class Organization < ActiveRecord::Base
 
   scope :with_pledge, lambda { where('pledge_amount > 0') }
   scope :about_to_become_noncommunicating, lambda { where("cop_state=? AND cop_due_on<=?", COP_STATE_ACTIVE, Date.today) }
-  scope :about_to_become_delisted, lambda { where("cop_state=? AND cop_due_on<=?", COP_STATE_NONCOMMUNICATING, 1.year.ago.to_date) }
+  scope :about_to_become_delisted, lambda { where("cop_state=? AND cop_due_on<=?", COP_STATE_NONCOMMUNICATING, EXPULSION_THRESHOLD.ago.to_date) }
 
   scope :ready_for_invoice, lambda {where("joined_on >= ? AND joined_on <= ?", 2.days.ago.beginning_of_day, 2.days.ago.end_of_day)}
 
@@ -735,9 +736,14 @@ class Organization < ActiveRecord::Base
     self.update_attribute(:cop_due_on, COP_TEMPORARY_PERIOD.days.from_now)
   end
 
-  def coe_due_on
-   cop_due_on + 1.year
+  # currently, both COPs and COEs get their due date from cop_due_on
+  # which is calculated and set to the proper due date for their type (1yr, 2yr...)
+  alias_method :communication_due_on, :cop_due_on
+
+  def projected_expulsion_date
+    communication_due_on + EXPULSION_THRESHOLD
   end
+
   # COP's next due date is 1 year from current date, 2 years for non-business
   # Organization's participant and cop status are now 'active', unless they submit a series of Learner COPs
   def set_next_cop_due_date_and_cop_status(date= nil)
