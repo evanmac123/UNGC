@@ -10,7 +10,7 @@ class NotificationServiceLogger
 
   def error(message, error = nil, params = {})
     notify(
-      error_class:    "CopStatusUpdater",
+      error_class:    error.try(:class).try(:to_s) || "Unknown",
       error_message:  "#{message} #{error}",
       parameters:     params
     )
