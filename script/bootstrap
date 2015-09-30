@@ -1,0 +1,12 @@
+#!/bin/bash
+
+echo "Installing gems"
+bundle install
+
+echo "Coping database.yml and secrets.yml from examples"
+cp config/database.yml.sample config/database.yml
+cp config/secrets.yml.example config/secrets.yml
+
+echo "Resetting from the latest snapshot"
+rake db:reset_from_snapshot search:rebuild
+
