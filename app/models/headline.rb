@@ -27,6 +27,7 @@ class Headline < ActiveRecord::Base
 
   permalink :date_for_permalink
   belongs_to :country
+  belongs_to :contact
   has_many :attachments, :class_name => 'UploadedFile', :as => :attachable
 
   validates_presence_of :title, :on => :create, :message => "^Please provide a title"

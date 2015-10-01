@@ -30,4 +30,8 @@
         = default_form.select :headline_type, @headline.headline_types_for_select, {prompt: 'Select a headline type'}, { label: 'Type'}
         = default_form.text_area :description, {class: 'replace_with_editor', style: 'display:none'}, {label: "Body"}
 
+        = default_form.select :contact_id, @headline.contact_options, {include_blank: 'Select a Contact'}, {}
+        = default_form.text_field :call_to_action_label
+        = default_form.text_field :call_to_action_url
+
   =render partial: "admin/shared/tagging_form", locals: {taggable: @headline, model_name: 'headline'}

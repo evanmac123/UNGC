@@ -12,6 +12,10 @@
     </section>
 
     <%= render layout: 'components/sidebar' do %>
+      <%= render 'components/widget_contact', contact: @page.contact if @page.contact.present?%>
+
+      <%= render 'components/widget_calls_to_action', calls_to_action: @page.calls_to_action if @page.calls_to_action.any? %>
+
       <%= render layout: 'components/widget_social_links' do %>
         <%-
         wsl_title = u @page.title
