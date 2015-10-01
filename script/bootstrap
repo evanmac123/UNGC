@@ -1,12 +1,27 @@
 #!/bin/bash
 
+echo "Install javascript prereqs"
+bower -v || npm install -g bower
+ember -v || npm install -g ember-cli
+
 echo "Installing gems"
 bundle install
 
-echo "Coping database.yml and secrets.yml from examples"
-cp config/database.yml.sample config/database.yml
-cp config/secrets.yml.example config/secrets.yml
+echo "Copying sample config files"
+if [ ! -f config/database.yml ]; then
+    cp config/database.yml.sample config/database.yml
+    echo "created config/database.yml"
+fi
+if [ ! -f config/secrets.yml ]; then
+    cp config/secrets.yml.example config/secrets.yml
+    echo "created config/secrets.yml"
+fi
+
+echo "Installing sitemap javascript dependencies"
+cd frontend/sitemap
+npm install
+bower install
+cd ../../
 
 echo "Resetting from the latest snapshot"
 rake db:reset_from_snapshot search:rebuild
-
