@@ -1,8 +1,26 @@
 #!/bin/bash
 
-echo "Install javascript prereqs"
-bower -v || npm install -g bower
-ember -v || npm install -g ember-cli
+platform='unknown'
+unamestr=`uname`
+if [[ "$unamestr" == 'Linux' ]]; then
+   platform='linux'
+elif [[ "$unamestr" == 'Darwin' ]]; then
+   platform='osx'
+fi
+
+echo "Installing bower and ember locally"
+if [[ $platform == 'osx' ]]; then
+  # assuming this is some developer's mac
+  bower -v || npm install -g bower
+  ember -v || npm install -g ember-cli
+elif [[ $platform == 'linux' ]]; then
+  # assuming this is a virtual box
+  bower -v || sudo npm install -g bower
+  ember -v || sudo npm install -g ember-cli
+else
+  echo "You must install bower and ember-cli before continuing"
+  exit 1
+fi
 
 echo "Installing gems"
 bundle install
