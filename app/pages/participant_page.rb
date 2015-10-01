@@ -87,7 +87,7 @@ class ParticipantPage < SimpleDelegator
   end
 
   def cops
-    communication_on_progresses
+    communication_on_progresses.map {|cop| CommunicationOnProgressPresenter.new(cop)}
   end
 
   def global_compact_status
@@ -107,6 +107,24 @@ class ParticipantPage < SimpleDelegator
     @campaigns_by_year.map do |year, campaigns|
       [year, campaigns.map { |c| CampaignPresenter.new(c) }]
     end
+  end
+
+  class CommunicationOnProgressPresenter < SimpleDelegator
+
+    def level
+      if cop.differentiation.blank? && !cop.is_differentiation_program?
+        'N/A'
+      else
+        cop.differentiation_level_name
+      end
+    end
+
+    private
+
+    def cop
+      __getobj__
+    end
+
   end
 
   # this is needed to have nicer names for campaigns
