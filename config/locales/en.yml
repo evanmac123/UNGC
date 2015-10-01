@@ -2,6 +2,11 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
+  date:
+    formats:
+      default: '%d %B %Y'
+      short: "%b %d"
+
   hello: "Hello world"
   activerecord:
     attributes:

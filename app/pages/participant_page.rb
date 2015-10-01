@@ -63,15 +63,23 @@ class ParticipantPage < SimpleDelegator
   end
 
   def joined_on
-    participant.joined_on.try(:strftime, '%d %B %Y')
+    I18n.l participant.joined_on
   end
 
   def cop_due_on
-    participant.cop_due_on.try(:strftime, '%Y/%m/%d')
+    I18n.l participant.cop_due_on
   end
 
-  def cop_short_label
+  def expelled_on
+    I18n.l participant.delisted_on
+  end
+
+  def communication_type
     non_business? ? 'COE' : 'COP'
+  end
+
+  def next_communication_due_on
+    "Next #{communication_type} due on:"
   end
 
   def cop_label
