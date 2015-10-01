@@ -63,15 +63,23 @@ class ParticipantPage < SimpleDelegator
   end
 
   def joined_on
-    participant.joined_on.try(:strftime, '%d %B %Y')
+    I18n.l participant.joined_on
   end
 
   def cop_due_on
-    participant.cop_due_on.try(:strftime, '%Y/%m/%d')
+    I18n.l participant.cop_due_on
   end
 
-  def cop_short_label
+  def expelled_on
+    I18n.l participant.delisted_on
+  end
+
+  def communication_type
     non_business? ? 'COE' : 'COP'
+  end
+
+  def next_communication_due_on
+    "Next #{communication_type} due on:"
   end
 
   def cop_label
@@ -79,7 +87,7 @@ class ParticipantPage < SimpleDelegator
   end
 
   def cops
-    communication_on_progresses
+    communication_on_progresses.map {|cop| CommunicationOnProgressPresenter.new(cop)}
   end
 
   def global_compact_status
@@ -99,6 +107,24 @@ class ParticipantPage < SimpleDelegator
     @campaigns_by_year.map do |year, campaigns|
       [year, campaigns.map { |c| CampaignPresenter.new(c) }]
     end
+  end
+
+  class CommunicationOnProgressPresenter < SimpleDelegator
+
+    def level
+      if cop.differentiation.blank? && !cop.is_differentiation_program?
+        'N/A'
+      else
+        cop.differentiation_level_name
+      end
+    end
+
+    private
+
+    def cop
+      __getobj__
+    end
+
   end
 
   # this is needed to have nicer names for campaigns

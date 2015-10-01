@@ -17,7 +17,7 @@
         <%- if @page.cops.any? -%>
           <li class='tab'>
             <button type='button' class='tab-cop' data-tab-content='cop'>
-              <%= @page.cop_short_label -%>
+              <%= @page.communication_type -%>
             </button>
           </li>
         <%- end -%>
@@ -43,8 +43,10 @@
               </div>
             <%- end -%>
 
-            <%- if @page.cop_due_on.present? -%>
-              <div class='company-information-cop-due'><strong>Next <%= @page.cop_short_label %> due on:</strong> <time><%= @page.cop_due_on -%></time></div>
+            <%- if @page.expelled? -%>
+              <div class='company-information-cop-due'><strong>Expelled on:</strong> <time><%= @page.expelled_on -%></time></div>
+            <%- elsif @page.cop_due_on? -%>
+              <div class='company-information-cop-due'><strong><%= @page.next_communication_due_on %></strong> <time><%= @page.cop_due_on -%></time></div>
             <%- end -%>
           </div>
         <%- end -%>
@@ -68,7 +70,7 @@
               <dd><%= @page.sector -%></dd>
             <%- end -%>
 
-            <dt>Global Compact Status</dt>
+            <dt>Global Compact Status:</dt>
             <dd><%= @page.global_compact_status %></dd>
 
             <%- if @page.employees.present? -%>
@@ -108,7 +110,7 @@
         <article class='tab-content cop'>
 
           <header class='tab-content-header'>
-            <h1><%= @page.cop_short_label %></h1>
+            <h1><%= @page.communication_type %></h1>
           </header>
           <h2><%= @page.cop_label %></h2>
 
@@ -125,7 +127,7 @@
                   <th class='year'><%= cop.year %></th>
                   <td class='published-on'><%= cop.published_on %></td>
                   <td class='title'><%= link_to cop.title, show_cops_path(cop.differentiation_level_with_default, cop.id) %></td>
-                  <td class='level'><%= cop.differentiation_level_name %></td>
+                  <td class='level'><%= cop.level %></td>
                 </tr>
               <% end %>
             </tbody>
