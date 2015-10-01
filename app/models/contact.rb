@@ -101,6 +101,7 @@ class Contact < ActiveRecord::Base
   attr_accessor :foundation_contact
 
   scope :participants_only, lambda { where(["organizations.participant = ?", true]) }
+  scope :ungc_staff, lambda { joins(:organization).where(:'organizations.name' => DEFAULTS[:ungc_organization_name]) }
 
   # Attempt to find a user by its email. If a record is found, send new
   # password instructions to it. If user is not found, returns a new user
