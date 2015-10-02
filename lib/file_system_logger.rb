@@ -9,14 +9,14 @@ class FileSystemLogger
   end
 
   def error(message, error = nil, params = {})
-    @logger.error(timestamp(message))
+    @logger.error(timestamp(message, error))
   end
 
   private
 
-  def timestamp(message)
+  def timestamp(message, error)
     stamp = Time.now.strftime("%Y-%m-%d %H:%M:%S")
-    "#{stamp} : #{message}"
+    "#{stamp} : #{message} - #{error}"
   end
 
 end
