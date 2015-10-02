@@ -160,10 +160,8 @@ module FixtureReplacement
   end
 
   attributes_for :organization do |o|
-    org_type_attrs = valid_organization_type_attributes(name: OrganizationType::FILTERS[:companies])
-
     o.name = FixtureReplacement.random_string
-    o.organization_type_id = OrganizationType.where(org_type_attrs).first_or_create!.id
+    o.organization_type = default_business_organization_type
     o.employees = 500
     o.url = 'http://www.example.com'
     o.pledge_amount = 1000
