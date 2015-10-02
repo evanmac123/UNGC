@@ -97,7 +97,7 @@ class CoeReminder
       organizations.each do |org|
         log "Emailing organization #{org.id}:#{org.name}"
         begin
-          CoeMailer.public_send(mail_method, org).deliver
+          CoeMailer.delay.public_send(mail_method, org).deliver
         rescue => e
           error "Could not send email", e
         end

@@ -58,7 +58,7 @@ class CopStatusUpdater
   end
 
   def notify_of_delisting(organization)
-    CopMailer.delisting_today(organization).deliver
+    CopMailer.delay.delisting_today(organization).deliver
     logger.info "emailed delisted #{organization.id}:#{organization.name}"
   rescue => e
     logger.error "Could not email #{organization.id}:#{organization.name}", e
