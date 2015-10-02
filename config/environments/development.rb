@@ -22,14 +22,14 @@ Rails.application.configure do
     host: '127.0.0.1',
     port: 3000
   }
-  config.action_mailer.delivery_method = :test
-  config.action_mailer.smtp_settings = {
-    address: '192.168.168.106',
-    # address: '192.168.168.89',
-    # address: '172.16.22.1',
-    port: 3000,
-    domain: 'www.unglobalcompact.org'
-  }
+  config.action_mailer.delivery_method = :file
+  # config.action_mailer.smtp_settings = {
+  #   address: '192.168.168.106',
+  #   # address: '192.168.168.89',
+  #   # address: '172.16.22.1',
+  #   port: 3000,
+  #   domain: 'www.unglobalcompact.org'
+  # }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
