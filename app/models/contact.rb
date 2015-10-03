@@ -186,7 +186,7 @@ class Contact < ActiveRecord::Base
   end
 
   def from_ungc?
-    (organization_id? || organization.present?) && organization.name == DEFAULTS[:ungc_organization_name]
+    (organization_id? || organization.present?) && organization.try(:name) == DEFAULTS[:ungc_organization_name]
   end
 
   def from_organization?
@@ -206,7 +206,7 @@ class Contact < ActiveRecord::Base
   end
 
   def from_network_guest?
-    organization_id? && organization.name == DEFAULTS[:local_network_guest_name]
+    organization_id? && organization.try(:name) == DEFAULTS[:local_network_guest_name]
   end
 
   def from_rejected_organization?
