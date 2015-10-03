@@ -21,7 +21,7 @@ class AdminController < ApplicationController
       @local_network = current_contact.local_network
       @organizations = Organization.visible_to(current_contact)
       @announcements = Announcement.upcoming
-      @contact_points = sign_in_as_contacts_for(@organizations)
+      @contact_points = sign_in_as_contacts
 
     elsif current_contact.from_organization?
       @organization = current_contact.organization
@@ -124,20 +124,15 @@ class AdminController < ApplicationController
     false
   end
 
-  def sign_in_as_contacts_for(organizations)
-    if current_contact.can_sign_in_as_contact_points?
-      Contact.contact_points
-        .where("organizations.state != 'rejected'")
-        .joins(:organization)
-        .includes(:organization)
-        .merge(organizations)
-        .paginate(
-          page: params[:contact_points_page],
-          per_page: 100
-        )
-    else
-      Contact.none
-    end
+  def sign_in_policy
+    @sign_in_policy ||= SignInPolicy.new(current_contact)
+  end
+
+  def sign_in_as_contacts
+    sign_in_policy.sign_in_targets(from: @organizations).paginate(
+      page: params[:contact_points_page],
+      per_page: 100
+    )
   end
 
 end

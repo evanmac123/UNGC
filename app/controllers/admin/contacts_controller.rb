@@ -70,7 +70,7 @@ class Admin::ContactsController < AdminController
   def sign_in_as
     target = Contact.find(params.fetch(:id))
 
-    if CanSignInAs.contact(current_contact, target)
+    if sign_in_policy.can_sign_in_as?(target)
       sign_in target
       redirect_to dashboard_path
     else
@@ -150,6 +150,10 @@ class Admin::ContactsController < AdminController
 
     def policy
       @policy ||= ContactPolicy.new(current_contact)
+    end
+
+    def sign_in_policy
+      @sign_in_policy ||= SignInPolicy.new(current_contact)
     end
 
 end
