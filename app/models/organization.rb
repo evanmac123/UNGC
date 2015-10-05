@@ -748,12 +748,22 @@ class Organization < ActiveRecord::Base
 
   # COP's next due date is 1 year from current date, 2 years for non-business
   # Organization's participant and cop status are now 'active', unless they submit a series of Learner COPs
-  def set_next_cop_due_date_and_cop_status(date= nil)
-    self.update_attribute :rejoined_on, Date.today if delisted?
-    self.communication_received
-    self.update_attribute :cop_due_on, (date || years_until_next_cop_due.from_now)
-    self.update_attribute :active, true
-    self.update_attribute :cop_state, triple_learner_for_one_year? ? COP_STATE_NONCOMMUNICATING : COP_STATE_ACTIVE
+  def set_next_cop_due_date_and_cop_status!(date = nil)
+    # communication_received! will set cop_state to active, and we re-adjust after
+    next_cop_state = triple_learner_for_one_year? ? COP_STATE_NONCOMMUNICATING : COP_STATE_ACTIVE
+    next_cop_due_date = date || years_until_next_cop_due.from_now
+
+    attrs = {
+      active: true,
+      cop_due_on: next_cop_due_date,
+      cop_state: next_cop_state,
+    }
+    attrs[:rejoined_on] = Date.today if delisted?
+
+    transaction do
+      self.communication_received! if can_communication_received?
+      self.update!(attrs)
+    end
   end
 
   def can_submit_cop?
@@ -769,7 +779,7 @@ class Organization < ActiveRecord::Base
   end
 
   def set_approved_fields
-    set_next_cop_due_date_and_cop_status
+    set_next_cop_due_date_and_cop_status!
     set_approved_on
   end
 

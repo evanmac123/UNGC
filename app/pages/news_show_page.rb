@@ -22,6 +22,27 @@ class NewsShowPage < SimpleDelegator
     }
   end
 
+  def contact
+    c = headline.try(:contact)
+    return {} unless c
+    {
+      photo: c.image,
+      name: c.full_name_with_title,
+      title: c.job_title,
+      email: c.email,
+      phone: c.phone
+    }
+  end
+
+  def calls_to_action
+    return [] if call_to_action_label.nil?
+    [{
+      label: call_to_action_label,
+      url: call_to_action_url,
+      external: true
+    }]
+  end
+
   def meta_title
     headline.title
   end

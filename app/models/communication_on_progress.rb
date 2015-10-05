@@ -222,7 +222,7 @@ class CommunicationOnProgress < ActiveRecord::Base
 
   def set_approved_fields
     if !is_grace_letter? && !is_reporting_cycle_adjustment?
-      organization.set_next_cop_due_date_and_cop_status
+      organization.set_next_cop_due_date_and_cop_status!
     end
   end
 
@@ -386,7 +386,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
 
   def differentiation_level_name
-    differentiation.to_s.try(:humanize)
+    differentiation_level_public.to_s.try(:humanize)
   end
 
   def differentiation_description

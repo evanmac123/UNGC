@@ -46,7 +46,7 @@ module FixtureReplacement
     c.phone = FixtureReplacement.random_string
     c.address = FixtureReplacement.random_string
     c.city = FixtureReplacement.random_string
-    c.country_id = Country.first.id
+    c.country = new_country
     c.email = FixtureReplacement.random_string + '@example.com'
     c.username = FixtureReplacement.random_string
     c.plaintext_password = FixtureReplacement.random_string
@@ -161,7 +161,7 @@ module FixtureReplacement
 
   attributes_for :organization do |o|
     o.name = FixtureReplacement.random_string
-    o.organization_type_id = OrganizationType.first.id
+    o.organization_type = default_business_organization_type
     o.employees = 500
     o.url = 'http://www.example.com'
     o.pledge_amount = 1000

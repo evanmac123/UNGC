@@ -13,7 +13,7 @@ class EventPresenter < SimpleDelegator
   end
 
   def contact_options
-    Contact.joins(:organization).where('organizations.name = ?', DEFAULTS[:ungc_organization_name]).map do |c|
+    Contact.ungc_staff.map do |c|
       [c.name, c.id]
     end
   end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150917192549) do
+ActiveRecord::Schema.define(version: 20151001185813) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -440,22 +440,26 @@ ActiveRecord::Schema.define(version: 20150917192549) do
   end
 
   create_table "headlines", force: :cascade do |t|
-    t.string   "title",          limit: 255
-    t.text     "description",    limit: 65535
-    t.string   "location",       limit: 255
+    t.string   "title",                limit: 255
+    t.text     "description",          limit: 65535
+    t.string   "location",             limit: 255
     t.date     "published_on"
-    t.integer  "created_by_id",  limit: 4
-    t.integer  "updated_by_id",  limit: 4
-    t.string   "approval",       limit: 255
+    t.integer  "created_by_id",        limit: 4
+    t.integer  "updated_by_id",        limit: 4
+    t.string   "approval",             limit: 255
     t.datetime "approved_at"
-    t.integer  "approved_by_id", limit: 4
-    t.integer  "country_id",     limit: 4
+    t.integer  "approved_by_id",       limit: 4
+    t.integer  "country_id",           limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "headline_type",  limit: 4,     default: 1
+    t.integer  "headline_type",        limit: 4,     default: 1
+    t.integer  "contact_id",           limit: 4
+    t.string   "call_to_action_label", limit: 255
+    t.string   "call_to_action_url",   limit: 255
   end
 
   add_index "headlines", ["approval"], name: "index_headlines_on_approval", using: :btree
+  add_index "headlines", ["contact_id"], name: "index_headlines_on_contact_id", using: :btree
   add_index "headlines", ["headline_type"], name: "index_headlines_on_headline_type", using: :btree
   add_index "headlines", ["published_on"], name: "index_headlines_on_published_on", using: :btree
 
@@ -1005,6 +1009,7 @@ ActiveRecord::Schema.define(version: 20150917192549) do
   add_foreign_key "event_sponsors", "events"
   add_foreign_key "event_sponsors", "sponsors"
   add_foreign_key "events", "contacts"
+  add_foreign_key "headlines", "contacts"
   add_foreign_key "issues", "issues", column: "parent_id"
   add_foreign_key "taggings", "authors"
   add_foreign_key "taggings", "case_examples"

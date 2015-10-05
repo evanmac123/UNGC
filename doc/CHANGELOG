@@ -298,7 +298,7 @@ h1. 2013-03-30
 * Companies that have submitted 2 learner COPs in a row will be made Non-Communicating and receive a warning email
 * But we cannot just count the number of COPs, it's the time between the last submitted COP and the current COP
 * Organization#triple_learner_for_one_year? is checked after each COP submission to determine if the last three COPs were Learner over a one year period
-* This is called from Organization#set_next_cop_due_date_and_cop_status
+* This is called from Organization#set_next_cop_due_date_and_cop_status!
 * If they continue to submit Learner COPs, they will need to be expelled. This function will be implemented next year when two years of the Learner Grace Period has been exceeded
 * Also, this has been complicated because the COP status (organization.cop_state) which normally indicates whether the organization has submitted their COP on time, is now being used to track an entirely different status
 * At the time of this entry, the total number of organization with this status is 13

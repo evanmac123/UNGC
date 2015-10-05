@@ -1,12 +1,45 @@
 #!/bin/bash
 
+platform='unknown'
+unamestr=`uname`
+if [[ "$unamestr" == 'Linux' ]]; then
+   platform='linux'
+elif [[ "$unamestr" == 'Darwin' ]]; then
+   platform='osx'
+fi
+
+echo "Installing bower and ember locally"
+if [[ $platform == 'osx' ]]; then
+  # assuming this is some developer's mac
+  bower -v || npm install -g bower
+  ember -v || npm install -g ember-cli
+elif [[ $platform == 'linux' ]]; then
+  # assuming this is a virtual box
+  bower -v || sudo npm install -g bower
+  ember -v || sudo npm install -g ember-cli
+else
+  echo "You must install bower and ember-cli before continuing"
+  exit 1
+fi
+
 echo "Installing gems"
 bundle install
 
-echo "Coping database.yml and secrets.yml from examples"
-cp config/database.yml.sample config/database.yml
-cp config/secrets.yml.example config/secrets.yml
+echo "Copying sample config files"
+if [ ! -f config/database.yml ]; then
+    cp config/database.yml.sample config/database.yml
+    echo "created config/database.yml"
+fi
+if [ ! -f config/secrets.yml ]; then
+    cp config/secrets.yml.example config/secrets.yml
+    echo "created config/secrets.yml"
+fi
+
+echo "Installing sitemap javascript dependencies"
+cd frontend/sitemap
+npm install
+bower install
+cd ../../
 
 echo "Resetting from the latest snapshot"
 rake db:reset_from_snapshot search:rebuild
-

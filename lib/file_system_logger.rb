@@ -9,7 +9,12 @@ class FileSystemLogger
   end
 
   def error(message, error = nil, params = {})
-    @logger.error(timestamp(message))
+    msg = if error.present?
+      "#{message} - #{error}"
+    else
+      message
+    end
+    @logger.error(timestamp(msg))
   end
 
   private
