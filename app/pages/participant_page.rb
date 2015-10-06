@@ -63,15 +63,21 @@ class ParticipantPage < SimpleDelegator
   end
 
   def joined_on
-    I18n.l participant.joined_on
+    if participant.joined_on.present?
+      I18n.l(participant.joined_on)
+    end
   end
 
   def cop_due_on
-    I18n.l participant.cop_due_on
+    if participant.cop_due_on.present?
+      I18n.l(participant.cop_due_on)
+    end
   end
 
   def expelled_on
-    I18n.l participant.delisted_on
+    if participant.delisted_on.present?
+      I18n.l(participant.delisted_on)
+    end
   end
 
   def communication_type
