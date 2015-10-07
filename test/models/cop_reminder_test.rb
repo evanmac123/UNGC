@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'sidekiq/testing'
 
 class CopReminderTest < ActiveSupport::TestCase
   context "given a new CopReminder object" do
@@ -62,43 +63,43 @@ class CopReminderTest < ActiveSupport::TestCase
     end
 
     should "send email to the 1 organization with COP due for today" do
-      assert_difference 'ActionMailer::Base.deliveries.size' do
+      assert_difference 'Sidekiq::Extensions::DelayedMailer.jobs.size' do
         @reminder.notify_cop_due_today
       end
     end
 
     should "send email to the 1 organization with COP due yesterday" do
-      assert_difference 'ActionMailer::Base.deliveries.size' do
+      assert_difference 'Sidekiq::Extensions::DelayedMailer.jobs.size' do
         @reminder.notify_cop_due_yesterday
       end
     end
 
     should "send email to the 1 organization about to be expelled in 7 days" do
-      assert_difference 'ActionMailer::Base.deliveries.size' do
+      assert_difference 'Sidekiq::Extensions::DelayedMailer.jobs.size' do
         @reminder.delisting_in_7_days
       end
     end
 
     should "send email to the 1 organization with COP due in 30 days" do
-      assert_difference 'ActionMailer::Base.deliveries.size' do
+      assert_difference 'Sidekiq::Extensions::DelayedMailer.jobs.size' do
         @reminder.notify_cop_due_in_30_days
       end
     end
 
     should "send email to 1 active organization with COP due in 90 days, and 1 non-communicating organization about to be expelled in 90 days" do
-      assert_difference 'ActionMailer::Base.deliveries.size', 2 do
+      assert_difference 'Sidekiq::Extensions::DelayedMailer.jobs.size', 2 do
         @reminder.notify_cop_due_in_90_days
       end
     end
 
     should "send email to the 1 organization about to be expelled in 9 months" do
-      assert_difference 'ActionMailer::Base.deliveries.size' do
+      assert_difference 'Sidekiq::Extensions::DelayedMailer.jobs.size' do
         @reminder.delisting_in_9_months
       end
     end
 
     should "send email to the 7 organizations when notifying all" do
-      assert_difference 'ActionMailer::Base.deliveries.size', 7 do
+      assert_difference 'Sidekiq::Extensions::DelayedMailer.jobs.size', 7 do
         @reminder.notify_all
       end
     end
@@ -112,7 +113,7 @@ class CopReminderTest < ActiveSupport::TestCase
                                           :organization_type_id => @business_organization_type.id,
                                           :country_id           => @country.id)
       assert_equal 1, @organization.network_report_recipients.count
-      assert_difference 'ActionMailer::Base.deliveries.size', 3 do
+      assert_difference 'Sidekiq::Extensions::DelayedMailer.jobs.size', 3 do
         @reminder.notify_cop_due_in_90_days
       end
     end

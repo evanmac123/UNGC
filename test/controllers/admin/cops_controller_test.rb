@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'sidekiq/testing'
 
 class Admin::CopsControllerTest < ActionController::TestCase
   context "given a pending organization and user" do
@@ -414,7 +415,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
     end
 
     should "send a confirmation email" do
-      assert_difference 'ActionMailer::Base.deliveries.size' do
+      assert_difference 'Sidekiq::Extensions::DelayedMailer.jobs.size' do
         post :create, :organization_id => @organization.id,
                       :communication_on_progress => {
                         :cop_type => 'basic',
