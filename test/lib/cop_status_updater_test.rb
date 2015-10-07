@@ -98,9 +98,10 @@ class CopStatusUpdaterTest < ActiveSupport::TestCase
 
     should 'send an email to delisted businesses' do
       organization = create_business(@noncommunicating)
-      CopMailer.expects(:delisting_today)
+      delayed = mock('background-email')
+      CopMailer.stubs(delay: delayed)
+      delayed.expects(:delisting_today)
         .with(organization)
-        .returns(stub(:deliver))
         .once
         @updater.update_all
     end

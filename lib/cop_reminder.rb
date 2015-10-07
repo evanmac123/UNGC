@@ -63,7 +63,7 @@ class CopReminder
       organizations.each do |org|
         log "Emailing organization #{org.id}:#{org.name}"
         begin
-          CopMailer.public_send(mail_method, org).deliver
+          CopMailer.delay.public_send(mail_method, org)
         rescue => e
           error "Could not send email", e
         end

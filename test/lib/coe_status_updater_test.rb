@@ -98,9 +98,10 @@ class CoeStatusUpdaterTest < ActiveSupport::TestCase
 
     should 'send an email to delisted non-businesses' do
       organization = create_non_business(@noncommunicating)
-      CoeMailer.expects(:delisting_today)
+      delayed = mock('background-email')
+      CoeMailer.stubs(delay: delayed)
+      delayed.expects(:delisting_today)
         .with(organization)
-        .returns(stub(:deliver))
         .once
         @updater.update_all
     end
