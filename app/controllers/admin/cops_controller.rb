@@ -91,7 +91,7 @@ class Admin::CopsController < AdminController
 
     def send_cop_submission_confirmation_email(cop)
       begin
-        CopMailer.send("confirmation_#{cop.confirmation_email}", @organization, cop, current_contact).deliver
+        CopMailer.delay.public_send("confirmation_#{cop.confirmation_email}", @organization, cop, current_contact).deliver
       rescue Exception
         flash[:error] = 'Sorry, we could not send the confirmation email due to a server error.'
       end
