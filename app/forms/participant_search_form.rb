@@ -98,6 +98,7 @@ class ParticipantSearchForm < FilterableForm
   def facet_options
     {
       indices: ['participant_search_core'],
+      max_matches: 20_000,
       facets: [
         :organization_type_id,
         :initiative_ids,
