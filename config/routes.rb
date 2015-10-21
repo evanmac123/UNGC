@@ -446,6 +446,8 @@ UNGC::Application.routes.draw do
   get '/AboutTheGC/TheTenPrinciples/principle1.html', to: redirect('/what-is-gc/mission/principles/principle-1')
   get '/participantsandstakeholders/civil_society.html', to: redirect('/what-is-gc/participants')
   get '/NewsAndEvents/event_calendar/index.html', to: redirect('/take-action/events')
+  get '/COP/communicating_progress/basic_cop_template.html', :to => redirect('/library/2971')
+
 
   # google links
   get '/aboutthegc', to: redirect('/what-is-gc')
