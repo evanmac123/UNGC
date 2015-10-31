@@ -91,7 +91,7 @@ Rails.application.configure do
     password:             'ungcmail2010'
   }
 
-  config.action_mailer.smtp_settings = gmail
+  config.action_mailer.smtp_settings = mailgun
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
