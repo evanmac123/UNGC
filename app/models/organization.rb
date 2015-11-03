@@ -57,7 +57,10 @@ class Organization < ActiveRecord::Base
   self.include_root_in_json = false
 
   validates_presence_of :name
-  validates_uniqueness_of :name, :message => "has already been used by another organization"
+  validates_uniqueness_of :name,
+    case_sensitive: false,
+    message: "has already been used by another organization"
+
   validates_numericality_of :employees, :only_integer => true, :message => "should only contain numbers. No commas or periods are required."
   validates_numericality_of :pledge_amount, :only_integer => true, :message => "should only contain numbers. No commas or periods are required.",
                             :if => Proc.new { |organization| organization.pledge_amount.present? }
