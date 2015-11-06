@@ -178,10 +178,12 @@ class Admin::ContactsController < AdminController
       end
 
       def reset_password_path
+        return if @contact.nil?
+
         case @kind
         when :organization
           @controller.reset_password_admin_organization_contact_path(@parent.id, @contact.id)
-        when :load_local_network
+        when :local_network
           @controller.reset_password_admin_local_network_contact_path(@parent.id, @contact.id)
         else
           raise "Unexpected contact kind: '#{@kind}'."
