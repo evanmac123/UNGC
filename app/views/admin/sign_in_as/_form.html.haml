@@ -1,4 +1,4 @@
-= form_for :sign_in_as, url: admin_sign_in_as_path do |form|
+= form_for :sign_in_as, url: admin_sign_in_as_path, method: :get do |form|
   = form.label :name
   = form.text_field :name
   = form.hidden_field :id

@@ -13,7 +13,7 @@ $(document).ready(function() {
   }
 
   $( "#sign_in_as_name" ).autocomplete({
-    source: "/admin/sign-in-as.json",
+    source: "/admin/sign-in-as/contacts.json",
     minLength: 2,
     select: function(event, ui) {
       $("#sign_in_as_id").val(ui.item.id);
