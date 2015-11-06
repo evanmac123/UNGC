@@ -43,9 +43,6 @@ UNGC::Application.routes.draw do
     end
 
     resources :contacts do
-      member do
-        get :sign_in_as
-      end
       collection do
         get :search
       end
@@ -160,6 +157,12 @@ UNGC::Application.routes.draw do
         post :revoke
       end
     end
+
+    controller :sign_in_as, path: '/sign-in-as' do
+      get '/' => :index, as: :sign_in_as_contacts, defaults: { format: 'json' }
+      post '/' => :create, as: :sign_in_as
+    end
+
   end
 
   # Salesforce webook routes

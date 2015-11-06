@@ -178,38 +178,6 @@ class Admin::ContactsControllerTest < ActionController::TestCase
     end
   end
 
-  context "signing in a contact point" do
-
-    should 'be allowed for Network Report Recipients of the same network' do
-      network = create_local_network
-      contact = create_contact(local_network: network, roles: [Role.network_report_recipient])
-
-      country = create_country(local_network: network)
-      organization = create_organization(country: country, state: :approved)
-      contact_point = create_contact(organization: organization, roles: [Role.contact_point])
-
-      sign_in contact
-      post :sign_in_as, id: contact_point
-
-      assert_nil flash[:notice]
-      assert_redirected_to dashboard_url
-    end
-
-    should 'not be allowed for Network Report Recipients from another network' do
-      network = create_local_network
-      contact = create_contact(local_network: network, roles: [Role.network_report_recipient])
-
-      contact_point = create_contact(organization: @organization, roles: [Role.contact_point])
-
-      sign_in contact
-      post :sign_in_as, id: contact_point
-
-      assert_equal 'Unauthorized', flash[:notice]
-      assert_redirected_to dashboard_url(tab: 'sign_in_as_contact_point')
-    end
-
-  end
-
   context "contact images" do
     setup do
       sign_in create_staff_user

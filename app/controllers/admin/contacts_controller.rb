@@ -67,18 +67,6 @@ class Admin::ContactsController < AdminController
     end
   end
 
-  def sign_in_as
-    target = Contact.find(params.fetch(:id))
-
-    if sign_in_policy.can_sign_in_as?(target)
-      sign_in target
-      redirect_to dashboard_path
-    else
-      redirect_to dashboard_url(tab: 'sign_in_as_contact_point'),
-                    notice: 'Unauthorized'
-    end
-  end
-
   private
     def load_parent
       @parent = if params[:organization_id]
@@ -150,10 +138,6 @@ class Admin::ContactsController < AdminController
 
     def policy
       @policy ||= ContactPolicy.new(current_contact)
-    end
-
-    def sign_in_policy
-      @sign_in_policy ||= SignInPolicy.new(current_contact)
     end
 
 end

@@ -5,7 +5,7 @@
   %ul.tab_nav
     %li= link_to 'Overview', '#overview'
     %li= link_to "Announcements #{announcement_count}", '#announcements'
-    %li= link_to 'Sign-in as contact point', '#sign_in_as_contact_point'
+    %li= link_to 'Sign-in as contact point', '#sign_in_as_contact_point_tab'
 
   #overview.tab_content
 
@@ -52,16 +52,6 @@
         %th Date
       = render :partial => 'admin/announcements/announcement_view', :collection => @announcements
 
-  #sign_in_as_contact_point.tab_content
-    %h3 Sign in as contact points for these Organizations in your Local Network
-    %table.dashboard_table
-      %tr
-        %th Contact
-        %th Organization
-        %th Status
-      - @contact_points.each do |contact|
-        %tr
-          %td= link_to contact.full_name_with_title, sign_in_as_admin_contact_path(contact.id)
-          %td= contact.organization.name
-          %td= contact.organization.state
-      = will_paginate @contact_points, param_name: 'contact_points_page', params: {tab: 'sign_in_as_contact_point'}
+  #sign_in_as_contact_point_tab.tab_content
+    %h3 Sign in as contact points for an organization in your local network
+    = render partial: 'admin/sign_in_as/form'

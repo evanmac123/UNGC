@@ -1,0 +1,6 @@
+= form_for :sign_in_as, url: admin_sign_in_as_path do |form|
+  = form.label :name
+  = form.text_field :name
+  = form.hidden_field :id
+  = form.submit 'Sign-in'
+#sign_in_as_summary

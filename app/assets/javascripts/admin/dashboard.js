@@ -12,6 +12,20 @@ $(document).ready(function() {
     }
   }
 
+  $( "#sign_in_as_name" ).autocomplete({
+    source: "/admin/sign-in-as.json",
+    minLength: 2,
+    select: function(event, ui) {
+      $("#sign_in_as_id").val(ui.item.id);
+      var organizationName = ui.item.label;
+      var contactName = ui.item.contact_name
+      var message = "Signing in as " + contactName + " of " + organizationName;
+
+      $("#sign_in_as_summary").text(message);
+      return false;
+    }
+  });
+
   toggleRegistrationFields();
 
   $("#organization_organization_type_id").change(function() {
