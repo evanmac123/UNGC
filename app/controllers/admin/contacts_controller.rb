@@ -67,6 +67,17 @@ class Admin::ContactsController < AdminController
     end
   end
 
+  def reset_password
+    token = @contact.send_reset_password_instructions
+    if token.present?
+      flash[:notice] = "A password reset email was sent to #{@contact.name}"
+    else
+      flash[:notice] = "Failed to send password reset email"
+    end
+
+    redirect_to return_path
+  end
+
   private
     def load_parent
       loader = ContactLoader.new(self)
@@ -80,6 +91,7 @@ class Admin::ContactsController < AdminController
       @parent = loader.parent
       @contact = loader.contact
       @roles = loader.roles
+      @reset_password_path = loader.reset_password_path
     end
 
     def visible_roles
@@ -163,6 +175,17 @@ class Admin::ContactsController < AdminController
 
         @contact = @parent.contacts.find(id)
         @roles = Role.visible_to(@contact, current_contact)
+      end
+
+      def reset_password_path
+        case @kind
+        when :organization
+          @controller.reset_password_admin_organization_contact_path(@parent.id, @contact.id)
+        when :load_local_network
+          @controller.reset_password_admin_local_network_contact_path(@parent.id, @contact.id)
+        else
+          raise "Unexpected contact kind: '#{@kind}'."
+        end
       end
 
       def current_contact

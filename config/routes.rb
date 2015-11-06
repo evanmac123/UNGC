@@ -93,7 +93,11 @@ UNGC::Application.routes.draw do
       resources :grace_letters, except: :index
       resources :reporting_cycle_adjustments, except: :index
 
-      resources :contacts
+      resources :contacts do
+        member do
+          post :reset_password
+        end
+      end
     end
 
     resources :logo_requests do
@@ -126,7 +130,11 @@ UNGC::Application.routes.draw do
     resources :cop_questions
 
     resources :local_networks do
-      resources :contacts
+      resources :contacts do
+        member do
+          post :reset_password, as: :reset_password
+        end
+      end
       resources :awards, except: [:index, :show]
       resources :mous, except: [:index, :show]
       resources :meetings, except: [:index, :show]

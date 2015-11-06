@@ -1,3 +1,4 @@
+- is_new ||= false
 = default_form.error_messages
 %fieldset
   %legend Details
@@ -37,4 +38,10 @@
   %input{:style => "display:none"}
   %input{:type => "password", :style => "display:none"}
   = default_form.text_field :username, {:autocomplete => 'off'}, :label => 'Username'
-  = default_form.password_field(:password, {:autocomplete => 'off'}, :label => 'Password')
+  = default_form.password_field(:password, {:autocomplete => 'off'}, :label => 'Password') if is_new
+
+- unless is_new
+  %fieldset#reset_password
+    %legend Reset password
+    = form_for(:contact, url: @reset_password_path) do |form|
+      = form.submit('Send password reset email')
