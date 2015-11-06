@@ -405,7 +405,7 @@ class Organization < ActiveRecord::Base
     if self.country.try(:local_network)
       self.country.local_network.contacts.network_report_recipients
     else
-      [] # TODO none in rails4
+      Contact.none
     end
   end
 

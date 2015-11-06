@@ -62,7 +62,7 @@
 
 %p
   You may login as this contact here:
-  = link_to @contact.full_name_with_title, admin_sign_in_as_url(@contact.id, tab: 'sign_in_as_contact_point')
+  = link_to @contact.full_name_with_title, admin_sign_in_as_url('sign_in_as[id]' => @contact.id)
 
 %p
   %strong Contact Point Information
