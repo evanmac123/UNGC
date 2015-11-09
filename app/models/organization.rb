@@ -124,13 +124,8 @@ class Organization < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 100
 
-  # We want to index all organizations, not just participant; so, this scope replaces the index clause below
-  # where 'organizations.state = "approved" AND organizations.active = 1 AND organizations.participant = 1' #FIXME: possibly exclude delisted?
   sphinx_scope(:participants_only) {
-    {
-      with: { participant: 1,
-              active:      1 }
-    }
+    {with: {participant: 1}}
   }
 
   COP_STATE_ACTIVE = 'active'
