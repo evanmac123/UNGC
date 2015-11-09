@@ -2,7 +2,7 @@ class FacetCache
 
   def initialize(cache_key = 'ungc-facet-cache')
     @cache_key
-    clear if Rails.env.test?
+    clear if Rails.env.test? || Rails.env.development?
   end
 
   def put(key, facets)
