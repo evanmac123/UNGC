@@ -5,7 +5,7 @@ class Api::V1::ContributorsTest < ActionDispatch::IntegrationTest
   should "show contribution data for the given year" do
     # given a participant who contributes to a campaign in the year
     campaign = create_campaign(name: '2014 Annual Contributions')
-    participant = create_organization
+    participant = create_organization(participant: true)
     create_contribution(
       campaign: campaign,
       organization: participant,
@@ -35,7 +35,7 @@ class Api::V1::ContributorsTest < ActionDispatch::IntegrationTest
   should "show contribution data for lead campaigns" do
     # given a participant who contributes to a lead campaign in the year
     campaign = create_campaign(name: 'LEAD 2014 happy')
-    participant = create_organization
+    participant = create_organization(participant: true)
     create_contribution(
       campaign: campaign,
       organization: participant,
