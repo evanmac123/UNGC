@@ -57,7 +57,6 @@ en:
     active: 'Active'
     delisted: 'Delisted'
     noncommunicating: 'Non-Communicating'
-    expelled: 'Expelled'
 
   event_types:
     online: 'Online'

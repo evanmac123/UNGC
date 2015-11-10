@@ -97,17 +97,12 @@ class ParticipantPage < SimpleDelegator
   end
 
   def global_compact_status
-    status = if participant.expelled?
-      "expelled"
-    else
-      participant.cop_state
-    end
-    I18n.t(status, scope: :reporting_status)
+    I18n.t(participant.cop_state, scope: :reporting_status)
+  end
   end
 
   def recommitment_letter
     participant.recommitment_letter.try(:attachment)
-  end
 
   def contributions
     @campaigns_by_year.map do |year, campaigns|
