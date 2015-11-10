@@ -2,8 +2,8 @@ require 'test_helper'
 
 class ContributionApiTest < ActionDispatch::IntegrationTest
 
-  should "show us json" do
-    # given a participant who contributes to a campaign
+  should "show contribution data for the given year" do
+    # given a participant who contributes to a campaign in the year
     campaign = create_campaign(name: '2014 Annual Contributions')
     participant = create_organization # TODO participant
     contribution = create_contribution(
@@ -17,7 +17,7 @@ class ContributionApiTest < ActionDispatch::IntegrationTest
     visit '/api/v1/contributors/2014'
     assert_equal 200, page.status_code
 
-    # we expect to see it in the json output
+    # then I see it in the json output
     expected = [
       {
         "id" => participant.id,

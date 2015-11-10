@@ -40,9 +40,9 @@ class Api::V1::ContributorsController < ApplicationController
 
   def contributors_for(year)
     Contribution.posted
-    .joins(:campaign)
-    .includes(:organization)
-    .where("campaigns.name like ?", "#{year} Annual Contributions")
+      .joins(:campaign)
+      .includes(:organization)
+      .where("campaigns.name like ?", "#{year} Annual Contributions")
   end
 
 end
