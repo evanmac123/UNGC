@@ -99,10 +99,14 @@ class ParticipantPage < SimpleDelegator
   def global_compact_status
     I18n.t(participant.cop_state, scope: :reporting_status)
   end
+
+  def reason_for_delisting
+    participant.removal_reason.description
   end
 
   def recommitment_letter
     participant.recommitment_letter.try(:attachment)
+  end
 
   def contributions
     @campaigns_by_year.map do |year, campaigns|
