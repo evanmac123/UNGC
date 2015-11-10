@@ -16,4 +16,23 @@ class Campaign < ActiveRecord::Base
     !private?
   end
 
+  def kind
+    case
+    when lead?
+      'lead'
+    when annual?
+      'annual'
+    else
+      'unknown'
+    end
+  end
+
+  def lead?
+    name =~ ContributionStatus::YEAR_LEAD_REGEXP
+  end
+
+  def annual?
+    name =~ ContributionStatus::YEAR_CAMPAIGN_REGEXP
+  end
+
 end
