@@ -2,25 +2,31 @@ require 'test_helper'
 
 class ContributorsQueryTest < ActiveSupport::TestCase
 
-  should "return LEAD and annual contributions" do
-
+  def create_annual_contribution(is_participant = true)
     campaign = create_campaign(name: '2014 Annual Contributions')
-    participant = create_organization(participant: true)
-    c1 = create_contribution(
+    participant = create_organization(participant: is_participant)
+    create_contribution(
       campaign: campaign,
       organization: participant,
       raw_amount: 66_000.00,
       stage: Contribution::STAGE_POSTED
     )
+  end
 
+  def create_lead_contribution(is_participant = true)
     campaign = create_campaign(name: 'LEAD 2014 happy')
-    participant = create_organization(participant: true)
-    c2 = create_contribution(
+    participant = create_organization(participant: is_participant)
+    create_contribution(
       campaign: campaign,
       organization: participant,
       raw_amount: 66_000.00,
       stage: Contribution::STAGE_POSTED
     )
+  end
+
+  should "return LEAD and annual contributions" do
+    c1 = create_annual_contribution
+    c2 = create_lead_contribution
 
     contributions = ContributorsQuery.contributors_for(2014)
 
@@ -29,14 +35,7 @@ class ContributorsQueryTest < ActiveSupport::TestCase
   end
 
   should "not return contributions for non participants" do
-    campaign = create_campaign(name: '2014 Annual Contributions')
-    participant = create_organization(participant: false)
-    c1 = create_contribution(
-      campaign: campaign,
-      organization: participant,
-      raw_amount: 66_000.00,
-      stage: Contribution::STAGE_POSTED
-    )
+    c1 = create_annual_contribution(false)
 
     contributions = ContributorsQuery.contributors_for(2014)
 
@@ -44,14 +43,7 @@ class ContributorsQueryTest < ActiveSupport::TestCase
   end
 
   should "include only POSTED contributions" do
-    campaign = create_campaign(name: '2014 Annual Contributions')
-    participant = create_organization(participant: true)
-    c1 = create_contribution(
-      campaign: campaign,
-      organization: participant,
-      raw_amount: 66_000.00,
-      stage: Contribution::STAGE_POSTED
-    )
+    c1 = create_annual_contribution
 
     campaign = create_campaign(name: 'LEAD 2014 happy')
     participant = create_organization(participant: true)
