@@ -173,6 +173,12 @@ UNGC::Application.routes.draw do
 
   end
 
+  namespace :api, defaults: {format: :json} do
+    namespace :v1 do
+      get 'contributors/:year' => 'contributors#show'
+    end
+  end
+
   # Salesforce webook routes
   namespace :salesforce, defaults: { format: 'json' } do
     post '/sync' => 'api#sync'
