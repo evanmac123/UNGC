@@ -19,7 +19,12 @@ $(document).ready(function() {
       $("#sign_in_as_id").val(ui.item.id);
       var organizationName = ui.item.label;
       var contactName = ui.item.contact_name
-      var message = "Signing in as " + contactName + " of " + organizationName;
+
+      if(organizationName && contactName) {
+        var message = "Signing in as " + contactName + " of " + organizationName;
+      } else if(contactName) {
+        var message = "Signing in as " + contactName;
+      }
 
       $("#sign_in_as_summary").text(message);
       return false;
