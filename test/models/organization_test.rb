@@ -317,4 +317,66 @@ class OrganizationTest < ActiveSupport::TestCase
     end
   end
 
+  context "uniqueness of name" do
+
+    setup do
+      create_organization(name: "simple")
+      create_organization(name: "Fundación")
+    end
+
+    context "in the application layer" do
+
+      should "not allow exact duplicates" do
+        org = new_organization(name: "simple")
+
+        refute org.valid?
+        assert_contains org.errors.messages[:name], "has already been used by another organization"
+      end
+
+      should "not allow two names that are the same, differing only by accents" do
+        org = new_organization(name: "Fundacion")
+
+        refute org.valid?
+        assert_contains org.errors.messages[:name], "has already been used by another organization"
+      end
+
+      should "not allow two names that are the same, differing only by case" do
+        org = new_organization(name: "FUNDACION")
+
+        refute org.valid?
+        assert_contains org.errors.messages[:name], "has already been used by another organization"
+      end
+
+    end
+
+    context "in the database layer" do
+
+      should "not allow exact duplicates" do
+        fail "TODO implement me."
+        org = new_organization(name: "simple")
+
+        refute org.valid?
+        assert_contains org.errors.messages[:name], "has already been used by another organization"
+      end
+
+      should "not allow two names that are the same, differing only by accents" do
+        fail "TODO implement me."
+        org = new_organization(name: "Fundacion")
+
+        refute org.valid?
+        assert_contains org.errors.messages[:name], "has already been used by another organization"
+      end
+
+      should "not allow two names that are the same, differing only by case" do
+        fail "TODO implement me."
+        org = new_organization(name: "FUNDACION")
+
+        refute org.valid?
+        assert_contains org.errors.messages[:name], "has already been used by another organization"
+      end
+
+    end
+
+  end
+
 end
