@@ -57,7 +57,10 @@ class Organization < ActiveRecord::Base
   self.include_root_in_json = false
 
   validates_presence_of :name
-  validates_uniqueness_of :name, :message => "has already been used by another organization"
+  validates_uniqueness_of :name,
+    case_sensitive: false,
+    message: "has already been used by another organization"
+
   validates_numericality_of :employees, :only_integer => true, :message => "should only contain numbers. No commas or periods are required."
   validates_numericality_of :pledge_amount, :only_integer => true, :message => "should only contain numbers. No commas or periods are required.",
                             :if => Proc.new { |organization| organization.pledge_amount.present? }
@@ -124,13 +127,8 @@ class Organization < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 100
 
-  # We want to index all organizations, not just participant; so, this scope replaces the index clause below
-  # where 'organizations.state = "approved" AND organizations.active = 1 AND organizations.participant = 1' #FIXME: possibly exclude delisted?
   sphinx_scope(:participants_only) {
-    {
-      with: { participant: 1,
-              active:      1 }
-    }
+    {with: {participant: 1}}
   }
 
   COP_STATE_ACTIVE = 'active'

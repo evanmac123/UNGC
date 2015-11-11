@@ -97,12 +97,11 @@ class ParticipantPage < SimpleDelegator
   end
 
   def global_compact_status
-    status = if participant.expelled?
-      "expelled"
-    else
-      participant.cop_state
-    end
-    I18n.t(status, scope: :reporting_status)
+    I18n.t(participant.cop_state, scope: :reporting_status)
+  end
+
+  def reason_for_delisting
+    participant.removal_reason.description
   end
 
   def recommitment_letter

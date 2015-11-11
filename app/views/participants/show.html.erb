@@ -73,6 +73,11 @@
             <dt>Global Compact Status:</dt>
             <dd><%= @page.global_compact_status %></dd>
 
+            <%- if @page.delisted? -%>
+              <dt>Reason for Delisting:</dt>
+              <dd><%= @page.reason_for_delisting %></dd>
+            <%- end -%>
+
             <%- if @page.employees.present? -%>
               <dt>Employees:</dt>
               <dd><%= @page.employees -%></dd>
