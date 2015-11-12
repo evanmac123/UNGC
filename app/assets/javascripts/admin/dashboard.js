@@ -1,5 +1,39 @@
 $(document).ready(function() {
 
+  // app/views/admin/sign_in_as/_form.html.haml
+  $("#sign_in_as_id").select2({
+    placeholder: 'Search for a participant or a person by name',
+    allowClear: true,
+    ajax: {
+      url: "/admin/sign-in-as/contacts.json",
+      dataType: 'json',
+      delay: 250,
+      data: function (params) {
+        return { term: params.term };
+      },
+      processResults: function (data, params) {
+        return { results: data };
+      },
+      cache: true
+    },
+    escapeMarkup: function (markup) { return markup; },
+    minimumInputLength: 2,
+    templateResult: function(selection) {
+      if (selection.loading) {
+        return selection.text;
+      } else {
+        return "<div class='select2-result-repository clearfix'>" + selection.label +"</div>";
+      }
+    },
+    templateSelection: function(selection) {
+      if(!selection.label) {
+        return selection.text; // the placeholder
+      }
+
+      return selection.contact_name + " of <strong>" + selection.label + "</strong>";
+    }
+  });
+
   function toggleRegistrationFields(){
     var org_type = $("#organization_organization_type_id option:selected").text();
     if (org_type === "Company" || org_type === "SME") {
@@ -11,25 +45,6 @@ $(document).ready(function() {
       $('.organization_registration').fadeIn();
     }
   }
-
-  $( "#sign_in_as_name" ).autocomplete({
-    source: "/admin/sign-in-as/contacts.json",
-    minLength: 2,
-    select: function(event, ui) {
-      $("#sign_in_as_id").val(ui.item.id);
-      var organizationName = ui.item.label;
-      var contactName = ui.item.contact_name
-
-      if(organizationName && contactName) {
-        var message = "Signing in as " + contactName + " of " + organizationName;
-      } else if(contactName) {
-        var message = "Signing in as " + contactName;
-      }
-
-      $("#sign_in_as_summary").text(message);
-      return false;
-    }
-  });
 
   toggleRegistrationFields();
 

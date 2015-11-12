@@ -1,0 +1,1 @@
+bower_components/select2/dist/js/select2.js
