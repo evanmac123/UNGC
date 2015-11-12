@@ -13,10 +13,10 @@ class RemovalReason < ActiveRecord::Base
   validates_presence_of :description
 
   FILTERS = {
-     :delisted         => 'Failure to communicate progress',
-     :not_applicable   => 'Not applicable',
+     :delisted         => 'Expelled due to failure to communicate progress',
+     :not_applicable   => 'Other',
      :requested        => 'Participant requested withdrawal',
-     :dialogue         => 'Failure to engage in dialogue',
+     :dialogue         => 'Expelled due to failure to engage in dialogue',
      :blacklisted      => 'Removed due to suspension or removal from the UN vendor list'
   }
 
