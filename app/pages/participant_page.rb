@@ -101,7 +101,7 @@ class ParticipantPage < SimpleDelegator
   end
 
   def reason_for_delisting
-    participant.removal_reason.description
+    participant.removal_reason.try(:description) || ''
   end
 
   def recommitment_letter
