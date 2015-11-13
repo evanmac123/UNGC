@@ -23,7 +23,6 @@ class SignInPolicy < SimpleDelegator
         .joins(:organization)
         .merge(Organization.approved)
         .merge(organizations.visible_to(@current))
-        .group(:organization_id)
     end
   end
 
@@ -65,7 +64,6 @@ class SignInPolicy < SimpleDelegator
         .joins(:organization)
         .merge(Organization.approved)
         .merge(organizations.visible_to(@current))
-        .group(:organization_id)
     end
   end
 

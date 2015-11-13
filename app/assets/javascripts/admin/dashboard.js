@@ -1,5 +1,9 @@
 $(document).ready(function() {
 
+  function formatSelection(selection) {
+    return "<strong>" + selection.organization_name + "</strong>: " + selection.contact_name;
+  }
+
   // app/views/admin/sign_in_as/_form.html.haml
   $("#sign_in_as_id").select2({
     placeholder: 'Search for a participant or a person by name',
@@ -22,15 +26,15 @@ $(document).ready(function() {
       if (selection.loading) {
         return selection.text;
       } else {
-        return "<div class='select2-result-repository clearfix'>" + selection.label +"</div>";
+        return "<div class='select2-result-repository clearfix'>" + formatSelection(selection) +"</div>";
       }
     },
     templateSelection: function(selection) {
-      if(!selection.label) {
+      if(!selection.contact_name) {
         return selection.text; // the placeholder
       }
 
-      return selection.contact_name + " of <strong>" + selection.label + "</strong>";
+      return formatSelection(selection);
     }
   });
 
