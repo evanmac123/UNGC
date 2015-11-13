@@ -24,6 +24,10 @@ class SignInPolicy < SimpleDelegator
         .merge(Organization.approved)
         .merge(organizations.visible_to(@current))
     end
+
+    def can_sign_in_as_others?
+      true
+    end
   end
 
   class ForNetworkReportRecipients
