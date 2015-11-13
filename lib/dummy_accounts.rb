@@ -99,6 +99,7 @@ class DummyAccounts
       last_name: 'Contact',
       email: 'dummy.reporting.local-network@unglobalcompact.org',
       local_network: canada.local_network,
+      roles: [Role.network_report_recipient]
     )
   end
 
