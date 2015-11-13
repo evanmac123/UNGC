@@ -163,7 +163,6 @@ class Admin::OrganizationsController < AdminController
       keyword = params[:keyword].force_encoding("UTF-8")
       options = {per_page: (params[:per_page] || 15).to_i,
                  page: page,
-                 star: true,
                  indices: ['organization_core']}
       options[:with] ||= {}
       filter_options_for_country(options) if params[:country]
@@ -174,7 +173,7 @@ class Admin::OrganizationsController < AdminController
       @searched_for = options[:with].merge(:keyword => keyword)
       options.delete(:with) if options[:with] == {}
       #logger.info " ** Organizations search with options: #{options.inspect}"
-      @results = Organization.search Riddle::Query.escape(keyword) || nil, options
+      @results = Organization.search (Riddle::Query.escape(keyword) || nil), options
 
       if @results.total_entries > 0
         render :action => 'search_results'
