@@ -14,7 +14,7 @@
     %span.small
       = status_date(resource)
       - unless resource.pending?
-        == by #{resource.approved_by.name}
+        == by #{resource.approved_by.try(:name) || 'Unknown'}
 
   %td.action-cell.nowrap
     %ul.actions
