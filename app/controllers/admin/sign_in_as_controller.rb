@@ -43,7 +43,7 @@ class Admin::SignInAsController < AdminController
       .where("organizations.name like ? or concat_ws(' ', contacts.first_name, contacts.last_name) like ?", pattern, pattern)
       .order('organizations.name, contacts.first_name, contacts.last_name')
       .select('contacts.id', 'organizations.name', 'contacts.first_name', 'contacts.last_name')
-      .limit(8)
+      .limit(100)
       .map { |contact| format_for_autocomplete(contact) }
   end
 
