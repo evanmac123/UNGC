@@ -164,44 +164,45 @@ ActiveRecord::Schema.define(version: 20151110233222) do
   end
 
   create_table "contacts", force: :cascade do |t|
-    t.integer  "old_id",                    limit: 4
-    t.string   "first_name",                limit: 255
-    t.string   "middle_name",               limit: 255
-    t.string   "last_name",                 limit: 255
-    t.string   "prefix",                    limit: 255
-    t.string   "job_title",                 limit: 255
-    t.string   "email",                     limit: 255
-    t.string   "phone",                     limit: 255
-    t.string   "mobile",                    limit: 255
-    t.string   "fax",                       limit: 255
-    t.integer  "organization_id",           limit: 4
-    t.string   "address",                   limit: 255
-    t.string   "city",                      limit: 255
-    t.string   "state",                     limit: 255
-    t.string   "postal_code",               limit: 255
-    t.integer  "country_id",                limit: 4
-    t.string   "username",                  limit: 255
-    t.string   "address_more",              limit: 255
+    t.integer  "old_id",                      limit: 4
+    t.string   "first_name",                  limit: 255
+    t.string   "middle_name",                 limit: 255
+    t.string   "last_name",                   limit: 255
+    t.string   "prefix",                      limit: 255
+    t.string   "job_title",                   limit: 255
+    t.string   "email",                       limit: 255
+    t.string   "phone",                       limit: 255
+    t.string   "mobile",                      limit: 255
+    t.string   "fax",                         limit: 255
+    t.integer  "organization_id",             limit: 4
+    t.string   "address",                     limit: 255
+    t.string   "city",                        limit: 255
+    t.string   "state",                       limit: 255
+    t.string   "postal_code",                 limit: 255
+    t.integer  "country_id",                  limit: 4
+    t.string   "username",                    limit: 255
+    t.string   "address_more",                limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "remember_token_expires_at"
-    t.string   "remember_token",            limit: 255
-    t.integer  "local_network_id",          limit: 4
-    t.string   "encrypted_password",        limit: 255
-    t.string   "plaintext_password",        limit: 255
-    t.string   "reset_password_token",      limit: 255
+    t.string   "remember_token",              limit: 255
+    t.integer  "local_network_id",            limit: 4
+    t.string   "old_encrypted_password",      limit: 255
+    t.string   "plaintext_password_disabled", limit: 255
+    t.string   "reset_password_token",        limit: 255
     t.datetime "last_sign_in_at"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",             limit: 4,   default: 0
+    t.integer  "sign_in_count",               limit: 4,   default: 0
     t.datetime "current_sign_in_at"
-    t.string   "current_sign_in_ip",        limit: 255
-    t.string   "last_sign_in_ip",           limit: 255
+    t.string   "current_sign_in_ip",          limit: 255
+    t.string   "last_sign_in_ip",             limit: 255
     t.boolean  "welcome_package"
-    t.string   "image_file_name",           limit: 255
-    t.string   "image_content_type",        limit: 255
-    t.integer  "image_file_size",           limit: 4
+    t.string   "image_file_name",             limit: 255
+    t.string   "image_content_type",          limit: 255
+    t.integer  "image_file_size",             limit: 4
     t.datetime "image_updated_at"
+    t.string   "encrypted_password",          limit: 255
   end
 
   add_index "contacts", ["organization_id"], name: "index_contacts_on_organization_id", using: :btree

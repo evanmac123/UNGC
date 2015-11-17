@@ -1,3 +1,4 @@
+- is_new ||= false
 = default_form.error_messages
 %fieldset
   %legend Details
@@ -37,4 +38,4 @@
   %input{:style => "display:none"}
   %input{:type => "password", :style => "display:none"}
   = default_form.text_field :username, {:autocomplete => 'off'}, :label => 'Username'
-  = default_form.password_field(:password, {:autocomplete => 'off', :value => @contact.plaintext_password}, {:label => 'Password'})
+  = default_form.password_field(:password, {:autocomplete => 'off'}, :label => 'Password') if is_new

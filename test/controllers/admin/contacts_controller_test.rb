@@ -66,8 +66,9 @@ class Admin::ContactsControllerTest < ActionController::TestCase
                    :contact         => { :username    => 'aaa',
                                          :password => "password" }
 
-      assert_equal 'aaa', @organization_user.reload.username
-      assert_equal 'password', @organization_user.reload.plaintext_password
+      @organization_user.reload
+      assert_equal 'aaa', @organization_user.username
+      assert @organization_user.valid_password? 'password'
 
       assert_redirected_to dashboard_path(:tab => :contacts)
     end
@@ -129,8 +130,9 @@ class Admin::ContactsControllerTest < ActionController::TestCase
                    :contact          => { :username    => 'aaa',
                                           :password => "password" }
 
-      assert_equal 'aaa', @network_contact.reload.username
-      assert_equal 'password', @network_contact.reload.plaintext_password
+      @network_contact.reload
+      assert_equal 'aaa', @network_contact.username
+      assert @network_contact.valid_password? 'password'
 
       assert_redirected_to admin_local_network_path(@local_network.id, :tab => :contacts)
     end
@@ -174,6 +176,31 @@ class Admin::ContactsControllerTest < ActionController::TestCase
       put :update, :local_network_id => @local_network.id, :id => @network_contact.to_param
       assert_redirected_to admin_local_network_path(@local_network.id, :tab => :contacts)
     end
-
   end
+
+  context "contact images" do
+    setup do
+      sign_in create_staff_user
+      create_local_network_with_report_recipient
+    end
+
+    should "update contact image for a ungc contact" do
+      put :update, id: @staff_user.id, organization_id: @staff_user.organization, contact: @new_contact_attributes.merge({:image => fixture_file_upload('files/untitled.jpg', 'image/jpeg') })
+      @staff_user.reload
+
+      assert @staff_user.image.file?
+      assert_redirected_to admin_organization_path(@staff_user.organization.id, tab: :contacts)
+    end
+
+    should "not update contact image for a non ungc contact" do
+      put :update, :local_network_id => @local_network.id,
+                   :id               => @network_contact.to_param,
+                   :contact          => {:username    => 'aaa',
+                                         :password => "password" }.
+                                         merge({:image => fixture_file_upload('files/untitled.jpg', 'image/jpeg')})
+
+      assert_redirected_to admin_local_network_path(@local_network.id, tab: :contacts)
+    end
+  end
+
 end

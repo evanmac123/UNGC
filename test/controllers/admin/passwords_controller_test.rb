@@ -35,7 +35,7 @@ class Admin::PasswordsControllerTest < ActionController::TestCase
                                           :email           => 'finance@example.com',
                                           :role_ids        => [Role.financial_contact.id])
       @financial_contact.roles.delete(Role.contact_point)
-      @financial_contact.username, @financial_contact.plaintext_password = nil
+      @financial_contact.username, @financial_contact.password = nil
       @financial_contact.save
     end
 
@@ -67,8 +67,10 @@ class Admin::PasswordsControllerTest < ActionController::TestCase
 
         assert_response :redirect
         assert_not_nil flash[:notice]
-        # plain passwords are still saved, so we can still check this:
-        assert_equal 'password', @organization_user.reload.plaintext_password
+
+        contact = @organization_user.reload
+        assert_not_nil contact.encrypted_password
+        assert contact.valid_password? 'password'
       end
 
       should "not change the password with different passwords" do

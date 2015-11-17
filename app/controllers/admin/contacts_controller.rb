@@ -1,5 +1,5 @@
 class Admin::ContactsController < AdminController
-  before_filter :load_parent, :except => :search
+  before_filter :load_parent, except: [:search]
 
   def new
     @contact = @parent.contacts.new
@@ -67,18 +67,31 @@ class Admin::ContactsController < AdminController
     end
   end
 
+  def reset_password
+    token = @contact.send_reset_password_instructions
+    if token.present?
+      flash[:notice] = "A password reset email was sent to #{@contact.name}"
+    else
+      flash[:notice] = "Failed to send password reset email"
+    end
+
+    redirect_to return_path
+  end
+
   private
     def load_parent
-      @parent = if params[:organization_id]
-        Organization.visible_to(current_contact).find(params[:organization_id])
-      elsif params[:local_network_id]
-        LocalNetwork.find(params[:local_network_id])
+      loader = ContactLoader.new(self)
+      if id = params[:organization_id]
+        loader.load_organization(id)
+      elsif id = params[:local_network_id]
+        loader.load_local_network(id)
       end
+      loader.load_contact(params[:id])
 
-      if params[:id]
-        @contact = @parent.contacts.find(params[:id])
-        @roles = visible_roles
-      end
+      @parent = loader.parent
+      @contact = loader.contact
+      @roles = loader.roles
+      @reset_password_path = loader.reset_password_path
     end
 
     def visible_roles
@@ -138,6 +151,49 @@ class Admin::ContactsController < AdminController
 
     def policy
       @policy ||= ContactPolicy.new(current_contact)
+    end
+
+    class ContactLoader
+      attr_reader :parent, :contact, :roles
+
+      def initialize(controller)
+        @controller = controller
+      end
+
+      def load_organization(id)
+        @kind = :organization
+        @parent = Organization.visible_to(current_contact).find(id)
+      end
+
+      def load_local_network(id)
+        @kind = :local_network
+        @parent = LocalNetwork.find(id)
+      end
+
+      def load_contact(id)
+        return if id.nil?
+
+        @contact = @parent.contacts.find(id)
+        @roles = Role.visible_to(@contact, current_contact)
+      end
+
+      def reset_password_path
+        return if @contact.nil?
+
+        case @kind
+        when :organization
+          @controller.reset_password_admin_organization_contact_path(@parent.id, @contact.id)
+        when :local_network
+          @controller.reset_password_admin_local_network_contact_path(@parent.id, @contact.id)
+        else
+          raise "Unexpected contact kind: '#{@kind}'."
+        end
+      end
+
+      def current_contact
+        @controller.current_contact
+      end
+
     end
 
 end
