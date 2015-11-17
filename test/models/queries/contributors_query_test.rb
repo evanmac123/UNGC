@@ -2,8 +2,8 @@ require 'test_helper'
 
 class ContributorsQueryTest < ActiveSupport::TestCase
 
-  def create_annual_contribution(is_participant = true)
-    campaign = create_campaign(name: '2014 Annual Contributions')
+  def create_annual_contribution(is_participant = true, year = 2014)
+    campaign = create_campaign(name: "#{year} Annual Contributions")
     participant = create_organization(participant: is_participant)
     create_contribution(
       campaign: campaign,
@@ -28,7 +28,7 @@ class ContributorsQueryTest < ActiveSupport::TestCase
     c1 = create_annual_contribution
     c2 = create_lead_contribution
 
-    contributions = ContributorsQuery.contributors_for(2014)
+    contributions = ContributorsQuery.all
 
     assert_contains contributions, c1
     assert_contains contributions, c2
@@ -37,7 +37,7 @@ class ContributorsQueryTest < ActiveSupport::TestCase
   should "not return contributions for non participants" do
     c1 = create_annual_contribution(false)
 
-    contributions = ContributorsQuery.contributors_for(2014)
+    contributions = ContributorsQuery.all
 
     refute_includes contributions, c1
   end
@@ -53,6 +53,16 @@ class ContributorsQueryTest < ActiveSupport::TestCase
       raw_amount: 66_000.00,
       stage: 'FAKE'
     )
+
+    contributions = ContributorsQuery.all
+
+    assert_contains contributions, c1
+    refute_includes contributions, c2
+  end
+
+  should "return contributors for a given year" do
+    c1 = create_annual_contribution
+    c2 = create_annual_contribution(true, 2013)
 
     contributions = ContributorsQuery.contributors_for(2014)
 

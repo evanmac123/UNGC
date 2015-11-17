@@ -1,5 +1,17 @@
 require 'test_helper'
 
+def create_annual_contribution_campaign(year)
+  stub(name: "#{year} Annual Contributions", year: year)
+end
+
+def create_lead_contribution_campaign(year)
+  stub(name: "LEAD #{year} Contributions", year: year)
+end
+
+def create_other_campaign
+  stub(name: "Other campaign", year: nil)
+end
+
 class ContributionStatusTest < ActionController::TestCase
 
   context "given a non delisted organization that contributed since 2010" do
@@ -10,9 +22,9 @@ class ContributionStatusTest < ActionController::TestCase
         delisted_on: nil,
         signatory_of?: false
       )
-      campaigns = [stub(name: "2010 Annual Contributions"),
-                           stub(name: "2009 Annual Contributions"),
-                           stub(name: "2013 Annual Contributions")]
+      campaigns = [create_annual_contribution_campaign(2010),
+                           create_annual_contribution_campaign(2009),
+                           create_annual_contribution_campaign(2013)]
       @p = ContributionStatus.new(org, campaigns)
     end
 
@@ -62,7 +74,7 @@ class ContributionStatusTest < ActionController::TestCase
         delisted_on: nil,
         signatory_of?: false
       )
-      campaigns= [stub(name: "2015 Annual Contributions"), stub(name: "2016 Annual Contributions")]
+      campaigns= [create_annual_contribution_campaign(2015), create_annual_contribution_campaign(2016)]
       @p = ContributionStatus.new(org, campaigns)
     end
 
@@ -78,9 +90,8 @@ class ContributionStatusTest < ActionController::TestCase
         delisted?: false,
         delisted_on: nil,
       )
-      org.expects(:signatory_of?).with(:lead).returns(true).at_least_once
 
-      @p = ContributionStatus.new(org, [stub(name: "LEAD 2015 Contributions"), stub(name: "LEAD 2016 Contributions")])
+      @p = ContributionStatus.new(org, [create_lead_contribution_campaign(2015), create_lead_contribution_campaign(2016)])
     end
 
     should "have the proper latest_annual_contribution_year" do
@@ -100,10 +111,10 @@ class ContributionStatusTest < ActionController::TestCase
         delisted_on: nil,
         signatory_of?: false
       )
-      campaigns = [stub(name: "2010 Annual Contributions"),
-                           stub(name: "2009 Annual Contributions"),
-                           stub(name: "2013 Annual Contributions"),
-                           stub(name: "Other Contributions")]
+      campaigns = [create_annual_contribution_campaign(2010),
+                           create_annual_contribution_campaign(2009),
+                           create_annual_contribution_campaign(2013),
+                           create_other_campaign]
       @p = ContributionStatus.new(org, campaigns)
     end
 

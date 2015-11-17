@@ -14,11 +14,16 @@ class ContributorSerializer
   def as_json(&block)
     {
       id: contribution.organization_id,
+      year: year,
       type: contribution.campaign.kind,
       name: contribution.organization.name,
       url: block.call(contribution.organization),
       amount: bucket,
     }
+  end
+
+  def year
+    contribution.campaign.year
   end
 
   def amount

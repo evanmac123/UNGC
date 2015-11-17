@@ -26,6 +26,14 @@ class Api::V1::ContributorsController < ApplicationController
   end
   # end of CORS config
 
+  def index
+    contributors = ContributorsQuery.all
+    payload = ContributorSerializer.as_json(contributors) do |participant|
+      participant_url(participant)
+    end
+    render json: payload
+  end
+
   def show
     contributors = ContributorsQuery.contributors_for(year)
     payload = ContributorSerializer.as_json(contributors) do |participant|
