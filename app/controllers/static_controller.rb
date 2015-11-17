@@ -1,7 +1,7 @@
 class StaticController < ApplicationController
   def home
     set_current_container :home
-    if stale?(last_modified: current_container.updated_at.utc, etag: current_container.cache_key)
+    if cache_stale?
       @page = HomePage.new(current_container, current_payload_data)
     end
   end
@@ -14,4 +14,14 @@ class StaticController < ApplicationController
   def catch_all
     render_container_at(params[:path])
   end
+
+  private
+
+  def cache_stale?
+    stale?(
+      last_modified: current_container.try(:updated_at).try(:utc),
+      etag: current_container.try(:cache_key)
+    )
+  end
+
 end

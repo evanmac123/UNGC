@@ -49,8 +49,7 @@ module FixtureReplacement
     c.country = new_country
     c.email = FixtureReplacement.random_string + '@example.com'
     c.username = FixtureReplacement.random_string
-    c.plaintext_password = FixtureReplacement.random_string
-    c.password = c.plaintext_password
+    c.password = FixtureReplacement.random_string
   end
 
   attributes_for :cop_question do |q|

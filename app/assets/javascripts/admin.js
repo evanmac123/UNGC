@@ -22,6 +22,7 @@
 //= require jquery.jeditable.mini
 //= require jquery.tree.min
 //= require chosen.jquery.min
+//= require select2
 //= require_self
 //= require retina
 

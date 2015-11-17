@@ -27,7 +27,6 @@
 #  remember_token            :string(255)
 #  local_network_id          :integer
 #  encrypted_password        :string(255)
-#  plaintext_password        :string(255)
 #  reset_password_token      :string(255)
 #  last_sign_in_at           :datetime
 #  reset_password_sent_at    :datetime
@@ -70,7 +69,7 @@ class Contact < ActiveRecord::Base
   validates_presence_of     :prefix, :first_name, :email, :last_name, :job_title, :address, :city, :country
   validates_presence_of     :phone, unless: :from_ungc?
   validates_presence_of     :username, :if => :can_login?
-  validates_presence_of     :plaintext_password, :if => :password_required?
+  validates_presence_of     :password, :if => :password_required?
   validates_uniqueness_of   :username, :allow_nil => true, :case_sensitive => false, :allow_blank => true
   validates_uniqueness_of   :email,
                             :on => :create
@@ -87,9 +86,6 @@ class Contact < ActiveRecord::Base
 
   default_scope { order('contacts.first_name') }
 
-  # TODO LATER: remove plain text password at some point - attr_accessor :password
-  # before_save :encrypt_password
-
   before_destroy :keep_at_least_one_ceo
   before_destroy :keep_at_least_one_contact_point
 
@@ -102,6 +98,7 @@ class Contact < ActiveRecord::Base
 
   scope :participants_only, lambda { where(["organizations.participant = ?", true]) }
   scope :ungc_staff, lambda { joins(:organization).where(:'organizations.name' => DEFAULTS[:ungc_organization_name]) }
+  scope :contact_points, lambda { joins(:roles).merge(Role.contact_points).includes(:roles) }
 
   # Attempt to find a user by its email. If a record is found, send new
   # password instructions to it. If user is not found, returns a new user
@@ -121,10 +118,6 @@ class Contact < ActiveRecord::Base
 
   def self.financial_contacts
     joins(:roles).merge(Role.financial_contacts).includes(:roles)
-  end
-
-  def self.contact_points
-    joins(:roles).merge(Role.contact_points).includes(:roles)
   end
 
   def self.ceos
@@ -193,7 +186,7 @@ class Contact < ActiveRecord::Base
   end
 
   def from_ungc?
-    (organization_id? || organization.present?) && organization.name == DEFAULTS[:ungc_organization_name]
+    (organization_id? || organization.present?) && organization.try(:name) == DEFAULTS[:ungc_organization_name]
   end
 
   def from_organization?
@@ -213,7 +206,7 @@ class Contact < ActiveRecord::Base
   end
 
   def from_network_guest?
-    organization_id? && organization.name == DEFAULTS[:local_network_guest_name]
+    organization_id? && organization.try(:name) == DEFAULTS[:local_network_guest_name]
   end
 
   def from_rejected_organization?
@@ -263,11 +256,6 @@ class Contact < ActiveRecord::Base
     Role.login_roles.any? { |r| is?(r) }
   end
 
-  def encrypt_password
-    return if plaintext_password.blank?
-    self.hashed_password = Contact.encrypted_password(password)
-  end
-
   def needs_to_update_contact_info?
     if from_organization?
       last_update = last_sign_in_at || updated_at
@@ -289,26 +277,25 @@ class Contact < ActiveRecord::Base
     end
   end
 
-  # Overrides Devise::Models::DatabaseAuthenticatable
-  def password=(new_password)
-    @password = new_password
-    if @password.present?
-      self.plaintext_password = @password
-      self.encrypted_password = password_digest(@password)
-    end
-  end
-
+  # TODO remove once encrypted_passwords are moved over to bcrypt
   def valid_password?(password)
     begin
       super(password)
     rescue BCrypt::Errors::InvalidHash
-      return false unless Contact.old_encrypted_password(password) == encrypted_password
-      logger.info "User #{email} is using the old password hashing method, updating attribute."
-      self.password = password
-      true
+      # encrypted_password doesn't contain a BCrypt hash
+      # this is because it is still using the old SHA1 hash
+      # try to authenticate the user with the old digest
+      if Contact.old_password_digest(password) == encrypted_password
+        # the old digest worked, set the password in hopes that this
+        # contact is saved, thereby moving to BCrypt.
+        logger.info "User #{email} is using the old password hashing method, updating attribute."
+        self.password = password
+        true
+      else
+        false
+      end
     end
   end
-
   alias :devise_valid_password? :valid_password?
 
   def self.new_contact_point
@@ -357,7 +344,8 @@ class Contact < ActiveRecord::Base
       end
     end
 
-    def self.old_encrypted_password(password)
+    # TODO remove once encrypted_passwords are moved over to bcrypt
+    def self.old_password_digest(password)
       Digest::SHA1.hexdigest("#{password}--UnGc--")
     end
 end

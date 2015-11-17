@@ -308,12 +308,12 @@ class Organization < ActiveRecord::Base
   def self.visible_to(user)
     case user.user_type
     when Contact::TYPE_ORGANIZATION
-      where('id=?', user.organization_id)
+      where(id: user.organization_id)
     when Contact::TYPE_NETWORK || Contact::TYPE_NETWORK_GUEST
-      where("country_id in (?)", user.local_network.country_ids)
+      where("organizations.country_id" => user.local_network.country_ids)
     when Contact::TYPE_REGIONAL
       countries_in_same_region = user.local_network.regional_center_countries.map(&:id)
-      where("country_id in (?)", countries_in_same_region)
+      where('organizations.country_id' => countries_in_same_region)
     when Contact::TYPE_UNGC
       all
     else
@@ -405,7 +405,7 @@ class Organization < ActiveRecord::Base
     if self.country.try(:local_network)
       self.country.local_network.contacts.network_report_recipients
     else
-      []
+      Contact.none
     end
   end
 
@@ -413,7 +413,7 @@ class Organization < ActiveRecord::Base
     if self.country.try(:local_network)
       self.country.local_network.contacts.network_contacts.first
     else
-      []
+      [] # TODO none in rails4
     end
   end
 
@@ -859,30 +859,10 @@ class Organization < ActiveRecord::Base
 
   def reverse_roles
     if self.contacts.ceos.count == 1 && self.contacts.contact_points.count == 1
-      ceo = self.contacts.ceos.first
-      contact = self.contacts.contact_points.first
-
-      ceo.username = contact.username
-      ceo.roles << Role.contact_point
-      ceo.encrypted_password = contact.encrypted_password
-      ceo.plaintext_password = contact.plaintext_password
-
-      # remove login/password from former contact
-      contact.roles.delete(Role.contact_point)
-      contact.username = nil
-      contact.encrypted_password = nil
-      contact.plaintext_password = nil
-      contact.save
-
-      # save ceo after contact to avoid username collision
-      ceo.save
-
-      # the contact person should now be CEO
-      contact.roles << Role.ceo
-
-      # remove CEO role from contact point
-      ceo.roles.delete(Role.ceo)
-      true
+      RoleReverser.reverse(
+        ceo: self.contacts.ceos.first,
+        contact_point: self.contacts.contact_points.first
+      )
     else
       self.errors.add :base,("Sorry, the roles could not be reversed. There can only be one Contact Point and one CEO to reverse roles.")
       false

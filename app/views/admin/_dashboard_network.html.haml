@@ -5,12 +5,12 @@
   %ul.tab_nav
     %li= link_to 'Overview', '#overview'
     %li= link_to "Announcements #{announcement_count}", '#announcements'
+    %li= link_to 'Sign-in as contact point', '#sign_in_as_contact_point_tab' if @can_sign_in_as_others
 
   #overview.tab_content
 
     %dl.left_column{:style => 'width: 425px;'}
       %h3 Welcome to the Dashboard
-
       %p Manage and share information about your Local Network with the Global Compact Office and learn about the activities of other networks.
 
       %dt.first Network Management
@@ -51,3 +51,8 @@
         %th Description
         %th Date
       = render :partial => 'admin/announcements/announcement_view', :collection => @announcements
+
+  - if @can_sign_in_as_others
+    #sign_in_as_contact_point_tab.tab_content
+      %h3 Sign in as contact points for an organization in your local network
+      = render partial: 'admin/sign_in_as/form'

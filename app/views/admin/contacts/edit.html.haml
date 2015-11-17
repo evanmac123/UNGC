@@ -7,6 +7,11 @@
 - else
   %h2 Editing contact
 
+  %fieldset#reset_password
+    %legend Reset password
+    = form_for(:contact, url: @reset_password_path) do |form|
+      = form.submit('Send password reset email')
+
 = form_for(:contact, builder: DefaultFormBuilder, url: contact_path(@contact), html: {method: :put, novalidate: "novalidate"}) do |form|
   = render partial: form
   %ul{class: "tools inline", style: 'float: right;'}

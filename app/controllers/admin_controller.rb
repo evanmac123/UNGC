@@ -26,6 +26,10 @@ class AdminController < ApplicationController
       @organization = current_contact.organization
 
     end
+
+    policy = SignInPolicy.new(current_contact)
+    @can_sign_in_as_others = policy.can_sign_in_as_others?
+
     render :template => "admin/dashboard_#{current_contact.user_type}"
   end
 
@@ -122,4 +126,5 @@ class AdminController < ApplicationController
   def knowledge_sharing_tab?
     false
   end
+
 end

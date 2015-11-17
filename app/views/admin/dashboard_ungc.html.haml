@@ -4,6 +4,7 @@
     %li <a href="#organizations">Organizations</a>
     %li <a href="#logos">Logo Requests</a>
     %li <a href="#cops">COPs</a>
+    %li <a href="#sign_in_as_contact_point_tab">Sign-in as contact point</a>
 
   - if @pending_organizations.any?
     #organizations.tab_content
@@ -43,3 +44,7 @@
           %th.actions Actions
         = render :partial => 'admin/communication_on_progresses/cop_admin', :collection => @pending_cops
       = will_paginate @pending_cops, param_name: 'cops_page', params: {tab: 'cops'}
+
+  #sign_in_as_contact_point_tab.tab_content
+    %h3 Sign in as other contacts
+    = render partial: 'admin/sign_in_as/form'

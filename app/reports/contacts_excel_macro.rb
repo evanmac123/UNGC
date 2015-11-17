@@ -34,7 +34,6 @@ class ContactsExcelMacro < SimpleReport
       'COP Status',
       'Fax',
       'Username',
-      'Password',
       'Number of Employees'
     ]
   end
@@ -65,7 +64,6 @@ class ContactsExcelMacro < SimpleReport
     record.cop_state,
     record.fax,
     record.username,
-    record.plaintext_password,
     record.employees
   ]
   end

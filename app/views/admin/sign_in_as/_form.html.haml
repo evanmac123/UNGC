@@ -1,0 +1,5 @@
+= form_for :sign_in_as, url: admin_sign_in_as_path, method: :get do |form|
+  = select_tag 'sign_in_as[id]', nil, style: 'width: 600px'
+  <br />
+  = form.submit 'Sign-in'
+#sign_in_as_summary
