@@ -1,6 +1,13 @@
 class ContributorsQuery
-  def self.all
-    lead_and_annual_contributions
+  MIN_SEARCH_LENGTH = 3
+
+  def self.search(query)
+    if query.strip.length >= MIN_SEARCH_LENGTH
+      lead_and_annual_contributions
+        .where("organizations.name like ?", "%#{query}%")
+    else
+      Contribution.none
+    end
   end
 
   def self.contributors_for(year)

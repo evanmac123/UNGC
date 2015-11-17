@@ -27,7 +27,7 @@ class Api::V1::ContributorsController < ApplicationController
   # end of CORS config
 
   def index
-    contributors = ContributorsQuery.all
+    contributors = ContributorsQuery.search(query)
     payload = ContributorSerializer.as_json(contributors) do |participant|
       participant_url(participant)
     end
@@ -44,6 +44,10 @@ class Api::V1::ContributorsController < ApplicationController
 
   def year
     params.fetch(:year)
+  end
+
+  def query
+    params.fetch(:query, "")
   end
 
 end
