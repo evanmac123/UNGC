@@ -112,7 +112,7 @@ class SignInAsTest < ActionDispatch::IntegrationTest
     end
 
     should 'limit the number of results' do
-      10.times {
+      101.times {
         similar_name = "Donald #{FixtureReplacement.random_string(8)}"
         organization = create_organization(name: similar_name, country: @country, state: :approved)
         create_contact(
@@ -124,7 +124,7 @@ class SignInAsTest < ActionDispatch::IntegrationTest
 
       visit admin_sign_in_as_contacts_path(term: 'donald')
       response = JSON.parse(page.body)
-      assert_equal 8, response.count
+      assert_equal 100, response.count
     end
 
   end
@@ -134,9 +134,8 @@ class SignInAsTest < ActionDispatch::IntegrationTest
   def assert_contains_contact(array, organization, contact)
     assert_contains array, {
       "id" => contact.id,
-      "value" => organization.name,
-      "label" => organization.name,
-      "contact_name" => contact.name
+      "contact_name" => contact.name,
+      "organization_name" => organization.name,
     }
   end
 
