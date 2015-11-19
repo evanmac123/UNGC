@@ -35,7 +35,10 @@ class NewsShowPage < SimpleDelegator
   end
 
   def calls_to_action
-    return [] if call_to_action_label.nil?
+    if missing_call_to_action?
+      return []
+    end
+
     [{
       label: call_to_action_label,
       url: call_to_action_url,
