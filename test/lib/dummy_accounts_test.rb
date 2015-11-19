@@ -4,6 +4,7 @@ require './lib/dummy_accounts'
 class DummyAccountsTest < ActiveSupport::TestCase
 
   setup do
+    create_roles
     create_sector
     create_organization_types
     create_listing_statuses

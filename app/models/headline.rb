@@ -102,4 +102,8 @@ class Headline < ActiveRecord::Base
    (Hpricot(self.description)/'p').first.inner_html
   end
 
+  def missing_call_to_action?
+    call_to_action_label.blank?
+  end
+
 end
