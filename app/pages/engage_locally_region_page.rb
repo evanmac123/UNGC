@@ -8,6 +8,7 @@ class EngageLocallyRegionPage < EngageLocallyPage
 
   def networks
     LocalNetwork.
+      active_networks.
       joins(:countries).
       where('countries.region = ?', region.name).
       distinct('local_networks.id')
