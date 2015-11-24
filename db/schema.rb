@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151222201923) do
+ActiveRecord::Schema.define(version: 20151110233222) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -134,6 +134,7 @@ ActiveRecord::Schema.define(version: 20151222201923) do
     t.boolean  "references_water_mandate"
     t.string   "cop_type",                            limit: 255
     t.date     "published_on"
+    t.string   "type",                                limit: 255
   end
 
   add_index "communication_on_progresses", ["created_at"], name: "index_communication_on_progresses_on_created_at", using: :btree

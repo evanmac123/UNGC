@@ -71,7 +71,10 @@ class CommunicationOnProgress < ActiveRecord::Base
 
   TYPES = %w{grace basic intermediate advanced lead non_business}
 
-  default_scope { order('communication_on_progresses.created_at DESC') }
+  default_scope {
+    where(type: nil)
+    .order('communication_on_progresses.created_at DESC')
+  }
 
   scope :all_cops, lambda { includes([:organization, {:organization => [:country]}]) }
   scope :published_between, lambda { |start_date, end_date| where(published_on: start_date..end_date) }
