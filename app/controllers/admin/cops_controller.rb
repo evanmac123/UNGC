@@ -18,8 +18,13 @@ class Admin::CopsController < AdminController
   end
 
   def new
-    @communication_on_progress = CopForm.new_form(@organization, cop_type, current_contact.contact_info)
-    @communication_on_progress.build_cop_answers
+    @communication_on_progress = IncompleteCommunicationOnProgress.new(
+      organization: @organization,
+      cop_type: cop_type
+    )
+
+    # @communication_on_progress = CopForm.new_form(@organization, cop_type, current_contact.contact_info)
+    # @communication_on_progress.build_cop_answers
   end
 
   def edit

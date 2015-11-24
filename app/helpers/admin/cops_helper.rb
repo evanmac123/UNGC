@@ -143,4 +143,8 @@ module Admin::CopsHelper
     end
   end
 
+  def cop_form_partial(cop)
+    "#{cop.cop_type}_form"
+  end
+
 end
