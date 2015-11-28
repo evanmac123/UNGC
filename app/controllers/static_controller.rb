@@ -18,10 +18,8 @@ class StaticController < ApplicationController
   private
 
   def cache_stale?
-    stale?(
-      last_modified: current_container.try(:updated_at).try(:utc),
-      etag: current_container.try(:cache_key)
-    )
+    cachable = CompositeCachable.new(current_container, current_payload)
+    stale? last_modified: cachable.updated_at, etag: cachable.cache_key
   end
 
 end
