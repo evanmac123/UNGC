@@ -79,5 +79,8 @@
 
     = render :partial => 'submit_cop'
 
+= hidden_field_tag :saving_draft, value: false, id: "saving_draft"
+= button_tag 'Save Draft', class: "button", id: "save_draft"
+
 = javascript_tag "var work_in_progress = false;"
 = form_submitted?(@communication_on_progress.submitted?)

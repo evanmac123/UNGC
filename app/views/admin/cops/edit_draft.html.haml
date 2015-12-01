@@ -1,0 +1,6 @@
+%h2= "Edit #{@communication_on_progress.organization.cop_acronym}"
+
+- # Participants can edit a COP if it's the submission_status is DRAFT
+= form_for(:communication_on_progress, url: admin_organization_communication_on_progress_path(@organization.id, @communication_on_progress.id), html: {multipart: true, id: 'cop_form', novalidate: "novalidate", method: :put }) do |form|
+  = render partial: cop_form_partial(@communication_on_progress), locals: { form: form }
+  = form.hidden_field :cop_type

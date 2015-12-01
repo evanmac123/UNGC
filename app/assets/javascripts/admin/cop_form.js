@@ -94,11 +94,18 @@ $(document).ready(function() {
     $('#cop_files').append(replace_ids(cop_file_form));
   });
 
-  $('#cop_form').submit(function() {
+  $('#save_draft').on('click', function() {
+    $('#saving_draft').val(true);
+    $(this).attr('disabled', 'disabled');
+    $(this).attr('value', 'Please wait...');
+    $('#cop_form').submit();
+  });
+
+  $('#cop_form').submit(function(event) {
     $('input[type=submit]', this).attr('disabled', 'disabled');
     $('input[type=submit]', this).attr('value', 'Please wait...');
     window.onbeforeunload = null;
-  })
+  });
 
   $("#cop_form input, #cop_form select, #cop_form textarea").change(function() {
     work_in_progress = true;

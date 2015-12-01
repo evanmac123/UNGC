@@ -87,6 +87,7 @@ UNGC::Application.routes.draw do
         member do
           get  :backdate
           post :do_backdate
+          get :edit_draft
         end
       end
 

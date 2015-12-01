@@ -12,7 +12,7 @@ class CopForm
 
   def self.new_form(organization, type, contact_info)
     raise "cop type is nil, must specify a copy type." unless type
-    cop = organization.communication_on_progresses.new
+    cop = organization.communication_on_progresses.draft.new
     cop_form_class = forms_for_type(type)
     cop_form_class.new(cop, type, contact_info)
   end
@@ -114,11 +114,22 @@ class CopForm
   def submit(params)
     cop.assign_attributes(params)
     cop.contact_info ||= contact_info
+    cop.submitted!
     remove_deleted_links(params)
     remember_link_params(params)
     @submitted = true
     clear_answer_text_from_unselected_answers
     valid? && cop.save
+  end
+
+  def save_draft(params)
+    cop.assign_attributes(params)
+    cop.contact_info ||= contact_info
+    remove_deleted_links(params)
+    remember_link_params(params)
+    @submitted = true
+    clear_answer_text_from_unselected_answers
+    cop.save
   end
 
   def update(params)

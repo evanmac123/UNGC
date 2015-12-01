@@ -1,9 +1,16 @@
 class Admin::CopsController < AdminController
-  before_filter :load_organization, except: :introduction
+  before_filter :load_organization, except: [:introduction, :edit_draft]
   before_filter :no_unapproved_organizations_access
-  before_filter :no_organization_or_local_network_access, only: [:edit, :update, :backdate, :do_backdate]
+  before_filter :cop_update_policy, only: [:update]
+  before_filter :no_organization_or_local_network_access, only: [:edit, :backdate, :do_backdate]
   before_filter :ensure_valid_type, only: :new
   helper :datetime
+
+
+  def cop_update_policy
+    # TODO only ungc and current org IF cop is in draft
+    true
+  end
 
   def introduction
     if current_contact.from_organization? && current_contact.organization.non_business?
@@ -18,13 +25,8 @@ class Admin::CopsController < AdminController
   end
 
   def new
-    @communication_on_progress = IncompleteCommunicationOnProgress.new(
-      organization: @organization,
-      cop_type: cop_type
-    )
-
-    # @communication_on_progress = CopForm.new_form(@organization, cop_type, current_contact.contact_info)
-    # @communication_on_progress.build_cop_answers
+    @communication_on_progress = CopForm.new_form(@organization, cop_type, current_contact.contact_info)
+    @communication_on_progress.build_cop_answers
   end
 
   def edit
@@ -37,6 +39,26 @@ class Admin::CopsController < AdminController
   end
 
   def create
+    if _saving_draft?
+      _save_draft
+    else
+      _submit
+    end
+  end
+
+  def _saving_draft?
+    !!params[:saving_draft]
+  end
+
+  def _save_draft
+    @communication_on_progress = CopForm.new_form(@organization, cop_params.fetch(:cop_type), current_contact.contact_info)
+    if @communication_on_progress.save_draft(cop_params)
+      flash[:notice] = "The communication draft has been saved"
+      redirect_to edit_draft_admin_organization_communication_on_progress_url(@organization.id, @communication_on_progress.cop)
+    end
+  end
+
+  def _submit
     @communication_on_progress = CopForm.new_form(@organization, cop_params.fetch(:cop_type), current_contact.contact_info)
     if @communication_on_progress.submit(cop_params)
       flash[:notice] = "The communication has been published on the Global Compact website"
@@ -47,7 +69,17 @@ class Admin::CopsController < AdminController
     end
   end
 
+  # GET
+  def edit_draft
+    @organization = current_contact.organization
+    cop = @organization.communication_on_progresses.in_progress.find(params.fetch(:id))
+    @communication_on_progress = create_edit_cop_form(cop)
+  end
+
   def update
+    # admin update
+    # save draft
+    # publish of draft
     @communication_on_progress = create_edit_cop_form(@cop)
 
     # XXX the check for editable should be done in a policy object and probably in the before filter
