@@ -59,7 +59,7 @@ class ContributorSerializer
     when amount >= 10_000
       "$USD 10,000"
     else
-      ""
+      "In Kind Staff Support"
     end
   end
 
