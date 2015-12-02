@@ -112,28 +112,16 @@ class CopForm
   end
 
   def submit(params)
-    cop.assign_attributes(params)
-    cop.contact_info ||= contact_info
-    cop.submitted!
-    remove_deleted_links(params)
-    remember_link_params(params)
-    @submitted = true
-    clear_answer_text_from_unselected_answers
-    valid? && cop.save
-  end
-
-  def save_draft(params)
-    cop.assign_attributes(params)
-    cop.contact_info ||= contact_info
-    remove_deleted_links(params)
-    remember_link_params(params)
-    @submitted = true
-    clear_answer_text_from_unselected_answers
-    cop.save
+    cop.submission_status = :submitted
+    do_save(params)
   end
 
   def update(params)
-    submit(params) && cop.set_differentiation_level
+    do_save(params)
+  end
+
+  def save_draft(params)
+    do_save(params, validate: false)
   end
 
   def valid?
@@ -222,7 +210,7 @@ class CopForm
   end
 
   def return_url
-    if edit
+    if edit # ungc staff editing a completed COP
       admin_organization_communication_on_progress_path(cop.organization.id, cop.id)
     else
       cop_introduction_path
@@ -277,6 +265,20 @@ class CopForm
         cop.cop_files << file
       end
       file
+    end
+
+    def do_save(params, validate: true)
+      cop.assign_attributes(params)
+      cop.contact_info ||= contact_info
+
+      CommunicationOnProgress.transaction do
+        remove_deleted_links(params)
+        remember_link_params(params)
+        @submitted = true
+        clear_answer_text_from_unselected_answers
+        is_valid = if validate then valid? else true end
+        is_valid && cop.save && cop.set_differentiation_level
+      end
     end
 
 end

@@ -134,6 +134,7 @@ ActiveRecord::Schema.define(version: 20151110233222) do
     t.boolean  "references_water_mandate"
     t.string   "cop_type",                            limit: 255
     t.date     "published_on"
+    t.string   "type",                                limit: 255
     t.integer  "submission_status",                   limit: 4,     default: 0, null: false
   end
 
