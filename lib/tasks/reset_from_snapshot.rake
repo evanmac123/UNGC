@@ -1,6 +1,6 @@
 namespace :db do
   desc "re-create the database from yesterday's production snapshot"
-  task reset_from_snapshot: ["db:drop", "db:create", "db:schema:load", "environment"] do
+  task reset_from_snapshot: :environment do
     raise "Must be NOT be run from the production environment" if Rails.env.production?
     host = 'unglobalcompact.org'
     user = 'rails'
@@ -22,6 +22,11 @@ namespace :db do
 
       system "gunzip #{zipped_path}"
     end
+
+    puts "Recreating the database from schema"
+    Rake::Task["db:drop"].invoke
+    Rake::Task["db:create"].invoke
+    Rake::Task["db:schema:load"].invoke
 
     puts "Seeding the database from the snapshot"
     config   = Rails.configuration.database_configuration
