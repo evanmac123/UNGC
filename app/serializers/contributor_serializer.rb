@@ -15,7 +15,7 @@ class ContributorSerializer
     {
       id: contribution.organization_id,
       year: year,
-      type: contribution.campaign.kind,
+      type: contributor_type,
       name: contribution.organization.name,
       url: block.call(contribution.organization),
       amount: bucket,
@@ -28,6 +28,14 @@ class ContributorSerializer
 
   def amount
     contribution.amount
+  end
+
+  def contributor_type
+    if contribution.campaign.kind == "lead"
+      "LEAD"
+    else
+      "Annual"
+    end
   end
 
   def bucket
