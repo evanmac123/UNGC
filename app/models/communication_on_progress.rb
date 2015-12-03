@@ -41,8 +41,8 @@ class CommunicationOnProgress < ActiveRecord::Base
   include Indexable
 
   validates_presence_of :organization_id, :title
-  validates_associated :cop_links
-  validates_associated :cop_files
+  validates_associated :cop_links, unless: ->(cop){ cop.draft? }
+  validates_associated :cop_files, unless: ->(cop){ cop.draft? }
 
   belongs_to :organization
   belongs_to :score, :class_name => 'CopScore', :foreign_key => :cop_score_id
