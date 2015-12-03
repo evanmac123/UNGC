@@ -40,6 +40,16 @@ class Admin::ContactsController < AdminController
       flash[:notice] = 'Contact was successfully updated.'
       redirect_to return_path
     else
+      # Temporary, we're seeing unexpected failures here.
+      Honeybadger.notify({
+        error_class:    'FAILED_CONTACT_UPDATE',
+        error_message:  "#{@contact.errors.full_messages.to_sentence}",
+        parameters:     {
+          contact: @contact.attributes,
+          params: params
+        }
+      })
+
       @roles = visible_roles
       @return_path = return_path
 
