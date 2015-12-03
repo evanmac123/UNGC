@@ -11,6 +11,7 @@
     %li#environment_tab{:class => 'additional_questions'} <a href="#environment_additional_questions">&nbsp;&raquo;&nbsp;Environment</a>
     %li#anti_corruption_tab{:class => 'additional_questions'} <a href="#anti_corruption_additional_questions">&nbsp;&raquo;&nbsp;Anti-Corruption</a>
     %li#submit_tab{:style => 'display:block;'} <a href="#finish">Submit your COP</a>
+    %li#draft_tab= render partial: 'save_draft_button'
 
   #basic.tab_content
     %div.principles
@@ -78,8 +79,6 @@
               = value
 
     = render :partial => 'submit_cop'
-
-= button_tag 'Save Draft', class: "button", name: 'saving_draft', value: true, data: {"disable-with" => "Saving..."}
 
 = javascript_tag "var work_in_progress = false;"
 = form_submitted?(@communication_on_progress.submitted?)
