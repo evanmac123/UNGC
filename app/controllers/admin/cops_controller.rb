@@ -6,6 +6,7 @@ class Admin::CopsController < AdminController
   helper :datetime
 
   def introduction
+    @drafts = current_contact.organization.communication_on_progresses.in_progress
     if current_contact.from_organization? && current_contact.organization.non_business?
       render :non_business_introduction
     elsif current_contact.organization.signatory_of?(:lead)
