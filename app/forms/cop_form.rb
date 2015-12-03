@@ -277,7 +277,7 @@ class CopForm
         @submitted = true
         clear_answer_text_from_unselected_answers
         is_valid = if validate then valid? else true end
-        is_valid && cop.save && cop.set_differentiation_level
+        is_valid && cop.save(validate: validate) && cop.set_differentiation_level
       end
     end
 
