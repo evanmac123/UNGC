@@ -414,23 +414,23 @@ class Admin::CopsControllerTest < ActionController::TestCase
       sign_in @organization_user
     end
 
-    should "send a confirmation email" do
-      assert_difference 'Sidekiq::Extensions::DelayedMailer.jobs.size' do
-        post :create, :organization_id => @organization.id,
-                      :communication_on_progress => {
-                        :cop_type => 'basic',
-                        :title                        => 'Our COP',
-                        :references_human_rights      => true,
-                        :references_labour            => true,
-                        :references_environment       => true,
-                        :references_anti_corruption   => true,
-                        :include_measurement          => true,
-                        :starts_on                    => Date.today,
-                        :ends_on                      => Date.today,
-                        :differentiation              => 'active'
-                      }
-      end
-    end
+    # should "send a confirmation email" do
+    #   assert_difference 'Sidekiq::Extensions::DelayedMailer.jobs.size' do
+    #     post :create, :organization_id => @organization.id,
+    #                   :communication_on_progress => {
+    #                     :cop_type => 'basic',
+    #                     :title                        => 'Our COP',
+    #                     :references_human_rights      => true,
+    #                     :references_labour            => true,
+    #                     :references_environment       => true,
+    #                     :references_anti_corruption   => true,
+    #                     :include_measurement          => true,
+    #                     :starts_on                    => Date.today,
+    #                     :ends_on                      => Date.today,
+    #                     :differentiation              => 'active'
+    #                   }
+    #   end
+    # end
 
   end
 
