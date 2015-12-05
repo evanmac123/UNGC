@@ -8,7 +8,8 @@ $(function() {
         startupMode: 'wysiwyg',
        dialog_magnetDistance: 5,
        resize_minWidth: 300,
-       resize_maxWidth: 600
+       resize_maxWidth: 600,
+       extraAllowedContent: 'iframe[*]'
     });
   });
 });
