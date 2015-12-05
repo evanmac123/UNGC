@@ -4,48 +4,6 @@ class SignInAsTest < ActionDispatch::IntegrationTest
 
   setup { create_roles }
 
-  context 'Signing in as another contact' do
-
-    should 'Allow a network report recipient to sign-in as a contact point from the same local network' do
-      # Given a Network report recipient
-      network = create_local_network
-      report_recipient = create_contact(local_network: network, roles: [Role.network_report_recipient])
-
-      # and a Contact points from an organization in the same local network
-      country = create_country(local_network: network)
-      organization = create_organization(country: country, state: :approved)
-      contact_point = create_contact(
-        first_name: 'Bob',
-        last_name: 'Redmill',
-        organization: organization,
-        roles: [Role.contact_point]
-      )
-
-      login_as(report_recipient)
-      visit('/admin/dashboard')
-
-      hidden_id_field = find '#sign_in_as_id'
-      hidden_id_field.set contact_point.id
-
-      click_on 'Sign-in'
-      assert_equal "You have been signed in as Bob Redmill", find('.flash.notice').text
-    end
-
-    should 'Disallow unauthorized contacts from signing-in as another contact' do
-      network_contact = create_contact(local_network: create_local_network)
-
-      login_as(network_contact)
-      visit('/admin/dashboard')
-
-      hidden_id_field = find '#sign_in_as_id'
-      hidden_id_field.set create_contact.id
-
-      click_on 'Sign-in'
-      assert_equal "Unauthorized", find('.flash.notice').text
-    end
-
-  end
-
   context 'json autocomplete' do
     setup do
       # Given a Network report recipient
