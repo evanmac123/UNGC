@@ -58,7 +58,7 @@ class NonBusinessOrganizationSignup < OrganizationSignup
   end
 
   def after_save
-    registration.save
+    registration.save!
   end
 
   private
