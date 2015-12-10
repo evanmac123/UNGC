@@ -102,6 +102,10 @@ class OrganizationSignup
   end
 
   def save
+    # TODO fix this.
+    # No transaction and no exceptions mean that
+    # any failures here will not be detected and we may have invalid/partial data.
+    # see https://github.com/unspace/UNGC/issues/360
     before_save
 
     organization.save
