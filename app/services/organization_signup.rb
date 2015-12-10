@@ -102,21 +102,31 @@ class OrganizationSignup
   end
 
   def save
-    before_save
+    # TODO fix this.
+    # No transaction and no exceptions mean that
+    # any failures here will not be detected and we may have invalid/partial data.
+    # see https://github.com/unspace/UNGC/issues/360
+    # Converting all the writes to raise on validation errors will make it clear
+    # that there is a problem, and send all the data to honeybadger.
+    # This is an interim fix until the application process is reworked in the new
+    # year
 
-    organization.save
-    # fixes bug caused by storing signup and related objects in session (in rails4)
-    primary_contact.roles.reload
-    primary_contact.save
-    # fixes bug caused by storing signup and related objects in session (in rails4)
-    ceo.roles.reload
-    ceo.save
-    organization.contacts << primary_contact
-    organization.contacts << ceo
+    Organization.transaction do
+      before_save
 
-    after_save
+      organization.save!
+      # fixes bug caused by storing signup and related objects in session (in rails4)
+      primary_contact.roles.reload
+      primary_contact.save!
+      # fixes bug caused by storing signup and related objects in session (in rails4)
+      ceo.roles.reload
+      ceo.save!
+      organization.contacts << primary_contact
+      organization.contacts << ceo
+
+      after_save
+    end
   end
-
 
   # these are hook methods that can be implemented by the subclasses
   def before_save; end
