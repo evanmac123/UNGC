@@ -61,8 +61,12 @@ class BusinessOrganizationSignup < OrganizationSignup
     if require_pledge? && !primary_contact.is?(Role.financial_contact)
       # fixes bug caused by storing signup and related objects in session (in rails4)
       financial_contact.roles.reload
-      financial_contact.save!
-      organization.contacts << financial_contact
+
+      # save the financial_contact, currently it's okay for this
+      # model to be empty/invalid
+      if financial_contact.save
+        organization.contacts << financial_contact
+      end
     end
   end
 
@@ -74,6 +78,10 @@ class BusinessOrganizationSignup < OrganizationSignup
 
   def listing_status_options
     ListingStatus.applicable.collect {|t| [t.name, t.id]}
+  end
+
+  def to_s
+    self.inspect # HACK to make sure Honeybadger includes all relevant info
   end
 
   private
