@@ -41,6 +41,8 @@ class OrganizationSignupTest < ActiveSupport::TestCase
       create_country
       create_country
       @os = BusinessOrganizationSignup.new
+      @os.set_organization_attributes(valid_organization_attributes)
+      @os.set_primary_contact_attributes(new_contact_attributes)
     end
 
     should "set organization attributes" do
@@ -90,29 +92,38 @@ class OrganizationSignupTest < ActiveSupport::TestCase
     end
 
     should "persist the organization and the contacts" do
-      @os.organization.expects(:save).once
-      @os.primary_contact.expects(:save).once
-      @os.ceo.expects(:save).once
+      @os.set_primary_contact_attributes(new_contact_attributes)
+      @os.set_ceo_attributes(new_contact_attributes)
+      @os.organization.expects(:save!).once
+      @os.primary_contact.expects(:save!).once
+      @os.ceo.expects(:save!).once
       @os.save
     end
 
     should "persist organization, contacts and the financial contact" do
+      @os.set_primary_contact_attributes(new_contact_attributes)
+      @os.set_ceo_attributes(new_contact_attributes)
       @os.organization.pledge_amount = 1000
-      @os.organization.expects(:save).once
-      @os.primary_contact.expects(:save).once
-      @os.ceo.expects(:save).once
+
+      @os.organization.expects(:save!).once
+      @os.primary_contact.expects(:save!).once
+      @os.ceo.expects(:save!).once
       @os.financial_contact.expects(:save).once
       @os.save
     end
 
     should "save non business organization details" do
-      create_organization_type(name: 'Academic', type_property: 1 )
+      create_organization_type(name: 'Academic', type_property: 1)
       @os = NonBusinessOrganizationSignup.new
-      @os.registration.mission_statement = "A"
-      @os.organization.expects(:save).once
-      @os.primary_contact.expects(:save).once
-      @os.ceo.expects(:save).once
-      @os.registration.expects(:save).once
+      @os.set_organization_attributes(valid_organization_attributes)
+      @os.set_primary_contact_attributes(new_contact_attributes)
+      @os.set_ceo_attributes(new_contact_attributes)
+      @os.set_registration_attributes(valid_non_business_registration_attributes)
+
+      @os.organization.expects(:save!).once
+      @os.primary_contact.expects(:save!).once
+      @os.ceo.expects(:save!).once
+      @os.registration.expects(:save!).once
       @os.save
     end
 
@@ -239,4 +250,13 @@ class OrganizationSignupTest < ActiveSupport::TestCase
       assert @os.valid_organization?, "should be valid"
     end
   end
+
+  private
+
+  def new_contact_attributes
+    valid_contact_attributes.merge(
+      password: FixtureReplacement.random_string
+    )
+  end
+
 end

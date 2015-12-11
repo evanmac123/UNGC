@@ -46,7 +46,7 @@ module FixtureReplacement
     c.phone = FixtureReplacement.random_string
     c.address = FixtureReplacement.random_string
     c.city = FixtureReplacement.random_string
-    c.country = new_country
+    c.country = create_country
     c.email = FixtureReplacement.random_string + '@example.com'
     c.username = FixtureReplacement.random_string
     c.password = FixtureReplacement.random_string
