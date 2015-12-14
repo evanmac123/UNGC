@@ -61,7 +61,12 @@ class Organization < ActiveRecord::Base
     case_sensitive: false,
     message: "has already been used by another organization"
 
-  validates_numericality_of :employees, :only_integer => true, :message => "should only contain numbers. No commas or periods are required."
+  validates :employees, numericality: {
+    only_integer: true,
+    less_than_or_equal_to: 2_147_483_647, # 4 byte column
+    message: "Should only contain numbers less than 2,147,483,647. No commas or periods are required.",
+  }
+
   validates_numericality_of :pledge_amount, :only_integer => true, :message => "should only contain numbers. No commas or periods are required.",
                             :if => Proc.new { |organization| organization.pledge_amount.present? }
   validates_format_of :url,
