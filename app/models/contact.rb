@@ -253,6 +253,10 @@ class Contact < ActiveRecord::Base
   end
 
   def can_login?
+    has_login_role?
+  end
+
+  def has_login_role?
     Role.login_roles.any? { |r| is?(r) }
   end
 
