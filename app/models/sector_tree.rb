@@ -4,13 +4,19 @@ class SectorTree < Tree
     new.tree
   end
 
-  def initialize
-    super(Sector.where.not(parent_id: nil)
-      .includes(:parent)
+  def initialize(show_protected: true)
+    query = Sector.where.not(parent_id: nil)
+
+    unless show_protected
+      query = query.where(preserved: true)
+    end
+
+    grouped = query.includes(:parent)
       .select([:id, :parent_id, :name])
       .group(:parent_id, :id)
-      .group_by do |sector|
-        sector.parent
-      end)
+      .group_by(&:parent)
+
+    super(grouped)
   end
+
 end

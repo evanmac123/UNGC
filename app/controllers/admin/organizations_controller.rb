@@ -30,7 +30,7 @@ class Admin::OrganizationsController < AdminController
 
   def edit
     @organization_types = OrganizationType.staff_types
-    @sectors = SectorTree.load
+    @sectors = SectorTree.new(show_protected: false).tree
   end
 
   def update
