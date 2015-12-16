@@ -30,7 +30,7 @@ class Admin::OrganizationsController < AdminController
 
   def edit
     @organization_types = OrganizationType.staff_types
-    @sectors = SectorTree.new(show_protected: false).tree
+    @sectors = SectorTree.new(show_protected: current_contact.from_ungc?).tree
   end
 
   def update
