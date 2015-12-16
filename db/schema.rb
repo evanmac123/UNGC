@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151110233222) do
+ActiveRecord::Schema.define(version: 20151216041836) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -900,6 +900,7 @@ ActiveRecord::Schema.define(version: 20151110233222) do
     t.integer  "parent_id",  limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "preserved",              default: true, null: false
   end
 
   create_table "sessions", force: :cascade do |t|
