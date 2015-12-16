@@ -1,5 +1,9 @@
 class SectorTree < Tree
 
+  def self.load
+    new.tree
+  end
+
   def initialize
     super(Sector.where.not(parent_id: nil)
       .includes(:parent)

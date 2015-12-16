@@ -66,7 +66,7 @@
 
         <div class='field field-required'>
           <%= form.label :sector_id %>
-          <%= form.select :sector_id, option_groups_from_collection_for_select(Sector.top_level, :children, :name, :id, :name, @signup.organization.sector_id), {include_blank: true}, {} %>
+          <%= form.select :sector_id, @sectors, {include_blank: true}, {} %>
         </div>
 
         <div class='field field-required'>
