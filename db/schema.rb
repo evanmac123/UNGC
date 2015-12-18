@@ -900,7 +900,7 @@ ActiveRecord::Schema.define(version: 20151216041836) do
     t.integer  "parent_id",  limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "preserved",              default: true, null: false
+    t.boolean  "preserved",              default: false, null: false
   end
 
   create_table "sessions", force: :cascade do |t|
