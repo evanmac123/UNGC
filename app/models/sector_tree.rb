@@ -1,22 +1,17 @@
 class SectorTree < Tree
+  attr_reader :preserved
 
   def self.load
     new.tree
   end
 
-  def initialize(show_protected: true)
-    query = Sector.where.not(parent_id: nil)
-
-    unless show_protected
-      query = query.where(preserved: true)
-    end
-
-    grouped = query.includes(:parent)
-      .select([:id, :parent_id, :name])
+  def initialize
+    sectors = Sector.where.not(parent_id: nil)
+      .includes(:parent)
+      .select([:id, :parent_id, :name, :preserved])
       .group(:parent_id, :id)
-      .group_by(&:parent)
-
-    super(grouped)
+    @preserved = sectors.find_all(&:preserved)
+    super(sectors.group_by(&:parent))
   end
 
 end
