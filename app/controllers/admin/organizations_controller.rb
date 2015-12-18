@@ -30,7 +30,7 @@ class Admin::OrganizationsController < AdminController
 
   def edit
     @organization_types = OrganizationType.staff_types
-    @sectors = SectorTree.new(show_protected: current_contact.from_ungc?).tree
+    @sectors, @disabled_sectors = load_sectors
   end
 
   def update
@@ -40,6 +40,7 @@ class Admin::OrganizationsController < AdminController
       redirect_to_dashboard
     else
       @organization_types = OrganizationType.staff_types
+      @sectors, @disabled_sectors = load_sectors
       render :action => "edit"
     end
   end
@@ -252,6 +253,16 @@ class Admin::OrganizationsController < AdminController
         :number,
         :mission_statement
       )
+    end
+
+    def load_sectors
+      sectors = SectorTree.new
+      disabled = if current_contact.from_ungc?
+        []
+      else
+        sectors.preserved.map(&:id)
+      end
+      [sectors, disabled]
     end
 
 end
