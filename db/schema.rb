@@ -750,6 +750,7 @@ ActiveRecord::Schema.define(version: 20151110233222) do
   end
 
   add_index "organizations", ["country_id"], name: "index_organizations_on_country_id", using: :btree
+  add_index "organizations", ["name"], name: "index_organizations_on_name", unique: true, using: :btree
   add_index "organizations", ["participant", "id"], name: "index_organizations_on_participant_and_id", using: :btree
   add_index "organizations", ["participant"], name: "index_organizations_on_participant", using: :btree
   add_index "organizations", ["participant_manager_id"], name: "index_organizations_on_participant_manager_id", using: :btree
