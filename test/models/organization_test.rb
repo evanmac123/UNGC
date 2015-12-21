@@ -317,4 +317,67 @@ class OrganizationTest < ActiveSupport::TestCase
     end
   end
 
+  context "uniqueness of name" do
+
+    context "in the application layer" do
+
+      should "not allow exact duplicates" do
+        create_organization(name: "simple")
+        org = new_organization(name: "simple")
+
+        refute org.valid?
+        assert_contains org.errors.messages[:name], "has already been used by another organization"
+      end
+
+      should "not allow two names that are the same, differing only by accents" do
+        create_organization(name: "Fundación")
+        org = new_organization(name: "Fundacion")
+
+        refute org.valid?
+        assert_contains org.errors.messages[:name], "has already been used by another organization"
+      end
+
+      should "not allow two names that are the same, differing only by case" do
+        create_organization(name: "Fundación")
+        org = new_organization(name: "FUNDACION")
+
+        refute org.valid?
+        assert_contains org.errors.messages[:name], "has already been used by another organization"
+      end
+
+    end
+
+    context "in the database layer" do
+
+      should "not allow exact duplicates" do
+        create_organization(name: "simple")
+        org = new_organization(name: "simple")
+
+        assert_raise ActiveRecord::RecordNotUnique do
+          org.save!(validate: false)
+        end
+      end
+
+      should "not allow two names that are the same, differing only by accents" do
+        create_organization(name: "Fundación")
+        org = new_organization(name: "Fundacion")
+
+        assert_raise ActiveRecord::RecordNotUnique do
+          org.save!(validate: false)
+        end
+      end
+
+      should "not allow two names that are the same, differing only by case" do
+        create_organization(name: "Fundación")
+        org = new_organization(name: "FUNDACION")
+
+        assert_raise ActiveRecord::RecordNotUnique do
+          org.save!(validate: false)
+        end
+      end
+
+    end
+
+  end
+
 end
