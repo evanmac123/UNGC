@@ -15,6 +15,8 @@ class SignupController < ApplicationController
   def step1
     clear_organization_signup
 
+    @sectors = SectorTree.load
+
     if @signup.organization.jci_referral? request.env["HTTP_REFERER"]
       session[:is_jci_referral] = true
       @jci_referral = true
