@@ -1,12 +1,17 @@
 class SectorTree < Tree
+  attr_reader :preserved
+
+  def self.load
+    new.tree
+  end
 
   def initialize
-    super(Sector.where.not(parent_id: nil)
+    sectors = Sector.where.not(parent_id: nil)
       .includes(:parent)
-      .select([:id, :parent_id, :name])
+      .select([:id, :parent_id, :name, :preserved])
       .group(:parent_id, :id)
-      .group_by do |sector|
-        sector.parent
-      end)
+    @preserved = sectors.find_all(&:preserved)
+    super(sectors.group_by(&:parent))
   end
+
 end

@@ -45,7 +45,8 @@ class Admin::SectorsController < AdminController
     params.require(:sector).permit(
       :name,
       :icb_number,
-      :parent_id
+      :parent_id,
+      :preserved
     )
   end
 end
