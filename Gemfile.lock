@@ -459,6 +459,7 @@ DEPENDENCIES
   mocha (~> 1.1.0)
   money (~> 2.1.5)
   mysql2 (~> 0.3.17)
+  net-ssh
   newrelic_rpm (~> 3.9.9.275)
   non-stupid-digest-assets
   paperclip (~> 4.2.1)
