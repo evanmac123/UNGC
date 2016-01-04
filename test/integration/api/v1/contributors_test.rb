@@ -26,7 +26,7 @@ class Api::V1::ContributorsTest < ActionDispatch::IntegrationTest
       {
         "id" => participant.id,
         "year" => 2014,
-        "type" => 'annual',
+        "type" => 'Annual',
         "name" => participant.name,
         "url" => participant_url(participant),
         "amount" => "$USD > 15,000"
@@ -56,7 +56,7 @@ class Api::V1::ContributorsTest < ActionDispatch::IntegrationTest
     expected = [
       {
         "id" => participant.id,
-        "type" => 'annual',
+        "type" => 'Annual',
         "year" => 2014,
         "name" => participant.name,
         "url" => participant_url(participant),
@@ -87,7 +87,7 @@ class Api::V1::ContributorsTest < ActionDispatch::IntegrationTest
     expected = [
       {
         "id" => participant.id,
-        "type" => 'lead',
+        "type" => 'LEAD',
         "year" => 2014,
         "name" => participant.name,
         "url" => participant_url(participant),
