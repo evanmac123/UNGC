@@ -1,7 +1,4 @@
 class ContributionStatus
-  YEAR_CAMPAIGN_REGEXP = /\A(?<year>\d\d\d\d) Annual Contributions\z/
-  YEAR_LEAD_REGEXP = /\ALEAD (?<year>\d\d\d\d).*\z/
-
   attr_reader :organization, :campaigns
 
   def initialize(organization, campaigns)
@@ -39,18 +36,8 @@ class ContributionStatus
     latest_annual_contribution_year.downto(initial_contribution_year)
   end
 
-  def campaign_regexp
-    if organization.signatory_of?(:lead) # for a lead organization look at BOTH possible entries
-      Regexp.new(YEAR_LEAD_REGEXP.source + "|" +  YEAR_CAMPAIGN_REGEXP.source)
-    else
-      YEAR_CAMPAIGN_REGEXP
-    end
-  end
-
   def contributed_years
-    campaigns.map do |c|
-      c.name.match(campaign_regexp).try(:[], :year).try(:to_i)
-    end.reject(&:nil?).sort
+    campaigns.map(&:year).reject(&:nil?).sort
   end
 
   def contributor_for_year?(year)

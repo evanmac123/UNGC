@@ -40,6 +40,7 @@ gem 'virtus',               '~> 1.0.5'
 gem 'capistrano',           '~> 2.15.5'
 gem 'plugger' # supports moonshine plugin on rails4
 gem 'databasedotcom'
+gem 'net-ssh'
 
 # for upgrading to rails 4+, need to be removed eventually.
 gem 'rails-observers'

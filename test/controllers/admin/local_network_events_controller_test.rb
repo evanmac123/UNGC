@@ -58,7 +58,7 @@ class Admin::LocalNetworkEventsControllerTest < ActionController::TestCase
         :date,
         :num_participants,
         :gc_participant_percentage,
-        :attachments
+        :uploaded_attachments
       )
   end
 end

@@ -60,7 +60,7 @@ class Admin::InitiativesControllerTest < ActionController::TestCase
 
       should "update" do
         assert_no_difference 'Initiative.count' do
-          post :update, {:id => @initiative.id, :initiative => @initiative.attributes.merge(:name => 'Initiative changed!')}
+          post :update, id: @initiative.id, initiative: params.merge(:name => 'Initiative changed!')
         end
         assert_equal 'Initiative changed!', Initiative.find(@initiative.id).name
         assert @initiative.active, 'initiative is active by default'
@@ -68,7 +68,7 @@ class Admin::InitiativesControllerTest < ActionController::TestCase
       end
 
       should 'be able to deactivate an initiative' do
-        post :update, {:id => @initiative.id, :initiative => @initiative.attributes.merge(:active =>false)}
+        post :update, id: @initiative.id, initiative: params.merge(:active =>false)
         @initiative.reload
         refute @initiative.active, 'initiative is inactive'
       end
@@ -82,5 +82,12 @@ class Admin::InitiativesControllerTest < ActionController::TestCase
     end
   end
 
+  private
 
+  def params
+    valid_initiative_attributes.with_indifferent_access.slice(
+      :name,
+      :active
+    )
+  end
 end

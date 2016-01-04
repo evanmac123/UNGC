@@ -1,9 +1,10 @@
+require 'net/scp'
+
 namespace :db do
   desc "re-create the database from yesterday's production snapshot"
   task reset_from_snapshot: :environment do
     raise "Must be NOT be run from the production environment" if Rails.env.production?
     host = 'unglobalcompact.org'
-    user = 'rails'
 
     yesterday = (Date.today - 1.day).strftime('%Y_%m_%d')
     snapshot = "production_unglobalcompact_#{yesterday}.sql"
@@ -15,10 +16,14 @@ namespace :db do
     FileUtils.mkdir_p snapshot_dir
     unless File.exist? snapshot_path
       puts "Removing old snapshots"
-      FileUtils.rm "#{snapshot_dir}/*.sql", force: true
+      puts FileUtils.rm Dir.glob("#{snapshot_dir}/*.sql"), force: true
 
-      puts "Getting the latest mysql production snapshot"
-      system "scp rails@unglobalcompact.org:#{server_path} #{zipped_path}"
+      Net::SCP.start("unglobalcompact.org", "rails") do |scp|
+        scp.download!(server_path, zipped_path) do |ch, name, sent, total|
+          $stdout.write sprintf("\rGetting the latest mysql production snapshot... %.1f%", (sent.to_f/total.to_f * 100))
+          $stdout.flush
+        end
+      end
 
       system "gunzip #{zipped_path}"
     end
