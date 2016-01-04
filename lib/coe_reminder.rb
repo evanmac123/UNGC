@@ -76,7 +76,7 @@ class CoeReminder
   def expulsion_in_1_month
     log "Running expulsion_in_1_month"
     notify :communication_on_engagement_1_month_before_expulsion,
-      non_communicating.with_cop_due_on(30.days.from_now.to_date)
+      non_communicating.with_cop_due_on(30.days.from_now.to_date - 1.year)
   end
 
   def expulsion_in_2_weeks
