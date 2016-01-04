@@ -41,6 +41,9 @@ class Admin::InitiativesController < AdminController
     end
 
     def initiative_params
-      params.require(:initiative).permit(:name, :active)
+      params.require(:initiative).permit(
+        :name,
+        :active
+      )
     end
 end

@@ -45,5 +45,10 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
+  # Raise exception for unpermitted parameters.
+  # This allows Strong Parameters to be tested against the expected params for
+  # a model during create and update controller actions.
+  config.action_controller.action_on_unpermitted_parameters = :raise
+
   config.active_record.raise_in_transactional_callbacks = false
 end
