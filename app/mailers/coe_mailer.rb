@@ -69,7 +69,7 @@ class CoeMailer < ActionMailer::Base
   end
 
   def communication_on_engagement_3_months_before_expulsion(organization)
-    @nrr_email = organization.network_report_recipients.first.email
+    @report_recipient = organization.network_report_recipients.first
     @organization = organization
     mail \
       to:       contact_points(organization),
@@ -79,7 +79,7 @@ class CoeMailer < ActionMailer::Base
   end
 
   def communication_on_engagement_1_month_before_expulsion(organization)
-    @nrr_email = organization.network_report_recipients.first.email
+    @report_recipient = organization.network_report_recipients.first
     @organization = organization
     mail \
       to:       contact_points(organization),

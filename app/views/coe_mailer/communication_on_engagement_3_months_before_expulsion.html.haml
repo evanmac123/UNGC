@@ -9,8 +9,8 @@ Dear Contact Points for
 
 %p
   == Please do not hesitate to contact your Relationship Manager, #{@organization.participant_manager_name} via email at #{mail_to @organization.participant_manager_email.to_s} should you experience any difficulties in submitting your COE.
-  - if @organization.network_report_recipients.any?
-    == Your Local Network contact point, #{@organization.network_report_recipient_name} #{@nrr_email} would also be happy to answer any questions or provide you with assistance.
+  - if @report_recipient.present?
+    == Your Local Network contact point, #{@report_recipient.full_name_with_title} #{@report_recipient.email} would also be happy to answer any questions or provide you with assistance.
 
 %p Kind regards,
 
