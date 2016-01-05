@@ -22,14 +22,12 @@ class Admin::CopsController < AdminController
 
   def new
     # show the COP form (basic/grace/RCA/intermediate/advanced) for a new COP
-    # TODO resume an existing COP draft
-    # TODO clean up stale drafts
-    unless CommunicationOnProgress::TYPES.include?(cop_type)
+    if CommunicationOnProgress::TYPES.include?(cop_type)
+      @communication_on_progress = CopForm.new_form(@organization, cop_type, current_contact.contact_info)
+      @communication_on_progress.build_cop_answers
+    else
       redirect_to cop_introduction_url
     end
-
-    @communication_on_progress = CopForm.new_form(@organization, cop_type, current_contact.contact_info)
-    @communication_on_progress.build_cop_answers
   end
 
   def edit

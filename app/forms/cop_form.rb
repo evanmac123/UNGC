@@ -14,16 +14,20 @@ class CopForm
     raise "cop type is nil, must specify a copy type." unless type
     cop = organization.communication_on_progresses.draft.new
     cop_form_class = forms_for_type(type)
-    cop_form_class.new(cop, type, contact_info)
+    if cop_form_class.present?
+      cop_form_class.new(cop, type, contact_info)
+    end
   end
 
   def self.edit_form(cop, contact_info)
     type = determine_cop_type(cop)
     cop_form_class = forms_for_type(type)
-    form = cop_form_class.new(cop, type, contact_info)
-    form.submitted = true
-    form.edit = true
-    form
+    if cop_form_class.present?
+      form = cop_form_class.new(cop, type, contact_info)
+      form.submitted = true
+      form.edit = true
+      form
+    end
   end
 
   # Maybe we should add this logic into a migration
