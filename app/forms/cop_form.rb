@@ -12,18 +12,22 @@ class CopForm
 
   def self.new_form(organization, type, contact_info)
     raise "cop type is nil, must specify a copy type." unless type
-    cop = organization.communication_on_progresses.new
+    cop = organization.communication_on_progresses.draft.new
     cop_form_class = forms_for_type(type)
-    cop_form_class.new(cop, type, contact_info)
+    if cop_form_class.present?
+      cop_form_class.new(cop, type, contact_info)
+    end
   end
 
   def self.edit_form(cop, contact_info)
     type = determine_cop_type(cop)
     cop_form_class = forms_for_type(type)
-    form = cop_form_class.new(cop, type, contact_info)
-    form.submitted = true
-    form.edit = true
-    form
+    if cop_form_class.present?
+      form = cop_form_class.new(cop, type, contact_info)
+      form.submitted = true
+      form.edit = true
+      form
+    end
   end
 
   # Maybe we should add this logic into a migration
@@ -112,17 +116,16 @@ class CopForm
   end
 
   def submit(params)
-    cop.assign_attributes(params)
-    cop.contact_info ||= contact_info
-    remove_deleted_links(params)
-    remember_link_params(params)
-    @submitted = true
-    clear_answer_text_from_unselected_answers
-    valid? && cop.save
+    cop.submission_status = :submitted
+    do_save(params)
   end
 
   def update(params)
-    submit(params) && cop.set_differentiation_level
+    do_save(params)
+  end
+
+  def save_draft(params)
+    do_save(params, validate: false)
   end
 
   def valid?
@@ -211,7 +214,7 @@ class CopForm
   end
 
   def return_url
-    if edit
+    if edit # ungc staff editing a completed COP
       admin_organization_communication_on_progress_path(cop.organization.id, cop.id)
     else
       cop_introduction_path
@@ -266,6 +269,20 @@ class CopForm
         cop.cop_files << file
       end
       file
+    end
+
+    def do_save(params, validate: true)
+      cop.assign_attributes(params)
+      cop.contact_info ||= contact_info
+
+      CommunicationOnProgress.transaction do
+        remove_deleted_links(params)
+        remember_link_params(params)
+        @submitted = true
+        clear_answer_text_from_unselected_answers
+        is_valid = if validate then valid? else true end
+        is_valid && cop.save(validate: validate) && cop.set_differentiation_level
+      end
     end
 
 end

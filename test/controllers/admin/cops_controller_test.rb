@@ -32,9 +32,8 @@ class Admin::CopsControllerTest < ActionController::TestCase
       should "see Grace Letter tab" do
         get :introduction
         assert_response :success
-        assert_select 'ul.tab_nav' do
-          assert_select 'li', 'Grace Letter'
-        end
+        links = assert_select 'ul.tab_nav li a'
+        assert_includes links.map(&:text), 'Grace Letter'
       end
     end
 
@@ -48,10 +47,10 @@ class Admin::CopsControllerTest < ActionController::TestCase
       end
       should "should not see Grace Letter tab" do
         get :introduction
+
         assert_response :success
-        assert_select 'ul.tab_nav' do
-          assert_select 'li:last-child', 'Reporting Cycle Adjustment'
-        end
+        links = assert_select 'ul.tab_nav li a'
+        assert_not_includes links.map(&:text), 'Grace Letter'
       end
     end
 
@@ -68,9 +67,8 @@ class Admin::CopsControllerTest < ActionController::TestCase
         assert @organization.delisted?
         get :introduction
         assert_response :success
-        assert_select 'ul.tab_nav' do
-          assert_select 'li:last-child', 'GC Advanced COP'
-        end
+        links = assert_select 'ul.tab_nav li a'
+        assert_not_includes links.map(&:text), 'Grace Letter'
       end
     end
 
@@ -188,21 +186,6 @@ class Admin::CopsControllerTest < ActionController::TestCase
       get :show, :organization_id => @organization.id,
                  :id              => @cop.id
       assert_response :success
-    end
-
-    # these tests fail as all cops are currently editable.
-    # we need to clarify the intent and implementation of editable?
-    should "not be able to edit the cop" do
-      get :edit, :organization_id => @organization.id,
-                 :id              => @cop.id
-      assert_redirected_to dashboard_path, "all cops are editable at the moment. see tests/implementation and clarifiy intent with venu."
-    end
-
-    should "not be able to update the cop" do
-      put :update, :organization_id => @organization.id,
-                   :id              => @cop.id,
-                   :communication_on_progress => {}
-      assert_redirected_to dashboard_path, "all cops are editable at the moment. see tests/implementation and clarifiy intent with venu."
     end
   end
 

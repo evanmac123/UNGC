@@ -71,8 +71,17 @@ class CommunicationOnProgress < ActiveRecord::Base
 
   TYPES = %w{grace basic intermediate advanced lead non_business}
 
-  default_scope { order('communication_on_progresses.created_at DESC') }
+  enum submission_status: {
+    submitted: 0,
+    draft: 1,
+  }
 
+  default_scope {
+    submitted
+    .order('communication_on_progresses.created_at DESC')
+  }
+
+  scope :in_progress, lambda { unscoped.draft }
   scope :all_cops, lambda { includes([:organization, {:organization => [:country]}]) }
   scope :published_between, lambda { |start_date, end_date| where(published_on: start_date..end_date) }
   scope :new_policy, lambda { where("created_at >= ?", Date.new(2010, 1, 1)) }
