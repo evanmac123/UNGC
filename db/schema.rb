@@ -134,12 +134,14 @@ ActiveRecord::Schema.define(version: 20151222201923) do
     t.boolean  "references_water_mandate"
     t.string   "cop_type",                            limit: 255
     t.date     "published_on"
+    t.integer  "submission_status",                   limit: 4,     default: 0, null: false
   end
 
   add_index "communication_on_progresses", ["created_at"], name: "index_communication_on_progresses_on_created_at", using: :btree
   add_index "communication_on_progresses", ["differentiation"], name: "index_communication_on_progresses_on_differentiation", using: :btree
   add_index "communication_on_progresses", ["organization_id"], name: "index_communication_on_progresses_on_organization_id", using: :btree
   add_index "communication_on_progresses", ["state"], name: "index_communication_on_progresses_on_state", using: :btree
+  add_index "communication_on_progresses", ["submission_status"], name: "index_communication_on_progresses_on_submission_status", using: :btree
 
   create_table "communication_on_progresses_countries", id: false, force: :cascade do |t|
     t.integer "communication_on_progress_id", limit: 4

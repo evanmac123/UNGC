@@ -2,26 +2,6 @@ require 'test_helper'
 
 class CopFormTest < ActiveSupport::TestCase
 
-  def valid_cop_attrs(organization, params={})
-    cop_attrs = valid_communication_on_progress_attributes(organization_id: organization.id)
-    link_params = {
-      "cop_links_attributes" => {
-        "new_cop" => {
-          "attachment_type" => "cop",
-          "language_id" => @french.id,
-          "url" => "http://example.com"
-        }
-      }
-    }
-    file_params = {cop_files_attributes: {"0" => cop_file_attributes}}
-    attrs = cop_attrs.merge(params)
-      .merge(link_params)
-      .merge(file_params)
-      .with_indifferent_access
-    attrs.delete(:id)
-    attrs
-  end
-
   setup do
     create_principle_area
     create_organization_and_user
@@ -237,51 +217,37 @@ class CopFormTest < ActiveSupport::TestCase
       @form = CopForm.edit_form(@old_cop, @organization_user.contact_info)
     end
 
-    context "basic fields" do
+    should "set basic fields" do
+      assert @form.submit @attrs
+      # load the edit cop up.
+      @cop = CommunicationOnProgress.find(@form.id)
+      assert_not_nil @cop.created_at
 
-      setup do
-        assert @form.submit @attrs
-        # load the edit cop up.
-        @cop = CommunicationOnProgress.find(@form.id)
-        assert_not_nil @cop.created_at
-      end
-
-    %w(
-      organization_id
-      title
-      contact_info
-      include_actions
-      include_measurement
-      use_indicators
-      cop_score_id
-      use_gri
-      has_certification
-      notable_program
-      description
-      state
-      include_continued_support_statement
-      format
-      references_human_rights
-      references_labour
-      references_environment
-      references_anti_corruption
-      meets_advanced_criteria
-      starts_on
-      ends_on
-      method_shared
-      differentiation
-      references_business_peace
-      references_water_mandate
-    ).each do |f|
-      field = f.to_sym
-      should "have the new #{field}" do
-        assert_equal @attrs[field], @cop.public_send(field)
-      end
-    end
-
-      should "be upgraded to active differentiation" do
-        assert_equal :active, @cop.differentiation_level
-      end
+      assert_equal @attrs[:organization_id], @cop.organization_id
+      assert_equal @attrs[:title], @cop.title
+      assert_equal @attrs[:contact_info], @cop.contact_info
+      assert_equal @attrs[:include_actions], @cop.include_actions
+      assert_equal @attrs[:include_measurement], @cop.include_measurement
+      assert_equal @attrs[:use_indicators], @cop.use_indicators
+      assert_equal @attrs[:use_gri], @cop.use_gri
+      assert_equal @attrs[:has_certification], @cop.has_certification
+      assert_equal @attrs[:notable_program], @cop.notable_program
+      assert_equal @attrs[:description], @cop.description
+      assert_equal @attrs[:state], @cop.state
+      assert_equal @attrs[:include_continued_support_statement], @cop.include_continued_support_statement
+      assert_equal @attrs[:format], @cop.format
+      assert_equal @attrs[:references_human_rights], @cop.references_human_rights
+      assert_equal @attrs[:references_labour], @cop.references_labour
+      assert_equal @attrs[:references_environment], @cop.references_environment
+      assert_equal @attrs[:references_anti_corruption], @cop.references_anti_corruption
+      assert_equal false, @cop.meets_advanced_criteria
+      assert_equal @attrs[:starts_on], @cop.starts_on
+      assert_equal @attrs[:ends_on], @cop.ends_on
+      assert_equal @attrs[:method_shared], @cop.method_shared
+      assert_equal 'active', @cop.differentiation
+      assert_equal @attrs[:references_business_peace], @cop.references_business_peace
+      assert_equal @attrs[:references_water_mandate], @cop.references_water_mandate
+      assert_equal :active, @cop.differentiation_level
     end
 
     context "adding a link" do
@@ -357,6 +323,26 @@ class CopFormTest < ActiveSupport::TestCase
       assert_equal 0, cop.cop_links.count
     end
 
+  end
+
+  def valid_cop_attrs(organization, params={})
+    cop_attrs = valid_communication_on_progress_attributes(organization_id: organization.id)
+    link_params = {
+      "cop_links_attributes" => {
+        "new_cop" => {
+          "attachment_type" => "cop",
+          "language_id" => @french.id,
+          "url" => "http://example.com"
+        }
+      }
+    }
+    file_params = {cop_files_attributes: {"0" => cop_file_attributes}}
+    attrs = cop_attrs.merge(params)
+      .merge(link_params)
+      .merge(file_params)
+      .with_indifferent_access
+    attrs.delete(:id)
+    attrs
   end
 
 end
