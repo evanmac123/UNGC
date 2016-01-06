@@ -81,7 +81,7 @@ class CommunicationOnProgress < ActiveRecord::Base
     .order('communication_on_progresses.created_at DESC')
   }
 
-  scope :in_progress, lambda { unscoped.draft }
+  scope :in_progress, lambda { unscope(where: :submission_status).draft }
   scope :all_cops, lambda { includes([:organization, {:organization => [:country]}]) }
   scope :published_between, lambda { |start_date, end_date| where(published_on: start_date..end_date) }
   scope :new_policy, lambda { where("created_at >= ?", Date.new(2010, 1, 1)) }
