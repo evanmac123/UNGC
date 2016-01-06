@@ -230,7 +230,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
 
   def set_approved_fields
-    if !is_grace_letter? && !is_reporting_cycle_adjustment?
+    if self.submitted? && !is_grace_letter? && !is_reporting_cycle_adjustment?
       organization.set_next_cop_due_date_and_cop_status!
     end
   end
