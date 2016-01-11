@@ -36,5 +36,4 @@ namespace :cop do
       end
     end
   end
-
 end
