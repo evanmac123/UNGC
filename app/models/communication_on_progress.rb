@@ -456,6 +456,11 @@ class CommunicationOnProgress < ActiveRecord::Base
     update_attribute :differentiation, differentiation_level.to_s
   end
 
+  def set_published_fields
+    self.published_on ||= Time.now.to_date
+    self.state = "approved"
+  end
+
   private
 
     # javascript will normally hide the link field if it's blank,
@@ -486,8 +491,7 @@ class CommunicationOnProgress < ActiveRecord::Base
 
     # set approved state for all COPs
     def set_approved_state
-      self.published_on ||= Time.now.to_date
-      self.state = "approved"
+      set_published_fields
       self.save
       set_approved_fields
     end

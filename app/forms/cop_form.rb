@@ -274,6 +274,7 @@ class CopForm
     def do_save(params, validate: true)
       cop.assign_attributes(params)
       cop.contact_info ||= contact_info
+      cop.set_published_fields
 
       CommunicationOnProgress.transaction do
         remove_deleted_links(params)
