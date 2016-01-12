@@ -6,6 +6,10 @@ namespace :cop do
     arg2 = Organization.find_by(name: args[:second_organization])
 
     clone_cops(from: arg1, to: arg2)
+
+    puts
+    puts 'COPs are now copied'
+    puts
   end
 
   def clone_cops(from:, to:)
