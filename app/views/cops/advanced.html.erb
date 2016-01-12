@@ -31,7 +31,7 @@
               <%= truncate(cop.country_name, :length => 15) %>
             </td>
             <td class='year'>
-              <%= cop.published_on.year %>
+              <%= cop.published_on.try(:year) %>
             </td>
           </tr>
         <% end %>
