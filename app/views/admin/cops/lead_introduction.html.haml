@@ -36,4 +36,5 @@
       %p.cop_description
         %strong This option is not available because you have already submitted a Reporting Cycle Adjustment.
 
-  = render :partial => 'drafts'
+  - if current_contact.from_organization?
+    = render :partial => 'drafts'

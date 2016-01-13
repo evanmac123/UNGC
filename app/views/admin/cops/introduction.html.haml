@@ -93,4 +93,5 @@
 
       %p= link_to 'Submit a Reporting Cycle Adjustment here', new_admin_organization_reporting_cycle_adjustment_path(current_contact.organization.id), :class => 'new_page_large'
 
-  = render :partial => 'drafts'
+  - if current_contact.from_organization?
+    = render :partial => 'drafts'
