@@ -5,6 +5,9 @@
     %li <a href="#introduction">Instructions</a>
     %li <a href="#grace">Grace Letter</a>
     %li <a href="#reporting">Reporting Cycle Adjustment</a>
+    - if current_contact.from_organization?
+      %li <a href="#drafts">Drafts</a>
+
 
   #introduction.tab_content
     %h3 Reporting Requirements
@@ -32,3 +35,6 @@
     - else
       %p.cop_description
         %strong This option is not available because you have already submitted a Reporting Cycle Adjustment.
+
+  - if current_contact.from_organization?
+    = render :partial => 'drafts'

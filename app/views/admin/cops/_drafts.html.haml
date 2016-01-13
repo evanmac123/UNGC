@@ -1,0 +1,20 @@
+#drafts.tab_content
+  %h3 Your drafts
+  - if @drafts.none?
+    %p You don't have any drafts
+  - else
+    %table.dashboard_table#organizations_dashboard_table
+      %tr
+        %th.last_updated Last update
+        %th.title Title
+        %th.status Type
+        %th.actions Actions
+      - @drafts.each do |cop|
+        %tr
+          %td= cop.updated_at
+          %td= cop.title
+          %td= cop.cop_type.titlecase
+          %td
+            %ul.actions
+              %li= link_to 'Edit', edit_draft_admin_organization_communication_on_progress_path(cop.organization, cop.id), class: 'edit', title: 'Edit'
+              %li= link_to 'Delete', admin_organization_communication_on_progress_path(cop.organization, cop.id), data: { confirm: 'Are you sure?' }, method: :delete, class: 'delete', title: 'Delete draft'
