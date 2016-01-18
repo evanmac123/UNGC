@@ -8,7 +8,10 @@
       %div{:class => "hint_toggle"} Suggested topics...
       %div{:class => "hint_text", :style => 'display: none;'}= attribute.hint.html_safe
     = hidden_field_tag("communication_on_progress[cop_answers_attributes][][cop_attribute_id]", attribute.id)
-    = text_area_tag("communication_on_progress[cop_answers_attributes][][text]", '', { :class => 'cop_answer' })
+    - # HACK to make basic cop answers show up when editing drafts
+    - # TODO this will create a new row for every edit. fix that.
+    - answer_text = @communication_on_progress.cop_answers.where(cop_attribute: attribute).last.try(:text) || ''
+    = text_area_tag("communication_on_progress[cop_answers_attributes][][text]", answer_text, { :class => 'cop_answer' })
   - else
     - answers = advanced_cop_answers(question.cop_attributes)
     - answers.each do |answer|
