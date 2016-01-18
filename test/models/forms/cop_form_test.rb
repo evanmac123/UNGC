@@ -325,6 +325,37 @@ class CopFormTest < ActiveSupport::TestCase
 
   end
 
+  should "adjust an organization's cop_state when publishing a draft" do
+    # When an org creates a draft COP and the publishes it, the cop_due_on
+    # date should be adjusted
+
+    # Given an non-communicating organization
+    original_due_date = Date.today - 1.month
+    non_communicating = Organization::COP_STATE_NONCOMMUNICATING
+    @organization.update(
+      cop_due_on: original_due_date,
+      cop_state: non_communicating)
+
+    # When a draft is save
+    form = CopForm.new_form(@organization, :intermediate,
+                            @organization_user.contact_info)
+    form.save_draft(valid_cop_attrs(@organization))
+    @organization.reload
+
+    # Then the organization should still be non-communicating, and it's
+    # cop due date unchanged.
+    assert_equal original_due_date, @organization.cop_due_on
+    assert_equal non_communicating, @organization.cop_state
+
+    # When the COP is submitted
+    form.submit({})
+    @organization.reload
+
+    # Then the organization should be active with the adjusted cop_due_on
+    assert_equal 'active', @organization.cop_state
+    assert @organization.cop_due_on > Date.today, 'cop_due_on was not adjusted'
+  end
+
   def valid_cop_attrs(organization, params={})
     cop_attrs = valid_communication_on_progress_attributes(organization_id: organization.id)
     link_params = {
@@ -342,6 +373,7 @@ class CopFormTest < ActiveSupport::TestCase
       .merge(file_params)
       .with_indifferent_access
     attrs.delete(:id)
+    attrs.delete(:submission_status)
     attrs
   end
 

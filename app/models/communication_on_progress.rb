@@ -55,12 +55,13 @@ class CommunicationOnProgress < ActiveRecord::Base
   has_many :cop_links, :foreign_key => :cop_id
   acts_as_commentable
 
-  before_create  :check_links
-  before_save    :set_cop_defaults
-  before_save    :can_be_edited?
-  after_create   :set_differentiation_level
-  after_create   :set_approved_state
-  before_destroy :delete_associated_attributes
+  after_initialize  :set_defaults
+  before_create     :check_links
+  before_save       :set_cop_defaults
+  before_save       :can_be_edited?
+  after_create      :set_differentiation_level
+  after_create      :adjust_organization_cop_date_and_status
+  before_destroy    :delete_associated_attributes
 
   accepts_nested_attributes_for :cop_answers
   accepts_nested_attributes_for :cop_files, :allow_destroy => true
@@ -228,13 +229,6 @@ class CommunicationOnProgress < ActiveRecord::Base
   def editable?
     is_new_format?
   end
-
-  def set_approved_fields
-    if self.submitted? && !is_grace_letter? && !is_reporting_cycle_adjustment?
-      organization.set_next_cop_due_date_and_cop_status!
-    end
-  end
-
 
   # Calculate COP score based on answers to Q7
   def score
@@ -456,12 +450,20 @@ class CommunicationOnProgress < ActiveRecord::Base
     update_attribute :differentiation, differentiation_level.to_s
   end
 
-  def set_published_fields
-    self.published_on ||= Time.now.to_date
-    self.state = "approved"
+  def publish
+    transaction do
+      self.update!(published_on: Time.now.to_date)
+      adjust_organization_cop_date_and_status
+    end
   end
 
   private
+
+    def adjust_organization_cop_date_and_status
+      if self.submitted? && !is_grace_letter? && !is_reporting_cycle_adjustment?
+        organization.set_next_cop_due_date_and_cop_status!
+      end
+    end
 
     # javascript will normally hide the link field if it's blank,
     # but IE7 was not cooperating, so we double check
@@ -469,6 +471,19 @@ class CommunicationOnProgress < ActiveRecord::Base
       self.cop_links.each do |link|
         link.destroy if link.url.blank?
       end
+    end
+
+    def set_defaults
+      self.state = 'approved'
+
+      # HACK. Historically, COPs weren't editable and there was no facility
+      # to save drafts. A COP therefore always had a value for published_on
+      # Now that we have drafts, a COP is not published right away but there
+      # are many views that depend on this value being set.
+      # While technically not correct, default this value here ensures we don't
+      # break elsewhere. When the COP is finally published, it will get the new,
+      # valid date that it needs.
+      self.published_on ||= Time.now.to_date
     end
 
     def set_cop_defaults
@@ -487,13 +502,6 @@ class CommunicationOnProgress < ActiveRecord::Base
       unless editable?
         errors.add :base, ("You can no longer edit this COP. Please, submit a new one.")
       end
-    end
-
-    # set approved state for all COPs
-    def set_approved_state
-      set_published_fields
-      self.save
-      set_approved_fields
     end
 
     def delete_associated_attributes

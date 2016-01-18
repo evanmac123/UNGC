@@ -117,7 +117,9 @@ class CopForm
 
   def submit(params)
     cop.submission_status = :submitted
-    do_save(params)
+    do_save(params).tap do |saved|
+      cop.publish if saved
+    end
   end
 
   def update(params)
@@ -274,7 +276,6 @@ class CopForm
     def do_save(params, validate: true)
       cop.assign_attributes(params)
       cop.contact_info ||= contact_info
-      cop.set_published_fields
 
       CommunicationOnProgress.transaction do
         remove_deleted_links(params)
