@@ -334,7 +334,8 @@ class CopFormTest < ActiveSupport::TestCase
     non_communicating = Organization::COP_STATE_NONCOMMUNICATING
     @organization.update(
       cop_due_on: original_due_date,
-      cop_state: non_communicating)
+      cop_state: non_communicating
+    )
 
     # When a draft is save
     form = CopForm.new_form(@organization, :intermediate,
@@ -375,6 +376,65 @@ class CopFormTest < ActiveSupport::TestCase
     attrs.delete(:id)
     attrs.delete(:submission_status)
     attrs
+  end
+
+  should "not create duplicates cop_answers when saving a draft" do
+    # Given a new COP
+    form = CopForm.new_form(@organization, :advanced,
+                            @organization_user.contact_info)
+
+    # With 1 question and 1 attribute
+    question = form.cop_questions.create(valid_cop_question_attributes)
+    attribute = question.cop_attributes.create(valid_cop_attribute_attributes)
+
+    # And we save a draft
+    params = {
+      "cop_answers_attributes" => {
+        "0" => {
+          "cop_attribute_id" => attribute.id,
+          "value" => "0"
+        }
+      }
+    }.with_indifferent_access
+
+    assert_difference -> {CopAnswer.count}, 1 do
+      form.save_draft(params)
+    end
+
+    # When we edit the COP, and save a new draft, we won't create any more
+    # answers
+    edit_form = CopForm.edit_form(form.cop, @organization_user.contact_info)
+    assert_difference -> {CopAnswer.count}, 0 do
+      edit_form.save_draft(params)
+    end
+  end
+
+  should  "not duplicate cop_answers when saving a draft" do
+    form = CopForm.new_form(@organization, :basic,
+                            @organization_user.contact_info)
+
+    # With 1 question and 1 attribute
+    question = form.cop_questions.create(valid_cop_question_attributes)
+    attribute = question.cop_attributes.create(valid_cop_attribute_attributes)
+
+    # And we save a draft
+    params = {
+      "cop_answers_attributes" => [{
+                                     "cop_attribute_id" => attribute.id,
+                                     "value" => "0"
+      }]
+    }.with_indifferent_access
+
+    assert_difference -> {CopAnswer.count}, 1 do
+      form.save_draft(params)
+    end
+
+    # When we edit the COP, and save a new draft, we won't create any more
+    # answers
+    edit_form = CopForm.edit_form(form.cop, @organization_user.contact_info)
+    assert_difference -> {CopAnswer.count}, 0 do
+      edit_form.save_draft(params)
+    end
   end
 
 end

@@ -260,6 +260,24 @@ class CopForm
       end
     end
 
+    def remove_previous_answers(params)
+      # HACK. Now that we'll be saving cop drafts, we don't want to submit duplicate cop_answers
+      # This process is due to be revisited soon, so this will stand until then.
+      # delete all previous answers for which we have incoming ones
+      attrs = params[:cop_answers_attributes]
+      ids = case
+      when attrs.nil?
+        []
+      when attrs.is_a?(Array)
+        attrs.map {|v| v[:cop_attribute_id] }
+      when attrs.is_a?(Hash)
+        attrs.map {|k,v| v[:cop_attribute_id] }
+      else
+        raise "unexpected attrs"
+      end
+      cop.cop_answers.where(cop_attribute_id: ids).delete_all
+    end
+
     def default_language_id
       Language.for(:english).try(:id)
     end
@@ -282,6 +300,8 @@ class CopForm
         remember_link_params(params)
         @submitted = true
         clear_answer_text_from_unselected_answers
+        remove_previous_answers(params)
+
         is_valid = if validate then valid? else true end
         is_valid && cop.save(validate: validate) && cop.set_differentiation_level
       end
