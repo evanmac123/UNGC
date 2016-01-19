@@ -265,7 +265,8 @@ class CopForm
       # This process is due to be revisited soon, so this will stand until then.
 
       # delete all previous answers for which we have incoming ones
-      ids_to_delete = params[:cop_answers_attributes].map {|_, v| v[:cop_attribute_id] }
+      attrs = params.fetch(:cop_answers_attributes, {})
+      ids_to_delete = attrs.map {|_, v| v[:cop_attribute_id] }
       cop.cop_answers.where(cop_attribute_id: ids_to_delete).delete_all
     end
 
