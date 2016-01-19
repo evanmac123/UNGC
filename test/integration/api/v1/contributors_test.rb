@@ -29,7 +29,7 @@ class Api::V1::ContributorsTest < ActionDispatch::IntegrationTest
         "type" => 'Annual',
         "name" => participant.name,
         "url" => participant_url(participant),
-        "amount" => "$USD > 15,000"
+        "amount" => "USD > 15,000"
       }
     ]
 
@@ -60,7 +60,7 @@ class Api::V1::ContributorsTest < ActionDispatch::IntegrationTest
         "year" => 2014,
         "name" => participant.name,
         "url" => participant_url(participant),
-        "amount" => "$USD > 15,000"
+        "amount" => "USD > 15,000"
       }
     ]
 
@@ -91,7 +91,7 @@ class Api::V1::ContributorsTest < ActionDispatch::IntegrationTest
         "year" => 2014,
         "name" => participant.name,
         "url" => participant_url(participant),
-        "amount" => "$USD 65,000"
+        "amount" => "USD 65,000"
       }
     ]
 
