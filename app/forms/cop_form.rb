@@ -263,11 +263,19 @@ class CopForm
     def remove_previous_answers(params)
       # HACK. Now that we'll be saving cop drafts, we don't want to submit duplicate cop_answers
       # This process is due to be revisited soon, so this will stand until then.
-
       # delete all previous answers for which we have incoming ones
-      attrs = params.fetch(:cop_answers_attributes, {})
-      ids_to_delete = attrs.map {|_, v| v[:cop_attribute_id] }
-      cop.cop_answers.where(cop_attribute_id: ids_to_delete).delete_all
+      attrs = params[:cop_answers_attributes]
+      ids = case
+      when attrs.nil?
+        []
+      when attrs.is_a?(Array)
+        attrs.map {|v| v[:cop_attribute_id] }
+      when attrs.is_a?(Hash)
+        attrs.map {|k,v| v[:cop_attribute_id] }
+      else
+        raise "unexpected attrs"
+      end
+      cop.cop_answers.where(cop_attribute_id: ids).delete_all
     end
 
     def default_language_id
