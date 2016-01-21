@@ -475,7 +475,9 @@ class CommunicationOnProgress < ActiveRecord::Base
 
     def set_defaults
       self.state = 'approved'
+    end
 
+    def published_on
       # HACK. Historically, COPs weren't editable and there was no facility
       # to save drafts. A COP therefore always had a value for published_on
       # Now that we have drafts, a COP is not published right away but there
@@ -483,7 +485,7 @@ class CommunicationOnProgress < ActiveRecord::Base
       # While technically not correct, default this value here ensures we don't
       # break elsewhere. When the COP is finally published, it will get the new,
       # valid date that it needs.
-      self.published_on ||= Time.now.to_date
+      super || self.created_at
     end
 
     def set_cop_defaults
