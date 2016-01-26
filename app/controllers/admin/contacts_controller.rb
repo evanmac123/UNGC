@@ -78,14 +78,20 @@ class Admin::ContactsController < AdminController
   end
 
   def reset_password
-    token = @contact.send_reset_password_instructions
-    if token.present?
-      flash[:notice] = "A password reset email was sent to #{@contact.name}"
+    if @contact.update(email: contact_params.fetch(:email))
+      token = @contact.send_reset_password_instructions
+      if token.present?
+        flash[:notice] = "This contact's email was changed to #{@contact.email} and a password reset email was sent."
+      else
+        flash[:notice] = "Failed to send password reset email"
+      end
+      redirect_to url_for [:edit, :admin, @parent, @contact]
     else
-      flash[:notice] = "Failed to send password reset email"
+      @needs_to_update = params[:update]
+      @roles = visible_roles
+      @return_path = return_path
+      render :edit
     end
-
-    redirect_to return_path
   end
 
   private
