@@ -158,6 +158,12 @@ class CopForm
     })
   end
 
+  def new_file
+    file = CopFile.cop
+    file.cop_id = cop.id
+    file
+  end
+
   def cop_file
     @cop_file ||= first_or_new_file
   end
@@ -283,12 +289,11 @@ class CopForm
     end
 
     def first_or_new_file
-      file = cop.cop_files.first
-      if file.nil?
-        file = CopFile.cop
-        cop.cop_files << file
+      if cop.cop_files.length < 1
+        cop.cop_files.new(new_file.attributes)
       end
-      file
+
+      cop.cop_files.first
     end
 
     def do_save(params, validate: true)

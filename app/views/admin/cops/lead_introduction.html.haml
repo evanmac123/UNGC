@@ -37,4 +37,5 @@
         %strong This option is not available because you have already submitted a Reporting Cycle Adjustment.
 
   - if current_contact.from_organization?
-    = render :partial => 'drafts'
+    #drafts.tab_content
+      = render :partial => 'drafts', locals: { drafts: @drafts }

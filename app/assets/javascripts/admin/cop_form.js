@@ -100,6 +100,26 @@ $(document).ready(function() {
     window.onbeforeunload = null;
   });
 
+  $('#cop_files').on('click', function(e) {
+    var target = $(e.target);
+    var id = target.data('cop-id');
+    if(!id) { return; }
+
+    e.preventDefault();
+    var containerDivId = '#cop_file_' + id;
+    var destroyCheckBox = $('#communication_on_progress_cop_files_attributes_'+id+'__destroy');
+
+    if(destroyCheckBox.length > 0) {
+      console.log('destroying existing record');
+      destroyCheckBox.prop("checked", true);
+      $(containerDivId).hide('slow');
+    } else {
+      console.log('disabling new record');
+      hideAndDisableFormElements(containerDivId);
+    }
+
+  });
+
   $("#cop_form input, #cop_form select, #cop_form textarea").change(function() {
     work_in_progress = true;
   })

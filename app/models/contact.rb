@@ -317,8 +317,15 @@ class Contact < ActiveRecord::Base
   private
 
     def password_required?
+      # The concept of User and Contacts are mixed in this model
+      # A contact as written may be a collection of information about a person
+      # or it may (also) be a user of the system who can login.
+
+      # if the contact doesn't have a username, they are not able to login and
+      # therefore password is not required
       return false unless username.present?
-      return true if reset_password_token.present? && reset_password_period_valid?
+
+      # contacts with a username are required to have a valid password
       (!persisted? || !password.nil? || !password_confirmation.nil?)
     end
 

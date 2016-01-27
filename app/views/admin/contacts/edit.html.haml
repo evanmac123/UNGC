@@ -11,6 +11,9 @@
     %legend Reset password
     - if @contact.has_login_role?
       = form_for(:contact, url: @reset_password_path) do |form|
+        %p Send a reset password email to a new email address for this contact.
+        = form.email_field(:email)
+        <br/>
         = form.submit('Send password reset email')
     - else
       %p This contact is not able to login. A contact must have a username and be a Contact Point.

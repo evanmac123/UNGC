@@ -15,7 +15,7 @@
 #
 Paperclip.interpolates :cop_file_id do |attachment, style|
     id = attachment.instance.id
-    if id > 90000
+    if id && id > 90000
       "cop_#{attachment.instance.created_at.year}/#{id}"
     else
       id
