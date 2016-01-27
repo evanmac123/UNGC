@@ -9,7 +9,7 @@
 
       = file_field_tag("communication_on_progress[cop_files_attributes][#{record}][attachment]")
       - unless record == 0
-        = link_to '<!--[if IE]>Remove<![endif]-->'.html_safe, "#", :onclick => "hideAndDisableFormElements('#cop_file_#{record}'); return false;", :class => 'delete_doc'
+        = link_to '', '#', 'data-cop-id' => record, :class => 'remove-cop delete_doc'
   - unless cop_file.new_record?
     = hidden_field_tag("communication_on_progress[cop_files_attributes][#{record}][id]", cop_file.id)
     To remove, check
