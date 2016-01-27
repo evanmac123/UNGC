@@ -134,7 +134,7 @@ class Admin::CopsController < AdminController
         flash[:notice] = "The communication draft has been saved"
         redirect_to edit_draft_admin_organization_communication_on_progress_url(@organization.id, form.cop)
       else
-        render :edit
+        render :edit_draft
       end
     end
 
@@ -144,7 +144,7 @@ class Admin::CopsController < AdminController
         send_cop_submission_confirmation_email(form.cop)
         redirect_to admin_organization_communication_on_progress_url(@organization.id, form.cop)
       else
-        render :edit
+        render :edit_draft
       end
     end
 
