@@ -195,9 +195,11 @@ class Admin::CopsController < AdminController
         :format,
         :method_shared,
         cop_files_attributes: [
+          :id,
           :attachment_type,
           :language_id,
-          :attachment
+          :attachment,
+          :_destroy,
         ],
         cop_answers_attributes: [
           :cop_attribute_id,
