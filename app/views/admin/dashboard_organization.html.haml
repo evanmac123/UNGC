@@ -7,6 +7,7 @@
     %li= link_to 'Contacts', '#contacts'
     %li= link_to 'Logo Requests', '#logos'
     %li= link_to @organization.cop_acronym.pluralize, '#cops'
+    %li= link_to "Draft #{@organization.cop_acronym.pluralize}", '#cop_drafts'
 
   #overview.tab_content
     %ul#contacts_tools{:class => "tools inline"}
@@ -135,3 +136,6 @@
             %th.differentiation Differentiation
           %th.actions Actions
         = render :partial => 'admin/communication_on_progresses/communication_on_progress', :collection => current_contact.organization.communication_on_progresses.order("created_at DESC")
+
+    #cop_drafts.tab_content
+      = render :partial => 'admin/cops/drafts', locals: { drafts: current_contact.organization.communication_on_progresses.in_progress }
