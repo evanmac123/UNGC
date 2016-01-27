@@ -133,7 +133,10 @@ class ApplicationController < ActionController::Base
   end
 
   def render_404
-    render '/static/not_found', status: 404
+    respond_to do |format|
+      format.html { render '/static/not_found', status: 404 }
+      format.all { render nothing: true, status: 404 }
+    end
   end
 
   def layout_template_path(layout)
