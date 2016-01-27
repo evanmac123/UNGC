@@ -24,7 +24,7 @@
       <%= hidden_field_tag("cop_question[cop_attributes_attributes][#{record}][id]", cop_attribute.id) %>
       <li>
         <%= label_tag("cop_question_cop_attributes_attributes_#{record}__delete", 'Check to delete') %>
-        <%= check_box_tag("cop_question[cop_attributes_attributes][#{record}][_delete]", "1", false) %>
+        <%= check_box_tag("cop_question[cop_attributes_attributes][#{record}][_destroy]", "1", false) %>
       </li>
     <% end %>
   </ol>
