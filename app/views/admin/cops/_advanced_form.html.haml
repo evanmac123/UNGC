@@ -82,7 +82,8 @@
 
           #include_continued_support_statement{:style => css_display_style(@communication_on_progress.submitted?)}
             = render :partial => 'cop_issue_areas_form', :locals => {:form => form}
-            = render :partial => 'cop_business_peace_question', :locals => {:form => form, :cop => @communication_on_progress}
+            - if show_business_for_peace(@communication_on_progress)
+              = hidden_field_tag("communication_on_progress[references_business_peace]", true)
             = render :partial => 'cop_water_mandate_question', :locals => {:form => form}
 
             %fieldset
@@ -195,7 +196,6 @@
     %p For the following criterion, please check the best practices you have implemented and discussed in your COP.
     %fieldset= render_cop_questions_for :governance, :year => 2013
 
-  / - if show_business_for_peace(@communication_on_progress)
   %div.tab_content{:id => "business_peace_additional_questions"}
     = render :partial => 'cop_business_peace_questionnaire', :locals => {:form => form, :cop => @communication_on_progress}
 
