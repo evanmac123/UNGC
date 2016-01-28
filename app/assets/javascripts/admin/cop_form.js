@@ -30,15 +30,6 @@ $(document).ready(function() {
     $('#basic_link').removeClass("selected");
   } else {
     // first load
-
-    // Hide the B4P Annex if it is optional and we're showing the advanced/lead form.
-    // It will conditionally be enabled later depending on the high-risk question.
-    var copType = $('#communication_on_progress_cop_type').val();
-    var b4pAnnexIsOptional = $("#communication_on_progress_references_business_peace").length === 0;
-    if(b4pAnnexIsOptional && (copType === 'advanced' || copType === 'lead')) {
-      $("#business_peace_tab").hide();
-      disableTabbedSection("#business_peace_additional_questions");
-    }
   }
 
   // Format
@@ -66,18 +57,6 @@ $(document).ready(function() {
   // A statement of continued support
   $("input[name='communication_on_progress[include_continued_support_statement]']").click(function() {
     $("#include_continued_support_statement").fadeIn('slow');
-  })
-
-  // Do you have operations in high-risk and/or conflict-affected areas?
-  $("input[name='communication_on_progress[references_business_peace]']").click(function() {
-    if ($("#communication_on_progress_references_business_peace_true").is(':checked')) {
-      $("#business_peace_tab").slideDown();
-      enableTabbedSection("#business_peace_additional_questions");
-    }
-    else {
-      $("#business_peace_tab").slideUp();
-      disableTabbedSection("#business_peace_additional_questions");
-    }
   })
 
   // Does your COP include qualitative and/or quantitative measurement of outcomes illustrating the degree to which targets/performance indicators were met?

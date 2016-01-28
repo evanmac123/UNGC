@@ -36,7 +36,7 @@ module Admin::CopsHelper
                   .where(cop_questions: {:principle_area_id => principle, :grouping => grouping, initiative_id: initiative_id})
                   .includes(:cop_question)
                   .order('cop_attributes.position')
-    questions = CopQuestion.find(attributes.collect &:cop_question_id).sort { |x,y| x.grouping <=> y.grouping }
+    questions = CopQuestion.find(attributes.collect(&:cop_question_id)).sort { |x,y| x.grouping <=> y.grouping }
 
     questions.collect do |question|
       answers = cop.cop_answers
@@ -52,7 +52,7 @@ module Admin::CopsHelper
                   .where(cop_questions: {principle_area_id: principle, grouping: grouping})
                   .includes(:cop_question)
                   .order('cop_attributes.position ASC')
-    questions = CopQuestion.find(attributes.collect &:cop_question_id).sort { |x,y| x.grouping <=> y.grouping }
+    questions = CopQuestion.find(attributes.collect(&:cop_question_id)).sort { |x,y| x.grouping <=> y.grouping }
 
     questions.collect do |question|
       answers = cop.cop_answers
@@ -116,7 +116,7 @@ module Admin::CopsHelper
   end
 
   def show_business_for_peace(cop)
-    cop.references_business_peace? || cop.organization.signatory_of?(:business4peace)
+    cop.organization.signatory_of?(:business4peace)
   end
 
   def show_weps(cop)
