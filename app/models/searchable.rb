@@ -30,7 +30,6 @@ class Searchable < ActiveRecord::Base
 
         log.info "Processing batch ##{batch}"
         group.each do |model|
-          ap model.id
           import(searchable.new(model))
         end
       end
