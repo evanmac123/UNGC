@@ -100,8 +100,8 @@ class LocalNetwork < ActiveRecord::Base
 
   STATES = {
     :emerging        => 'Emerging',
-    :established     => 'Established',
-    :formal          => 'Formal',
+    :active          => 'Active',
+    :advanced        => 'Advanced',
     :inactive        => 'Inactive',
     :regional_center => 'Regional Center'
   }
