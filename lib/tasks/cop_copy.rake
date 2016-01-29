@@ -22,6 +22,14 @@ namespace :cop do
 
         new_cop = to.communication_on_progresses.create!(attrs)
 
+        source_cop.cop_answers.each do |answer|
+          answer_attrs = answer.attributes
+          answer_attrs.delete("id")
+          answer_attrs.delete("cop_id")
+
+          new_cop.cop_answers.create!(answer_attrs)
+        end
+
         source_cop.cop_links.each do |link|
           link_attrs = link.attributes
           link_attrs.delete("id")
