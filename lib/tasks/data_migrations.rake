@@ -8,4 +8,10 @@ namespace :data do
     end
   end
 
+  task backfill_searchables_with_delisted_organizations: :environment do
+    searchable = Searchable::SearchableOrganization
+    inactive = searchable.all.where.not(active: true)
+    Searchable.index_searchable(searchable, inactive)
+  end
+
 end

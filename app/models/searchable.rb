@@ -8,16 +8,7 @@ class Searchable < ActiveRecord::Base
       log.info "starting Searchable.index_all"
 
       searchables.each do |searchable|
-        searchable.all
-          .find_in_batches(batch_size: batch_size)
-          .each_with_index do |group, batch|
-            break if stop_before?(batch)
-
-            log.info "Processing batch ##{batch}"
-            group.each do |model|
-              import(searchable.new(model))
-            end
-        end
+        index_searchable(searchable)
       end
 
       log.info "done indexing all the searchables."
@@ -27,6 +18,19 @@ class Searchable < ActiveRecord::Base
       cutoff ||= maximum(:last_indexed_at)
       searchables.each do |searchable|
         searchable.since(cutoff).each do |model|
+          import(searchable.new(model))
+        end
+      end
+    end
+
+    def index_searchable(searchable, searchable_scope = nil)
+      searchable_scope ||= searchable.all
+      searchable_scope.find_in_batches(batch_size: batch_size).each_with_index do |group, batch|
+        break if stop_before?(batch)
+
+        log.info "Processing batch ##{batch}"
+        group.each do |model|
+          ap model.id
           import(searchable.new(model))
         end
       end
