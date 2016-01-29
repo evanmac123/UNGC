@@ -8,6 +8,7 @@ namespace :data do
     end
   end
 
+  desc "Backfill the Searchables table with delisted organizations"
   task backfill_searchables_with_delisted_organizations: :environment do
     searchable = Searchable::SearchableOrganization
     inactive = searchable.all.where.not(active: true)
