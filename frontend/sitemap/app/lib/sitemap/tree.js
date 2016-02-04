@@ -92,7 +92,7 @@ export default Ember.Object.extend({
     var id       = container.get('id');
     var parentId = container.get('parentContainerId');
     var node     = this.nodeForContainerId(id);
-    var nodes, parentNode;
+    var parentNode;
 
     node.set('model', container);
     node.set('tree', this);
