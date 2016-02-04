@@ -24,8 +24,8 @@ class FileTextExtractorTest < ActiveSupport::TestCase
 
   should "extract text from doc files" do
     assert_extracts \
-      path: '../../vendor/poi/sample.doc',
-      pattern: /What practice related to labour issues in your COP could be considered good practice?/
+      path: '../../vendor/poi/sample2.doc',
+      pattern: /This is a test/
   end
 
   should "extract text from pdf files" do
