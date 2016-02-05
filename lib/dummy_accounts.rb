@@ -54,6 +54,7 @@ class DummyAccounts
       last_name: 'Contact',
       email: 'dummy.local-network@unglobalcompact.org',
       local_network: canada.local_network,
+      roles: [Role.contact_point]
     )
   end
 
