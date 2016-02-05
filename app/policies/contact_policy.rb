@@ -21,8 +21,10 @@ class ContactPolicy
       true
     when current_contact.from_organization?
       from_same_organization_as?(target_contact)
+    when current_contact.from_network?
+      contact_point_from_same_network_as?(target_contact)
     else
-      false # local_network contacts can't create other contacts
+      false
     end
   end
 
@@ -31,7 +33,7 @@ class ContactPolicy
     when current_contact.from_ungc?
       true
     when current_contact.from_network?
-      from_same_network_as?(target_contact)
+      contact_point_from_same_network_as?(target_contact)
     when current_contact.from_organization?
       from_same_organization_as?(target_contact)
     else
@@ -46,7 +48,7 @@ class ContactPolicy
     when current_contact.from_ungc?
       true
     when current_contact.from_network?
-      from_same_network_as?(target_contact)
+      contact_point_from_same_network_as?(target_contact)
     when current_contact.from_organization?
       current_contact.organization.participant? && from_same_organization_as?(target_contact)
     else
@@ -60,6 +62,10 @@ class ContactPolicy
 
   def from_same_network_as?(target_contact)
     target_contact.belongs_to_network?(current_contact.local_network)
+  end
+
+  def contact_point_from_same_network_as?(contact)
+    current_contact.is?(Role.contact_point) && from_same_network_as?(contact)
   end
 
   def from_same_organization_as?(target_contact)
