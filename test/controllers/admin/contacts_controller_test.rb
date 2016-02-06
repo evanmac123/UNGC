@@ -169,7 +169,8 @@ class Admin::ContactsControllerTest < ActionController::TestCase
   context "when logged in as a Local Network" do
     setup do
       create_local_network_with_report_recipient
-       sign_in @network_contact
+      @network_contact.roles << Role.contact_point
+      sign_in @network_contact
     end
 
     should "redirect to dashboard contacts tab" do
