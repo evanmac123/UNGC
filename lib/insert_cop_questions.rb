@@ -13,7 +13,7 @@ class InsertCopQuestions
     )
 
     attributes = [
-      "Incorporate the Global Compact principles into internal operations and communicate progress following the COE requirements (required)",
+      "Incorporate the Global Compact principles into internal operations and communicate progress following the COP requirements (required)",
       "Deliver education on topics related to the Global Compact",
       "Conduct applied research and thought leadership in relation to the Global Compact",
       "Disseminate the Global Compact principles",

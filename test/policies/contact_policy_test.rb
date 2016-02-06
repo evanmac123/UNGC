@@ -4,8 +4,8 @@ class ContactPolicyTest < ActiveSupport::TestCase
 
   setup do
     @ungc_contact = stub_contact(from_ungc?: true)
-    @network_contact = stub_contact(from_network?: true)
-    @network_contact_2 = stub_contact(from_network?: true)
+    @network_contact = stub_contact(from_network?: true, is?: true)
+    @network_contact_2 = stub_contact(from_network?: true, is?: true)
     @organization_contact = stub_contact(from_organization?: true, organization_id: 1)
     @organization_contact_2 = stub_contact(from_organization?: true, organization_id: 2)
 
@@ -83,8 +83,12 @@ class ContactPolicyTest < ActiveSupport::TestCase
         assert_not @network_contact_policy.can_create?(@ungc_contact)
       end
 
-      should 'not allow creation of associated network contacts' do
-        assert_not @network_contact_policy.can_create?(@network_contact)
+      should 'allow creation of associated network contacts' do
+        cp_from_ln = stub_contact(from_network?: true, is?: true)
+        new_cp = stub_contact(from_network?: true, belongs_to_network?: true)
+        policy = ContactPolicy.new(cp_from_ln)
+
+        assert policy.can_create?(new_cp)
       end
 
       should 'not allow creation of unassociated network contacts' do
@@ -193,7 +197,7 @@ class ContactPolicyTest < ActiveSupport::TestCase
     context 'network contact policy' do
 
       should 'not allow destroy of UNGC contacts' do
-        contact = stub_contact(from_network?: true)
+        contact = stub_contact(from_network?: true, is?: true)
         target =  stub_contact(from_ungc?: true)
 
         policy = ContactPolicy.new(contact)
@@ -202,7 +206,7 @@ class ContactPolicyTest < ActiveSupport::TestCase
 
       should 'allow destroy of associated network contacts' do
         # two contacts from the same network
-        contact = stub_contact(from_network?: true)
+        contact = stub_contact(from_network?: true, is?: true)
         target =  stub_contact(belongs_to_network?: true)
 
         policy = ContactPolicy.new(contact)
@@ -211,7 +215,7 @@ class ContactPolicyTest < ActiveSupport::TestCase
 
       should 'not allow destroy of unassociated network contacts' do
         # two contacts from different networks
-        contact = stub_contact(from_network?: true)
+        contact = stub_contact(from_network?: true, is?: true)
         target =  stub_contact(from_network?: true, belongs_to_network?: false)
 
         policy = ContactPolicy.new(contact)

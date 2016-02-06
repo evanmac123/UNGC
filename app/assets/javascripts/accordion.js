@@ -29,10 +29,10 @@ $(function() {
     $item.toggleClass('collapsed');
 
     if ($item.is('.collapsed')) {
-      $itemInputs.not(':disabled').prop('disabled', true).addClass('accordion-disabled');
+      $itemInputs.not('.accordion-disabled').addClass('accordion-disabled');
     }
     else {
-      $itemInputs.filter('.accordion-disabled').prop('disabled', false).removeClass('accordion-disabled');
+      $itemInputs.filter('.accordion-disabled').removeClass('accordion-disabled');
       $itemInputs.first().focus();
     }
   };
