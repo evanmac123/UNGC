@@ -14,7 +14,11 @@ class ContactPolicy
   end
 
   def can_update?(contact)
-    @policy.can_update?(contact)
+    if @current_contact == contact
+      true
+    else
+      @policy.can_update?(contact)
+    end
   end
 
   def can_destroy?(contact)
