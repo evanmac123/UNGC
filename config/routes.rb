@@ -462,7 +462,8 @@ UNGC::Application.routes.draw do
   get '/UNPrivateSectorForum2015', to: redirect('/take-action/events/61-united-nations-private-sector-forum-2015')
   get '/AboutTheGC/tools_resources/', to: redirect('/library')
   get '/NetworksAroundTheWorld/', to: redirect('/engage-locally')
-  get '/sdgs/', to: redirect('/what-is-gc/our-work/sustainable-development/17-global-goals') 
+  get '/sdgs/', to: redirect('/what-is-gc/our-work/sustainable-development/17-global-goals')
+  get '/COP/making_progress/advanced.html', to: redirect('/participation/report/cop/create-and-submit/advanced')
 
   # new redirects (to be tested)
   get '/index.html', to: redirect('/')
