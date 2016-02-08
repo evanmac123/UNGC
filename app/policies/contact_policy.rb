@@ -1,35 +1,43 @@
-module ContactPolicy
+class ContactPolicy
 
-  def self.new(contact)
-    policy = case
-    when contact.from_ungc?
-      ContactPolicy::Ungc.new(contact)
-    when contact.from_network?
-      ContactPolicy::LocalNetwork.new(contact)
-    when contact.from_organization?
-      ContactPolicy::Organization.new(contact)
-    else
-      ContactPolicy::Default.new(contact)
-    end
-    Wrapper.new(contact, policy)
+  def initialize(contact)
+    @current_contact = contact
+    @policy = create_policy(contact)
   end
 
-  class Wrapper < SimpleDelegator
+  def can_upload_image?(contact)
+    @policy.can_upload_image?(contact)
+  end
 
-    def initialize(current_contact, policy)
-      @current_contact = current_contact
-      @policy = policy
-      super(policy)
+  def can_create?(contact)
+    @policy.can_create?(contact)
+  end
+
+  def can_update?(contact)
+    @policy.can_update?(contact)
+  end
+
+  def can_destroy?(contact)
+    if @current_contact == contact
+      false # can't destroy yourself
+    else
+      @policy.can_destroy?(contact)
     end
+  end
 
-    def can_destroy?(contact)
-      if @current_contact == contact
-        false # can't destroy yourself
-      else
-        @policy.can_destroy?(contact)
-      end
+  private
+
+  def create_policy(contact)
+    case
+    when contact.from_ungc?
+      Contact::UngcPolicy.new(contact)
+    when contact.from_network?
+      Contact::LocalNetworkPolicy.new(contact)
+    when contact.from_organization?
+      Contact::OrganizationPolicy.new(contact)
+    else
+      Contact::DefaultPolicy.new(contact)
     end
-
   end
 
 end

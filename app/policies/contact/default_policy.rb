@@ -1,4 +1,8 @@
-class ContactPolicy::Default
+class Contact::DefaultPolicy
+
+  def initialize(contact)
+    @contact = contact
+  end
 
   def can_upload_image?(contact)
     false
