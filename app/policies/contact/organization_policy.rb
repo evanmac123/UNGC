@@ -1,4 +1,4 @@
-class ContactPolicy::Organization
+class Contact::OrganizationPolicy
 
   def initialize(contact)
     raise 'Must be from an organization' unless contact.from_organization?

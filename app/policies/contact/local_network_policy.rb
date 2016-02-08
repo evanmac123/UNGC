@@ -1,4 +1,4 @@
-class ContactPolicy::LocalNetwork
+class Contact::LocalNetworkPolicy
 
   def initialize(contact)
     raise 'Must be from a Local Network' unless contact.from_network?

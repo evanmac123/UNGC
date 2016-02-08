@@ -1,4 +1,4 @@
-class ContactPolicy::Ungc
+class Contact::UngcPolicy
 
   def initialize(contact)
     raise 'Must be from the UNGC' unless contact.from_ungc?
