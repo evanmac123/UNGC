@@ -10,15 +10,15 @@ class Contact::LocalNetworkPolicy
   end
 
   def can_create?(contact)
-    contact_point_from_same_network_as?(contact)
+    contact_point_from_same_network_as?(contact) && contact_person_from_same_network_as?(contact)
   end
 
   def can_update?(contact)
-    contact_point_from_same_network_as?(contact)
+    contact_point_from_same_network_as?(contact) && contact_person_from_same_network_as?(contact)
   end
 
   def can_destroy?(contact)
-    contact_point_from_same_network_as?(contact)
+    contact_point_from_same_network_as?(contact) && contact_person_from_same_network_as?(contact)
   end
 
   private
@@ -29,6 +29,10 @@ class Contact::LocalNetworkPolicy
 
   def contact_point_from_same_network_as?(contact)
     @local_network_contact.is?(Role.contact_point) && from_same_network_as?(contact)
+  end
+
+  def contact_person_from_same_network_as?(contact)
+    @local_network_contact.is?(Role.network_focal_point) && from_same_network_as?(contact)
   end
 
 end
