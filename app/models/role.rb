@@ -153,6 +153,13 @@ class Role < ActiveRecord::Base
     [Role.contact_point, Role.network_report_recipient, Role.network_focal_point, Role.network_guest_user]
   end
 
+  scope :filtered, ->(*keys) {
+    names = Array.wrap(keys).map do |filter|
+      FILTERS[filter]
+    end
+    where(name: names)
+  }
+
   private
 
   def check_for_filtered_name_change

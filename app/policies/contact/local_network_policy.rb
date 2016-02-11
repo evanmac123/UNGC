@@ -28,7 +28,7 @@ class Contact::LocalNetworkPolicy
   end
 
   def in_allowed_role?
-    @local_network_contact.is?(Role.contact_point) || @local_network_contact.is?(Role.network_focal_point)
+    @local_network_contact.roles.filtered(:network_report_recipient, :network_focal_point).count > 0
   end
 
 end
