@@ -17,40 +17,40 @@ class Contact::LocalNetworkPolicyTest < ActiveSupport::TestCase
     canada = create_local_network(name: 'canada')
     italy = create_local_network(name: 'italy')
 
-    assert_allows :network_report_recipient, from: canada, permission: :can_upload_image?, contact_from: canada
-    assert_allows :network_report_recipient, from: canada, permission: :can_create?, contact_from: canada
-    assert_allows :network_report_recipient, from: canada, permission: :can_update?, contact_from: canada
-    assert_allows :network_report_recipient, from: canada, permission: :can_destroy?, contact_from: canada
+    assert_allows :network_report_recipient, from: canada, permission: :can_upload_image?, on_contact_from: canada
+    assert_allows :network_report_recipient, from: canada, permission: :can_create?, on_contact_from: canada
+    assert_allows :network_report_recipient, from: canada, permission: :can_update?, on_contact_from: canada
+    assert_allows :network_report_recipient, from: canada, permission: :can_destroy?, on_contact_from: canada
 
-    refute_allows :network_report_recipient, from: italy, permission: :can_upload_image?, contact_from: canada
-    refute_allows :network_report_recipient, from: italy, permission: :can_create?, contact_from: canada
-    refute_allows :network_report_recipient, from: italy, permission: :can_update?, contact_from: canada
-    refute_allows :network_report_recipient, from: italy, permission: :can_destroy?, contact_from: canada
+    refute_allows :network_report_recipient, from: italy, permission: :can_upload_image?, on_contact_from: canada
+    refute_allows :network_report_recipient, from: italy, permission: :can_create?, on_contact_from: canada
+    refute_allows :network_report_recipient, from: italy, permission: :can_update?, on_contact_from: canada
+    refute_allows :network_report_recipient, from: italy, permission: :can_destroy?, on_contact_from: canada
 
-    assert_allows :network_focal_point, from: canada, permission: :can_upload_image?, contact_from: canada
-    assert_allows :network_focal_point, from: canada, permission: :can_create?, contact_from: canada
-    assert_allows :network_focal_point, from: canada, permission: :can_update?, contact_from: canada
-    assert_allows :network_focal_point, from: canada, permission: :can_destroy?, contact_from: canada
+    assert_allows :network_focal_point, from: canada, permission: :can_upload_image?, on_contact_from: canada
+    assert_allows :network_focal_point, from: canada, permission: :can_create?, on_contact_from: canada
+    assert_allows :network_focal_point, from: canada, permission: :can_update?, on_contact_from: canada
+    assert_allows :network_focal_point, from: canada, permission: :can_destroy?, on_contact_from: canada
 
-    refute_allows :network_focal_point, from: italy, permission: :can_upload_image?, contact_from: canada
-    refute_allows :network_focal_point, from: italy, permission: :can_create?, contact_from: canada
-    refute_allows :network_focal_point, from: italy, permission: :can_update?, contact_from: canada
-    refute_allows :network_focal_point, from: italy, permission: :can_destroy?, contact_from: canada
+    refute_allows :network_focal_point, from: italy, permission: :can_upload_image?, on_contact_from: canada
+    refute_allows :network_focal_point, from: italy, permission: :can_create?, on_contact_from: canada
+    refute_allows :network_focal_point, from: italy, permission: :can_update?, on_contact_from: canada
+    refute_allows :network_focal_point, from: italy, permission: :can_destroy?, on_contact_from: canada
 
-    assert_allows :contact_point, from: canada, permission: :can_upload_image?, contact_from: canada
-    refute_allows :contact_point, from: canada, permission: :can_create?, contact_from: canada
-    refute_allows :contact_point, from: canada, permission: :can_update?, contact_from: canada
-    refute_allows :contact_point, from: canada, permission: :can_destroy?, contact_from: canada
+    assert_allows :contact_point, from: canada, permission: :can_upload_image?, on_contact_from: canada
+    refute_allows :contact_point, from: canada, permission: :can_create?, on_contact_from: canada
+    refute_allows :contact_point, from: canada, permission: :can_update?, on_contact_from: canada
+    refute_allows :contact_point, from: canada, permission: :can_destroy?, on_contact_from: canada
   end
 
   private
 
-  def assert_allows(role_name, from:, permission:, contact_from:)
-    allows?(true, role_name, from, permission, contact_from)
+  def assert_allows(role_name, from:, permission:, on_contact_from:)
+    allows?(true, role_name, from, permission, on_contact_from)
   end
 
-  def refute_allows(role_name, from:, permission:, contact_from:)
-    allows?(false, role_name, from, permission, contact_from)
+  def refute_allows(role_name, from:, permission:, on_contact_from:)
+    allows?(false, role_name, from, permission, on_contact_from)
   end
 
   def allows?(expected, role_sym, source_network, method, target_network)
