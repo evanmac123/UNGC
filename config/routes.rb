@@ -464,6 +464,8 @@ UNGC::Application.routes.draw do
   get '/NetworksAroundTheWorld/', to: redirect('/engage-locally')
   get '/sdgs/', to: redirect('/what-is-gc/our-work/sustainable-development/17-global-goals')
   get '/COP/making_progress/advanced.html', to: redirect('/participation/report/cop/create-and-submit/advanced')
+  get '/leaderssummit', to: redirect('/take-action/events/411-un-global-compact-leaders-summit-2016')
+  get '/leaderssummit2016', to: redirect('/take-action/events/411-un-global-compact-leaders-summit-2016')
 
   # new redirects (to be tested)
   get '/index.html', to: redirect('/')
