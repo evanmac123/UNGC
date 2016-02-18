@@ -8,6 +8,10 @@ class SdgPioneer::IndividualsController < ApplicationController
   def create
     @individual = SdgPioneer::Individual.new(individual_params)
 
+    # do we have an exact match on organization name?
+    query = Organization.active.participants.where(name: @individual.organization_name)
+    @individual.organization_name_matched = query.any?
+
     if @individual.save
       redirect_to sdg_pioneer_index_path, notice: I18n.t('sdg_pioneer.nominated')
     else
