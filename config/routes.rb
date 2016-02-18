@@ -503,6 +503,9 @@ UNGC::Application.routes.draw do
   get '/newsandevents/event_calendar/webinars.html', to: redirect('/take-action/events')
   get '/NewsAndEvents/event_calendar/webinars.html', to: redirect('/take-action/events')
   get '/Issues/financial_markets/global_compact_100.html', to: redirect('/take-action/action/global-compact-100')
+  get '/sdgpioneers', to: redirect('/what-is-gc/our-work/sustainable-development/sdgpioneers')
+  get '/SDGpioneers', to: redirect('/what-is-gc/our-work/sustainable-development/sdgpioneers')
+  get '/pioneers', to: redirect('/what-is-gc/our-work/sustainable-development/sdgpioneers')
 
   # old redirects porting
   get '/climate', to: redirect('/what-is-gc/our-work/environment/climate')
