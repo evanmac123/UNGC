@@ -37,7 +37,7 @@
           <%= f.label(:is_nominated_false, "No, I am self nominating") %>
         </div>
 
-        <div id="has_been_nominated" style="display: none;">
+        <div id="has_been_nominated" style="<%= unless @individual.is_nominated? then 'display: none;' end %>">
           <div class="field field-required">
             <%= f.label :nominating_organization do %>
               Please indicate the name of the organization that nominated you to this role.
