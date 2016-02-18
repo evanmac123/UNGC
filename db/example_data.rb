@@ -383,4 +383,21 @@ module FixtureReplacement
     b.is_nominated = false
   end
 
+  attributes_for :sdg_pioneer_other, class: SdgPioneer::Other do |o|
+    o.organization_type = 'un'
+    o.sdg_pioneer_role = 'change_makers'
+    o.submitter_name = FixtureReplacement.random_string
+    o.submitter_place_of_work = FixtureReplacement.random_string
+    o.submitter_job_title = FixtureReplacement.random_string
+    o.submitter_email = FixtureReplacement.random_string
+    o.submitter_phone = FixtureReplacement.random_string
+    o.nominee_name = FixtureReplacement.random_string
+    o.nominee_work_place = FixtureReplacement.random_string
+    o.nominee_email = FixtureReplacement.random_string
+    o.nominee_phone = FixtureReplacement.random_string
+    o.nominee_title = FixtureReplacement.random_string
+    o.why_nominate = FixtureReplacement.random_string
+    o.accepts_tou = true
+  end
+
 end

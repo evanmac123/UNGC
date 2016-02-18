@@ -8,6 +8,7 @@ class SdgPioneer::OthersController < ApplicationController
     @other = SdgPioneer::Other.new(nomination_params)
 
     if @other.save
+      SdgPioneerMailer.delay.nomination_submitted(@other.id)
       redirect_to sdg_pioneer_index_path, notice: I18n.t('sdg_pioneer.nominated')
     else
       render :new

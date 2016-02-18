@@ -25,6 +25,7 @@ class SdgPioneer::OtherTest < ActionDispatch::IntegrationTest
     fill_in 'other_nominee_email', with: 'auntie@mcgee.org'
     fill_in 'other_nominee_phone', with: '432-432-4321'
     fill_in 'other_why_nominate', with: 'Hire Hamburgalur'
+    check 'other_accepts_tou'
 
     assert_difference -> { SdgPioneer::Other.count }, +1 do
       click_on 'Nominate'

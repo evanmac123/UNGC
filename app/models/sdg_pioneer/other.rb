@@ -12,6 +12,7 @@ class SdgPioneer::Other < ActiveRecord::Base
   validates :nominee_phone, length: {maximum: 255}
   validates :nominee_title, presence: true, length: {maximum: 255}
   validates :why_nominate, presence: true, length: {maximum: 2750}
+  validates :accepts_tou, presence: true
 
   enum sdg_pioneer_role: [
     :business_leaders_entrepreneurs,
