@@ -20,11 +20,13 @@ en:
         delisted_on: "Delisting date"
       sdg_pioneer/business:
         is_nominated: ""
+        is_participant: ""
         positive_outcome_attachments: ""
         matching_sdgs: "Sustainable Development Goals"
         accepts_tou: ""
       sdg_pioneer/individual:
         is_nominated: ""
+        is_participant: ""
         description_of_individual: "Description"
         supporting_documents: ""
         matching_sdgs: "Sustainable Development Goals"
@@ -47,7 +49,7 @@ en:
             is_nominated:
               inclusion: "Please indicate if you have been nominated"
             is_participant:
-              inclusion: "Is the organization an active participant?"
+              inclusion: "Is the participant an active participant?"
             positive_outcome_attachments:
               too_short: "You must include at least %{count} document"
               too_long: "You can include up to %{count} documents"
@@ -58,7 +60,7 @@ en:
             is_nominated:
               inclusion: "Please indicate if you have been nominated"
             is_participant:
-              inclusion: "Is the organization an active participant?"
+              inclusion: "Is the participant an active participant?"
             supporting_documents:
               too_short: "You must include at least %{count} supporting document"
               too_long: "You can include up to %{count} supporting documents"
