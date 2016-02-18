@@ -5,7 +5,7 @@ class SdgPioneer::Individual < ActiveRecord::Base
   validates :name,                      presence: true
   validates :title,                     presence: true
   validates :email,                     presence: true
-  validate  :validate_organization_name
+  validates :organization_name,         presence: true
   validates :is_participant,            inclusion: [true, false]
   validate :validate_country_name
   validates :website_url,               presence: true
@@ -28,13 +28,6 @@ class SdgPioneer::Individual < ActiveRecord::Base
               class_name: 'UploadedFile',
               as: :attachable,
               dependent: :destroy
-
-  def validate_organization_name
-    if Organization.active.participants.where(name: self.organization_name).none?
-      message = I18n.t('sdg_pioneer.validations.organization_name')
-      self.errors.add :organization_name, message
-    end
-  end
 
   def validate_country_name
     if Country.where(name: self.country_name).none?

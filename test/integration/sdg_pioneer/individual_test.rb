@@ -4,6 +4,7 @@ class SdgPioneer::IndividualPioneersTest < ActionDispatch::IntegrationTest
 
   test 'Anonymous user submits an individual nomination' do
     create_business(name: 'Chunky Monkey')
+    create_country(name: 'Canada')
     sdg1, _, sdg3 = 3.times.map { create_sustainable_development_goal }
 
     # create the landing page
@@ -58,6 +59,7 @@ class SdgPioneer::IndividualPioneersTest < ActionDispatch::IntegrationTest
     assert_equal 'Email', individual.email
     assert_equal 'Telephone', individual.phone
     assert_equal 'Chunky Monkey', individual.organization_name
+    assert individual.organization_name_matched?
     assert_equal 'Snoopy', individual.local_business_nomination_name
     refute individual.is_participant?
     assert_equal 'Canada', individual.country_name

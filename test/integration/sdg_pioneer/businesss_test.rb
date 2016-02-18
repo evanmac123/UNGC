@@ -61,6 +61,7 @@ class SdgPioneer::BusinessTest < ActionDispatch::IntegrationTest
     assert_equal 'contact-person@example.com', business.contact_person_email
     assert_equal '1 (123) 123-1234', business.contact_person_phone
     assert_equal "McExampleson's Emporium", business.organization_name
+    assert business.organization_name_matched?
     assert_equal 'Haha company', business.local_business_name
     assert_equal false, business.is_participant?
     assert_equal 'Canada', business.country_name
