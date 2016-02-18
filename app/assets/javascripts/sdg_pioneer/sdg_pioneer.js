@@ -30,7 +30,7 @@ $(function() {
     source: "/api/v1/autocomplete/participants.json"
   });
 
-  $("#business_country_name").autocomplete({
+  $("#business_country_name, #individual_country_name").autocomplete({
     source: "/api/v1/autocomplete/countries.json"
   });
 
