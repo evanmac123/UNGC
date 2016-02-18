@@ -19,13 +19,55 @@ en:
         isin: "ISIN"
         delisted_on: "Delisting date"
       sdg_pioneer/business:
-        contact_person_name: "Example"
+        is_nominated: ""
+        positive_outcome_attachments: ""
+        matching_sdgs: "Sustainable Development Goals"
+        accepts_tou: ""
+      sdg_pioneer/individual:
+        is_nominated: ""
+        description_of_individual: "Description"
+        supporting_documents: ""
+        matching_sdgs: "Sustainable Development Goals"
+        accepts_tou: ""
+      sdg_pioneer/other:
+        organization_type: "Affiliated group"
+        submitter_name: "Your name"
+        submitter_place_of_work: "Your organization"
+        submitter_job_title: "Your job title"
+        submitter_email: "Your email address"
+        submitter_phone: "Your phone number"
+        sdg_pioneer_role: "Local SDG Pioneer role"
+        nominee_work_place: "Nominee organization"
+        why_nominate: "Reason for nomination"
+        accepts_tou: ""
     errors:
       models:
         sdg_pioneer/business:
           attributes:
-            contact_person_name:
-              blank: "Example"
+            is_nominated:
+              inclusion: "Please indicate if you have been nominated"
+            is_participant:
+              inclusion: "Is the organization an active participant?"
+            positive_outcome_attachments:
+              too_short: "You must include at least %{count} document"
+              too_long: "You can include up to %{count} documents"
+            accepts_tou:
+              blank: "You must accept the agreement"
+        sdg_pioneer/individual:
+          attributes:
+            is_nominated:
+              inclusion: "Please indicate if you have been nominated"
+            is_participant:
+              inclusion: "Is the organization an active participant?"
+            supporting_documents:
+              too_short: "You must include at least %{count} supporting document"
+              too_long: "You can include up to %{count} supporting documents"
+            accepts_tou:
+              blank: "You must accept the agreement"
+        sdg_pioneer/other:
+          attributes:
+            accepts_tou:
+              blank: "You must accept the agreement"
 
   communication_disclaimer: "Note: Responsibility for the content of participants' public communication related to the Global Compact principles and their implementation lies with participants themselves and not with the UN Global Compact Office."
   admin:

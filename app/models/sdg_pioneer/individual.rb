@@ -1,14 +1,19 @@
 class SdgPioneer::Individual < ActiveRecord::Base
-  validates :is_participant,            inclusion: [true, false]
   validates :is_nominated,              inclusion: [true, false]
   validates :nominating_organization,   presence: true, if: :is_nominated?
+  validates :nominating_individual,     presence: true, if: :is_nominated?
   validates :name,                      presence: true
+  validates :title,                     presence: true
   validates :email,                     presence: true
+  validate  :validate_organization_name
+  validates :is_participant,            inclusion: [true, false]
+  validate :validate_country_name
+  validates :website_url,               presence: true
   validates :description_of_individual, presence: true, length: { maximum: 5500 }
+  validates :supporting_documents,      length: { minimum: 1, maximum: 5 }
+  validates :matching_sdgs,             presence: true
   validates :other_relevant_info,       length: { maximum: 2750 }
   validates :accepts_tou,               presence: true
-  validates :matching_sdgs,             presence: true
-  validate  :validate_organization_name
 
   enum local_network_status: [
     :yes,
@@ -17,11 +22,6 @@ class SdgPioneer::Individual < ActiveRecord::Base
   ]
 
   serialize :matching_sdgs, JSON
-
-  validates :supporting_documents, length: {
-              minimum: 1,
-              maximum: 5,
-              message: 'must have between 1 and 5 files' }
 
   has_many :supporting_documents,
               -> { where attachable_key: 'sdg_pioneer_individual_supporting_document'},
@@ -33,6 +33,13 @@ class SdgPioneer::Individual < ActiveRecord::Base
     if Organization.active.participants.where(name: self.organization_name).none?
       message = I18n.t('sdg_pioneer.validations.organization_name')
       self.errors.add :organization_name, message
+    end
+  end
+
+  def validate_country_name
+    if Country.where(name: self.country_name).none?
+      message = I18n.t('sdg_pioneer.validations.country_name')
+      self.errors.add :country_name, message
     end
   end
 

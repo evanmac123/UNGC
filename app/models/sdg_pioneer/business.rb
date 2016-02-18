@@ -1,24 +1,21 @@
 class SdgPioneer::Business < ActiveRecord::Base
-  validates :is_participant,                inclusion: [true, false]
   validates :is_nominated,                  inclusion: [true, false]
   validates :nominating_organization,       presence: true, if: :is_nominated?
   validates :nominating_individual,         presence: true, if: :is_nominated?
   validates :contact_person_name,           presence: true
   validates :contact_person_title,          presence: true
   validates :contact_person_email,          presence: true
+  validates :organization_name,             presence: true
+  validates :local_business_name,           length: { maximum: 255 }
+  validates :is_participant,                inclusion: [true, false]
+  validate :validate_country_name
   validates :website_url,                   presence: true
   validates :local_network_status,          presence: true
   validates :positive_outcomes,             presence: true, length: { maximum: 2750 }
+  validates :positive_outcome_attachments,  length: { minimum: 1, maximum: 5,}
   validates :matching_sdgs,                 presence: true
   validates :other_relevant_info,           length: { maximum: 2750 }
-  validates :local_business_name,           length: { maximum: 255 }
   validates :accepts_tou,                   presence: true
-  validate :validate_country_name
-
-  validates :positive_outcome_attachments, length: {
-              minimum: 1,
-              maximum: 5,
-              message: 'must have between 1 and 5 files' }
 
   has_many :positive_outcome_attachments,
               -> { where attachable_key: 'positive_outcome'},
