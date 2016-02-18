@@ -464,6 +464,9 @@ UNGC::Application.routes.draw do
   get '/NetworksAroundTheWorld/', to: redirect('/engage-locally')
   get '/sdgs/', to: redirect('/what-is-gc/our-work/sustainable-development/17-global-goals')
   get '/COP/making_progress/advanced.html', to: redirect('/participation/report/cop/create-and-submit/advanced')
+  get '/sdgpioneers', to: redirect('/what-is-gc/our-work/sustainable-development/sdgpioneers')
+  get '/SDGpioneers', to: redirect('/what-is-gc/our-work/sustainable-development/sdgpioneers')
+  get '/pioneers', to: redirect('/what-is-gc/our-work/sustainable-development/sdgpioneers')
 
   # new redirects (to be tested)
   get '/index.html', to: redirect('/')
