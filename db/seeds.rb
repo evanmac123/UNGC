@@ -34,20 +34,24 @@ def seed_page(file_path)
     container = Container.create!(document)
 
     if draft_payload_id.present?
-      container.create_draft_payload!(
+      payload = container.create_draft_payload!(
         id: draft_payload_id,
         container_id: container.id,
         json_data: draft_payload_attrs.to_json
       )
+      container.draft_payload = payload
     end
 
     if public_payload_id.present?
-      container.create_public_payload!(
+      container.create_draft_payload!(
         id: public_payload_id,
         container_id: container.id,
         json_data: public_payload_attrs.to_json
       )
+      container.public_payload = payload
     end
+
+    container.save!
   end
 
   puts "Created seed page for #{file_path}"

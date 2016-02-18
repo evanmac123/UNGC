@@ -350,4 +350,37 @@ module FixtureReplacement
     r.number = random_string
   end
 
+  attributes_for :sdg_pioneer_business, class: SdgPioneer::Business do |b|
+    b.is_participant = false
+    b.organization_name = create_business.name
+    b.country_name = create_country.name
+    b.contact_person_name = FixtureReplacement.random_string
+    b.contact_person_title = FixtureReplacement.random_string
+    b.contact_person_email = FixtureReplacement.random_string
+    b.contact_person_phone = FixtureReplacement.random_string
+    b.website_url = FixtureReplacement.random_string
+    b.local_network_status = :yes
+    b.local_business_name = FixtureReplacement.random_string
+    b.positive_outcomes = FixtureReplacement.random_string
+    b.other_relevant_info = FixtureReplacement.random_string
+    b.positive_outcome_attachments.build
+    b.matching_sdgs = [create_sustainable_development_goal.id]
+    b.accepts_tou = true
+    b.is_nominated = false
+  end
+
+  attributes_for :sdg_pioneer_individual, class: SdgPioneer::Individual do |b|
+    b.is_participant = false
+    b.organization_name = create_business.name
+    b.name = FixtureReplacement.random_string
+    b.email = FixtureReplacement.random_string
+    b.phone = FixtureReplacement.random_string
+    b.website_url = FixtureReplacement.random_string
+    b.description_of_individual = FixtureReplacement.random_string
+    b.appointments_invitations = FixtureReplacement.random_string
+    b.other_relevant_info = FixtureReplacement.random_string
+    b.accepts_tou = true
+    b.is_nominated = false
+  end
+
 end

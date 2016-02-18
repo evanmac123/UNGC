@@ -1,0 +1,8 @@
+<%= render partial: 'components/meta_tags' %>
+<%= render partial: 'components/hero' %>
+
+<section class='form-classic'>
+  <%= content_tag(:p, content_tag(:span, notice), {class: 'success-message'}) if notice %>
+</section>
+
+<%= render partial: 'static/highlight' %>

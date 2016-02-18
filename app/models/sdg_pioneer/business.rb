@@ -1,0 +1,54 @@
+class SdgPioneer::Business < ActiveRecord::Base
+  validates :is_participant,                inclusion: [true, false]
+  validates :is_nominated,                  inclusion: [true, false]
+  validates :nominating_organization,       presence: true, if: :is_nominated?
+  validates :nominating_individual,         presence: true, if: :is_nominated?
+  validates :contact_person_name,           presence: true
+  validates :contact_person_title,          presence: true
+  validates :contact_person_email,          presence: true
+  validates :website_url,                   presence: true
+  validates :local_network_status,          presence: true
+  validates :positive_outcomes,             presence: true, length: { maximum: 2750 }
+  validates :matching_sdgs,                 presence: true
+  validates :other_relevant_info,           length: { maximum: 2750 }
+  validates :local_business_name,           length: { maximum: 255 }
+  validates :accepts_tou,                   presence: true
+  validate :validate_country_name
+
+  validates :positive_outcome_attachments, length: {
+              minimum: 1,
+              maximum: 5,
+              message: 'must have between 1 and 5 files' }
+
+  has_many :positive_outcome_attachments,
+              -> { where attachable_key: 'positive_outcome'},
+              class_name: 'UploadedFile',
+              as: :attachable,
+              dependent: :destroy
+
+  enum local_network_status: [
+    :yes,
+    :no,
+    :not_available
+  ]
+
+  serialize :matching_sdgs, JSON
+
+  def uploaded_positive_outcome_attachments=(values)
+    values.each do |attrs|
+      self.positive_outcome_attachments.build(attrs)
+    end
+  end
+
+  def matching_sdgs=(sdgs)
+    super sdgs.reject(&:blank?).map(&:to_i)
+  end
+
+  def validate_country_name
+    if Country.where(name: self.country_name).none?
+      message = I18n.t('sdg_pioneer.validations.country_name')
+      self.errors.add :country_name, message
+    end
+  end
+
+end

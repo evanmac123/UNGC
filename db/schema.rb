@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151222201923) do
+ActiveRecord::Schema.define(version: 20160218163915) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -864,6 +864,67 @@ ActiveRecord::Schema.define(version: 20151222201923) do
     t.integer  "initiative_id", limit: 4
     t.string   "description",   limit: 255
     t.integer  "position",      limit: 4
+  end
+
+  create_table "sdg_pioneer_businesses", force: :cascade do |t|
+    t.string   "organization_name",         limit: 255
+    t.boolean  "is_participant"
+    t.string   "contact_person_name",       limit: 255
+    t.string   "contact_person_title",      limit: 255
+    t.string   "contact_person_email",      limit: 255
+    t.string   "contact_person_phone",      limit: 255
+    t.string   "website_url",               limit: 255
+    t.string   "country_name",              limit: 255
+    t.integer  "local_network_status",      limit: 4
+    t.text     "positive_outcomes",         limit: 65535
+    t.string   "matching_sdgs",             limit: 255
+    t.text     "other_relevant_info",       limit: 65535
+    t.string   "local_business_name",       limit: 255
+    t.boolean  "accepts_tou",                             default: false, null: false
+    t.boolean  "is_nominated"
+    t.string   "nominating_organization",   limit: 255
+    t.string   "nominating_individual",     limit: 255
+    t.boolean  "organization_name_matched",               default: false, null: false
+    t.datetime "created_at",                                              null: false
+    t.datetime "updated_at",                                              null: false
+  end
+
+  create_table "sdg_pioneer_individuals", force: :cascade do |t|
+    t.boolean "is_participant"
+    t.string  "name",                           limit: 255
+    t.string  "email",                          limit: 255
+    t.string  "phone",                          limit: 255
+    t.text    "description_of_individual",      limit: 65535
+    t.text    "other_relevant_info",            limit: 65535
+    t.string  "organization_name",              limit: 255
+    t.boolean "accepts_tou",                                  default: false, null: false
+    t.string  "supporting_link",                limit: 255
+    t.string  "matching_sdgs",                  limit: 255
+    t.string  "local_business_nomination_name", limit: 255
+    t.boolean "is_nominated"
+    t.string  "nominating_organization",        limit: 255
+    t.string  "title",                          limit: 255
+    t.string  "country_name",                   limit: 255
+    t.integer "local_network_status",           limit: 4
+    t.string  "website_url",                    limit: 255
+    t.string  "nominating_individual",          limit: 255
+  end
+
+  create_table "sdg_pioneer_others", force: :cascade do |t|
+    t.string  "submitter_name",          limit: 255
+    t.string  "submitter_place_of_work", limit: 255
+    t.string  "submitter_email",         limit: 255
+    t.string  "nominee_name",            limit: 255
+    t.string  "nominee_email",           limit: 255
+    t.string  "nominee_phone",           limit: 255
+    t.string  "nominee_work_place",      limit: 255
+    t.string  "organization_type",       limit: 255
+    t.string  "submitter_job_title",     limit: 255
+    t.string  "submitter_phone",         limit: 255
+    t.boolean "accepts_tou",                           default: false, null: false
+    t.string  "nominee_title",           limit: 255
+    t.text    "why_nominate",            limit: 65535
+    t.integer "sdg_pioneer_role",        limit: 4
   end
 
   create_table "searchables", force: :cascade do |t|

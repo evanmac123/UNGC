@@ -1,0 +1,28 @@
+<%- @page.main_content_sections.each do |section| -%>
+  <section class='main-content-section <%= section[:classes] -%>' style="<%= section[:styles] -%>">
+    <div class='full-width-wrapper'>
+      <div class='wrapper'>
+        <%= content_tag(:header, content_tag(:h1, section[:title]), {class: 'main-content-header'}) if section[:title] %>
+
+        <section class='main-content-body'>
+          <%= section[:content].html_safe if section[:content] %>
+
+          <%= content_tag(:p, link_to(section[:call_to_action][:title],
+                                      section[:call_to_action][:url],
+                                      target: section[:call_to_action][:external] ? "_blank" : "",
+                                      class: "button #{section[:call_to_action][:theme]}")) if section[:call_to_action] %>
+        </section>
+
+        <%- if section[:image] -%>
+          <%= render layout: 'components/sidebar' do %>
+            <%= render 'components/widget_image', image: section[:image] %>
+          <% end %>
+        <%- end -%>
+      </div>
+    </div>
+  </section>
+<%- end -%>
+
+<%= render layout: 'components/content_blocks', locals: {title: 'From our Library', blocks: @page.resources} do |block| %>
+  <%= render 'components/resource_block', block: block %>
+<% end %>

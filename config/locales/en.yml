@@ -18,6 +18,14 @@ en:
         url: "Website"
         isin: "ISIN"
         delisted_on: "Delisting date"
+      sdg_pioneer/business:
+        contact_person_name: "Example"
+    errors:
+      models:
+        sdg_pioneer/business:
+          attributes:
+            contact_person_name:
+              blank: "Example"
 
   communication_disclaimer: "Note: Responsibility for the content of participants' public communication related to the Global Compact principles and their implementation lies with participants themselves and not with the UN Global Compact Office."
   admin:
@@ -78,3 +86,28 @@ en:
 
   blueprint_for_corporate_sustainability: 'Blueprint for Corporate Sustainability Leadership'
   gc_advanced_level: 'GC Advanced level'
+
+  sdg_pioneer:
+    actions:
+      nominate_individual: 'Nominate an individual'
+      nominate_business: 'Nominate a business'
+    individual:
+      title: "Local change-makers"
+      blurb: "Making global goals local business."
+      action: "Nominate an individual"
+    business:
+      title: "Local Business Leaders and Entrepreneurs"
+      blurb: "Making global goals local business."
+      action: "Nominate a business"
+      local_network_status:
+        :yes: 'Yes'
+        :no: 'No'
+        :not_available: 'There is no Local Network in that country'
+    other:
+      title: "Nomination Form"
+      blurb: "Making global goals local business."
+      action: "Nominate other"
+    nominated: 'Your nomination was successfully submitted'
+    validations:
+      organization_name: 'is not among the active participants'
+      country_name: 'is not among the countries provided'

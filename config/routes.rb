@@ -174,10 +174,18 @@ UNGC::Application.routes.draw do
 
   end
 
+  # public api
   namespace :api, defaults: {format: :json} do
     namespace :v1 do
       get 'contributors' => 'contributors#index'
       get 'contributors/:year' => 'contributors#show'
+
+      namespace :autocomplete do
+        get :participants
+        get :countries
+        get :sdg_pioneer_businesses
+      end
+
     end
   end
 
@@ -297,6 +305,13 @@ UNGC::Application.routes.draw do
 
   get '/'         => 'static#home',       as: :root
   get '/layout-sample' => 'static#layout_sample', as: :layout_sample
+
+  namespace :sdg_pioneer, path: '/what-is-gc/our-work/sustainable-development/sdgpioneers' do
+    get :index, path: '/'
+    resources :businesses, path: 'local-business-leaders', only: [:new, :create]
+    resources :individuals, path: 'local-change-makers', only: [:new, :create]
+    resources :others, path: 'nomination-form', only: [:new, :create]
+  end
 
   # REDIRECTS
   get '/AboutTheGC/global_compact_strategy.html', to: redirect('/what-is-gc/strategy')
@@ -466,10 +481,6 @@ UNGC::Application.routes.draw do
   get '/COP/making_progress/advanced.html', to: redirect('/participation/report/cop/create-and-submit/advanced')
   get '/leaderssummit', to: redirect('/take-action/events/411-un-global-compact-leaders-summit-2016')
   get '/leaderssummit2016', to: redirect('/take-action/events/411-un-global-compact-leaders-summit-2016')
-  get '/sdgpioneers', to: redirect('/what-is-gc/our-work/sustainable-development/sdgpioneers')
-  get '/SDGpioneers', to: redirect('/what-is-gc/our-work/sustainable-development/sdgpioneers')
-  get '/pioneers', to: redirect('/what-is-gc/our-work/sustainable-development/sdgpioneers')
-
 
   # new redirects (to be tested)
   get '/index.html', to: redirect('/')

@@ -1,4 +1,5 @@
-<%- if hero_data = @page.hero -%>
+<%- hero_data ||= @page.try(:hero)
+  if hero_data -%>
   <%-
   hero_classes = ['page-section']
   hero_classes << 'has-issues-nav' if hero_data[:show_issues_nav]

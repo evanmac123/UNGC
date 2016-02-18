@@ -51,4 +51,9 @@ class UploadedFile < ActiveRecord::Base
       attachable.update_indexed_fields
     end
   end
+
+  def filename
+    attachment.original_filename
+  end
+
 end
