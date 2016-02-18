@@ -1,0 +1,210 @@
+<%= render partial: 'components/meta_tags', locals: { title: "Local SDG Pioneers", description: t('sdg_pioneer.individual.blurb'), keywords: 'sustainable development goals individual pioneers' } %>
+
+<%= render partial: 'components/hero', locals: { hero_data: {theme: 'dark', size: 'small', title: {first: "Local SDG Pioneers"}, blurb: t('sdg_pioneer.individual.blurb'), image: image_path('sdg_pioneer/local_change_makers_bg.png') } } %>
+
+<section class='main-content-section main-content-section-narrow'>
+  <%= form_for @individual, as: :individual, html: {multipart: true, class: 'form-classic wrapper'} do |f| %>
+    <header class='main-content-header'>
+      <h1><%= t('sdg_pioneer.individual.title') %></h1>
+    </header>
+
+    <section class='main-content-body'>
+      <%= content_tag(:p, content_tag(:span, notice), {class: 'success-message'}) if notice %>
+
+      <p>
+        The Local SDG Pioneers campaign celebrates local change-makers who, through their work, have been advocates for sustainable development and actively mobilized local businesses beyond their own organization or sector, in their country or region which is the primary base for their operations. This is also open to Global Compact participants from civil society and PRME schools.
+      </p>
+
+      <% if @individual.errors.any? %>
+        <div class="errors-container">
+          <h2><%= pluralize(@individual.errors.count, "error") %> prohibited this nomination from being sent:</h2>
+
+          <ul class='errors-list'>
+            <% @individual.errors.full_messages.each do |message| %>
+              <li class='error'><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <fieldset>
+        <div class="field nominate_the_organization">
+          Have you been nominated as a local change-maker SDG Pioneer? *<br />
+          <%= f.radio_button(:is_nominated, true) %>
+          <%= f.label(:is_nominated_true, "Yes") %>
+          <br />
+          <%= f.radio_button(:is_nominated, false) %>
+          <%= f.label(:is_nominated_false, "No, I am self nominating") %>
+        </div>
+
+        <div id="has_been_nominated" style="display: none;">
+          <div class="field field-required">
+            <%= f.label :nominating_organization do %>
+              Please indicate the name of the organization that nominated you to this role.
+            <% end %>
+            <%= f.text_field :nominating_organization, placeholder: 'Organization name' %>
+          </div>
+
+          <div class="field field-required">
+            <%= f.label :nominating_individual do %>
+              Please indicate the name of the individual that nominated you to this role.
+            <% end %>
+            <%= f.text_field :nominating_individual, placeholder: 'Individual name' %>
+          </div>
+        </div>
+
+      </fieldset>
+
+      <fieldset>
+        <label>Contact Information</label>
+        <div class="field field-required field-has-placeholder">
+          <%= f.label :name, 'Name' %>
+          <%= f.text_field :name, placeholder: 'Name' %>
+        </div>
+
+        <div class="field field-required field-has-placeholder">
+          <%= f.label :title, 'Title' %>
+          <%= f.text_field :title, placeholder: 'Title' %>
+        </div>
+
+        <div class="field field-required field-has-placeholder">
+          <%= f.label :email, 'Email' %>
+          <%= f.text_field :email, placeholder: 'Email' %>
+        </div>
+
+        <div class="field field-has-placeholder">
+          <%= f.label :phone, 'Telephone' %>
+          <%= f.text_field :phone, placeholder: 'Telephone' %>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <div class="field field-required ui-widget">
+          <%= f.label :organization_name do %>
+            Please indicate with which active UN Global Compact participant you are affiliated
+          <% end %>
+          <%= f.text_field :organization_name %>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <div class="field">
+          <%= f.label :local_business_nomination_name do %>
+            Local organization name. If submitting a branch/division of a larger organization that has a different name please provide
+          <% end %>
+          <%= f.text_field :local_business_nomination_name %>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <div class="field">
+          Is this organization an active UN Global Compact or PRME participant? *<br />
+          <%= f.radio_button(:is_participant, true) %>
+          <%= f.label(:is_participant_true, "Yes") %>
+          <br />
+          <%= f.radio_button(:is_participant, false) %>
+          <%= f.label(:is_participant_false, "No") %>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <div class="field field-required">
+          <%= f.label :country_name do %>
+            Country of primary operation (if the organization operates in multiple countries, please only indicate the country where the submission's activities take place):
+          <% end %>
+          <%= f.text_field :country_name %>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <div class="field">
+          <span>Is the organization a member of the Global Compact Local Network in the country indicated? *</span>
+          <%- SdgPioneer::Individual.local_network_statuses.each do |status, _| -%>
+            <br />
+            <%= f.radio_button(:local_network_status, status) %>
+            <%= f.label("local_network_status_#{status}", t(status, scope: 'sdg_pioneer.business.local_network_status')) %>
+          <%- end -%>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <div class="field field-required">
+          <%= f.label :website_url do %>
+            Website (link to the organization's website, or other URL relevant to the local unit)
+          <% end %>
+          <%= f.text_field :website_url %>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <div class="field field-required">
+          <%= f.label :description_of_individual do %>
+            How, through your work, have you advocated for sustainable development and actively mobilized local businesses beyond your own organization or sector, in the country or region which is the primary base for your operation?
+          <% end %>
+          <%= f.text_area :description_of_individual, placeholder: 'Please limit to 800 words' %>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <div class="field field-required attachments">
+          <p>Please provide any annual reports, press clippings or other relevant documentation that supports your submission.</p>
+
+          <div class="attachment">
+            <%= file_field_tag 'individual[uploaded_supporting_documents][][attachment]' %>
+          </div>
+
+          <div class="attachment-container"></div>
+
+          <a class="add-another-attachment" href="#">Add another document</a>
+
+          <script class="attachment-template" type="text/x-jquery-tmpl">
+            <div class="attachment">
+              <a href="#" class="delete fa fa-times-circle"></a>
+              <%= file_field_tag 'individual[uploaded_supporting_documents][][attachment]' %>
+            </div>
+          </script>
+        </div>
+      </fieldset>
+
+      <fieldset class='accordion-container'>
+        To which of the 17 <a href="/what-is-gc/our-work/sustainable-development/17-global-goals/" target="_blank">Sustainable Development Goals</a> does this submission specifically target?
+        <div class='accordion-item'>
+          <h2 class='accordion-item-header'>Sustainable Development Goals</h2>
+
+          <div class='checkboxes-collection accordion-item-content-wrapper'>
+            <%= f.collection_check_boxes :matching_sdgs, @sdgs, :id, :name do |sdg| %>
+              <div class='field field-checkbox'>
+                <%= sdg.check_box %>
+                <%= sdg.label %>
+              </div>
+            <%- end -%>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <div class="field field-required">
+          <%= f.label :other_relevant_info do %>
+            Please feel free to include other information that you believe is relevant for the Pioneer Selection Group.
+          <% end %>
+          <%= f.text_area :other_relevant_info, placeholder: 'Please limit to 400 words' %>
+        </div>
+
+      </fieldset>
+
+      <fieldset>
+        <div class="field field-required">
+          <p>We need your permission to potentially share your story with the world.</p>
+          <label>
+            <%= f.check_box :accepts_tou %> I agree that the UN Global Compact can use this information for any purposes related to the the Local SDG Pioneers.
+          </label>
+        </div>
+      </fieldset>
+
+      <%= f.submit 'Submit' %>
+
+    </section>
+
+  <% end %>
+
+</section>

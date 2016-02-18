@@ -1,0 +1,121 @@
+{
+  "id": 3111,
+  "layout": 5,
+  "slug": "/sdgpioneers",
+  "parent_container_id": 261,
+  "path": "/what-is-gc/our-work/sustainable-development/sdgpioneers",
+  "depth": 0,
+  "tree_path": "",
+  "child_containers_count": 0,
+  "content_type": 1,
+  "has_draft": true,
+  "sort_order": 0,
+  "visible": true,
+  "draggable": true,
+  "public_payload_id": null,
+  "draft_payload_id": 21051,
+  "draft_payload": {
+    "meta_tags": {
+      "title": "Local SDG Pioneers",
+      "description": null,
+      "thumbnail": "sadf",
+      "label": "background",
+      "keywords": null
+    },
+    "taggings": {
+      "issues": [],
+      "topics": [
+        "161"
+      ],
+      "sectors": [],
+      "sustainable_development_goals": []
+    },
+    "hero": {
+      "image": "asdf",
+      "theme": "none",
+      "title": {
+        "title1": "Making global goals",
+        "title2": "local business"
+      },
+      "blurb": "We are looking for the best business leaders and change-makers in every region of the world who are already demonstrating how business can be a force for good.",
+      "link": {
+        "label": null,
+        "url": null
+      },
+      "show_section_nav": true
+    },
+    "article_blocks": [
+      {
+        "align": "left",
+        "theme": "none",
+        "title": "Local SDG Pioneers",
+        "content": "\\u003cp\\u003eThe newly adopted Sustainable Development Goals (SDGs) lay out a clear vision for a sustainable future, and will shape a new era for business. The UN Global Compact is taking the lead on turning these goals into drivers for sustainable business to unlock economic, social and environmental gains for the world.\\u003c/p\\u003e\\u003cp\\u003eTo create momentum, we need Local SDG Pioneers to pave the way. That’s why we are looking for the best business leaders and change-makers in every region of the world who are already demonstrating how business can be a force for good.\\u003c/p\\u003e",
+        "bg_image": null,
+        "widget_image": {
+          "alt": null,
+          "src": null,
+          "url": null,
+          "external": null
+        },
+        "call_to_action": {
+          "theme": "dark-blue",
+          "title": null,
+          "url": null,
+          "enabled": null,
+          "external": null
+        }
+      },
+      {
+        "align": "left",
+        "theme": "none",
+        "title": "Our global campaign",
+        "content": "\\u003cp\\u003eWe have two submissions criteria which will help identify individuals who are acting on the new SDG business opportunities. The first category will identify the best local business leaders and the second will identify the best local change-makers. A Pioneers Selection Group of leading experts from the public, private and not-for-profit sectors will cast their votes based on a set of criteria, and identify five finalists for each category. \\u003c/p\\u003e\\u003cp\\u003eThe Pioneer in each category with the most votes will receive special recognition at the UN Global Compact Leaders Summit, 22-23 June 2016, and will enter into a year-long programme with the UN Global Compact to further develop the Pioneers’ global potential and support their ambitions. Any person with an official affiliation to an active UN Global Compact participant organization (both private sector and civil society), or PRME school can be nominated as a Local SDG Pioneer.\\u003c/p\\u003e",
+        "bg_image": null,
+        "widget_image": {
+          "alt": null,
+          "src": null,
+          "url": null,
+          "external": null
+        },
+        "call_to_action": {
+          "theme": "dark-blue",
+          "title": null,
+          "url": null,
+          "enabled": null,
+          "external": null
+        }
+      },
+      {
+        "align": "left",
+        "theme": "none",
+        "title": "Join the campaign",
+        "content": "\\u003cp\\u003e[Aaron, would be great to have these in boxes, okay if the first two are bigger] \\u003c/p\\u003e\\u003cp\\u003e1. Local business leaders and entrepreneurs\\u003c/p\\u003e\\u003cp\\u003eHave demonstrated business success through advancing sustainable development – based on technologies, services or business models – in the country or region which is the primary base for their operations. This could include local leaders of a country division of a global company. \\u003c/p\\u003e\\u003cp\\u003e2. Local change-makers \\u003c/p\\u003e\\u003cp\\u003eThrough their work, have been advocates for sustainable development and actively mobilized local businesses beyond their own organization or sector, in their country or region which is the primary base for their operations. \\u003c/p\\u003e\\u003cp\\u003e3. Nominate a Local SDG Pioneer\\u003c/p\\u003e",
+        "bg_image": null,
+        "widget_image": {
+          "alt": null,
+          "src": null,
+          "url": null,
+          "external": null
+        },
+        "call_to_action": {
+          "theme": "dark-blue",
+          "title": null,
+          "url": null,
+          "enabled": null,
+          "external": null
+        }
+      }
+    ],
+    "resources": [
+      {
+        "resource_id": null
+      },
+      {
+        "resource_id": null
+      },
+      {
+        "resource_id": null
+      }
+    ]
+  }
+}

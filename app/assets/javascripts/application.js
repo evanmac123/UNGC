@@ -18,3 +18,4 @@
 //= require section-nav
 //= require tabbed-component
 //= require tied-principles
+//= require_tree ./sdg_pioneer

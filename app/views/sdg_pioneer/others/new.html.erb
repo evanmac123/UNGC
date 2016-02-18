@@ -1,0 +1,127 @@
+<%= render partial: 'components/meta_tags', locals: { title: "Local SDG Pioneers", description: t('sdg_pioneer.other.blurb'), keywords: 'sustainable development goals nominate pioneers' } %>
+
+<%= render partial: 'components/hero', locals: { hero_data: {theme: 'dark', size: 'small', title: {first: "Local SDG Pioneers"}, blurb: t('sdg_pioneer.other.blurb'), image: image_path('sdg_pioneer/nomination_form_bg.png') } } %>
+
+<section class='main-content-section main-content-section-narrow'>
+  <%= form_for @other, as: :other, html: {class: 'form-classic wrapper'} do |f| %>
+    <header class='main-content-header'>
+      <h1><%= t('sdg_pioneer.other.title') %></h1>
+    </header>
+
+    <section class='main-content-body'>
+      <%= content_tag(:p, content_tag(:span, notice), {class: 'success-message'}) if notice %>
+
+      <p>
+        Representatives from the Global Compact Local Networks, Global Compact LEAD companies, UN Agencies, Funds or Programmes, Global Compact non-business participants and PRME Champion schools are welcome to nominate individuals that they think qualify as a Local SDG Pioneer. Once nominated the individual will be asked to complete the submission form online.
+      </p>
+
+      <% if @other.errors.any? %>
+        <div class="errors-container">
+          <h2><%= pluralize(@other.errors.count, "error") %> prohibited this nomination from being sent:</h2>
+
+          <ul class='errors-list'>
+            <% @other.errors.full_messages.each do |message| %>
+              <li class='error'><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <fieldset>
+        <%= f.label :organization_type do %>
+          Under which of the following groups are you affiliated with?</br></br>
+          <% end %>
+        <select name="other[organization_type]" id="other_organization_type">
+          <option value="">Select one</option>
+          <option value="gc_lead">Global Compact LEAD</option>
+          <option value="non_business">Global Compact non-business participants</option>
+          <option value="local_network">Global Compact Local Networks</option>
+          <option value="prme">PRME Champion schools</option>
+          <option value="un">UN Agency, Fund or Programme</option>
+        </select>
+        </br>
+        <label><em>If your organization is a UN Global Compact participant but not affiliated with any of these groups you can self-nominate as a <%= link_to 'business leader and entrepreneur', new_sdg_pioneer_business_path %> or a <%= link_to 'local change-maker', new_sdg_pioneer_individual_path %>.</em></label>
+      </fieldset>
+
+      <fieldset>
+        <div class="field field-required">
+          <%= f.label :submitter_name, "Your name" %>
+          <%= f.text_field :submitter_name %>
+        </div>
+        <div class="field field-required">
+          <%= f.label :submitter_place_of_work, "Your organization" %>
+          <%= f.text_field :submitter_place_of_work %>
+        </div>
+        <div class="field field-required">
+          <%= f.label :submitter_job_title, "Your job title" %>
+          <%= f.text_field :submitter_job_title %>
+        </div>
+        <div class="field field-required">
+          <%= f.label :submitter_email, "Your preferred email address" %>
+          <%= f.text_field :submitter_email %>
+        </div>
+        <div class="field">
+          <%= f.label :submitter_phone, "Your preferred telephone number" %>
+          <%= f.text_field :submitter_phone %>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <div class="field">
+          <span>For which Local SDG Pioneer role are you nominating this individual? *</span></br></br>
+            <label><%= f.radio_button(:sdg_pioneer_role, :business_leaders_entrepreneurs) %>
+              <b>Local business leaders and entrepreneurs</b> who have demonstrated business success through advancing sustainable development – based on technologies, services or business models – in the country or region which is the primary base for their operations. This could include local leaders of a country division of a global company.
+            </label></br></br>
+            <label><%= f.radio_button(:sdg_pioneer_role, :change_makers) %>
+              <b>Local change-makers</b> who, through their work, have been advocates for sustainable development and actively mobilized local businesses beyond their own organization or sector, in their country or region which is the primary base for their operations. This is also open to Global Compact participants from civil society and PRME schools.
+            </label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <div class="field field-required">
+          <%= f.label :nominee_name, "Name of nominee" %>
+          <%= f.text_field :nominee_name %>
+        </div>
+        <div class="field field-required">
+          <%= f.label :nominee_work_place, "Nominee’s organization" %>
+          <%= f.text_field :nominee_work_place %>
+        </div>
+        <div class="field field-required">
+          <%= f.label :nominee_title, "Nominee’s title" %>
+          <%= f.text_field :nominee_title %>
+        </div>
+        <div class="field field-required">
+          <%= f.label :nominee_email, "Nominee’s preferred email address " %>
+          <%= f.text_field :nominee_email %>
+        </div>
+        <div class="field">
+          <%= f.label :nominee_phone, "Nominee’s preferred telephone number" %>
+          <%= f.text_field :nominee_phone %>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <div class="field field-required">
+          <%= f.label :why_nominate do %>
+            Please explain why you think that this individual should be nominated as a Local SDG Pioneer
+          <% end %>
+          <%= f.text_area :why_nominate, placeholder: 'Please limit to 400 words' %>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <div class="field field-required">
+          <p>We need your permission to share your name and contact information with the individual you are nominating as a Local SDG Pioneer. </p>
+          <label>
+            <%= f.check_box :accepts_tou %> I agree that the UN Global Compact can share my information with the individual I am nominating as a Local SDG Pioneer.
+          </label>
+        </div>
+      </fieldset>
+
+      <%= f.submit 'Nominate' %>
+
+    </section>
+
+  <% end %>
+</section>
