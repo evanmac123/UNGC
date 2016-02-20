@@ -1,6 +1,6 @@
 <%= render partial: 'components/meta_tags', locals: { title: "Local SDG Pioneers", description: t('sdg_pioneer.other.blurb'), keywords: 'sustainable development goals nominate pioneers' } %>
 
-<%= render partial: 'components/hero', locals: { hero_data: {theme: 'dark', size: 'small', title: {first: "Local SDG Pioneers"}, blurb: t('sdg_pioneer.other.blurb'), image: image_path('sdg_pioneer/nomination_form_bg.png') } } %>
+<%= render partial: 'components/hero', locals: { hero: {theme: 'dark', size: 'small', title: {first: "Local SDG Pioneers"}, blurb: t('sdg_pioneer.other.blurb'), image: image_path('sdg_pioneer/nomination_form_bg.png') } } %>
 
 <section class='main-content-section main-content-section-narrow'>
   <%= form_for @other, as: :other, html: {class: 'form-classic wrapper'} do |f| %>
