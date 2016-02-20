@@ -1,6 +1,11 @@
-<%- hero_data ||= @page.try(:hero)
-  if hero_data -%>
-  <%-
+<%-
+  hero_data = begin
+    local_assigns[:hero] || @page.hero
+  rescue
+    nil
+  end
+-%>
+<%- if hero_data
   hero_classes = ['page-section']
   hero_classes << 'has-issues-nav' if hero_data[:show_issues_nav]
   hero_classes << 'has-section-nav' if hero_data[:show_section_nav]
