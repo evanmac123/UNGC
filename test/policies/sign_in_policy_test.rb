@@ -6,6 +6,25 @@ class SignInPolicyTest < ActiveSupport::TestCase
     create_roles
   end
 
+  context "Network focal points" do
+
+    should "be allowed to sign-in as Contact points from the same local network" do
+      # Given a focal point
+      network = create_local_network
+      focal_point = create_contact(local_network: network, roles: [Role.network_focal_point])
+
+      # and Contact points from an organization in the same local network
+      country = create_country(local_network: network)
+      organization = create_organization(country: country, state: :approved)
+      cp = create_contact(organization: organization, roles: [Role.contact_point])
+
+      # the focal point should be able to sign in as that contact point
+      policy = SignInPolicy.new(focal_point)
+      assert policy.can_sign_in_as?(cp)
+    end
+
+  end
+
   context "Network report recipients" do
 
     should "be allowed to sign-in as Contact points from the same local network" do
