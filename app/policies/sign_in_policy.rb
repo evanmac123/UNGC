@@ -4,7 +4,7 @@ class SignInPolicy < SimpleDelegator
     if current.from_ungc?
       super(ForStaff.new(current))
     else
-      super(ForLocalNetworks.new(current))
+      super(ForNetworkReportRecipients.new(current))
     end
   end
 
@@ -30,13 +30,15 @@ class SignInPolicy < SimpleDelegator
     end
   end
 
-  class ForLocalNetworks
+  class ForNetworkReportRecipients
     def initialize(current)
       @current = current
     end
 
     def can_sign_in_as?(target)
-      can_sign_in_as_others? && from_same_local_network_as?(target)
+      can_sign_in_as_others? \
+        && from_same_local_network_as?(target) \
+        && valid_target?(target)
     end
 
     def sign_in_targets(from: nil)
@@ -44,11 +46,14 @@ class SignInPolicy < SimpleDelegator
     end
 
     def can_sign_in_as_others?
-      # must be a network focal point or report recipient to sign in as others
-      @current.roles.filtered(:network_focal_point, :network_report_recipient).any?
+      @current.is?(Role.network_report_recipient)
     end
 
     private
+
+    def valid_target?(contact)
+      contact.is?(Role.contact_point)
+    end
 
     def from_same_local_network_as?(contact)
       organizations = Organization.where(id: contact.organization_id)
