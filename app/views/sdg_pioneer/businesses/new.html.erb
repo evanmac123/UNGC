@@ -12,7 +12,7 @@
       <%= content_tag(:p, content_tag(:span, notice), {class: 'success-message'}) if notice %>
 
       <p>
-        The Local SDG Pioneers campaign celebrates local business leaders and entrepreneurs who have demonstrated business success through advancing sustainable development – based on technologies, services or business models – in the country or region which is the primary base for their operations. This could include local leaders of a country division of a global company.
+        The Local SDG Pioneers campaign celebrates local business leaders and entrepreneurs who have demonstrated business success through advancing sustainable development – based on technologies, services or business models – in the country or region which is the primary base for their operations. This could include local leaders of a country division of a global company. Any individual directly affiliated with an organization that is an active business participant in the UN Global Compact is eligible for consideration.
       </p>
 
       <% if @business.errors.any? %>
@@ -103,7 +103,10 @@
           <%= f.label(:is_participant_true, "Yes") %>
           <br />
           <%= f.radio_button(:is_participant, false) %>
-          <%= f.label(:is_participant_false, "No") %>
+          <%= f.label(:is_participant_false, "No") %> <br />
+        </div>
+        <div>
+          If you are unsure whether your organization is an active UN Global Compact business participant, find your organization's profile on our <a href="/what-is-gc/participants/" target="_blank">participant list</a>. If your organization is interested in joining the UN Global Compact <a href="/participation/join/application/" target="_blank">complete our application</a>.
         </div>
       </fieldset>
 
