@@ -12,7 +12,7 @@
       <%= content_tag(:p, content_tag(:span, notice), {class: 'success-message'}) if notice %>
 
       <p>
-        The Local SDG Pioneers campaign celebrates local change-makers who, through their work, have been advocates for sustainable development and actively mobilized local businesses beyond their own organization or sector, in their country or region which is the primary base for their operations. This is also open to Global Compact participants from civil society and PRME schools.
+        The Local SDG Pioneers campaign celebrates local change-makers who, through their work, have been advocates for sustainable development and actively mobilized local businesses beyond their own organization or sector, in their country or region which is the primary base for their operations. Any individual directly affiliated with an organization that is an active participant in the UN Global Compact or the Principles for Responsible Management Education (PRME) is eligible for consideration.
       </p>
 
       <% if @individual.errors.any? %>
@@ -104,6 +104,9 @@
           <br />
           <%= f.radio_button(:is_participant, false) %>
           <%= f.label(:is_participant_false, "No") %>
+        </div>
+        <div>
+          If you are unsure whether your organization is an active UN Global Compact participant, find your organization's profile on our <a href="/what-is-gc/participants/" target="_blank">participant list</a> (<a href="http://www.unprme.org/participants/index.php" target="_blank">click here for PRME's participant list</a>). If your organization is interested in joining the UN Global Compact <a href="/participation/join/application/" target="_blank">complete our application</a> (business schools can <a href="http://www.unprme.org/how-to-participate/how-to-sign-up.php" target="_blank">click here</a> to access the PRME application).
         </div>
       </fieldset>
 
@@ -200,6 +203,8 @@
           </label>
         </div>
       </fieldset>
+
+      <fieldset>Questions? Email: <a href="mailto:sdgpioneers@unglobalcompact.org" target="_top">sdgpioneers@unglobalcompact.org</a></fieldset>
 
       <%= f.submit 'Submit' %>
 
