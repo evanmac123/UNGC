@@ -12,6 +12,7 @@ class SimpleCopSubmissionTest < ActionDispatch::IntegrationTest
     login_as(c)
 
     visit '/admin/cops/introduction'
+    puts page.html
     click_link 'Submit a Simple COP'
 
     # When I fill out the Simple COP form
