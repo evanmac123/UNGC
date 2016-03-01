@@ -1,4 +1,4 @@
-class AddSimpleCopFields < ActiveRecord::Migration
+class AddExpressCopFields < ActiveRecord::Migration
   def change
     add_column :communication_on_progresses, :endorses_ten_principles, :boolean
     add_column :communication_on_progresses, :covers_issue_areas, :boolean
