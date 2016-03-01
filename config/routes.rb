@@ -91,6 +91,8 @@ UNGC::Application.routes.draw do
         end
       end
 
+      resources :express_cops, only: [:show, :new, :create], shallow: true
+
       resources :grace_letters, except: :index
       resources :reporting_cycle_adjustments, except: :index
 

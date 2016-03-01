@@ -1,0 +1,36 @@
+<% if @cop.errors.any? %>
+  <h3>Please correct the following before submitting your COP:</h3>
+  <div class="flash error">
+    <%= error_messages_for @cop, header_message: false %>
+  </div>
+<% end %>
+
+<%= form_for [:admin, @organization, @cop] do |form| %>
+
+  <div class="question">
+    <p>Ten principles?</p>
+    <%= form.label :endorses_ten_principles, 'Yes' %>
+    <%= form.radio_button :endorses_ten_principles, true %>
+    <%= form.label :endorses_ten_principles, 'No' %>
+    <%= form.radio_button :endorses_ten_principles, false %>
+  </div>
+
+  <div class="question">
+    <p>Covers issue areas?</p>
+    <%= form.label :covers_issue_areas, 'Yes' %>
+    <%= form.radio_button :covers_issue_areas, true %>
+    <%= form.label :covers_issue_areas, 'Yes' %>
+    <%= form.radio_button :covers_issue_areas, false %>
+  </div>
+
+  <div class="question">
+    <p>Measures outcomes?</p>
+    <%= form.label :measures_outcomes, 'Yes' %>
+    <%= form.radio_button :measures_outcomes, true %>
+    <%= form.label :measures_outcomes, 'Yes' %>
+    <%= form.radio_button :measures_outcomes, false %>
+  </div>
+
+  <%= form.submit 'Submit' %>
+
+<% end %>
