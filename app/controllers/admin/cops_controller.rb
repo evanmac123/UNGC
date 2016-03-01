@@ -26,7 +26,7 @@ class Admin::CopsController < AdminController
       @communication_on_progress = CopForm.new_form(@organization, cop_type, current_contact.contact_info)
       @communication_on_progress.build_cop_answers
     else
-      redirect_to cop_introduction_url
+      redirect_to cop_introduction_url, notice: "Invalid COP type: #{cop_type}"
     end
   end
 

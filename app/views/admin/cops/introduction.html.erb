@@ -2,6 +2,7 @@
 <div class="tab_container top_tabs" style="width: 80%;">
   <ul class="tab_nav">
     <li><a href="#introduction">Instructions</a></li>
+    <li><a href="#express">Express Template</a></li>
     <li><a href="#basic">Basic Template</a></li>
     <li><a href="#general">GC Active COP</a></li>
     <li><a href="#advanced">GC Advanced COP</a></li>
@@ -44,6 +45,17 @@
       </dd>
     </dl>
   </div>
+  
+  <div class="tab_content" id="express">
+    <h3>Submit an Express Template COP</h3>
+    <p class="cop_description">
+      TODO
+    </p>
+    <p class="clear">
+      <%= link_to 'Submit an Express Template COP here', new_admin_organization_communication_on_progress_path(current_contact.organization.id, :type_of_cop => 'express'), :class => 'new_page_large' %>
+    </p>
+  </div>
+
   <div class="tab_content" id="basic">
     <h3>Submit a Basic Template COP</h3>
     <p class="cop_description">

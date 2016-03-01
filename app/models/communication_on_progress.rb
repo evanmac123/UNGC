@@ -70,7 +70,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 15
 
-  TYPES = %w{grace basic intermediate advanced lead non_business}
+  TYPES = %w{grace express basic intermediate advanced lead non_business}
 
   enum submission_status: {
     submitted: 0,
