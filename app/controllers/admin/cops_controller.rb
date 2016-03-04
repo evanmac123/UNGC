@@ -7,6 +7,7 @@ class Admin::CopsController < AdminController
 
   def introduction
     @drafts = current_contact.organization.communication_on_progresses.in_progress
+    @can_submit_express_cop = current_contact.organization.sme?
     if current_contact.from_organization? && current_contact.organization.non_business?
       render :non_business_introduction
     elsif current_contact.organization.signatory_of?(:lead)
