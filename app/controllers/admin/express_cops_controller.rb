@@ -3,7 +3,16 @@ class Admin::ExpressCopsController < AdminController
   before_filter :redirect_unless_sme, except: :show
 
   def show
-    @cop = ExpressCop.find(params.fetch(:id))
+    cop = ExpressCop.find(params.fetch(:id))
+    @cop = ExpressCopPresenter.new(cop, current_contact)
+  end
+
+  class ExpressCopPresenter < CopPresenter
+
+    def initialize(cop, contact)
+      super(cop, contact)
+    end
+
   end
 
   def new

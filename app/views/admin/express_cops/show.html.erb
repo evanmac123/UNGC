@@ -1,1 +1,24 @@
-Show
+<% @body_class = 'details' %>
+<h2><%= "COP Details" %></h2>
+
+<ul class="tools inline">
+  <li><%= link_to "Back to COPs", cops_path(@cop.organization), :class => 'go_back_large' %></li>
+  <li><%= link_to 'Public version', show_cops_path(differentiation: @cop.differentiation_level_with_default, id: @cop.id), :class => 'web_preview_large' %></li>
+</ul>
+
+<div class="main_content">
+  <div id="status_box">
+    <dl style="width: 90%;">
+      <div class="tab_container top_tabs">
+        <ul class="tab_nav">
+          <li><a href="#differentiation">Differentiation Level</a></li>
+          <li><a href="#results">Detailed Results</a></li>
+          <li><a href="#next_steps">Next Steps</a></li>
+        </ul>
+        <div class="tab_content" id="differentiation"></div>
+        <div class="tab_content" id="results"></div>
+        <div class="tab_content" id="next_steps"></div>
+      </div>
+    </dl>
+  </div>
+</div>
