@@ -5,46 +5,47 @@
   </div>
 <% end %>
 
-<%= form_for [:admin, @organization, @cop], class: 'express-cop' do |form| %>
+<%= form_for [:admin, @organization, @cop] do |form| %>
 
-  <fieldset>
-    <p class="question_text">1) Does your company’s highest executive support and endorse the Ten Principles of the United Nations Global Compact?</p>
+  <div class="question">
+    <p class="question_text">Does your company’s highest executive support and endorse the Ten Principles of the United Nations Global Compact?</p>
 
-    <div class="options">
-      <label><%= form.radio_button :endorses_ten_principles, true %> Yes</label>
-      <label><%= form.radio_button :endorses_ten_principles, false %> No</label>
-    </div>
-
-    <p class="hint clear">Beyond signing the letter to join the Global Compact, does s/he mention and promote the UN Global Compact among employees and the public?  This can be done through his/her actions as well as spoken and written communication (i.e., deeds and words).</p>
-  </fieldset>
-
-  <fieldset>
-    <p class="question_text">2) Did your company take any actions in the areas of human rights, labour, environment and anti-corruption?</p>
-    
-    <div class="options">
-      <label><%= form.radio_button :covers_issue_areas, true %> Yes</label>
-      <label><%= form.radio_button :covers_issue_areas, false %> No</label>
-    </div>
-
-    <p class="hint">
-    Examples include, but are not limited to:
-    <ul>
-      <li>Ensure workers are provided safe, suitable and sanitary work facilities</li>
-      <li>Comply with minimum wage standards</li>
-      <li>Minimize the use and ensure safe handling and storage of chemical and other dangerous substances</li>
-      <li>Mention “anti-corruption” and/or “ethical behavior” in contracts with business partners</li> 
+    <ul class="options">
+      <li><label><%= form.radio_button :endorses_ten_principles, true %> Yes</label></li>
+      <li><label><%= form.radio_button :endorses_ten_principles, false %> No</label></li>
     </ul>
-    </p>
-  </fieldset>
 
-  <fieldset>
-    <p class="question_text">3) Did your company monitor the outcomes of such activities?</p>
-    <div class="question_text">
-      <label><%= form.radio_button :measures_outcomes, true %> Yes</label>
-      <label><%= form.radio_button :measures_outcomes, false %> No</label>
+    <div class="hint">Beyond signing the letter to join the Global Compact, does s/he mention and promote the UN Global Compact among employees and the public?  This can be done through his/her actions as well as spoken and written communication (i.e., deeds and words).</div>
+  </div>
+
+  <div class="question">
+    <p class="question_text">Did your company take any actions in the areas of human rights, labour, environment and anti-corruption?</p>
+
+    <ul class="options">
+      <li><label><%= form.radio_button :covers_issue_areas, true %> Yes</label></li>
+      <li><label><%= form.radio_button :covers_issue_areas, false %> No</label></li>
+    </ul>
+
+    <div class="hint">
+      Examples include, but are not limited to:
+      <ul>
+        <li>Ensure workers are provided safe, suitable and sanitary work facilities</li>
+        <li>Comply with minimum wage standards</li>
+        <li>Minimize the use and ensure safe handling and storage of chemical and other dangerous substances</li>
+        <li>Mention “anti-corruption” and/or “ethical behavior” in contracts with business partners</li> 
+      </ul>
     </div>
-    <p class="hint">Example of a possible indicator (among others): Rate of occupational diseases, injuries, and absenteeism</p>
-  </fieldset>
-  <%= form.submit 'Submit' %>
+  </div>
+
+  <div class="question">
+    <p class="question_text">Did your company monitor the outcomes of such activities?</p>
+    <ul class="options">
+      <li><label><%= form.radio_button :measures_outcomes, true %> Yes</label></li>
+      <li><label><%= form.radio_button :measures_outcomes, false %> No</label></li>
+    </ul>
+    <div class="hint">Example of a possible indicator (among others): Rate of occupational diseases, injuries, and absenteeism</div>
+  </div>
+
+  <%= render partial: '/admin/cops/submit_cop', locals: { return_url: cop_introduction_path(tab: 'express') } %>
 
 <% end %>
