@@ -42,7 +42,7 @@ class Admin::ExpressCopsController < AdminController
   end
 
   def cop_params
-    params.require(:express_cop).permit(
+    params.fetch(:express_cop, {}).permit(
       :endorses_ten_principles,
       :covers_issue_areas,
       :measures_outcomes
