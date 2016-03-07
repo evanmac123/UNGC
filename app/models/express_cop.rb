@@ -6,6 +6,14 @@ class ExpressCop < CommunicationOnProgress
 
   after_initialize :set_defaults
 
+  def differentiation_level
+    if endorses_ten_principles && covers_issue_areas && measures_outcomes
+      :active
+    else
+      :learner
+    end
+  end
+
   private
 
   def set_defaults

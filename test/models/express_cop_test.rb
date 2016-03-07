@@ -28,4 +28,25 @@ class ExpressCopTest < ActiveSupport::TestCase
     assert_equal 'express', cop.format
   end
 
+  should 'be active with all 3 questions answered positively' do
+    cop = create_express_cop(
+      endorses_ten_principles: true,
+      covers_issue_areas: true,
+      measures_outcomes: true
+    )
+
+    assert_equal 'active', cop.differentiation
+  end
+
+  should 'be learner without all 3 questions answered positively' do
+    cop = create_express_cop(
+      endorses_ten_principles: false,
+      covers_issue_areas: true,
+      measures_outcomes: true
+    )
+
+    assert_equal 'learner', cop.differentiation
+  end
+
+
 end
