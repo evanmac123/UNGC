@@ -406,7 +406,6 @@ class Admin::CopsControllerTest < ActionController::TestCase
     end
   end
 
-HERE
   context "given two Learner COPs in a row" do
     setup do
       create_organization_and_user
