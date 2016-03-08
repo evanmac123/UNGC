@@ -4,15 +4,8 @@ class Admin::ExpressCopsController < AdminController
 
   def show
     cop = ExpressCop.find(params.fetch(:id))
-    @cop = ExpressCopPresenter.new(cop, current_contact)
-  end
-
-  class ExpressCopPresenter < CopPresenter
-
-    def initialize(cop, contact)
-      super(cop, contact)
-    end
-
+    @communication = CopPresenter.new(cop, current_contact)
+    render '/admin/cops/show'
   end
 
   def new
