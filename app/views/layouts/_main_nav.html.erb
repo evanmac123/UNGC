@@ -24,4 +24,5 @@
   <% if current_contact %>
     <%= link_to_current 'Logout', destroy_contact_session_path, action_name == 'logout', :method => :delete, title: current_contact.name %>
   <% end %>
+  <li class="google_translate_button"><a id="google_translate_element"></a></li>
 </ul>

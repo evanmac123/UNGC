@@ -1,0 +1,52 @@
+ul.nav_bar li.google_translate_button
+  float: right
+  border-left: 1px solid #fff
+
+  #google_translate_element
+    .goog-te-gadget
+      font:
+        family: inherit
+        size: inherit
+        color: inherit
+      color: inherit
+      line-height: 1
+
+    .goog-te-gadget-icon
+      display: none
+
+    .goog-te-gadget-simple
+      background: transparent
+      font-size: inherit
+      padding: 0
+      border: 0
+
+    .goog-te-menu-value
+      display: block
+      margin: 0
+      padding: 0
+      color: inherit
+      line-height: 1
+      background: none
+      border-right: none
+
+      img,
+      span
+        display: none
+
+      &:before
+        content: 'Translate'
+
+    @media only screen and (max-width: 680px)
+      display: none
+
+  .goog-te-menu-frame
+    box-shadow: 0 3px 8px 2px rgba(black, .3) !important
+
+  html.translated-rtl,
+  html.translated-ltr
+    #google_translate_element .goog-te-menu-value
+      &:before
+        content: ''
+
+      span:first-of-type
+        display: inline
