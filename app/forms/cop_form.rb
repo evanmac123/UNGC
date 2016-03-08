@@ -46,7 +46,6 @@ class CopForm
 
   def self.forms_for_type(type)
     @forms ||= {
-      express: ExpressCopForm,
       basic: BasicCopForm,
       intermediate: CopForm,
       advanced: CopForm,
