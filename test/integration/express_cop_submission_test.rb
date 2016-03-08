@@ -21,9 +21,7 @@ class ExpressCopSubmissionTest < ActionDispatch::IntegrationTest
     click_on 'Submit'
 
     # Then I should see a success message
-    puts page.html
     assert page.has_content? I18n.t('notice.cop_published')
   end
 
 end
-
