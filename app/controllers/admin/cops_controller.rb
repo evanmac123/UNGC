@@ -141,7 +141,7 @@ class Admin::CopsController < AdminController
 
     def publish_draft(form)
       if form.submit(cop_params)
-        flash[:notice] = "The communication has been published on the Global Compact website"
+        flash[:notice] = I18n.t('notice.cop_published')
         send_cop_submission_confirmation_email(form.cop)
         redirect_to admin_organization_communication_on_progress_url(@organization.id, form.cop)
       else
