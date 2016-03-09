@@ -132,6 +132,10 @@ class CopPresenter
     cop.starts_on.present? && cop.ends_on.present?
   end
 
+  def self_assessment
+    CommunicationOnProgress::SelfAssessment.for(cop)
+  end
+
   private
 
     def partial
