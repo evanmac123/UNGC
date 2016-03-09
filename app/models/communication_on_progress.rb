@@ -469,6 +469,10 @@ class CommunicationOnProgress < ActiveRecord::Base
     super || self.created_at
   end
 
+  def has_time_period?
+    starts_on.present? && ends_on.present?
+  end
+
   private
 
     def adjust_organization_cop_date_and_status

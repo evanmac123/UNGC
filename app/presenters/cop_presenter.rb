@@ -53,6 +53,7 @@ class CopPresenter
            :is_reporting_cycle_adjustment?,
            :organization,
            :is_new_format?,
+           :has_time_period?,
            to: :cop
 
   def initialize(cop, current_contact)
@@ -127,10 +128,6 @@ class CopPresenter
 
   def full_name
     'Communication on Progress'
-  end
-
-  def has_time_period?
-    cop.starts_on.present? && cop.ends_on.present?
   end
 
   def self_assessment
