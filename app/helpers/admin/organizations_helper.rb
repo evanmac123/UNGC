@@ -177,10 +177,10 @@ module Admin::OrganizationsHelper
   def link_to_document(organization, document)
     html = ''
     html = file_field_tag "organization[#{document}_file]"
-      if organization.send("#{document}")
-        html += link_to truncate(@organization.send("#{document}").attachment_file_name, :length => 90), @organization.send("#{document}").attachment.url, {:title => @organization.send("#{document}").attachment_file_name}
-      else
-        html += "no file uploaded"
+    if organization.send("#{document}")
+      html += link_to truncate(@organization.send("#{document}").attachment_file_name, :length => 90), @organization.send("#{document}").attachment.url, {:title => @organization.send("#{document}").attachment_file_name}
+    else
+      html += "no file uploaded"
     end
     html.html_safe
   end
@@ -192,7 +192,6 @@ module Admin::OrganizationsHelper
   end
 
   def countries_list
-    ids = params[:country]
     Country.find(params[:country]).map { |c| c.name }.sort.join(', ')
     countries = Country.find(params[:country]).map { |c| c.name }.sort
     join_items_into_sentance(countries)
@@ -211,8 +210,6 @@ module Admin::OrganizationsHelper
   end
 
   def nice_date_from_param(join_date)
-    month, day, year = params[join_date].split('/')
-    parsed_date = Date.parse([year,month,day].join('-'))
     params[join_date].to_date.strftime("%e&nbsp;%B,&nbsp;%Y")
   end
 
