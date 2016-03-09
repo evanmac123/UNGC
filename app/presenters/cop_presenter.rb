@@ -52,6 +52,7 @@ class CopPresenter
            :is_grace_letter?,
            :is_reporting_cycle_adjustment?,
            :organization,
+           :is_new_format?,
            to: :cop
 
   def initialize(cop, current_contact)

@@ -51,7 +51,9 @@ class CopsController < ApplicationController
   end
 
   def feed
-    @cops_for_feed = CommunicationOnProgress.approved.for_feed
+    @cops_for_feed = CommunicationOnProgress.approved.for_feed.map do |cop|
+      CommunicationPresenter.create(cop, current_contact)
+    end
 
     respond_to do |format|
       format.atom { render :layout => false }
