@@ -105,7 +105,7 @@
         %dt.first Membership Status
         %dd.first= local_network_membership
         %dt Network Status
-        %dd= local_network_detail(@organization, :state).titleize
+        %dd= local_network_detail(@organization, :state).try(:titleize)
         %dt Name
         %dd= local_network_detail(@organization, :name)
         %dt Report Recipients
