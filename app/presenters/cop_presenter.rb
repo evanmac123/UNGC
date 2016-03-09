@@ -128,6 +128,10 @@ class CopPresenter
     'Communication on Progress'
   end
 
+  def has_time_period?
+    cop.starts_on.present? && cop.ends_on.present?
+  end
+
   private
 
     def partial
