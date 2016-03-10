@@ -9,10 +9,12 @@ class Admin::ExpressCopsController < AdminController
   end
 
   def new
-    @cop = ExpressCop.new(organization: organization)
+    @organization = organization
+    @cop = ExpressCop.new(organization: @organization)
   end
 
   def create
+    @organization = organization
     @cop = build_cop
     if @cop.save
       redirect_to admin_express_cop_path(@cop),
@@ -25,7 +27,7 @@ class Admin::ExpressCopsController < AdminController
   private
 
   def organization
-    @organization ||= Organization.find(params.fetch(:organization_id))
+    @_organization ||= Organization.find(params.fetch(:organization_id))
   end
 
   def redirect_unless_sme
