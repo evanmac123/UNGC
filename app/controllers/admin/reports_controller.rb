@@ -65,6 +65,21 @@ class Admin::ReportsController < AdminController
     render_report(report, "approved_logo_requests_#{date_as_filename}.xls")
   end
 
+  def sdg_pioneer_business
+    report = SdgPioneerBusinessReport.new
+    render_report(report, "sdg_pioneer_business_#{date_as_filename}.xls")
+  end
+
+  def sdg_pioneer_individual
+    report = SdgPioneerIndividualReport.new
+    render_report(report, "sdg_pioneer_individual_#{date_as_filename}.xls")
+  end
+
+  def sdg_pioneer_other
+    report = SdgPioneerOtherReport.new
+    render_report(report, "sdg_pioneer_other_#{date_as_filename}.xls")
+  end
+
   def listed_companies
     report = ListedCompaniesReport.new
     render_report(report, "listed_companies_#{date_as_filename}.xls")
