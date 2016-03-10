@@ -6,7 +6,7 @@
 
   #differentiation.tab_content
     %h3= communication_on_progress.differentiation_placement
-    %p== Thank you for submitting your company's Communication on Progress (COP). It is now publicly available on the Global Compact website. According to your self-assessment, your COP is missing <strong>#{communication_on_progress.number_missing_items}</strong> of the required elements and as a result, your company has been placed on the #{popup_link_to 'Learner Platform.','/COP/differentiation/the_learner_platform.html'}
+    %p== Thank you for submitting your company's Communication on Progress (COP). It is now publicly available on the Global Compact website. According to your self-assessment, your COP is missing one or more of the required elements and as a result, it is considered a #{popup_link_to 'GC Learner','/COP/differentiation/the_learner_platform.html'}
     - if communication_on_progress.latest?
       - if communication_on_progress.triple_learner_for_one_year?
         %p Your company has exceeded the one-time 12-month Learner period that our policy allows for companies that do not meet the COP minimum requirements. As a result, your company is currently listed as "Non-Communicating" on the Global Compact website.
