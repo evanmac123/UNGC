@@ -46,4 +46,8 @@ class SdgPioneer::Individual < ActiveRecord::Base
     super sdgs.reject(&:blank?).map(&:to_i)
   end
 
+  def matching_sdgs_names
+    SustainableDevelopmentGoal.where(id: matching_sdgs).pluck(:name).join(", ")
+  end
+
 end
