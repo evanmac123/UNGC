@@ -32,7 +32,7 @@ class SdgPioneerIndividualReport < SimpleReport
       individual.description_of_individual,
       individual.other_relevant_info,
       individual.supporting_link,
-      individual.matching_sdgs_names,
+      individual.matching_sdg_names,
       individual.local_business_nomination_name,
       individual.title,
       individual.website_url,
