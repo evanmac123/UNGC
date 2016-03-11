@@ -34,7 +34,7 @@ class SdgPioneerBusinessReport < SimpleReport
       business.country_name,
       business.local_network_status,
       business.positive_outcomes,
-      business.matching_sdgs,
+      business.matching_sdgs_names,
       business.other_relevant_info,
       business.local_business_name,
       business.is_nominated,

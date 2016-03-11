@@ -4,7 +4,7 @@ class SdgPioneerIndividualReport < SimpleReport
     SdgPioneer::Individual.all
   end
 
-  def header
+  def headers
     ['Is Participant',
      'Name',
      'Email',
@@ -32,7 +32,7 @@ class SdgPioneerIndividualReport < SimpleReport
       individual.description_of_individual,
       individual.other_relevant_info,
       individual.supporting_link,
-      individual.matching_sdgs,
+      individual.matching_sdgs_names,
       individual.local_business_nomination_name,
       individual.title,
       individual.website_url,
