@@ -9,12 +9,12 @@ class SdgPioneerIndividualReport < SimpleReport
      'Name',
      'Email',
      'Phone',
-     'Description of Individual'
+     'Description of Individual',
      'Other Relevant Information',
      'Supporting Link',
-     'Matching SDGs'
-     'Local Business Nominating Name'
-     'Title'
+     'Matching SDGs',
+     'Local Business Nominating Name',
+     'Title',
      'Website URL',
      'Country',
      'Local Network Status',
