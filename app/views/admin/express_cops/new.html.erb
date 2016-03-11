@@ -1,7 +1,6 @@
 <% if @cop.errors.any? %>
-  <h3>Please correct the following before submitting your COP:</h3>
   <div class="flash error">
-    <%= error_messages_for @cop, header_message: false %>
+    All questions must be answered
   </div>
 <% end %>
 

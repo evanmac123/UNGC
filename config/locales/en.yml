@@ -85,6 +85,11 @@ en:
     delete_COE: "Delete COE and remove all answers, files and links"
     edit_COP: "Edit COP"
     edit_COE: "Edit COE"
+    cop:
+      differentiation_level:
+        learner: "GC Learner Platform &#x25BA;"
+        active: "GC Active &#x25BA;"
+        advanced: "GC Advanced"
 
   resources:
     types:

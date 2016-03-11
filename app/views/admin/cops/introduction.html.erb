@@ -3,9 +3,9 @@
   <ul class="tab_nav">
     <li><a href="#introduction">Instructions</a></li>
     <% if @can_submit_express_cop %>
-      <li><a href="#express">Express Template</a></li>
+      <li><a href="#express">Express COP</a></li>
     <% end %>
-    <li><a href="#basic">Basic Template</a></li>
+    <li><a href="#basic">Basic COP</a></li>
     <li><a href="#general">GC Active COP</a></li>
     <li><a href="#advanced">GC Advanced COP</a></li>
     <% if current_contact.submit_grace_letter? %>
@@ -23,8 +23,10 @@
       <strong>Please choose among the following options to publish your COP on the Global Compact website</strong>
     </p>
     <dl class="left_column" style="width: 100%;">
-      <dt class="first">Basic Template</dt>
-      <dd class="first">If your company is new to sustainability reporting, this template will guide you in creating your COP.</dd>
+      <dt class="first">Express COP</dt>
+      <dd class="first">Express COP: Contains three yes-or-no questions. This option is designed for companies with less than 250 employees who have minimal reporting capacity.</dd>
+      <dt>Basic COP</dt>
+      <dd>If your company is new to sustainability reporting, this template will guide you in creating your COP.</dd>
       <dt>GC Active COP</dt>
       <dd>Your report fulfills the three minimum requirements for the GC Active level and you are not aiming to qualify for the GC Advanced level.</dd>
       <dt>GC Advanced COP</dt>
@@ -47,19 +49,21 @@
       </dd>
     </dl>
   </div>
-  
-  <div class="tab_content" id="express">
-    <h3>Submit an Express Template COP</h3>
-    <p class="cop_description">
+
+  <% if @can_submit_express_cop %>
+    <div class="tab_content" id="express">
+      <h3>Submit an Express COP</h3>
+      <p class="cop_description">
       Communication on Progress (COP) for small and medium enterprises (SMEs) contains three yes-or-no questions. This option is designed for companies with less than 250 employees who have minimal reporting capacity.
-    </p>
-    <p class="clear">
-      <%= link_to 'Submit an Express Template COP here', new_admin_organization_express_cop_path(current_contact.organization), :class => 'new_page_large' %>
-    </p>
-  </div>
+      </p>
+      <p class="clear">
+      <%= link_to 'Submit an Express COP here', new_admin_organization_express_cop_path(current_contact.organization), :class => 'new_page_large' %>
+      </p>
+    </div>
+  <% end %>
 
   <div class="tab_content" id="basic">
-    <h3>Submit a Basic Template COP</h3>
+    <h3>Submit a Basic COP</h3>
     <p class="cop_description">
       Smaller and less experienced companies can complete this template to create their COP. Translations of the template are currently available in several languages. Please note that the COP submission can only be completed through the <%= link_to 'web-based template', new_admin_organization_communication_on_progress_path(current_contact.organization.id, :type_of_cop => 'basic') %>.
     </p>
@@ -103,7 +107,7 @@
       </li>
     </ul>
     <p class="clear">
-      <%= link_to 'Submit a Basic Template COP here', new_admin_organization_communication_on_progress_path(current_contact.organization.id, :type_of_cop => 'basic'), :class => 'new_page_large' %>
+      <%= link_to 'Submit a Basic COP here', new_admin_organization_communication_on_progress_path(current_contact.organization.id, :type_of_cop => 'basic'), :class => 'new_page_large' %>
     </p>
   </div>
   <div class="tab_content" id="general">
