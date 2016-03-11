@@ -4,7 +4,7 @@ class SdgPioneerBusinessReport < SimpleReport
     SdgPioneer::Business.all
   end
 
-  def header
+  def headers
     ['Organization Name',
      'Is Participant',
      'Contact Person Name',

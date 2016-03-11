@@ -4,7 +4,7 @@ class SdgPioneerOtherReport < SimpleReport
     SdgPioneer::Other.all
   end
 
-  def header
+  def headers
     [ 'Submitter Name',
       'Submitter Place of Work',
       'Submitter Email',
