@@ -21,7 +21,7 @@ gem 'fixture_replacement',              github: 'smtlaissezfaire/fixturereplacem
 gem 'custom_error_message',             github: 'jeremydurham/custom-err-msg', ref: 'master'
 gem 'devise',               '~> 3.4.1'
 gem 'dynamic_form',         '~> 1.1.4'
-gem 'skylight',             '~> 0.6.0'
+gem 'skylight',             '~> 0.10.3'
 gem 'honeybadger', '~> 2.0'
 
 gem 'sass-rails',           '5.0.3'
