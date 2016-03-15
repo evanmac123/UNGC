@@ -28,6 +28,11 @@ class ExpressCopTest < ActiveSupport::TestCase
     assert_equal 'express', cop.format
   end
 
+  should 'be approved by default' do
+    cop = ExpressCop.new
+    assert cop.approved?, 'COP is not approved when it should be'
+  end
+
   should 'be active with all 3 questions answered positively' do
     cop = create_express_cop(
       endorses_ten_principles: true,
