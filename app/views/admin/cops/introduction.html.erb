@@ -3,16 +3,16 @@
   <ul class="tab_nav">
     <li><a href="#introduction">Instructions</a></li>
     <% if @can_submit_express_cop %>
-      <li><a href="#express">Express COP</a></li>
+      <li><a href="#express">Express</a></li>
     <% end %>
-    <li><a href="#basic">Basic COP</a></li>
-    <li><a href="#general">GC Active COP</a></li>
-    <li><a href="#advanced">GC Advanced COP</a></li>
+    <li><a href="#basic">Basic</a></li>
+    <li><a href="#general">GC Active</a></li>
+    <li><a href="#advanced">GC Advanced</a></li>
     <% if current_contact.submit_grace_letter? %>
       <li><a href="#grace">Grace Letter</a></li>
     <% end %>
     <% if current_contact.submit_reporting_cycle_adjustment? %>
-      <li><a href="#reporting">Reporting Cycle Adjustment</a></li>
+      <li><a href="#reporting">Cycle Adjustment</a></li>
     <% end %>
     <% if current_contact.from_organization? %>
       <li><a href="#drafts">Drafts</a></li>
@@ -23,13 +23,13 @@
       <strong>Please choose among the following options to publish your COP on the Global Compact website</strong>
     </p>
     <dl class="left_column" style="width: 100%;">
-      <dt class="first">Express COP</dt>
-      <dd class="first">Express COP: Contains three yes-or-no questions. This option is designed for companies with less than 250 employees who have minimal reporting capacity.</dd>
-      <dt>Basic COP</dt>
+      <dt class="first">Express</dt>
+      <dd class="first">Contains three yes-or-no questions. This option is designed for companies with less than 250 employees who have minimal reporting capacity.</dd>
+      <dt>Basic</dt>
       <dd>If your company is new to sustainability reporting, this template will guide you in creating your COP.</dd>
-      <dt>GC Active COP</dt>
+      <dt>GC Active</dt>
       <dd>Your report fulfills the three minimum requirements for the GC Active level and you are not aiming to qualify for the GC Advanced level.</dd>
-      <dt>GC Advanced COP</dt>
+      <dt>GC Advanced</dt>
       <dd>Your COP meets the GC Active level requirements and the GC Advanced criteria.</dd>
       <dt>Grace Letter</dt>
       <dd>
@@ -39,7 +39,7 @@
           This option is not available because you have already submitted a Grace Letter.
         <% end %>
       </dd>
-      <dt>Reporting Cycle<br />Adjustment</dt>
+      <dt>Cycle Adjustment</dt>
       <dd>
         <% if current_contact.submit_reporting_cycle_adjustment? %>
           Submit a one-time deferral of up to 11 months to align your COP deadline with your company's reporting cycle.
@@ -52,7 +52,7 @@
 
   <% if @can_submit_express_cop %>
     <div class="tab_content" id="express">
-      <h3>Submit an Express COP</h3>
+      <h3>Submit an Express</h3>
       <p class="cop_description">
       Communication on Progress (COP) for small and medium enterprises (SMEs) contains three yes-or-no questions. This option is designed for companies with less than 250 employees who have minimal reporting capacity.
       </p>
@@ -63,7 +63,7 @@
   <% end %>
 
   <div class="tab_content" id="basic">
-    <h3>Submit a Basic COP</h3>
+    <h3>Submit a Basic</h3>
     <p class="cop_description">
       Smaller and less experienced companies can complete this template to create their COP. Translations of the template are currently available in several languages. Please note that the COP submission can only be completed through the <%= link_to 'web-based template', new_admin_organization_communication_on_progress_path(current_contact.organization.id, :type_of_cop => 'basic') %>.
     </p>
@@ -111,7 +111,7 @@
     </p>
   </div>
   <div class="tab_content" id="general">
-    <h3>Submit a GC Active COP</h3>
+    <h3>Submit a GC Active</h3>
     <p class="cop_description">
       A COP must contain the following three elements to meet the <%= popup_link_to 'GC Active level requirements', '/COP/differentiation/GCActive_level.html' %>:
     </p>
@@ -125,7 +125,7 @@
     </p>
   </div>
   <div class="tab_content" id="advanced">
-    <h3>Submit a GC Advanced COP</h3>
+    <h3>Submit a GC Advanced</h3>
     <p class="cop_description">
       A COP must meet the <%= link_to '21 GC Advanced criteria (pdf)', 'http://www.unglobalcompact.org/docs/communication_on_progress/GC_Advanced_COP_selfassessment.pdf' %> to achieve the the GC Advanced level. To meet a criterion, the COP must cover at least one of the listed best practices.
     </p>
@@ -146,7 +146,7 @@
   <% end %>
   <% if current_contact.submit_reporting_cycle_adjustment? %>
     <div class="tab_content" id="reporting">
-      <h3>Submit a Reporting Cycle Adjustment</h3>
+      <h3>Submit a Cycle Adjustment</h3>
       <p class="cop_description">
         A one-time adjustment request of up to 11 months will align your COP deadline with your company's reporting cycle. <%=link_to 'View a sample Reporting Cycle Adjustment (pdf)', 'http://unglobalcompact.org/docs/communication_on_progress/templates/Sample_Reporting_Cycle_Adjustment_Request.pdf' %>
       </p>
@@ -161,4 +161,3 @@
     </div>
   <% end %>
 </div>
-
