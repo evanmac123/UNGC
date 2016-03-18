@@ -48,4 +48,8 @@ class SdgPioneer::Business < ActiveRecord::Base
     end
   end
 
+  def matching_sdg_names
+    SustainableDevelopmentGoal.where(id: matching_sdgs).pluck(:name).join(", ")
+  end
+
 end
