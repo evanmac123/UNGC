@@ -129,6 +129,7 @@ UNGC::Application.routes.draw do
     resources :countries
     resources :logo_files
     resources :cop_questions
+    resources :sdg_pioneers
 
     resources :local_networks do
       resources :contacts do
