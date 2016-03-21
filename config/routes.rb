@@ -487,6 +487,8 @@ UNGC::Application.routes.draw do
   get '/pioneers', to: redirect('/what-is-gc/our-work/sustainable-development/global-goals-local-business/sdgpioneers')
   get '/what-is-gc/our-work/sustainable-development/17-global-goals', to: redirect('/what-is-gc/our-work/sustainable-development/sdgs/17-global-goals')
   get '/sdgs/', to: redirect('/what-is-gc/our-work/sustainable-development/sdgs/17-global-goals')
+  get '/what-is-gc/our-work/sustainable-development/ln-action-plan', to: redirect('/what-is-gc/our-work/sustainable-development/global-goals-local-business/ln-action-plan')
+  get '/what-is-gc/our-work/sustainable-development/sdgpioneers', to: redirect('/what-is-gc/our-work/sustainable-development/global-goals-local-business/sdgpioneers')
 
   # new redirects (to be tested)
   get '/index.html', to: redirect('/')
