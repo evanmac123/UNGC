@@ -1,0 +1,7 @@
+<%= @business.organization_name %>
+
+<ul>
+  <% @business.positive_outcome_attachments.each do |attachment| %>
+    <li><%= link_to attachment.filename, attachment.attachment.url %></li>
+  <% end %>
+</ul>

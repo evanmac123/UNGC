@@ -1,0 +1,6 @@
+Businesses
+<ol>
+  <% @businesses.each do |business| %>
+    <li><%= link_to business.organization_name, admin_sdg_pioneers_business_path(business) %></li>
+  <% end %>
+</ol>
