@@ -1,0 +1,42 @@
+<div>
+  <h2><%= @individual.organization_name %></h2>
+</div>
+
+<div>
+  <ul style="list-style: none; font-size: 14px;">
+    <h4>Is nominated</h4>
+      <li><%= @individual.is_nominated %></li></br>
+    <%if @individual.is_nominated?%>
+    <h4>Nominating organization</h4>
+      <li><%= @individual.nominating_organization %></li></br>
+    <h4>Nominating individual</h4>
+      <li><%= @individual.nominating_individual %></li></br>
+    <% end %>
+
+    <h4>Indivudal name</h4>
+      <li><%= @individual.name %></li></br>
+    <h4>Indivudal title</h4>
+      <li><%= @individual.title %></li></br>
+    <h4>Indivudal email</h4>
+      <li><%= @individual.email %></li></br>
+    <h4>Country</h4>
+      <li><%= @individual.country_name %></li></br>
+    <h4>Website</h4>
+      <li><%= @individual.website_url %></li></br>
+    <h4>Description of individual</h4>
+      <li><%= @individual.description_of_individual %></li></br>
+    <h4>Matching Sdgs</h4>
+      <li><%= @individual.matching_sdg_names %></li></br>
+    <h4>Other relevant info</h4>
+      <li><%= @individual.other_relevant_info %></li></br>
+  </ul>
+</div>
+
+<div>
+  <h4>Supporting documents</h4>
+  <ul>
+    <% @individual.supporting_documents.each do |attachment| %>
+      <li><%= link_to attachment.filename, attachment.attachment.url %></li>
+    <% end %>
+  </ul>
+</div>

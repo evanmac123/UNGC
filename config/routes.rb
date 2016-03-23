@@ -130,6 +130,13 @@ UNGC::Application.routes.draw do
     resources :logo_files
     resources :cop_questions
 
+    namespace :sdg_pioneers do
+      get :index, path: '/'
+      resources :businesses, only: [:index, :show]
+      resources :individuals, only: [:index, :show]
+      resources :others, only: [:index, :show]
+    end
+
     resources :local_networks do
       resources :contacts do
         member do
