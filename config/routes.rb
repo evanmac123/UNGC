@@ -313,7 +313,7 @@ UNGC::Application.routes.draw do
   get '/'         => 'static#home',       as: :root
   get '/layout-sample' => 'static#layout_sample', as: :layout_sample
 
-  namespace :sdg_pioneer, path: '/what-is-gc/our-work/sustainable-development/sdgpioneers' do
+  namespace :sdg_pioneer, path: '/what-is-gc/our-work/sustainable-development/global-goals-local-business/sdgpioneers' do
     get :index, path: '/'
     resources :businesses, path: 'local-business-leaders', only: [:new, :create]
     resources :individuals, path: 'local-change-makers', only: [:new, :create]
