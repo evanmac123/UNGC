@@ -13,6 +13,8 @@ class CreateSdgPioneerSubmissions < ActiveRecord::Migration
       t.string :country_name
       t.text :reason_for_being
       t.boolean :accepts_tou, null: false, default: false
+      t.boolean :is_participant, null: false, default: false
+      t.string :website_url
 
       t.timestamps null: false
     end

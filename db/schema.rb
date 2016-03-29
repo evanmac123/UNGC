@@ -941,6 +941,8 @@ ActiveRecord::Schema.define(version: 20160328232657) do
     t.string   "country_name",              limit: 255
     t.text     "reason_for_being",          limit: 65535
     t.boolean  "accepts_tou",                             default: false, null: false
+    t.boolean  "is_participant",                          default: false, null: false
+    t.string   "website_url",               limit: 255
     t.datetime "created_at",                                              null: false
     t.datetime "updated_at",                                              null: false
   end

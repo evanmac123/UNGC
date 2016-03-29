@@ -30,6 +30,8 @@ class MergeSdgPioneers < ActiveRecord::Migration
         country_name,
         reason_for_being,
         accepts_tou,
+        website_url,
+        is_participant,
         created_at,
         updated_at
       )
@@ -47,6 +49,8 @@ class MergeSdgPioneers < ActiveRecord::Migration
         country_name,
         other_relevant_info,
         accepts_tou,
+        website_url,
+        is_participant,
         created_at,
         updated_at
       from
@@ -71,6 +75,8 @@ class MergeSdgPioneers < ActiveRecord::Migration
         country_name,
         reason_for_being,
         accepts_tou,
+        website_url,
+        is_participant,
         created_at,
         updated_at
       )
@@ -88,6 +94,8 @@ class MergeSdgPioneers < ActiveRecord::Migration
         country_name,
         description_of_individual,
         accepts_tou,
+        website_url,
+        is_participant,
         now(),
         now()
       from
