@@ -2,14 +2,14 @@ require 'test_helper'
 
 class SubmissionTest < ActiveSupport::TestCase
 
-  should 'require a value for is_participant' do
-    nomination = new_sdg_pioneer_submission(is_participant: nil)
+  should 'require a value for accepts_tou' do
+    nomination = new_sdg_pioneer_submission(accepts_tou: nil)
     refute nomination.valid?
-    assert nomination.errors.messages[:is_participant].present?
+    assert nomination.errors.messages[:accepts_tou].present?
   end
 
-  should 'accept false as a value for is_participant' do
-    nomination = new_sdg_pioneer_submission(is_participant: false)
+  should 'accept false as a value for accepts_tou' do
+    nomination = new_sdg_pioneer_submission(accepts_tou: false)
     assert nomination.valid?, nomination.errors.messages
   end
 

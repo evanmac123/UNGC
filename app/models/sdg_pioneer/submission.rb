@@ -1,39 +1,33 @@
 class SdgPioneer::Submission < ActiveRecord::Base
-  validates :is_nominated,                  inclusion: [true, false]
-  validates :nominating_organization,       presence: true, if: :is_nominated?
-  validates :nominating_individual,         presence: true, if: :is_nominated?
-  validates :contact_person_name,           presence: true
-  validates :contact_person_title,          presence: true
-  validates :contact_person_email,          presence: true
-  validates :organization_name,             presence: true
-  validates :local_business_name,           length: { maximum: 255 }
-  validates :is_participant,                inclusion: [true, false]
+  validates :pioneer_type,                presence: true
+  validates :global_goals_activity,       presence: true, length: { maximum: 2750 }
+  validates :matching_sdgs,               presence: true
+  validates :name,                        presence: true
+  validates :title,                       presence: true
+  validates :email,                       presence: true
+  validates :phone,                       presence: true
+  validates :organization_name,           presence: true
+  validates :organization_name_matched,   inclusion: [true, false]
   validate :validate_country_name
-  validates :website_url,                   presence: true
-  validates :local_network_status,          presence: true
-  validates :positive_outcomes,             presence: true, length: { maximum: 2750 }
-  validates :positive_outcome_attachments,  length: { minimum: 1, maximum: 5,}
-  validates :matching_sdgs,                 presence: true
-  validates :other_relevant_info,           length: { maximum: 2750 }
-  validates :accepts_tou,                   presence: true
+  validates :reason_for_being,            presence: true, length: { maximum: 2750 }
+  validates :accepts_tou,                 inclusion: [true, false]
 
-  has_many :positive_outcome_attachments,
-              -> { where attachable_key: 'positive_outcome'},
+  has_many :supporting_document_attachments,
+              -> { where attachable_key: 'supporting_document'},
               class_name: 'UploadedFile',
               as: :attachable,
               dependent: :destroy
 
-  enum local_network_status: [
-    :yes,
-    :no,
-    :not_available
+  enum pioneer_type: [
+    :local_business_leader,
+    :local_change_maker,
   ]
 
   serialize :matching_sdgs, JSON
 
-  def uploaded_positive_outcome_attachments=(values)
+  def uploaded_supporting_document_attachments=(values)
     values.each do |attrs|
-      self.positive_outcome_attachments.build(attrs)
+      self.supporting_document_attachments.build(attrs)
     end
   end
 

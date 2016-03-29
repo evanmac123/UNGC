@@ -1,4 +1,4 @@
-class SdgPioneer::SubmissionController < ApplicationController
+class SdgPioneer::SubmissionsController < ApplicationController
 
   def new
     @submission = SdgPioneer::Submission.new
@@ -23,6 +23,7 @@ class SdgPioneer::SubmissionController < ApplicationController
   private
 
   def submission_params
+    # TODO these are wrong
     params.require(:submission).permit(
       :organization_name,
       :is_participant,
