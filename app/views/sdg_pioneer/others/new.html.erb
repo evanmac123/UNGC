@@ -12,7 +12,7 @@
       <%= content_tag(:p, content_tag(:span, notice), {class: 'success-message'}) if notice %>
 
       <p>
-        Representatives from the Global Compact Local Networks, Global Compact LEAD companies, UN Agencies, Funds or Programmes, Global Compact non-business participants and PRME Champion schools are welcome to nominate individuals that they think qualify as a Local SDG Pioneer. Once nominated the individual will be asked to complete the submission form online.
+        Nominate a colleague or someone that you think is doing great work to advance Sustainable Development Goals at the local level. Individuals who are working at any level of an organization that is an active participant in the Global Compact are eligible to nominate someone else. Once nominated we will ask the person you selected to complete the "Nominate Yourself" form.
       </p>
 
       <% if @other.errors.any? %>
@@ -29,12 +29,13 @@
 
       <fieldset>
         <%= f.label :organization_type do %>
-          Under which of the following groups are you affiliated with?</br></br>
+          Which of the following groups is your organization a part of?</br></br>
           <% end %>
         <select name="other[organization_type]" id="other_organization_type">
           <option value="">Select one</option>
           <option value="gc_lead">Global Compact LEAD</option>
           <option value="non_business">Global Compact non-business participants</option>
+          <option value="business">Global Compact business participants</option>
           <option value="local_network">Global Compact Local Network Representative or Contact Point</option>
           <option value="prme">PRME Champion schools</option>
           <option value="un">UN Agency, Fund or Programme</option>
