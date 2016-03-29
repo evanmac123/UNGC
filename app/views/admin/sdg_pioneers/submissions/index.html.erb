@@ -1,0 +1,6 @@
+<h2>Businesses</h2>
+<ol>
+  <% @submissions.each do |submission| %>
+    <li><%= link_to submission.organization_name, admin_sdg_pioneers_submission_path(submission) %></li>
+  <% end %>
+</ol>

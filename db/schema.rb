@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160218202355) do
+ActiveRecord::Schema.define(version: 20160328232657) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -926,6 +926,25 @@ ActiveRecord::Schema.define(version: 20160218202355) do
     t.string  "nominee_title",           limit: 255
     t.text    "why_nominate",            limit: 65535
     t.integer "sdg_pioneer_role",        limit: 4
+  end
+
+  create_table "sdg_pioneer_submissions", force: :cascade do |t|
+    t.integer  "pioneer_type",              limit: 4
+    t.text     "global_goals_activity",     limit: 65535
+    t.string   "matching_sdgs",             limit: 255
+    t.string   "name",                      limit: 255
+    t.string   "title",                     limit: 255
+    t.string   "email",                     limit: 255
+    t.string   "phone",                     limit: 255
+    t.string   "organization_name",         limit: 255
+    t.boolean  "organization_name_matched",               default: false, null: false
+    t.string   "country_name",              limit: 255
+    t.text     "reason_for_being",          limit: 65535
+    t.boolean  "accepts_tou",                             default: false, null: false
+    t.boolean  "is_participant",                          default: false, null: false
+    t.string   "website_url",               limit: 255
+    t.datetime "created_at",                                              null: false
+    t.datetime "updated_at",                                              null: false
   end
 
   create_table "searchables", force: :cascade do |t|

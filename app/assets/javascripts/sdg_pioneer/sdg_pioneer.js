@@ -22,20 +22,16 @@ $(function() {
     addAttachmentField($(this).parent('.attachments'));
   });
 
-  $("#business_organization_name").autocomplete({
-    source: "/api/v1/autocomplete/sdg_pioneer_businesses.json"
+  $("#submission_organization_name").autocomplete({
+    source: "/api/v1/autocomplete/sdg_pioneer_submissions.json"
   });
 
-  $("#individual_organization_name").autocomplete({
-    source: "/api/v1/autocomplete/participants.json"
-  });
-
-  $("#business_country_name, #individual_country_name").autocomplete({
+  $("#submission_country_name").autocomplete({
     source: "/api/v1/autocomplete/countries.json"
   });
 
   var $extraNominationFields = $('#has_been_nominated');
-  $("[name='individual[is_nominated]'], [name='business[is_nominated]']").on('change', function(e) {
+  $("[name='submission[is_nominated]']").on('change', function(e) {
     var isNominated = $(e.target).val() === 'true';
 
     if(isNominated) {
