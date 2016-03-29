@@ -18,7 +18,7 @@ en:
         url: "Website"
         isin: "ISIN"
         delisted_on: "Delisting date"
-      sdg_pioneer/business:
+      sdg_pioneer/submission:
         is_nominated: ""
         is_participant: ""
         positive_outcome_attachments: ""
@@ -37,7 +37,7 @@ en:
         accepts_tou: ""
     errors:
       models:
-        sdg_pioneer/business:
+        sdg_pioneer/submission:
           attributes:
             is_nominated:
               inclusion: "Please indicate if you have been nominated"
@@ -128,11 +128,7 @@ en:
     actions:
       nominate_individual: 'Nominate an individual'
       nominate_business: 'Nominate a business'
-    individual:
-      title: "Local change-makers"
-      blurb: "Making global goals local business."
-      action: "Nominate an individual"
-    business:
+    submission:
       title: "Local Business Leaders and Entrepreneurs"
       blurb: "Making global goals local business."
       action: "Nominate a business"

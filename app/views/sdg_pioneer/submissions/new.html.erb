@@ -1,11 +1,11 @@
-<%= render partial: 'components/meta_tags', locals: { title: "Local SDG Pioneers", description: t('sdg_pioneer.business.blurb'), keywords: 'sustainable development goals business pioneers' } %>
+<%= render partial: 'components/meta_tags', locals: { title: "Local SDG Pioneers", description: t('sdg_pioneer.submission.blurb'), keywords: 'sustainable development goals submission pioneers' } %>
 
-<%= render partial: 'components/hero', locals: { hero: {theme: 'dark', size: 'small', title: {first: "Local SDG Pioneers"}, blurb: t('sdg_pioneer.business.blurb'), image: image_path('sdg_pioneer/local_business_leaders_bg.png') } } %>
+<%= render partial: 'components/hero', locals: { hero: {theme: 'dark', size: 'small', title: {first: "Local SDG Pioneers"}, blurb: t('sdg_pioneer.submission.blurb'), image: image_path('sdg_pioneer/local_submission_leaders_bg.png') } } %>
 
 <section class='main-content-section main-content-section-narrow'>
-  <%= form_for @business, as: :business, html: {multipart: true, class: 'form-classic wrapper'} do |f| %>
+  <%= form_for @submission, as: :submission, html: {multipart: true, class: 'form-classic wrapper'} do |f| %>
     <header class='main-content-header'>
-      <h1><%= t('sdg_pioneer.business.title') %></h1>
+      <h1><%= t('sdg_pioneer.submission.title') %></h1>
     </header>
 
     <section class='main-content-body'>
@@ -15,12 +15,12 @@
         The Local SDG Pioneers campaign celebrates local business leaders and entrepreneurs who have demonstrated business success through advancing sustainable development – based on technologies, services or business models – in the country or region which is the primary base for their operations. This could include local leaders of a country division of a global company. Any individual directly affiliated with an organization that is an active business participant in the UN Global Compact is eligible for consideration.
       </p>
 
-      <% if @business.errors.any? %>
+      <% if @submission.errors.any? %>
         <div class="errors-container">
-          <h2><%= pluralize(@business.errors.count, "error") %> prohibited this nomination from being sent:</h2>
+          <h2><%= pluralize(@submission.errors.count, "error") %> prohibited this nomination from being sent:</h2>
 
           <ul class='errors-list'>
-            <% @business.errors.full_messages.each do |message| %>
+            <% @submission.errors.full_messages.each do |message| %>
               <li class='error'><%= message %></li>
             <% end %>
           </ul>
@@ -37,7 +37,7 @@
           <%= f.label(:is_nominated_false, "No, I am self nominating") %>
         </div>
 
-        <div id="has_been_nominated" style="<%= unless @business.is_nominated? then 'display: none;' end %>">
+        <div id="has_been_nominated" style="<%= unless @submission.is_nominated? then 'display: none;' end %>">
           <div class="field field-required">
             <%= f.label :nominating_organization do %>
               Please indicate the name of the organization that nominated you to this role.
@@ -122,10 +122,10 @@
       <fieldset>
         <div class="field">
           <span>Is the business a member of the Global Compact Local Network in the country indicated? *</span>
-          <%- SdgPioneer::Business.local_network_statuses.each do |status, _| -%>
+          <%- SdgPioneer::Submission.local_network_statuses.each do |status, _| -%>
             <br />
             <%= f.radio_button(:local_network_status, status) %>
-            <%= f.label("local_network_status_#{status}", t(status, scope: 'sdg_pioneer.business.local_network_status')) %>
+            <%= f.label("local_network_status_#{status}", t(status, scope: 'sdg_pioneer.submission.local_network_status')) %>
           <%- end -%>
         </div>
       </fieldset>
@@ -156,7 +156,7 @@
           Please provide any annual reports, press clippings or other relevant documentation that supports your submission.<br />
 
           <div class="attachment">
-            <%= file_field_tag 'business[uploaded_positive_outcome_attachments][][attachment]' %>
+            <%= file_field_tag 'submission[uploaded_positive_outcome_attachments][][attachment]' %>
           </div>
 
           <div class="attachment-container"></div>
@@ -166,7 +166,7 @@
           <script class="attachment-template" type="text/x-jquery-tmpl">
             <div class="attachment">
               <a href="#" class="delete fa fa-times-circle"></a>
-              <%= file_field_tag 'business[uploaded_positive_outcome_attachments][][attachment]' %>
+              <%= file_field_tag 'submission[uploaded_positive_outcome_attachments][][attachment]' %>
             </div>
           </script>
         </div>

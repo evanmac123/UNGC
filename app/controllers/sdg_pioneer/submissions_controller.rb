@@ -1,18 +1,18 @@
-class SdgPioneer::BusinessesController < ApplicationController
+class SdgPioneer::SubmissionController < ApplicationController
 
   def new
-    @business = SdgPioneer::Business.new
+    @submission = SdgPioneer::Submission.new
     @sdgs = SustainableDevelopmentGoal.all
   end
 
   def create
-    @business = SdgPioneer::Business.new(business_params)
+    @submission = SdgPioneer::Submission.new(submission_params)
 
     # do we have an exact match on organization name?
-    query = SdgPioneer::EligibleBusinessesQuery.new(named: @business.organization_name)
-    @business.organization_name_matched = query.run.any?
+    query = SdgPioneer::EligibleBusinessesQuery.new(named: @submission.organization_name)
+    @submission.organization_name_matched = query.run.any?
 
-    if @business.save
+    if @submission.save
       redirect_to sdg_pioneer_index_path, notice: I18n.t('sdg_pioneer.nominated')
     else
       @sdgs = SustainableDevelopmentGoal.all
@@ -22,8 +22,8 @@ class SdgPioneer::BusinessesController < ApplicationController
 
   private
 
-  def business_params
-    params.require(:business).permit(
+  def submission_params
+    params.require(:submission).permit(
       :organization_name,
       :is_participant,
       :is_nominated,
@@ -33,7 +33,7 @@ class SdgPioneer::BusinessesController < ApplicationController
       :contact_person_title,
       :contact_person_email,
       :contact_person_phone,
-      :local_business_name,
+      :local_submission_name,
       :website_url,
       :country_name,
       :local_network_status,

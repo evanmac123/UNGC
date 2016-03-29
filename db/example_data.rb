@@ -350,23 +350,19 @@ module FixtureReplacement
     r.number = random_string
   end
 
-  attributes_for :sdg_pioneer_business, class: SdgPioneer::Business do |b|
-    b.is_participant = false
-    b.organization_name = create_business.name
-    b.country_name = create_country.name
-    b.contact_person_name = FixtureReplacement.random_string
-    b.contact_person_title = FixtureReplacement.random_string
-    b.contact_person_email = FixtureReplacement.random_string
-    b.contact_person_phone = FixtureReplacement.random_string
-    b.website_url = FixtureReplacement.random_string
-    b.local_network_status = :yes
-    b.local_business_name = FixtureReplacement.random_string
-    b.positive_outcomes = FixtureReplacement.random_string
-    b.other_relevant_info = FixtureReplacement.random_string
-    b.positive_outcome_attachments.build
-    b.matching_sdgs = [create_sustainable_development_goal.id]
-    b.accepts_tou = true
-    b.is_nominated = false
+  attributes_for :sdg_pioneer_submission, class: SdgPioneer::Submission do |s|
+    s.pioneer_type = 0
+    s.global_goals_activity = FixtureReplacement.random_string
+    s.matching_sdgs = [create_sustainable_development_goal.id]
+    s.name = FixtureReplacement.random_string
+    s.title = FixtureReplacement.random_string
+    s.email = FixtureReplacement.random_string
+    s.phone = FixtureReplacement.random_string
+    s.organization_name = create_business.name
+    s.organization_name_matched = true
+    s.country_name = create_country.name
+    s.reason_for_being = FixtureReplacement.random_string
+    s.accepts_tou = true
   end
 
   attributes_for :sdg_pioneer_other, class: SdgPioneer::Other do |o|

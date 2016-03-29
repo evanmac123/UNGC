@@ -1,0 +1,46 @@
+<div>
+  <h2><%= @submission.organization_name %></h2>
+</div>
+
+<div>
+  <ul style="list-style: none; font-size: 14px;">
+    <h4>Is nominated</h4>
+      <li><%= @submission.is_nominated %></li></br>
+    <%if @submission.is_nominated?%>
+    <h4>Nominating organization</h4>
+      <li><%= @submission.nominating_organization %></li></br>
+    <h4>Nominating individual</h4>
+      <li><%= @submission.nominating_individual %></li></br>
+    <% end %>
+
+    <h4>Contact person name</h4>
+      <li><%= @submission.contact_person_name %></li></br>
+    <h4>Contact person title</h4>
+      <li><%= @submission.contact_person_title %></li></br>
+    <h4>Contact person email</h4>
+      <li><%= @submission.contact_person_email %></li></br>
+    <h4>Local business name</h4>
+      <li><%= @submission.local_business_name %></li></br>
+    <h4>Country</h4>
+      <li><%= @submission.country_name %></li></br>
+    <h4>Website</h4>
+      <li><%= @submission.website_url %></li></br>
+    <h4>Local Network status</h4>
+      <li><%= @submission.local_network_status %></li></br>
+    <h4>Positive Outcomes</h4>
+      <li><%= @submission.positive_outcomes %></li></br>
+    <h4>Matching Sdgs</h4>
+      <li><%= @submission.matching_sdg_names %></li></br>
+    <h4>Other relevant info</h4>
+      <li><%= @submission.other_relevant_info %></li></br>
+  </ul>
+</div>
+
+<div>
+  <h4>Postive outcomes attachments</h4>
+  <ul>
+    <% @submission.positive_outcome_attachments.each do |attachment| %>
+      <li><%= link_to attachment.filename, attachment.attachment.url %></li>
+    <% end %>
+  </ul>
+</div>

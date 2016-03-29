@@ -1,8 +1,8 @@
 require 'test_helper'
 
-class SdgPioneer::BusinessTest < ActionDispatch::IntegrationTest
+class SdgPioneer::SubmissionTest < ActionDispatch::IntegrationTest
 
-  test 'Anonymous user submits a business nomination' do
+  test 'Anonymous user submits a nomination' do
     create_country(name: 'Canada')
     create_business(name: "McExampleson's Emporium")
     sdg1, _, sdg3 = 3.times.map { create_sustainable_development_goal }
@@ -13,7 +13,7 @@ class SdgPioneer::BusinessTest < ActionDispatch::IntegrationTest
     container.draft_payload = payload
     ContainerPublisher.new(container, create_staff_user).publish
 
-    visit new_sdg_pioneer_business_path
+    visit new_sdg_pioneer_submission_path
 
     choose  'business_is_nominated_true'
     fill_in 'business_nominating_organization', with: 'Nominators R Us', visible: false
@@ -40,7 +40,7 @@ class SdgPioneer::BusinessTest < ActionDispatch::IntegrationTest
     check 'business_accepts_tou'
 
     # submit the nomination
-    assert_difference -> { SdgPioneer::Business.count }, +1 do
+    assert_difference -> { SdgPioneer::Submission.count }, +1 do
       click_on 'Submit'
     end
 
@@ -49,7 +49,7 @@ class SdgPioneer::BusinessTest < ActionDispatch::IntegrationTest
     assert_equal I18n.t('sdg_pioneer.nominated'), find('.success-message').text
 
     # we should have created an attachment
-    business = SdgPioneer::Business.last
+    business = SdgPioneer::Submission.last
     assert_not_nil business
 
 
