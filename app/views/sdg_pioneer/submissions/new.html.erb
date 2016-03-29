@@ -1,6 +1,6 @@
 <%= render partial: 'components/meta_tags', locals: { title: "Local SDG Pioneers", description: t('sdg_pioneer.submission.blurb'), keywords: 'sustainable development goals submission pioneers' } %>
 
-<%= render partial: 'components/hero', locals: { hero: {theme: 'dark', size: 'small', title: {first: "Local SDG Pioneers"}, blurb: t('sdg_pioneer.submission.blurb'), image: image_path('sdg_pioneer/local_submission_leaders_bg.png') } } %>
+<%= render partial: 'components/hero', locals: { hero: {theme: 'dark', size: 'small', title: {first: "Local SDG Pioneers"}, blurb: t('sdg_pioneer.submission.blurb'), image: image_path('sdg_pioneer/local_business_leaders_bg.png') } } %>
 
 <section class='main-content-section main-content-section-narrow'>
   <%= form_for @submission, as: :submission, html: {multipart: true, class: 'form-classic wrapper'} do |f| %>
@@ -32,14 +32,18 @@
       <% end %>
 
       <fieldset>
-        <div class="field">
-          <span>Which type of Pioneer are you? *</span></br></br>
-            <label><%= f.radio_button(:pioneer_type, :local_business_leader) %>
-              <b>Local business leader</b>
-            </label></br></br>
-            <label><%= f.radio_button(:pioneer_type, :local_change_maker) %>
-              <b>Local change-makers</b>
-            </label>
+        <p>Which type of Pioneer are you? *</p>
+        <div id="pioneer-custom-radio" class="field">
+          <ul>
+            <li>
+            <%= f.radio_button :pioneer_type, :local_business_leader %>
+            <%= f.label :pioneer_type_local_business_leader, 'Local busines leader' %>
+            </li>
+            <li>
+            <%= f.radio_button(:pioneer_type, :local_change_maker) %>
+            <%= f.label :pioneer_type_local_change_maker, 'Local change-makers' %>
+            </li>
+          </ul>
         </div>
       </fieldset>
 
