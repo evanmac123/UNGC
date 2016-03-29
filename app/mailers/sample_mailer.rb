@@ -1,6 +1,6 @@
 class SampleMailer < ActionMailer::Base
 
-  default :from => 'info@unglobalcompact.org'
+  default :from => 'info@mg.unglobalcompact.org'
 
   def sample(email, subject = nil)
     subject ||= 'Sample email from UNGC'

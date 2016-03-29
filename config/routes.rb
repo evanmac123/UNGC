@@ -132,8 +132,7 @@ UNGC::Application.routes.draw do
 
     namespace :sdg_pioneers do
       get :index, path: '/'
-      resources :businesses, only: [:index, :show]
-      resources :individuals, only: [:index, :show]
+      resources :submissions, only: [:index, :show]
       resources :others, only: [:index, :show]
     end
 
@@ -190,7 +189,7 @@ UNGC::Application.routes.draw do
       namespace :autocomplete do
         get :participants
         get :countries
-        get :sdg_pioneer_businesses
+        get :sdg_pioneer_submissions
       end
 
     end
@@ -315,8 +314,7 @@ UNGC::Application.routes.draw do
 
   namespace :sdg_pioneer, path: '/what-is-gc/our-work/sustainable-development/global-goals-local-business/sdgpioneers' do
     get :index, path: '/'
-    resources :businesses, path: 'local-business-leaders', only: [:new, :create]
-    resources :individuals, path: 'local-change-makers', only: [:new, :create]
+    resources :submissions, path: 'nominate-yourself', only: [:new, :create]
     resources :others, path: 'nomination-form', only: [:new, :create]
   end
 

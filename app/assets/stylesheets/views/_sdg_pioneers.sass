@@ -1,5 +1,4 @@
-#new_business,
-#new_individual,
+#new_submission
 #new_other,
   fieldset
     margin-bottom: 4em
@@ -30,3 +29,46 @@ div.field_with_errors
   padding: 0.5em
   background: #fdfdfd
   max-width: 40em
+
+#pioneer-custom-radio ul
+  list-style-type: none
+  padding: 0
+
+  li
+    display: block
+    cursor: pointer
+    float: left
+
+  input
+    visibility: hidden
+    width: 0
+    cursor: pointer
+
+  label
+    cursor: pointer
+    text-indent: -9999px
+    cursor: pointer
+
+  input#submission_pioneer_type_local_business_leader[type="radio"] + label
+    display: inline-block
+    background: image-url("sdg_pioneer/option-local-business-leader.png") no-repeat
+    width: 298px
+    height: 262px
+    cursor: pointer
+
+  input#submission_pioneer_type_local_business_leader[type="radio"]:checked + label
+    background: image-url("sdg_pioneer/option-local-business-leader.png") no-repeat
+    background-position: 0 -262px
+    cursor: pointer
+
+  input#submission_pioneer_type_local_change_maker[type="radio"] + label
+    display: inline-block
+    background: image-url("sdg_pioneer/option-local-change-maker.png") no-repeat
+    width: 298px
+    height: 262px
+    cursor: pointer
+
+  input#submission_pioneer_type_local_change_maker[type="radio"]:checked + label
+    background: image-url("sdg_pioneer/option-local-change-maker.png") no-repeat
+    background-position: 0 -262px
+    cursor: pointer

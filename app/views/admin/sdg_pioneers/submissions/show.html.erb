@@ -1,0 +1,84 @@
+<h2><%= @submission.organization_name %></h2>
+
+<p>
+  <strong>Pioneer Type:</strong><br/>
+  <%= @submission.pioneer_type %>
+</p>
+
+<p>
+  <strong>Global Goals Activity:</strong><br/>
+  <%= @submission.global_goals_activity %>
+</p>
+
+<p>
+  <strong>Matching Sdgs:</strong>
+  <ul>
+    <% @submission.matching_sdg_names.each do |sdg| %>
+      <li><%= sdg %></li>
+    <% end %>
+  </ul>
+</p>
+
+<p>
+  <strong>Name:</strong><br/>
+  <%= @submission.name %>
+</p>
+
+<p>
+  <strong>Title:</strong><br/>
+  <%= @submission.title %>
+</p>
+
+<p>
+  <strong>Email:</strong><br/>
+  <%= @submission.email %>
+</p>
+
+<p>
+  <strong>Phone:</strong><br/>
+  <%= @submission.phone %>
+</p>
+
+<p>
+  <strong>Organization Name:</strong><br/>
+  <%= @submission.organization_name %>
+</p>
+
+<p>
+  <strong>Organization Name Matched:</strong><br/>
+  <%= @submission.organization_name_matched %>
+</p>
+
+<p>
+  <strong>Country Name:</strong><br/>
+  <%= @submission.country_name %>
+</p>
+
+<p>
+  <strong>Reason For Being:</strong><br/>
+  <%= @submission.reason_for_being %>
+</p>
+
+<p>
+  <strong>Accepts Tou:</strong><br/>
+  <%= @submission.accepts_tou %>
+</p>
+
+<p>
+  <strong>Is Participant:</strong><br/>
+  <%= @submission.is_participant %>
+</p>
+
+<p>
+  <strong>Website Url:</strong><br/>
+  <%= @submission.website_url %>
+</p>
+
+<p>
+  <strong>Supporting documents:</strong><br/>
+  <ul>
+    <% @submission.supporting_documents.each do |document| %>
+      <li><%= link_to document.filename, document.attachment.url %></li>
+    <% end %>
+  </ul>
+</p>
