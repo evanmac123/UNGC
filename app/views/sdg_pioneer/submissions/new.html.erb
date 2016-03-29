@@ -16,7 +16,7 @@
       </p>
 
       <p>
-        Are you a business leader or change marker advancing sustainable development locally? If so, we want to hear your story.
+        Are you a business leader or change maker advancing sustainable development locally? If so, we want to hear your story.
       </p>
 
       <% if @submission.errors.any? %>
@@ -68,7 +68,8 @@
         </div>
       </fieldset>
 
-      <fieldset>
+      <fieldset style="margin-top: 4em">
+        <strong>Supporting information</strong>
         <div class="attachments field field-required">
           Please provide any annual reports, press clippings or other relevant documentation that supports your submission.<br />
 
@@ -99,7 +100,7 @@
       </fieldset>
 
       <fieldset>
-        <label>Tell is about yourself</label>
+        <label><strong>Tell us about yourself</strong></label>
         <div class="field field-required field-has-placeholder">
           <%= f.label :name, 'Name' %>
           <%= f.text_field :name, placeholder: 'Name' %>
@@ -140,7 +141,7 @@
           <%= f.label(:is_participant_false, "No, but we will apply to join before 30 April") %> <br />
         </div>
         <div>
-          If you are unsure whether your organization is an active UN Global Compact participant, find your profile on our <a href="/what-is-gc/participants/" target="_blank">participant list</a>. If your organization is interested in joining the UN Global Compact <a href="/participation/join/application/" target="_blank">complete our application</a> (business schools can click here to access the PRME application).
+          <i>If you are unsure whether your organization is an active UN Global Compact participant, find your profile on our <a href="/what-is-gc/participants/" target="_blank">participant list</a>. If your organization is interested in joining the UN Global Compact <a href="/participation/join/application/" target="_blank">complete our application</a> (business schools can click here to access the PRME application).</i>
         </div>
       </fieldset>
 
@@ -173,7 +174,7 @@
 
       <fieldset>Questions? Email: <a href="mailto:sdgpioneers@unglobalcompact.org" target="_top">sdgpioneers@unglobalcompact.org</a></fieldset>
 
-      <%= f.submit 'Submit' %>
+      <%= f.submit 'Nominate' %>
 
     </section>
 

@@ -119,7 +119,7 @@ en:
       nominate_individual: 'Nominate an individual'
       nominate_business: 'Nominate a business'
     submission:
-      title: "Local SDG Pioneers"
+      title: "Nominate yourself"
       blurb: "Making global goals local business."
       action: "Nominate a business"
       local_network_status:
@@ -127,7 +127,7 @@ en:
         :no: 'No'
         :not_available: 'There is no Local Network in that country'
     other:
-      title: "Nomination Form"
+      title: "Nominate someone else"
       blurb: "Making global goals local business."
       action: "Nominate other"
     nominated: 'Your nomination was successfully submitted'
