@@ -929,21 +929,20 @@ ActiveRecord::Schema.define(version: 20160328232657) do
   end
 
   create_table "sdg_pioneer_submissions", force: :cascade do |t|
-    t.string   "create_sdg_pioneer_submissions", limit: 255
-    t.integer  "pioneer_type",                   limit: 4
-    t.text     "global_goals_activity",          limit: 65535
-    t.string   "matching_sdgs",                  limit: 255
-    t.string   "name",                           limit: 255
-    t.string   "title",                          limit: 255
-    t.string   "email",                          limit: 255
-    t.string   "phone",                          limit: 255
-    t.string   "organization_name",              limit: 255
-    t.boolean  "organization_name_matched",                    default: false, null: false
-    t.string   "country_name",                   limit: 255
-    t.text     "reason_for_being",               limit: 65535
-    t.boolean  "accepts_tou",                                  default: false, null: false
-    t.datetime "created_at",                                                   null: false
-    t.datetime "updated_at",                                                   null: false
+    t.integer  "pioneer_type",              limit: 4
+    t.text     "global_goals_activity",     limit: 65535
+    t.string   "matching_sdgs",             limit: 255
+    t.string   "name",                      limit: 255
+    t.string   "title",                     limit: 255
+    t.string   "email",                     limit: 255
+    t.string   "phone",                     limit: 255
+    t.string   "organization_name",         limit: 255
+    t.boolean  "organization_name_matched",               default: false, null: false
+    t.string   "country_name",              limit: 255
+    t.text     "reason_for_being",          limit: 65535
+    t.boolean  "accepts_tou",                             default: false, null: false
+    t.datetime "created_at",                                              null: false
+    t.datetime "updated_at",                                              null: false
   end
 
   create_table "searchables", force: :cascade do |t|
