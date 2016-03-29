@@ -1,0 +1,7 @@
+<h2>Nominations</h2>
+
+<ol>
+  <% @others.each do |nomination| %>
+    <li><%= link_to nomination.nominee_name, admin_sdg_pioneers_other_path(nomination) %></li>
+  <% end %>
+</ol>

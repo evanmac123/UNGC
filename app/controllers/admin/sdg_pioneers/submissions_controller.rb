@@ -1,4 +1,4 @@
-class Admin::SdgPioneer::SubmissionsController < AdminController
+class Admin::SdgPioneers::SubmissionsController < AdminController
 
   def index
     @submissions = SdgPioneer::Submission.all

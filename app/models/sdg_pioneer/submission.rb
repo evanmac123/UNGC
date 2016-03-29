@@ -44,7 +44,7 @@ class SdgPioneer::Submission < ActiveRecord::Base
   end
 
   def matching_sdg_names
-    SustainableDevelopmentGoal.where(id: matching_sdgs).pluck(:name).join(", ")
+    SustainableDevelopmentGoal.where(id: matching_sdgs).pluck(:name)
   end
 
 end
