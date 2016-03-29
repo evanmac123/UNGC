@@ -369,20 +369,6 @@ module FixtureReplacement
     b.is_nominated = false
   end
 
-  attributes_for :sdg_pioneer_individual, class: SdgPioneer::Individual do |b|
-    b.is_participant = false
-    b.organization_name = create_business.name
-    b.name = FixtureReplacement.random_string
-    b.email = FixtureReplacement.random_string
-    b.phone = FixtureReplacement.random_string
-    b.website_url = FixtureReplacement.random_string
-    b.description_of_individual = FixtureReplacement.random_string
-    b.appointments_invitations = FixtureReplacement.random_string
-    b.other_relevant_info = FixtureReplacement.random_string
-    b.accepts_tou = true
-    b.is_nominated = false
-  end
-
   attributes_for :sdg_pioneer_other, class: SdgPioneer::Other do |o|
     o.organization_type = 'un'
     o.sdg_pioneer_role = 'change_makers'

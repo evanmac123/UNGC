@@ -24,13 +24,6 @@ en:
         positive_outcome_attachments: ""
         matching_sdgs: "Sustainable Development Goals"
         accepts_tou: ""
-      sdg_pioneer/individual:
-        is_nominated: ""
-        is_participant: ""
-        description_of_individual: "Description"
-        supporting_documents: ""
-        matching_sdgs: "Sustainable Development Goals"
-        accepts_tou: ""
       sdg_pioneer/other:
         organization_type: "Affiliated group"
         submitter_name: "Your name"
