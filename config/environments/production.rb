@@ -77,8 +77,8 @@ Rails.application.configure do
     port:                 587,
     domain:               'unglobalcompact.org',
     authentication:       :plain,
-    user_name:            'postmaster@unglobalcompact.org',
-    password:             '037fde266fc77e5ab6e7c6167aa22771'
+    user_name:            'postmaster@mg.unglobalcompact.org',
+    password:             '7d21e103005a898c4746329b681a1259'
   }
 
   gmail = {
