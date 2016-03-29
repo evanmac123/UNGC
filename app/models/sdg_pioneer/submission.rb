@@ -11,8 +11,9 @@ class SdgPioneer::Submission < ActiveRecord::Base
   validate :validate_country_name
   validates :reason_for_being,            presence: true, length: { maximum: 2750 }
   validates :accepts_tou,                 inclusion: [true, false]
+  validates :supporting_documents,           length: { minimum: 1, maximmum: 12 }
 
-  has_many :supporting_document_attachments,
+  has_many :supporting_documents,
               -> { where attachable_key: 'supporting_document'},
               class_name: 'UploadedFile',
               as: :attachable,
@@ -25,9 +26,9 @@ class SdgPioneer::Submission < ActiveRecord::Base
 
   serialize :matching_sdgs, JSON
 
-  def uploaded_supporting_document_attachments=(values)
+  def uploaded_supporting_documents=(values)
     values.each do |attrs|
-      self.supporting_document_attachments.build(attrs)
+      self.supporting_documents.build(attrs)
     end
   end
 

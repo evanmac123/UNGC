@@ -23,27 +23,22 @@ class SdgPioneer::SubmissionsController < ApplicationController
   private
 
   def submission_params
-    # TODO these are wrong
     params.require(:submission).permit(
+      :pioneer_type,
+      :global_goals_activity,
+      :name,
+      :title,
+      :email,
+      :phone,
       :organization_name,
-      :is_participant,
-      :is_nominated,
-      :nominating_organization,
-      :nominating_individual,
-      :contact_person_name,
-      :contact_person_title,
-      :contact_person_email,
-      :contact_person_phone,
-      :local_submission_name,
-      :website_url,
+      :organization_name_matched,
       :country_name,
-      :local_network_status,
-      :positive_outcomes,
-      :other_relevant_info,
+      :reason_for_being,
       :accepts_tou,
+      :is_participant,
+      :website_url,
       matching_sdgs: [],
-      uploaded_positive_outcome_attachments: [:attachment],
-      uploaded_societal_effect_attachments: [:attachment],
+      uploaded_supporting_documents: [:attachment],
     )
   end
 

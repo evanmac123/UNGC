@@ -21,9 +21,10 @@ en:
       sdg_pioneer/submission:
         is_nominated: ""
         is_participant: ""
-        positive_outcome_attachments: ""
+        supporting_documents: ""
         matching_sdgs: "Sustainable Development Goals"
         accepts_tou: ""
+        reason_for_being: ""
       sdg_pioneer/other:
         organization_type: "Affiliated group"
         submitter_name: "Your name"
@@ -39,19 +40,6 @@ en:
       models:
         sdg_pioneer/submission:
           attributes:
-            is_nominated:
-              inclusion: "Please indicate if you have been nominated"
-            is_participant:
-              inclusion: "Is the participant an active participant?"
-            positive_outcome_attachments:
-              too_short: "You must include at least %{count} document"
-              too_long: "You can include up to %{count} documents"
-            accepts_tou:
-              blank: "You must accept the agreement"
-        sdg_pioneer/individual:
-          attributes:
-            is_nominated:
-              inclusion: "Please indicate if you have been nominated"
             is_participant:
               inclusion: "Is the participant an active participant?"
             supporting_documents:
@@ -59,6 +47,8 @@ en:
               too_long: "You can include up to %{count} supporting documents"
             accepts_tou:
               blank: "You must accept the agreement"
+            reason_for_being:
+              blank: "Please tell us why you want to be a Local SDG Pioneer"
         sdg_pioneer/other:
           attributes:
             accepts_tou:
@@ -129,7 +119,7 @@ en:
       nominate_individual: 'Nominate an individual'
       nominate_business: 'Nominate a business'
     submission:
-      title: "Local Business Leaders and Entrepreneurs"
+      title: "Local SDG Pioneers"
       blurb: "Making global goals local business."
       action: "Nominate a business"
       local_network_status:

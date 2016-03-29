@@ -73,7 +73,7 @@
           Please provide any annual reports, press clippings or other relevant documentation that supports your submission.<br />
 
           <div class="attachment">
-            <%= file_field_tag 'submission[uploaded_supporting_document_attachments][][attachment]' %>
+            <%= file_field_tag 'submission[uploaded_supporting_documents][][attachment]' %>
           </div>
 
           <div class="attachment-container"></div>
@@ -83,9 +83,18 @@
           <script class="attachment-template" type="text/x-jquery-tmpl">
             <div class="attachment">
               <a href="#" class="delete fa fa-times-circle"></a>
-              <%= file_field_tag 'submission[uploaded_supporting_document_attachments][][attachment]' %>
+              <%= file_field_tag 'submission[uploaded_supporting_documents][][attachment]' %>
             </div>
           </script>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <div class="field field-required">
+          <%= f.label :website_url do %>
+            Website that includes information relevant to your activities.
+          <% end %>
+          <%= f.text_field :website_url %>
         </div>
       </fieldset>
 
@@ -115,9 +124,23 @@
       <fieldset>
         <div class="field field-required ui-widget">
           <%= f.label :organization_name do %>
-            Please indicate with which active UN Global Compact participant you are affiliated
+            Organization name
           <% end %>
           <%= f.text_field :organization_name %>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <div class="field">
+          Is this organization an active UN Global Compact participant or PRME participant? *<br />
+          <%= f.radio_button(:is_participant, true) %>
+          <%= f.label(:is_participant_true, "Yes") %>
+          <br />
+          <%= f.radio_button(:is_participant, false) %>
+          <%= f.label(:is_participant_false, "No, but we will apply to join before 30 April") %> <br />
+        </div>
+        <div>
+          If you are unsure whether your organization is an active UN Global Compact participant, find your profile on our <a href="/what-is-gc/participants/" target="_blank">participant list</a>. If your organization is interested in joining the UN Global Compact <a href="/participation/join/application/" target="_blank">complete our application</a> (business schools can click here to access the PRME application).
         </div>
       </fieldset>
 

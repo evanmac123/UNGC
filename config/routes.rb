@@ -314,7 +314,7 @@ UNGC::Application.routes.draw do
 
   namespace :sdg_pioneer, path: '/what-is-gc/our-work/sustainable-development/global-goals-local-business/sdgpioneers' do
     get :index, path: '/'
-    resources :submissions, path: 'submissions', only: [:new, :create]
+    resources :submissions, path: 'nominate-yourself', only: [:new, :create]
     resources :others, path: 'nomination-form', only: [:new, :create]
   end
 
