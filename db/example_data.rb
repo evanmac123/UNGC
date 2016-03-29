@@ -363,6 +363,7 @@ module FixtureReplacement
     s.country_name = create_country.name
     s.reason_for_being = FixtureReplacement.random_string
     s.accepts_tou = true
+    s.supporting_documents.build
   end
 
   attributes_for :sdg_pioneer_other, class: SdgPioneer::Other do |o|

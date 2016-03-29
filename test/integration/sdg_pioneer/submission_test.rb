@@ -36,7 +36,7 @@ class SdgPioneer::SubmissionTest < ActionDispatch::IntegrationTest
 
     # submit the nomination
     assert_difference -> { SdgPioneer::Submission.count }, +1 do
-      click_on 'Submit'
+      click_on 'Nominate'
     end
 
     # we should be on the landing page with a notice about our submission
@@ -46,7 +46,6 @@ class SdgPioneer::SubmissionTest < ActionDispatch::IntegrationTest
     # we should have created an attachment
     submission = SdgPioneer::Submission.last
     assert_not_nil submission
-
 
     assert_equal "Cathy McExampleson", submission.name
     assert_equal 'Most Contacted Person', submission.title
