@@ -1,6 +1,11 @@
 <h2><%= @submission.organization_name %></h2>
 
 <p>
+  <strong>Date application submitted:</strong><br/>
+  <%= @submission.created_at %>
+</p>
+
+<p>
   <strong>Pioneer Type:</strong><br/>
   <%= @submission.pioneer_type %>
 </p>
