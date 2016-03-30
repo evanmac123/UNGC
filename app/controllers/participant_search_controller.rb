@@ -17,7 +17,7 @@ class ParticipantSearchController < ApplicationController
   private
 
   def search_params
-    params.fetch(:search, {}).permit(
+    Hash(params).fetch(:search, {}).permit(
       :per_page,
       :sort_field,
       :sort_direction,
