@@ -4,7 +4,7 @@ class Api::V1::AutocompleteController < ApplicationController
     render json: autocomplete(Organization.active.participants)
   end
 
-  def sdg_pioneer_businesses
+  def sdg_pioneer_submissions
     eligible_businesses = SdgPioneer::EligibleBusinessesQuery.new.run
     render json: autocomplete(eligible_businesses)
   end

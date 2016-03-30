@@ -18,19 +18,13 @@ en:
         url: "Website"
         isin: "ISIN"
         delisted_on: "Delisting date"
-      sdg_pioneer/business:
+      sdg_pioneer/submission:
         is_nominated: ""
         is_participant: ""
-        positive_outcome_attachments: ""
-        matching_sdgs: "Sustainable Development Goals"
-        accepts_tou: ""
-      sdg_pioneer/individual:
-        is_nominated: ""
-        is_participant: ""
-        description_of_individual: "Description"
         supporting_documents: ""
         matching_sdgs: "Sustainable Development Goals"
         accepts_tou: ""
+        reason_for_being: ""
       sdg_pioneer/other:
         organization_type: "Affiliated group"
         submitter_name: "Your name"
@@ -44,21 +38,8 @@ en:
         accepts_tou: ""
     errors:
       models:
-        sdg_pioneer/business:
+        sdg_pioneer/submission:
           attributes:
-            is_nominated:
-              inclusion: "Please indicate if you have been nominated"
-            is_participant:
-              inclusion: "Is the participant an active participant?"
-            positive_outcome_attachments:
-              too_short: "You must include at least %{count} document"
-              too_long: "You can include up to %{count} documents"
-            accepts_tou:
-              blank: "You must accept the agreement"
-        sdg_pioneer/individual:
-          attributes:
-            is_nominated:
-              inclusion: "Please indicate if you have been nominated"
             is_participant:
               inclusion: "Is the participant an active participant?"
             supporting_documents:
@@ -66,6 +47,8 @@ en:
               too_long: "You can include up to %{count} supporting documents"
             accepts_tou:
               blank: "You must accept the agreement"
+            reason_for_being:
+              blank: "Please tell us why you want to be a Local SDG Pioneer"
         sdg_pioneer/other:
           attributes:
             accepts_tou:
@@ -142,12 +125,8 @@ en:
     actions:
       nominate_individual: 'Nominate an individual'
       nominate_business: 'Nominate a business'
-    individual:
-      title: "Local change-makers"
-      blurb: "Making global goals local business."
-      action: "Nominate an individual"
-    business:
-      title: "Local Business Leaders and Entrepreneurs"
+    submission:
+      title: "Nominate yourself"
       blurb: "Making global goals local business."
       action: "Nominate a business"
       local_network_status:
@@ -155,7 +134,7 @@ en:
         :no: 'No'
         :not_available: 'There is no Local Network in that country'
     other:
-      title: "Nomination Form"
+      title: "Nominate someone else"
       blurb: "Making global goals local business."
       action: "Nominate other"
     nominated: 'Your nomination was successfully submitted'

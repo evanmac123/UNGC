@@ -132,6 +132,12 @@ UNGC::Application.routes.draw do
     resources :logo_files
     resources :cop_questions
 
+    namespace :sdg_pioneers do
+      get :index, path: '/'
+      resources :submissions, only: [:index, :show]
+      resources :others, only: [:index, :show]
+    end
+
     resources :local_networks do
       resources :contacts do
         member do
@@ -185,7 +191,7 @@ UNGC::Application.routes.draw do
       namespace :autocomplete do
         get :participants
         get :countries
-        get :sdg_pioneer_businesses
+        get :sdg_pioneer_submissions
       end
 
     end
@@ -308,10 +314,9 @@ UNGC::Application.routes.draw do
   get '/'         => 'static#home',       as: :root
   get '/layout-sample' => 'static#layout_sample', as: :layout_sample
 
-  namespace :sdg_pioneer, path: '/what-is-gc/our-work/sustainable-development/sdgpioneers' do
+  namespace :sdg_pioneer, path: '/what-is-gc/our-work/sustainable-development/global-goals-local-business/sdgpioneers' do
     get :index, path: '/'
-    resources :businesses, path: 'local-business-leaders', only: [:new, :create]
-    resources :individuals, path: 'local-change-makers', only: [:new, :create]
+    resources :submissions, path: 'nominate-yourself', only: [:new, :create]
     resources :others, path: 'nomination-form', only: [:new, :create]
   end
 
@@ -479,10 +484,19 @@ UNGC::Application.routes.draw do
   get '/UNPrivateSectorForum2015', to: redirect('/take-action/events/61-united-nations-private-sector-forum-2015')
   get '/AboutTheGC/tools_resources/', to: redirect('/library')
   get '/NetworksAroundTheWorld/', to: redirect('/engage-locally')
-  get '/sdgs/', to: redirect('/what-is-gc/our-work/sustainable-development/17-global-goals')
   get '/COP/making_progress/advanced.html', to: redirect('/participation/report/cop/create-and-submit/advanced')
   get '/leaderssummit', to: redirect('/take-action/events/411-un-global-compact-leaders-summit-2016')
   get '/leaderssummit2016', to: redirect('/take-action/events/411-un-global-compact-leaders-summit-2016')
+
+  # SDG related redirects
+  get '/sdgpioneers', to: redirect('/what-is-gc/our-work/sustainable-development/global-goals-local-business/sdgpioneers')
+  get '/SDGpioneers', to: redirect('/what-is-gc/our-work/sustainable-development/global-goals-local-business/sdgpioneers')
+  get '/pioneers', to: redirect('/what-is-gc/our-work/sustainable-development/global-goals-local-business/sdgpioneers')
+  get '/what-is-gc/our-work/sustainable-development/17-global-goals', to: redirect('/what-is-gc/our-work/sustainable-development/sdgs/17-global-goals')
+  get '/sdgs/', to: redirect('/what-is-gc/our-work/sustainable-development/sdgs/17-global-goals')
+  get '/what-is-gc/our-work/sustainable-development/ln-action-plan', to: redirect('/what-is-gc/our-work/sustainable-development/global-goals-local-business/ln-action-plan')
+  get '/what-is-gc/our-work/sustainable-development/sdgpioneers', to: redirect('/what-is-gc/our-work/sustainable-development/global-goals-local-business/sdgpioneers')
+  get '/what-is-gc/our-work/sustainable-development/sdgpioneers/nomination-form/new', to: redirect('/what-is-gc/our-work/sustainable-development/global-goals-local-business/sdgpioneers/nomination-form/new')
 
   # new redirects (to be tested)
   get '/index.html', to: redirect('/')

@@ -115,7 +115,15 @@ class ApplicationController < ActionController::Base
 
   def search_offline
     @page = SearchOfflinePage.new
-    render :template => '/search/offline' and return false
+
+    respond_to do |format|
+      format.html {
+        render :template => '/search/offline' and return false
+      }
+      format.atom {
+        render status: 500, nothing: true and return false
+      }
+    end
   end
 
   def mailer_set_url_options

@@ -9,7 +9,7 @@
       <section class='main-content-body'>
         <%= image_tag @page.image, alt: "#{@page.name} Map", class: 'local-network-image' %>
 
-        <h2 class='local-network-body-header'>Mission and Vision</h2>
+        <h2 class='local-network-body-header'>Overview</h2>
 
         <%= @page.description.try(:html_safe) %>
 
