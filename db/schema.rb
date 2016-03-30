@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160328232657) do
+ActiveRecord::Schema.define(version: 20160330145818) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -941,7 +941,7 @@ ActiveRecord::Schema.define(version: 20160328232657) do
     t.string   "country_name",              limit: 255
     t.text     "reason_for_being",          limit: 65535
     t.boolean  "accepts_tou",                             default: false, null: false
-    t.boolean  "is_participant",                          default: false, null: false
+    t.boolean  "is_participant"
     t.string   "website_url",               limit: 255
     t.datetime "created_at",                                              null: false
     t.datetime "updated_at",                                              null: false
