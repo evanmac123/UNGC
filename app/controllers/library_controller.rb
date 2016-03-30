@@ -56,7 +56,7 @@ class LibraryController < ApplicationController
   end
 
   def search_params
-    params.fetch(:search, {}).permit(
+    Hash(params).fetch(:search, {}).permit(
       :keywords,
       :content_type,
       :sort_field,
