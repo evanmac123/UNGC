@@ -26,6 +26,7 @@ class CoePresenter
            :is_reporting_cycle_adjustment?,
            :organization,
            :differentiation_level_with_default,
+           :is_new_format?,
            :has_time_period?,
            to: :coe
 
