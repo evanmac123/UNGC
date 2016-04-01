@@ -29,6 +29,17 @@ class CoePresenter
            :is_new_format?,
            :has_time_period?,
            :cop_files,
+           :cop_links,
+           :format,
+           :evaluated_for_differentiation?,
+           :differentiation_description,
+           :differentiation,
+           :self_assessment,
+           :is_advanced_programme?,
+           :description,
+           :is_test_phase_advanced_programme?,
+           :additional_questions?,
+           :issue_areas_covered,
            to: :coe
 
   def initialize(coe, contact)
