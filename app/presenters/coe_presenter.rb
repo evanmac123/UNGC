@@ -34,7 +34,6 @@ class CoePresenter
            :evaluated_for_differentiation?,
            :differentiation_description,
            :differentiation,
-           :self_assessment,
            :is_advanced_programme?,
            :description,
            :is_test_phase_advanced_programme?,
@@ -138,6 +137,10 @@ class CoePresenter
 
   def full_name
     'Communication on Engagement'
+  end
+
+  def self_assessment
+    CommunicationOnProgress::SelfAssessment.for(cop)
   end
 
 end
