@@ -406,6 +406,13 @@ class ActiveSupport::TestCase
       sectors: [sector_id]
     }).symbolize_keys
   end
+
+  def create_organization_type_sme
+    OrganizationType.sme || create_organization_type(
+      name: OrganizationType::FILTERS[:sme],
+      type_property: OrganizationType::BUSINESS
+    )
+  end
 end
 
 class ActionController::TestCase

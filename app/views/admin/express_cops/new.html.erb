@@ -1,0 +1,50 @@
+<% if @cop.errors.any? %>
+  <div class="flash error">
+    All questions must be answered
+  </div>
+<% end %>
+
+<h2>Communication on Progress</h2>
+
+<%= form_for [:admin, @organization, @cop] do |form| %>
+
+  <fieldset>
+    <fieldset>
+      <legend>
+        <span>Does your company’s highest executive support and endorse the Ten Principles of the United Nations Global Compact?</span>
+      </legend>
+      <label><%= form.radio_button :endorses_ten_principles, true %> Yes</label>
+      <label><%= form.radio_button :endorses_ten_principles, false %> No</label>
+      <div class="hint">Beyond signing the letter to join the Global Compact, does s/he mention and promote the UN Global Compact among employees and the public?  This can be done through his/her actions as well as spoken and written communication (i.e., deeds and words).</div>
+    </fieldset>
+
+    <fieldset>
+      <legend>
+        <span>Did your company take any actions in the areas of human rights, labour, environment and anti-corruption?</span>
+      </legend>
+      <label><%= form.radio_button :covers_issue_areas, true %> Yes</label>
+      <label><%= form.radio_button :covers_issue_areas, false %> No</label>
+      <div class="hint">
+        Examples include, but are not limited to:
+        <ul>
+          <li>Ensure workers are provided safe, suitable and sanitary work facilities</li>
+          <li>Comply with minimum wage standards</li>
+          <li>Minimize the use and ensure safe handling and storage of chemical and other dangerous substances</li>
+          <li>Mention “anti-corruption” and/or “ethical behavior” in contracts with business partners</li>
+        </ul>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>
+        <span>Did your company monitor the outcomes of such activities?</span>
+      </legend>
+      <label><%= form.radio_button :measures_outcomes, true %> Yes</label>
+      <label><%= form.radio_button :measures_outcomes, false %> No</label>
+      <div class="hint">Example of a possible indicator (among others): Rate of occupational diseases, injuries, and absenteeism</div>
+    </fieldset>
+  </fieldset>
+
+  <%= render partial: '/admin/cops/submit_cop', locals: { return_url: cop_introduction_path(tab: 'express') } %>
+
+<% end %>

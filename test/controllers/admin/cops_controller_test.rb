@@ -72,6 +72,36 @@ class Admin::CopsControllerTest < ActionController::TestCase
       end
     end
 
+    context "SMEs" do
+      setup do
+        create_organization_and_user
+        @organization.approve!
+        @organization.update(employees: 11)
+        sign_in @organization_user
+      end
+      should "see the Express COP tab" do
+        assert 'SME', @organization.organization_type.try(:name)
+        get :introduction
+        tabs = assert_select 'ul.tab_nav li a'
+        assert_includes tabs.map(&:text), 'Express'
+      end
+    end
+
+    context "Non-SME" do
+      setup do
+        create_organization_and_user
+        @organization.approve!
+        @organization.update(employees: 10000)
+        sign_in @organization_user
+      end
+      should "hide the Express COP tab" do
+        assert_not_equal 'SME', @organization.organization_type.try(:name)
+        get :introduction
+        tabs = assert_select 'ul.tab_nav li a'
+        assert_not_includes tabs.map(&:text), 'Express Template'
+      end
+    end
+
     context "given a new cop" do
 
       %w{basic intermediate advanced lead}.each do |cop_type|
@@ -415,52 +445,6 @@ class Admin::CopsControllerTest < ActionController::TestCase
     #   end
     # end
 
-  end
-
-  context "given a company that has submitted three Learner COPs" do
-    setup do
-      create_approved_organization_and_user
-      @first_cop  = create_cop_with_options({:title => 'First COP', :include_continued_support_statement => false})
-      @second_cop = create_cop_with_options({:title => 'Second COP', :references_environment => false})
-      @third_cop  = create_cop_with_options({:title => 'Third COP', :include_measurement => false})
-    end
-
-    should "should identify if time passed between COPs is one or more years" do
-      @first_cop.update_attribute  :published_on, Date.new(2011,03,01)
-      @second_cop.update_attribute :published_on, Date.new(2011,04,01)
-      @third_cop.update_attribute  :published_on, Date.new(2012,03,02)
-      assert @organization.triple_learner_for_one_year?
-    end
-
-    should "not identify them as triple_learner_for_one_year if less than one year" do
-      @first_cop.update_attribute  :published_on, Date.new(2011,03,01)
-      @second_cop.update_attribute :published_on, Date.new(2011,04,01)
-      @third_cop.update_attribute  :published_on, Date.new(2011,05,01)
-      assert !@organization.triple_learner_for_one_year?
-    end
-
-    should "not identify them as triple_learner_for_one_year if the exact deadline has not been exceeded" do
-      @first_cop.update_attribute  :published_on, Date.new(2011,03,02)
-      @second_cop.update_attribute :published_on, Date.new(2011,04,02)
-      @third_cop.update_attribute  :published_on, Date.new(2012,03,01)
-      assert !@organization.triple_learner_for_one_year?
-    end
-  end
-
-  context "given two non-consecutive Learner COPs" do
-    setup do
-      create_approved_organization_and_user
-      @first_cop  = create_cop_with_options({:include_continued_support_statement => false})
-      @second_cop = create_cop_with_options
-      @third_cop = create_cop_with_options({:include_measurement => false})
-      @first_cop.update_attribute  :published_on, Date.new(2011,03,01)
-      @second_cop.update_attribute :published_on, Date.new(2012,03,01)
-      @third_cop.update_attribute  :published_on, Date.new(2013,03,01)
-      sign_in @organization_user
-    end
-    should "not identify them as triple_learner_for_one_year" do
-      assert !@organization.triple_learner_for_one_year?
-    end
   end
 
   context "given an existing COP and a staff user" do

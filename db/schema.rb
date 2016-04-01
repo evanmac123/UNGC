@@ -134,7 +134,11 @@ ActiveRecord::Schema.define(version: 20160330185156) do
     t.boolean  "references_water_mandate"
     t.string   "cop_type",                            limit: 255
     t.date     "published_on"
-    t.integer  "submission_status",                   limit: 4,     default: 0, null: false
+    t.integer  "submission_status",                   limit: 4,     default: 0,                         null: false
+    t.boolean  "endorses_ten_principles"
+    t.boolean  "covers_issue_areas"
+    t.boolean  "measures_outcomes"
+    t.string   "type",                                limit: 255,   default: "CommunicationOnProgress", null: false
   end
 
   add_index "communication_on_progresses", ["created_at"], name: "index_communication_on_progresses_on_created_at", using: :btree

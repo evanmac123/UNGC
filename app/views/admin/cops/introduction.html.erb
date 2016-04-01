@@ -1,0 +1,163 @@
+<h2>Submitting a Communication on Progress (COP)</h2>
+<div class="tab_container top_tabs" style="width: 80%;">
+  <ul class="tab_nav">
+    <li><a href="#introduction">Instructions</a></li>
+    <% if @can_submit_express_cop %>
+      <li><a href="#express">Express</a></li>
+    <% end %>
+    <li><a href="#basic">Basic</a></li>
+    <li><a href="#general">GC Active</a></li>
+    <li><a href="#advanced">GC Advanced</a></li>
+    <% if current_contact.submit_grace_letter? %>
+      <li><a href="#grace">Grace Letter</a></li>
+    <% end %>
+    <% if current_contact.submit_reporting_cycle_adjustment? %>
+      <li><a href="#reporting">Cycle Adjustment</a></li>
+    <% end %>
+    <% if current_contact.from_organization? %>
+      <li><a href="#drafts">Drafts</a></li>
+    <% end %>
+  </ul>
+  <div class="tab_content" id="introduction">
+    <p class="cop_description" style="margin-top: 10px;">
+      <strong>Please choose among the following options to publish your COP on the Global Compact website</strong>
+    </p>
+    <dl class="left_column" style="width: 100%;">
+      <dt class="first">Express</dt>
+      <dd class="first">Contains three yes-or-no questions. This option is designed for companies with less than 250 employees who have minimal reporting capacity.</dd>
+      <dt>Basic</dt>
+      <dd>If your company is new to sustainability reporting, this template will guide you in creating your COP.</dd>
+      <dt>GC Active</dt>
+      <dd>Your report fulfills the three minimum requirements for the GC Active level and you are not aiming to qualify for the GC Advanced level.</dd>
+      <dt>GC Advanced</dt>
+      <dd>Your COP meets the GC Active level requirements and the GC Advanced criteria.</dd>
+      <dt>Grace Letter</dt>
+      <dd>
+        <% if current_contact.submit_grace_letter? %>
+          Request a <%= GraceLetterApplication::GRACE_DAYS %> day extension to your COP deadline. A letter explaining the reasons for the request must be uploaded.
+        <% else %>
+          This option is not available because you have already submitted a Grace Letter.
+        <% end %>
+      </dd>
+      <dt>Cycle Adjustment</dt>
+      <dd>
+        <% if current_contact.submit_reporting_cycle_adjustment? %>
+          Submit a one-time deferral of up to 11 months to align your COP deadline with your company's reporting cycle.
+        <% else %>
+          This option is not available because you have already submitted a Reporting Cycle Adjustment.
+        <% end %>
+      </dd>
+    </dl>
+  </div>
+
+  <% if @can_submit_express_cop %>
+    <div class="tab_content" id="express">
+      <h3>Submit an express COP</h3>
+      <p class="cop_description">
+      The express Communication on Progress (COP) for small and medium enterprises (SMEs) contains three yes-or-no questions. This option is designed for companies with less than 250 employees who have minimal reporting capacity.
+      </p>
+      <p class="clear">
+      <%= link_to 'Submit an Express COP here', new_admin_organization_express_cop_path(current_contact.organization), :class => 'new_page_large' %>
+      </p>
+    </div>
+  <% end %>
+
+  <div class="tab_content" id="basic">
+    <h3>Submit a Basic</h3>
+    <p class="cop_description">
+      Smaller and less experienced companies can complete this template to create their COP. Translations of the template are currently available in several languages. Please note that the COP submission can only be completed through the <%= link_to 'web-based template', new_admin_organization_communication_on_progress_path(current_contact.organization.id, :type_of_cop => 'basic') %>.
+    </p>
+    <ul style="float: left; margin-right: 100px;">
+      <li>
+        <%= link_to 'Arabic','/docs/communication_on_progress/templates/Basic/Basic_COP_AR.pdf' %>
+      </li>
+      <li>
+        <%= link_to 'Chinese','/docs/communication_on_progress/templates/Basic/Basic_COP_ZH.pdf' %>
+      </li>
+      <li>
+        <%= link_to 'English','/docs/communication_on_progress/templates/Basic/Basic_COP_EN.pdf' %>
+      </li>
+      <li>
+        <%= link_to 'French','/docs/communication_on_progress/templates/Basic/Basic_COP_FR.pdf' %>
+      </li>
+    </ul>
+    <ul style="float: left; margin-right: 100px;">
+      <li>
+        <%= link_to 'German','/docs/communication_on_progress/templates/Basic/Basic_COP_DE.pdf' %>
+      </li>
+      <li>
+        <%= link_to 'Japanese','/docs/communication_on_progress/templates/Basic/Basic_COP_JA.pdf' %>
+      </li>
+      <li>
+        <%= link_to 'Korean','/docs/communication_on_progress/templates/Basic/Basic_COP_KR.pdf' %>
+      </li>
+      <li>
+        <%= link_to 'Portuguese','/docs/communication_on_progress/templates/Basic/Basic_COP_PT.pdf' %>
+      </li>
+    </ul>
+    <ul style="float: left; margin-right: 100px; clear: right;">
+      <li>
+        <%= link_to 'Russian','/docs/communication_on_progress/templates/Basic/Basic_COP_RU.pdf' %>
+      </li>
+      <li>
+        <%= link_to 'Spanish','/docs/communication_on_progress/templates/Basic/Basic_COP_ES.pdf' %>
+      </li>
+      <li>
+        <%= link_to 'Turkish','/docs/communication_on_progress/templates/Basic/Basic_COP_TR.pdf' %>
+      </li>
+    </ul>
+    <p class="clear">
+      <%= link_to 'Submit a Basic COP here', new_admin_organization_communication_on_progress_path(current_contact.organization.id, :type_of_cop => 'basic'), :class => 'new_page_large' %>
+    </p>
+  </div>
+  <div class="tab_content" id="general">
+    <h3>Submit a GC Active</h3>
+    <p class="cop_description">
+      A COP must contain the following three elements to meet the <%= popup_link_to 'GC Active level requirements', '/COP/differentiation/GCActive_level.html' %>:
+    </p>
+    <ol class="cop_list checked">
+      <li class="checked">CEO statement of continued support for the UN Global Compact and its ten principles</li>
+      <li class="checked">Description of actions or relevant policies related to Human Rights, Labour, Environment and Anti-Corruption</li>
+      <li class="checked">Measurement of outcomes</li>
+    </ol>
+    <p class="clear">
+      <%= link_to 'Submit a GC Active COP here', new_admin_organization_communication_on_progress_path(current_contact.organization.id, :type_of_cop => 'intermediate'), :class => 'new_page_large' %>
+    </p>
+  </div>
+  <div class="tab_content" id="advanced">
+    <h3>Submit a GC Advanced</h3>
+    <p class="cop_description">
+      A COP must meet the <%= link_to '21 GC Advanced criteria (pdf)', 'http://www.unglobalcompact.org/docs/communication_on_progress/GC_Advanced_COP_selfassessment.pdf' %> to achieve the the GC Advanced level. To meet a criterion, the COP must cover at least one of the listed best practices.
+    </p>
+    <p>
+      <%= link_to 'Submit a GC Advanced COP here', new_admin_organization_communication_on_progress_path(current_contact.organization.id, :type_of_cop => 'advanced'), :class => 'new_page_large' %>
+    </p>
+  </div>
+  <% if current_contact.submit_grace_letter? %>
+    <div class="tab_content" id="grace">
+      <h3>Submit a Grace Letter</h3>
+      <p class="cop_description">
+        A grace letter can be submitted to request an additional <%=GraceLetterApplication::GRACE_DAYS %> days to the current COP deadline. <%=link_to 'View a sample Grace Letter (pdf)', 'http://unglobalcompact.org/docs/communication_on_progress/templates/Sample_Grace_Letter.pdf' %>
+      </p>
+      <p>
+        <%= link_to 'Submit a New Grace Letter here', new_admin_organization_grace_letter_path(current_contact.organization.id), :class => 'new_page_large' %>
+      </p>
+    </div>
+  <% end %>
+  <% if current_contact.submit_reporting_cycle_adjustment? %>
+    <div class="tab_content" id="reporting">
+      <h3>Submit a Cycle Adjustment</h3>
+      <p class="cop_description">
+        A one-time adjustment request of up to 11 months will align your COP deadline with your company's reporting cycle. <%=link_to 'View a sample Reporting Cycle Adjustment (pdf)', 'http://unglobalcompact.org/docs/communication_on_progress/templates/Sample_Reporting_Cycle_Adjustment_Request.pdf' %>
+      </p>
+      <p>
+        <%= link_to 'Submit a Reporting Cycle Adjustment here', new_admin_organization_reporting_cycle_adjustment_path(current_contact.organization.id), :class => 'new_page_large' %>
+      </p>
+    </div>
+  <% end %>
+  <% if current_contact.from_organization? %>
+    <div class="tab_content" id="drafts">
+      <%= render :partial => 'drafts', locals: { drafts: @drafts } %>
+    </div>
+  <% end %>
+</div>

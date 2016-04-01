@@ -1,0 +1,19 @@
+<dt class="first">Published</dt>
+<dd class="first">
+  <ul>
+    <li>
+      <%= yyyy_mm_dd communication_on_progress.published_on %>
+    </li>
+  </ul>
+</dd>
+
+<% if communication_on_progress.has_time_period? %>
+<dt>Time period</dt>
+<dd>
+  <ul>
+    <li>
+      <%= cop_date_range(communication_on_progress) %>
+    </li>
+  </ul>
+</dd>
+<% end %>

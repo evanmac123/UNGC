@@ -383,4 +383,11 @@ module FixtureReplacement
     o.accepts_tou = true
   end
 
+  attributes_for :express_cop do |c|
+    c.organization = create_organization(employees: 11)
+    c.endorses_ten_principles = true
+    c.covers_issue_areas = true
+    c.measures_outcomes = true
+  end
+
 end

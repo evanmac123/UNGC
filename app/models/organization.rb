@@ -348,6 +348,15 @@ class Organization < ActiveRecord::Base
                                              ApprovalWorkflow::STATE_REJECTED_MICRO ])
   end
 
+  # this object really doesn't need anymore responsibilities
+  # but I'm putting these here in the hopes of replacing the
+  # model-backed OrganizationType with an active record enum
+  # these methods will have the same signature and can be removed
+  # at that time
+  def sme?
+    organization_type.present? && organization_type == OrganizationType.sme
+  end
+
   def as_json(options={})
     only = ['id', 'name', 'participant']
     only += Array(options[:only]) if options[:only]

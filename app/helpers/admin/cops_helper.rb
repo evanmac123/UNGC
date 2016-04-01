@@ -147,4 +147,12 @@ module Admin::CopsHelper
     "#{cop.cop_type}_form"
   end
 
+  def cops_path(organization)
+    if current_contact.from_organization?
+      dashboard_path(tab: :cops)
+    else
+      admin_organization_path(organization, tab: :cops)
+    end
+  end
+
 end

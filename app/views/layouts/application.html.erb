@@ -30,24 +30,7 @@
     <% end %>
 
     <%= render 'components/legacy_browsers_notice' %>
-
-    <%# Google Translate %>
-    <script type="text/javascript">
-      function googleTranslateElementInit() {
-        new google.translate.TranslateElement(
-          {
-            pageLanguage: 'en',
-            //includedLanguages: 'en,ar,zh-CN,es,fr,ru',
-            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-            gaTrack: true,
-            gaId: 'UA-61767260-2'
-          },
-          'google_translate_element'
-        );
-      }
-    </script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
-
+    <%= render 'shared/google_translate' %>
     <%= render 'shared/ga_universal' %>
   </body>
 </html>
