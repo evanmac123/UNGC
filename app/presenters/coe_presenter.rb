@@ -140,7 +140,7 @@ class CoePresenter
   end
 
   def self_assessment
-    CommunicationOnProgress::SelfAssessment.for(cop)
+    CommunicationOnProgress::SelfAssessment.for(coe)
   end
 
 end
