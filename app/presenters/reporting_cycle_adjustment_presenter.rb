@@ -18,6 +18,7 @@ class ReportingCycleAdjustmentPresenter
            :title,
            :differentiation,
            :differentiation_level_with_default,
+           :is_new_format?,
            :has_time_period?,
            to: :cop
 
