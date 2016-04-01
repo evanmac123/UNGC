@@ -26,6 +26,7 @@ class CoePresenter
            :is_reporting_cycle_adjustment?,
            :organization,
            :differentiation_level_with_default,
+           :has_time_period?,
            to: :coe
 
   def initialize(coe, contact)
@@ -59,7 +60,8 @@ class CoePresenter
 
   # should be moved to a service object? we're doing extensive quries
   def questions
-    CopQuestion.find(attributes.collect &:cop_question_id).sort { |x,y| x.grouping <=> y.grouping }
+    CopQuestion.find(attributes.collect(&:cop_question_id)).
+      sort { |x,y| x.grouping <=> y.grouping }
   end
 
   # more quries for questions

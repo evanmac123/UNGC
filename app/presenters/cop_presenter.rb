@@ -52,6 +52,8 @@ class CopPresenter
            :is_grace_letter?,
            :is_reporting_cycle_adjustment?,
            :organization,
+           :is_new_format?,
+           :has_time_period?,
            to: :cop
 
   def initialize(cop, current_contact)
@@ -117,15 +119,20 @@ class CopPresenter
   end
 
   def differentiation_placement
-    levels = { 'learner' => "Learner Platform &#x25BA;", 'active' => "GC Active &#x25BA;", 'advanced' => "GC Advanced" }
-    html = levels.map do |key, value|
-      content_tag :span, value.html_safe, :style => cop.differentiation_level_public == key ? '' : 'color: #aaa'
+    html = %w(learner active advanced).map do |level|
+      label = I18n.t(level, scope: 'admin.cop.differentiation_level')
+      style = cop.differentiation_level_public == level ? '' : 'color: #aaa'
+      content_tag :span, label.html_safe, style: style
     end
     html.join(' ').html_safe
   end
 
   def full_name
     'Communication on Progress'
+  end
+
+  def self_assessment
+    CommunicationOnProgress::SelfAssessment.for(cop)
   end
 
   private

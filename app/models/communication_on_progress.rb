@@ -70,7 +70,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 15
 
-  TYPES = %w{grace basic intermediate advanced lead non_business}
+  TYPES = %w{grace express basic intermediate advanced lead non_business}
 
   enum submission_status: {
     submitted: 0,
@@ -101,7 +101,8 @@ class CommunicationOnProgress < ActiveRecord::Base
 
   FORMAT = {:standalone            => "Stand alone document",
             :sustainability_report => "Part of a sustainability or corporate (social) responsibility report",
-            :annual_report         => "Part of an annual (financial) report"
+            :annual_report         => "Part of an annual (financial) report",
+            :express               => "Express COP"
            }
 
   LEVEL_DESCRIPTION = { :blueprint => "This COP qualifies for the Global Compact Advanced level",
@@ -466,6 +467,10 @@ class CommunicationOnProgress < ActiveRecord::Base
     # break elsewhere. When the COP is finally published, it will get the new,
     # valid date that it needs.
     super || self.created_at
+  end
+
+  def has_time_period?
+    starts_on.present? && ends_on.present?
   end
 
   private

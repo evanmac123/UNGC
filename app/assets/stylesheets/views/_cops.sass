@@ -93,6 +93,7 @@
         border-bottom: 1px dotted #ddd
         margin: 0
 
+        &.unselected_question:before,
         &.selected_question:before
           +fa-icon
           content: $fa-var-check
@@ -101,6 +102,10 @@
           position: absolute
           top: .7em
           left: -1.5em
+
+        &.unselected_question:before
+          content: $fa-var-times
+          color: color('red')
 
         &:first-of-type
           padding-top: 0

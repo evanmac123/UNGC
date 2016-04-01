@@ -18,6 +18,7 @@ class GraceLetterPresenter
            :title,
            :differentiation,
            :differentiation_level_with_default,
+           :has_time_period?,
            to: :cop
 
   def initialize(cop, current_contact)

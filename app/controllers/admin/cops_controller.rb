@@ -7,6 +7,7 @@ class Admin::CopsController < AdminController
 
   def introduction
     @drafts = current_contact.organization.communication_on_progresses.in_progress
+    @can_submit_express_cop = current_contact.organization.sme?
     if current_contact.from_organization? && current_contact.organization.non_business?
       render :non_business_introduction
     elsif current_contact.organization.signatory_of?(:lead)
@@ -26,7 +27,7 @@ class Admin::CopsController < AdminController
       @communication_on_progress = CopForm.new_form(@organization, cop_type, current_contact.contact_info)
       @communication_on_progress.build_cop_answers
     else
-      redirect_to cop_introduction_url
+      redirect_to cop_introduction_url, notice: "Invalid COP type: #{cop_type}"
     end
   end
 
@@ -121,7 +122,7 @@ class Admin::CopsController < AdminController
 
     def create_published(form)
       if form.submit(cop_params)
-        flash[:notice] = "The communication has been published on the Global Compact website"
+        flash[:notice] = I18n.t('notice.cop_published')
         send_cop_submission_confirmation_email(form.cop)
         redirect_to admin_organization_communication_on_progress_url(@organization.id, form.cop)
       else
@@ -140,7 +141,7 @@ class Admin::CopsController < AdminController
 
     def publish_draft(form)
       if form.submit(cop_params)
-        flash[:notice] = "The communication has been published on the Global Compact website"
+        flash[:notice] = I18n.t('notice.cop_published')
         send_cop_submission_confirmation_email(form.cop)
         redirect_to admin_organization_communication_on_progress_url(@organization.id, form.cop)
       else
