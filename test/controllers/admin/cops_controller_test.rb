@@ -83,7 +83,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
         assert 'SME', @organization.organization_type.try(:name)
         get :introduction
         tabs = assert_select 'ul.tab_nav li a'
-        assert_includes tabs.map(&:text), 'Express Template'
+        assert_includes tabs.map(&:text), 'Express'
       end
     end
 

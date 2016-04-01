@@ -12,7 +12,7 @@ class ExpressCopSubmissionTest < ActionDispatch::IntegrationTest
     login_as(c)
 
     visit '/admin/cops/introduction'
-    click_link 'Submit an Express Template COP here'
+    click_link 'Submit an Express COP here'
 
     # When I fill out the Express COP form
     choose 'express_cop_endorses_ten_principles_false'
