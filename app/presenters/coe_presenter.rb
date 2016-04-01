@@ -28,6 +28,7 @@ class CoePresenter
            :differentiation_level_with_default,
            :is_new_format?,
            :has_time_period?,
+           :cop_files,
            to: :coe
 
   def initialize(coe, contact)
