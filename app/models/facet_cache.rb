@@ -1,9 +1,13 @@
 class FacetCache
-  TTL = 5.minutes.to_i
+  TTL = 30.minutes.to_i
 
   def initialize(cache_key = 'ungc-facet-cache')
     @cache_key = cache_key
     clear if Rails.env.test? || Rails.env.development?
+  end
+
+  def self.clear
+    new.clear
   end
 
   def put(key, facets)
