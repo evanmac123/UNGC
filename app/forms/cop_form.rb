@@ -236,10 +236,13 @@ class CopForm
     def remove_empty_links_from(params)
       # HACK ignore links that have an empty url.
       links = params.fetch('cop_links_attributes', {})
-      new_cop_attrs = links.fetch('new_cop', {})
-      url = new_cop_attrs['url']
-      if url.blank?
-        links.delete('new_cop')
+
+      if links.is_a?(Hash)
+        new_cop_attrs = links.fetch('new_cop', {})
+        url = new_cop_attrs['url']
+        if url.blank?
+          links.delete('new_cop')
+        end
       end
     end
 
