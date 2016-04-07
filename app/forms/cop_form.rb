@@ -233,6 +233,16 @@ class CopForm
 
   protected
 
+    def remove_empty_links_from(params)
+      # HACK ignore links that have an empty url.
+      links = params.fetch('cop_links_attributes', {})
+      new_cop_attrs = links.fetch('new_cop', {})
+      url = new_cop_attrs['url']
+      if url.blank?
+        links.delete('new_cop')
+      end
+    end
+
     def remove_deleted_links(params)
       if params.has_key? :cop_links_attributes
         link_attrs = params[:cop_links_attributes]
@@ -297,6 +307,7 @@ class CopForm
     end
 
     def do_save(params, validate: true)
+      remove_empty_links_from(params)
       cop.assign_attributes(params)
       cop.contact_info ||= contact_info
 
