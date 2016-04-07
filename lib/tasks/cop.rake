@@ -22,4 +22,14 @@ namespace :cop do
     puts "Deleted duplicate answers: #{count_before} =>  #{count_after}"
   end
 
+  desc "find COPs with duplicate answers"
+  task :with_duplicated_answers => :environment do
+    puts CopAnswer.
+      select('distinct cop_id').
+      group(:cop_attribute_id).
+      having('count(cop_attribute_id) > 1').
+      pluck(:cop_id).
+      uniq
+  end
+
 end
