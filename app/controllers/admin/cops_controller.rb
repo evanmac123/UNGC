@@ -78,8 +78,10 @@ class Admin::CopsController < AdminController
     org_id = @cop.organization.id
     if @cop.destroy
       flash[:notice] = 'The communication was deleted'
+      log_event :destroy, :ok
     else
       flash[:error] = @cop.errors.full_messages.to_sentence
+      log_event :destroy, :fail, @cop.errors
     end
     redirect_to admin_organization_url(org_id, tab: :cops)
   end
@@ -114,8 +116,10 @@ class Admin::CopsController < AdminController
     def create_draft(form)
       if form.save_draft(cop_params)
         flash[:notice] = "The communication draft has been saved"
+        log_event :create_draft, :ok
         redirect_to edit_draft_admin_organization_communication_on_progress_url(@organization.id, form.cop)
       else
+        log_event :create_draft, :fail, form.errors
         render :new
       end
     end
@@ -124,8 +128,10 @@ class Admin::CopsController < AdminController
       if form.submit(cop_params)
         flash[:notice] = I18n.t('notice.cop_published')
         send_cop_submission_confirmation_email(form.cop)
+        log_event :create_published, :ok
         redirect_to admin_organization_communication_on_progress_url(@organization.id, form.cop)
       else
+        log_event :create_published, :fail, form.errors
         render :new
       end
     end
@@ -133,8 +139,10 @@ class Admin::CopsController < AdminController
     def update_draft(form)
       if form.save_draft(cop_params)
         flash[:notice] = "The communication draft has been saved"
+        log_event :update_draft, :ok
         redirect_to edit_draft_admin_organization_communication_on_progress_url(@organization.id, form.cop)
       else
+        log_event :update_draft, :fail, form.errors
         render :edit_draft
       end
     end
@@ -143,8 +151,10 @@ class Admin::CopsController < AdminController
       if form.submit(cop_params)
         flash[:notice] = I18n.t('notice.cop_published')
         send_cop_submission_confirmation_email(form.cop)
+        log_event :publish_draft, :ok
         redirect_to admin_organization_communication_on_progress_url(@organization.id, form.cop)
       else
+        log_event :publish_draft, :fail, form.errors
         render :edit_draft
       end
     end
@@ -158,8 +168,10 @@ class Admin::CopsController < AdminController
 
       if form.update(cop_params)
         flash[:notice] = "The communication was updated"
+        log_event :staff_update_cop, :ok
         redirect_to admin_organization_communication_on_progress_url(@organization.id, @cop, tab: :results)
       else
+        log_event :staff_update_cop, :fail, form.errors
         render :edit
       end
     end
@@ -227,5 +239,17 @@ class Admin::CopsController < AdminController
     def load_organization
       @cop = CommunicationOnProgress.unscoped.visible_to(current_contact).find(params[:id]) if params[:id]
       @organization = Organization.find params[:organization_id]
+    end
+
+    def log_event(event, status, errors = nil)
+      CopAuditLog.log(
+        event: event,
+        type: :cop,
+        status: status,
+        errors: errors.try!(:full_messages) || [],
+        contact: current_contact,
+        organization: @organization,
+        params: params
+      )
     end
 end
