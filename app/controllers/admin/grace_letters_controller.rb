@@ -30,8 +30,10 @@ class Admin::GraceLettersController < AdminController
     @form = GraceLetterForm.new(@organization)
     if @form.submit(grace_letter_params)
       flash[:notice] = "The grace letter has been published on the Global Compact website"
+      log_event :create, :ok
       redirect_to admin_organization_grace_letter_url(@organization.id, @form.grace_letter)
     else
+      log_event :create, :fail, @form.errors
       render :new
     end
   end
@@ -39,8 +41,10 @@ class Admin::GraceLettersController < AdminController
   def update
     @form = GraceLetterForm.new(@organization, @letter)
     if @form.update(grace_letter_params)
+      log_event :update, :ok
       redirect_to admin_organization_grace_letter_url(@organization.id, @form.grace_letter)
     else
+      log_event :update, :fail, @form.errors
       render :edit
     end
   end
@@ -48,8 +52,10 @@ class Admin::GraceLettersController < AdminController
   def destroy
     org_id = @letter.organization.id
     if @letter.destroy
+      log_event :destroy, :ok
       flash[:notice] = 'The grace letter was deleted'
     else
+      log_event :destroy, :fail, @form.errors
       flash[:error] = @letter.errors.full_messages.to_sentence
     end
     redirect_to admin_organization_url(org_id, tab: :cops)
@@ -64,5 +70,17 @@ class Admin::GraceLettersController < AdminController
 
     def grace_letter_params
       params[:grace_letter]
+    end
+
+    def log_event(event, status, errors = nil)
+      CopAuditLog.log(
+        event: event,
+        type: :grace_letter,
+        status: status,
+        errors: errors.try!(:full_messages) || [],
+        contact: current_contact,
+        organization: @organization,
+        params: params
+      )
     end
 end

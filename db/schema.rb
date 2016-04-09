@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160330185156) do
+ActiveRecord::Schema.define(version: 20160408191249) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -343,6 +343,21 @@ ActiveRecord::Schema.define(version: 20160330185156) do
     t.string   "attachment_type", limit: 255
     t.integer  "language_id",     limit: 4
   end
+
+  create_table "cop_log_entries", force: :cascade do |t|
+    t.string   "event",           limit: 255
+    t.string   "cop_type",        limit: 255
+    t.string   "status",          limit: 255
+    t.text     "error_message",   limit: 65535
+    t.integer  "contact_id",      limit: 4
+    t.integer  "organization_id", limit: 4
+    t.text     "params",          limit: 65535
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+  end
+
+  add_index "cop_log_entries", ["contact_id"], name: "index_cop_log_entries_on_contact_id", using: :btree
+  add_index "cop_log_entries", ["organization_id"], name: "index_cop_log_entries_on_organization_id", using: :btree
 
   create_table "cop_questions", force: :cascade do |t|
     t.integer  "principle_area_id", limit: 4
@@ -1081,6 +1096,8 @@ ActiveRecord::Schema.define(version: 20160330185156) do
     t.boolean  "has_licensing",                default: false
   end
 
+  add_foreign_key "cop_log_entries", "contacts"
+  add_foreign_key "cop_log_entries", "organizations"
   add_foreign_key "event_sponsors", "events"
   add_foreign_key "event_sponsors", "sponsors"
   add_foreign_key "events", "contacts"

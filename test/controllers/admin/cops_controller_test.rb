@@ -2,6 +2,15 @@ require 'test_helper'
 require 'sidekiq/testing'
 
 class Admin::CopsControllerTest < ActionController::TestCase
+
+  setup do
+    Sidekiq::Testing.inline!
+  end
+
+  teardown do
+    Sidekiq::Testing.fake!
+  end
+
   context "given a pending organization and user" do
     setup do
       create_organization_and_user

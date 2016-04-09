@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'sidekiq/testing'
 
 class Admin::ReportingCycleAdjustmentsControllerTest < ActionController::TestCase
 
@@ -21,6 +22,11 @@ class Admin::ReportingCycleAdjustmentsControllerTest < ActionController::TestCas
     create_approved_organization_and_user
     create_language(name: "English")
     sign_in @organization_user
+    Sidekiq::Testing.inline!
+  end
+
+  teardown do
+    Sidekiq::Testing.fake!
   end
 
   should "show" do
