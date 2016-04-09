@@ -279,22 +279,36 @@ class CopForm
       end
     end
 
-    def remove_previous_answers(params)
-      # HACK. Now that we'll be saving cop drafts, we don't want to submit duplicate cop_answers
-      # This process is due to be revisited soon, so this will stand until then.
-      # delete all previous answers for which we have incoming ones
-      attrs = params[:cop_answers_attributes]
-      ids = case
-      when attrs.nil?
-        []
-      when attrs.is_a?(Array)
-        attrs.map {|v| v[:cop_attribute_id] }
-      when attrs.is_a?(Hash)
-        attrs.map {|k,v| v[:cop_attribute_id] }
-      else
-        raise "unexpected attrs"
+    def handle_incoming_cop_answers(params)
+      clear_answer_text_from_unselected_answers
+
+      answers = params.delete(:cop_answers_attributes)
+      if answers.nil?
+        return
       end
-      cop.cop_answers.where(cop_attribute_id: ids).delete_all
+
+      answers.each do |index, answer_or_nil|
+        # if answers is an array, the answer is the 1st argument
+        # if it's a hash, the answer is the 2nd argument
+        answer = answer_or_nil || index
+
+        # I'm not 100% clear on why these params aren't already permitted.
+        answer_attrs = answer.reverse_merge(text: '', value: nil)
+        if answer_attrs.respond_to?(:permit)
+          answer_attrs = answer_attrs.permit(:id, :cop_id, :text, :value, :cop_attribute_id)
+        end
+
+        # determine whether to create or update the answer
+        if answer_attrs.has_key?(:id)
+          id = answer_attrs.fetch(:id).to_i
+          record = cop.cop_answers.detect do |a|
+            a.id == id
+          end
+          record.update(answer_attrs) if record.present?
+        else
+          cop.cop_answers.build(answer_attrs)
+        end
+      end
     end
 
     def default_language_id
@@ -311,6 +325,7 @@ class CopForm
 
     def do_save(params, validate: true)
       remove_empty_links_from(params)
+      handle_incoming_cop_answers(params)
       cop.assign_attributes(params)
       cop.contact_info ||= contact_info
 
@@ -318,8 +333,6 @@ class CopForm
         remove_deleted_links(params)
         remember_link_params(params)
         @submitted = true
-        clear_answer_text_from_unselected_answers
-        remove_previous_answers(params)
 
         is_valid = if validate then valid? else true end
         is_valid && cop.save(validate: validate) && cop.set_differentiation_level
