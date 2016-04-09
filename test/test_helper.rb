@@ -103,7 +103,9 @@ class ActiveSupport::TestCase
 
   def create_approved_organization_and_user
       create_organization_and_user
-      @organization.approve!
+      @organization.approve!.tap do
+        @organization_user.reload
+      end
   end
 
   def create_cop_with_options(cop_options = {})
