@@ -182,6 +182,7 @@ class Admin::CopsController < AdminController
 
     def cop_params
       params.require(:communication_on_progress).permit(
+        :contact_info,
         :cop_type,
         :title,
         :references_human_rights,
@@ -203,6 +204,7 @@ class Admin::CopsController < AdminController
           :_destroy,
         ],
         cop_answers_attributes: [
+          :id,
           :cop_attribute_id,
           :text,
           :value
