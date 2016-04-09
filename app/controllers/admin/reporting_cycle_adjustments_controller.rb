@@ -19,8 +19,10 @@ class Admin::ReportingCycleAdjustmentsController < AdminController
     @form = ReportingCycleAdjustmentForm.new(@organization)
     if @form.submit(reporting_cycle_adjustment_params)
       flash[:notice] = "The Reporting Cycle Adjustment has been published on the Global Compact website"
+      log_event :create, :ok
       redirect_to admin_organization_reporting_cycle_adjustment_url(@organization.id, @form.reporting_cycle_adjustment)
     else
+      log_event :create, :fail, @form.errors
       render :new
     end
   end
@@ -38,8 +40,10 @@ class Admin::ReportingCycleAdjustmentsController < AdminController
   def update
     @form = ReportingCycleAdjustmentForm.new(@organization, @adjustment)
     if @form.update(reporting_cycle_adjustment_params)
+      log_event :update, :ok
       redirect_to admin_organization_reporting_cycle_adjustment_url(@organization.id, @form.reporting_cycle_adjustment)
     else
+      log_event :update, :fail, @form.errors
       render :edit
     end
   end
@@ -48,8 +52,10 @@ class Admin::ReportingCycleAdjustmentsController < AdminController
     org_id = @adjustment.organization.id
     if @adjustment.destroy
       flash[:notice] = 'The reporting cycle adjustment was deleted'
+      log_event :destroy, :ok
     else
       flash[:error] = @adjustment.errors.full_messages.to_sentence
+      log_event :destroy, :fail, @adjustment.errors
     end
     redirect_to admin_organization_url(org_id, tab: :cops)
   end
@@ -62,5 +68,17 @@ class Admin::ReportingCycleAdjustmentsController < AdminController
 
     def reporting_cycle_adjustment_params
       params[:reporting_cycle_adjustment]
+    end
+
+    def log_event(event, status, errors = nil)
+      CopAuditLog.log(
+        event: event,
+        type: :reporting_cycle_adjustment,
+        status: status,
+        errors: errors.try!(:full_messages) || [],
+        contact: current_contact,
+        organization: @organization,
+        params: params
+      )
     end
 end
