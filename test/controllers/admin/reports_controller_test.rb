@@ -113,11 +113,11 @@ class Admin::ReportsControllerTest < ActionController::TestCase
 
     context "given the initiatives report" do
       setup do
-        @organization       = create_organization
-        @organization2      = create_organization
-        @climate_initiative = create_initiative(:name => 'Caring for Climate')
-        @water_initiative   = create_initiative(:name => 'CEO Water Mandate')
-        @peace_initiative   = create_initiative(:name => 'Business for Peace')
+        @organization       = create(:organization)
+        @organization2      = create(:organization)
+        @climate_initiative = create(:initiative, :name => 'Caring for Climate')
+        @water_initiative   = create(:initiative, :name => 'CEO Water Mandate')
+        @peace_initiative   = create(:initiative, :name => 'Business for Peace')
         @climate_initiative.signings.create [ { :signatory => @organization },
                                              { :signatory => @organization2 } ]
       end

@@ -7,7 +7,7 @@ class Admin::AnnouncementsControllerTest < ActionController::TestCase
 
     setup do
       sign_in_as_local_network
-      @announcement = create_announcement(local_network: @local_network)
+      @announcement = create(:announcement, local_network: @local_network)
       @local_network.announcements << @announcement
     end
 
@@ -60,7 +60,7 @@ class Admin::AnnouncementsControllerTest < ActionController::TestCase
   end
 
   def params
-    valid_announcement_attributes
+    attributes_for(:announcement)
       .with_indifferent_access
       .slice(:title, :description, :date)
   end

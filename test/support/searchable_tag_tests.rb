@@ -4,7 +4,7 @@ module SearchableTagTests
   included do
 
     should "index by topics" do
-      topic = create_topic
+      topic = create(:topic)
       subject.topics << topic
 
       Searchable.index_all
@@ -14,7 +14,7 @@ module SearchableTagTests
     end
 
     should "index by issues" do
-      issue = create_issue
+      issue = create(:issue)
       subject.issues << issue
 
       Searchable.index_all
@@ -24,7 +24,7 @@ module SearchableTagTests
     end
 
     should "index by sectors" do
-      sector = create_sector
+      sector = create(:sector)
       subject.sectors << sector
 
       Searchable.index_all

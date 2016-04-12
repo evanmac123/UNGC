@@ -5,7 +5,7 @@ class GraceLetterFormTest < ActiveSupport::TestCase
   context "given an existing organization and a user" do
     setup do
       create_organization_and_user
-      @english = create_language(name: "English")
+      @english = create(:language, name: "English")
     end
 
     context "when the form is created" do
@@ -33,36 +33,36 @@ class GraceLetterFormTest < ActiveSupport::TestCase
       end
 
       should "save" do
-        assert @form.submit(@params), Array(@form.errors).join("  ")
+        assert assert_submits @form, with: @params
       end
 
       should "create a grace letter" do
         assert_difference('CommunicationOnProgress.count', 1) do
-          @form.submit(@params)
+          assert_submits @form, with: @params
         end
       end
 
       should "create a cop file" do
         assert_difference('CopFile.count', 1) do
-          @form.submit(@params)
+          assert_submits @form, with: @params
         end
       end
 
       should "extend organization due date" do
         date = @organization.cop_due_on
-        @form.submit(@params)
+        assert_submits @form, with: @params
         assert_equal date + 90.days, @organization.cop_due_on.to_date
       end
 
       should "set grace letter start_on" do
         date = @organization.cop_due_on
-        @form.submit(@params)
+        assert_submits @form, with: @params
         assert_equal date, @form.grace_letter.starts_on.to_date
       end
 
       should "set grace letter ends_on" do
         date = @organization.cop_due_on
-        @form.submit(@params)
+        assert_submits @form, with: @params
         assert_equal date + 90.days, @form.grace_letter.ends_on.to_date
       end
 
@@ -76,7 +76,7 @@ class GraceLetterFormTest < ActiveSupport::TestCase
 
 
       should "set a new language" do
-        l = create_language
+        l = create(:language)
         @form.update({language_id: l.id})
         assert_equal l, @form.cop_file.language
       end
@@ -103,4 +103,11 @@ class GraceLetterFormTest < ActiveSupport::TestCase
     end
 
   end
+
+  private
+
+  def assert_submits(form, with: nil)
+    assert form.submit(with), form.errors.full_messages
+  end
+
 end

@@ -5,7 +5,7 @@ class Admin::GraceLettersControllerTest < ActionController::TestCase
 
   setup do
     create_approved_organization_and_user
-    create_language(name: "English")
+    create(:language, name: "English")
     sign_in @organization_user
     Sidekiq::Testing.inline!
   end
@@ -15,7 +15,8 @@ class Admin::GraceLettersControllerTest < ActionController::TestCase
   end
 
   should "show" do
-    get :show, organization_id: @organization.id, id: create_grace_letter.id
+    grace_letter = create(:grace_letter, organization: @organization)
+    get :show, organization_id: @organization.id, id: grace_letter.id
 
     assert assigns(:grace_letter)
   end
@@ -29,7 +30,7 @@ class Admin::GraceLettersControllerTest < ActionController::TestCase
 
   context "Editing" do
     setup do
-      @grace_letter = create_grace_letter
+      @grace_letter = create(:grace_letter, organization: @organization)
     end
 
     context "as a staff user" do
@@ -49,10 +50,10 @@ class Admin::GraceLettersControllerTest < ActionController::TestCase
         should "update the grace letter" do
           put :update,  id: @grace_letter.id,
                         organization_id: @organization.id,
-                        grace_letter: cop_file_attributes
+                        grace_letter: grace_letter_attributes
           form = assigns(:form)
 
-          assert form.valid?, "expected grace_letter to be valid."
+          assert form.valid?, form.errors.full_messages
           assert_redirected_to admin_organization_grace_letter_url(@organization.id, form.grace_letter)
         end
       end
@@ -81,9 +82,8 @@ class Admin::GraceLettersControllerTest < ActionController::TestCase
 
   context "create" do
     context "with valid attributes" do
-
       should "create a new grace letter" do
-        post :create, organization_id: @organization.id, grace_letter: cop_file_attributes
+        post :create, organization_id: @organization.id, grace_letter: grace_letter_attributes
         form = assigns(:form)
 
         assert form.valid?, "expected form to be valid."
@@ -103,7 +103,7 @@ class Admin::GraceLettersControllerTest < ActionController::TestCase
 
   context "Destroy" do
     should "destroy the grace letter" do
-      grace_letter = create_grace_letter
+      grace_letter = create(:grace_letter, organization: @organization)
 
       assert_difference('CommunicationOnProgress.count', -1) do
         delete :destroy, organization_id: @organization.id,
@@ -111,6 +111,12 @@ class Admin::GraceLettersControllerTest < ActionController::TestCase
       end
       assert_redirected_to admin_organization_url(@organization.id, tab: :cops)
     end
+  end
+
+  private
+
+  def grace_letter_attributes
+    cop_file_attributes.merge(language_id: create(:language).id)
   end
 
 end

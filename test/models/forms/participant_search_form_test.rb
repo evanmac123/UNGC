@@ -4,13 +4,13 @@ class ParticipantSearchFormTest < ActiveSupport::TestCase
 
   setup do
     @type_names = %w(city public sme)
-    @types = @type_names.map { |name| create_organization_type name: name }
+    @types = @type_names.map { |name| create(:organization_type, name: name) }
 
     @intiiative_names = ['Water Mandate', 'Women\'s Empowerment Principles']
-    @initiatives = @intiiative_names.map { |name| create_initiative name: name }
+    @initiatives = @intiiative_names.map { |name| create(:initiative, name: name) }
 
     @country_names = %w(Canada France Germany)
-    @countries = @country_names.map { |name| create_country name: name }
+    @countries = @country_names.map { |name| create(:country, name: name) }
 
     @subject = ParticipantSearchForm.new
     @subject.search_scope = facet_response

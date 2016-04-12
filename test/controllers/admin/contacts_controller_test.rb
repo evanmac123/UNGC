@@ -3,8 +3,8 @@ require 'test_helper'
 class Admin::ContactsControllerTest < ActionController::TestCase
 
   def setup
-    create_organization_type
-    create_country
+    create(:organization_type)
+    create(:country)
     create_roles
     create_organization_and_ceo
 
@@ -75,7 +75,7 @@ class Admin::ContactsControllerTest < ActionController::TestCase
 
     should "destroy contact" do
       @organization.update(participant: true)
-      @contact_to_be_deleted = create_contact(:organization_id => @organization.id,
+      @contact_to_be_deleted = create(:contact, :organization_id => @organization.id,
                                               :email           => "dude2@example.com")
       assert_difference('Contact.count', -1) do
         delete :destroy, :organization_id => @organization.id,
@@ -138,7 +138,7 @@ class Admin::ContactsControllerTest < ActionController::TestCase
     end
 
     should "destroy contact for a local network" do
-      @contact_to_be_deleted = create_contact(:local_network_id => @local_network.id,
+      @contact_to_be_deleted = create(:contact, :local_network_id => @local_network.id,
                                               :organization_id  => nil,
                                               :email           => "dude2@example.com")
 

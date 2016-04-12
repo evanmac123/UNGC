@@ -6,7 +6,7 @@ class ArticlePageTest < ActionDispatch::IntegrationTest
   setup do
     create_staff_user
 
-    container = create_container(
+    container = create(:container,
       path: 'new-article-path',
       layout: 'article'
     )

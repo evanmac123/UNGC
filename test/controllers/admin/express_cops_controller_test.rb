@@ -3,10 +3,10 @@ require 'test_helper'
 class Admin::ExpressCopsControllerTest < ActionController::TestCase
 
   should 'reject non-SME organizations' do
-    create_organization_type_sme
-    organization = create_business
+    create(:sme_type)
+    organization = create(:business, employees: 1000)
 
-    contact = create_contact(organization: organization)
+    contact = create(:contact, organization: organization)
     sign_in(contact)
 
     assert organization.organization_type != OrganizationType.sme

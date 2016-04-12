@@ -1,6 +1,7 @@
 class Payload < ActiveRecord::Base
   include TrackCurrentUser
   belongs_to :approved_by, :class_name => 'Contact', :foreign_key => :approved_by_id
+  belongs_to :container
 
   def data
     if (json = read_attribute(:json_data))

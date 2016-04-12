@@ -8,7 +8,7 @@ class Admin::LocalNetworkEventAttachmentsControllerTest < ActionController::Test
 
     setup do
       sign_in_as_local_network
-      @event = create_local_network_event(
+      @event = create(:local_network_event,
         local_network_id: @local_network.id,
         uploaded_attachments: [attachment: create_file_upload]
       )

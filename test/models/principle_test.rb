@@ -13,16 +13,16 @@ class PrincipleTest < ActiveSupport::TestCase
       environment = PrincipleArea.area_for(PrincipleArea::FILTERS[:environment])
       anti_corruption = PrincipleArea.area_for(PrincipleArea::FILTERS[:anti_corruption])
 
-      create_principle(:name => "Principle 1: Human Rights", :parent_id => human_rights.id)
-      create_principle(:name => "Principle 2: Human Rights", :parent_id => human_rights.id)
-      create_principle(:name => "Principle 3: Labour", :parent_id => labour.id)
-      create_principle(:name => "Principle 4: Labour", :parent_id => labour.id)
-      create_principle(:name => "Principle 5: Labour", :parent_id => labour.id)
-      create_principle(:name => "Principle 6: Labour", :parent_id => labour.id)
-      create_principle(:name => "Principle 7: Environment", :parent_id => environment.id)
-      create_principle(:name => "Principle 8: Environment", :parent_id => environment.id)
-      create_principle(:name => "Principle 9: Environment", :parent_id => environment.id)
-      create_principle(:name => "Principle 10: Anti-Corruption", :parent_id => anti_corruption.id)
+      create(:principle, :name => "Principle 1: Human Rights", :parent_id => human_rights.id)
+      create(:principle, :name => "Principle 2: Human Rights", :parent_id => human_rights.id)
+      create(:principle, :name => "Principle 3: Labour", :parent_id => labour.id)
+      create(:principle, :name => "Principle 4: Labour", :parent_id => labour.id)
+      create(:principle, :name => "Principle 5: Labour", :parent_id => labour.id)
+      create(:principle, :name => "Principle 6: Labour", :parent_id => labour.id)
+      create(:principle, :name => "Principle 7: Environment", :parent_id => environment.id)
+      create(:principle, :name => "Principle 8: Environment", :parent_id => environment.id)
+      create(:principle, :name => "Principle 9: Environment", :parent_id => environment.id)
+      create(:principle, :name => "Principle 10: Anti-Corruption", :parent_id => anti_corruption.id)
     end
 
     should "find the principles for a given principle area" do

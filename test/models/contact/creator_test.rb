@@ -2,8 +2,8 @@ require 'test_helper'
 
 class Contact::CreatorTest < ActiveSupport::TestCase
   setup do
-    create_country # Needed by new_contact. See example_data.rb.
-    @contact = new_contact(image: fixture_file_upload('files/untitled.jpg', 'image/jpeg'))
+    create(:country) # Needed by new_contact. See example_data.rb.
+    @contact = build(:contact, image: fixture_file_upload('files/untitled.jpg', 'image/jpeg'))
   end
 
   context 'create' do

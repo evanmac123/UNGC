@@ -38,10 +38,10 @@ class OrganizationSignupTest < ActiveSupport::TestCase
   context "signup process" do
     setup do
       create_roles
-      create_country
-      create_country
+      create(:country)
+      create(:country)
       @os = BusinessOrganizationSignup.new
-      @os.set_organization_attributes(valid_organization_attributes)
+      @os.set_organization_attributes(attributes_for(:organization))
       @os.set_primary_contact_attributes(new_contact_attributes)
     end
 
@@ -113,12 +113,12 @@ class OrganizationSignupTest < ActiveSupport::TestCase
     end
 
     should "save non business organization details" do
-      create_organization_type(name: 'Academic', type_property: 1)
+      create(:organization_type, name: 'Academic', type_property: 1)
       @os = NonBusinessOrganizationSignup.new
-      @os.set_organization_attributes(valid_organization_attributes)
+      @os.set_organization_attributes(attributes_for(:organization))
       @os.set_primary_contact_attributes(new_contact_attributes)
       @os.set_ceo_attributes(new_contact_attributes)
-      @os.set_registration_attributes(valid_non_business_registration_attributes)
+      @os.set_registration_attributes(attributes_for(:non_business_organization_registration))
 
       @os.organization.expects(:save!).once
       @os.primary_contact.expects(:save!).once
@@ -132,7 +132,7 @@ class OrganizationSignupTest < ActiveSupport::TestCase
   context "validates Business OrganizationSignup" do
     setup do
       create_roles
-      create_organization_type(
+      create(:organization_type,
         name: 'SME',
         type_property: 2,
       )
@@ -148,9 +148,9 @@ class OrganizationSignupTest < ActiveSupport::TestCase
     end
 
     should "be valid" do
-      country = create_country
-      sector = create_sector
-      listing_status = create_listing_status
+      country = create(:country)
+      sector = create(:sector)
+      listing_status = create(:listing_status)
       @os.set_organization_attributes({name: 'business',
                                                      employees:            50,
                                                      country:            country,
@@ -184,8 +184,8 @@ class OrganizationSignupTest < ActiveSupport::TestCase
   context "validates NonBusinessOrganizationSignup" do
     setup do
       create_roles
-      @type = create_organization_type(name: 'Academic', type_property: 1 )
-      @country = create_country
+      @type = create(:organization_type, name: 'Academic', type_property: 1 )
+      @country = create(:country)
       @os = NonBusinessOrganizationSignup.new
     end
 
@@ -254,8 +254,8 @@ class OrganizationSignupTest < ActiveSupport::TestCase
   private
 
   def new_contact_attributes
-    valid_contact_attributes.merge(
-      password: FixtureReplacement.random_string
+    attributes_for(:contact).merge(
+      password: Faker::Internet.password
     )
   end
 

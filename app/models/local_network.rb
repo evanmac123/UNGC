@@ -172,12 +172,12 @@ class LocalNetwork < ActiveRecord::Base
   def country
     case countries.count
     when 0
-      Country.find_by_regional_center_id(self.id)
+      Country.find_by(regional_center_id: self.id)
     when 1
       countries.first
     else
       # if more than one country, it's a regional network, so lookup the host country
-      countries.find_by_code(REGION_COUNTRY[name])
+      countries.find_by(code: REGION_COUNTRY[name])
     end
   end
 

@@ -3,13 +3,13 @@ require 'test_helper'
 class TaggingTest < ActiveSupport::TestCase
 
   setup do
-    create_organization_type
-    create_organization
+    create(:organization_type)
+    create(:organization)
   end
 
   should "tag headline with author" do
-    author = create_author
-    headline = create_headline
+    author = create(:author)
+    headline = create(:headline)
     tagging = Tagging.create! author: author, headline: headline
     assert_not_nil tagging
     assert_equal tagging.domain, author
@@ -17,8 +17,8 @@ class TaggingTest < ActiveSupport::TestCase
   end
 
   should "tag organization with author" do
-    author = create_author
-    organization = create_organization
+    author = create(:author)
+    organization = create(:organization)
     tagging = Tagging.create! author: author, organization: organization
     assert_not_nil tagging
     assert_equal tagging.domain, author
@@ -26,8 +26,8 @@ class TaggingTest < ActiveSupport::TestCase
   end
 
   should "tag container with author" do
-    author = create_author
-    container = create_container
+    author = create(:author)
+    container = create(:container)
     tagging = Tagging.create! author: author, container: container
     assert_not_nil tagging
     assert_equal tagging.domain, author
@@ -35,8 +35,8 @@ class TaggingTest < ActiveSupport::TestCase
   end
 
   should "tag container with author" do
-    author = create_author
-    container = create_container
+    author = create(:author)
+    container = create(:container)
     tagging = Tagging.create! author: author, container: container
     assert_not_nil tagging
     assert_equal tagging.domain, author
@@ -44,8 +44,8 @@ class TaggingTest < ActiveSupport::TestCase
   end
 
   should "tag event with topic" do
-    topic = create_topic
-    event = create_event
+    topic = create(:topic)
+    event = create(:event)
     tagging = Tagging.create! topic: topic, event: event
     assert_not_nil tagging
     assert_equal tagging.domain, topic
@@ -53,8 +53,8 @@ class TaggingTest < ActiveSupport::TestCase
   end
 
   should "tag headline with topic" do
-    topic = create_topic
-    headline = create_headline
+    topic = create(:topic)
+    headline = create(:headline)
     tagging = Tagging.create! topic: topic, headline: headline
     assert_not_nil tagging
     assert_equal tagging.domain, topic
@@ -62,8 +62,8 @@ class TaggingTest < ActiveSupport::TestCase
   end
 
   should "tag organization with topic" do
-    topic = create_topic
-    organization = create_organization
+    topic = create(:topic)
+    organization = create(:organization)
     tagging = Tagging.create! topic: topic, organization: organization
     assert_not_nil tagging
     assert_equal tagging.domain, topic
@@ -71,8 +71,8 @@ class TaggingTest < ActiveSupport::TestCase
   end
 
   should "tag container with topic" do
-    topic = create_topic
-    container = create_container
+    topic = create(:topic)
+    container = create(:container)
     tagging = Tagging.create! topic: topic, container: container
     assert_not_nil tagging
     assert_equal tagging.domain, topic
@@ -80,8 +80,8 @@ class TaggingTest < ActiveSupport::TestCase
   end
 
   should "tag resource with topic" do
-    topic = create_topic
-    resource = create_resource
+    topic = create(:topic)
+    resource = create(:resource)
     tagging = Tagging.create! topic: topic, resource: resource
     assert_not_nil tagging
     assert_equal tagging.domain, topic
@@ -89,8 +89,8 @@ class TaggingTest < ActiveSupport::TestCase
   end
 
   should "tag event with issue" do
-    issue = create_issue
-    event = create_event
+    issue = create(:issue)
+    event = create(:event)
     tagging = Tagging.create! issue: issue, event: event
     assert_not_nil tagging
     assert_equal tagging.domain, issue
@@ -98,8 +98,8 @@ class TaggingTest < ActiveSupport::TestCase
   end
 
   should "tag headline with issue" do
-    issue = create_issue
-    headline = create_headline
+    issue = create(:issue)
+    headline = create(:headline)
     tagging = Tagging.create! issue: issue, headline: headline
     assert_not_nil tagging
     assert_equal tagging.domain, issue
@@ -107,8 +107,8 @@ class TaggingTest < ActiveSupport::TestCase
   end
 
   should "tag organization with issue" do
-    issue = create_issue
-    organization = create_organization
+    issue = create(:issue)
+    organization = create(:organization)
     tagging = Tagging.create! issue: issue, organization: organization
     assert_not_nil tagging
     assert_equal tagging.domain, issue
@@ -116,8 +116,8 @@ class TaggingTest < ActiveSupport::TestCase
   end
 
   should "tag container with issue" do
-    issue = create_issue
-    container = create_container
+    issue = create(:issue)
+    container = create(:container)
     tagging = Tagging.create! issue: issue, container: container
     assert_not_nil tagging
     assert_equal tagging.domain, issue
@@ -125,8 +125,8 @@ class TaggingTest < ActiveSupport::TestCase
   end
 
   should "tag resource with issue" do
-    issue = create_issue
-    resource = create_resource
+    issue = create(:issue)
+    resource = create(:resource)
     tagging = Tagging.create! issue: issue, resource: resource
     assert_not_nil tagging
     assert_equal tagging.domain, issue
@@ -134,8 +134,8 @@ class TaggingTest < ActiveSupport::TestCase
   end
 
   should "tag headline with principle" do
-    principle = create_principle
-    headline = create_headline
+    principle = create(:principle)
+    headline = create(:headline)
     tagging = Tagging.create! principle: principle, headline: headline
     assert_not_nil tagging
     assert_equal tagging.domain, principle
@@ -143,8 +143,8 @@ class TaggingTest < ActiveSupport::TestCase
   end
 
   should "tag organization with principle" do
-    principle = create_principle
-    organization = create_organization
+    principle = create(:principle)
+    organization = create(:organization)
     tagging = Tagging.create! principle: principle, organization: organization
     assert_not_nil tagging
     assert_equal tagging.domain, principle
@@ -152,8 +152,8 @@ class TaggingTest < ActiveSupport::TestCase
   end
 
   should "tag container with principle" do
-    principle = create_principle
-    container = create_container
+    principle = create(:principle)
+    container = create(:container)
     tagging = Tagging.create! principle: principle, container: container
     assert_not_nil tagging
     assert_equal tagging.domain, principle
@@ -161,8 +161,8 @@ class TaggingTest < ActiveSupport::TestCase
   end
 
   should "tag container with principle" do
-    principle = create_principle
-    container = create_container
+    principle = create(:principle)
+    container = create(:container)
     tagging = Tagging.create! principle: principle, container: container
     assert_not_nil tagging
     assert_equal tagging.domain, principle
@@ -170,8 +170,8 @@ class TaggingTest < ActiveSupport::TestCase
   end
 
   should "tag headline with principle_area" do
-    principle_area = create_principle_area
-    headline = create_headline
+    principle_area = create(:principle_area)
+    headline = create(:headline)
     tagging = Tagging.create! principle: principle_area, headline: headline
     assert_not_nil tagging
     assert_equal tagging.domain, principle_area
@@ -179,8 +179,8 @@ class TaggingTest < ActiveSupport::TestCase
   end
 
   should "tag organization with principle_area" do
-    principle_area = create_principle_area
-    organization = create_organization
+    principle_area = create(:principle_area)
+    organization = create(:organization)
     tagging = Tagging.create! principle: principle_area, organization: organization
     assert_not_nil tagging
     assert_equal tagging.domain, principle_area
@@ -188,8 +188,8 @@ class TaggingTest < ActiveSupport::TestCase
   end
 
   should "tag container with principle_area" do
-    principle_area = create_principle_area
-    container = create_container
+    principle_area = create(:principle_area)
+    container = create(:container)
     tagging = Tagging.create! principle: principle_area, container: container
     assert_not_nil tagging
     assert_equal tagging.domain, principle_area
@@ -197,8 +197,8 @@ class TaggingTest < ActiveSupport::TestCase
   end
 
   should "tag container with principle_area" do
-    principle_area = create_principle_area
-    container = create_container
+    principle_area = create(:principle_area)
+    container = create(:container)
     tagging = Tagging.create! principle: principle_area, container: container
     assert_not_nil tagging
     assert_equal tagging.domain, principle_area
@@ -206,8 +206,8 @@ class TaggingTest < ActiveSupport::TestCase
   end
 
   should "tag headline with country" do
-    country = create_country
-    headline = create_headline
+    country = create(:country)
+    headline = create(:headline)
     tagging = Tagging.create! country: country, headline: headline
     assert_not_nil tagging
     assert_equal tagging.domain, country
@@ -215,8 +215,8 @@ class TaggingTest < ActiveSupport::TestCase
   end
 
   should "tag organization with country" do
-    country = create_country
-    organization = create_organization
+    country = create(:country)
+    organization = create(:organization)
     tagging = Tagging.create! country: country, organization: organization
     assert_not_nil tagging
     assert_equal tagging.domain, country
@@ -224,8 +224,8 @@ class TaggingTest < ActiveSupport::TestCase
   end
 
   should "tag container with country" do
-    country = create_country
-    container = create_container
+    country = create(:country)
+    container = create(:container)
     tagging = Tagging.create! country: country, container: container
     assert_not_nil tagging
     assert_equal tagging.domain, country
@@ -233,8 +233,8 @@ class TaggingTest < ActiveSupport::TestCase
   end
 
   should "tag container with country" do
-    country = create_country
-    container = create_container
+    country = create(:country)
+    container = create(:container)
     tagging = Tagging.create! country: country, container: container
     assert_not_nil tagging
     assert_equal tagging.domain, country
@@ -242,8 +242,8 @@ class TaggingTest < ActiveSupport::TestCase
   end
 
   should "tag headline with initiative" do
-    initiative = create_initiative
-    headline = create_headline
+    initiative = create(:initiative)
+    headline = create(:headline)
     tagging = Tagging.create! initiative: initiative, headline: headline
     assert_not_nil tagging
     assert_equal tagging.domain, initiative
@@ -251,8 +251,8 @@ class TaggingTest < ActiveSupport::TestCase
   end
 
   should "tag organization with initiative" do
-    initiative = create_initiative
-    organization = create_organization
+    initiative = create(:initiative)
+    organization = create(:organization)
     tagging = Tagging.create! initiative: initiative, organization: organization
     assert_not_nil tagging
     assert_equal tagging.domain, initiative
@@ -260,8 +260,8 @@ class TaggingTest < ActiveSupport::TestCase
   end
 
   should "tag container with initiative" do
-    initiative = create_initiative
-    container = create_container
+    initiative = create(:initiative)
+    container = create(:container)
     tagging = Tagging.create! initiative: initiative, container: container
     assert_not_nil tagging
     assert_equal tagging.domain, initiative
@@ -269,8 +269,8 @@ class TaggingTest < ActiveSupport::TestCase
   end
 
   should "tag container with initiative" do
-    initiative = create_initiative
-    container = create_container
+    initiative = create(:initiative)
+    container = create(:container)
     tagging = Tagging.create! initiative: initiative, container: container
     assert_not_nil tagging
     assert_equal tagging.domain, initiative
@@ -278,8 +278,8 @@ class TaggingTest < ActiveSupport::TestCase
   end
 
   should "tag headline with language" do
-    language = create_language
-    headline = create_headline
+    language = create(:language)
+    headline = create(:headline)
     tagging = Tagging.create! language: language, headline: headline
     assert_not_nil tagging
     assert_equal tagging.domain, language
@@ -287,8 +287,8 @@ class TaggingTest < ActiveSupport::TestCase
   end
 
   should "tag organization with language" do
-    language = create_language
-    organization = create_organization
+    language = create(:language)
+    organization = create(:organization)
     tagging = Tagging.create! language: language, organization: organization
     assert_not_nil tagging
     assert_equal tagging.domain, language
@@ -296,8 +296,8 @@ class TaggingTest < ActiveSupport::TestCase
   end
 
   should "tag container with language" do
-    language = create_language
-    container = create_container
+    language = create(:language)
+    container = create(:container)
     tagging = Tagging.create! language: language, container: container
     assert_not_nil tagging
     assert_equal tagging.domain, language
@@ -305,8 +305,8 @@ class TaggingTest < ActiveSupport::TestCase
   end
 
   should "tag container with language" do
-    language = create_language
-    container = create_container
+    language = create(:language)
+    container = create(:container)
     tagging = Tagging.create! language: language, container: container
     assert_not_nil tagging
     assert_equal tagging.domain, language
@@ -314,8 +314,8 @@ class TaggingTest < ActiveSupport::TestCase
   end
 
   should "tag event with sector" do
-    sector = create_sector
-    event = create_event
+    sector = create(:sector)
+    event = create(:event)
     tagging = Tagging.create! sector: sector, event: event
     assert_not_nil tagging
     assert_equal tagging.domain, sector
@@ -323,8 +323,8 @@ class TaggingTest < ActiveSupport::TestCase
   end
 
   should "tag headline with sector" do
-    sector = create_sector
-    headline = create_headline
+    sector = create(:sector)
+    headline = create(:headline)
     tagging = Tagging.create! sector: sector, headline: headline
     assert_not_nil tagging
     assert_equal tagging.domain, sector
@@ -332,8 +332,8 @@ class TaggingTest < ActiveSupport::TestCase
   end
 
   should "tag organization with sector" do
-    sector = create_sector
-    organization = create_organization
+    sector = create(:sector)
+    organization = create(:organization)
     tagging = Tagging.create! sector: sector, organization: organization
     assert_not_nil tagging
     assert_equal tagging.domain, sector
@@ -341,8 +341,8 @@ class TaggingTest < ActiveSupport::TestCase
   end
 
   should "tag container with sector" do
-    sector = create_sector
-    container = create_container
+    sector = create(:sector)
+    container = create(:container)
     tagging = Tagging.create! sector: sector, container: container
     assert_not_nil tagging
     assert_equal tagging.domain, sector
@@ -350,8 +350,8 @@ class TaggingTest < ActiveSupport::TestCase
   end
 
   should "tag resource with sector" do
-    sector = create_sector
-    resource = create_resource
+    sector = create(:sector)
+    resource = create(:resource)
     tagging = Tagging.create! sector: sector, resource: resource
     assert_not_nil tagging
     assert_equal tagging.domain, sector
@@ -361,11 +361,11 @@ class TaggingTest < ActiveSupport::TestCase
   context 'create' do
     context 'sustainable development goal tagging' do
       setup do
-        @sdg = create_sustainable_development_goal
+        @sdg = create(:sustainable_development_goal)
       end
 
       should 'support container' do
-        @container = create_container
+        @container = create(:container)
 
         assert_difference 'Tagging.count', 1 do
           @tagging = Tagging.create sustainable_development_goal: @sdg, container: @container
@@ -376,7 +376,7 @@ class TaggingTest < ActiveSupport::TestCase
       end
 
       should 'support event' do
-        @event = create_event
+        @event = create(:event)
 
         assert_difference 'Tagging.count', 1 do
           @tagging = Tagging.create sustainable_development_goal: @sdg, event: @event
@@ -387,7 +387,7 @@ class TaggingTest < ActiveSupport::TestCase
       end
 
       should 'support headline' do
-        @headline = create_headline
+        @headline = create(:headline)
 
         assert_difference 'Tagging.count', 1 do
           @tagging = Tagging.create sustainable_development_goal: @sdg, headline: @headline
@@ -398,7 +398,7 @@ class TaggingTest < ActiveSupport::TestCase
       end
 
       should 'support organization' do
-        @organization = create_organization
+        @organization = create(:organization)
 
         assert_difference 'Tagging.count', 1 do
           @tagging = Tagging.create sustainable_development_goal: @sdg, organization: @organization
@@ -409,7 +409,7 @@ class TaggingTest < ActiveSupport::TestCase
       end
 
       should 'support resource' do
-        @resource = create_resource
+        @resource = create(:resource)
 
         assert_difference 'Tagging.count', 1 do
           @tagging = Tagging.create sustainable_development_goal: @sdg, resource: @resource

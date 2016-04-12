@@ -24,10 +24,10 @@ class SignatoriesHelperTest < ActionView::TestCase
   end
 
   def create_organization_for_initiative(initiative)
-    create_organization_type
-    o = create_organization
+    create(:organization_type)
+    o = create(:organization)
     i = Initiative.find_or_create_by!(id: Initiative::FILTER_TYPES[initiative])
-    create_signing(initiative: i, organization: o)
+    create(:signing, initiative: i, organization: o)
     o
   end
 

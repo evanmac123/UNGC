@@ -2,57 +2,47 @@ require 'test_helper'
 
 class ReportingCycleAdjustmentFormTest < ActiveSupport::TestCase
 
-  def to_date_params(date)
-    {
-      "ends_on(1i)" => date.year,
-      "ends_on(2i)" => date.month,
-      "ends_on(3i)" => date.day,
-    }
-  end
-
   context "given an existing organization and a user" do
     setup do
       create_organization_and_user
-      create_language(name: "English")
+      create(:language, name: "English")
     end
 
     context "when a reporting cycle adjustment is submitted" do
       setup do
         @form = ReportingCycleAdjustmentForm.new(@organization)
         @ends_on = @organization.cop_due_on + 1.month
-        @params = cop_file_attributes.merge(to_date_params(@ends_on))
+        @params = adjustment_params(ends_on: @ends_on)
       end
 
       should "save" do
-        assert @form.submit(@params), "failed to save"
+        assert @form.submit(@params), @form.errors.full_messages
       end
 
       should "create a reporting cycle adjustment" do
         assert_difference('CommunicationOnProgress.count', 1) do
-          @form.submit(@params)
+          assert_submits @form, with: @params
         end
       end
 
       should "create a cop file" do
         assert_difference('CopFile.count', 1) do
-          @form.submit(@params)
+          assert_submits @form, with: @params
         end
       end
 
       should "extend organization due date" do
-        @form.submit(@params)
+        assert_submits @form, with: @params
         assert_equal @ends_on, @organization.cop_due_on.to_date
       end
 
       should "set reporting cycle adjustment start_on" do
-        date = Date.today
-        @form.submit(@params)
-        assert_equal date, @form.reporting_cycle_adjustment.starts_on.to_date
+        assert_submits @form, with: @params
+        assert_equal Date.today, @form.reporting_cycle_adjustment.starts_on.to_date
       end
 
       should "set reporting cycle adjustment ends_on" do
-        date = Date.today #TODO Venu: shouldn't this be @organization.cop_due_on?
-        @form.submit(@params)
+        assert_submits @form, with: @params
         assert_equal @ends_on, @form.reporting_cycle_adjustment.ends_on.to_date
       end
 
@@ -60,35 +50,15 @@ class ReportingCycleAdjustmentFormTest < ActiveSupport::TestCase
 
     context "when a reporting_cycle_adjustment is updated" do
 
-      setup do
-        @ends_on = @organization.cop_due_on + 2.months
-        @form = ReportingCycleAdjustmentForm.new(@organization)
-        @form.submit(cop_file_attributes.merge(to_date_params(@ends_on)))
-      end
+      should "set the new cop_due_on date" do
+        adjustment = create_reporting_cycle_adjument_for(@organization)
+        form = ReportingCycleAdjustmentForm.new(@organization, adjustment)
+        new_due_date = adjustment.ends_on + 5.days
+        updated_params = to_date_params(new_due_date)
 
-      should "set a new language" do
-        l = create_language
-        @form.update({language_id: l.id})
-        assert_equal l, @form.cop_file.language
-      end
-
-      should "set a new attachment" do
-        att = {attachment: fixture_file_upload('files/untitled.jpg')}
-        @form.update(att)
-        assert_equal att[:attachment].original_filename, @form.cop_file.attachment_file_name
-      end
-
-      should "remove the old attachment" do
-        att = {attachment: fixture_file_upload('files/untitled.jpg')}
-        @form.update(att)
-        assert_equal 1, @form.reporting_cycle_adjustment.cop_files.count
-      end
-
-      should "not change the organization.cop_due_date" do
-        due_date = @form.organization.cop_due_on
-        att = {attachment: fixture_file_upload('files/untitled.jpg')}
-        @form.update(att)
-        assert_equal due_date, @form.organization.cop_due_on
+        assert form.update(updated_params), form.errors.full_messages
+        assert_equal new_due_date, adjustment.reload.ends_on
+        assert_equal new_due_date, @organization.reload.cop_due_on
       end
 
     end
@@ -127,4 +97,33 @@ class ReportingCycleAdjustmentFormTest < ActiveSupport::TestCase
     end
 
   end
+
+  private
+
+  def to_date_params(date)
+    {
+      "ends_on(1i)" => date.year,
+      "ends_on(2i)" => date.month,
+      "ends_on(3i)" => date.day,
+    }
+  end
+
+  def assert_submits(form, with: nil)
+    assert form.submit(with), form.errors.full_messages
+  end
+
+  def adjustment_params(ends_on: nil)
+    cop_file_attributes.
+      merge(to_date_params(ends_on)).
+      merge(language_id: create(:language).id)
+  end
+
+  def create_reporting_cycle_adjument_for(organization)
+    ends_on = organization.cop_due_on + 2.months
+    form = ReportingCycleAdjustmentForm.new(organization)
+    params = adjustment_params(ends_on: ends_on)
+    assert_submits form, with: params
+    form.reporting_cycle_adjustment
+  end
+
 end

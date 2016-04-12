@@ -20,7 +20,7 @@ class Admin::ReportingCycleAdjustmentsControllerTest < ActionController::TestCas
 
   setup do
     create_approved_organization_and_user
-    create_language(name: "English")
+    create(:language, name: "English")
     sign_in @organization_user
     Sidekiq::Testing.inline!
   end
@@ -30,7 +30,8 @@ class Admin::ReportingCycleAdjustmentsControllerTest < ActionController::TestCas
   end
 
   should "show" do
-    get :show, organization_id: @organization.id, id: create_reporting_cycle_adjustment.id
+    reporting_cycle_adjustment = create(:reporting_cycle_adjustment, organization: @organization)
+    get :show, organization_id: @organization.id, id: reporting_cycle_adjustment.id
 
     assert assigns(:cycle_adjustment)
   end
@@ -58,7 +59,7 @@ class Admin::ReportingCycleAdjustmentsControllerTest < ActionController::TestCas
 
     context "with invalid attributes" do
       setup do
-        @attrs = valid_reporting_cycle_adjustment_attributes
+        @attrs = attributes_for(:reporting_cycle_adjustment)
       end
 
       should "show the new form" do
@@ -72,9 +73,9 @@ class Admin::ReportingCycleAdjustmentsControllerTest < ActionController::TestCas
 
   context "Editing" do
     setup do
-      @reporting_cycle_adjustment = create_reporting_cycle_adjustment(
-        ends_on: @organization.cop_due_on + 1.month
-      )
+      @reporting_cycle_adjustment = create(:reporting_cycle_adjustment,
+                                            organization: @organization,
+                                            ends_on: @organization.cop_due_on + 1.month)
     end
 
     context "as a staff user" do
@@ -93,6 +94,9 @@ class Admin::ReportingCycleAdjustmentsControllerTest < ActionController::TestCas
         end
 
         should "update the reporting_cycle_adjustment" do
+          # make sure the existing adjustment has a COP
+          @reporting_cycle_adjustment.cop_files << create(:cop_file, cop_id: @reporting_cycle_adjustment)
+
           put :update,  id: @reporting_cycle_adjustment.id,
                         organization_id: @organization.id,
                         reporting_cycle_adjustment: reporting_cycle_adjustment_attributes
@@ -121,7 +125,7 @@ class Admin::ReportingCycleAdjustmentsControllerTest < ActionController::TestCas
 
   context "Destroy" do
     should "destroy the reporting cycle adjustment" do
-      reporting_cycle_adjustment = create_reporting_cycle_adjustment
+      reporting_cycle_adjustment = create(:reporting_cycle_adjustment, organization: @organization)
 
       assert_difference('CommunicationOnProgress.count', -1) do
         delete :destroy, organization_id: @organization.id,

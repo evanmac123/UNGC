@@ -3,13 +3,13 @@ require 'test_helper'
 class SdgPioneer::SubmissionTest < ActionDispatch::IntegrationTest
 
   test 'Anonymous user submits a nomination' do
-    create_country(name: 'Canada')
-    create_business(name: "McExampleson's Emporium")
-    sdg1, _, sdg3 = 3.times.map { create_sustainable_development_goal }
+    create(:country, name: 'Canada')
+    create(:business, name: "McExampleson's Emporium")
+    sdg1, _, sdg3 = 3.times.map { create(:sustainable_development_goal) }
 
     path = sdg_pioneer_index_path
-    container = create_container(path: path)
-    payload = new_payload(container_id: container.id)
+    container = create(:container, path: path)
+    payload = build(:payload, container_id: container.id)
     container.draft_payload = payload
     ContainerPublisher.new(container, create_staff_user).publish
 

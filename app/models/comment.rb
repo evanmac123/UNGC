@@ -37,6 +37,7 @@ class Comment < ActiveRecord::Base
   after_create :update_commentable_state
   after_create :update_commentable_replied_to_and_reviewer_id
 
+  validates :contact, presence: true
   validate :no_comment_on_approved_or_rejected_commentable
   validate :organization_user_cannot_approve_or_reject
 
@@ -49,8 +50,12 @@ class Comment < ActiveRecord::Base
   end
 
   private
+    def from_ungc?
+      contact.present? && contact.from_ungc?
+    end
+
     def update_commentable_state
-      if contact && contact.from_ungc?
+      if from_ungc?
         commentable.send(state_event) if state_event && commentable.state_events.include?(state_event.to_sym)
       end
     end
@@ -62,15 +67,16 @@ class Comment < ActiveRecord::Base
     end
 
     def organization_user_cannot_approve_or_reject
-      if ApprovalWorkflow::STAFF_EVENTS.include? state_event.to_s
-        errors.add :base, "cannot approve/reject comment, unless you are Global Compact staff" unless contact.from_ungc?
+      if ApprovalWorkflow::STAFF_EVENTS.include?(state_event.to_s) && !from_ungc?
+        errors.add :base, "cannot approve/reject comment, unless you are Global Compact staff"
       end
     end
 
     def update_commentable_replied_to_and_reviewer_id
-      commentable.update_attribute(:replied_to, contact && contact.from_ungc?)
-      if contact && contact.from_ungc?
-        commentable.update_attribute(:reviewer_id, contact_id)
+      if from_ungc?
+        commentable.update(reviewer: contact, replied_to: true)
+      else
+        commentable.update(replied_to: false)
       end
     end
 

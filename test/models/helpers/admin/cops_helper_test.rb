@@ -3,8 +3,8 @@ require 'test_helper'
 class Admin::CopsHelperTest < ActionView::TestCase
 
   setup {
-    create_organization_type
-    create_organization
+    create(:organization_type)
+    create(:organization)
   }
 
   should "#show_cop_attributes" do
@@ -20,11 +20,11 @@ class Admin::CopsHelperTest < ActionView::TestCase
   private
 
   def create_cop_and_answers_for_grouping(grouping = nil)
-    @principle_area = create_principle_area
-    @cop = create_communication_on_progress
-    question = create_cop_question(principle_area: @principle_area, grouping: grouping)
-    attribute = create_cop_attribute(cop_question: question)
-    create_cop_answer(cop_id: @cop.id, cop_attribute: attribute)
+    @principle_area = create(:principle_area)
+    @cop = create(:communication_on_progress)
+    question = create(:cop_question, principle_area: @principle_area, grouping: grouping)
+    attribute = create(:cop_attribute, cop_question: question)
+    create(:cop_answer, cop_id: @cop.id, cop_attribute: attribute)
   end
 
 end

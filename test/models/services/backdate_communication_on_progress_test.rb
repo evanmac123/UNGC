@@ -16,7 +16,7 @@ class BackdateCommunicationOnProgressTest < ActiveSupport::TestCase
     context "with a late communication on progress" do
 
       setup do
-        @cop = create_communication_on_progress starts_on: @late, organization: @organization
+        @cop = create(:communication_on_progress, starts_on: @late, organization: @organization)
         @organization.update_attribute(:cop_due_on, @due_date)
         @organization.communication_late!
         @organization.save!
@@ -47,11 +47,11 @@ class BackdateCommunicationOnProgressTest < ActiveSupport::TestCase
     context "with 2 late communications" do
 
       setup do
-        @earlier = create_communication_on_progress title: 'earlier', starts_on: @late, organization: @organization
+        @earlier = create(:communication_on_progress, title: 'earlier', starts_on: @late, organization: @organization)
         @earlier.update_attribute :created_at, @late
 
         @even_more_late = @late + 1.year
-        @later = create_communication_on_progress title: 'later', starts_on: @even_more_late, organization: @organization
+        @later = create(:communication_on_progress, title: 'later', starts_on: @even_more_late, organization: @organization)
         @later.update_attribute :created_at, @even_more_late
 
         @organization.update_attribute(:cop_due_on, @due_date)

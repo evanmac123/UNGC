@@ -5,10 +5,10 @@ class ContributionStatusQueryTest < ActionController::TestCase
     setup do
       # We don't want to hard code years since these rules are year independent
       create_non_business_organization_and_user
-      @campaign_past_year = create_campaign(name: "#{Date.today.year - 2} Annual Contributions")
-      @campaign_last_year = create_campaign(name: "#{Date.today.year - 1} Annual Contributions")
-      @campaign_this_year = create_campaign(name: "#{Date.today.year} Annual Contributions")
-      @campaign_next_year = create_campaign(name: "#{Date.today.year + 1} Annual Contributions")
+      @campaign_past_year = create(:campaign, name: "#{Date.today.year - 2} Annual Contributions")
+      @campaign_last_year = create(:campaign, name: "#{Date.today.year - 1} Annual Contributions")
+      @campaign_this_year = create(:campaign, name: "#{Date.today.year} Annual Contributions")
+      @campaign_next_year = create(:campaign, name: "#{Date.today.year + 1} Annual Contributions")
       @cs = ContributionStatusQuery.for_organization(@organization)
     end
     context "An organization with no contributions" do
@@ -22,10 +22,10 @@ class ContributionStatusQueryTest < ActionController::TestCase
     setup do
       # We don't want to hard code years since these rules are year independent
       create_approved_organization_and_user
-      @campaign_past_year = create_campaign(name: "#{Date.today.year - 2} Annual Contributions")
-      @campaign_last_year = create_campaign(name: "#{Date.today.year - 1} Annual Contributions")
-      @campaign_this_year = create_campaign(name: "#{Date.today.year} Annual Contributions")
-      @campaign_next_year = create_campaign(name: "#{Date.today.year + 1} Annual Contributions")
+      @campaign_past_year = create(:campaign, name: "#{Date.today.year - 2} Annual Contributions")
+      @campaign_last_year = create(:campaign, name: "#{Date.today.year - 1} Annual Contributions")
+      @campaign_this_year = create(:campaign, name: "#{Date.today.year} Annual Contributions")
+      @campaign_next_year = create(:campaign, name: "#{Date.today.year + 1} Annual Contributions")
       @cs = ContributionStatusQuery.for_organization(@organization)
     end
 
@@ -34,8 +34,8 @@ class ContributionStatusQueryTest < ActionController::TestCase
 
     context "An organization that has made contributions two years ago" do
       setup do
-        @organization.contributions << create_contribution(raw_amount: 5000, stage: 'Posted', campaign_id: @campaign_past_year.id)
-        @organization.contributions << create_contribution(raw_amount: 2500, stage: 'Posted', campaign_id: @campaign_past_year.id)
+        @organization.contributions << create(:contribution, raw_amount: 5000, stage: 'Posted', campaign_id: @campaign_past_year.id)
+        @organization.contributions << create(:contribution, raw_amount: 2500, stage: 'Posted', campaign_id: @campaign_past_year.id)
       end
 
       should "not be allowed to submit a Logo Request" do
@@ -45,8 +45,8 @@ class ContributionStatusQueryTest < ActionController::TestCase
 
     context "An organization that has withdrawn a contribution for the current year" do
       setup do
-        @organization.contributions << create_contribution(raw_amount: 5000, stage: 'Posted', campaign_id: @campaign_past_year.id)
-        @organization.contributions << create_contribution(raw_amount: 5000, stage: 'Withdrawn', campaign_id: @campaign_this_year.id)
+        @organization.contributions << create(:contribution, raw_amount: 5000, stage: 'Posted', campaign_id: @campaign_past_year.id)
+        @organization.contributions << create(:contribution, raw_amount: 5000, stage: 'Withdrawn', campaign_id: @campaign_this_year.id)
       end
 
       should "not be not allowed to submit a Logo Request" do
@@ -56,8 +56,8 @@ class ContributionStatusQueryTest < ActionController::TestCase
 
     context "An organization that has made a contribution for the following year" do
       setup do
-        @organization.contributions << create_contribution(raw_amount: 5000, stage: 'Posted', campaign_id: @campaign_past_year.id)
-        @organization.contributions << create_contribution(raw_amount: 5000, stage: 'Posted', campaign_id: @campaign_next_year.id)
+        @organization.contributions << create(:contribution, raw_amount: 5000, stage: 'Posted', campaign_id: @campaign_past_year.id)
+        @organization.contributions << create(:contribution, raw_amount: 5000, stage: 'Posted', campaign_id: @campaign_next_year.id)
       end
 
       should "be allowed to submit a Logo Request" do
@@ -113,9 +113,9 @@ class ContributionStatusQueryTest < ActionController::TestCase
 
     context "An organization that has only one Posted contribution from a past year" do
       setup do
-        @organization.contributions << create_contribution(raw_amount: 5000, stage: 'Posted', campaign_id: @campaign_past_year.id)
-        @organization.contributions << create_contribution(raw_amount: 0, stage: 'Withdrawn', campaign_id: @campaign_this_year.id)
-        @organization.contributions << create_contribution(raw_amount: 2500, stage: 'Pledged', campaign_id: @campaign_next_year.id)
+        @organization.contributions << create(:contribution, raw_amount: 5000, stage: 'Posted', campaign_id: @campaign_past_year.id)
+        @organization.contributions << create(:contribution, raw_amount: 0, stage: 'Withdrawn', campaign_id: @campaign_this_year.id)
+        @organization.contributions << create(:contribution, raw_amount: 2500, stage: 'Pledged', campaign_id: @campaign_next_year.id)
       end
 
       should "still have the current annual contribution year" do
@@ -135,10 +135,10 @@ class ContributionStatusQueryTest < ActionController::TestCase
     context "An organization signed onto Global Compact Lead and has contributed for the current year" do
       setup do
         create_initiatives
-        @campaign_lead_this_year = create_campaign(name: "LEAD #{Date.today.year}")
+        @campaign_lead_this_year = create(:campaign, name: "LEAD #{Date.today.year}")
         @lead = Initiative.for_filter(:lead).first
         @lead.signings.create signatory: @organization
-        @organization.contributions << create_contribution(raw_amount: 65000, stage: 'Posted', campaign_id: @campaign_lead_this_year.id)
+        @organization.contributions << create(:contribution, raw_amount: 65000, stage: 'Posted', campaign_id: @campaign_lead_this_year.id)
       end
 
       should "be allowed to submit a Logo Request" do
@@ -149,11 +149,11 @@ class ContributionStatusQueryTest < ActionController::TestCase
     context "An organization signed onto Global Compact Lead this year and with a normal contribution the past year" do
       setup do
         create_initiatives
-        @campaign_lead_this_year = create_campaign(name: "LEAD #{Date.today.year}")
+        @campaign_lead_this_year = create(:campaign, name: "LEAD #{Date.today.year}")
         @lead = Initiative.for_filter(:lead).first
         @lead.signings.create signatory: @organization
-        @organization.contributions << create_contribution(raw_amount: 65000, stage: 'Posted', campaign_id: @campaign_lead_this_year.id)
-        @organization.contributions << create_contribution(raw_amount: 5000, stage: 'Posted', campaign_id: @campaign_last_year.id)
+        @organization.contributions << create(:contribution, raw_amount: 65000, stage: 'Posted', campaign_id: @campaign_lead_this_year.id)
+        @organization.contributions << create(:contribution, raw_amount: 5000, stage: 'Posted', campaign_id: @campaign_last_year.id)
       end
 
       should "have valid contribution for both years" do
@@ -170,17 +170,17 @@ class ContributionStatusQueryTest < ActionController::TestCase
       @org1 = @organization
       create_approved_organization_and_user
       @org2 = @organization
-      @campaign_past_year = create_campaign(name: "#{Date.today.year - 2} Annual Contributions")
-      @campaign_last_year = create_campaign(name: "#{Date.today.year - 1} Annual Contributions")
-      @campaign_this_year = create_campaign(name: "#{Date.today.year} Annual Contributions")
-      @campaign_next_year = create_campaign(name: "#{Date.today.year + 1} Annual Contributions")
+      @campaign_past_year = create(:campaign, name: "#{Date.today.year - 2} Annual Contributions")
+      @campaign_last_year = create(:campaign, name: "#{Date.today.year - 1} Annual Contributions")
+      @campaign_this_year = create(:campaign, name: "#{Date.today.year} Annual Contributions")
+      @campaign_next_year = create(:campaign, name: "#{Date.today.year + 1} Annual Contributions")
     end
 
     context "organizations that has made contributions two years ago" do
       setup do
-        @org1.contributions << create_contribution(raw_amount: 5000, stage: 'Posted', campaign_id: @campaign_past_year.id)
-        @org1.contributions << create_contribution(raw_amount: 2500, stage: 'Posted', campaign_id: @campaign_this_year.id)
-        @org2.contributions << create_contribution(raw_amount: 2500, stage: 'Posted', campaign_id: @campaign_past_year.id)
+        @org1.contributions << create(:contribution, raw_amount: 5000, stage: 'Posted', campaign_id: @campaign_past_year.id)
+        @org1.contributions << create(:contribution, raw_amount: 2500, stage: 'Posted', campaign_id: @campaign_this_year.id)
+        @org2.contributions << create(:contribution, raw_amount: 2500, stage: 'Posted', campaign_id: @campaign_past_year.id)
       end
 
       should "should have the proper contribution years" do

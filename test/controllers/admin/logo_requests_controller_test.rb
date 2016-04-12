@@ -3,13 +3,13 @@ require 'test_helper'
 class Admin::LogoRequestsControllerTest < ActionController::TestCase
   context "given a pending organization" do
     setup do
-      create_organization_type
-      create_country
-      @organization = create_organization
-      @contact = create_contact(:organization_id => @organization.id,
+      create(:organization_type)
+      create(:country)
+      @organization = create(:organization)
+      @contact = create(:contact, :organization_id => @organization.id,
                                 :email           => "dude@example.com")
-      @publication = create_logo_publication
-      @logo_request = create_logo_request(:organization_id => @organization.id,
+      @publication = create(:logo_publication)
+      @logo_request = create(:logo_request, :organization_id => @organization.id,
                                           :contact_id      => @contact.id,
                                           :publication_id  => @publication.id)
       sign_in @contact
@@ -23,14 +23,14 @@ class Admin::LogoRequestsControllerTest < ActionController::TestCase
 
   context "given an approved organization" do
     setup do
-      create_organization_type
-      create_country
-      @organization = create_organization
+      create(:organization_type)
+      create(:country)
+      @organization = create(:organization)
       @organization.approve!
-      @contact = create_contact(:organization_id => @organization.id,
+      @contact = create(:contact, :organization_id => @organization.id,
                                 :email           => "dude@example.com")
-      @publication = create_logo_publication
-      @logo_request = create_logo_request(:organization_id => @organization.id,
+      @publication = create(:logo_publication)
+      @logo_request = create(:logo_request, :organization_id => @organization.id,
                                           :contact_id      => @contact.id,
                                           :publication_id  => @publication.id)
       sign_in @contact

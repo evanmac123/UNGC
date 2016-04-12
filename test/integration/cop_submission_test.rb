@@ -3,7 +3,7 @@ require 'test_helper'
 class CopSubmissionTest < ActionDispatch::IntegrationTest
 
   test "handle COP submission lifecycle" do
-    create_language(name: 'English')
+    create(:language, name: 'English')
     create_principle_areas
     create_approved_organization_and_user
 
@@ -65,9 +65,9 @@ class CopSubmissionTest < ActionDispatch::IntegrationTest
 
   # these questions are hard coded to 2013 for some reason.
   def create_question_group(grouping, area = nil)
-    question = create_cop_question(grouping: grouping, year: 2013, principle_area: area)
-    create_cop_attribute(cop_question: question, open: true, text: "#{grouping} open")
-    create_cop_attribute(cop_question: question, open: false, text: "#{grouping} option")
+    question = create(:cop_question, grouping: grouping, year: 2013, principle_area: area)
+    create(:cop_attribute, cop_question: question, open: true, text: "#{grouping} open")
+    create(:cop_attribute, cop_question: question, open: false, text: "#{grouping} option")
   end
 
   def log_page

@@ -4,9 +4,9 @@ class Searchable::SearchableCommunicationOnProgressTest < ActiveSupport::TestCas
   include SearchableModelTests
 
   def subject
-    @org_type ||= create_organization_type
-    @org ||= create_organization
-    @cop ||= create_communication_on_progress
+    @org_type ||= create(:organization_type)
+    @org ||= create(:organization)
+    @cop ||= create(:communication_on_progress)
   end
 
 end

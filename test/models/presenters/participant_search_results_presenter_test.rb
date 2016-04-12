@@ -16,12 +16,12 @@ class ParticipantSearchPresenterTest < ActiveSupport::TestCase
   context "when there are results" do
 
     should "iterate over the results" do
-      type = create_organization_type(name: 'type')
-      organization = new_organization(
+      type = create(:organization_type, name: 'type')
+      organization = build(:organization, 
         name: 'name',
         organization_type: type,
-        sector: new_sector(name: 'sector'),
-        country: new_country(name: 'country'),
+        sector: build(:sector, name: 'sector'),
+        country: build(:country, name: 'country'),
         employees: 23
       )
 
@@ -56,4 +56,3 @@ class ParticipantSearchPresenterTest < ActiveSupport::TestCase
   end
 
 end
-

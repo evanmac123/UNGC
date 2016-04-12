@@ -7,7 +7,7 @@ class Admin::AnnualReportsControllerTest < ActionController::TestCase
 
     setup do
       sign_in_as_local_network
-      @annual_report = create_annual_report(local_network: @local_network)
+      @annual_report = create(:annual_report, local_network: @local_network)
       @local_network.annual_reports << @annual_report
     end
 

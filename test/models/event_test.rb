@@ -7,7 +7,7 @@ class EventTest < ActiveSupport::TestCase
 
   context "given an event with a strange title" do
     setup do
-      @event1 = create_event :id => 1, :title => 'What? Is -this- å Tøtall¥! valid % name? Really!?'
+      @event1 = create(:event, :id => 1, :title => 'What? Is -this- å Tøtall¥! valid % name? Really!?')
       @permalink = "1-what-is-this-a-totall-valid-name-really"
     end
 
@@ -28,7 +28,7 @@ class EventTest < ActiveSupport::TestCase
         starts_at = Time.mktime(@today.year, @today.month, rand(22)+1).to_date
         starts << starts_at
         ends_at   = starts_at + rand(4)
-        create_event :starts_at => starts_at, :ends_at => ends_at, :approval => 'approved'
+        create(:event, :starts_at => starts_at, :ends_at => ends_at, :approval => 'approved')
       end
       # not always later
       @other = ( (@today >> 2).year == @today.year ) ? @today >> 2 : @today << 2
@@ -36,14 +36,14 @@ class EventTest < ActiveSupport::TestCase
         starts_at = Time.mktime(@other.year, @other.month, rand(22)+1).to_date
         starts << starts_at
         ends_at   = starts_at + rand(4)
-        create_event :starts_at => starts_at, :ends_at => ends_at, :approval => 'approved'
+        create(:event, :starts_at => starts_at, :ends_at => ends_at, :approval => 'approved')
       end
       @much_later = @today >> 14
       2.times do
         starts_at = Time.mktime(@much_later.year, @much_later.month, rand(22)+1).to_date
         starts << starts_at
         ends_at   = starts_at + rand(4)
-        create_event :starts_at => starts_at, :ends_at => ends_at, :approval => 'approved'
+        create(:event, :starts_at => starts_at, :ends_at => ends_at, :approval => 'approved')
       end
       # puts "??"
       # puts starts.join(', ')
@@ -73,7 +73,7 @@ class EventTest < ActiveSupport::TestCase
 
   context "given a new event" do
     setup do
-      @event = create_event
+      @event = create(:event)
     end
 
     should "start 'pending' approval" do
@@ -94,7 +94,7 @@ class EventTest < ActiveSupport::TestCase
 
   context "given an event" do
     setup do
-      @event = new_event
+      @event = build(:event)
     end
 
     context "with just a location" do
@@ -109,7 +109,7 @@ class EventTest < ActiveSupport::TestCase
 
     context "with just a country" do
       setup do
-        @event.country = new_country(:name => 'country')
+        @event.country = build(:country, :name => 'country')
       end
 
       should "just have country for #full_location" do
@@ -120,7 +120,7 @@ class EventTest < ActiveSupport::TestCase
     context "with both location and country" do
       setup do
         @event.location = 'location'
-        @event.country = new_country(:name => 'country')
+        @event.country = build(:country, :name => 'country')
       end
 
       should "have 'location, country' for #full_location" do

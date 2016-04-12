@@ -5,11 +5,11 @@ class CaseExampleControllerTest < ActionController::TestCase
   setup do
     Sidekiq::Testing.inline!
 
-    create_container path: '/take-action/action/share-story'
+    create(:container, path: '/take-action/action/share-story')
 
-    @sector = create_sector
-    @sector2 = create_sector
-    @country = create_country
+    @sector = create(:sector)
+    @sector2 = create(:sector)
+    @country = create(:country)
 
     @params = {
       company: 'Unspace',

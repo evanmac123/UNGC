@@ -46,6 +46,15 @@ class NewsShowPage < SimpleDelegator
     }]
   end
 
+  def description
+    desc = headline.description
+    if desc.present?
+      desc
+    else
+      ''
+    end
+  end
+
   def meta_title
     headline.title
   end

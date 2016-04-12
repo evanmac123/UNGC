@@ -55,10 +55,17 @@ class LocalNetworkEvent < ActiveRecord::Base
   has_and_belongs_to_many :principles
   has_many :attachments, :class_name => 'UploadedFile', :as => :attachable, :dependent => :destroy
 
-  validates_presence_of :title, :description, :event_type, :date, :num_participants, :gc_participant_percentage
+  validates_presence_of :title,
+                        :description,
+                        :event_type,
+                        :date,
+                        :num_participants,
+                        :gc_participant_percentage,
+                        :local_network
   validates_numericality_of :num_participants, :only_integer => true, :allow_blank => true
   validates_numericality_of :gc_participant_percentage, :only_integer => true, :less_than_or_equal_to => 100, :allow_blank => true
   validate :must_have_attachment
+  validate :local_network_must_have_country
 
   default_scope { order('date DESC') }
 
@@ -148,6 +155,12 @@ class LocalNetworkEvent < ActiveRecord::Base
   def uploaded_attachments=(attribute_array)
     attribute_array.each do |attrs|
       self.attachments.build(attrs)
+    end
+  end
+
+  def local_network_must_have_country
+    if local_network.country.nil?
+      errors.add(:local_network, "must have at least 1 country")
     end
   end
 

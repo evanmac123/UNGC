@@ -6,7 +6,7 @@ class ContributionLevelsTest < ActionDispatch::IntegrationTest
     create_staff_user
     login_as @staff_user
 
-    @network = create_local_network
+    @network = create(:local_network)
     @levels = @network.contribution_levels
     @levels.level_description = 'Levels'
     @levels.amount_description = 'Amount'

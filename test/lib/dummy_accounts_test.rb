@@ -5,11 +5,11 @@ class DummyAccountsTest < ActiveSupport::TestCase
 
   setup do
     create_roles
-    create_sector
+    create(:sector)
     create_organization_types
     create_listing_statuses
     create_staff_user
-    create_country(code: 'ca', local_network: create_local_network)
+    create(:country, code: 'ca', local_network: create(:local_network))
     subject = DummyAccounts.new
   end
 
@@ -78,19 +78,19 @@ class DummyAccountsTest < ActiveSupport::TestCase
   end
 
   def create_organization_types
-    create_organization_type(
+    create(:organization_type,
       name: 'Academic',
       type_property: OrganizationType::NON_BUSINESS
     )
-    create_organization_type(
+    create(:organization_type,
       name: 'SME',
       type_property: OrganizationType::BUSINESS
     )
   end
 
   def create_listing_statuses
-    create_listing_status(name: "Not Applicable")
-    create_listing_status(name: "Publicly Listed")
+    create(:listing_status, name: "Not Applicable")
+    create(:listing_status, name: "Publicly Listed")
   end
 
 end

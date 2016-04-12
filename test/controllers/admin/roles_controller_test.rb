@@ -3,7 +3,7 @@ require 'test_helper'
 class Admin::RolesControllerTest < ActionController::TestCase
   def setup
     @staff_user = create_staff_user
-    @role = create_role(:name => 'Staff', :description => 'Describes the role')
+    @role = create(:role, :name => 'Staff', :description => 'Describes the role')
 
     sign_in @staff_user
   end

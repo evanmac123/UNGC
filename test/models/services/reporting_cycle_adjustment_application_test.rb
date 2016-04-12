@@ -5,13 +5,12 @@ class ReportingCycleAdjustmentApplicationTest < ActiveSupport::TestCase
 
     setup do
       create_approved_organization_and_user
-      @organization
     end
 
     context "when a reporting cycle adjustment is applied for it" do
 
       setup do
-        @reporting_cycle_adjustment = new_reporting_cycle_adjustment
+        @reporting_cycle_adjustment = build(:reporting_cycle_adjustment, organization: @organization)
         @ends_on = Date.today + 1.month
         @application = ReportingCycleAdjustmentApplication.new(@organization)
         @old_cop_due_on_date = @organization.cop_due_on.to_date
@@ -24,7 +23,8 @@ class ReportingCycleAdjustmentApplicationTest < ActiveSupport::TestCase
       end
 
       should "create a reporting cycle adjustment" do
-        assert @reporting_cycle_adjustment.is_reporting_cycle_adjustment?, [Array(@reporting_cycle_adjustment.errors).join, @reporting_cycle_adjustment.attributes.to_json].join
+        failure_message = [Array(@reporting_cycle_adjustment.errors).join, @reporting_cycle_adjustment.attributes.to_json].join
+        assert @reporting_cycle_adjustment.is_reporting_cycle_adjustment?, failure_message
       end
 
       should "have the title 'Reporting Cycle Adjustment'" do
@@ -41,7 +41,15 @@ class ReportingCycleAdjustmentApplicationTest < ActiveSupport::TestCase
 
       should "have an ends_on date set to the organization's new due date" do
         assert_equal @organization.cop_due_on.to_date, @reporting_cycle_adjustment.ends_on.to_date
-       end
+      end
+
+      should "report that an adjustment has been made for the organization" do
+        assert ReportingCycleAdjustment.has_submitted?(@organization)
+      end
+
+      should "have added a reporting cycle adjustment to the organization" do
+        assert_includes @organization.communication_on_progresses.map(&:format), @reporting_cycle_adjustment.format
+      end
 
     end
 
@@ -73,7 +81,8 @@ class ReportingCycleAdjustmentApplicationTest < ActiveSupport::TestCase
     context "already submitted a reporting_cycle_adjustment" do
       setup do
         due_date = Date.today + 1.month
-        ReportingCycleAdjustmentApplication.submit_for(@organization, create_reporting_cycle_adjustment, due_date)
+        adjustment = build(:reporting_cycle_adjustment, organization: @organization)
+        assert ReportingCycleAdjustmentApplication.submit_for(@organization, adjustment, due_date)
         @application = ReportingCycleAdjustmentApplication.new(@organization)
       end
 

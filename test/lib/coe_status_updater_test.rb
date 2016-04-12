@@ -17,7 +17,7 @@ class CoeStatusUpdaterTest < ActiveSupport::TestCase
   context 'active participants with COP due' do
 
     should 'move non-businesses to non-communicating status' do
-      non_business = create_non_business(@active)
+      non_business = create(:non_business, @active)
       assert non_business.active?
       @status_updater.update_all
       assert non_business.reload.noncommunicating?
@@ -28,7 +28,7 @@ class CoeStatusUpdaterTest < ActiveSupport::TestCase
   context 'non-communicating participants with very late COP' do
 
     should 'delist non-businesses' do
-      non_business = create_non_business(@noncommunicating)
+      non_business = create(:non_business, @noncommunicating)
       assert non_business.noncommunicating?
       @status_updater.update_all
       assert non_business.reload.delisted?
@@ -39,8 +39,8 @@ class CoeStatusUpdaterTest < ActiveSupport::TestCase
   context 'logging' do
 
     setup do
-      @active_non_business = create_non_business(@active)
-      @noncommunicating_non_business = create_non_business(@noncommunicating)
+      @active_non_business = create(:non_business, @active)
+      @noncommunicating_non_business = create(:non_business, @noncommunicating)
 
       @updater = CoeStatusUpdater.new(logger, mailer)
     end
@@ -97,7 +97,7 @@ class CoeStatusUpdaterTest < ActiveSupport::TestCase
     end
 
     should 'send an email to delisted non-businesses' do
-      organization = create_non_business(@noncommunicating)
+      organization = create(:non_business, @noncommunicating)
       delayed = mock('background-email')
       CoeMailer.stubs(delay: delayed)
       delayed.expects(:delisting_today)

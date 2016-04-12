@@ -4,11 +4,11 @@ class OrganizationSubmitsWithNotContactsTest < ActionDispatch::IntegrationTest
 
   setup {
     default_business_organization_type # creates the default Company type
-    create_listing_status(id: 2, name: 'Privately Held')
-    technology = create_sector(name: 'Technology')
-    create_sector(id: 60, parent: technology, name: "Software & Computer Services", )
+    create(:listing_status, id: 2, name: 'Privately Held')
+    technology = create(:sector, name: 'Technology')
+    create(:sector, id: 60, parent: technology, name: "Software & Computer Services", )
     create_roles
-    create_country(id:14, name: 'Bangladesh')
+    create(:country, id:14, name: 'Bangladesh')
   }
 
   # TODO make this test pass, see https://github.com/unspace/UNGC/issues/360 for details

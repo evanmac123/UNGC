@@ -7,15 +7,15 @@ class Contact::LocalNetworkPolicyTest < ActiveSupport::TestCase
   end
 
   should 'reject non-network contacts' do
-    contact = new_contact
+    contact = build(:contact)
     assert_raise do
       Contact::LocalNetworkPolicy.new(contact)
     end
   end
 
   should 'handle permissions related to local network contacts' do
-    canada = create_local_network(name: 'canada')
-    italy = create_local_network(name: 'italy')
+    canada = create(:local_network, name: 'canada')
+    italy = create(:local_network, name: 'italy')
 
     assert_allows :network_report_recipient, from: canada, permission: :can_upload_image?, on_contact_from: canada
     assert_allows :network_report_recipient, from: canada, permission: :can_create?, on_contact_from: canada
@@ -55,8 +55,8 @@ class Contact::LocalNetworkPolicyTest < ActiveSupport::TestCase
 
   def allows?(expected, role_sym, source_network, method, target_network)
     role = Role.find_by!(name: Role::FILTERS[role_sym])
-    current_contact = create_contact(roles: [role], local_network: source_network)
-    target_contact = create_contact(local_network: target_network)
+    current_contact = create(:contact, roles: [role], local_network: source_network)
+    target_contact = create(:contact, local_network: target_network)
 
     policy = Contact::LocalNetworkPolicy.new(current_contact)
     assert policy.respond_to?(method)

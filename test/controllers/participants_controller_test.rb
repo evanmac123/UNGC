@@ -3,7 +3,7 @@ require 'test_helper'
 class ParticipantsControllerTest < ActionController::TestCase
 
   setup do
-    create_container path: '/what-is-gc/participants'
+    create(:container, path: '/what-is-gc/participants')
   end
 
   test 'should get show' do

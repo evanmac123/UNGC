@@ -31,9 +31,9 @@ class OrganizationTest < ActiveSupport::TestCase
 
   context "given a new organization" do
     setup do
-      @companies = create_organization_type(:name => 'Company')
-      @micro_enterprise = create_organization_type(:name => 'Micro Enterprise')
-      @sme = create_organization_type(:name => 'SME')
+      @companies = create(:organization_type, :name => 'Company')
+      @micro_enterprise = create(:organization_type, :name => 'Micro Enterprise')
+      @sme = create(:organization_type, :name => 'SME')
       @academic = create_non_business_organization_type
     end
 
@@ -71,11 +71,11 @@ class OrganizationTest < ActiveSupport::TestCase
     end
 
     should "set sector and listing_status to 'not applicable' when it is a non-business" do
-      @non_business = create_organization_type(:name => 'Foundation', :type_property => 1)
-      @sector = create_sector(:name => "Media")
-      @listing_status = create_listing_status(:name => "Private Company")
-      @sector_not_applicable = create_sector(:name => "Not Applicable")
-      @listing_not_applicable = create_listing_status(:name => "Not Applicable")
+      @non_business = create(:organization_type, :name => 'Foundation', :type_property => 1)
+      @sector = create(:sector, :name => "Media")
+      @listing_status = create(:listing_status, :name => "Private Company")
+      @sector_not_applicable = create(:sector, :name => "Not Applicable")
+      @listing_not_applicable = create(:listing_status, :name => "Not Applicable")
       @organization = Organization.create(:name => "Foundation",
                                           :employees => 5,
                                           :organization_type_id => @non_business.id,
@@ -113,7 +113,7 @@ class OrganizationTest < ActiveSupport::TestCase
     end
 
     should "set sector when it is a signatory" do
-      @sector = create_sector(:name => "Media")
+      @sector = create(:sector, :name => "Media")
       @organization = Organization.create(:name => "Signatory",
                                           :employees => 10,
                                           :organization_type_id => OrganizationType.signatory.try(:id),
@@ -149,7 +149,7 @@ class OrganizationTest < ActiveSupport::TestCase
 
       should "find a financial contact or default to a contact point" do
         create_organization_and_user
-        @financial = create_contact(:organization_id => @organization.id,
+        @financial = create(:contact, :organization_id => @organization.id,
                                     :email           => 'email2@example.com',
                                     :role_ids        => [Role.financial_contact.id])
 
@@ -197,14 +197,14 @@ class OrganizationTest < ActiveSupport::TestCase
 
   context "given a climate change initiative, some organization types and an org" do
     setup do
-      @academia  = create_organization_type(:name => 'Academic')
-      @public    = create_organization_type(:name => 'Public Sector Organization')
-      @companies = create_organization_type(:name => 'Company')
-      @sme       = create_organization_type(:name => 'SME')
-      @micro     = create_organization_type(:name => 'Micro Entreprise')
-      @climate   = create_initiative(:id => 2, :name => 'Climate Change')
+      @academia  = create(:organization_type, :name => 'Academic')
+      @public    = create(:organization_type, :name => 'Public Sector Organization')
+      @companies = create(:organization_type, :name => 'Company')
+      @sme       = create(:organization_type, :name => 'SME')
+      @micro     = create(:organization_type, :name => 'Micro Entreprise')
+      @climate   = create(:initiative, :id => 2, :name => 'Climate Change')
 
-      @an_org    = create_organization(:organization_type_id => @sme.id, :employees => 50)
+      @an_org    = create(:organization, :organization_type_id => @sme.id, :employees => 50)
     end
 
     should "find no orgs when filtering by initiative for climate" do
@@ -306,11 +306,11 @@ class OrganizationTest < ActiveSupport::TestCase
   context "given a new organization from Brazil" do
     setup do
       create_roles
-      @company = create_organization_type(:name => 'Company')
-      @country = create_country(:name => "Brazil" )
+      @company = create(:organization_type, :name => 'Company')
+      @country = create(:country, :name => "Brazil" )
       @participant_manager = create_participant_manager
-      @country = create_country(:participant_manager => @participant_manager)
-      @organization = create_organization(:organization_type_id => @company.id, :country_id => @country.id)
+      @country = create(:country, :participant_manager => @participant_manager)
+      @organization = create(:organization, :organization_type_id => @company.id, :country_id => @country.id)
     end
     should "assign the Relationship Manager for Brazil" do
       assert_equal @participant_manager, @organization.participant_manager
@@ -322,24 +322,24 @@ class OrganizationTest < ActiveSupport::TestCase
     context "in the application layer" do
 
       should "not allow exact duplicates" do
-        create_organization(name: "simple")
-        org = new_organization(name: "simple")
+        create(:organization, name: "simple")
+        org = build(:organization, name: "simple")
 
         refute org.valid?
         assert_contains org.errors.messages[:name], "has already been used by another organization"
       end
 
       should "not allow two names that are the same, differing only by accents" do
-        create_organization(name: "Fundación")
-        org = new_organization(name: "Fundacion")
+        create(:organization, name: "Fundación")
+        org = build(:organization, name: "Fundacion")
 
         refute org.valid?
         assert_contains org.errors.messages[:name], "has already been used by another organization"
       end
 
       should "not allow two names that are the same, differing only by case" do
-        create_organization(name: "Fundación")
-        org = new_organization(name: "FUNDACION")
+        create(:organization, name: "Fundación")
+        org = build(:organization, name: "FUNDACION")
 
         refute org.valid?
         assert_contains org.errors.messages[:name], "has already been used by another organization"
@@ -350,8 +350,8 @@ class OrganizationTest < ActiveSupport::TestCase
     context "in the database layer" do
 
       should "not allow exact duplicates" do
-        create_organization(name: "simple")
-        org = new_organization(name: "simple")
+        create(:organization, name: "simple")
+        org = build(:organization, name: "simple")
 
         assert_raise ActiveRecord::RecordNotUnique do
           org.save!(validate: false)
@@ -359,8 +359,8 @@ class OrganizationTest < ActiveSupport::TestCase
       end
 
       should "not allow two names that are the same, differing only by accents" do
-        create_organization(name: "Fundación")
-        org = new_organization(name: "Fundacion")
+        create(:organization, name: "Fundación")
+        org = build(:organization, name: "Fundacion")
 
         assert_raise ActiveRecord::RecordNotUnique do
           org.save!(validate: false)
@@ -368,8 +368,8 @@ class OrganizationTest < ActiveSupport::TestCase
       end
 
       should "not allow two names that are the same, differing only by case" do
-        create_organization(name: "Fundación")
-        org = new_organization(name: "FUNDACION")
+        create(:organization, name: "Fundación")
+        org = build(:organization, name: "FUNDACION")
 
         assert_raise ActiveRecord::RecordNotUnique do
           org.save!(validate: false)

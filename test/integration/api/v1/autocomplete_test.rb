@@ -3,9 +3,9 @@ require 'test_helper'
 class Api::V1::AutocompleteTest < ActionDispatch::IntegrationTest
 
   should "autocomplete participants" do
-    food_times = create_organization(name: 'Foods R Us', active: false, participant: true)
-    food_times = create_organization(name: 'Food Times', active: true, participant: true)
-    acme_foods = create_organization(name: 'ACME Foods', active: true, participant: true)
+    food_times = create(:organization, name: 'Foods R Us', active: false, participant: true)
+    food_times = create(:organization, name: 'Food Times', active: true, participant: true)
+    acme_foods = create(:organization, name: 'ACME Foods', active: true, participant: true)
 
     visit '/api/v1/autocomplete/participants.json?term=ood'
     assert_equal 200, page.status_code
@@ -28,9 +28,9 @@ class Api::V1::AutocompleteTest < ActionDispatch::IntegrationTest
   end
 
   should "autocomplete countries" do
-    create_country(name: 'Canada')
-    usa = create_country(name: 'United States of America')
-    uae = create_country(name: 'United Arab Emirates')
+    create(:country, name: 'Canada')
+    usa = create(:country, name: 'United States of America')
+    uae = create(:country, name: 'United Arab Emirates')
 
     visit '/api/v1/autocomplete/countries.json?term=nited'
     assert_equal 200, page.status_code

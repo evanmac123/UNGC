@@ -5,15 +5,16 @@ class SalesforceSyncTest < ActiveSupport::TestCase
   context 'creating records' do
 
     should 'create a new campaign' do
-      job = valid_campaign_attributes.merge(type: 'campaign')
+      job = attributes_for(:campaign).merge(type: 'campaign')
       assert_difference 'Campaign.count', +1 do
         SalesforceSync.sync([job])
       end
     end
 
     should 'create a new contribution' do
-      create_organization_type # required for test setup =\
-      job = valid_contribution_attributes.merge(type: 'contribution')
+      create(:organization_type) # required for test setup =\
+      job = build(:contribution).attributes.
+        merge(type: 'contribution')
       assert_difference 'Contribution.count', +1 do
         SalesforceSync.sync([job])
       end
@@ -24,7 +25,7 @@ class SalesforceSyncTest < ActiveSupport::TestCase
   context 'updating records' do
 
     should 'update an existing campaign' do
-      campaign = create_campaign
+      campaign = create(:campaign)
       job = {
         id: campaign.id,
         type: 'campaign',
@@ -38,8 +39,8 @@ class SalesforceSyncTest < ActiveSupport::TestCase
     end
 
     should 'update an existing contribution' do
-      create_organization_type # required for test setup =\
-      contribution = create_contribution
+      create(:organization_type) # required for test setup =\
+      contribution = create(:contribution)
       job = {
         id: contribution.id,
         type: 'contribution',

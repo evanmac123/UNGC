@@ -68,8 +68,8 @@ class ToolsAndResourcesTest < ActiveSupport::TestCase
 
     setup do
       # setup some languages
-      @arabic = create_language(name:"Arabic")
-      @english = create_language(name:"English")
+      @arabic = create(:language, name:"Arabic")
+      @english = create(:language, name:"English")
 
       # import some resources
       @importer.import_resources @importer.worksheet('resources')
@@ -172,9 +172,12 @@ class ToolsAndResourcesTest < ActiveSupport::TestCase
 
   context "Destroying" do
     should "destroy depedent links" do
-      link = create_resource_link
-      link.resource.destroy
-      assert_equal 0, ResourceLink.count
+      resource = create(:resource)
+      link = create(:resource_link, resource: resource)
+
+      assert_difference -> { ResourceLink.count }, -1 do
+        resource.destroy
+      end
     end
   end
 

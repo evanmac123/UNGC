@@ -4,21 +4,20 @@ class EventPresenterTest < ActiveSupport::TestCase
   context 'given an event with taggings' do
     context 'that fails validation and does not save' do
       setup do
-        create_sponsor
-        create_topic
-        create_issue
-        create_sector
+        create(:topic)
+        create(:issue)
+        create(:sector)
 
-        @sponsor = create_sponsor
-        @topic = create_topic
-        @parent_issue = create_issue
-        @child_issue = create_issue(parent: @parent_issue)
-        @parent_sector = create_sector
-        @child_sector = create_sector(parent: @parent_sector)
-        @sdg = create_sustainable_development_goal
-        @event = create_event
+        @sponsor = create(:sponsor)
+        @topic = create(:topic)
+        @parent_issue = create(:issue)
+        @child_issue = create(:issue, parent: @parent_issue)
+        @parent_sector = create(:sector)
+        @child_sector = create(:sector, parent: @parent_sector)
+        @sdg = create(:sustainable_development_goal)
+        @event = create(:event)
 
-        @event.update_attributes({
+        @event.update({
           title: '',
           sponsor_ids: [@sponsor.id],
           topic_ids: [@topic.id],

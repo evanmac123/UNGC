@@ -5,12 +5,12 @@ class RoleReverserTest < ActiveSupport::TestCase
   setup do
     create_organization_and_user
 
-    @old_ceo = create_contact(
+    @old_ceo = create(:contact,
       organization: @organization,
       roles: [Role.ceo]
     )
 
-    @old_cp = create_contact(
+    @old_cp = create(:contact,
       password: 'i-am-contact-point',
       organization: @organization,
       roles: [Role.contact_point]
