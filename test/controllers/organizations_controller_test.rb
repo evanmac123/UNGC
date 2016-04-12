@@ -3,8 +3,8 @@ require 'test_helper'
 class OrganizationsControllerTest < ActionController::TestCase
   context "given a json request to index" do
     setup do
-      @climate    = create_initiative(:id => 2, :name => 'Caring for Climate')
-      @other_init = create_initiative(:id => 4, :name => 'Human Rights')
+      @climate    = create(:initiative, :id => 2, :name => 'Caring for Climate')
+      @other_init = create(:initiative, :id => 4, :name => 'Human Rights')
     end
 
     should "return an empty array if none exist" do
@@ -42,7 +42,7 @@ class OrganizationsControllerTest < ActionController::TestCase
       setup do
         create_organization_and_user('approved')
         @climate.signings.create :signatory => @organization
-        @org2 = create_organization
+        @org2 = create(:organization)
         @other_init.signings.create :signatory => @org2
         @page = '2'
         @per_page = '1'

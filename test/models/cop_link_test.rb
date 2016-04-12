@@ -10,7 +10,7 @@ class CopLinkTest < ActiveSupport::TestCase
   context "validate presence of language unless url is blank" do
     subject do
       CopLink.new(attachment_type: "cop", url: "http://goodlink.com/")
-    end
+    end    
 
     should validate_presence_of :language
   end

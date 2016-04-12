@@ -2,13 +2,13 @@ require 'test_helper'
 
 class Admin::LogoCommentsControllerTest < ActionController::TestCase
   def setup
-    create_organization_type
-    create_country
-    @organization = create_organization
-    @contact = create_contact(:organization_id => @organization.id,
+    create(:organization_type)
+    create(:country)
+    @organization = create(:organization)
+    @contact = create(:contact, :organization_id => @organization.id,
                               :email           => "dude@example.com")
-    @publication = create_logo_publication
-    @logo_request = create_logo_request(:organization_id => @organization.id,
+    @publication = create(:logo_publication)
+    @logo_request = create(:logo_request, :organization_id => @organization.id,
                                         :contact_id      => @contact.id,
                                         :publication_id  => @publication.id)
   end
@@ -33,7 +33,7 @@ class Admin::LogoCommentsControllerTest < ActionController::TestCase
 
   context "given a logo request in review" do
     setup do
-      create_logo_request
+      create(:logo_request)
       @logo_request.state = LogoRequest::STATE_IN_REVIEW
       create_staff_user
     end

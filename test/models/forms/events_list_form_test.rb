@@ -3,7 +3,7 @@ require 'test_helper'
 class EventsListFormTest < ActiveSupport::TestCase
   context 'search with sustainable development goals in params' do
     setup do
-      @sdgs = 2.times.collect { create_sustainable_development_goal }
+      @sdgs = 2.times.collect { create(:sustainable_development_goal) }
       @params = { sustainable_development_goals: [@sdgs.first.id] }.deep_stringify_keys
 
       @search = EventsListForm.new @params
@@ -107,7 +107,7 @@ class EventsListFormTest < ActiveSupport::TestCase
 
   def create_approved_event(params = {})
     params.reverse_merge! starts_at: Date.today
-    create_event(params).tap(&:approve!)
+    create(:event, params).tap(&:approve!)
   end
 
 end

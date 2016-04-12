@@ -40,7 +40,7 @@ class LogoCommentTest < ActiveSupport::TestCase
                                          :contact_id  => @staff_user.id,
                                          :attachment  => fixture_file_upload('files/untitled.pdf', 'application/pdf'),
                                          :state_event => LogoRequest::EVENT_REVISE)
-      @logo_request.logo_files << create_logo_file
+      @logo_request.logo_files << create(:logo_file)
     end
 
     should "go to approved state after approval comment" do

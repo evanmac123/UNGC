@@ -19,7 +19,7 @@ class Admin::ResourcesControllerTest < ActionController::TestCase
   context "When signed in as a website editor." do
     should "approve the resource" do
       sign_in create_website_editor
-      resource = create_resource
+      resource = create(:resource)
       post :approve, id:resource
       assert_redirected_to action: :show
       resource.reload
@@ -28,7 +28,7 @@ class Admin::ResourcesControllerTest < ActionController::TestCase
 
     should "revoke the resource" do
       sign_in create_website_editor
-      resource = create_resource
+      resource = create(:resource)
       resource.approve!
       post :revoke, id:resource
       assert_redirected_to action: :show
@@ -59,7 +59,7 @@ class Admin::ResourcesControllerTest < ActionController::TestCase
     end
 
     should "get show" do
-      resource = create_resource
+      resource = create(:resource)
       get :show, id:resource
       assert_response :success
       assert_not_nil assigns(:resource)
@@ -72,21 +72,21 @@ class Admin::ResourcesControllerTest < ActionController::TestCase
     end
 
     should "get edit" do
-      resource = create_resource
+      resource = create(:resource)
       get :edit, id:resource
       assert_response :success
       assert_not_nil assigns(:resource)
     end
 
     should "delete" do
-      resource = create_resource
+      resource = create(:resource)
       delete :destroy, id:resource
       assert_redirected_to action: :index
       assert_equal 0, Resource.count
     end
 
     should "not be able to approve a resource" do
-      resource = create_resource
+      resource = create(:resource)
       post :approve, id:resource
 
       resource.reload
@@ -94,7 +94,7 @@ class Admin::ResourcesControllerTest < ActionController::TestCase
     end
 
     should "not be able to revoke a resource" do
-      resource = create_resource
+      resource = create(:resource)
       resource.approve!
       post :revoke, id:resource
 
@@ -115,7 +115,7 @@ class Admin::ResourcesControllerTest < ActionController::TestCase
       end
 
       should "update and redirect to show" do
-        resource = create_resource
+        resource = create(:resource)
 
         put :update, id: resource, resource: params
 
@@ -132,7 +132,7 @@ class Admin::ResourcesControllerTest < ActionController::TestCase
       end
 
       should "render edit action" do
-        resource = create_resource
+        resource = create(:resource)
         put :update, id:resource, resource:{title: nil}
         assert_template :edit
       end
@@ -151,7 +151,7 @@ class Admin::ResourcesControllerTest < ActionController::TestCase
 
     context "edit a resource with links" do
       should "edit the links for a resource" do
-        resource = create_resource
+        resource = create(:resource)
         id1 = resource.links.create({title: "test", url: 'http://url1.com', language_id: 1, link_type: 'pdf'})
         id2 = resource.links.create({title: "test2", url: 'http://url2.com', language_id: 1, link_type: 'pdf'})
 
@@ -185,7 +185,8 @@ class Admin::ResourcesControllerTest < ActionController::TestCase
   private
 
   def params
-    valid_resource_attributes.with_indifferent_access.slice(
+    attributes_for(:resource)
+    .with_indifferent_access.slice(
       :title, :description
     )
   end

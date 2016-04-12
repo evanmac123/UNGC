@@ -5,7 +5,7 @@ class Searchable::SearchableContainerTest < ActiveSupport::TestCase
   include SearchableTagTests
 
   should "not include a container with only a draft_payload" do
-    create_container
+    create(:container)
     Searchable.index_all
     assert_equal 0, Searchable.all.count
   end
@@ -111,7 +111,7 @@ class Searchable::SearchableContainerTest < ActiveSupport::TestCase
   private
 
   def unpublished_container
-    @unpublished_container ||= create_container
+    @unpublished_container ||= create(:container)
   end
 
   def published_container(*args)
@@ -131,10 +131,10 @@ class Searchable::SearchableContainerTest < ActiveSupport::TestCase
       }
     }
 
-    create_country # required for the create_contact
-    container = create_container(params)
-    container.draft_payload = create_payload(container_id: container.id, json_data: data.to_json)
-    assert ContainerPublisher.new(container, create_contact).publish
+    create(:country) # required for the create_contact
+    container = create(:container, params)
+    container.draft_payload = create(:payload, container_id: container.id, json_data: data.to_json)
+    assert ContainerPublisher.new(container, create(:contact)).publish
     container
   end
 

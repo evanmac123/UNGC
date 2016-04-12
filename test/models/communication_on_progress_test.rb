@@ -15,18 +15,18 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       :organization_id => organization.id,
       :ends_on         => Date.new(2009, 12, 31)
     }
-    create_communication_on_progress(defaults.merge(options))
+    create(:communication_on_progress, defaults.merge(options))
   end
 
   context "given a new COP" do
     setup do
       create_organization_and_user
-      create_language
+      language = create(:language)
     end
 
     should "be invalid if there is no file" do
       assert_raise ActiveRecord::RecordInvalid do
-        cop = create_communication_on_progress(
+        cop = create(:communication_on_progress,
           :organization_id    => @organization.id,
           :title              => 'Our COP',
           :format             => 'standalone',
@@ -48,7 +48,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
 
     should "be valid when a file is attached" do
       assert_difference 'CommunicationOnProgress.count' do
-        cop = create_communication_on_progress(
+        cop = create(:communication_on_progress,
           :organization_id                     => @organization.id,
           :title                               => 'Our COP',
           :format                              => 'standalone',
@@ -152,9 +152,9 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
 
   context "given an approved COP" do
     setup do
-      create_language
+      language = create(:language)
       create_organization_and_user
-      @cop = create_communication_on_progress(:organization_id => @organization.id,
+      @cop = create(:communication_on_progress, :organization_id => @organization.id,
                                               :cop_files_attributes => {
                                                  "new_cop"=> {:attachment_type => "cop",
                                                               :attachment      => fixture_file_upload('files/untitled.pdf', 'application/pdf'),
@@ -204,8 +204,8 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
 
   context "given a basic COP" do
     setup do
-      create_principle_area
-      @cop_question = create_cop_question
+      create(:principle_area)
+      @cop_question = create(:cop_question)
       create_organization_and_user
       @cop = @organization.communication_on_progresses.new(:title => 'Our COP', :ends_on => Date.today)
       @cop.cop_type = 'basic'
@@ -264,7 +264,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
   context "given a COP. By default it " do
     setup do
       create_organization_and_user
-      @cop = create_communication_on_progress
+      @cop = create(:communication_on_progress)
     end
 
     should "not meet advanced criteria" do

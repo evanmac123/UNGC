@@ -13,14 +13,14 @@ class Sitemap::Api::ContainersControllerTest < ActionController::TestCase
     @staff_user.save
     ContainerPublisher.any_instance.stubs(:publish).returns(true)
 
-    post :publish, id: create_container
+    post :publish, id: create(:container)
     assert_response :no_content
   end
 
   test "a failed publish from an unauthorized user" do
     ContainerPublisher.any_instance.stubs(:publish).returns(true)
 
-    post :publish, id: create_container
+    post :publish, id: create(:container)
     assert_response 403
   end
 
@@ -30,7 +30,7 @@ class Sitemap::Api::ContainersControllerTest < ActionController::TestCase
     @staff_user.save
     ContainerPublisher.any_instance.stubs(:publish).returns(false)
 
-    post :publish, id: create_container
+    post :publish, id: create(:container)
     assert_response :bad_request
   end
 

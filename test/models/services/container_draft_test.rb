@@ -14,10 +14,10 @@ class ContainerDraftTest < ActiveSupport::TestCase
   context '#save' do
 
     setup do
-      @container = create_container
+      @container = create(:container)
       @container.payload_validator = FakeValidator
-      @container.draft_payload = create_payload(
-        container_id: @container.id,
+      @container.draft_payload = create(:payload,
+        container: @container,
         json_data: {
           meta_tags: {
             content_type: 0
@@ -47,7 +47,7 @@ class ContainerDraftTest < ActiveSupport::TestCase
 =begin
 
     should "reset approval status to pending if draft payload is different than public payload on updat" do
-      @container.public_payload = create_payload(
+      @container.public_payload = create(:payload,
         container_id: @container.id,
         json_data: {
           meta_tags: {
@@ -56,7 +56,7 @@ class ContainerDraftTest < ActiveSupport::TestCase
         }.deep_stringify_keys.to_json
       )
       @container.approve!
-      @container.draft_payload = create_payload(
+      @container.draft_payload = create(:payload,
         container_id: @container.id,
         json_data: {
           meta_tags: {

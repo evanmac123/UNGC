@@ -5,8 +5,8 @@ class SdgPioneer::OtherTest < ActionDispatch::IntegrationTest
   test 'Other Nominate' do
     # create the landing page
     path = sdg_pioneer_index_path
-    container = create_container(path: path)
-    payload = new_payload(container_id: container.id)
+    container = create(:container, path: path)
+    payload = build(:payload, container_id: container.id)
     container.draft_payload = payload
     ContainerPublisher.new(container, create_staff_user).publish
 

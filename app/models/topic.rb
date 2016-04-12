@@ -1,4 +1,6 @@
 class Topic < ActiveRecord::Base
+  validates_presence_of :name
+
   belongs_to :parent, class_name: 'Topic'
   has_many :children, class_name: 'Topic', foreign_key: :parent_id
 

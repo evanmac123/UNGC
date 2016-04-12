@@ -69,7 +69,7 @@ class Admin::SponsorsControllerTest < ActionController::TestCase
 
     context 'GET /admin/sponsors/:id/edit' do
       setup do
-        @sponsor = create_sponsor
+        @sponsor = create(:sponsor)
         get :edit, id: @sponsor.id
       end
 
@@ -81,7 +81,7 @@ class Admin::SponsorsControllerTest < ActionController::TestCase
     context 'PUT /admin/sponsors/:id' do
       context 'with valid params' do
         setup do
-          @sponsor = create_sponsor
+          @sponsor = create(:sponsor)
 
           assert_no_difference 'Sponsor.count' do
             put :update, id: @sponsor.id, sponsor: @params
@@ -111,7 +111,7 @@ class Admin::SponsorsControllerTest < ActionController::TestCase
     context 'DELETE /admin/sponsors/:id' do
       context 'given an sponsor' do
         setup do
-          @sponsor = create_sponsor
+          @sponsor = create(:sponsor)
 
           assert_difference('Sponsor.count', -1) do
             delete :destroy, id: @sponsor.id
@@ -130,7 +130,7 @@ class Admin::SponsorsControllerTest < ActionController::TestCase
 
     context 'GET /admin/sponsors' do
       setup do
-        3.times { create_sponsor }
+        3.times { create(:sponsor) }
 
         get :index
       end

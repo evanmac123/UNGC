@@ -18,9 +18,9 @@ class Salesforce::ApiControllerTest < ActionController::TestCase
 
   def campaign_attributes(params = {})
     defaults = {
-      'id' => FixtureReplacement.random_string(16),
+      'id' => SecureRandom.uuid,
       'type' => 'campaign',
-      'name' => FixtureReplacement.random_string(16),
+      'name' => Faker::Name.name,
     }
     defaults.merge(params)
   end
@@ -40,10 +40,10 @@ class Salesforce::ApiControllerTest < ActionController::TestCase
 
   def contribution_attributes(params = {})
     defaults = {
-      'id' => FixtureReplacement.random_string(16),
+      'id' => SecureRandom.uuid,
       'type' => 'contribution',
       'date' => Date.today - rand(999).days,
-      'stage' => FixtureReplacement.random_string,
+      'stage' => 'posted',
       'organization_id' => @organization.id
     }
     defaults.merge(params)
@@ -78,7 +78,7 @@ class Salesforce::ApiControllerTest < ActionController::TestCase
 
     context "update" do
       setup do
-        @id = create_campaign(
+        @id = create(:campaign,
           start_date: Date.new(2013, 8, 25),
           end_date: Date.new(2013, 8, 25),
           is_private: false
@@ -121,13 +121,13 @@ class Salesforce::ApiControllerTest < ActionController::TestCase
     end
 
     should 'mark as deleted' do
-      campaign = create_campaign
+      campaign = create(:campaign)
       updated = send_update_campaign(id: campaign.campaign_id, is_deleted: true)
       assert_equal true, updated.is_deleted
     end
 
     should 'mark as undeleted' do
-      campaign = create_campaign(is_deleted: true)
+      campaign = create(:campaign, is_deleted: true)
       updated = send_update_campaign(id: campaign.campaign_id, is_deleted: false)
       assert_equal false, updated.is_deleted
     end
@@ -136,7 +136,7 @@ class Salesforce::ApiControllerTest < ActionController::TestCase
   context "Contributions" do
     setup do
       create_organization_and_user
-      @campaign = create_campaign
+      @campaign = create(:campaign)
     end
 
     context "create" do
@@ -195,7 +195,7 @@ class Salesforce::ApiControllerTest < ActionController::TestCase
 
     context "update" do
       setup do
-        @contribution = create_contribution
+        @contribution = create(:contribution)
         @id = @contribution.contribution_id
       end
 
@@ -244,13 +244,13 @@ class Salesforce::ApiControllerTest < ActionController::TestCase
     end
 
     should 'mark as deleted' do
-      contribution = create_contribution
+      contribution = create(:contribution)
       updated = send_update_contribution(id: contribution.contribution_id, is_deleted: true)
       assert_equal true, updated.is_deleted
     end
 
     should 'mark as undeleted' do
-      contribution = create_contribution(is_deleted: true)
+      contribution = create(:contribution, is_deleted: true)
       updated = send_update_contribution(id: contribution.contribution_id, is_deleted: false)
       assert_equal false, updated.is_deleted
     end

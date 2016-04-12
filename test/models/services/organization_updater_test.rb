@@ -3,8 +3,8 @@ require 'test_helper'
 class OrganizationUpdaterTest < ActiveSupport::TestCase
   context "update business organization" do
     setup do
-      country = create_country
-      sector = create_sector
+      country = create(:country)
+      sector = create(:sector)
       create_organization_and_user
       @organization.update_attributes(country: country, sector: sector)
       @u = OrganizationUpdater.new({}, {})
@@ -24,7 +24,7 @@ class OrganizationUpdaterTest < ActiveSupport::TestCase
 
   context "update non business organization" do
     setup do
-      country = create_country
+      country = create(:country)
       create_non_business_organization_and_user
       @organization.update_attributes(country: country)
       registration_params = {
@@ -44,8 +44,8 @@ class OrganizationUpdaterTest < ActiveSupport::TestCase
   context "create non participant (signatory) organization" do
 
     setup do
-      country = create_country
-      sector = create_sector
+      country = create(:country)
+      sector = create(:sector)
       organization_params = {
         country_id: country.id,
         name: "test org",

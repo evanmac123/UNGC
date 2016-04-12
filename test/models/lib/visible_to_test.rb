@@ -2,18 +2,18 @@ require 'test_helper'
 
 class VisibleToTest < ActiveSupport::TestCase
   setup do
-    create_organization_type  # default org type
-    create_country            # default country
+    create(:organization_type)  # default org type
+    create(:country)            # default country
 
-    @france = create_country region: 'europe'
-    @germany = create_country region: 'europe'
-    @brazil = create_country region: 'latin_america'
-    @colombia = create_country region: 'latin_america'
+    @france = create(:country, region: 'europe')
+    @germany = create(:country, region: 'europe')
+    @brazil = create(:country, region: 'latin_america')
+    @colombia = create(:country, region: 'latin_america')
 
-    @french_org = create_organization country: @france
-    @german_org = create_organization country: @germany
-    @brazilian_org = create_organization country: @brazil
-    @colombian_org = create_organization country: @colombia
+    @french_org = create(:organization, country: @france)
+    @german_org = create(:organization, country: @germany)
+    @brazilian_org = create(:organization, country: @brazil)
+    @colombian_org = create(:organization, country: @colombia)
   end
 
   context "COPs" do
@@ -37,7 +37,7 @@ class VisibleToTest < ActiveSupport::TestCase
 
     should "only be from the same country as the local network that a network contact belongs to" do
       contact = create_network_contact
-      org_in_same_country = create_organization country: contact.local_network.country
+      org_in_same_country = create(:organization, country: contact.local_network.country)
       from_same_country = create_cop org_in_same_country.id
 
       visible = CommunicationOnProgress.visible_to contact
@@ -48,12 +48,12 @@ class VisibleToTest < ActiveSupport::TestCase
     end
 
     should "only be from the same country as the regional center that a regional center contact belongs to" do
-      regional_center = create_local_network(state: :regional_center)
+      regional_center = create(:local_network, state: :regional_center)
 
       @brazil.update_attribute(:regional_center, regional_center)
       @colombia.update_attribute(:regional_center, regional_center)
 
-      contact = create_contact(local_network: regional_center)
+      contact = create(:contact, local_network: regional_center)
 
       visible = CommunicationOnProgress.visible_to contact
 
@@ -95,7 +95,7 @@ class VisibleToTest < ActiveSupport::TestCase
 
     should "only be from the same country as the local network that a network contact belongs to" do
       contact = create_network_contact
-      org_in_same_country = create_organization country: contact.local_network.country
+      org_in_same_country = create(:organization, country: contact.local_network.country)
 
       visible = Organization.visible_to contact
 
@@ -105,12 +105,12 @@ class VisibleToTest < ActiveSupport::TestCase
     end
 
     should "only be from the same country as the regional center that a regional center contact belongs to" do
-      regional_center = create_local_network(state: :regional_center)
+      regional_center = create(:local_network, state: :regional_center)
 
       @brazil.update_attribute(:regional_center, regional_center)
       @colombia.update_attribute(:regional_center, regional_center)
 
-      contact = create_contact(local_network: regional_center)
+      contact = create(:contact, local_network: regional_center)
 
       visible = Organization.visible_to contact
 
@@ -150,9 +150,9 @@ class VisibleToTest < ActiveSupport::TestCase
 
   def create_network_contact
     # a contact and a country that belong to a local network
-    local_network = create_local_network
-    create_country(local_network: local_network)
-    contact = create_contact(local_network: local_network)
+    local_network = create(:local_network)
+    create(:country, local_network: local_network)
+    contact = create(:contact, local_network: local_network)
 
     assert_equal Contact::TYPE_NETWORK, contact.user_type
     assert_not_nil contact.local_network.country
@@ -168,7 +168,7 @@ class VisibleToTest < ActiveSupport::TestCase
 
   def create_other_contact
     # a contact from a country
-    contact = create_contact
+    contact = create(:contact)
     assert_nil contact.user_type
     contact
   end

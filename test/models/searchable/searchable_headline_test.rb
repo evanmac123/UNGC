@@ -5,7 +5,7 @@ class Searchable::SearchableHeadlineTest < ActiveSupport::TestCase
   include SearchableModelTests
 
   should "NOT index an unapproved headline" do
-    create_headline
+    create(:headline)
     assert_no_difference -> { Searchable.count } do
       Searchable.index_all
     end
@@ -14,7 +14,7 @@ class Searchable::SearchableHeadlineTest < ActiveSupport::TestCase
   private
 
   def headline
-    @headline ||= create_headline.tap do |h|
+    @headline ||= create(:headline).tap do |h|
       h.approve!
     end
   end

@@ -7,7 +7,7 @@ class Admin::AwardsControllerTest < ActionController::TestCase
 
     setup do
       sign_in_as_local_network
-      @award = create_award(local_network: @local_network)
+      @award = create(:award, local_network: @local_network)
       @local_network.awards << @award
     end
 
@@ -48,7 +48,7 @@ class Admin::AwardsControllerTest < ActionController::TestCase
   end
 
   def params
-    valid_award_attributes
+    attributes_for(:award)
       .merge(valid_file_upload_attributes)
       .with_indifferent_access
       .slice(:title, :description, :date, :file)

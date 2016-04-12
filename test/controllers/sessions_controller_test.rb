@@ -87,10 +87,10 @@ end
 
   protected
     def create_test_users
-      create_organization_type
+      create(:organization_type)
       create_organization_and_ceo
-      create_country
-      @contact = create_contact(
+      create(:country)
+      @contact = create(:contact,
         :organization_id => @organization.id,
         :username => 'quentin',
         :password => 'monkey',
@@ -100,7 +100,7 @@ end
         :role_ids => [Role.contact_point.id]
       )
 
-      @old_contact = create_contact(
+      @old_contact = create(:contact,
         :organization_id => @organization.id,
         :username => 'login',
         :password => 'nexen',

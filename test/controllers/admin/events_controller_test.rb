@@ -4,13 +4,13 @@ class Admin::EventsControllerTest < ActionController::TestCase
   setup do
     @staff_user = create_staff_user
 
-    @country = create_country(name: 'USA')
-    @contact = create_contact
-    @sponsor = create_sponsor
-    @topic = create_topic
-    @issue = create_issue
-    @sector = create_sector
-    @sdg = create_sustainable_development_goal
+    @country = create(:country, name: 'USA')
+    @contact = create(:contact)
+    @sponsor = create(:sponsor)
+    @topic = create(:topic)
+    @issue = create(:issue)
+    @sector = create(:sector)
+    @sdg = create(:sustainable_development_goal)
 
     @starts_at = DateTime.new(2015, 06, 15, 19, 0, 0)
     @ends_at = DateTime.new(2015, 06, 15, 22, 0, 0)
@@ -173,7 +173,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
 
     context 'GET /admin/events/:id' do
       setup do
-        @event = create_event
+        @event = create(:event)
         get :show, id: @event.id
       end
 
@@ -185,7 +185,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
 
     context 'GET /admin/events/:id/edit' do
       setup do
-        @event = create_event
+        @event = create(:event)
         get :edit, id: @event.id
       end
 
@@ -197,7 +197,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
     context 'PUT /admin/events/:id' do
       context 'with valid params' do
         setup do
-          @event = create_event
+          @event = create(:event)
 
           assert_no_difference 'Event.count' do
             put :update, id: @event.id, event: @params
@@ -310,8 +310,8 @@ class Admin::EventsControllerTest < ActionController::TestCase
 
       context 'with no topic IDs' do
         should 'remove all topics' do
-          @topic_ids = 2.times.map { create_topic.id }
-          @event = create_event(topic_ids: @topic_ids)
+          @topic_ids = 2.times.map { create(:topic).id }
+          @event = create(:event, topic_ids: @topic_ids)
 
           assert_difference '@event.topics.count', -2 do
             put :update, id: @event.id, event: { topic_ids: [] }
@@ -321,8 +321,8 @@ class Admin::EventsControllerTest < ActionController::TestCase
 
       context 'with no sponsor IDs' do
         should 'remove all sponsors' do
-          @sponsor_ids = 2.times.map { create_sponsor.id }
-          @event = create_event(sponsor_ids: @sponsor_ids)
+          @sponsor_ids = 2.times.map { create(:sponsor).id }
+          @event = create(:event, sponsor_ids: @sponsor_ids)
 
           assert_difference '@event.sponsors.count', -2 do
             put :update, id: @event.id, event: { sponsor_ids: [] }
@@ -332,8 +332,8 @@ class Admin::EventsControllerTest < ActionController::TestCase
 
       context 'with no sustainable development goal IDs' do
         should 'remove all sustainable development goals' do
-          @sdg = 2.times.map { create_sustainable_development_goal.id }
-          @event = create_event(sustainable_development_goal_ids: @sdg)
+          @sdg = 2.times.map { create(:sustainable_development_goal).id }
+          @event = create(:event, sustainable_development_goal_ids: @sdg)
 
           assert_difference '@event.sustainable_development_goals.count', -2 do
             put :update, id: @event.id, event: { sustainable_development_goal_ids: [] }
@@ -344,7 +344,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
 
     context 'POST /admin/events/:id/approve' do
       setup do
-        @event = create_event
+        @event = create(:event)
 
         assert_no_difference 'Event.count' do
           post :approve, id: @event.id
@@ -369,7 +369,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
 
     context 'POST /admin/events/:id/revoke' do
       setup do
-        @event = create_event
+        @event = create(:event)
         # clear updated_by_id so we're sure it gets set.
         @event.update_attribute :updated_by_id, nil
         @event.as_user(@staff_user).approve!
@@ -398,7 +398,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
     context 'DELETE /admin/events/:id' do
       context 'given an event with no associations' do
         setup do
-          @event = create_event
+          @event = create(:event)
 
           assert_difference('Event.count', -1) do
             delete :destroy, id: @event.id
@@ -436,7 +436,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
 
     context 'GET /admin/events' do
       setup do
-        3.times { create_event }
+        3.times { create(:event) }
 
         get :index
       end

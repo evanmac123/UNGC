@@ -7,36 +7,36 @@ class SignInAsTest < ActionDispatch::IntegrationTest
   context 'json autocomplete' do
     setup do
       # Given a Network report recipient
-      network = create_local_network
-      report_recipient = create_contact(local_network: network, roles: [Role.network_report_recipient])
+      network = create(:local_network)
+      report_recipient = create(:contact, local_network: network, roles: [Role.network_report_recipient])
 
       # Contact points from an organization in the same local network
-      @country = create_country(local_network: network)
-      @macdonalds = create_organization(
+      @country = create(:country, local_network: network)
+      @macdonalds = create(:organization,
         name: "MacDonald's",
         country: @country,
         state: :approved
       )
 
-      @alice = create_contact(
+      @alice = create(:contact,
         first_name: 'Alice',
         organization: @macdonalds,
         roles: [Role.contact_point]
       )
 
-      @bob = create_contact(
+      @bob = create(:contact,
         first_name: 'Bob',
         organization: @macdonalds,
         roles: [Role.contact_point]
       )
 
       # Contact points from another organization in the same local network
-      @burger_king = create_organization(
+      @burger_king = create(:organization,
         name: 'Burger King',
         country: @country, state: :approved
       )
 
-      @cathy = create_contact(
+      @cathy = create(:contact,
         first_name: 'Cathy',
         organization: @burger_king,
         roles: [Role.contact_point]
@@ -70,15 +70,15 @@ class SignInAsTest < ActionDispatch::IntegrationTest
     end
 
     should 'limit the number of results' do
-      101.times {
-        similar_name = "Donald #{FixtureReplacement.random_string(8)}"
-        organization = create_organization(name: similar_name, country: @country, state: :approved)
-        create_contact(
+      101.times do |i|
+        similar_name = "Donald #{i} #{Faker::Name.last_name}"
+        organization = create(:organization, name: similar_name, country: @country, state: :approved)
+        create(:contact, {
           first_name: 'hacks',
           organization: organization,
           roles: [Role.contact_point]
-        )
-      }
+        })
+      end
 
       visit admin_sign_in_as_contacts_path(term: 'donald')
       response = JSON.parse(page.body)

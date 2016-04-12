@@ -84,7 +84,7 @@ class ContactPolicyTest < ActiveSupport::TestCase
   context 'can update?' do
 
     should 'allow a user to update themselves' do
-      contact = create_contact
+      contact = create(:contact)
       policy = ContactPolicy.new(contact)
       assert policy.can_update?(contact)
     end

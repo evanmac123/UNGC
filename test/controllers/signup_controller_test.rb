@@ -3,15 +3,15 @@ require 'test_helper'
 class SignupControllerTest < ActionController::TestCase
   context "given an organization that wants to sign up" do
     setup do
-      create_container path: '/participation/join/application', layout: :article
+      create(:container, path: '/participation/join/application', layout: :article)
 
       create_roles
-      create_organization_type
-      @country = create_country
-      @academic = create_organization_type(name: 'Academic', type_property: 1 )
-      create_organization_type(name: 'SME', type_property: 2 )
-      @sector = create_sector
-      @listing_status = create_listing_status
+      create(:organization_type)
+      @country = create(:country)
+      @academic = create(:organization_type, name: 'Academic', type_property: 1 )
+      create(:organization_type, name: 'SME', type_property: 2 )
+      @sector = create(:sector)
+      @listing_status = create(:listing_status)
 
       @signup_contact = {
         first_name: 'Michael',
@@ -94,7 +94,7 @@ class SignupControllerTest < ActionController::TestCase
 
     # pledge form
     should "as a business should get the fourth step page after posting ceo contact details" do
-      @local_network = create_local_network(funding_model: 'collaborative')
+      @local_network = create(:local_network, funding_model: 'collaborative')
       @country.local_network_id = @local_network.id
 
 

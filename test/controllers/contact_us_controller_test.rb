@@ -5,7 +5,7 @@ class ContactUsControllerTest < ActionController::TestCase
   setup do
     Sidekiq::Testing.inline!
 
-    create_container path: '/about/contact'
+    create(:container, path: '/about/contact')
 
     @params = {
       name: 'Venu Keesari',

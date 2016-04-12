@@ -7,7 +7,7 @@ class Admin::IntegrityMeasuresControllerTest < ActionController::TestCase
 
     setup do
       sign_in_as_local_network
-      @integrity_measure = create_integrity_measure(local_network: @local_network)
+      @integrity_measure = create(:integrity_measure, local_network: @local_network)
       @local_network.integrity_measures << @integrity_measure
     end
 
@@ -45,8 +45,9 @@ class Admin::IntegrityMeasuresControllerTest < ActionController::TestCase
   end
 
   def params
-    valid_integrity_measure_attributes
+    attributes_for(:integrity_measure)
       .with_indifferent_access
+      .merge(valid_file_upload_attributes)
       .slice(:title, :description, :date, :file)
   end
 end

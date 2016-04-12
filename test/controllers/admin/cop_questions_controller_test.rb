@@ -3,8 +3,8 @@ require 'test_helper'
 class Admin::CopQuestionsControllerTest < ActionController::TestCase
   def setup
     @staff_user = create_staff_user
-    create_principle_area
-    @cop_question = create_cop_question
+    create(:principle_area)
+    @cop_question = create(:cop_question)
 
     sign_in @staff_user
   end
@@ -50,8 +50,8 @@ class Admin::CopQuestionsControllerTest < ActionController::TestCase
 
   context "question filtering" do
     setup do
-      @question_2010 = create_cop_question year: 2010
-      @question_2014 = create_cop_question year: 2014
+      @question_2010 = create(:cop_question, year: 2010)
+      @question_2014 = create(:cop_question, year: 2014)
     end
 
     should "show all when no year param is given" do

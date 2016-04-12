@@ -7,18 +7,18 @@ class ContainerPublisherTest < ActiveSupport::TestCase
 
   context 'tags' do
     setup do
-      issue_1  = create_issue name: 'Issue 1'
-      issue_2  = create_issue name: 'Issue 2'
-      issue_3   = create_issue name: 'Issue 3'
-      topic_1   = create_topic name: 'Topic 1'
-      topic_2  = create_topic name: 'Topic 2'
-      topic_3  = create_topic name: 'Topic 3'
-      sector_1   = create_sector name: 'Sector 1'
-      sector_2  = create_sector name: 'Sector 2'
-      sdg_1 = create_sustainable_development_goal name: 'Sustainable Development Goal 1'
+      issue_1  = create(:issue, name: 'Issue 1')
+      issue_2  = create(:issue, name: 'Issue 2')
+      issue_3   = create(:issue, name: 'Issue 3')
+      topic_1   = create(:topic, name: 'Topic 1')
+      topic_2  = create(:topic, name: 'Topic 2')
+      topic_3  = create(:topic, name: 'Topic 3')
+      sector_1   = create(:sector, name: 'Sector 1')
+      sector_2  = create(:sector, name: 'Sector 2')
+      sdg_1 = create(:sustainable_development_goal, name: 'Sustainable Development Goal 1')
 
       # Create a container with some tags
-      container = create_container
+      container = create(:container)
       Tagging.create! container: container, issue: issue_1
       Tagging.create! container: container, issue: issue_2
       Tagging.create! container: container, topic: topic_1
@@ -28,7 +28,7 @@ class ContainerPublisherTest < ActiveSupport::TestCase
       Tagging.create! container: container, sustainable_development_goal: sdg_1
 
       # Add a draft payload with updated tags
-      container.draft_payload = create_payload(
+      container.draft_payload = create(:payload,
         container_id: container.id,
         json_data: {
           taggings: {
@@ -73,8 +73,8 @@ class ContainerPublisherTest < ActiveSupport::TestCase
   context 'content_type' do
     setup do
       # create a container with a draft payload including tags
-      @container = create_container
-      @container.draft_payload = create_payload(
+      @container = create(:container)
+      @container.draft_payload = create(:payload,
         container_id: @container.id,
         json_data: {
           meta_tags: {
@@ -97,8 +97,8 @@ class ContainerPublisherTest < ActiveSupport::TestCase
 
     setup do
       # create a container with a draft payload including tags
-      @container = create_container
-      @container.draft_payload = create_payload(
+      @container = create(:container)
+      @container.draft_payload = create(:payload,
         container_id: @container.id,
         json_data: {
           meta_tags: {

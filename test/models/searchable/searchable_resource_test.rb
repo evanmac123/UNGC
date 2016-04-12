@@ -7,7 +7,7 @@ class Searchable::SearchableResourceTest < ActiveSupport::TestCase
   private
 
   def resource
-    @resource ||= create_resource.tap { |o| o.approve! }
+    @resource ||= create(:resource).tap { |o| o.approve! }
   end
 
   alias_method :subject, :resource

@@ -101,10 +101,10 @@ module IntegrationTestHelper
 
   def create_related_contents_component_data
     Array.new(3) do |index|
-     container = create_container(
+     container = create(:container,
        path: '/related-content/' + (index+1).to_s
      )
-     container.public_payload = create_payload(
+     container.public_payload = create(:payload,
        container_id: container.id,
        json_data: {
          meta_tags: {
@@ -135,7 +135,7 @@ module IntegrationTestHelper
   def create_resource_content_block_data_and_payload
     payload = []
     resources = Array.new(3) do
-      resource = create_resource
+      resource = create(:resource)
       payload << { resource_id: resource.id }
 
       resource
@@ -160,13 +160,13 @@ module IntegrationTestHelper
 
   def create_event_news_component_data
     events = Array.new(3) do
-      event = create_event(starts_at: Date.today + 1.month)
+      event = create(:event, starts_at: Date.today + 1.month)
       event.approve!
       event
     end
 
     news = Array.new(3) do
-      news_item = create_headline
+      news_item = create(:headline)
       news_item.approve!
       news_item
     end
@@ -210,13 +210,13 @@ module IntegrationTestHelper
   end
 
   def create_embedded_participants_table_component_data
-    initiative = create_initiative
+    initiative = create(:initiative)
 
     5.times do
       initiative.signatories.create(
-        valid_organization_attributes.merge(
-          sector_id: create_sector.id,
-          country_id: create_country.id
+        attributes_for(:organization).merge(
+          sector_id: create(:sector).id,
+          country_id: create(:country).id
         )
       )
     end

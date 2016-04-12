@@ -1,4 +1,5 @@
 require 'simplecov'
+require 'factory_girl'
 SimpleCov.start
 
 ENV["RAILS_ENV"] = "test"
@@ -12,21 +13,20 @@ require 'test_helpers/integration_test_helper'
 Dir[Rails.root.join("test/support/**/*")].each { |f| require f }
 
 class ActiveSupport::TestCase
-  # Setup all fixtures in test/fixtures/*.(yml|csv) for all tests in alphabetical order.
-  #
-  # Note: You'll currently still have to declare fixtures explicitly in integration tests
-  # -- they do not yet inherit this setting
-  fixtures :all
+  include FactoryGirl::Syntax::Methods
+
+  begin
+    DatabaseCleaner.start
+    FactoryGirl.lint
+  ensure
+    DatabaseCleaner.clean
+  end
 
   # Add more helper methods to be used by all tests here...
-  include FixtureReplacement
   include ActionDispatch::TestProcess
 
   self.use_transactional_fixtures = true
   self.use_instantiated_fixtures  = false
-
-  # Explicitly load example data
-  FixtureReplacement.load_example_data
 
   def as(user)
     user.try(:id) ? {user_id: user.id} : {}
@@ -43,15 +43,15 @@ class ActiveSupport::TestCase
   def create_new_logo_request
     create_organization_and_user
     create_ungc_organization_and_user
-    create_logo_publication
-    @logo_request = create_logo_request(contact_id: @organization_user.id,
-                                        organization_id: @organization.id)
+    create(:logo_publication)
+    @logo_request = create(:logo_request, contact_id: @organization_user.id,
+                                          organization_id: @organization.id)
   end
 
   def create_approved_logo_request
     create_new_logo_request
     # we need a comment before approving
-    @logo_request.logo_files << create_logo_file(zip: fixture_file_upload('files/untitled.pdf', 'application/pdf'))
+    @logo_request.logo_files << create(:logo_file, zip: fixture_file_upload('files/untitled.pdf', 'application/pdf'))
     @logo_request.logo_comments.create(body: 'lorem ipsum',
                                        contact_id: @staff_user.id,
                                        attachment: fixture_file_upload('files/untitled.pdf', 'application/pdf'),
@@ -61,43 +61,43 @@ class ActiveSupport::TestCase
 
 
   def create_non_business_organization_type
-    @non_business_organization_type = create_organization_type(name: 'Academic',
+    @non_business_organization_type = create(:organization_type, name: 'Academic',
                                                                type_property: OrganizationType::NON_BUSINESS)
   end
 
   def create_non_business_organization_and_user(state=nil)
     create_non_business_organization_type
     create_roles
-    create_organization_type(name: 'Academic')
-    create_country
-    @organization = create_organization(employees: 50,
+    create(:organization_type, name: 'Academic')
+    create(:country)
+    @organization = create(:organization, employees: 50,
                                         country: Country.first,
                                         organization_type_id: OrganizationType.academic.id)
     @organization.approve! if state == 'approved'
-    @organization_user = create_contact(organization_id: @organization.id,
+    @organization_user = create(:contact, organization_id: @organization.id,
                                         role_ids: [Role.contact_point.id])
   end
 
   def create_organization_and_user(state=nil)
     create_roles
-    create_organization_type(name: 'SME')
-    create_country
-    sector = create_sector
-    listing_status = create_listing_status
-    @organization = create_organization(employees: 50,
+    create(:organization_type, name: 'SME')
+    create(:country)
+    sector = create(:sector)
+    listing_status = create(:listing_status)
+    @organization = create(:organization, employees: 50,
                                         organization_type_id: OrganizationType.sme.id,
                                         country: Country.first,
                                         sector: sector,
                                         listing_status: listing_status,
                                         cop_due_on: Date.today + 1.year)
     @organization.approve! if state == 'approved'
-    @organization_user = create_contact(organization_id: @organization.id,
+    @organization_user = create(:contact, organization_id: @organization.id,
                                         role_ids: [Role.contact_point.id])
   end
 
   def create_organization_and_ceo
     create_organization_and_user
-    @organization_ceo = create_contact(organization_id: @organization.id,
+    @organization_ceo = create(:contact, organization_id: @organization.id,
                                        role_ids: [Role.ceo.id])
   end
 
@@ -124,15 +124,15 @@ class ActiveSupport::TestCase
   end
 
   def create_financial_contact
-    @financial_contact = create_contact(organization_id: @organization.id,
+    @financial_contact = create(:contact, organization_id: @organization.id,
                                         role_ids: [Role.financial_contact.id])
   end
 
   def create_ungc_organization_and_user
-    create_organization_type
-    create_country
-    @ungc = create_organization(name: 'UNGC')
-    @staff_user = create_contact(username: 'staff',
+    create(:organization_type)
+    create(:country)
+    @ungc = create(:organization, name: 'UNGC')
+    @staff_user = create(:contact, username: 'staff',
                                  password: 'password',
                                  organization_id: @ungc.id)
   end
@@ -143,16 +143,16 @@ class ActiveSupport::TestCase
   end
 
   def create_participant_manager
-    @participant_manager = create_contact
+    @participant_manager = create(:contact)
     @participant_manager.roles << Role.participant_manager
     @participant_manager
   end
 
   def create_local_network_guest_organization
-    create_organization_type
-    create_country
-    @local_network_guest = create_organization(name: 'Local Network Guests')
-    @local_network_guest_user = create_contact(username: 'guest',
+    create(:organization_type)
+    create(:country)
+    @local_network_guest = create(:organization, name: 'Local Network Guests')
+    @local_network_guest_user = create(:contact, username: 'guest',
                                                password: 'password',
                                                organization_id: @local_network_guest.id)
   end
@@ -168,14 +168,14 @@ class ActiveSupport::TestCase
 
   def create_local_network_with_report_recipient
     create_roles
-    @local_network = create_local_network(name: "Canadian Local Network")
-    @country = create_country(name: "Canada", local_network_id: @local_network.id)
-    @network_contact = create_contact(local_network_id: @local_network.id,
+    @local_network = create(:local_network, name: "Canadian Local Network")
+    @country = create(:country, name: "Canada", local_network: @local_network)
+    @network_contact = create(:contact, local_network_id: @local_network.id,
                                       role_ids: [Role.network_report_recipient.id])
   end
 
   def find_or_create_role(args={})
-    Role.where(name: args[:name]).first || create_role(args)
+    Role.where(name: args[:name]).first || create(:role, args)
   end
 
   def create_roles
@@ -188,24 +188,25 @@ class ActiveSupport::TestCase
       starts_on: Date.new(2010, 01, 01),
       ends_on: Date.new(2010, 12, 31)
     }
-    create_communication_on_progress(defaults.merge(options))
+    create(:communication_on_progress, defaults.merge(options))
   end
 
   def create_principle_areas
-    PrincipleArea::FILTERS.values.each {|name| create_principle_area(name: name)}
+    PrincipleArea::FILTERS.values.each {|name| create(:principle_area, name: name)}
   end
 
   def create_removal_reasons
-    RemovalReason::FILTERS.values.each {|description| create_removal_reason(description: description)}
+    RemovalReason::FILTERS.values.each {|description| create(:removal_reason, description: description)}
   end
 
   def create_initiatives
-    @lead_initiative    = create_initiative(id: 19, name: 'Global Compact LEAD')
-    @climate_initiative = create_initiative(id: 2,  name: 'Caring for Climate')
+    @lead_initiative    = create(:initiative, id: 19, name: 'Global Compact LEAD')
+    @climate_initiative = create(:initiative, id: 2,  name: 'Caring for Climate')
   end
 
   def cop_file_attributes
-    HashWithIndifferentAccess.new(valid_cop_file_attributes.merge(attachment: fixture_file_upload('files/untitled.pdf', 'application/pdf')))
+    attrs = build(:cop_file).attributes
+    HashWithIndifferentAccess.new(attrs.merge(attachment: fixture_file_upload('files/untitled.pdf', 'application/pdf')))
   end
 
   def create_annual_report(params = {})
@@ -213,10 +214,6 @@ class ActiveSupport::TestCase
   end
 
   def create_award(params = {})
-    super(valid_file_upload_attributes.merge(params))
-  end
-
-  def create_mou(params = {})
     super(valid_file_upload_attributes.merge(params))
   end
 
@@ -253,7 +250,7 @@ class ActiveSupport::TestCase
         )
       ]
     }
-    super(defaults.merge(params))
+    create(:local_network_event, defaults.merge(params))
   end
 
   def valid_local_network_event_attributes(params = {})
@@ -272,7 +269,7 @@ class ActiveSupport::TestCase
   end
 
   def valid_file_upload_attributes
-    {file: create_file_upload}
+    {file: build(:uploaded_file)}
   end
 
   def valid_payload_attributes(params = {})
@@ -307,9 +304,9 @@ class ActiveSupport::TestCase
     end
 
     tree.map do |parent_name, child_names|
-      issue_area = create_issue(name: parent_name)
+      issue_area = create(:issue, name: parent_name)
       child_names.map do |child_name|
-        create_issue(name: child_name, parent: issue_area)
+        create(:issue, name: child_name, parent: issue_area)
       end
       issue_area
     end
@@ -333,9 +330,9 @@ class ActiveSupport::TestCase
     end
 
     tree.map do |parent_name, child_names|
-      parent = create_topic(name: parent_name)
+      parent = create(:topic, name: parent_name)
       child_names.map do |child_name|
-        parent.children << create_topic(name: child_name, parent: parent)
+        parent.children << create(:topic, name: child_name, parent: parent)
       end
       parent.tap {|p| p.save!}
     end
@@ -357,9 +354,9 @@ class ActiveSupport::TestCase
       ]
 
     tree.map do |group_name, child_names|
-      parent = create_sector name: group_name
+      parent = create(:sector, name: group_name)
       child_names.each_with_index.map do |child_name, i|
-        create_sector(
+        create(:sector,
           name: child_name,
           parent: parent,
           icb_number: i
@@ -370,7 +367,7 @@ class ActiveSupport::TestCase
   end
 
   def headline_attributes_with_taggings
-    create_country
+    create(:country)
     create_issue_hierarchy
     create_topic_hierarchy
     create_sector_hierarchy
@@ -402,7 +399,7 @@ class ActiveSupport::TestCase
     topic_id = Topic.last.id
     sector_id = Sector.last.id
 
-    valid_resource_attributes.merge({
+    attributes_for(:resource).merge({
       issues: [issue_id],
       topics: [topic_id],
       sectors: [sector_id]

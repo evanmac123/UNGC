@@ -17,9 +17,9 @@ class ApplicationHelperTest < ActionView::TestCase
   private
 
   def cop
-    @org_type ||= create_organization_type
-    @org ||= create_organization
-    @cop ||= create_communication_on_progress
+    @org_type ||= create(:organization_type)
+    @org ||= create(:organization)
+    @cop ||= create(:communication_on_progress)
   end
 
 end

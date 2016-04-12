@@ -3,10 +3,10 @@ require 'test_helper'
 class Admin::ContactsRolesControllerTest < ActionController::TestCase
 
   setup {
-    create_country
+    create(:country)
     create_staff_user
-    @contact = create_contact
-    @role = create_role
+    @contact = create(:contact)
+    @role = create(:role)
 
     sign_in @staff_user
     request.env["HTTP_REFERER"] = '/admin'

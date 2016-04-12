@@ -12,7 +12,7 @@ class GraceLetterApplicationTest < ActiveSupport::TestCase
     context "when a grace letter is applied for it" do
 
       setup do
-        @grace_letter = new_grace_letter
+        @grace_letter = build(:grace_letter)
         @application = GraceLetterApplication.new(@organization)
         @old_cop_due_on_date = @organization.cop_due_on.to_date
         @application.submit(@grace_letter)
@@ -72,11 +72,12 @@ class GraceLetterApplicationTest < ActiveSupport::TestCase
 
     context "the last submission was a grace letter" do
       setup do
-        GraceLetterApplication.submit_for(@organization, create_grace_letter)
+        params = build(:grace_letter, organization: @organization)
+        assert GraceLetterApplication.submit_for(@organization, params)
         @application = GraceLetterApplication.new(@organization)
       end
 
-      should "not be eligible to submit an application" do
+      should "not be eligible to submit a second grace letter in a row" do
         refute @application.valid?
         refute GraceLetterApplication.eligible?(@organization)
       end

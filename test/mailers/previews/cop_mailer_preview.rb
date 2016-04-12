@@ -1,5 +1,3 @@
-require './db/example_data'
-
 class CopMailerPreview < ActionMailer::Preview
 
   def confirmation_blueprint
@@ -69,7 +67,7 @@ class CopMailerPreview < ActionMailer::Preview
   private
 
   def organization
-    @organization ||= FixtureReplacement.create_organization(
+    @organization ||= FactoryGirl.create(:organization,
       country: country,
       cop_due_on: Date.today - 5.years
     ).tap do |org|
@@ -78,32 +76,35 @@ class CopMailerPreview < ActionMailer::Preview
   end
 
   def cop
-    @cop ||= FixtureReplacement.create_communication_on_progress(organization: organization)
+    @cop ||= FactoryGirl.create(:communication_on_progress, organization: organization)
   end
 
   def user
-    @user ||= FixtureReplacement.create_contact(organization: organization)
+    @user ||= FactoryGirl.create(:contact, organization: organization)
   end
 
   def country
     @country ||= begin
       # create a local network and a report recipient
-      network = FixtureReplacement.create_local_network
+      network = FactoryGirl.create(:local_network)
       create_report_recipient_for(network)
 
       # create a country in that network
-      FixtureReplacement.create_country(local_network: network)
+      FactoryGirl.create(:country, {
+        local_network: network,
+        region: 'northern_america'
+      })
     end
   end
 
   def create_contact_point(organization)
-    @contact_point_role ||= FixtureReplacement.create_role(name: Role::FILTERS[:contact_point])
-    FixtureReplacement.create_contact(organization: organization, roles: [@contact_point_role])
+    @contact_point_role ||= FactoryGirl.create(:role, name: Role::FILTERS[:contact_point])
+    FactoryGirl.create(:contact, organization: organization, roles: [@contact_point_role])
   end
 
   def create_report_recipient_for(local_network)
-    @network_report_recipient_role ||= FixtureReplacement.create_role(name: Role::FILTERS[:network_report_recipient])
-    FixtureReplacement.create_contact(local_network: local_network, roles: [@network_report_recipient_role])
+    @network_report_recipient_role ||= FactoryGirl.create(:role, name: Role::FILTERS[:network_report_recipient])
+    FactoryGirl.create(:contact, local_network: local_network, roles: [@network_report_recipient_role])
   end
 
 end

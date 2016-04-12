@@ -31,13 +31,13 @@ class CopQuestionTest < ActiveSupport::TestCase
   private
     def init_data(signatory=false)
       create_organization_and_user
-      create_initiative
-      create_signing(:organization_id => @organization.id,
+      create(:initiative)
+      create(:signing, :organization_id => @organization.id,
                      :initiative_id   => Initiative.first.id) if signatory
       # create a few questions
-      create_principle_area
-      create_cop_question :position => 1
-      create_cop_question :position => 2
-      create_cop_question :position => 3, :initiative_id => Initiative.first.id
+      create(:principle_area)
+      create(:cop_question, :position => 1)
+      create(:cop_question, :position => 2)
+      create(:cop_question, :position => 3, :initiative_id => Initiative.first.id)
     end
 end

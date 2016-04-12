@@ -4,7 +4,7 @@ class Admin::SigningsControllerTest < ActionController::TestCase
   context "given an existing initiative" do
     setup do
       create_organization_and_user
-      @initiative = create_initiative
+      @initiative = create(:initiative)
       sign_in create_staff_user
     end
 
@@ -21,8 +21,8 @@ class Admin::SigningsControllerTest < ActionController::TestCase
   context "given an existing initiative and a signatory" do
     setup do
       create_organization_and_user
-      @initiative = create_initiative
-      @signatory = create_signing(:initiative_id   => @initiative.id,
+      @initiative = create(:initiative)
+      @signatory = create(:signing, :initiative_id   => @initiative.id,
                                   :organization_id => @organization.id)
       sign_in create_staff_user
     end

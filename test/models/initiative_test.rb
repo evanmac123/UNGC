@@ -8,7 +8,7 @@ class InitiativeTest < ActiveSupport::TestCase
   # :climate => id(2)
   context "filtering initiatives for a type" do
     setup do
-      @climate = create_initiative :id => 2, :name => 'Climate Change'
+      @climate = create(:initiative, :id => 2, :name => 'Climate Change')
     end
 
     should "find the climate change initiative" do

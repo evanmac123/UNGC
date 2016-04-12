@@ -58,7 +58,7 @@ class ContactTest < ActiveSupport::TestCase
     end
 
     should "delete 1 contact when there are multiple contacts" do
-      @contact_to_be_deleted = create_contact(:email => 'email@example.com',
+      @contact_to_be_deleted = create(:contact, :email => 'email@example.com',
                                               :organization_id => @organization.id)
       assert_difference "Contact.count", -1 do
         @contact_to_be_deleted.destroy
@@ -69,7 +69,7 @@ class ContactTest < ActiveSupport::TestCase
   context "given an organization with 2 contact points" do
     setup do
       create_organization_and_user
-      @organization_user_2 = create_contact(:organization_id => @organization.id,
+      @organization_user_2 = create(:contact, :organization_id => @organization.id,
                                             :email           => 'email2@example.com',
                                             :role_ids        => [Role.contact_point.id])
     end
@@ -139,14 +139,14 @@ class ContactTest < ActiveSupport::TestCase
   end
 
   should 'escape the display name in email_recipient' do
-    contact = create_contact(
+    contact = create(:contact, 
       first_name: "Anita",
       middle_name: "Marie",
       last_name: "Dobrzelecki, RN, BSN",
       prefix: "Ms",
       job_title: "President and CEO",
       email: "service@iamcleanenergy.us",
-      country_id: create_country.id
+      country_id: create(:country).id
     )
     expected = '"Anita Dobrzelecki, RN, BSN" <service@iamcleanenergy.us>'
     assert_equal expected, contact.email_recipient
