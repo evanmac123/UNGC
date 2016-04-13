@@ -178,6 +178,11 @@ class CopForm
         @errors.add(attribute, error)
       end
     end
+    cop.cop_links.each do |link|
+      link.errors.each do |attribute, error|
+        @errors.add(attribute, error)
+      end
+    end
     @errors
   end
 
