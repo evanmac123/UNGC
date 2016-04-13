@@ -3,7 +3,7 @@ require 'test_helper'
 class SdgPioneer::EligibleBusinessesQueryTest < ActiveSupport::TestCase
 
   should 'include Micro Enterprises' do
-    create_organization_type(name: OrganizationType::FILTERS.fetch(:micro_enterprise))
+    create(:organization_type, name: OrganizationType::FILTERS.fetch(:micro_enterprise))
     micro_enterprise = create_micro_enterprise
 
     results = SdgPioneer::EligibleBusinessesQuery.new.run
@@ -11,7 +11,7 @@ class SdgPioneer::EligibleBusinessesQueryTest < ActiveSupport::TestCase
   end
 
   should 'include SMEs' do
-    create_organization_type(name: OrganizationType::FILTERS.fetch(:sme))
+    create(:organization_type, name: OrganizationType::FILTERS.fetch(:sme))
     sme = create_sme
 
     results = SdgPioneer::EligibleBusinessesQuery.new.run
@@ -19,7 +19,7 @@ class SdgPioneer::EligibleBusinessesQueryTest < ActiveSupport::TestCase
   end
 
   should 'include Companies' do
-    create_organization_type(name: OrganizationType::FILTERS.fetch(:companies))
+    create(:organization_type, name: OrganizationType::FILTERS.fetch(:companies))
     company = create_company
 
     results = SdgPioneer::EligibleBusinessesQuery.new.run
@@ -27,7 +27,7 @@ class SdgPioneer::EligibleBusinessesQueryTest < ActiveSupport::TestCase
   end
 
   should 'NOT include non-businesses' do
-    non_business = create_non_business
+    non_business = create(:non_business)
     results = SdgPioneer::EligibleBusinessesQuery.new.run
     assert_not_includes results, non_business
   end
@@ -56,7 +56,7 @@ class SdgPioneer::EligibleBusinessesQueryTest < ActiveSupport::TestCase
   private
 
   def create_micro_enterprise(params = {})
-    create_organization(params.reverse_merge(
+    create(:organization, params.reverse_merge(
       active: true,
       participant: true,
       employees: 5
@@ -67,7 +67,7 @@ class SdgPioneer::EligibleBusinessesQueryTest < ActiveSupport::TestCase
   end
 
   def create_sme(params = {})
-    create_organization(params.reverse_merge(
+    create(:organization, params.reverse_merge(
       active: true,
       participant: true,
       employees: 200
@@ -78,10 +78,15 @@ class SdgPioneer::EligibleBusinessesQueryTest < ActiveSupport::TestCase
   end
 
   def create_company(params = {})
-    create_organization(params.reverse_merge(
+    company_type = OrganizationType.company || create(:organization_type, {
+      type_property: OrganizationType::BUSINESS,
+      name: OrganizationType::FILTERS[:companies],
+    })
+    create(:organization, params.reverse_merge(
       active: true,
       participant: true,
-      employees: 1000
+      employees: 1000,
+      organization_type: company_type
     )).tap do |o|
       assert_not_nil o.organization_type
       assert_equal OrganizationType.company, o.organization_type

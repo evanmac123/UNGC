@@ -1,5 +1,3 @@
-require './db/example_data'
-
 class CoeMailerPreview < ActionMailer::Preview
 
   def communication_on_engagement_90_days
@@ -53,7 +51,7 @@ class CoeMailerPreview < ActionMailer::Preview
   private
 
   def organization
-    @organization ||= FixtureReplacement.create_organization(
+    @organization ||= FactoryGirl.create(:organization,
       country: country,
       cop_due_on: Date.today - 5.years
     ).tap do |org|
@@ -64,22 +62,22 @@ class CoeMailerPreview < ActionMailer::Preview
   def country
     @country ||= begin
       # create a local network and a report recipient
-      network = FixtureReplacement.create_local_network
+      network = FactoryGirl.create(:local_network)
       create_report_recipient_for(network)
 
       # create a country in that network
-      FixtureReplacement.create_country(local_network: network)
+      FactoryGirl.create(:country, local_network: network)
     end
   end
 
   def create_contact_point(organization)
-    @contact_point_role ||= FixtureReplacement.create_role(name: Role::FILTERS[:contact_point])
-    FixtureReplacement.create_contact(organization: organization, roles: [@contact_point_role])
+    @contact_point_role ||= FactoryGirl.create(:role, name: Role::FILTERS[:contact_point])
+    FactoryGirl.create(:contact, organization: organization, roles: [@contact_point_role])
   end
 
   def create_report_recipient_for(local_network)
-    @network_report_recipient_role ||= FixtureReplacement.create_role(name: Role::FILTERS[:network_report_recipient])
-    FixtureReplacement.create_contact(local_network: local_network, roles: [@network_report_recipient_role])
+    @network_report_recipient_role ||= FactoryGirl.create(:role, name: Role::FILTERS[:network_report_recipient])
+    FactoryGirl.create(:contact, local_network: local_network, roles: [@network_report_recipient_role])
   end
 
 end

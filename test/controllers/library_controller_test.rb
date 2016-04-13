@@ -15,15 +15,15 @@ class LibraryControllerTest < ActionController::TestCase
   context "index" do
 
     setup do
-      @container = create_container layout: :library, path: '/library', slug: '/library'
+      @container = create(:container, layout: :library, path: '/library', slug: '/library')
 
-      @public_resources = [{resource_id: create_resource.id}]
-      @public_payload = create_payload(
+      @public_resources = [{resource_id: create(:resource).id}]
+      @public_payload = create(:payload,
         container_id: @container.id,
         data: {featured: @public_resources})
 
-      @draft_resources = [{resource_id: create_resource.id}]
-      @draft_payload = create_payload(
+      @draft_resources = [{resource_id: create(:resource).id}]
+      @draft_payload = create(:payload,
         container_id: @container.id,
         data: {featured: @draft_resources})
 
@@ -67,7 +67,7 @@ class LibraryControllerTest < ActionController::TestCase
       @topics = create_topic_hierarchy
       @sectors = create_sector_hierarchy
 
-      @language = create_language
+      @language = create(:language)
       @issue = @issues.last.children.last
       @topic = @topics.last.children.last
       @sector = @sectors.last.children.last

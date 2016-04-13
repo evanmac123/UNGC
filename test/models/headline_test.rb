@@ -6,7 +6,7 @@ class HeadlineTest < ActiveSupport::TestCase
 
   context "given an headline with a strange title" do
     setup do
-      @headline1 = create_headline :id => 1, :title => 'What? Is -this- å Tøtall¥! valid % name? Really!?'
+      @headline1 = create(:headline, :id => 1, :title => 'What? Is -this- å Tøtall¥! valid % name? Really!?')
     end
 
     should "find headline given a permalink" do
@@ -16,7 +16,7 @@ class HeadlineTest < ActiveSupport::TestCase
 
   context "given a headline being read in an Atom feed" do
     setup do
-      @headline = Headline.new :title => FixtureReplacement.random_string, :description => "<p>First paragraph</p><p>Second paragraph</p>"
+      @headline = Headline.new :title => Faker::Book.title, :description => "<p>First paragraph</p><p>Second paragraph</p>"
     end
     should "use first paragraph as teaser" do
       assert_equal @headline.teaser, "First paragraph"
@@ -25,7 +25,7 @@ class HeadlineTest < ActiveSupport::TestCase
 
   context "given a new headline" do
     setup do
-      @headline = Headline.new :title => FixtureReplacement.random_string
+      @headline = Headline.new :title => Faker::Book.title
       assert @headline.save
     end
 
@@ -51,7 +51,7 @@ class HeadlineTest < ActiveSupport::TestCase
   context "given a headline with a fixed published date" do
     setup do
       fixed_date = (Date.today << 1).strftime('%m/%d/%Y')
-      @headline = Headline.new :title => FixtureReplacement.random_string, :published_on_string => fixed_date
+      @headline = Headline.new :title => Faker::Book.title, :published_on_string => fixed_date
       assert @headline.save
       @headline.reload
     end
@@ -84,14 +84,14 @@ class HeadlineTest < ActiveSupport::TestCase
 
   context "given a bunch of headlines, some of which are approved" do
     setup do
-      @h1 = create_headline :approval => 'approved'
-      @h2 = create_headline :approval => 'approved'
-      @h3 = create_headline :approval => 'approved'
-      @h4 = create_headline :approval => 'approved'
-      @h5 = create_headline :approval => 'approved'
-      @h6 = create_headline
-      @h7 = create_headline
-      @h8 = create_headline
+      @h1 = create(:headline, :approval => 'approved')
+      @h2 = create(:headline, :approval => 'approved')
+      @h3 = create(:headline, :approval => 'approved')
+      @h4 = create(:headline, :approval => 'approved')
+      @h5 = create(:headline, :approval => 'approved')
+      @h6 = create(:headline)
+      @h7 = create(:headline)
+      @h8 = create(:headline)
     end
 
     should "only find approved headlines using published scope" do
@@ -102,9 +102,9 @@ class HeadlineTest < ActiveSupport::TestCase
   context "given a bunch of headlines, in different years" do
     setup do
       @today = Date.today
-      5.times { |i| create_headline :published_on => Time.mktime(@today.year, i+1, rand(22)+1).to_date }
-      3.times { |i| create_headline :published_on => Time.mktime(@today.year - 1, i+1, rand(22)+1).to_date }
-      2.times { |i| create_headline :published_on => Time.mktime(@today.year - 2, i+1, rand(22)+1).to_date }
+      5.times { |i| create(:headline, :published_on => Time.mktime(@today.year, i+1, rand(22)+1).to_date) }
+      3.times { |i| create(:headline, :published_on => Time.mktime(@today.year - 1, i+1, rand(22)+1).to_date) }
+      2.times { |i| create(:headline, :published_on => Time.mktime(@today.year - 2, i+1, rand(22)+1).to_date) }
     end
 
     should "find 3 years" do

@@ -6,11 +6,11 @@ class Admin::CopFilesControllerTest < ActionController::TestCase
   context "generated" do
 
     setup do
-      create_language(name: 'English')
+      create(:language, name: 'English')
       create_organization_and_user
       @organization.approve!
-      @cop = create_communication_on_progress(organization: @organization)
-      @file = create_cop_file(cop_id: @cop.id, attachment: create_file_upload)
+      @cop = create(:communication_on_progress, organization: @organization)
+      @file = create(:cop_file, cop_id: @cop.id, attachment: create_file_upload)
       sign_in @organization_user
     end
 

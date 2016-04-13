@@ -3,7 +3,7 @@ require 'test_helper'
 class ContactFlowsTest < ActionDispatch::IntegrationTest
   setup do
     create_roles # Needed by create new contact
-    create_country name: 'United States of America' # Needed by create new contact
+    create(:country, name: 'United States of America' )# Needed by create new contact
     @ungc_contact = create_staff_user
     @ungc_organization = @ungc
   end

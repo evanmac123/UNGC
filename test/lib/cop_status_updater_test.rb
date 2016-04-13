@@ -17,7 +17,7 @@ class CopStatusUpdaterTest < ActiveSupport::TestCase
   context 'active participants with COP due' do
 
     should 'move businesses to non-communicating status' do
-      business = create_business(@active)
+      business = create(:business, @active)
       assert business.active?
       @status_updater.update_all
       assert business.reload.noncommunicating?
@@ -28,7 +28,7 @@ class CopStatusUpdaterTest < ActiveSupport::TestCase
   context 'non-communicating participants with very late COP' do
 
     should 'delist businesses' do
-      business = create_business(@noncommunicating)
+      business = create(:business, @noncommunicating)
       assert business.noncommunicating?
       @status_updater.update_all
       assert business.reload.delisted?
@@ -39,8 +39,8 @@ class CopStatusUpdaterTest < ActiveSupport::TestCase
   context 'logging' do
 
     setup do
-      @active_business = create_business(@active)
-      @noncommunicating_business = create_business(@noncommunicating)
+      @active_business = create(:business, @active)
+      @noncommunicating_business = create(:business, @noncommunicating)
 
       @updater = CopStatusUpdater.new(logger, mailer)
     end
@@ -97,7 +97,7 @@ class CopStatusUpdaterTest < ActiveSupport::TestCase
     end
 
     should 'send an email to delisted businesses' do
-      organization = create_business(@noncommunicating)
+      organization = create(:business, @noncommunicating)
       delayed = mock('background-email')
       CopMailer.stubs(delay: delayed)
       delayed.expects(:delisting_today)

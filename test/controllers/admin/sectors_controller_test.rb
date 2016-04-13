@@ -3,7 +3,7 @@ require 'test_helper'
 class Admin::SectorsControllerTest < ActionController::TestCase
   def setup
     @staff_user = create_staff_user
-    @sector = create_sector
+    @sector = create(:sector)
 
     sign_in @staff_user
   end

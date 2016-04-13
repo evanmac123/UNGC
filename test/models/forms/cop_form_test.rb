@@ -3,10 +3,10 @@ require 'test_helper'
 class CopFormTest < ActiveSupport::TestCase
 
   setup do
-    create_principle_area
+    create(:principle_area)
     create_organization_and_user
-    @english = create_language(name:'English')
-    @french = create_language(name:'French')
+    @english = create(:language, name:'English')
+    @french = create(:language, name:'French')
   end
 
   %w(basic intermediate advanced non_business).each do |type|
@@ -73,9 +73,9 @@ class CopFormTest < ActiveSupport::TestCase
       context "when build_cop_answers is called" do
         setup do
           2.times do
-            question = @form.cop_questions.create(valid_cop_question_attributes)
+            question = @form.cop_questions.create(attributes_for(:cop_question))
             2.times do
-              question.cop_attributes.create(valid_cop_attribute_attributes)
+              question.cop_attributes.create(attributes_for(:cop_attribute))
             end
           end
           @form.build_cop_answers
@@ -187,7 +187,7 @@ class CopFormTest < ActiveSupport::TestCase
 
     setup do
       # given an existing cop
-      @old_cop = create_communication_on_progress
+      @old_cop = create(:communication_on_progress)
       assert_equal :learner, @old_cop.differentiation_level
       assert_not_nil @old_cop.created_at
 
@@ -218,6 +218,12 @@ class CopFormTest < ActiveSupport::TestCase
     end
 
     should "set basic fields" do
+      @attrs.merge!(
+        contact_info: @organization_user.contact_info,
+        state: 'approved',
+        format: 'basic',
+      )
+
       assert @form.submit @attrs
       # load the edit cop up.
       @cop = CommunicationOnProgress.find(@form.id)
@@ -253,7 +259,7 @@ class CopFormTest < ActiveSupport::TestCase
     context "adding a link" do
 
       setup do
-        @attrs[:cop_links_attributes] = [valid_cop_link_attributes, valid_cop_link_attributes]
+        @attrs[:cop_links_attributes] = 2.times.map { cop_link_attrs }
         assert @form.update(@attrs), @form.errors.full_messages.to_sentence
         @cop = CommunicationOnProgress.find(@form.id)
       end
@@ -266,10 +272,9 @@ class CopFormTest < ActiveSupport::TestCase
 
     context "deleting a link" do
       setup do
-        @link1_attrs = valid_cop_link_attributes
-        @link2_attrs = valid_cop_link_attributes
-        @old_cop.cop_links.create! @link1_attrs
-        @old_cop.cop_links.create! @link2_attrs
+        @link1 = create(:cop_link)
+        @old_cop.cop_links << @link1
+        @old_cop.cop_links << create(:cop_link)
 
         assert_equal 2, @old_cop.cop_links.count
         @attrs = valid_cop_attrs(@organization)
@@ -282,7 +287,7 @@ class CopFormTest < ActiveSupport::TestCase
       end
 
       should "delete a link" do
-        assert_equal @link1_attrs['url'], @cop.cop_links.first.url
+        assert_equal @link1.url, @cop.cop_links.first.url
         assert_equal 1, @cop.cop_links.count
       end
 
@@ -290,8 +295,8 @@ class CopFormTest < ActiveSupport::TestCase
 
     context "deleting all the links" do
       setup do
-        @old_cop.cop_links.create! valid_cop_link_attributes
-        @old_cop.cop_links.create! valid_cop_link_attributes
+        @old_cop.cop_links << create(:cop_link, cop_id: @old_cop.id)
+        @old_cop.cop_links << create(:cop_link, cop_id: @old_cop.id)
 
         assert_equal 2, @old_cop.cop_links.count
         @attrs = valid_cop_attrs(@organization)
@@ -310,7 +315,7 @@ class CopFormTest < ActiveSupport::TestCase
     end
 
     should "delete all the links when no links are supplied" do
-      @old_cop.cop_links.create! valid_cop_link_attributes
+      @old_cop.cop_links << create(:cop_link, cop_id: @old_cop.id)
 
       attrs = valid_cop_attrs(@organization)
       attrs.delete(:created_at)
@@ -358,7 +363,7 @@ class CopFormTest < ActiveSupport::TestCase
   end
 
   def valid_cop_attrs(organization, params={})
-    cop_attrs = valid_communication_on_progress_attributes(organization_id: organization.id)
+    cop_attrs = attributes_for(:communication_on_progress, organization_id: organization.id)
     link_params = {
       "cop_links_attributes" => {
         "new_cop" => {
@@ -384,8 +389,8 @@ class CopFormTest < ActiveSupport::TestCase
                             @organization_user.contact_info)
 
     # With 1 question and 1 attribute
-    question = form.cop_questions.create(valid_cop_question_attributes)
-    attribute = question.cop_attributes.create(valid_cop_attribute_attributes)
+    question = form.cop_questions.create(attributes_for(:cop_question))
+    attribute = question.cop_attributes.create(attributes_for(:cop_attribute))
 
     # And we save a draft
     params = {
@@ -414,8 +419,8 @@ class CopFormTest < ActiveSupport::TestCase
                             @organization_user.contact_info)
 
     # With 1 question and 1 attribute
-    question = form.cop_questions.create(valid_cop_question_attributes)
-    attribute = question.cop_attributes.create(valid_cop_attribute_attributes)
+    question = form.cop_questions.create(attributes_for(:cop_question))
+    attribute = question.cop_attributes.create(attributes_for(:cop_attribute))
 
     # And we save a draft
     params = {
@@ -435,6 +440,12 @@ class CopFormTest < ActiveSupport::TestCase
     assert_difference -> {CopAnswer.count}, 0 do
       edit_form.save_draft(params)
     end
+  end
+
+  private
+
+  def cop_link_attrs
+    build(:cop_link).attributes
   end
 
 end

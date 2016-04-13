@@ -14,7 +14,9 @@ if news ||= nil
           <%= content_tag(:h1, link_to(featured.title, news_path(featured))) %>
           <%= content_tag(:time, featured.published_on) %>
           <%= content_tag(:address, featured.full_location) %>
-          <%= content_tag(:p, strip_tags(featured.description).truncate(300)) %>
+          <%- if featured.description.present? -%>
+            <%= content_tag(:p, strip_tags(featured.description).truncate(300)) %>
+          <%- end -%>
           <%= link_to('Read More', news_path(featured), class: 'read-more') if !is_landing %>
         </article>
       <%- end -%>

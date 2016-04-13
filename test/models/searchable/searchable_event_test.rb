@@ -5,7 +5,7 @@ class Searchable::SearchableEventTest < ActiveSupport::TestCase
   include SearchableModelTests
 
   should "NOT index an unapproved event" do
-    create_event
+    create(:event)
     assert_no_difference -> { Searchable.count } do
       Searchable.index_all
     end
@@ -26,7 +26,7 @@ class Searchable::SearchableEventTest < ActiveSupport::TestCase
   private
 
   def event
-    @event ||= create_event({programme_description: '<b>a good event</b>'}).tap do |h|
+    @event ||= create(:event, {programme_description: '<b>a good event</b>'}).tap do |h|
       h.approve!
     end
   end

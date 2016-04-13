@@ -13,14 +13,14 @@ class ContributionStatusPresenterTest < ActionController::TestCase
     @organization.update_attribute :joined_on, DateTime.new(@this_year - 2, 1, 1)
 
     # and that there are annual contribution campaigns going back that long
-    old_campaign = create_campaign(name: "#{@two_years_ago} Annual Contributions")
-    last_year_campaign = create_campaign(name: "#{@last_year} Annual Contributions")
-    create_campaign(name: "#{@this_year} Annual Contributions")
-    create_campaign(name: "#{@next_year} Annual Contributions")
+    old_campaign = create(:campaign, name: "#{@two_years_ago} Annual Contributions")
+    last_year_campaign = create(:campaign, name: "#{@last_year} Annual Contributions")
+    create(:campaign, name: "#{@this_year} Annual Contributions")
+    create(:campaign, name: "#{@next_year} Annual Contributions")
 
     # and the organization has contributted for to the first two years
-    @organization.contributions << create_contribution(raw_amount: 5000, stage: 'Posted', campaign: old_campaign)
-    @organization.contributions << create_contribution(raw_amount: 2500, stage: 'Posted', campaign: last_year_campaign)
+    @organization.contributions << create(:contribution, raw_amount: 5000, stage: 'Posted', campaign: old_campaign)
+    @organization.contributions << create(:contribution, raw_amount: 2500, stage: 'Posted', campaign: last_year_campaign)
 
     # when I query for their contribution status
     status = ContributionStatusQuery.for_organization(@organization)

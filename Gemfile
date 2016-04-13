@@ -17,12 +17,12 @@ gem 'thinking-sphinx',      '~> 3.1.4'
 gem 'state_machine',                    github: 'seuros/state_machine', ref: 'master'
 gem 'acts_as_tree',         '~> 2.0.0'
 gem 'annotate',             '~> 2.5.0'
-gem 'fixture_replacement',              github: 'smtlaissezfaire/fixturereplacement', ref: 'master'
 gem 'custom_error_message',             github: 'jeremydurham/custom-err-msg', ref: 'master'
 gem 'devise',               '~> 3.4.1'
 gem 'dynamic_form',         '~> 1.1.4'
 gem 'skylight',             '~> 0.10.3'
 gem 'honeybadger', '~> 2.0'
+gem 'faker'
 
 gem 'sass-rails',           '5.0.3'
 gem 'coffee-rails',         '~> 4.1.0'
@@ -63,6 +63,7 @@ group :test do
   gem 'capybara'
   gem 'simplecov', require: false
   gem 'mocha', '~> 1.1.0'
+  gem 'database_cleaner'
 end
 
 group :development, :test do
@@ -72,6 +73,7 @@ group :development, :test do
   gem 'byebug'
   gem 'web-console', '~> 2.0'
   gem 'spring'
+  gem 'factory_girl_rails', '~> 4.0'
 end
 
 group :production do

@@ -59,19 +59,19 @@ class OrganizationMailerPreview < ActionMailer::Preview
   private
 
   def create_ceo
-    FixtureReplacement.create_contact(organization: organization, roles: [Role.ceo])
+    FactoryGirl.create(:contact, organization: organization, roles: [Role.ceo])
   end
 
   def create_contact_point
-    FixtureReplacement.create_contact(organization: organization, roles: [Role.contact_point])
+    FactoryGirl.create(:contact, organization: organization, roles: [Role.contact_point])
   end
 
   def create_network_report_recipient
-    FixtureReplacement.create_contact(local_network: local_network, roles: [Role.network_report_recipient])
+    FactoryGirl.create(:contact, local_network: local_network, roles: [Role.network_report_recipient])
   end
 
   def create_staff
-    FixtureReplacement.create_contact(organization: ungc)
+    FactoryGirl.create(:contact, organization: ungc)
   end
 
   def staff_user
@@ -79,17 +79,17 @@ class OrganizationMailerPreview < ActionMailer::Preview
   end
 
   def organization
-    @organization ||= FixtureReplacement.create_organization(country: country).tap do |org|
+    @organization ||= FactoryGirl.create(:organization, country: country).tap do |org|
       org.comments.create!(body: FixtureReplacement.random_string, contact: staff_user)
     end
   end
 
   def country
-    @country ||= FixtureReplacement.create_country(local_network: local_network)
+    @country ||= FactoryGirl.create(:country, local_network: local_network)
   end
 
   def local_network
-    @local_network ||= FixtureReplacement.create_local_network
+    @local_network ||= FactoryGirl.create(:local_network)
   end
 
   def ungc

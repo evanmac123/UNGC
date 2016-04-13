@@ -35,9 +35,9 @@ class Components::RelatedContentTest < ActiveSupport::TestCase
 
   context 'with events' do
     setup do
-      e1 = create_event(title: 'event1')
-      e2 = create_event(title: 'event2')
-      e3 = create_event(title: 'event3')
+      e1 = create(:event, title: 'event1')
+      e2 = create(:event, title: 'event2')
+      e3 = create(:event, title: 'event3')
       data = {
         title: 'test title',
         content_boxes: [
@@ -61,7 +61,7 @@ class Components::RelatedContentTest < ActiveSupport::TestCase
   context 'with events and containers' do
     setup do
       create_container_with_payload('/test-path', 'test title')
-      e2 = create_event(title: 'event2')
+      e2 = create(:event, title: 'event2')
       create_container_with_payload('/test-path3', 'test title 3')
       data = {
         title: 'test title',

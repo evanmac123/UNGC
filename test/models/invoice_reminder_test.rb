@@ -6,60 +6,60 @@ class InvoiceReminderTest < ActiveSupport::TestCase
       @reminder = InvoiceReminder.new
 
       create_roles
-      create_country
+      create(:country)
 
-      @business_type = create_organization_type(
+      @business_type = create(:organization_type,
         name: 'Company',
         type_property: OrganizationType::BUSINESS
       )
-      @non_business_type = create_organization_type(
+      @non_business_type = create(:organization_type,
         name: 'Academic',
         type_property: OrganizationType::NON_BUSINESS
       )
 
       # eligible for reminder email
-      @org1 = create_organization(
+      @org1 = create(:organization,
         joined_on: 2.day.ago,
         pledge_amount: 0,
         participant: true,
         organization_type_id: @business_type.id
       )
-      create_contact(
+      create(:contact,
         :organization_id => Organization.first.id,
         :role_ids        => [Role.contact_point.id]
       )
 
       # eligible for invoice email
-      @org2 = create_organization(
+      @org2 = create(:organization,
         joined_on: 2.day.ago,
         pledge_amount: 500,
         participant: true,
         organization_type_id: @business_type.id
       )
-      create_contact(
+      create(:contact,
         :organization_id => @org2.id,
         :role_ids        => [Role.contact_point.id]
       )
 
       # ineligible: created too recently
-      @org3 = create_organization(
+      @org3 = create(:organization,
         joined_on: Time.now,
         pledge_amount: 500,
         participant: true,
         organization_type_id: @business_type.id
       )
-      create_contact(
+      create(:contact,
         :organization_id => @org3.id,
         :role_ids        => [Role.contact_point.id]
       )
 
       # ineligible: non business type
-      @org4 = create_organization(
+      @org4 = create(:organization,
         joined_on: 1.day.ago,
         participant: true,
         organization_type_id: @non_business_type.id
       )
-      create_contact(
+      create(:contact,
         :organization_id => @org4.id,
         :role_ids        => [Role.contact_point.id]
       )

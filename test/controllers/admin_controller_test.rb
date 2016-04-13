@@ -35,9 +35,10 @@ class AdminControllerTest < ActionController::TestCase
   context 'given a pending organization member' do
     setup do
       user = create_organization_and_user
-      create_comment(:commentable_id   => @organization.id,
-                     :commentable_type => 'Organization',
-                     :contact_id       => @organization_user.id)
+      create(:comment,
+             commentable: @organization,
+             commentable_type: 'Organization',
+             contact: @organization_user)
       sign_in user
     end
 
@@ -64,9 +65,9 @@ class AdminControllerTest < ActionController::TestCase
   private
     def add_organization_data(organization, user)
       # add some content to the organization
-      create_logo_publication
+      create(:logo_publication)
       create_cop(organization.id)
-      create_logo_request(:organization_id => organization.id,
+      create(:logo_request, :organization_id => organization.id,
                           :contact_id      => user.id)
     end
 end

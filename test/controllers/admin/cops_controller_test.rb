@@ -49,7 +49,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
     context "who has already submitted a grace letter" do
       setup do
         @organization.update_attribute :cop_due_on, Date.today - 75.days
-        @cop = create_communication_on_progress(organization: @organization, format: 'grace_letter')
+        @cop = create(:communication_on_progress, organization: @organization, format: 'grace_letter')
         @cop.cop_type = 'grace'
         @cop.save
         @organization.reload
@@ -131,7 +131,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
     context "validation messages" do
 
       should 'show validation errors for missing cop files' do
-        language = create_language
+        language = create(:language)
         cop_params = {
           "cop_files_attributes" => { "0" => { "attachment_type" => "cop", "language_id" => language.id } },
           "cop_type" => "intermediate"
@@ -167,7 +167,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
       @organization.approve!
       create_initiatives
       initiative = Initiative.for_filter(:lead).first
-      create_signing(:organization_id => @organization.id, :initiative_id => initiative.id)
+      create(:signing, :organization_id => @organization.id, :initiative_id => initiative.id)
     end
 
     should "get the LEAD COP form" do
@@ -183,7 +183,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
       create_organization_and_user
       @organization.approve!
       create_principle_areas
-      create_language
+      create(:language)
       sign_in @organization_user
       post :create, :organization_id => @organization.id,
                     :communication_on_progress => {

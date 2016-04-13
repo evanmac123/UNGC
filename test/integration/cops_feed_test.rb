@@ -2,14 +2,14 @@ require 'test_helper'
 
 class CopsFeedTest < ActionDispatch::IntegrationTest
   setup do
-    create_principle_area(name: "Human Rights")
-    create_principle_area(name: "Labour")
-    create_principle_area(name: "Environment")
-    create_principle_area(name: "Anti-Corruption")
+    create(:principle_area, name: "Human Rights")
+    create(:principle_area, name: "Labour")
+    create(:principle_area, name: "Environment")
+    create(:principle_area, name: "Anti-Corruption")
 
-    @org_type = create_organization_type
-    @org = create_organization
-    @cop = create_communication_on_progress(cop_type: 'basic')
+    @org_type = create(:organization_type)
+    @org = create(:organization)
+    @cop = create(:communication_on_progress, cop_type: 'basic')
   end
 
   test 'should get feed' do

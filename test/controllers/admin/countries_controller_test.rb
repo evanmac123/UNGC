@@ -3,7 +3,7 @@ require 'test_helper'
 class Admin::CountriesControllerTest < ActionController::TestCase
   def setup
     @staff_user = create_staff_user
-    @country = create_country
+    @country = create(:country)
 
     sign_in @staff_user
   end
@@ -50,7 +50,7 @@ class Admin::CountriesControllerTest < ActionController::TestCase
   private
 
   def params
-    valid_initiative_attributes.with_indifferent_access.slice(
+    attributes_for(:initiative).with_indifferent_access.slice(
       :code,
       :name,
       :region,

@@ -2,12 +2,12 @@ require 'test_helper'
 
 class NewsControllerTest < ActionController::TestCase
   setup do
-    create_container path: '/news'
-    create_container path: '/news/press-releases'
+    create(:container, path: '/news')
+    create(:container, path: '/news/press-releases')
 
     NewsListForm.any_instance.stubs(execute: MockSearchResult.new)
 
-    @headline = create_headline
+    @headline = create(:headline)
     @headline.approve!
   end
 

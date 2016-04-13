@@ -3,7 +3,7 @@ require 'test_helper'
 class Admin::LocalNetworksControllerTest < ActionController::TestCase
   def setup
     @staff_user = create_staff_user
-    @local_network = create_local_network
+    @local_network = create(:local_network)
     @local_network_user = create_local_network_with_report_recipient
     create_local_network_guest_organization
     sign_in @staff_user
@@ -15,7 +15,7 @@ class Admin::LocalNetworksControllerTest < ActionController::TestCase
     @update_with_image = @update.merge({
       image: fixture_file_upload('files/untitled.jpg', 'image/jpeg')
     })
-    @local_network_with_image = create_local_network(@update_with_image)
+    @local_network_with_image = create(:local_network, @update_with_image)
   end
 
   test "should get index" do
@@ -170,13 +170,13 @@ class Admin::LocalNetworksControllerTest < ActionController::TestCase
     end
 
     should "not edit another Local Network" do
-      @another_network = create_local_network
+      @another_network = create(:local_network)
       get :edit, :id => @another_network.to_param
       assert_redirected_to dashboard_path
     end
 
     should "not destroy another local network" do
-      @another_network = create_local_network
+      @another_network = create(:local_network)
       assert_difference('LocalNetwork.count', 0) do
         delete :destroy, :id => @another_network.to_param
       end

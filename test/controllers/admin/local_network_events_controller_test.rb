@@ -7,7 +7,7 @@ class Admin::LocalNetworkEventsControllerTest < ActionController::TestCase
 
     setup do
       sign_in_as_local_network
-      @event = create_local_network_event(
+      @event = create(:local_network_event,
         local_network_id: @local_network.id,
         uploaded_attachments: [attachment: create_file_upload]
       )
@@ -49,8 +49,8 @@ class Admin::LocalNetworkEventsControllerTest < ActionController::TestCase
   end
 
   def params
-    valid_local_network_event_attributes
-      .with_indifferent_access
+    attributes_for(:local_network_event)
+      .merge(valid_file_upload_attributes)
       .slice(
         :title,
         :description,

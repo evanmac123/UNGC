@@ -7,7 +7,7 @@ class Admin::MousControllerTest < ActionController::TestCase
 
     setup do
       sign_in_as_local_network
-      @mou = create_mou(local_network: @local_network)
+      @mou = create(:mou, local_network: @local_network)
       @local_network.mous << @mou
     end
 

@@ -7,7 +7,7 @@ class Admin::MeetingsControllerTest < ActionController::TestCase
 
     setup do
       sign_in_as_local_network
-      @meeting = create_meeting(local_network: @local_network)
+      @meeting = create(:meeting, local_network: @local_network)
       @local_network.meetings << @meeting
     end
 
@@ -40,8 +40,8 @@ class Admin::MeetingsControllerTest < ActionController::TestCase
   end
 
   def params
-    valid_meeting_attributes
-      .with_indifferent_access
+    attributes_for(:meeting)
+      .merge(valid_file_upload_attributes)
       .slice(:date, :file)
   end
 end

@@ -14,6 +14,8 @@
 
 class CopAttribute < ActiveRecord::Base
   validates_presence_of :cop_question_id
+  validates_presence_of :hint
+
   belongs_to :cop_question
   has_many :cop_answers
 

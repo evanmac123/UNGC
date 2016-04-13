@@ -81,10 +81,10 @@ class SearchableTest < ActiveSupport::TestCase
       description: 'content'
     }
 
-    create_headline(params).tap { |h|
+    create(:headline, params).tap { |h|
       h.approve!
       h.update_attributes(params)
-      h.topics.create(valid_topic_attributes)
+      h.topics.create(attributes_for(:topic))
     }
   end
 

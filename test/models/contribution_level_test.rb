@@ -12,7 +12,7 @@ class ContributionLevelTest < ActiveSupport::TestCase
       {description: "De EUR 50 Millions à 250 million", amount: "€ 5,000"},
     ]
 
-    network = create_local_network
+    network = create(:local_network)
     @levels = network.contribution_levels
 
     @levels.level_description = 'Annual sales/revenue'

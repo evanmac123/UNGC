@@ -4,11 +4,11 @@ class Admin::NewsControllerTest < ActionController::TestCase
   setup do
     @staff_user = create_staff_user
 
-    @country = create_country(name: 'USA')
-    @topic = create_topic
-    @issue = create_issue
-    @sector = create_sector
-    @sdg = create_sustainable_development_goal
+    @country = create(:country, name: 'USA')
+    @topic = create(:topic)
+    @issue = create(:issue)
+    @sector = create(:sector)
+    @sdg = create(:sustainable_development_goal)
 
     @params = {
       title: 'New Website Launch',
@@ -95,7 +95,7 @@ class Admin::NewsControllerTest < ActionController::TestCase
 
     context 'GET /admin/headlines/:id' do
       setup do
-        @headline = create_headline
+        @headline = create(:headline)
         get :show, id: @headline.id
       end
 
@@ -107,7 +107,7 @@ class Admin::NewsControllerTest < ActionController::TestCase
 
     context 'GET /admin/headlines/:id/edit' do
       setup do
-        @headline = create_headline
+        @headline = create(:headline)
         get :edit, id: @headline.id
       end
 
@@ -119,7 +119,7 @@ class Admin::NewsControllerTest < ActionController::TestCase
     context 'PUT /admin/headlines/:id' do
       context 'with valid params' do
         setup do
-          @headline = create_headline
+          @headline = create(:headline)
 
           assert_no_difference 'Headline.count' do
             put :update, id: @headline.id, headline: @params
@@ -179,8 +179,8 @@ class Admin::NewsControllerTest < ActionController::TestCase
 
       context 'with no topic IDs' do
         should 'remove all topics' do
-          @topic_ids = 2.times.map { create_topic.id }
-          @headline = create_headline(topic_ids: @topic_ids)
+          @topic_ids = 2.times.map { create(:topic).id }
+          @headline = create(:headline, topic_ids: @topic_ids)
 
           assert_difference '@headline.topics.count', -2 do
             put :update, id: @headline.id, headline: { topic_ids: [] }
@@ -190,8 +190,8 @@ class Admin::NewsControllerTest < ActionController::TestCase
 
       context 'with no sustainable development goal IDs' do
         should 'remove all sustainable development goals' do
-          @sdg = 2.times.map { create_sustainable_development_goal.id }
-          @headline = create_headline(sustainable_development_goal_ids: @sdg)
+          @sdg = 2.times.map { create(:sustainable_development_goal).id }
+          @headline = create(:headline, sustainable_development_goal_ids: @sdg)
 
           assert_difference '@headline.sustainable_development_goals.count', -2 do
             put :update, id: @headline.id, headline: { sustainable_development_goal_ids: [] }
@@ -202,7 +202,7 @@ class Admin::NewsControllerTest < ActionController::TestCase
 
     context 'POST /admin/headlines/:id/approve' do
       setup do
-        @headline = create_headline
+        @headline = create(:headline)
 
         assert_no_difference 'Headline.count' do
           post :approve, id: @headline.id
@@ -227,7 +227,7 @@ class Admin::NewsControllerTest < ActionController::TestCase
 
     context 'POST /admin/headlines/:id/revoke' do
       setup do
-        @headline = create_headline
+        @headline = create(:headline)
         # clear updated_by_id so we're sure it gets set.
         @headline.update_attribute :updated_by_id, nil
         @headline.as_user(@staff_user).approve!
@@ -256,7 +256,7 @@ class Admin::NewsControllerTest < ActionController::TestCase
     context 'DELETE /admin/headlines/:id' do
       context 'given an headline with no associations' do
         setup do
-          @headline = create_headline
+          @headline = create(:headline)
 
           assert_difference('Headline.count', -1) do
             delete :destroy, id: @headline.id
@@ -294,7 +294,7 @@ class Admin::NewsControllerTest < ActionController::TestCase
 
     context 'GET /admin/headlines' do
       setup do
-        3.times { create_headline }
+        3.times { create(:headline) }
 
         get :index
       end

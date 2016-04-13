@@ -9,7 +9,7 @@ class ResourceTest < ActiveSupport::TestCase
 
   context "resource creation" do
     setup do
-      @resource = create_resource
+      @resource = create(:resource)
     end
 
     should "create a resource and set it to the pending state" do
@@ -26,9 +26,9 @@ class ResourceTest < ActiveSupport::TestCase
 
     setup do
       @labour, @energy, @education = %w(Labour Energy Education).map do |name|
-        create_principle(name:name, reference:name.downcase)
+        create(:principle, name:name, reference:name.downcase)
       end
-      @resource = create_resource(principles:[@labour, @education])
+      @resource = create(:resource, principles:[@labour, @education])
     end
 
     should "calculate the principles count on create" do

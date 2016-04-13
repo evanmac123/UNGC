@@ -3,7 +3,7 @@ require 'test_helper'
 class WhatYouCanDoFormTest < ActiveSupport::TestCase
   context 'search with sustainable development goals in params' do
     setup do
-      @sdgs = 2.times.collect { create_sustainable_development_goal }
+      @sdgs = 2.times.collect { create(:sustainable_development_goal) }
       input_params = { sustainable_development_goals: [@sdgs.first.id] }.deep_stringify_keys
       seed = rand(100)
       facet_response = FakeFacetResponse.with(:sustainable_development_goal_ids, @sdgs.map(&:id))

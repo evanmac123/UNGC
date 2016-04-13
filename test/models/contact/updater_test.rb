@@ -2,8 +2,8 @@ require 'test_helper'
 
 class Contact::UpdaterTest < ActiveSupport::TestCase
   setup do
-    create_country # Needed by create_contact. See example_data.rb.
-    @contact = create_contact(password: 'password')
+    create(:country) # Needed by create_contact. See example_data.rb.
+    @contact = create(:contact, password: 'password')
   end
 
   context 'update' do

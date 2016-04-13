@@ -2,11 +2,11 @@ require 'test_helper'
 
 class EventsControllerTest < ActionController::TestCase
   setup do
-    create_container path: '/take-action/events'
+    create(:container, path: '/take-action/events')
 
     EventsListForm.any_instance.stubs(execute: MockSearchResult.new)
 
-    @event = create_event(
+    @event = create(:event,
       starts_at: Time.new(2015, 7, 25, 11, 0, 0),
       ends_at: Time.new(2015, 7, 26, 2, 0, 0)
     )

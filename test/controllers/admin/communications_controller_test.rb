@@ -7,13 +7,15 @@ class Admin::CommunicationsControllerTest < ActionController::TestCase
 
     setup do
       sign_in_as_local_network
-      @communication = create_communication(local_network: @local_network)
+      @communication = create(:communication, local_network: @local_network)
       @local_network.communications << @communication
     end
 
     should "post => #create" do
       assert_difference '@local_network.communications.count', +1 do
-        post :create, local_network_id: @local_network, communication: params
+        post :create,
+             local_network_id: @local_network,
+             communication: params
       end
       assert_response :redirect
     end
@@ -43,8 +45,8 @@ class Admin::CommunicationsControllerTest < ActionController::TestCase
   end
 
   def params
-    valid_communication_attributes
-      .with_indifferent_access
-      .slice(:title, :date, :file)
+    attributes_for(:communication).
+      merge(valid_file_upload_attributes).
+      slice(:title, :date, :file)
   end
 end

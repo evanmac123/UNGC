@@ -4,10 +4,10 @@ class NonBusinessSignupTest < ActionDispatch::IntegrationTest
 
   setup do
     create_roles
-    create_organization_type name: 'City', type_property: OrganizationType::NON_BUSINESS
-    create_country name: 'France'
-    create_country name: 'Canada'
-    create_country name: 'Norway'
+    create(:organization_type, name: 'City', type_property: OrganizationType::NON_BUSINESS)
+    create(:country, name: 'France')
+    create(:country, name: 'Canada')
+    create(:country, name: 'Norway')
   end
 
   test "a valid non business signup" do

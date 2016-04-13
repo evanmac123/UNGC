@@ -6,7 +6,7 @@ class ActionDetailPageTest < ActionDispatch::IntegrationTest
   setup do
     create_staff_user
 
-    container = create_container(
+    container = create(:container,
       path: 'new-action-detail-path',
       layout: 'action_detail'
     )

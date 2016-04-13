@@ -19,7 +19,7 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
     @selected_sector = @sectors.first.children.last
 
     # languages
-    @languages = ["English", "French"].map { |name| create_language name: name }
+    @languages = ["English", "French"].map { |name| create(:language, name: name) }
     @selected_language = @languages.last
 
     # search params
@@ -219,7 +219,7 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
 
   context 'search with sustainable development goals in params' do
     setup do
-      @sdgs = 2.times.collect { create_sustainable_development_goal }
+      @sdgs = 2.times.collect { create(:sustainable_development_goal) }
       @params = { sustainable_development_goals: [@sdgs.first.id] }.deep_stringify_keys
 
       @search = LibrarySearchForm.new 1, @params

@@ -62,7 +62,9 @@ class Admin::ReportingCycleAdjustmentsController < AdminController
 
   private
     def load_adjustment_and_organization
-      @adjustment = CommunicationOnProgress.visible_to(current_contact).find(params[:id]) if params[:id]
+      if id = params[:id]
+        @adjustment = CommunicationOnProgress.visible_to(current_contact).find(id)
+      end
       @organization = Organization.find params[:organization_id]
     end
 

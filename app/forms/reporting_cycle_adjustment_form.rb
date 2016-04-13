@@ -55,11 +55,16 @@ class ReportingCycleAdjustmentForm
     @default_ends_on ||= starts_on + ReportingCycleAdjustmentApplication::MAX_MONTHS.months
   end
 
+  # Update the ends on date.
   def update(params)
-    cop_file.language_id = params[:language_id]
-    cop_file.attachment = params[:attachment] if params.has_key?(:attachment)
-    @ends_on = reporting_cycle_adjustment.ends_on
-    valid? && cop_file.save
+    if parse_ends_on(params) && valid?
+      Organization.transaction do
+        reporting_cycle_adjustment.update(ends_on: ends_on)
+        organization.update(cop_due_on: ends_on)
+      end
+    else
+      false
+    end
   end
 
   def return_url
@@ -92,7 +97,7 @@ class ReportingCycleAdjustmentForm
       # unpack rails date ends_on(1i), ends_on(2i), ends_on(3i)...
       keys = 3.times.map {|i| "ends_on(#{i+1}i)"}
       year, month, day = params.slice(*keys).values.map(&:to_i)
-      if [year, month, day].all? &:present?
+      if [year, month, day].all?(&:present?)
         @ends_on = Date.civil(year, month, day)
       end
 

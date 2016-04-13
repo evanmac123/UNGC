@@ -42,7 +42,7 @@ class FileTextExtractorTest < ActiveSupport::TestCase
 
     content_type = MIME::Types.type_for(path).join(',')
     attachment = fixture_file_upload(path, content_type)
-    file = create_cop_file(attachment: attachment)
+    file = create(:cop_file, attachment: attachment)
     contents = FileTextExtractor.extract(file)
     assert_match(pattern, contents)
   end

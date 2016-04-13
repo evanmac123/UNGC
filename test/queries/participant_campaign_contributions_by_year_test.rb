@@ -19,17 +19,17 @@ class ParticipantCampaignContributionsByYearTest < ActiveSupport::TestCase
 
   def participant
     @organization ||= begin
-      create_organization_type
-      create_organization(participant: true).tap do |organization|
+      create(:organization_type)
+      create(:organization, participant: true).tap do |organization|
 
-        create_contribution(
+        create(:contribution,
           organization: organization,
           campaign: private_campaign,
           stage: Contribution::STAGE_POSTED,
           date: Date.new(2012, 1, 1)
         )
 
-        create_contribution(
+        create(:contribution,
           organization: organization,
           campaign: public_campaign,
           stage: Contribution::STAGE_POSTED,
@@ -58,11 +58,11 @@ class ParticipantCampaignContributionsByYearTest < ActiveSupport::TestCase
   end
 
   def private_campaign
-    @private_campaign ||= create_campaign(is_private: true)
+    @private_campaign ||= create(:campaign, is_private: true)
   end
 
   def public_campaign
-    @public_campaign ||= create_campaign
+    @public_campaign ||= create(:campaign)
   end
 
 end

@@ -67,7 +67,7 @@ class ParticipantSearchControllerTest < ActionController::TestCase
   end
 
   def container
-    @container ||= create_container
+    @container ||= create(:container)
   end
 
 end

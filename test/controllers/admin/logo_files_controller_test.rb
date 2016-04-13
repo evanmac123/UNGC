@@ -3,7 +3,7 @@ require 'test_helper'
 class Admin::LogoFilesControllerTest < ActionController::TestCase
   def setup
     @staff_user = create_staff_user
-    @logo_file = create_logo_file
+    @logo_file = create(:logo_file)
 
     sign_in @staff_user
   end

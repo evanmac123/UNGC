@@ -8,7 +8,7 @@ class Admin::InitiativesControllerTest < ActionController::TestCase
     end
 
     should "index" do
-      initiatives = 2.times.map { create_initiative }
+      initiatives = 2.times.map { create(:initiative) }
       get :index
 
       assert_response :success
@@ -47,7 +47,7 @@ class Admin::InitiativesControllerTest < ActionController::TestCase
 
     context "working with an existing initiative" do
       setup do
-        @initiative = create_initiative :name => 'Caring for the Climate'
+        @initiative = create(:initiative, :name => 'Caring for the Climate')
       end
 
       should "show" do
@@ -85,7 +85,7 @@ class Admin::InitiativesControllerTest < ActionController::TestCase
   private
 
   def params
-    valid_initiative_attributes.with_indifferent_access.slice(
+    attributes_for(:initiative).with_indifferent_access.slice(
       :name,
       :active
     )

@@ -64,7 +64,9 @@ class Admin::GraceLettersController < AdminController
   private
 
     def load_letter_and_organization
-      @letter = CommunicationOnProgress.visible_to(current_contact).find(params[:id]) if params[:id]
+      if id = params[:id]
+        @letter = CommunicationOnProgress.visible_to(current_contact).find(id)
+      end
       @organization = Organization.find params[:organization_id]
     end
 
