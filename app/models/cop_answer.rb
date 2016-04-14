@@ -14,7 +14,6 @@
 class CopAnswer < ActiveRecord::Base
   belongs_to :communication_on_progress, :foreign_key => :cop_id
   belongs_to :cop_attribute
-  validates_presence_of :text 
 
   scope :by_group, lambda { |group|
     joins(:cop_attribute)
