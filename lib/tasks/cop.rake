@@ -25,8 +25,7 @@ namespace :cop do
   desc "find COPs with duplicate answers"
   task :with_duplicated_answers => :environment do
     puts CopAnswer.
-      select('distinct cop_id').
-      group(:cop_attribute_id).
+      group(:cop_id, :cop_attribute_id).
       having('count(cop_attribute_id) > 1').
       pluck(:cop_id).
       uniq
