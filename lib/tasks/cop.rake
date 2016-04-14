@@ -31,4 +31,17 @@ namespace :cop do
       uniq
   end
 
+  desc "find COPs with answers for b4p who are not signatories"
+  task :non_b4p_signatories_with_answers => :environment do
+    b4p = Initiative.id_by_filter(:business4peace)
+    puts CopAnswer.
+      joins(communication_on_progress: [organization: :signings]).
+      joins(cop_attribute: [:cop_question]).
+      where(cop_questions: {grouping: 'business_peace'}).
+      where.not(signings: {initiative_id: b4p}).
+      where(value: false, text: '').
+      where(communication_on_progresses: {differentiation: 'advanced'}).
+      delete_all
+  end
+
 end
