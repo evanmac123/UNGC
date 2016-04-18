@@ -85,11 +85,9 @@ class EventsListForm < FilterableForm
   end
 
   def start_of_first_date
-    if start_date.present?
-      start_date.to_datetime.beginning_of_day.to_i
-    else
-      0
-    end
+    start_date.to_datetime.beginning_of_day.to_i
+  rescue
+    0
   end
 
   def end_of_last_date

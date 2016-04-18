@@ -11,3 +11,6 @@ Disallow: /participants/
 Disallow: /participants/search
 Disallow: /search
 Crawl-delay: 3
+
+User-Agent: SEOkicks-Robot
+Disallow: /

@@ -72,6 +72,12 @@ class LibrarySearchForm < FilterableForm
     escape(keywords)
   end
 
+  def sustainable_development_goals
+    Array.wrap(super).map(&:to_i)
+  rescue
+    []
+  end
+
   private
 
   def order
