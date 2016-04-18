@@ -14,3 +14,6 @@ Crawl-delay: 3
 
 User-Agent: SEOkicks-Robot
 Disallow: /
+
+User-Agent: CFNetwork
+Disallow: /
