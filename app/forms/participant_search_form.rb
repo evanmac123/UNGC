@@ -47,6 +47,15 @@ class ParticipantSearchForm < FilterableForm
     search_scope.facets('', facet_options)
   end
 
+  def initiatives
+    Array.wrap(super).map(&:to_i)
+  end
+
+  def page
+    p = super.try!(:to_i) || 0
+    [p, 1].max
+  end
+
   protected
 
   def escaped_keywords
