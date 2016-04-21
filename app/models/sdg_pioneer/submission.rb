@@ -1,6 +1,6 @@
 class SdgPioneer::Submission < ActiveRecord::Base
   validates :pioneer_type,                presence: true
-  validates :global_goals_activity,       presence: true, length: { maximum: 2750 }
+  validates :global_goals_activity,       presence: true, length: { maximum: 5000 }
   validates :matching_sdgs,               presence: true
   validates :name,                        presence: true
   validates :title,                       presence: true
@@ -9,9 +9,10 @@ class SdgPioneer::Submission < ActiveRecord::Base
   validates :organization_name,           presence: true
   validates :organization_name_matched,   inclusion: [true, false]
   validate :validate_country_name
-  validates :reason_for_being,            presence: true, length: { maximum: 2750 }
+  validates :reason_for_being,            presence: true, length: { maximum: 5000 }
   validates :accepts_tou,                 inclusion: [true, false]
-  validates :supporting_documents,           length: { minimum: 1, maximmum: 12 }
+  validates :supporting_documents,        length: { minimum: 1, maximmum: 12 }
+  validates :website_url,                 length: { maximum: 255 }
 
   has_many :supporting_documents,
               -> { where attachable_key: 'supporting_document'},
