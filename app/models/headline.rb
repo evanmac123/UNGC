@@ -99,11 +99,9 @@ class Headline < ActiveRecord::Base
 
   # use first paragraph of news item as teaser
   def teaser
-   if description.present?
-     (Hpricot(self.description)/'p').first.inner_html
-   else
-     ''
-   end
+    (Hpricot(self.description)/'p').first.inner_html
+  rescue
+    ''
   end
 
   def missing_call_to_action?

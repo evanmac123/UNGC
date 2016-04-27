@@ -2,7 +2,7 @@ class SdgPioneer::Submission < ActiveRecord::Base
   validates :pioneer_type,                presence: true
   validates :global_goals_activity,       presence: true, length: { maximum: 5000 }
   validates :matching_sdgs,               presence: true
-  validates :name,                        presence: true
+  validates :name,                        presence: true, length: { maximum: 255 }
   validates :title,                       presence: true
   validates :email,                       presence: true
   validates :phone,                       presence: true
