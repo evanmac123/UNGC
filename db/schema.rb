@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160428182433) do
+ActiveRecord::Schema.define(version: 20160429200740) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -930,20 +930,21 @@ ActiveRecord::Schema.define(version: 20160428182433) do
   end
 
   create_table "sdg_pioneer_others", force: :cascade do |t|
-    t.string  "submitter_name",          limit: 255
-    t.string  "submitter_place_of_work", limit: 255
-    t.string  "submitter_email",         limit: 255
-    t.string  "nominee_name",            limit: 255
-    t.string  "nominee_email",           limit: 255
-    t.string  "nominee_phone",           limit: 255
-    t.string  "nominee_work_place",      limit: 255
-    t.string  "organization_type",       limit: 255
-    t.string  "submitter_job_title",     limit: 255
-    t.string  "submitter_phone",         limit: 255
-    t.boolean "accepts_tou",                           default: false, null: false
-    t.string  "nominee_title",           limit: 255
-    t.text    "why_nominate",            limit: 65535
-    t.integer "sdg_pioneer_role",        limit: 4
+    t.string   "submitter_name",          limit: 255
+    t.string   "submitter_place_of_work", limit: 255
+    t.string   "submitter_email",         limit: 255
+    t.string   "nominee_name",            limit: 255
+    t.string   "nominee_email",           limit: 255
+    t.string   "nominee_phone",           limit: 255
+    t.string   "nominee_work_place",      limit: 255
+    t.string   "organization_type",       limit: 255
+    t.string   "submitter_job_title",     limit: 255
+    t.string   "submitter_phone",         limit: 255
+    t.boolean  "accepts_tou",                           default: false, null: false
+    t.string   "nominee_title",           limit: 255
+    t.text     "why_nominate",            limit: 65535
+    t.integer  "sdg_pioneer_role",        limit: 4
+    t.datetime "emailed_at"
   end
 
   create_table "sdg_pioneer_submissions", force: :cascade do |t|
