@@ -8,7 +8,7 @@ class SdgPioneer::OthersController < ApplicationController
     @other = SdgPioneer::Other.new(nomination_params)
 
     if @other.save
-      SdgPioneerMailer.delay.nomination_submitted(@other.id)
+      send_notifcation_emails(@other)
       redirect_to sdg_pioneer_index_path, notice: I18n.t('sdg_pioneer.nominated')
     else
       render :new
@@ -16,6 +16,11 @@ class SdgPioneer::OthersController < ApplicationController
   end
 
   private
+
+  def send_notifcation_emails(nomination)
+    SdgPioneerMailer.delay.nomination_submitted(nomination.id)
+    SdgPioneerMailer.delay.email_nominee(nomination.id)
+  end
 
   def nomination_params
     params.require(:other).permit(
