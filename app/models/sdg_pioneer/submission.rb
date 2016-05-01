@@ -3,10 +3,10 @@ class SdgPioneer::Submission < ActiveRecord::Base
   validates :global_goals_activity,       presence: true, length: { maximum: 5000 }
   validates :matching_sdgs,               presence: true
   validates :name,                        presence: true, length: { maximum: 255 }
-  validates :title,                       presence: true
-  validates :email,                       presence: true
-  validates :phone,                       presence: true
-  validates :organization_name,           presence: true
+  validates :title,                       presence: true, length: { maximum: 255 }
+  validates :email,                       presence: true, length: { maximum: 255 }
+  validates :phone,                       presence: true, length: { maximum: 255 }
+  validates :organization_name,           presence: true, length: { maximum: 255 }
   validates :organization_name_matched,   inclusion: [true, false]
   validate :validate_country_name
   validates :reason_for_being,            presence: true, length: { maximum: 5000 }
