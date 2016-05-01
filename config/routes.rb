@@ -499,7 +499,7 @@ UNGC::Application.routes.draw do
   get '/what-is-gc/our-work/sustainable-development/sdgpioneers/nomination-form/new', to: redirect('/what-is-gc/our-work/sustainable-development/global-goals-local-business/sdgpioneers/nomination-form/new')
   get '/globalgoalslocalbusiness', to: redirect('/what-is-gc/our-work/sustainable-development/global-goals-local-business')
 
-  # April 30 redirect to close nominate someone else 
+  # April 30 redirect to close nominate someone else
   get '/what-is-gc/our-work/sustainable-development/global-goals-local-business/sdgpioneers/nomination-form/new', to redirect('/what-is-gc/our-work/sustainable-development/global-goals-local-business/sdgpioneers')
 
   # new redirects (to be tested)
