@@ -16,4 +16,9 @@ class ContributionTest < ActiveSupport::TestCase
     assert_equal 456, contribution.amount
   end
 
+  should "store amounts with cents" do
+    contribution = Contribution.new(raw_amount: 123.456)
+    assert_equal 123.46, contribution.raw_amount
+  end
+
 end
