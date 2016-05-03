@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160429200740) do
+ActiveRecord::Schema.define(version: 20160503230636) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -281,18 +281,18 @@ ActiveRecord::Schema.define(version: 20160429200740) do
   add_index "contribution_levels_infos", ["local_network_id"], name: "index_contribution_levels_infos_on_local_network_id", using: :btree
 
   create_table "contributions", force: :cascade do |t|
-    t.string   "contribution_id",    limit: 255,                 null: false
+    t.string   "contribution_id",    limit: 255,                                          null: false
     t.string   "invoice_code",       limit: 255
-    t.integer  "raw_amount",         limit: 4
+    t.decimal  "raw_amount",                     precision: 10, scale: 2
     t.integer  "recognition_amount", limit: 4
-    t.date     "date",                                           null: false
-    t.string   "stage",              limit: 255,                 null: false
+    t.date     "date",                                                                    null: false
+    t.string   "stage",              limit: 255,                                          null: false
     t.string   "payment_type",       limit: 255
-    t.integer  "organization_id",    limit: 4,                   null: false
+    t.integer  "organization_id",    limit: 4,                                            null: false
     t.string   "campaign_id",        limit: 255
-    t.boolean  "is_deleted",                     default: false, null: false
-    t.datetime "created_at",                                     null: false
-    t.datetime "updated_at",                                     null: false
+    t.boolean  "is_deleted",                                              default: false, null: false
+    t.datetime "created_at",                                                              null: false
+    t.datetime "updated_at",                                                              null: false
   end
 
   add_index "contributions", ["campaign_id"], name: "index_contributions_on_campaign_id", using: :btree
