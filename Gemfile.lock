@@ -101,7 +101,7 @@ GEM
       orm_adapter (~> 0.5.0)
     climate_control (0.0.3)
       activesupport (>= 3.0)
-    cocaine (0.5.5)
+    cocaine (0.5.8)
       climate_control (>= 0.0.3, < 1.0)
     coderay (1.1.0)
     coercible (1.0.0)
@@ -249,7 +249,8 @@ GEM
     metaclass (0.0.4)
     method_source (0.8.2)
     middleware (0.1.0)
-    mime-types (2.99)
+    mime-types (2.99.1)
+    mimemagic (0.3.0)
     mini_portile2 (2.0.0)
     minitest (5.8.4)
     mocha (1.1.0)
@@ -274,11 +275,12 @@ GEM
       nokogiri
       rbvmomi
     orm_adapter (0.5.0)
-    paperclip (4.2.1)
-      activemodel (>= 3.0.0)
-      activesupport (>= 3.0.0)
-      cocaine (~> 0.5.3)
+    paperclip (4.3.6)
+      activemodel (>= 3.2.0)
+      activesupport (>= 3.2.0)
+      cocaine (~> 0.5.5)
       mime-types
+      mimemagic (= 0.3.0)
     passenger (4.0.59)
       daemon_controller (>= 1.2.0)
       rack
@@ -467,7 +469,7 @@ DEPENDENCIES
   net-ssh
   newrelic_rpm (~> 3.9.9.275)
   non-stupid-digest-assets
-  paperclip (~> 4.2.1)
+  paperclip (~> 4.3.6)
   passenger (~> 4.0.57)
   plugger
   pry-rails
