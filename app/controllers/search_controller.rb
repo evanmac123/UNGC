@@ -9,7 +9,8 @@ class SearchController < ApplicationController
   private
 
   def search_params
-    params.fetch(:search, {})
+    search_params = params[:search] || ActionController::Parameters.new({})
+    search_params
       .permit(:keywords, :document_type)
       .merge(page: page)
   end

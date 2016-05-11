@@ -28,7 +28,8 @@ class NewsController < ApplicationController
     end
 
     def search_params
-      Hash(params).fetch(:search, {}).permit(
+      search_params = params[:search] || ActionController::Parameters.new({})
+      search_params.permit(
         :start_date,
         :end_date,
         issues: [],
