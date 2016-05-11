@@ -83,6 +83,7 @@ class Contact < ActiveRecord::Base
   belongs_to :organization
   belongs_to :local_network
   has_and_belongs_to_many :roles, :join_table => "contacts_roles"
+  has_many :cop_log_entries, dependent: :nullify
 
   default_scope { order('contacts.first_name') }
 

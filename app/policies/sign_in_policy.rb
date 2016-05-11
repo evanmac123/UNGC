@@ -61,7 +61,7 @@ class SignInPolicy < SimpleDelegator
       organizations = from || Organization.all
       Contact.contact_points
         .joins(:organization)
-        .merge(Organization.approved)
+        .merge(Organization.not_rejected)
         .merge(organizations.visible_to(@current))
     end
   end

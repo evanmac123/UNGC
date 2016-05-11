@@ -270,6 +270,7 @@ class Organization < ActiveRecord::Base
   scope :about_to_become_delisted, lambda { where("cop_state=? AND cop_due_on<=?", COP_STATE_NONCOMMUNICATING, EXPULSION_THRESHOLD.ago.to_date) }
 
   scope :ready_for_invoice, lambda {where("joined_on >= ? AND joined_on <= ?", 2.days.ago.beginning_of_day, 2.days.ago.end_of_day)}
+  scope :not_rejected, lambda { where.not(state: STATE_REJECTED) }
 
 
   def self.with_cop_status(filter_type)

@@ -5,7 +5,6 @@ module ApprovalWorkflow
   STATE_DELAY_REVIEW = 'delay_review'
   STATE_APPROVED = 'approved'
   STATE_REJECTED = 'rejected'
-  STATE_REJECTED_MICRO = 'reject_micro'
 
   EVENT_REVISE = 'revise'
   EVENT_NETWORK_REVIEW = 'network_review'
@@ -57,7 +56,6 @@ module ApprovalWorkflow
       scope :delay_review, -> { where(:state => STATE_DELAY_REVIEW) }
       scope :approved, -> { where(:state => STATE_APPROVED) }
       scope :rejected, -> { where(:state => STATE_REJECTED) }
-      scope :reject_micro, -> { where(:state => STATE_REJECTED_MICRO) }
       scope :unreplied, -> { where(:state => STATE_IN_REVIEW, :replied_to => false) }
     end
   end

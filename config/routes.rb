@@ -316,8 +316,10 @@ UNGC::Application.routes.draw do
 
   namespace :sdg_pioneer, path: '/what-is-gc/our-work/sustainable-development/global-goals-local-business/sdgpioneers' do
     get :index, path: '/'
-    resources :submissions, path: 'nominate-yourself', only: [:create]
-    resources :others, path: 'nomination-form', only: [:create]
+    if Feature.sdg_pioneer_form?
+      resources :submissions, path: 'nominate-yourself', only: [:new, :create]
+      resources :others, path: 'nomination-form', only: [:new, :create]
+    end
   end
 
   # REDIRECTS
@@ -498,6 +500,10 @@ UNGC::Application.routes.draw do
   get '/what-is-gc/our-work/sustainable-development/sdgpioneers', to: redirect('/what-is-gc/our-work/sustainable-development/global-goals-local-business/sdgpioneers')
   get '/what-is-gc/our-work/sustainable-development/sdgpioneers/nomination-form/new', to: redirect('/what-is-gc/our-work/sustainable-development/global-goals-local-business/sdgpioneers/nomination-form/new')
   get '/globalgoalslocalbusiness', to: redirect('/what-is-gc/our-work/sustainable-development/global-goals-local-business')
+  if Feature.sdg_pioneer_form?
+    get '/what-is-gc/our-work/sustainable-development/global-goals-local-business/sdgpioneers/nominate-yourself/new', to: redirect('/sdgpioneers')
+    get '/what-is-gc/our-work/sustainable-development/global-goals-local-business/sdgpioneers/nomination-form/new', to: redirect('/sdgpioneers')
+  end
 
   # new redirects (to be tested)
   get '/index.html', to: redirect('/')
