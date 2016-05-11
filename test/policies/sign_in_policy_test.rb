@@ -77,7 +77,7 @@ class SignInPolicyTest < ActiveSupport::TestCase
       assert policy.can_sign_in_as_others?, "The Networt report recipient should be able to sign as Contact points"
     end
 
-    should "exclude contacts from unapproved organizations" do
+    should "exclude contacts from rejected organizations" do
       # Given a network report recipient
       network = create(:local_network)
       country = create(:country, local_network: network)
@@ -94,40 +94,58 @@ class SignInPolicyTest < ActiveSupport::TestCase
     context "scoping down the organizations" do
 
       setup do
-        # Given a network report recipient
+        # Given a Contact and a Country in the same Local Network
         network = create(:local_network)
-        country = create(:country, local_network: network)
         contact = create(:contact, local_network: network, roles: [Role.network_report_recipient])
+        @country = create(:country, local_network: network)
 
-        # Given some organizations in the network
-        included_org =    create(:organization, country: country, employees: 23, state: :approved)
-        excluded_org =    create(:organization, country: country, employees: 46, state: :approved)
-        unapproved_org =  create(:organization, country: country, employees: 23, state: :rejected)
-
-        # with contact points
-        @included = create(:contact, organization: included_org, roles: [Role.contact_point])
-        @excluded = create(:contact, organization: excluded_org, roles: [Role.contact_point])
-        @unapproved = create(:contact, organization: unapproved_org, roles: [Role.contact_point])
-
-        policy = SignInPolicy.new(contact)
-        organization_scope = Organization.where(employees: 23)
-        @contacts = policy.sign_in_targets(from: organization_scope)
+        # And a policy for that contact
+        @policy = SignInPolicy.new(contact)
       end
 
-      should "include contacts from the organizations" do
-        assert_includes @contacts, @included
+      should "include organizations that match the scope" do
+        scope = Organization.where(employees: 23)
+        contact = create_contact_point_from(@country, employees: 23)
+        assert_includes @policy.sign_in_targets(from: scope), contact
       end
 
-      should "exclude contacts from outside of those organizations" do
-        assert_not_includes @contacts, @excluded
+      should "exclude organizations that don't match the scope" do
+        scope = Organization.where(employees: 23)
+        contact = create_contact_point_from(@country, employees: 46)
+        assert_not_includes @policy.sign_in_targets(from: scope), contact
       end
 
-      should "exclude contacts from unapproved organizations" do
-        assert_not_includes @contacts, @unapproved
+      should "include pending_review organizations" do
+        contact = create_contact_point_from(@country, state: :pending_review)
+        assert_includes @policy.sign_in_targets, contact
+      end
+
+      should "include in_review organizations" do
+        contact = create_contact_point_from(@country, state: :in_review)
+        assert_includes @policy.sign_in_targets, contact
+      end
+
+      should "include network_review organizations" do
+        contact = create_contact_point_from(@country, state: :network_review)
+        assert_includes @policy.sign_in_targets, contact
+      end
+
+      should "include delay_review organizations" do
+        contact = create_contact_point_from(@country, state: :delay_review)
+        assert_includes @policy.sign_in_targets, contact
+      end
+
+      should "include approved organizations" do
+        contact = create_contact_point_from(@country, state: :approved)
+        assert_includes @policy.sign_in_targets, contact
+      end
+
+      should "exclude rejected organizations" do
+        contact = create_contact_point_from(@country, state: :rejected)
+        assert_not_includes @policy.sign_in_targets, contact
       end
 
     end
-
 
   end
 
@@ -156,6 +174,13 @@ class SignInPolicyTest < ActiveSupport::TestCase
 
     policy = SignInPolicy.new(nrr)
     refute policy.can_sign_in_as?(cp)
+  end
+
+  private
+
+  def create_contact_point_from(country, params = {})
+    org = create(:organization, params.reverse_merge(country: country))
+    create(:contact, organization: org, roles: [Role.contact_point])
   end
 
 end
