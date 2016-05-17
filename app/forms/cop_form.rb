@@ -85,6 +85,9 @@ class CopForm
             :method_shared,
             :cop_type,
             :format,
+            :cop_links,
+            :cop_links_attributes,
+            :cop_links_attributes=,
             :cop_files,
             :cop_questions,
             :cop_answers,
@@ -239,42 +242,19 @@ class CopForm
   protected
 
     def remove_empty_links_from(params)
-      # HACK ignore links that have an empty url.
-      links = params.fetch('cop_links_attributes', {})
+      link_attrs = params.fetch('cop_links_attributes', {})
+      return if link_attrs.empty?
 
-      if links.is_a?(Hash)
-        new_cop_attrs = links.fetch('new_cop', {})
-        url = new_cop_attrs['url']
-        if url.blank?
-          links.delete('new_cop')
-        end
-      end
-    end
+      last_key = link_attrs.keys.last
+      last_link = link_attrs[last_key]
 
-    def remove_deleted_links(params)
-      if link_attrs = params[:cop_links_attributes]
-        ids = if link_attrs.is_a?(Array)
-                link_attrs.map {|a| a[:id]}
-              elsif link_attrs.is_a?(Hash)
-                link_attrs.map {|k,v| v[:id]}
-              end
+      if last_link.present?
+        id = last_link['id']
+        url = last_link['url']
+        language = last_link['language_id']
 
-        links_to_destroy = links.where.not(id: ids)
-        links_to_destroy.destroy_all
-      else
-        # no cop_links_attributes was sent, destroy them all
-        links.destroy_all
-      end
-    end
-
-    def remember_link_params(params)
-      # remember the language and url the user selected in case of an new, but invalid submission
-      link_attrs = params[:cop_links_attributes]
-      if link_attrs.is_a?(Hash)
-        new_cop = link_attrs[:new_cop]
-        if new_cop
-          @link_language = new_cop[:language_id]
-          @link_url = new_cop[:url]
+        if id.blank? && url.blank? && language.to_s == default_language_id.to_s
+          link_attrs.delete(last_key)
         end
       end
     end
@@ -330,8 +310,6 @@ class CopForm
       cop.contact_info ||= contact_info
 
       CommunicationOnProgress.transaction do
-        remove_deleted_links(params)
-        remember_link_params(params)
         @submitted = true
 
         is_valid = if validate then valid? else true end

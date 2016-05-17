@@ -36,7 +36,7 @@ class CopSubmissionTest < ActionDispatch::IntegrationTest
 
     log_page
 
-    select 'English', from: 'communication_on_progress_cop_links_attributes_new_cop_language_id'
+    select 'English', from: 'communication_on_progress_cop_links_attributes_0_language_id'
 
     filepath = File.absolute_path('./test/fixtures/files/untitled.pdf')
     attach_file('communication_on_progress_cop_files_attributes_0_attachment', filepath)

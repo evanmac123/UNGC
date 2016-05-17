@@ -227,13 +227,6 @@ class Admin::CopsController < AdminController
           :id,
           :attachment_type,
           :_destroy,
-          {
-            new_cop: [
-              :attachment_type,
-              :language_id,
-              :url
-            ]
-          }
         ]
       )
     end
