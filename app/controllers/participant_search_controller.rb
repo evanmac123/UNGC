@@ -17,7 +17,8 @@ class ParticipantSearchController < ApplicationController
   private
 
   def search_params
-    Hash(params).fetch(:search, {}).permit(
+    search_params = params[:search] || empty_params
+    search_params.permit(
       :per_page,
       :sort_field,
       :sort_direction,
@@ -36,6 +37,10 @@ class ParticipantSearchController < ApplicationController
 
   def create_page
     ParticipantSearchPage.new(current_container, current_payload_data)
+  end
+
+  def empty_params
+    ActionController::Parameters.new({})
   end
 
 end

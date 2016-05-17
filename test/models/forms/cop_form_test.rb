@@ -109,14 +109,6 @@ class CopFormTest < ActiveSupport::TestCase
           assert @result, Array(@form.errors.messages).join("\n")
         end
 
-        should "remember link language" do
-          assert_equal @french.id, @form.link_language
-        end
-
-        should "remember link url" do
-          assert_equal 'http://example.com', @form.link_url
-        end
-
         should "save the communication on progress" do
           assert @form.cop.persisted?
         end
@@ -139,14 +131,6 @@ class CopFormTest < ActiveSupport::TestCase
         should "not be valid" do
           # basic forms are valid without a cop file.
           refute @result unless type == 'basic'
-        end
-
-        should "remember link language" do
-          assert_equal @french.id, @invalid_form.link_language
-        end
-
-        should "remember link url" do
-          assert_equal 'http://example.com', @invalid_form.link_url
         end
 
         should "not save the communication on progress" do
@@ -259,7 +243,11 @@ class CopFormTest < ActiveSupport::TestCase
     context "adding a link" do
 
       setup do
-        @attrs[:cop_links_attributes] = 2.times.map { cop_link_attrs }
+        @attrs[:cop_links_attributes] = {
+          "0" => cop_link_attrs,
+          "1" => cop_link_attrs,
+        }
+
         assert @form.update(@attrs), @form.errors.full_messages.to_sentence
         @cop = CommunicationOnProgress.find(@form.id)
       end
@@ -274,13 +262,23 @@ class CopFormTest < ActiveSupport::TestCase
       setup do
         @link1 = create(:cop_link)
         @old_cop.cop_links << @link1
-        @old_cop.cop_links << create(:cop_link)
+        link2 = create(:cop_link)
+        @old_cop.cop_links << link2
 
         assert_equal 2, @old_cop.cop_links.count
         @attrs = valid_cop_attrs(@organization)
         @attrs.delete(:created_at)
         @attrs.delete(:updated_at)
-        @attrs[:cop_links_attributes] = [@old_cop.cop_links.first.attributes]
+        @attrs[:cop_links_attributes] = {
+          "0" => {
+            "id" => @link1.id,
+            "_destroy" => "0"
+          },
+          "1" => {
+            "id" => link2.id,
+            "_destroy" => "1"
+          }
+        }
 
         assert @form.update(@attrs), @form.errors.full_messages.to_sentence
         @cop = CommunicationOnProgress.find(@form.id)
@@ -295,14 +293,26 @@ class CopFormTest < ActiveSupport::TestCase
 
     context "deleting all the links" do
       setup do
-        @old_cop.cop_links << create(:cop_link, cop_id: @old_cop.id)
-        @old_cop.cop_links << create(:cop_link, cop_id: @old_cop.id)
+        link1 = create(:cop_link, cop_id: @old_cop.id)
+        link2 = create(:cop_link, cop_id: @old_cop.id)
+
+        @old_cop.cop_links << link1
+        @old_cop.cop_links << link2
 
         assert_equal 2, @old_cop.cop_links.count
         @attrs = valid_cop_attrs(@organization)
         @attrs.delete(:created_at)
         @attrs.delete(:updated_at)
-        @attrs[:cop_links_attributes] = []
+        @attrs[:cop_links_attributes] = {
+          "0" => {
+            id: link1.id,
+            _destroy: 1
+          },
+          "1" => {
+            id: link2.id,
+            _destroy: 1
+          }
+        }
 
         assert @form.update(@attrs), @form.errors.full_messages.to_sentence
         @cop = CommunicationOnProgress.find(@form.id)
@@ -312,20 +322,6 @@ class CopFormTest < ActiveSupport::TestCase
         assert_equal 0, @cop.cop_links.count
       end
 
-    end
-
-    should "delete all the links when no links are supplied" do
-      @old_cop.cop_links << create(:cop_link, cop_id: @old_cop.id)
-
-      attrs = valid_cop_attrs(@organization)
-      attrs.delete(:created_at)
-      attrs.delete(:updated_at)
-      attrs.delete(:cop_links_attributes)
-
-      assert @form.update(attrs), @form.errors.full_messages.to_sentence
-      cop = CommunicationOnProgress.find(@form.id)
-
-      assert_equal 0, cop.cop_links.count
     end
 
   end
@@ -366,10 +362,14 @@ class CopFormTest < ActiveSupport::TestCase
     cop_attrs = attributes_for(:communication_on_progress, organization_id: organization.id)
     link_params = {
       "cop_links_attributes" => {
-        "new_cop" => {
+        "0" => {
           "attachment_type" => "cop",
           "language_id" => @french.id,
           "url" => "http://example.com"
+        },
+        "1" => {
+          "attachment_type" => "cop",
+          "language_id" => @english.id
         }
       }
     }

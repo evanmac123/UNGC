@@ -218,7 +218,7 @@
         %fieldset
           %legend
             %span Optional: provide a link to your web-based COP. The link should be in the format 'http://www.company.com/'
-          = render :partial => 'cop_link', :locals => {:cop_link => @communication_on_progress.new_link}
+          = render partial: 'web_based_cops', locals: { cop: @communication_on_progress }
 
       #signature{:style => 'display: block'}
         %fieldset
