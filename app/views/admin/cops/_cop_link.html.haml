@@ -9,6 +9,6 @@
   - unless cop_link.new_record?
     = hidden_field_tag("communication_on_progress[cop_links_attributes][#{record}][id]", cop_link.id)
 
-  To remove, check
+  To remove, check and click Save Draft
   = hidden_field_tag("communication_on_progress[cop_links_attributes][#{record}][_destroy]", "0")
   = check_box_tag("communication_on_progress[cop_links_attributes][#{record}][_destroy]", "1")
