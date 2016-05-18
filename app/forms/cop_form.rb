@@ -242,19 +242,30 @@ class CopForm
   protected
 
     def remove_empty_links_from(params)
-      link_attrs = params.fetch('cop_links_attributes', {})
-      return if link_attrs.empty?
+      attrs = params.fetch('cop_links_attributes', {})
+      return if attrs.empty?
 
-      last_key = link_attrs.keys.last
-      last_link = link_attrs[last_key]
+      key = if attrs.is_a?(Array)
+        attrs.count - 1
+      elsif attrs.is_a?(Hash)
+        attrs.keys.last
+      else
+        raise "Expected Hash or Array, got: #{attrs.class}"
+      end
 
-      if last_link.present?
-        id = last_link['id']
-        url = last_link['url']
-        language = last_link['language_id']
+      link = attrs[key]
+
+      if link.present?
+        id = link['id']
+        url = link['url']
+        language = link['language_id']
 
         if id.blank? && url.blank? && language.to_s == default_language_id.to_s
-          link_attrs.delete(last_key)
+          if attrs.is_a?(Array)
+            attrs.delete_at(key)
+          elsif attrs.is_a?(Hash)
+            attrs.delete(key)
+          end
         end
       end
     end

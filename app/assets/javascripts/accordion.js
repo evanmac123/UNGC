@@ -37,8 +37,46 @@ $(function() {
     }
   };
 
-  // Collapse items on load, unless they contain inputs with errors
-  toggleItem($items.not('.contains-inputs-with-errors, .fields-required'));
+	function setDefaultItemState() {
+		// Collapse items on load
+		// leaving the default parent and child open
+		// unless they contain inputs with errors
+		var defaults = $container.data('accordion-defaults') || "1,1";
+		var defaultIndexes = defaults.split(',').map(function(indexStr) {
+			return parseInt(indexStr, 10);
+		});
+
+		var parentIndex = defaultIndexes[0] || 1;
+		var childIndex = defaultIndexes[1] || 1;
+
+		var itemsToCollapse = $items.not(itemsToOpen(parentIndex, childIndex));
+		toggleItem(itemsToCollapse);
+	}
+
+	function itemsToOpen(parentIndex, childIndex) {
+		// NB the index values are 1-based
+
+		var items = [];
+
+		var enableOpeningDefaultsItems = false; // disable the feature for now
+		if (enableOpeningDefaultsItems) {
+
+			// open the parent at parentIndex and it's child at childIndex
+			var parentItem = '.accordion-item:not(.accordion-child):nth-child(' + parentIndex + ')';
+			var childItem = parentItem + ' .accordion-child:nth-child(' + childIndex + ')';
+
+			items.push(parentItem);
+			items.push(childItem);
+		}
+
+		items.push('.contains-inputs-with-errors');
+		items.push('.fields-required');
+
+		return items.join(', ');
+	}
+
+	setDefaultItemState();
+
 
   // Bind events to header click
   $headers.on('click.ungcAccordion', function() {
