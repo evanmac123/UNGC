@@ -58,7 +58,7 @@ $(function() {
 
 		var items = [];
 
-		var enableOpeningDefaultsItems = false; // disable the feature for now
+		var enableOpeningDefaultsItems = true;
 		if (enableOpeningDefaultsItems) {
 
 			// open the parent at parentIndex and it's child at childIndex
