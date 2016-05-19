@@ -10,10 +10,9 @@ class Components::Events
 
   def featured
     return unless featured_id
-    id = featured_id
-    Event.approved.find_by(id: id)
+    event = Event.approved.find_by(id: featured_id)
+    Event::Featured.new(event)
   end
-
 
   def future
     future = scoped.where("starts_at >= ?", Date.today)
