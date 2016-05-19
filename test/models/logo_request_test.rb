@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'sidekiq/testing'
 
 class LogoRequestTest < ActiveSupport::TestCase
   should validate_presence_of :organization_id
@@ -30,12 +31,15 @@ class LogoRequestTest < ActiveSupport::TestCase
       # add approved logo, then approve
       create(:logo_file)
       @logo_request.logo_files << LogoFile.first
+
       assert_difference '@logo_request.logo_comments.count' do
         assert_difference 'ActionMailer::Base.deliveries.size' do
-          @logo_request.logo_comments.create(:body        => 'lorem ipsum',
-                                             :contact_id  => @staff_user.id,
-                                             :attachment  => fixture_file_upload('files/untitled.pdf', 'application/pdf'),
-                                             :state_event => :approve)
+          Sidekiq::Testing.inline! do
+            @logo_request.logo_comments.create(:body        => 'lorem ipsum',
+                                               :contact_id  => @staff_user.id,
+                                               :attachment  => fixture_file_upload('files/untitled.pdf', 'application/pdf'),
+                                               :state_event => :approve)
+          end
         end
       end
       assert @logo_request.reload.approved?
