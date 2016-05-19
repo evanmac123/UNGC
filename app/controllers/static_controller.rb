@@ -1,9 +1,7 @@
 class StaticController < ApplicationController
   def home
     set_current_container :home
-    if cache_stale?
-      @page = HomePage.new(current_container, current_payload_data)
-    end
+    @page = HomePage.new(current_container, current_payload_data)
   end
 
   def layout_sample
@@ -13,13 +11,6 @@ class StaticController < ApplicationController
 
   def catch_all
     render_container_at(params[:path])
-  end
-
-  private
-
-  def cache_stale?
-    cachable = CompositeCachable.new(current_container, current_payload)
-    stale? last_modified: cachable.updated_at, etag: cachable.cache_key
   end
 
 end

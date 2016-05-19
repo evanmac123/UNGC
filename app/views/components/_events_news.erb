@@ -17,10 +17,10 @@
 
       <%- if featured = events.featured -%>
         <article class='featured-event column'>
-          <%= link_to event_path(featured), class: 'event' do -%>
-            <div class='thumbnail' style='background-image: url(<%= featured.thumbnail_image.url -%>)'>
+          <%= link_to featured.path, class: 'event' do -%>
+            <div class='thumbnail' style='background-image: url(<%= featured.thumbnail_image_url -%>)'>
               <div class='date-location'>
-                <time datetime="<%= featured.starts_at.strftime('%F') -%>">
+                <time datetime="<%= featured.starts_at_iso8601 -%>">
                   <%= featured.starts_at -%>
                 </time>
                 <address><%= featured.full_location -%></address>
@@ -29,8 +29,7 @@
 
             <h1><%= featured.title -%></h1>
 
-            <%#- #TODO truncate description, but it's html -%>
-            <p><%= strip_tags featured.description.truncate(200) -%></p>
+            <p><%= strip_tags featured.short_description -%></p>
           <%- end -%>
         </article>
       <%- end -%>

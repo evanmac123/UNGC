@@ -1,10 +1,19 @@
 require 'test_helper'
+require 'sidekiq/testing'
 
 class LogoCommentTest < ActiveSupport::TestCase
   should validate_presence_of :contact_id
   should validate_presence_of :body
   should belong_to :logo_request
   should belong_to :contact
+
+  setup do
+    Sidekiq::Testing.inline!
+  end
+
+  teardown do
+    Sidekiq::Testing.fake!
+  end
 
   context "give a new logo request" do
     setup do

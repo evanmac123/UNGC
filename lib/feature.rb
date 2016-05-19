@@ -9,4 +9,10 @@ class Feature
       Rails.env.test? # enable the forms for tests
   end
 
+  def self.send_featured_events_to_landing?
+    # temporarily send featured events to the events landing page
+    # until we formalize the feature.
+    true
+  end
+
 end
