@@ -1,7 +1,4 @@
-class CoePresenter
-  include Rails.application.routes.url_helpers
-  include ActionView::Helpers::TagHelper
-
+class CoePresenter < CommunicationPresenter
   Partial = '/shared/cops/show_non_business_style'
 
   FORMATS = {

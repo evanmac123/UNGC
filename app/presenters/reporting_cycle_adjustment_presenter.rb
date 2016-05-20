@@ -1,6 +1,4 @@
-class ReportingCycleAdjustmentPresenter
-  include Rails.application.routes.url_helpers
-  include ActionView::Helpers::TagHelper
+class ReportingCycleAdjustmentPresenter < CommunicationPresenter
 
   attr_reader :cop, :current_contact
 

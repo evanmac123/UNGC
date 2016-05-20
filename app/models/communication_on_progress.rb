@@ -102,7 +102,6 @@ class CommunicationOnProgress < ActiveRecord::Base
   FORMAT = {:standalone            => "Stand alone document",
             :sustainability_report => "Part of a sustainability or corporate (social) responsibility report",
             :annual_report         => "Part of an annual (financial) report",
-            :express               => "Express COP"
            }
 
   LEVEL_DESCRIPTION = { :blueprint => "This COP qualifies for the Global Compact Advanced level",

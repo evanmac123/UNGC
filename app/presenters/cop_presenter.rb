@@ -1,6 +1,4 @@
-class CopPresenter
-  include Rails.application.routes.url_helpers
-  include ActionView::Helpers::TagHelper
+class CopPresenter < CommunicationPresenter
 
   attr_reader :cop, :current_contact
 
