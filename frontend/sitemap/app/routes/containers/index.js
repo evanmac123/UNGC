@@ -1,5 +1,5 @@
 import Ember     from 'ember';
-import Container from 'sitemap/models/container';
+// import Container from 'sitemap/models/container';
 import Sitemap   from 'sitemap/lib/sitemap/tree';
 
 export default Ember.Route.extend({
