@@ -6,13 +6,12 @@ jQuery(document).ready(function() {
   var backToTopButton = jQuery('.back-to-top');
 
   if (backToTopButton.length > 0) {
-    console.log('we found a back-to-top button!');
+    console.log('found a back-to-top button!');
 
     var offset = 250;
     var duration = 300;
 
     jQuery(window).scroll(function() {
-      console.log( 'scrollllllllllling');
       if (jQuery(this).scrollTop() > offset) {
         console.log('at bottom');
         jQuery('.back-to-top').fadeIn(duration);
@@ -31,7 +30,7 @@ jQuery(document).ready(function() {
       return false;
     });
   } else {
-    console.log('booo, no back to top button');
+    console.log('no back to top button');
   }
 
 });
