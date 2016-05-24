@@ -4,6 +4,7 @@
 //= require_tree ./news
 //= require_tree ./library
 //= require accordion
+//= require article
 //= require case-example-form
 //= require contact-form
 //= require content-linker

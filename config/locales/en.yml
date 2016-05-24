@@ -141,3 +141,15 @@ en:
     validations:
       organization_name: 'is not among the active participants'
       country_name: 'is not among the countries provided'
+
+  communication_on_progress:
+    format:
+      express: 'Express'
+      financial_report: 'Finanacial report'
+      other_report: 'Other report'
+      reporting_cycle_adjustment: 'Reporting cycle adjustment'
+      basic: 'Basic'
+      grace_letter: 'Grace letter'
+      annual_report: 'Part of an annual (financial) report'
+      sustainability_report: 'Part of a sustainability or corporate (social) responsibility report'
+      standalone: 'Stand alone document'

@@ -18,7 +18,7 @@
 %dt Format
 %dd
   %ul
-    %li= CommunicationOnProgress::FORMAT[communication_on_progress.format.try(:to_sym)] || 'Unknown'
+    %li= communication_on_progress.format_name
 
 - if communication_on_progress.evaluated_for_differentiation?
   - if communication_on_progress.organization_business_entity?
