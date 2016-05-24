@@ -21,7 +21,7 @@ class CommunicationPresenter
     when format.nil?
       'Unknown'
     when CommunicationOnProgress::FORMAT.key?(format.to_sym)
-      CommunicationOnProgress::FORMAT[format_sym]
+      CommunicationOnProgress::FORMAT[format.to_sym]
     else
       I18n.t(format, scope: 'communication_on_progress.format')
     end
