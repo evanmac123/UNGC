@@ -1,3 +1,49 @@
+# == Schema Information
+#
+# Table name: events
+#
+#  id                           :integer          not null, primary key
+#  title                        :string(255)
+#  description                  :text(65535)
+#  starts_at                    :datetime
+#  ends_at                      :datetime
+#  location                     :text(65535)
+#  country_id                   :integer
+#  created_by_id                :integer
+#  updated_by_id                :integer
+#  created_at                   :datetime
+#  updated_at                   :datetime
+#  approved_at                  :datetime
+#  approved_by_id               :integer
+#  approval                     :string(255)
+#  is_all_day                   :boolean
+#  is_online                    :boolean
+#  is_invitation_only           :boolean
+#  priority                     :integer          default(1)
+#  contact_id                   :integer
+#  thumbnail_image_file_name    :string(255)
+#  thumbnail_image_content_type :string(255)
+#  thumbnail_image_file_size    :integer
+#  thumbnail_image_updated_at   :datetime
+#  banner_image_file_name       :string(255)
+#  banner_image_content_type    :string(255)
+#  banner_image_file_size       :integer
+#  banner_image_updated_at      :datetime
+#  call_to_action_1_label       :string(255)
+#  call_to_action_1_url         :string(255)
+#  call_to_action_2_label       :string(255)
+#  call_to_action_2_url         :string(255)
+#  programme_description        :text(65535)
+#  media_description            :text(65535)
+#  tab_1_title                  :string(255)
+#  tab_1_description            :text(65535)
+#  tab_2_title                  :string(255)
+#  tab_2_description            :text(65535)
+#  tab_3_title                  :string(255)
+#  tab_3_description            :text(65535)
+#  sponsors_description         :text(65535)
+#
+
 class Event < ActiveRecord::Base
   include ContentApproval
   include TrackCurrentUser

@@ -4,7 +4,7 @@
 #
 #  id                 :integer          not null, primary key
 #  title              :string(255)
-#  description        :text
+#  description        :text(65535)
 #  year               :date
 #  isbn               :string(255)
 #  approval           :string(255)
@@ -17,6 +17,7 @@
 #  image_content_type :string(255)
 #  image_file_size    :integer
 #  image_updated_at   :datetime
+#  content_type       :integer
 #
 
 class Resource < ActiveRecord::Base

@@ -15,7 +15,7 @@
 #  notable_program                     :boolean
 #  created_at                          :datetime
 #  updated_at                          :datetime
-#  description                         :text
+#  description                         :text(65535)
 #  state                               :string(255)
 #  include_continued_support_statement :boolean
 #  format                              :string(255)
@@ -33,6 +33,11 @@
 #  references_water_mandate            :boolean
 #  cop_type                            :string(255)
 #  published_on                        :date
+#  submission_status                   :integer          default(0), not null
+#  endorses_ten_principles             :boolean
+#  covers_issue_areas                  :boolean
+#  measures_outcomes                   :boolean
+#  type                                :string(255)      default("CommunicationOnProgress"), not null
 #
 
 class CommunicationOnProgress < ActiveRecord::Base

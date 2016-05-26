@@ -2,19 +2,23 @@
 #
 # Table name: headlines
 #
-#  id             :integer          not null, primary key
-#  title          :string(255)
-#  description    :text
-#  location       :string(255)
-#  published_on   :date
-#  created_by_id  :integer
-#  updated_by_id  :integer
-#  approval       :string(255)
-#  approved_at    :datetime
-#  approved_by_id :integer
-#  country_id     :integer
-#  created_at     :datetime
-#  updated_at     :datetime
+#  id                   :integer          not null, primary key
+#  title                :string(255)
+#  description          :text(65535)
+#  location             :string(255)
+#  published_on         :date
+#  created_by_id        :integer
+#  updated_by_id        :integer
+#  approval             :string(255)
+#  approved_at          :datetime
+#  approved_by_id       :integer
+#  country_id           :integer
+#  created_at           :datetime
+#  updated_at           :datetime
+#  headline_type        :integer          default(1)
+#  contact_id           :integer
+#  call_to_action_label :string(255)
+#  call_to_action_url   :string(255)
 #
 
 require 'hpricot'

@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: searchables
+#
+#  id              :integer          not null, primary key
+#  last_indexed_at :datetime
+#  url             :string(255)
+#  document_type   :string(255)
+#  title           :text(65535)
+#  content         :text(65535)
+#  meta            :text(65535)
+#  created_at      :datetime
+#  updated_at      :datetime
+#
+
 class Searchable < ActiveRecord::Base
 
   class << self

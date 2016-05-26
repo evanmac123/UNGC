@@ -1,3 +1,19 @@
+# == Schema Information
+#
+# Table name: cop_log_entries
+#
+#  id              :integer          not null, primary key
+#  event           :string(255)
+#  cop_type        :string(255)
+#  status          :string(255)
+#  error_message   :text(65535)
+#  contact_id      :integer
+#  organization_id :integer
+#  params          :text(65535)
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
+
 class CopLogEntry < ActiveRecord::Base
   serialize :params, JSON
   belongs_to :contact

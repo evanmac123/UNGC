@@ -1,3 +1,26 @@
+# == Schema Information
+#
+# Table name: containers
+#
+#  id                     :integer          not null, primary key
+#  layout                 :integer          not null
+#  slug                   :string(255)      default("/"), not null
+#  parent_container_id    :integer
+#  public_payload_id      :integer
+#  draft_payload_id       :integer
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  path                   :string(255)
+#  depth                  :integer          default(0), not null
+#  tree_path              :string(255)      default(""), not null
+#  child_containers_count :integer          default(0), not null
+#  content_type           :integer          default(1), not null
+#  has_draft              :boolean          default(TRUE)
+#  sort_order             :integer          default(0)
+#  visible                :boolean          default(TRUE)
+#  draggable              :boolean          default(TRUE)
+#
+
 class Container < ActiveRecord::Base
   LEADING_OR_TRAILING_SLASH = /\A\/|\/\Z/
 

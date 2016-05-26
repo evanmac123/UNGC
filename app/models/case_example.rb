@@ -1,3 +1,19 @@
+# == Schema Information
+#
+# Table name: case_examples
+#
+#  id                :integer          not null, primary key
+#  company           :string(255)
+#  country_id        :integer
+#  is_participant    :boolean
+#  file_file_name    :string(255)
+#  file_content_type :string(255)
+#  file_file_size    :integer
+#  file_updated_at   :datetime
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#
+
 class CaseExample < ActiveRecord::Base
   belongs_to :country
   has_many :taggings, dependent: :destroy

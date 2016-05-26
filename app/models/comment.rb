@@ -1,9 +1,9 @@
-	# == Schema Information
+# == Schema Information
 #
 # Table name: comments
 #
 #  id                      :integer          not null, primary key
-#  body                    :text
+#  body                    :text(65535)
 #  commentable_id          :integer
 #  commentable_type        :string(255)
 #  contact_id              :integer

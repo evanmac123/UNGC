@@ -9,6 +9,7 @@
 #  parent_id  :integer
 #  created_at :datetime
 #  updated_at :datetime
+#  preserved  :boolean          default(FALSE), not null
 #
 
 class Sector < ActiveRecord::Base

@@ -1,3 +1,29 @@
+# == Schema Information
+#
+# Table name: taggings
+#
+#  id                              :integer          not null, primary key
+#  author_id                       :integer
+#  principle_id                    :integer
+#  principle_type                  :string(255)
+#  country_id                      :integer
+#  initiative_id                   :integer
+#  language_id                     :integer
+#  sector_id                       :integer
+#  communication_on_progress_id    :integer
+#  event_id                        :integer
+#  headline_id                     :integer
+#  organization_id                 :integer
+#  resource_id                     :integer
+#  container_id                    :integer
+#  created_at                      :datetime         not null
+#  updated_at                      :datetime         not null
+#  topic_id                        :integer
+#  issue_id                        :integer
+#  case_example_id                 :integer
+#  sustainable_development_goal_id :integer
+#
+
 class Tagging < ActiveRecord::Base
   # domains
   belongs_to :author

@@ -4,11 +4,11 @@
 #
 #  id               :integer          not null, primary key
 #  local_network_id :integer          not null
-#  pledge           :text
-#  pledge_continued :text
-#  payment          :text
-#  contact          :text
-#  additional       :text
+#  pledge           :text(65535)
+#  pledge_continued :text(65535)
+#  payment          :text(65535)
+#  contact          :text(65535)
+#  additional       :text(65535)
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #

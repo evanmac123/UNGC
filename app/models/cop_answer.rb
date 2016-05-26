@@ -8,7 +8,7 @@
 #  value            :boolean
 #  created_at       :datetime
 #  updated_at       :datetime
-#  text             :text             default(""), not null
+#  text             :text(65535)      not null
 #
 
 class CopAnswer < ActiveRecord::Base
