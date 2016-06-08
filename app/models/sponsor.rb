@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: sponsors
+#
+#  id          :integer          not null, primary key
+#  name        :string(255)
+#  website_url :string(255)
+#  logo_url    :string(255)
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
+
 class Sponsor < ActiveRecord::Base
   has_many :event_sponsors, dependent: :destroy
   has_many :events, through: :event_sponsors

@@ -5,7 +5,7 @@
 #  id                               :integer          not null, primary key
 #  local_network_id                 :integer
 #  title                            :string(255)
-#  description                      :text
+#  description                      :text(65535)
 #  date                             :date
 #  event_type                       :string(255)
 #  num_participants                 :integer
@@ -25,7 +25,7 @@
 #  updated_at                       :datetime
 #  country_id                       :integer
 #  region                           :string(255)
-#  file_content                     :text
+#  file_content                     :text(65535)
 #
 
 class LocalNetworkEvent < ActiveRecord::Base

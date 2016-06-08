@@ -1,3 +1,26 @@
+# == Schema Information
+#
+# Table name: sdg_pioneer_submissions
+#
+#  id                        :integer          not null, primary key
+#  pioneer_type              :integer
+#  global_goals_activity     :text(65535)
+#  matching_sdgs             :string(255)
+#  name                      :string(255)
+#  title                     :string(255)
+#  email                     :string(255)
+#  phone                     :string(255)
+#  organization_name         :string(255)
+#  organization_name_matched :boolean          default(FALSE), not null
+#  country_name              :string(255)
+#  reason_for_being          :text(65535)
+#  accepts_tou               :boolean          default(FALSE), not null
+#  is_participant            :boolean
+#  website_url               :string(255)
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#
+
 class SdgPioneer::Submission < ActiveRecord::Base
   validates :pioneer_type,                presence: true
   validates :global_goals_activity,       presence: true, length: { maximum: 5000 }

@@ -1,3 +1,19 @@
+# == Schema Information
+#
+# Table name: campaigns
+#
+#  id            :integer          not null
+#  campaign_id   :string(255)      not null, primary key
+#  name          :string(255)      not null
+#  start_date    :date
+#  end_date      :date
+#  initiative_id :integer
+#  is_deleted    :boolean          default(FALSE), not null
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  is_private    :boolean          default(FALSE)
+#
+
 class Campaign < ActiveRecord::Base
   YEAR_CAMPAIGN_REGEXP = /\A(?<year>\d\d\d\d) Annual Contributions\z/
   YEAR_LEAD_REGEXP = /\ALEAD (?<year>\d\d\d\d).*\z/

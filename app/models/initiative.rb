@@ -7,6 +7,7 @@
 #  old_id     :integer
 #  created_at :datetime
 #  updated_at :datetime
+#  active     :boolean          default(TRUE)
 #
 
 class Initiative < ActiveRecord::Base

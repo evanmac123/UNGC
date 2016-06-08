@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: uploaded_images
+#
+#  id             :integer          not null, primary key
+#  url            :string(255)      not null
+#  filename       :string(255)
+#  mime           :string(255)
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  licensing_data :text(65535)
+#  has_licensing  :boolean          default(FALSE)
+#
+
 # for the time being this model will serve as a storage for
 # all the images uploaded on s3 from the CMS interface
 #

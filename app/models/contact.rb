@@ -26,7 +26,7 @@
 #  remember_token_expires_at :datetime
 #  remember_token            :string(255)
 #  local_network_id          :integer
-#  encrypted_password        :string(255)
+#  old_encrypted_password    :string(255)
 #  reset_password_token      :string(255)
 #  last_sign_in_at           :datetime
 #  reset_password_sent_at    :datetime
@@ -36,6 +36,11 @@
 #  current_sign_in_ip        :string(255)
 #  last_sign_in_ip           :string(255)
 #  welcome_package           :boolean
+#  image_file_name           :string(255)
+#  image_content_type        :string(255)
+#  image_file_size           :integer
+#  image_updated_at          :datetime
+#  encrypted_password        :string(255)
 #
 
 require 'digest/sha1'

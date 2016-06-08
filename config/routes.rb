@@ -489,6 +489,7 @@ UNGC::Application.routes.draw do
   get '/COP/making_progress/advanced.html', to: redirect('/participation/report/cop/create-and-submit/advanced')
   get '/leaderssummit', to: redirect('/take-action/events/411-un-global-compact-leaders-summit-2016')
   get '/leaderssummit2016', to: redirect('/take-action/events/411-un-global-compact-leaders-summit-2016')
+  get '/lead', to: redirect('/take-action/leadership/gc-lead')
 
   # SDG related redirects
   get '/sdgpioneers', to: redirect('/what-is-gc/our-work/sustainable-development/global-goals-local-business/sdgpioneers')

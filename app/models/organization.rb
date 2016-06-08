@@ -46,8 +46,7 @@
 #  is_tobacco                     :boolean
 #  no_pledge_reason               :string(255)
 #  isin                           :string(255)
-#  sector_id                      :integer
-#  country_id                     :integer
+#
 
 class Organization < ActiveRecord::Base
   include ApprovalWorkflow

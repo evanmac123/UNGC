@@ -6,7 +6,7 @@
 #  local_network_id :integer
 #  title            :string(255)
 #  policy_type      :string(255)
-#  description      :text
+#  description      :text(65535)
 #  date             :date
 #
 

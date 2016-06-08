@@ -5,7 +5,7 @@
 #  id                 :integer          not null
 #  contribution_id    :string(255)      not null, primary key
 #  invoice_code       :string(255)
-#  raw_amount         :integer
+#  raw_amount         :decimal(10, 2)
 #  recognition_amount :integer
 #  date               :date             not null
 #  stage              :string(255)      not null

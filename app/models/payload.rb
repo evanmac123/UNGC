@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: payloads
+#
+#  id             :integer          not null, primary key
+#  container_id   :integer          not null
+#  json_data      :text(65535)      not null
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  created_by_id  :integer
+#  updated_by_id  :integer
+#  approved_by_id :integer
+#  approved_at    :datetime
+#
+
 class Payload < ActiveRecord::Base
   include TrackCurrentUser
   belongs_to :approved_by, :class_name => 'Contact', :foreign_key => :approved_by_id
