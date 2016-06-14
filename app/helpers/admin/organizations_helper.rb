@@ -9,7 +9,7 @@ module Admin::OrganizationsHelper
       actions << button_to('Reject Micro', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_REJECT_MICRO), :method => :post, :data => { :confirm => "#{current_contact.first_name}, are you sure you want to reject this Micro Enterprise?" }, :class => "nobutton") if organization.can_reject?
       actions << link_to('Edit', edit_admin_organization_path(@organization.id), :title => 'Edit Profile')
 
-      staff_only do
+      staff_participant_manager_only do
         actions << link_to("Delete Organization", admin_organization_path(@organization.id), :title => 'Delete Profile', :data => {:confirm => 'Are you sure?'}, :method => :delete )
       end
 

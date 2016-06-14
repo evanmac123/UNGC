@@ -11,6 +11,13 @@ module ApplicationHelper
     yield if current_contact.is? Role.participant_manager
   end
 
+  def staff_participant_manager_only(&block)
+    if current_contact && current_contact.from_ungc? &&
+        current_contact.is?(Role.participant_manager)
+      yield
+    end
+  end
+
   def organization_only(&block)
     yield if current_contact && current_contact.from_organization?
   end
