@@ -43,7 +43,9 @@ namespace :cop do
           file_attrs.delete("id")
           file_attrs.delete("cop_id")
 
-          new_cop.cop_files.create!(file_attrs)
+          new_file = new_cop.cop_files.create!(file_attrs)
+          new_file.attachment = file.attachment
+          new_file.save!
         end
       end
     end
