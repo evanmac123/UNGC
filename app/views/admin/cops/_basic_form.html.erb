@@ -42,7 +42,7 @@
         </ul>
         <ul class="date_select">
           <li>End date</li>
-          <%= form.date_select :ends_on, {:order => [:month, :year], :start_year => 2000, :end_year => current_year} %>
+          <%= form.date_select :ends_on, {:order => [:month, :year], :start_year => 2000, :end_year => (current_year+2)} %>
         </ul>
       </fieldset>
       <%= render_cop_questions_for :basic %>
