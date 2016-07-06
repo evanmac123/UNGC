@@ -3,6 +3,7 @@ module TestPage
 
     def initialize(user)
       @user = user
+      @organization = user.organization
     end
 
     def login
@@ -20,7 +21,7 @@ module TestPage
 
     def submit_cop
       click_on 'New Communication on Progress'
-      CopLanding.new
+      transition_to CopLanding.new(@organization)
     end
 
   end

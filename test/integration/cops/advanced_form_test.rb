@@ -2,9 +2,6 @@ require 'test_helper'
 
 class CopSubmissionTest < ActionDispatch::IntegrationTest
 
-  # check for a question in each group
-  # check for
-
   test "handle COP submission lifecycle" do
     create(:language, name: 'English')
     create_principle_areas

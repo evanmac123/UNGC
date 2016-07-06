@@ -6,7 +6,16 @@ module TestPage
 
     def visit(path, code = 200)
       super(path)
+      ensure_path(path, code)
+    end
 
+    def transition_to(other_page)
+      other_page.tap do |p|
+        ensure_path(p.path)
+      end
+    end
+
+    def ensure_path(path, code = 200)
       errors = []
       if current_path != path
         errors << "Expected #{path}, got #{current_path}"

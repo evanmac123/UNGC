@@ -1,8 +1,12 @@
 module TestPage
   class CopAdvancedForm < Base
 
-    def initialize
-      # @questionnaire = SampleCopQuestionnaire.new
+    def initialize(organization)
+      @organization = organization
+    end
+
+    def path
+      new_admin_organization_communication_on_progress_path(@organization.id)
     end
 
     def save_draft
@@ -88,7 +92,9 @@ module TestPage
       if has_validation_errors?
         self
       else
-        CopDetail.new
+        match = current_path.match(/communication_on_progresses\/(\d+)/)
+        cop = @organization.communication_on_progresses.find(match[1])
+        transition_to CopDetail.new(cop)
       end
     end
 
