@@ -30,5 +30,13 @@ module TestPage
       end
     end
 
+    def log
+      filepath = File.expand_path("./public/system#{path}.html")
+      FileUtils.mkdir_p(File.dirname(filepath))
+      File.open(filepath, 'w') do |f|
+        f.write(page.html.gsub('display: none;', ''))
+      end
+      system "open http://localhost:3000/system#{path}.html"
+    end
   end
 end

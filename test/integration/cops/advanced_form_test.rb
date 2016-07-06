@@ -74,14 +74,5 @@ class CopSubmissionTest < ActionDispatch::IntegrationTest
     # check the dashboard index for a new entry
   end
 
-  private
-
-  def log_page(filename)
-    path = "./public/system/#{filename}"
-    File.open(path, 'w') do |f|
-      f.write(page.html.gsub('display: none;', ''))
-    end
-    system "open http://localhost:3000/system/#{filename}"
-  end
 
 end
