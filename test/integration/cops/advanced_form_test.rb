@@ -66,10 +66,26 @@ class CopSubmissionTest < ActionDispatch::IntegrationTest
     detail_page = form.submit
     assert detail_page.has_published_notice?
 
-    # log_page
+    # Differentiation level tab
+    assert_equal 'GC Learner Platform', detail_page.platform
+    refute detail_page.include_continued_support_statement?
+    assert detail_page.references? :human_rights
+    refute detail_page.references? :labour
+    refute detail_page.references? :environment
+    refute detail_page.references? :anti_corruption
+    assert detail_page.include_measurement?
+
+    # Detailed results tab
+    assert_equal '2016/07/06', detail_page.published_on
+    assert_equal 'June 2016 – June 2017', detail_page.time_period
+
+    # TODO:
+    # Files untitled.pdf (English)
+    # Links http://example.com (English)
+
+    assert_equal 'Stand alone document', detail_page.format
 
     # TODO
-    # check the confirmation info
     # check the public page info
     # check the dashboard index for a new entry
   end
