@@ -22,16 +22,6 @@ module CopMailerHelper
     end
   end
 
-  # Due to the SME moratorium, we use the inactive_on date for SMEs
-  # Companies will continue to use the date determined by Organization#delisting_on
-  def delisting_on(org)
-    if org.organization_type == OrganizationType.company
-      org.delisting_on
-    else
-      org.inactive_on.present? ? org.inactive_on + 1.year : org.delisting_on
-    end
-  end
-
   def link_to_letter_of_commitment_if_available(org)
     if org.commitment_letter?
       link_to 'Letter of Commitment', 'http://unglobalcompact.org' + org.commitment_letter.url

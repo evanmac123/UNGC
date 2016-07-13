@@ -2,6 +2,14 @@ require 'test_helper'
 
 class CopSubmissionTest < ActionDispatch::IntegrationTest
 
+  setup do
+    travel_to Date.new(2016, 7, 6)
+  end
+
+  teardown do
+    travel_back
+  end
+
   test "handle COP submission lifecycle" do
     create(:language, name: 'English')
     create_principle_areas
