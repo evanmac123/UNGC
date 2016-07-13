@@ -10,9 +10,9 @@
 Dear Contact Points for
 %strong== #{@organization.name},
 
-%p==#{@organization.name} is in danger of being removed from the UN Global Compact’s list of active participants on #{dd_month_yyyy delisting_on(@organization)} for failing to submit its annual Communication on Progress (COP).
+%p==#{@organization.name} is in danger of being removed from the UN Global Compact’s list of active participants on #{dd_month_yyyy @organization.delisting_on} for failing to submit its annual Communication on Progress (COP).
 
-%p==As you know, when joining the UN Global Compact, companies make a commitment to issue an annual COP, a public disclosure to stakeholders on progress made in implementing the UN Global Compact ten principles. To remain a UN Global Compact participant, #{@organization.name} must submit an updated COP by #{dd_month_yyyy delisting_on(@organization)}. This will prevent your company from being publicly listed on our website as an #{link_to 'expelled participant', 'http://www.unglobalcompact.org/COP/analyzing_progress/expelled_participants.html'} due to lack of communication and in our next press release announcing the names of expelled companies.
+%p==As you know, when joining the UN Global Compact, companies make a commitment to issue an annual COP, a public disclosure to stakeholders on progress made in implementing the UN Global Compact ten principles. To remain a UN Global Compact participant, #{@organization.name} must submit an updated COP by #{dd_month_yyyy @organization.delisting_on}. This will prevent your company from being publicly listed on our website as an #{link_to 'expelled participant', 'http://www.unglobalcompact.org/COP/analyzing_progress/expelled_participants.html'} due to lack of communication and in our next press release announcing the names of expelled companies.
 
 %p== For your reference, at the end of this email, you will find a list of resources that can help you in drafting and submitting your COP. In case you have forgotten your password, please use the #{link_to 'Forgot your username or password', 'http://unglobalcompact.org/password/new'} link to request a new one.
 
