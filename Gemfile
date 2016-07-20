@@ -23,6 +23,7 @@ gem 'dynamic_form',         '~> 1.1.4'
 gem 'skylight',             '~> 0.10.3'
 gem 'honeybadger', '~> 2.0'
 gem 'faker'
+gem 'bullet'
 
 gem 'sass-rails',           '5.0.3'
 gem 'coffee-rails',         '~> 4.1.0'
