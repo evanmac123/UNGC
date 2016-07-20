@@ -79,6 +79,9 @@ GEM
       sass (~> 3.4)
       thor
     builder (3.2.2)
+    bullet (5.1.1)
+      activesupport (>= 3.0.0)
+      uniform_notifier (~> 1.10.0)
     byebug (3.5.1)
       columnize (~> 0.8)
       debugger-linecache (~> 1.2)
@@ -414,6 +417,7 @@ GEM
     uglifier (2.7.0)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    uniform_notifier (1.10.0)
     virtus (1.0.5)
       axiom-types (~> 0.1)
       coercible (~> 1.0)
@@ -439,6 +443,7 @@ DEPENDENCIES
   annotate (~> 2.7.1)
   awesome_print
   bourbon (~> 4.2.1)
+  bullet
   byebug
   capistrano (~> 2.15.5)
   capybara

@@ -4,7 +4,7 @@ class OrganizationsController < ApplicationController
     per_page    = params[:per_page] || Organization.per_page
     extras      = params[:extras] ? params[:extras].split(',') : []
 
-    @organizations_for_init = Organization.for_initiative((params[:initiative] || '').to_sym)
+    @organizations_for_init = Organization.includes(:sector, :country)for_initiative((params[:initiative] || '').to_sym)
     @count          = @organizations_for_init.count
     @organizations  = @organizations_for_init.paginate(:page => page.to_s, :per_page => per_page)
 
