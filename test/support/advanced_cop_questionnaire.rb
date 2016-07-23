@@ -1,4 +1,4 @@
-class SampleCopQuestionnaire
+class AdvancedCopQuestionnaire
   attr_reader :questionnaire
 
   def self.create
@@ -26,6 +26,10 @@ class SampleCopQuestionnaire
            open: true, text: "#{grouping} open")
     create(:cop_attribute, cop_question: question,
            open: false, text: "#{grouping} option")
+  end
+
+  def question_count
+    @_question_count ||= CopAttribute.count
   end
 
   private

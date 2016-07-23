@@ -9,6 +9,11 @@ module TestPage
       admin_organization_communication_on_progress_path(@cop.organization.id, @cop)
     end
 
+    def click_on_public_version
+      click_on 'Public version'
+      transition_to PublicCopDetail.new(@cop)
+    end
+
     def has_published_notice?
       has_content?('The communication has been published on the Global Compact website')
     end
@@ -57,7 +62,12 @@ module TestPage
     end
 
     def format
-      result_items[4]
+      case @cop.cop_type
+      when 'basic' then result_items[2]
+      when 'advanced' then result_items[4]
+      else
+        raise "I don't know how to get the format for a #{@cop.cop_type} COP"
+      end
     end
 
     private

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class CopSubmissionTest < ActionDispatch::IntegrationTest
+class AdvancedFormTest < ActionDispatch::IntegrationTest
 
   setup do
     travel_to Date.new(2016, 7, 6)
@@ -13,23 +13,32 @@ class CopSubmissionTest < ActionDispatch::IntegrationTest
   test "handle COP submission lifecycle" do
     create(:language, name: 'English')
     create_principle_areas
+
+    # create a noncommunicating organization and user
     create_approved_organization_and_user
+    @organization.communication_late!
+
+    # needed to show the public cop detail page
+    create(:container, path: '/participation/report')
 
     # create a questionnaire
-    SampleCopQuestionnaire.create
+    questionnaire = AdvancedCopQuestionnaire.create
 
     # from the dashboard page, start a new advanced cop
     dashboard = TestPage::Dashboard.new(@organization_user)
     dashboard.visit
+    assert_equal dashboard.organization_status, 'Noncommunicating'
+
     cop_landing = dashboard.submit_cop
     form = cop_landing.new_advanced_cop
 
     # Save a draft, an answer is created for each question
-    assert_difference 'CopAnswer.count', 18 do
+    assert_difference 'CopAnswer.count', questionnaire.question_count do
       form.save_draft
     end
 
     # Answer the basic questions
+    form.title = 'Testing COP'
     form.format = 'Stand alone document'
     form.start_date 'June', '2016'
     form.end_date 'June', '2017'
@@ -93,9 +102,22 @@ class CopSubmissionTest < ActionDispatch::IntegrationTest
 
     assert_equal 'Stand alone document', detail_page.format
 
-    # TODO
-    # check the public page info
+    # Public COP page
+    public_version = detail_page.click_on_public_version
+    assert_equal '2016/07/06', public_version.published_on
+    assert_equal 'June 2016 – June 2017', public_version.time_period
+    assert_equal 'Stand alone document', public_version.format
+
     # check the dashboard index for a new entry
+    dashboard.visit
+    # The organization's status is now active
+    assert_equal dashboard.organization_status, 'Active'
+
+    # The COP is listed in the list of submitted COPs
+    assert_not_nil dashboard.find_cop_with_title('Testing COP')
+
+    # The draft is gone
+    assert_equal 0, dashboard.draft_cop_count
   end
 
 
