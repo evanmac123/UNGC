@@ -754,10 +754,6 @@ class Organization < ActiveRecord::Base
     cop_due_on
   end
 
-  def projected_expulsion_date
-    communication_due_on + EXPULSION_THRESHOLD
-  end
-
   # COP's next due date is 1 year from current date, 2 years for non-business
   # Organization's participant and cop status are now 'active', unless they submit a series of Learner COPs
   def set_next_cop_due_date_and_cop_status!(date = nil)
@@ -840,11 +836,15 @@ class Organization < ActiveRecord::Base
   # predict delisting date based on current status and COP due date
   # only one year of non-communicating is assumed
   def delisting_on
-    if cop_state == COP_STATE_DELISTED
+    if cop_due_on.nil? || delisted?
       nil
     else
-      cop_due_on + years_until_next_cop_due unless cop_due_on.nil?
+      cop_due_on + EXPULSION_THRESHOLD
     end
+  end
+
+  def projected_expulsion_date
+    delisting_on
   end
 
   def non_comm_dialogue
