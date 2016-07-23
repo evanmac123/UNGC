@@ -269,8 +269,28 @@ class OrganizationTest < ActiveSupport::TestCase
       @organization.update_attribute :cop_state, Organization::COP_STATE_NONCOMMUNICATING
     end
 
-    should "have a predicted delisting date one year after their COP due date" do
-      assert_equal @organization.cop_due_on + 1.year, @organization.delisting_on
+    context "#delisting_on" do
+
+      should "have a predicted delisting date one year after their COP due date" do
+        business = create(:business, cop_due_on: Date.new(2015, 10, 31))
+        assert_equal Date.new(2016, 10, 31), business.delisting_on
+      end
+
+      should "have a predicted delisting date one year after a non business' COE due date" do
+        non_business = create(:non_business, cop_due_on: Date.new(2015, 10, 31))
+        assert_equal Date.new(2016, 10, 31), non_business.delisting_on
+      end
+
+      should "return nil for already delisted organizations" do
+        business = create(:business, cop_state: 'delisted')
+        assert_nil business.delisting_on
+      end
+
+      should "return nil when there is no cop_due_on yet" do
+        business = create(:business, cop_due_on: nil)
+        assert_nil business.cop_due_on
+        assert_nil business.delisting_on
+      end
     end
 
     should "be able to submit a COP" do
