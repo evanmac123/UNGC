@@ -10,6 +10,11 @@ module TestPage
       transition_to CopAdvancedForm.new(@organization)
     end
 
+    def new_basic_cop
+      click_on 'Submit a Basic COP here'
+      transition_to CopBasicForm.new(@organization)
+    end
+
     def path
       '/admin/cops/introduction'
     end
