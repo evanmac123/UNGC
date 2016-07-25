@@ -5,14 +5,19 @@ module TestPage
       @organization = organization
     end
 
+    def new_basic_cop
+      click_on 'Submit a Basic COP here'
+      transition_to CopBasicForm.new(@organization)
+    end
+
     def new_advanced_cop
       click_on 'Submit a GC Advanced COP here'
       transition_to CopAdvancedForm.new(@organization)
     end
 
-    def new_basic_cop
-      click_on 'Submit a Basic COP here'
-      transition_to CopBasicForm.new(@organization)
+    def new_reporting_cycle_adjustment
+      click_on 'Submit a Reporting Cycle Adjustment here'
+      transition_to ReportingCycleAdjustmentForm.new(@organization)
     end
 
     def path
