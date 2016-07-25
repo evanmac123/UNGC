@@ -13,7 +13,7 @@
           By submitting a Grace Letter, your reporting deadline will be extended by
           %strong== #{@form.grace_period} days.
           == Your next #{@form.organization_cop_acronym} must be received by
-          %strong==  #{yyyy_mm_dd @form.due_on}.
+          %strong{role: 'extended_due_date'}==  #{yyyy_mm_dd @form.due_on}.
 
       %fieldset
         %legend

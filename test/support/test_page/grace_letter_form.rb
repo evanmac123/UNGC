@@ -18,6 +18,10 @@ module TestPage
       attach_file('grace_letter[attachment]', path)
     end
 
+    def extended_due_date
+      find('strong[role=extended_due_date]').text
+    end
+
     def submit
       click_on 'Submit'
     end

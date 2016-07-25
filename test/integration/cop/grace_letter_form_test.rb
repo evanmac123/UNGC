@@ -29,13 +29,15 @@ module COP
       cop_landing = dashboard.submit_cop
       form = cop_landing.new_grace_letter
 
+      # Then I should see the projected extended due date
+      assert_equal '2017/10/04.', form.extended_due_date
+
       # And I submit the form
       form.submit
 
       # Then I should see a validation error
       assert_equal [
-        'New deadline must be after your current deadline',
-        'Attachment can\'t be blank'
+        "Attachment can't be blank"
       ], form.validation_errors
 
       # When I add valid inputs
@@ -50,7 +52,7 @@ module COP
 
       # And that the cop due date has changed on the dashboard
       dashboard.visit
-      assert_equal '2016-10-04', dashboard.cop_due_date
+      assert_equal '2017-10-04', dashboard.cop_due_date
 
     end
 
