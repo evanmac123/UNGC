@@ -25,6 +25,11 @@ module TestPage
       transition_to ReportingCycleAdjustmentForm.new(@organization)
     end
 
+    def new_grace_letter
+      click_on 'Submit a New Grace Letter here'
+      transition_to GraceLetterForm.new(@organization)
+    end
+
     def path
       '/admin/cops/introduction'
     end
