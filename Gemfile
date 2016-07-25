@@ -64,6 +64,7 @@ group :test do
   gem 'simplecov', require: false
   gem 'mocha', '~> 1.1.0'
   gem 'database_cleaner'
+  gem 'webmock'
 end
 
 group :development, :test do

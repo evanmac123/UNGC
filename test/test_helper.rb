@@ -7,6 +7,7 @@ require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 require 'capybara/rails'
 require 'mocha/setup'
+require 'webmock/minitest'
 require 'test_helpers/integration_test_helper'
 
 # include helpers, modules etc
