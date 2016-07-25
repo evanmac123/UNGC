@@ -53,7 +53,6 @@ group :development do
   gem 'faraday'
   gem 'rerun'
   gem 'thin'
-  gem 'faker'
   gem 'bullet'
 end
 
@@ -65,6 +64,7 @@ group :test do
   gem 'mocha', '~> 1.1.0'
   gem 'database_cleaner'
   gem 'webmock'
+  gem 'faker'
 end
 
 group :development, :test do
