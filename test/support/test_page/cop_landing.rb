@@ -30,6 +30,11 @@ module TestPage
       transition_to GraceLetterForm.new(@organization)
     end
 
+    def new_express_cop
+      click_on 'Submit an Express COP here'
+      transition_to CopExpressForm.new(@organization)
+    end
+
     def path
       '/admin/cops/introduction'
     end
