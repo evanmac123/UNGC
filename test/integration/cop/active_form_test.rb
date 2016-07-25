@@ -38,7 +38,7 @@ module COP
       # Then I should see a confirmation message
       assert_equal 'The communication draft has been saved', form.flash_text
 
-      # and continue filling out the form
+      # When continue filling out the form
       form.fill_in_title 'Testing COP'
       form.select_format 'Part of an annual (financial) report'
       form.select_start_date 'June', '2016'
@@ -51,7 +51,7 @@ module COP
       form.check_include_measurement(true)
       form.choose_method_shared_with_stakeholders = 'Both b) and c)'
 
-      # When I click submit
+      # And I click submit
       form.submit
 
       # Then I should see a validation error
@@ -66,7 +66,7 @@ module COP
       # Then I should see a confirmation message
       assert_equal 'The communication has been published on the Global Compact website', form.flash_text
 
-      # and I should see the detail results
+      # And I should see the detail results
       assert_equal 'GC Active', detail_page.platform
       assert detail_page.include_continued_support_statement?
       assert detail_page.references? :human_rights
