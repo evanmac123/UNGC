@@ -32,9 +32,5 @@ module TestPage
       all('#errorExplanation li').map(&:text)
     end
 
-    def flash_text
-      find('.flash').text
-    end
-
   end
 end

@@ -18,8 +18,9 @@ module TestPage
     end
 
     def format
-      if @cop.cop_type == 'advanced'
-        result_items[5]
+      case @cop.cop_type
+      when 'intermediate' then result_items[4]
+      when 'advanced' then result_items[5]
       else
         result_items[3]
       end

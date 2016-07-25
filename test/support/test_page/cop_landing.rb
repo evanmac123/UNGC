@@ -10,6 +10,11 @@ module TestPage
       transition_to CopBasicForm.new(@organization)
     end
 
+    def new_active_cop
+      click_on 'Submit a GC Active COP here'
+      transition_to CopActiveForm.new(@organization)
+    end
+
     def new_advanced_cop
       click_on 'Submit a GC Advanced COP here'
       transition_to CopAdvancedForm.new(@organization)

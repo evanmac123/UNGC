@@ -7,8 +7,6 @@ module COP
       travel_to Date.new(2016, 7, 6)
 
       create(:language, name: 'English')
-      create_principle_areas
-      create(:container, path: '/participation/report')
     end
 
     teardown do

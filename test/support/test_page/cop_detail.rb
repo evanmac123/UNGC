@@ -64,6 +64,7 @@ module TestPage
     def format
       case @cop.cop_type
       when 'basic' then result_items[2]
+      when 'intermediate' then result_items[3]
       when 'advanced' then result_items[4]
       else
         raise "I don't know how to get the format for a #{@cop.cop_type} COP"
