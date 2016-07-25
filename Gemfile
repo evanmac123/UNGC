@@ -21,8 +21,6 @@ gem 'devise',               '~> 3.4.1'
 gem 'dynamic_form',         '~> 1.1.4'
 gem 'skylight',             '~> 0.10.3'
 gem 'honeybadger', '~> 2.0'
-gem 'faker'
-gem 'bullet'
 
 gem 'sass-rails',           '5.0.3'
 gem 'coffee-rails',         '~> 4.1.0'
@@ -55,6 +53,8 @@ group :development do
   gem 'faraday'
   gem 'rerun'
   gem 'thin'
+  gem 'faker'
+  gem 'bullet'
 end
 
 group :test do
