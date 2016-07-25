@@ -6,9 +6,7 @@ module TestPage
     end
 
     def path
-      new_admin_organization_communication_on_progress_path(
-        @organization.id, type_of_cop: 'express'
-      )
+      new_admin_organization_express_cop_path(@organization)
     end
 
     def check_continued_support_statement(value)
@@ -28,7 +26,7 @@ module TestPage
       if has_validation_errors?
         self
       else
-        match = current_path.match(/communication_on_progresses\/(\d+)/)
+        match = current_path.match(/express_cops\/(\d+)/)
         if match
           cop = @organization.communication_on_progresses.find(match[1])
           transition_to CopDetail.new(cop)
@@ -39,11 +37,7 @@ module TestPage
     end
 
     def has_validation_errors?
-      validation_errors.any?
-    end
-
-    def validation_errors
-      all('.flash li').map(&:text)
+      all('.field_with_errors').any?
     end
 
   end

@@ -30,13 +30,12 @@ module COP
       form.submit
 
       # Then I should see a validation error
+      assert form.has_validation_errors?
 
       # When I add valid inputs
       form.check_continued_support_statement(false)
       form.check_covers_issue_areas(true)
       form.check_include_measurement(true)
-
-
 
       # And then I resubmit
       form.submit
