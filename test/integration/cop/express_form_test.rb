@@ -50,6 +50,7 @@ module COP
 
       # And detail about my COP
       assert_equal 'GC Active', detail_page.platform
+      detail_page.log
       assert detail_page.references_express? :endorses_ten_principles
       assert detail_page.references_express? :covers_issue_areas
       assert detail_page.references_express? :measures_outcomes
@@ -57,14 +58,12 @@ module COP
       assert detail_page.express_include_covers_issue_areas?
       assert detail_page.express_include_measurement?
       assert_equal '2016/07/06', detail_page.published_on
-      assert_equal 'June 2016 – June 2017', detail_page.time_period
 
       # When I click on Public version
       public_version = detail_page.click_on_public_version
 
       # Then I should see the public data
       assert_equal '2016/07/06', public_version.published_on
-      assert_equal 'June 2016 – June 2017', public_version.time_period
 
       # When I re-visit the dashboard page
       dashboard.visit
@@ -72,11 +71,13 @@ module COP
       # Then I should see that the COP due date has changed
       assert_equal '2017-07-06', dashboard.cop_due_date
 
+      # assert_equal 'Express', public_version.format
+
       # And I should see that my organization is now Active
       assert_equal dashboard.organization_status, 'Active'
 
       # And I should see the COP in my list of COPs
-      assert_not_nil dashboard.find_cop_with_title('Express COP???')
+      assert_not_nil dashboard.find_cop_with_title('Communication on Progress 2016')
     end
 
   end
