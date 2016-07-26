@@ -40,9 +40,9 @@ module TestPage
         'Description of actions or relevant policies related to Environment'
       when :anti_corruption
         'Description of actions or relevant policies related to Anti-Corruption'
-      end
 
-      check_assessment description
+        check_assessment description
+      end
     end
 
     def include_continued_support_statement?
@@ -82,7 +82,7 @@ module TestPage
       in_positive = positive_assessment_items.include?(description)
       in_missing = missing_assessment_items.include?(description)
 
-      # the item should be in one or the other
+        # the item should be in one or the other
       if in_positive != in_missing
         in_positive
       else
