@@ -42,30 +42,14 @@ module COP
       form.check_covers_issue_areas(true)
       form.check_include_measurement(true)
 
-      # And then I resubmit
+      # And I resubmit
       detail_page = form.submit
 
-      # I should see the success message
+      # Then I should see the success message
       assert_equal 'The communication has been published on the Global Compact website', form.flash_text
 
-      # And that the cop due date has changed on the dashboard
-      dashboard.visit
-      assert_equal '2017-07-06', dashboard.cop_due_date
-
-      # TODO
-      # Check that the cop is "GC Active"
-      # Check that the format is Express
-      # Check the self assessment format
-
-      # Highest executive supports and endorses the Ten Principles of the United Nations Global Compact.
-      # Action is taken in the areas of human rights, labour, environment and anti-corruption.
-      # Outcomes of such activities are monitored.
-
-      # Check that there is an entry in the dashboard list of COPs
-      # for this COP.
-
-      # And I should see the detail results
-      # assert_equal 'GC Active', detail_page.platform
+      # And detail about my COP
+      assert_equal 'GC Active', detail_page.platform
       assert detail_page.references_express? :endorses_ten_principles
       assert detail_page.references_express? :covers_issue_areas
       assert detail_page.references_express? :measures_outcomes
@@ -82,13 +66,17 @@ module COP
       assert_equal '2016/07/06', public_version.published_on
       assert_equal 'June 2016 – June 2017', public_version.time_period
 
-      # When I go back to the dashboard
+      # When I re-visit the dashboard page
       dashboard.visit
 
-      # Then I should see that my organization is now Active
+      # Then I should see that the COP due date has changed
+      assert_equal '2017-07-06', dashboard.cop_due_date
+
+      # And I should see that my organization is now Active
       assert_equal dashboard.organization_status, 'Active'
 
-
+      # And I should see the COP in my list of COPs
+      assert_not_nil dashboard.find_cop_with_title('Express COP???')
     end
 
   end
