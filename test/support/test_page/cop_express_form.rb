@@ -26,10 +26,10 @@ module TestPage
       if has_validation_errors?
         self
       else
-        match = current_path.match(/express_cops\/(\d+)/)
+        match = path_and_query.match(/express_cops\/(\d+)/)
         if match
           cop = @organization.communication_on_progresses.find(match[1])
-          transition_to CopDetail.new(cop)
+          transition_to ExpressCopDetail.new(cop)
         else
           raise "Expected successful form submittion to transition to the show page. Got #{path_and_query} instead."
         end
@@ -38,6 +38,10 @@ module TestPage
 
     def has_validation_errors?
       all('.field_with_errors').any?
+    end
+
+    def validation_errors
+      Array.wrap(find('.flash.error').text)
     end
 
   end
