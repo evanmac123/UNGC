@@ -31,10 +31,6 @@ module TestPage
       result_items[1]
     end
 
-    def positive_assessment_items
-      all('#results .self_assessment .selected_question').map(&:text)
-    end
-
     def references_express?(area)
       description = case area
       when :covers_issue_areas
@@ -47,29 +43,15 @@ module TestPage
       check_express_assessment description
     end
 
-    def express_include_continued_support_statement?
-      check_express_assessment 'Includes a CEO statement of continued support for the UN Global Compact and its ten principles'
-    end
-
-    def express_include_covers_issue_areas?
-      check_express_assessment 'Includes a measurement of outcomes'
-    end
-
-    def express_include_measurement?
-      check_express_assessment 'Includes a measurement of outcomes'
-    end
-
-
-
     private
 
     def result_items
       all('#results dl dd ul li').map(&:text)
     end
 
-    #why is this breaking?
     def check_express_assessment(description)
-      positive_assessment_items.include?(description)
+      items = all('#results .self_assessment .selected_question').map(&:text)
+      items.include?(description)
     end
 
   end

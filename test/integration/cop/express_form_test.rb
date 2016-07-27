@@ -50,13 +50,9 @@ module COP
 
       # And detail about my COP
       assert_equal 'GC Active', detail_page.platform
-      detail_page.log
       assert detail_page.references_express? :endorses_ten_principles
       assert detail_page.references_express? :covers_issue_areas
       assert detail_page.references_express? :measures_outcomes
-      assert detail_page.express_include_continued_support_statement?
-      assert detail_page.express_include_covers_issue_areas?
-      assert detail_page.express_include_measurement?
       assert_equal '2016/07/06', detail_page.published_on
 
       # When I click on Public version
@@ -64,14 +60,13 @@ module COP
 
       # Then I should see the public data
       assert_equal '2016/07/06', public_version.published_on
+      assert_equal 'This COP qualifies for the Global Compact Active level', public_version.format
 
       # When I re-visit the dashboard page
       dashboard.visit
 
       # Then I should see that the COP due date has changed
       assert_equal '2017-07-06', dashboard.cop_due_date
-
-      # assert_equal 'Express', public_version.format
 
       # And I should see that my organization is now Active
       assert_equal dashboard.organization_status, 'Active'
