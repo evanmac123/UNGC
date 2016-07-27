@@ -5,6 +5,10 @@ module COP
 
     setup do
       travel_to Date.new(2016, 7, 6)
+      create(:language, name: 'English')
+      create_principle_areas
+      # needed to show the public cop detail page
+      create(:container, path: '/participation/report')
     end
 
     teardown do
@@ -12,15 +16,9 @@ module COP
     end
 
     test "handle COP submission lifecycle" do
-      create(:language, name: 'English')
-      create_principle_areas
-
       # create a noncommunicating organization and user
       create_approved_organization_and_user
       @organization.communication_late!
-
-      # needed to show the public cop detail page
-      create(:container, path: '/participation/report')
 
       # create a questionnaire
       questionnaire = BasicCopQuestionnaire.create
@@ -37,7 +35,6 @@ module COP
       assert_difference 'CopAnswer.count', questionnaire.question_count do
         form.save_draft
       end
-
       # Answer the basic questions
       form.fill_in_title 'Testing COP'
       form.select_start_date 'June', '2016'

@@ -25,7 +25,7 @@ module TestPage
     end
 
     def organization_status
-      all('#overview dd')[1].text
+      overview_items[1]
     end
 
     def find_cop_with_title(title)
@@ -35,6 +35,16 @@ module TestPage
 
     def draft_cop_count
       all(:xpath, "//div[@id='cop_drafts']//tr").count
+    end
+
+    def cop_due_date
+      overview_items[4]
+    end
+
+    private
+
+    def overview_items
+      all('#overview dd').map(&:text)
     end
 
   end

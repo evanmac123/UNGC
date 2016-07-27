@@ -6,7 +6,8 @@ module TestPage
     end
 
     def path
-      new_admin_organization_communication_on_progress_path(@organization.id)
+      new_admin_organization_communication_on_progress_path(@organization.id,
+                                                            type_of_cop: 'advanced')
     end
 
     def save_draft
