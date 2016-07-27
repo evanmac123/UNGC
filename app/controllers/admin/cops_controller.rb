@@ -201,6 +201,8 @@ class Admin::CopsController < AdminController
         :references_labour,
         :references_environment,
         :references_anti_corruption,
+        :references_business_peace,
+        :references_water_mandate,
         :include_measurement,
         :include_continued_support_statement,
         :starts_on,
