@@ -23,6 +23,54 @@ class CopsControllerTest < ActionController::TestCase
    assert_equal expected, cop_path
  end
 
+ test "should get active" do
+   create(:container, path: '/participation/report/cop/create-and-submit/active')
+
+   get :active
+   assert_response :success
+   assert_not_nil assigns(:page)
+ end
+
+ test "should get advanced" do
+   create(:container, path:'/participation/report/cop/create-and-submit/advanced')
+
+   get :advanced
+   assert_response :success
+   assert_not_nil assigns(:page)
+ end
+
+ test "should get expelled" do
+   create(:container, path:'/participation/report/cop/create-and-submit/expelled')
+
+   get :expelled
+   assert_response :success
+   assert_not_nil assigns(:page)
+ end
+
+ test "should get learner" do
+   create(:container, path: '/participation/report/cop/create-and-submit/learner')
+
+   get :learner
+   assert_response :success
+   assert_not_nil assigns(:page)
+ end
+
+ test "should get non-communicating" do
+   create(:container, path: '/participation/report/cop/create-and-submit/non-communicating')
+
+   get :non_communicating
+   assert_response :success
+   assert_not_nil assigns(:page)
+ end
+
+ test "should get submitted coe" do
+  create(:container, path: '/participation/report/coe/create-and-submit/submitted-coe')
+
+  get :submitted_coe
+  assert_response :success
+  assert_not_nil assigns(:page)
+ end
+
  context "given a request for feeds/cops" do
    setup do
      get :feed, :format => 'atom'
