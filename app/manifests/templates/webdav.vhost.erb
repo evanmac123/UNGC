@@ -2,6 +2,16 @@
   ServerName <%= configuration[:webdav][:domain] %>
   DocumentRoot /srv/unglobalcompact/shared/public
 
+  <Directory /srv/unglobalcompact/shared/public>
+    DAV Off
+    Options -Indexes
+    Header set X-Robots-Tag "noindex, nofollow"
+  </Directory>
+
+  <Files /srv/unglobalcompact/shared/public/*>
+    Header set X-Robots-Tag "noindex, nofolllow"
+  </Files>
+
   <Directory /srv/unglobalcompact/shared/public/pics>
     DAV On
     AuthType Basic
