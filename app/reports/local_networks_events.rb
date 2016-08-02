@@ -2,29 +2,29 @@ class LocalNetworksEvents < SimpleReport
 
   def records
     LocalNetworkEvent.all.
-      select('local_network_id,
-        title,
-        description,
-        date,
-        event_type,
-        num_participants,
-        gc_participant_percentage,
-        stakeholder_company,
-        stakeholder_sme,
-        stakeholder_business_association,
-        stakeholder_labour,
-        stakeholder_un_agency,
-        stakeholder_ngo,
-        stakeholder_foundation,
-        stakeholder_academic,
-        stakeholder_government,
-        stakeholder_media,
-        stakeholder_others,
+      select('local_network_events.local_network_id,
+        local_network_events.title,
+        local_network_events.description,
+        local_network_events.date,
+        local_network_events.event_type,
+        local_network_events.num_participants,
+        local_network_events.gc_participant_percentage,
+        local_network_events.stakeholder_company,
+        local_network_events.stakeholder_sme,
+        local_network_events.stakeholder_business_association,
+        local_network_events.stakeholder_labour,
+        local_network_events.stakeholder_un_agency,
+        local_network_events.stakeholder_ngo,
+        local_network_events.stakeholder_foundation,
+        local_network_events.stakeholder_academic,
+        local_network_events.stakeholder_government,
+        local_network_events.stakeholder_media,
+        local_network_events.stakeholder_others,
         local_network_events.created_at,
         local_network_events.updated_at,
         local_network_events_principles.*').
       joins(:principles).
-      includes(:local_network, { local_network: :countries }).
+      includes(:local_network, { local_network: :countries }, :principles).
       order('local_network_events.local_network_id, local_network_events.date DESC')
   end
 
