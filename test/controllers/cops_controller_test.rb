@@ -72,12 +72,19 @@ class CopsControllerTest < ActionController::TestCase
  end
 
  context "given a request for feeds/cops" do
-   setup do
-     get :feed, :format => 'atom'
-   end
-
    should "display the atom feed" do
+     # Given some COPs published today
+     create_list(:communication_on_progress, 2,
+                 published_on: Date.today,
+                 state: 'approved',
+                 format: CommunicationOnProgress::FORMAT[:standalone]
+                )
+
+     get :feed, :format => 'atom'
+
      assert_template 'cops/feed'
+     cops = assigns(:cops_for_feed)
+     assert_equal 2, cops.length
    end
  end
 
