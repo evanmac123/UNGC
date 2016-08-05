@@ -74,6 +74,7 @@ group :development, :test do
   gem 'spring'
   gem 'factory_girl_rails', '~> 4.0'
   gem 'faker'
+  gem 'dotenv-rails'
 end
 
 group :production do
