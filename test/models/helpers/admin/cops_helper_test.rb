@@ -28,6 +28,15 @@ class Admin::CopsHelperTest < ActionView::TestCase
     assert_equal dashboard_path(tab: :cops), view.cops_path(organization)
   end
 
+  test "show_weps" do
+    organization = create(:organization)
+    weps = create(:initiative)
+    signing = create(:signing, organization: organization, initiative: weps)
+    cop = create(:communication_on_progress, organization: organization)
+    expected = cop.organization.signatory_of?(:weps)
+    assert_equal expected
+  end
+
   test "non-organization user ex. staff or local network, is sent to their organization detail page" do
     organization = create(:business)
     contact = create(:contact)
@@ -35,6 +44,42 @@ class Admin::CopsHelperTest < ActionView::TestCase
     view.stubs(current_contact: contact)
 
     assert_equal admin_organization_path(organization, tab: :cops), view.cops_path(organization)
+  end
+
+  test "edit_admin_cop_path_for_grace_letter" do
+    cop = create(:grace_letter)
+    expected = edit_admin_organization_grace_letter_path(cop.organization_id, cop)
+    assert_equal expected, view.edit_admin_cop_path(cop)
+  end
+
+  test "edit_admin_cop_path_for_reporting_cycle_adjustment" do
+    cop = create(:reporting_cycle_adjustment)
+    expected = edit_admin_organization_reporting_cycle_adjustment_path(cop.organization.id, cop.id)
+    assert_equal expected, view.edit_admin_cop_path(cop)
+  end
+
+  test "edit_admin_communication_on_progress_path" do
+    cop = create(:communication_on_progress)
+    expected = edit_admin_organization_communication_on_progress_path(cop.organization.id, cop)
+    assert_equal expected, view.edit_admin_cop_path(cop)
+  end
+
+  test "admin_cop_path_for_grace_letter" do
+    cop = create(:grace_letter)
+    expected = admin_organization_grace_letter_path(cop.organization_id, cop)
+    assert_equal expected, view.admin_cop_path(cop)
+  end
+
+  test "admin_cop_path_for_reporting_cycle_adjustment" do
+    cop = create(:reporting_cycle_adjustment)
+    expected = admin_organization_reporting_cycle_adjustment_path(cop.organization.id, cop.id)
+    assert_equal expected, view.admin_cop_path(cop)
+  end
+
+  test "admin_communication_on_progress_path" do
+    cop = create(:communication_on_progress)
+    expected = admin_organization_communication_on_progress_path(cop.organization.id, cop)
+    assert_equal expected, view.admin_cop_path(cop)
   end
 
   private
