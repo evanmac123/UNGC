@@ -2,7 +2,6 @@ source 'https://rubygems.org'
 
 gem 'rails', '4.2.5.1'
 
-gem 'redis-session-store'
 gem 'mysql2',               '~> 0.3.17'
 gem 'facets',               '~> 3.0.0', require: false
 gem 'hpricot',              '0.8.6'
