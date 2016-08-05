@@ -145,15 +145,19 @@ class SignupController < ApplicationController
     end
 
     def load_organization_signup
-      @signup = session["signup"] || create_signup(params[:org_type])
+      @signup = pending_signups.load || create_signup(params[:org_type])
     end
 
     def store_organization_signup
-      session[:signup] = @signup
+      pending_signups.store(@signup)
     end
 
     def clear_organization_signup
-      session[:signup] = nil
+      pending_signups.clear
+    end
+
+    def pending_signups
+      PendingSignup.new(session.id)
     end
 
     def send_mail
