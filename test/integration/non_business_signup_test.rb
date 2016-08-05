@@ -26,7 +26,7 @@ class NonBusinessSignupTest < ActionDispatch::IntegrationTest
     click_on 'Next'
     assert_equal organization_step2_path, current_path, validation_errors
 
-    # step2
+    # step2 Primary contact point
     fill_in 'Prefix', with: 'Mr.'
     fill_in 'First name', with: 'Michael'
     fill_in 'Middle name', with: 'B.'
@@ -85,7 +85,7 @@ class NonBusinessSignupTest < ActionDispatch::IntegrationTest
     assert_equal 'untitled.pdf', commitment_letter_file_name
 
     # contact point
-    cp = organization.contacts.find_by! email: 'MichaelBHenry@rhyta.com'
+    cp = organization.contacts.contact_points.first
     assert_equal 'Mr.', cp.prefix
     assert_equal 'Michael', cp.first_name
     assert_equal 'B.', cp.middle_name
@@ -99,10 +99,12 @@ class NonBusinessSignupTest < ActionDispatch::IntegrationTest
     assert_equal 'QC', cp.state
     assert_equal 'G1V 3V5', cp.postal_code
     assert_equal 'Canada', cp.country.name
+    assert_equal 'runcest', cp.username
+    assert cp.valid_password?('xou5Eboh')
     assert_nil cp.welcome_package
 
     # ceo
-    ceo = organization.contacts.find_by! email: 'DorisFrafjord@teleworm.us'
+    ceo = organization.contacts.ceos.first
     assert_equal 'Ms.', ceo.prefix
     assert_equal 'Doris', ceo.first_name
     assert_equal '', ceo.middle_name
@@ -118,6 +120,8 @@ class NonBusinessSignupTest < ActionDispatch::IntegrationTest
     assert_equal 'Norway', ceo.country.name
     assert_equal nil, ceo.welcome_package
     assert_equal true, ceo.is?(Role.ceo)
+    assert_nil ceo.username
+    assert_nil ceo.encrypted_password
 
     # registration
     registration = organization.non_business_organization_registration
