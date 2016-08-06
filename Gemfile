@@ -47,6 +47,7 @@ gem 'fog'
 gem "non-stupid-digest-assets"
 gem 'htmlentities'
 gem 'sinatra', '>= 1.3.0', :require => nil
+gem 'rack-request_replication', :github => 'bitfield-co/rack-request_replication', :branch => 'master'
 
 group :development do
   gem 'faraday'
@@ -74,6 +75,7 @@ group :development, :test do
   gem 'spring'
   gem 'factory_girl_rails', '~> 4.0'
   gem 'faker'
+  gem 'dotenv-rails'
 end
 
 group :production do
