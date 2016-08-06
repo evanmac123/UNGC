@@ -8,6 +8,15 @@ GIT
       rails (>= 3.2)
 
 GIT
+  remote: git://github.com/bitfield-co/rack-request_replication.git
+  revision: d5c9ec568603df06195693b4ac7852c9d99cc86d
+  branch: master
+  specs:
+    rack-request_replication (0.1.6)
+      rack (>= 1.0.0)
+      redis (>= 1.0.0)
+
+GIT
   remote: git://github.com/jeremydurham/custom-err-msg.git
   revision: 3a8ec9dddc7a5b0aab7c69a6060596de300c68f4
   ref: master
@@ -487,6 +496,7 @@ DEPENDENCIES
   plugger
   pry-rails
   quiet_assets
+  rack-request_replication!
   rails (= 4.2.5.1)
   rails-observers
   ranked-model (~> 0.4.0)
