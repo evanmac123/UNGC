@@ -128,6 +128,12 @@ class OrganizationSignup
     end
   end
 
+  def error_messages
+    [@organization, @primary_contact, @ceo].flat_map do |model|
+      model.errors.full_messages
+    end
+  end
+
   # these are hook methods that can be implemented by the subclasses
   def before_save; end
   def after_save; end

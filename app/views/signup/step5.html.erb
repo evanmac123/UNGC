@@ -6,8 +6,6 @@
       <h1><%= signup_type -%> Organization Application</h1>
     </header>
 
-    <%= flash_messages_for :error %>
-
     <%= form_for(@signup.financial_contact, url: organization_step6_path, html: {class: 'form-classic signup'}) do |form| %>
 
       <h2>Financial Contact</h2>
@@ -20,6 +18,7 @@
       </div>
 
       <%= form.error_messages header_message: false %>
+      <%= render 'flash_error_messages' %>
 
       <%= render partial: 'contact_form', locals: {form: form, account_info: false, contact_type: 'Financial Contact', financial_contact: true, welcome_package: false} %>
 

@@ -34,6 +34,7 @@ class SignupController < ApplicationController
     end
 
     if !@signup.valid?
+      flash[:error] = @signup.error_messages
       redirect_to organization_step1_path(:org_type => @signup.org_type)
     end
   end
@@ -51,6 +52,8 @@ class SignupController < ApplicationController
     if @signup.valid_primary_contact?
       @signup.prepare_ceo
     else
+      @signup.primary_contact.errors.full_messages
+      flash[:error] = @signup.error_messages
       redirect_to organization_step2_path
     end
   end
@@ -64,6 +67,7 @@ class SignupController < ApplicationController
     end
 
     unless @signup.valid_ceo?
+      flash[:error] = @signup.error_messages
       redirect_to organization_step3_path
     end
 
@@ -84,8 +88,10 @@ class SignupController < ApplicationController
 
     case
     when @signup.pledge_incomplete?
+      flash[:error] = @signup.error_messages
       redirect_to organization_step4_path
     when !@signup.require_pledge?
+      flash[:error] = @signup.error_messages
       redirect_to organization_step6_path
     else
       # render step5 form
@@ -103,6 +109,7 @@ class SignupController < ApplicationController
       end
 
       if !@signup.financial_contact.valid? && !@signup.primary_contact.is?(Role.financial_contact)
+        flash[:error] = @signup.error_messages
         redirect_to organization_step5_path
       end
     # coming from step3 or 4
@@ -113,6 +120,7 @@ class SignupController < ApplicationController
       end
 
       unless @signup.valid_ceo?
+        flash[:error] = @signup.error_messages
         redirect_to organization_step3_path
       end
     end
@@ -134,6 +142,7 @@ class SignupController < ApplicationController
       session[:is_jci_referral] = nil
     else
       @signup.organization.commitment_letter = nil
+      flash[:error] = @signup.error_messages
       redirect_to organization_step6_path
     end
   end
