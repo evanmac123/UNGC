@@ -28,13 +28,43 @@ class Admin::CopsHelperTest < ActionView::TestCase
     assert_equal dashboard_path(tab: :cops), view.cops_path(organization)
   end
 
+  test "show_business_for_peace" do
+    organization = create(:organization)
+    b4p_id = Initiative::FILTER_TYPES[:business4peace]
+    b4p = create(:initiative, id: b4p_id)
+    create(:signing, organization: organization, initiative: b4p)
+    cop = create(:communication_on_progress, organization: organization)
+    assert_equal true, view.show_business_for_peace(cop)
+  end
+
   test "show_weps" do
     organization = create(:organization)
-    weps = create(:initiative)
-    signing = create(:signing, organization: organization, initiative: weps)
+    weps_id = Initiative::FILTER_TYPES[:weps]
+    weps = create(:initiative, id: weps_id)
+    create(:signing, organization: organization, initiative: weps)
     cop = create(:communication_on_progress, organization: organization)
-    expected = cop.organization.signatory_of?(:weps)
-    assert_equal expected
+    assert_equal true, view.show_weps(cop)
+  end
+
+  test "advanced_cop_answers" do
+    cop_question = create(:cop_question)
+    cop_attribute = create(:cop_attribute, cop_question: cop_question)
+    cop_answer = create(:cop_answer, cop_attribute: cop_attribute)
+    assert_equal true, view.advanced_cop_answers(cop_answer)
+  end
+
+  test "show_issue_area_coverage_for_principle_area" do
+    cop = create(:communication_on_progress)
+    principle_area = create(:principle_area, name: 'Human Rights')
+    cop_question = create(:cop_question, principle_area: principle_area)
+    cop_attribute = create(:cop_attribute, cop_question: cop_question)
+    cop_answer = create(:cop_answer, cop_attribute: cop_attribute)
+    assert_equal true, view.show_issue_area_coverage(cop, 'human_rights')
+  end
+
+  test "issue_area_colour_for" do
+    issue = create(:issue, name: "Human Rights")
+    assert_equal 'human_right', view.issue_area_colour_for(issue.name)
   end
 
   test "non-organization user ex. staff or local network, is sent to their organization detail page" do
@@ -80,6 +110,22 @@ class Admin::CopsHelperTest < ActionView::TestCase
     cop = create(:communication_on_progress)
     expected = admin_organization_communication_on_progress_path(cop.organization.id, cop)
     assert_equal expected, view.admin_cop_path(cop)
+  end
+
+  test "cop_form_partial" do
+    cop = create(:communication_on_progress, cop_type: :basic)
+    assert_equal 'basic_form', view.cop_form_partial(cop)
+  end
+
+  test "cop_date_range" do
+    cop = create(:communication_on_progress, starts_on: Date.new(2016, 8, 14), ends_on: Date.new(2017, 8, 14))
+    assert_equal 'August 2016&nbsp;&nbsp;&ndash;&nbsp;&nbsp;August 2017', view.cop_date_range(cop)
+  end
+
+  test "select_answer_class" do
+    assert_equal 'selected_question', select_answer_class(:literally_anything)
+    assert_equal 'unselected_question', view.select_answer_class(false)
+    assert_equal 'unselected_question', view.select_answer_class(nil)
   end
 
   private

@@ -62,10 +62,6 @@ module Admin::CopsHelper
     end.join.html_safe
   end
 
-  def principle_area_display_value(cop, area)
-    cop.send("references_#{area}?") || cop.send("concrete_#{area}_activities?") ? "block" : "none"
-  end
-
   # we need to preselect the submission tab
   def form_submitted?(form_submitted)
     javascript_tag "var submitted = #{form_submitted ? 1:0};"
@@ -74,11 +70,6 @@ module Admin::CopsHelper
   def text_partial(letter)
     content_tag :div, render(:partial => "admin/cops/texts/text_#{letter}"),
       :id => "text_#{letter}", :style => 'display: none'
-  end
-
-  def principle_tab_display_style(cop, principle)
-    css_display_style(cop.send("references_#{principle}?") &&
-                        (cop.additional_questions? || cop.notable_program?))
   end
 
   def show_issue_area_coverage(cop, principle_area)
@@ -103,11 +94,6 @@ module Admin::CopsHelper
 
   def cop_date_range(cop)
     "#{m_yyyy(cop.starts_on)}&nbsp;&nbsp;&ndash;&nbsp;&nbsp;#{m_yyyy(cop.ends_on)}".html_safe
-  end
-
-  def display_errors_for_cop(cop)
-     error_messages = cop.readable_error_messages.map { |error| content_tag :li, error }
-     content_tag :ol, error_messages.join.html_safe
   end
 
   def select_answer_class(item)
