@@ -6,11 +6,10 @@
       <h1><%= signup_type -%> Organization Application</h1>
     </header>
 
-    <%= flash_messages_for :error %>
-
     <%= form_for(@signup.organization, :url => organization_step7_path, :html => {:multipart => true, class: 'form-classic signup'}) do |form| %>
 
       <%= form.error_messages %>
+      <%= render 'flash_error_messages' %>
 
       <fieldset>
         <h3>Letter of Commitment</h3>

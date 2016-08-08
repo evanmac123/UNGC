@@ -84,6 +84,10 @@ class BusinessOrganizationSignup < OrganizationSignup
     self.inspect # HACK to make sure Honeybadger includes all relevant info
   end
 
+  def error_messages
+    super + @financial_contact.errors.full_messages
+  end
+
   private
     def validate_sector
       return if organization.sector.present?

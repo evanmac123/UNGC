@@ -9,6 +9,7 @@
     <%= form_for(@signup.organization, url: organization_step5_path, html: {multipart: true, class: 'form-classic signup'}) do |form| %>
 
       <%= form.error_messages(message: false) %>
+      <%= render 'flash_error_messages' %>
 
       <h2>Financial Commitment</h2>
 

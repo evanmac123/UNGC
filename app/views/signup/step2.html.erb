@@ -9,6 +9,7 @@
     <%= form_for(@signup.primary_contact, url: organization_step3_path, html: {class: 'form-classic signup'}) do |form| %>
 
       <%= form.error_messages header_message: false %>
+      <%= render 'flash_error_messages' %>
 
       <h2>Primary Contact Point</h2>
 

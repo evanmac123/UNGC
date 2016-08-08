@@ -61,6 +61,10 @@ class NonBusinessOrganizationSignup < OrganizationSignup
     registration.save!
   end
 
+  def error_messages
+    super + @registration.errors.full_messages
+  end
+
   private
 
     def set_legal_status(org)
