@@ -86,25 +86,25 @@ class Admin::CopsHelperTest < ActionView::TestCase
     labour_q = create(:cop_question, principle_area: labour, grouping: 'additional')
     labour_attr = create(:cop_attribute, cop_question: labour_q)
     create(:cop_answer,
-             communication_on_progress: cop,
-             cop_attribute: labour_attr,
-             value: nil)
+    communication_on_progress: cop,
+    cop_attribute: labour_attr,
+    value: nil)
 
     # unanswer human rights question
     hr_q1 = create(:cop_question, principle_area: human_rights, grouping: 'additional')
     hr_q1_attr = create(:cop_attribute, cop_question: hr_q1)
     create(:cop_answer,
-             communication_on_progress: cop,
-             cop_attribute: hr_q1_attr,
-             value: nil)
+    communication_on_progress: cop,
+    cop_attribute: hr_q1_attr,
+    value: nil)
 
     # answered human rights question
     hr_q2 = create(:cop_question, principle_area: human_rights, grouping: 'additional')
     hr_q2_attr = create(:cop_attribute, cop_question: hr_q2)
     create(:cop_answer,
-             communication_on_progress: cop,
-             cop_attribute: hr_q2_attr,
-             value: true)
+    communication_on_progress: cop,
+    cop_attribute: hr_q2_attr,
+    value: true)
 
     assert_equal 50, view.percent_issue_area_coverage(cop, :human_rights)
     assert_equal 0, view.percent_issue_area_coverage(cop, :labour)
