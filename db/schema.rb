@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160503230636) do
+ActiveRecord::Schema.define(version: 20160809191351) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -1096,8 +1096,6 @@ ActiveRecord::Schema.define(version: 20160503230636) do
     t.boolean  "has_licensing",                default: false
   end
 
-  add_foreign_key "cop_log_entries", "contacts"
-  add_foreign_key "cop_log_entries", "organizations"
   add_foreign_key "event_sponsors", "events"
   add_foreign_key "event_sponsors", "sponsors"
   add_foreign_key "events", "contacts"
