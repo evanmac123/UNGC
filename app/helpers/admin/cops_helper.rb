@@ -1,14 +1,4 @@
 module Admin::CopsHelper
-  def action_links(cop)
-    actions = []
-    if current_contact.from_ungc?
-      actions << link_to('Approve', admin_communication_on_progress_comments_path(cop, :commit => LogoRequest::EVENT_APPROVE.titleize), :method => :post) if cop.can_approve?
-      actions << link_to('Reject', admin_communication_on_progress_comments_path(cop.id, :commit => LogoRequest::EVENT_REJECT.titleize), :method => :post) if cop.can_reject?
-    end
-    links = actions.join(" | ")
-    content_tag :p, links unless links.blank?
-  end
-
   def true_or_false_field(form, field, options={})
     html = content_tag(:label, [form.radio_button(field, 'true', :class => options[:class]), options[:yes] || 'Yes'].join.html_safe, {:class => options[:class]})
     html += content_tag(:label, [form.radio_button(field, 'false', :class => options[:class]), options[:no] || 'No'].join.html_safe, {:class => options[:class]})
