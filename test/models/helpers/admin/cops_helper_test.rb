@@ -47,12 +47,6 @@ class Admin::CopsHelperTest < ActionView::TestCase
   end
 
   test "advanced_cop_answers" do
-    cop = create(:communication_on_progress)
-    cop_attribute = create(:cop_attribute)
-    cop_answer = create(:cop_answer, communication_on_progress: cop, cop_attribute: cop_attribute)
-    assert_equal true, view.advanced_cop_answers([cop_answer])
-  end
-
   # test "show_issue_area_coverage_for_principle_area" do
   #   cop = create(:communication_on_progress)
   #   principle_area = create(:principle_area, name: 'Human Rights')
@@ -61,6 +55,77 @@ class Admin::CopsHelperTest < ActionView::TestCase
   #   cop_answer = create(:cop_answer, cop_attribute: cop_attribute)
   #   assert_equal true, view.show_issue_area_coverage(cop, 'human_rights')
   # end
+    cop = create(:communication_on_progress)
+
+    # yuck
+    view.instance_variable_set(:@communication_on_progress, cop)
+
+    # given a question
+    question = create(:cop_question)
+
+    # with 2 attributes
+    attribute = create_list(:cop_attribute, 2, cop_question: question).first
+
+    # one with an answer
+    answer = create(:cop_answer, cop_attribute: attribute, communication_on_progress: cop)
+
+    # then i can get the answers out
+    array_of_answers = [answer]
+    assert_equal array_of_answers, view.advanced_cop_answers(question.cop_attributes)
+  end
+
+  test "percent_issue_area_coverage" do
+    # Given 3 questions
+    # each with an attributes
+    # and each of those with an answer.
+    # 1 in labour
+    # 2 in human rights
+    # And one of the human rights answers has a positive value
+
+    # when we ask for the issue area coverage for human rights
+    # we should get "50%"
+
+    human_rights = create(:principle_area, name: 'Human Rights')
+    labour = create(:principle_area, name: 'Labour')
+
+    cop = create(:communication_on_progress)
+
+    # labour question, remains empty
+    labour_q = create(:cop_question, principle_area: labour, grouping: 'additional')
+    labour_attr = create(:cop_attribute, cop_question: labour_q)
+    create(:cop_answer,
+             communication_on_progress: cop,
+             cop_attribute: labour_attr,
+             value: nil)
+
+    # unanswer human rights question
+    hr_q1 = create(:cop_question, principle_area: human_rights, grouping: 'additional')
+    hr_q1_attr = create(:cop_attribute, cop_question: hr_q1)
+    create(:cop_answer,
+             communication_on_progress: cop,
+             cop_attribute: hr_q1_attr,
+             value: nil)
+
+    # answered human rights question
+    hr_q2 = create(:cop_question, principle_area: human_rights, grouping: 'additional')
+    hr_q2_attr = create(:cop_attribute, cop_question: hr_q2)
+    create(:cop_answer,
+             communication_on_progress: cop,
+             cop_attribute: hr_q2_attr,
+             value: true)
+
+    assert_equal 50, view.percent_issue_area_coverage(cop, :human_rights)
+    assert_equal 0, view.percent_issue_area_coverage(cop, :labour)
+  end
+
+  test "show_issue_area_coverage_for_principle_area" do
+    cop = create(:communication_on_progress)
+    principle_area = create(:principle_area, name: 'Human Rights')
+    cop_question = create(:cop_question, principle_area: principle_area, grouping: 'additional')
+    cop_attribute = create(:cop_attribute, cop_question: cop_question)
+    create(:cop_answer, cop_attribute: cop_attribute, communication_on_progress: cop, value: true)
+    assert_equal "1 of 1 items", view.show_issue_area_coverage(cop, 'human_rights')
+  end
 
   test "issue_area_colour_for" do
     issue = create(:issue, name: "Human Rights")
@@ -126,6 +191,10 @@ class Admin::CopsHelperTest < ActionView::TestCase
     assert_equal 'selected_question', select_answer_class(:literally_anything)
     assert_equal 'unselected_question', view.select_answer_class(false)
     assert_equal 'unselected_question', view.select_answer_class(nil)
+  end
+
+  test 'text_partial' do
+    assert_match(/it is important that we keep a history of your annual disclosure in our records./, view.text_partial('b'))
   end
 
   private
