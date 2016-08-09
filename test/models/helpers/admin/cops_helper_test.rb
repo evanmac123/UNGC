@@ -47,14 +47,6 @@ class Admin::CopsHelperTest < ActionView::TestCase
   end
 
   test "advanced_cop_answers" do
-  # test "show_issue_area_coverage_for_principle_area" do
-  #   cop = create(:communication_on_progress)
-  #   principle_area = create(:principle_area, name: 'Human Rights')
-  #   cop_question = create(:cop_question, principle_area: principle_area)
-  #   cop_attribute = create(:cop_attribute, cop_question: cop_question)
-  #   cop_answer = create(:cop_answer, cop_attribute: cop_attribute)
-  #   assert_equal true, view.show_issue_area_coverage(cop, 'human_rights')
-  # end
     cop = create(:communication_on_progress)
 
     # yuck
@@ -116,15 +108,6 @@ class Admin::CopsHelperTest < ActionView::TestCase
 
     assert_equal 50, view.percent_issue_area_coverage(cop, :human_rights)
     assert_equal 0, view.percent_issue_area_coverage(cop, :labour)
-  end
-
-  test "show_issue_area_coverage_for_principle_area" do
-    cop = create(:communication_on_progress)
-    principle_area = create(:principle_area, name: 'Human Rights')
-    cop_question = create(:cop_question, principle_area: principle_area, grouping: 'additional')
-    cop_attribute = create(:cop_attribute, cop_question: cop_question)
-    create(:cop_answer, cop_attribute: cop_attribute, communication_on_progress: cop, value: true)
-    assert_equal "1 of 1 items", view.show_issue_area_coverage(cop, 'human_rights')
   end
 
   test "issue_area_colour_for" do
