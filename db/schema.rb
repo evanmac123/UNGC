@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160809191351) do
+ActiveRecord::Schema.define(version: 20160810155133) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -441,6 +441,10 @@ ActiveRecord::Schema.define(version: 20160809191351) do
     t.string   "tab_3_title",                  limit: 255
     t.text     "tab_3_description",            limit: 65535
     t.text     "sponsors_description",         limit: 65535
+    t.string   "tab_4_title",                  limit: 255
+    t.text     "tab_4_description",            limit: 65535
+    t.string   "tab_5_title",                  limit: 255
+    t.text     "tab_5_description",            limit: 65535
   end
 
   add_index "events", ["contact_id"], name: "index_events_on_contact_id", using: :btree
@@ -458,6 +462,23 @@ ActiveRecord::Schema.define(version: 20160809191351) do
     t.integer  "country_id",     limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "fundraising_opportunities", force: :cascade do |t|
+    t.integer  "organization_id",     limit: 4
+    t.string   "issue_area",          limit: 255
+    t.integer  "program_project",     limit: 4
+    t.date     "expected_close_date"
+    t.integer  "stage",               limit: 4
+    t.integer  "probability",         limit: 4
+    t.decimal  "amount_solicited",                  precision: 10
+    t.decimal  "expected_income",                   precision: 10
+    t.decimal  "actual_contribution",               precision: 10
+    t.integer  "objection",           limit: 4
+    t.integer  "contact_id",          limit: 4
+    t.text     "notes",               limit: 65535
+    t.datetime "created_at",                                       null: false
+    t.datetime "updated_at",                                       null: false
   end
 
   create_table "headlines", force: :cascade do |t|
