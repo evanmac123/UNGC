@@ -464,23 +464,6 @@ ActiveRecord::Schema.define(version: 20160810155133) do
     t.datetime "updated_at"
   end
 
-  create_table "fundraising_opportunities", force: :cascade do |t|
-    t.integer  "organization_id",     limit: 4
-    t.string   "issue_area",          limit: 255
-    t.integer  "program_project",     limit: 4
-    t.date     "expected_close_date"
-    t.integer  "stage",               limit: 4
-    t.integer  "probability",         limit: 4
-    t.decimal  "amount_solicited",                  precision: 10
-    t.decimal  "expected_income",                   precision: 10
-    t.decimal  "actual_contribution",               precision: 10
-    t.integer  "objection",           limit: 4
-    t.integer  "contact_id",          limit: 4
-    t.text     "notes",               limit: 65535
-    t.datetime "created_at",                                       null: false
-    t.datetime "updated_at",                                       null: false
-  end
-
   create_table "headlines", force: :cascade do |t|
     t.string   "title",                limit: 255
     t.text     "description",          limit: 65535
