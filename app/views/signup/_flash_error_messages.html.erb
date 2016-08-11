@@ -1,4 +1,4 @@
-<% if flash[:error] %>
+<% if flash[:error] && flash[:error].is_a?(Array) %>
   <div class="errors-container">
     <ul class='errors-list'>
       <% flash[:error].each do |message| %>
