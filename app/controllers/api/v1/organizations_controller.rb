@@ -12,6 +12,7 @@ class Api::V1::OrganizationsController < ApplicationController
         :cop_state => organization.cop_state,
         :url => organization.url,
         :sector_name => organization.sector.name,
+        :profile_url => participant_url(organization),
         :is_local_network_member => organization.is_local_network_member,
         :is_deleted => organization.is_deleted,
         :created_at => organization.created_at,
