@@ -43,7 +43,7 @@ class Api::V1::OrganizationsTest < ActionDispatch::IntegrationTest
         "cop_state" => "delisted",
         "url" => "https://lasers-n-sharks.info",
         "sector_name" => "Animal Wellfare",
-        "profile_url" => "http://www.example.com/what-is-gc/participants/#{o.id}-Lasers-n-Sharks",
+        "profile_url" => "http://www.unglobalcompact.org/what-is-gc/participants/#{o.id}-Lasers-n-Sharks",
         "is_local_network_member" => true,
         "is_deleted" => false,
         "created_at" => "2016-08-11T12:43:03.000Z",
