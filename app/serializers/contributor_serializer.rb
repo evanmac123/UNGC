@@ -1,26 +1,19 @@
-class ContributorSerializer
-  attr_reader :contribution
+class ContributorSerializer < ApplicationSerializer
 
-  def self.as_json(contributions, &block)
-    Array(contributions).map do |c|
-      new(c).as_json(&block)
-    end
-  end
-
-  def initialize(contribution)
-    @contribution = contribution
-  end
-
-  def as_json(&block)
+  def attributes
     {
       id: contribution.organization_id,
       year: year,
       type: contributor_type,
       name: contribution.organization.name,
-      url: block.call(contribution.organization),
+      url: participant_url(contribution.organization),
       amount: bucket,
     }
   end
+
+  alias_method :contribution, :object
+
+  private
 
   def year
     contribution.campaign.year
