@@ -18,6 +18,12 @@ class OrganizationType < ActiveRecord::Base
   PARTICIPANT = [1,2]
   ALL_ORGANIZATIONS = [0,1,2]
 
+  TYPE_PROPERTIES = {
+    0 => 'Other',
+    1 => 'Non Business',
+    2 => 'Business'
+  }
+
   scope :non_business, -> { where('type_property=?', NON_BUSINESS) }
   scope :business, -> { where('type_property=?', BUSINESS) }
   scope :participants, -> { where('type_property in (?)', PARTICIPANT) }
@@ -96,6 +102,10 @@ class OrganizationType < ActiveRecord::Base
 
   def self.public_sector
     where(name: FILTERS[:public]).first
+  end
+
+  def type_description
+    type_property ? TYPE_PROPERTIES[type_property] : ''
   end
 
 end
