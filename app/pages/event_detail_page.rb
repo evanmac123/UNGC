@@ -95,6 +95,8 @@ class EventDetailPage < SimpleDelegator
     t << Tab.new(event.tab_1_title, event.tab_1_description) if event.tab_1_description.present?
     t << Tab.new(event.tab_2_title, event.tab_2_description) if event.tab_2_description.present?
     t << Tab.new(event.tab_3_title, event.tab_3_description) if event.tab_3_description.present?
+    t << Tab.new(event.tab_4_title, event.tab_3_description) if event.tab_4_description.present?
+    t << Tab.new(event.tab_5_title, event.tab_3_description) if event.tab_5_description.present?
     t << Tab.new('Sponsors', event.sponsors_description, event.sponsors) if event.sponsors_description.present? || event.sponsors.present?
     t
   end

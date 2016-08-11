@@ -52,7 +52,6 @@ class SignupController < ApplicationController
     if @signup.valid_primary_contact?
       @signup.prepare_ceo
     else
-      @signup.primary_contact.errors.full_messages
       flash[:error] = @signup.error_messages
       redirect_to organization_step2_path
     end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160503230636) do
+ActiveRecord::Schema.define(version: 20160810155133) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -441,6 +441,10 @@ ActiveRecord::Schema.define(version: 20160503230636) do
     t.string   "tab_3_title",                  limit: 255
     t.text     "tab_3_description",            limit: 65535
     t.text     "sponsors_description",         limit: 65535
+    t.string   "tab_4_title",                  limit: 255
+    t.text     "tab_4_description",            limit: 65535
+    t.string   "tab_5_title",                  limit: 255
+    t.text     "tab_5_description",            limit: 65535
   end
 
   add_index "events", ["contact_id"], name: "index_events_on_contact_id", using: :btree
@@ -1096,8 +1100,6 @@ ActiveRecord::Schema.define(version: 20160503230636) do
     t.boolean  "has_licensing",                default: false
   end
 
-  add_foreign_key "cop_log_entries", "contacts"
-  add_foreign_key "cop_log_entries", "organizations"
   add_foreign_key "event_sponsors", "events"
   add_foreign_key "event_sponsors", "sponsors"
   add_foreign_key "events", "contacts"

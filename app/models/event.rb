@@ -41,6 +41,10 @@
 #  tab_2_description            :text(65535)
 #  tab_3_title                  :string(255)
 #  tab_3_description            :text(65535)
+#  tab_4_title                  :string(255)
+#  tab_4_description            :text(65535)
+#  tab_5_title                  :string(255)
+#  tab_5_description            :text(65535)
 #  sponsors_description         :text(65535)
 #
 

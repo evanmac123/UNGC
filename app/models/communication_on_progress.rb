@@ -273,6 +273,8 @@ class CommunicationOnProgress < ActiveRecord::Base
   # Grouping is usually 'additional'
   def issue_area_coverage(principle_area_id, grouping)
 
+    # Get all the answers from this cop for the questions in this grouping
+    # *including* empty answers
     question_count = CopAnswer.find_by_sql(
     ["SELECT count(answers.cop_id) AS question_count FROM cop_attributes attributes
       JOIN cop_answers answers
@@ -282,6 +284,7 @@ class CommunicationOnProgress < ActiveRecord::Base
         WHERE principle_area_id = ? AND grouping = ?)", self.id, principle_area_id.to_i, grouping.to_s]
     )
 
+    # Make the same query, but only include answered questions (in the affirmative)
     answer_count = CopAnswer.find_by_sql(
     ["SELECT count(answers.cop_id) AS answer_count FROM cop_attributes attributes
       JOIN cop_answers answers

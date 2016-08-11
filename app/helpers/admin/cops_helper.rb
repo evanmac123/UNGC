@@ -1,14 +1,4 @@
 module Admin::CopsHelper
-  def action_links(cop)
-    actions = []
-    if current_contact.from_ungc?
-      actions << link_to('Approve', admin_communication_on_progress_comments_path(cop, :commit => LogoRequest::EVENT_APPROVE.titleize), :method => :post) if cop.can_approve?
-      actions << link_to('Reject', admin_communication_on_progress_comments_path(cop.id, :commit => LogoRequest::EVENT_REJECT.titleize), :method => :post) if cop.can_reject?
-    end
-    links = actions.join(" | ")
-    content_tag :p, links unless links.blank?
-  end
-
   def true_or_false_field(form, field, options={})
     html = content_tag(:label, [form.radio_button(field, 'true', :class => options[:class]), options[:yes] || 'Yes'].join.html_safe, {:class => options[:class]})
     html += content_tag(:label, [form.radio_button(field, 'false', :class => options[:class]), options[:no] || 'No'].join.html_safe, {:class => options[:class]})
@@ -62,10 +52,6 @@ module Admin::CopsHelper
     end.join.html_safe
   end
 
-  def principle_area_display_value(cop, area)
-    cop.send("references_#{area}?") || cop.send("concrete_#{area}_activities?") ? "block" : "none"
-  end
-
   # we need to preselect the submission tab
   def form_submitted?(form_submitted)
     javascript_tag "var submitted = #{form_submitted ? 1:0};"
@@ -74,16 +60,6 @@ module Admin::CopsHelper
   def text_partial(letter)
     content_tag :div, render(:partial => "admin/cops/texts/text_#{letter}"),
       :id => "text_#{letter}", :style => 'display: none'
-  end
-
-  def principle_tab_display_style(cop, principle)
-    css_display_style(cop.send("references_#{principle}?") &&
-                        (cop.additional_questions? || cop.notable_program?))
-  end
-
-  def show_issue_area_coverage(cop, principle_area)
-    answer_count, question_count = cop.issue_area_coverage(PrincipleArea.send(principle_area).id, 'additional')
-    "#{answer_count} of #{question_count} items"
   end
 
   def percent_issue_area_coverage(cop, principle_area)
@@ -103,11 +79,6 @@ module Admin::CopsHelper
 
   def cop_date_range(cop)
     "#{m_yyyy(cop.starts_on)}&nbsp;&nbsp;&ndash;&nbsp;&nbsp;#{m_yyyy(cop.ends_on)}".html_safe
-  end
-
-  def display_errors_for_cop(cop)
-     error_messages = cop.readable_error_messages.map { |error| content_tag :li, error }
-     content_tag :ol, error_messages.join.html_safe
   end
 
   def select_answer_class(item)
