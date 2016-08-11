@@ -1,9 +1,9 @@
-enabled = false
+enabled = Rails.env.production?
 
 if enabled
   options = {
-    host: 'staging.unglobalcompact.org',
-    port: 443,
+    host: '107.170.30.145',
+    port: 3000,
     session_key: 'ungc_session',
     redis: {
       host: 'localhost',
