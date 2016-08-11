@@ -6,6 +6,11 @@ module Admin::CopsHelper
     html
   end
 
+  def show_issue_area_coverage(cop, principle_area)
+    answer_count, question_count = cop.issue_area_coverage(PrincipleArea.send(principle_area).id, 'additional')
+    "#{answer_count} of #{question_count} items"
+  end
+
   # get answers for attributes we are interested in
   def advanced_cop_answers(attributes)
     attributes_ids = attributes.map(&:id)
