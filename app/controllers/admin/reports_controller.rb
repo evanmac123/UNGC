@@ -172,9 +172,9 @@ class Admin::ReportsController < AdminController
 
   def initiative_organizations
     if params[:all_initiatives]
-      @selected_initiatives = Initiative.all.map(&:id)
+      @selected_initiatives = Initiative.pluck(:id)
     else
-      @selected_initiatives = params[:initiatives] || []
+      @selected_initiatives = params.fetch(:initiatives, [])
     end
 
     report = InitiativeOrganizations.new(initiatives: @selected_initiatives)
