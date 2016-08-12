@@ -2,8 +2,31 @@ class Api::V1::OrganizationsController < ApplicationController
 
   def index
     organizations = Organization.participants.
-      includes(:sector, :country, :organization_type).
+      includes(:sector, :country, :organization_type)
+
+    # /api/v1/organizations.json?intiative=climate
+    if params[:initiative].present?
+      organizations = organizations.
+        joins(:signings).
+        where(signings: {initiative_id: the_id })
+    end
+
+    # /api/v1/organizations.json?last_modified=1230234098
+    if params[:last_modified].present?
+      some_date_and_time = Time.zone.at(params[:last_modified].to_i)
+      organizations = organizations.
+        where("organizations.updated_at > ?", some_date_and_time)
+    end
+
+    organizations = organizations.order("organizations.updated_at desc")
+
+    organizations = organizations.
       paginate(per_page: 100, page: page)
+
+    response.headers['Current-Page']  = page.to_s
+    response.headers['Per-Page']      = '100'
+    response.headers['Total-Entries'] = organizations.count.to_s
+
     render json: OrganizationSerializer.wrap(organizations).as_json
   end
 
@@ -11,6 +34,10 @@ class Api::V1::OrganizationsController < ApplicationController
 
   def page
     params.fetch(:page, 1)
+  end
+
+  def the_id
+    Initiative.id_by_filter(params[:initiative])
   end
 
 end

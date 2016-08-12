@@ -58,4 +58,14 @@ class Api::V1::OrganizationsTest < ActionDispatch::IntegrationTest
     assert_equal expected, json_response
   end
 
+  test "filter organization by climate initiative" do
+    organization = create(:organization)
+    climate_id = Initiative::FILTER_TYPES[:climate]
+    climate = create(:initiative, id: climate_id)
+    s = create(:signing, organization: organization, initiative: climate)
+
+
+
+  end
+
 end
