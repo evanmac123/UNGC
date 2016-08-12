@@ -28,7 +28,7 @@
   &:active
     +transition-duration(0ms)
 
-=button($color: 'teal')
+=button($color: 'blue')
   $button-color: color($color)
   background-color: $button-color
   @extend %button
@@ -43,7 +43,7 @@ button,
   +button
 
   &.dark-teal
-    +button('dark-teal')
+    +button('dark-blue')
 
   &.dark-orange
     +button('dark-orange')
@@ -68,4 +68,3 @@ button,
 
   &.light-green
     +button('light-green')
-
