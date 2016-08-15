@@ -1,5 +1,4 @@
 class Admin::SponsorsController < AdminController
-  include Admin::SponsorsHelper
   before_filter :no_organization_or_local_network_access
   before_filter :set_sponsor,
     :only => [:show, :edit, :update, :delete, :destroy]

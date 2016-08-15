@@ -3,37 +3,8 @@ module ApplicationHelper
     keys.collect { |k| content_tag(:div, flash[k], :class => "flash #{k}") if flash[k] }.join.html_safe
   end
 
-  def staff_only(&block)
-    yield if current_contact && current_contact.from_ungc?
-  end
-
-  def participant_manager_only(&block)
-    yield if current_contact.is? Role.participant_manager
-  end
-
-  def staff_participant_manager_only(&block)
-    if current_contact && current_contact.from_ungc? &&
-        current_contact.is?(Role.participant_manager)
-      yield
-    end
-  end
-
-  def organization_only(&block)
-    yield if current_contact && current_contact.from_organization?
-  end
-
   def dashboard_view_only
     yield if current_contact && request.env['PATH_INFO'].include?('admin')
-  end
-
-  def link_to_attachment(object)
-    if object.attachment_file_name
-      link_to object.attachment_file_name, object.attachment.url
-    end
-  end
-
-  def css_display_style(show)
-    "display: #{show ? 'block' : 'none'}"
   end
 
   def link_to_current(name, url, current, opts={})
@@ -43,59 +14,8 @@ module ApplicationHelper
     content_tag :li, link, li_options
   end
 
-  def differentiation_placement(cop)
-    levels = { 'learner' => "Learner Platform &#x25BA;", 'active' => "GC Active &#x25BA;", 'advanced' => "GC Advanced" }
-    html = levels.map do |key, value|
-      content_tag :span, value.html_safe, :style => cop.differentiation_level_public == key ? '' : 'color: #aaa'
-    end
-    html.join(' ').html_safe
-  end
-
   def current_year
     Time.now.strftime('%Y').to_i
-  end
-
-  # Allows you to call a partial with a different format
-  def with_format(format, &block)
-    old_formats = formats
-    self.formats = [format]
-    content = block.call
-    self.formats = old_formats
-    content
-  end
-
-  def cached_page?
-    @page && !@page.dynamic_content?
-  end
-
-  def retina_image(model, size, options={})
-    options[:data] ||= {}
-    options[:data].merge!(:at2x => model.cover_image(size, retina: true))
-    image_tag model.cover_image(size), options
-  end
-
-  # TODO: Extracted from the now deleted PagesHelper. Maybe could be cleaned up later?
-  def per_page_select(steps=[10,25,50,100,250])
-    # ['Number of results per page', 10, 25, 50, 100]
-    options = []
-    steps.each do |step|
-      options << ["#{step} results per page", url_for(params.merge(:page => 1, :per_page => step))]
-    end
-    selected = url_for(params.merge(:page => 1, :per_page => params[:per_page]))
-    select_tag :per_page, options_for_select(options, :selected => selected), :class => 'autolink'
-  end
-
-  def cop_link(cop, navigation=nil)
-    differentiation = navigation || cop.differentiation_level_with_default
-    show_cops_path(differentiation: differentiation, id: cop.id)
-  end
-
-  def participant_link(organization, navigation=nil)
-    if navigation
-      participant_with_nav_path(navigation, organization)
-    else
-      participant_path(organization)
-    end
   end
 
   def search_filter(filter, disabled: false)
@@ -121,4 +41,55 @@ module ApplicationHelper
 
     raw render('components/active_filters_list', options)
   end
+
+  def cop_date_range(cop)
+    "#{m_yyyy(cop.starts_on)}&nbsp;&nbsp;&ndash;&nbsp;&nbsp;#{m_yyyy(cop.ends_on)}".html_safe
+  end
+
+  def select_answer_class(item)
+    # we reuse the classes from the questionnaire
+    item ? 'selected_question' : 'unselected_question'
+  end
+
+  def show_cop_attributes(cop, principle, selected=false, grouping='additional', initiative=nil)
+    initiative_id = initiative ? Initiative.id_by_filter(initiative) : nil
+    attributes = cop.cop_attributes
+                  .where(cop_questions: {:principle_area_id => principle, :grouping => grouping, initiative_id: initiative_id})
+                  .includes(:cop_question)
+                  .order('cop_attributes.position')
+    questions = CopQuestion.find(attributes.collect &:cop_question_id).sort { |x,y| x.grouping <=> y.grouping }
+
+    questions.collect do |question|
+      answers = cop.cop_answers
+                   .where('cop_attributes.cop_question_id=?', question.id)
+                   .joins(:cop_attribute)
+      render :partial => 'admin/cops/cop_answers', :locals => { :question => question, :answers => answers }
+    end.join.html_safe
+  end
+
+  def show_basic_cop_attributes(cop, principle=nil, selected=false, grouping='basic')
+    attributes = cop.cop_attributes
+                  .where(cop_questions: {principle_area_id: principle, grouping: grouping})
+                  .includes(:cop_question)
+                  .order('cop_attributes.position ASC')
+    questions = CopQuestion.find(attributes.collect &:cop_question_id).sort { |x,y| x.grouping <=> y.grouping }
+
+    questions.collect do |question|
+      answers = cop.cop_answers
+                .where('cop_attributes.cop_question_id=?', question.id)
+                .joins(:cop_attribute)
+      render :partial => 'admin/cops/cop_basic_answers', :locals => { :question => question, :answers => answers }
+    end.join.html_safe
+  end
+
+  def issue_area_colour_for(issue)
+    # Human Rights -> human_right
+    # Labour -> labour
+    issue.gsub(/ /,'').tableize.singularize
+  end
+
+  def m_yyyy(date)
+    date ? date.strftime('%B %Y') : '&nbsp;'
+  end
+
 end

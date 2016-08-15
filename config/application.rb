@@ -50,5 +50,8 @@ module UNGC
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    # Do not include all helpers.
+    config.action_controller.include_all_helpers = false
   end
 end

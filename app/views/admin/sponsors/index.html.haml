@@ -4,12 +4,12 @@
   %ul.tools.inline
     %li= link_to 'New Sponsor', new_admin_sponsor_path, :class => 'new_large', :id => 'new_sponsor'
 
-- if paged_sponsors.any?
+- if @paged_sponsors.any?
   %table.dashboard_table#sponsors_table
     %tr
       %th.title Name
       %th.actions Actions
-    - for sponsor in paged_sponsors do
+    - for sponsor in @paged_sponsors do
       %tr
         %td= sponsor.name
         %td
@@ -17,4 +17,4 @@
             %li= link_to 'Edit', edit_admin_sponsor_path(sponsor), :class => 'edit', :title => 'Edit details'
             %li= link_to 'Delete', admin_sponsor_path(sponsor), :data => { :confirm => 'Are you sure?' }, :method => :delete, :class => 'delete', :title => 'Delete Sponsor'
 
-= will_paginate paged_sponsors
+= will_paginate @paged_sponsors

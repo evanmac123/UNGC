@@ -6,7 +6,7 @@
   %dl{:style => 'width: 60%;'}
     - staff_only do
       %dt.first Participant Status
-      %dd.first= display_status(@logo_request.organization)
+      %dd.first= full_organization_status(@logo_request.organization)
       - if @logo_request.organization.company?
         %dt Funding Status
         %dd
@@ -37,7 +37,7 @@
       %ul#contacts_tools{:class => "tools inline"}
         %li= link_to 'New comment', new_admin_logo_request_logo_comment_path(@logo_request), :class => 'new_large', :title => 'New Comment'
     %ul.items
-      = render @logo_request.logo_comments
+      = render partial: 'admin/logo_comments/logo_comment', collection: @logo_request.logo_comments
 
   #approved.tab_content
     - staff_only do

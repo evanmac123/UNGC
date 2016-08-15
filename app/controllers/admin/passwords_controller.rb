@@ -1,6 +1,6 @@
 class Admin::PasswordsController < Devise::PasswordsController
   layout 'admin'
-  helper 'Admin'
+  helper AdminHelper
 
   def create
     super

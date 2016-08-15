@@ -7,16 +7,6 @@ class Admin::CopsHelperTest < ActionView::TestCase
     create(:organization)
   end
 
-  test "#show_cop_attributes" do
-    create_cop_and_answers_for_grouping('additional')
-    assert view.show_cop_attributes(@cop, @principle_area).present?
-  end
-
-  test "#show_basic_cop_attributes" do
-    create_cop_and_answers_for_grouping('basic')
-    assert view.show_basic_cop_attributes(@cop, @principle_area).present?
-  end
-
   test "organization contacts are sent to the dashboard" do
     # Given an organization and a contact
     organization = create(:business)
@@ -64,55 +54,6 @@ class Admin::CopsHelperTest < ActionView::TestCase
     # then i can get the answers out
     array_of_answers = [answer]
     assert_equal array_of_answers, view.advanced_cop_answers(question.cop_attributes)
-  end
-
-  test "percent_issue_area_coverage" do
-    # Given 3 questions
-    # each with an attributes
-    # and each of those with an answer.
-    # 1 in labour
-    # 2 in human rights
-    # And one of the human rights answers has a positive value
-
-    # when we ask for the issue area coverage for human rights
-    # we should get "50%"
-
-    human_rights = create(:principle_area, name: 'Human Rights')
-    labour = create(:principle_area, name: 'Labour')
-
-    cop = create(:communication_on_progress)
-
-    # labour question, remains empty
-    labour_q = create(:cop_question, principle_area: labour, grouping: 'additional')
-    labour_attr = create(:cop_attribute, cop_question: labour_q)
-    create(:cop_answer,
-    communication_on_progress: cop,
-    cop_attribute: labour_attr,
-    value: nil)
-
-    # unanswer human rights question
-    hr_q1 = create(:cop_question, principle_area: human_rights, grouping: 'additional')
-    hr_q1_attr = create(:cop_attribute, cop_question: hr_q1)
-    create(:cop_answer,
-    communication_on_progress: cop,
-    cop_attribute: hr_q1_attr,
-    value: nil)
-
-    # answered human rights question
-    hr_q2 = create(:cop_question, principle_area: human_rights, grouping: 'additional')
-    hr_q2_attr = create(:cop_attribute, cop_question: hr_q2)
-    create(:cop_answer,
-    communication_on_progress: cop,
-    cop_attribute: hr_q2_attr,
-    value: true)
-
-    assert_equal 50, view.percent_issue_area_coverage(cop, :human_rights)
-    assert_equal 0, view.percent_issue_area_coverage(cop, :labour)
-  end
-
-  test "issue_area_colour_for" do
-    issue = create(:issue, name: "Human Rights")
-    assert_equal 'human_right', view.issue_area_colour_for(issue.name)
   end
 
   test "non-organization user ex. staff or local network, is sent to their organization detail page" do
@@ -163,17 +104,6 @@ class Admin::CopsHelperTest < ActionView::TestCase
   test "cop_form_partial" do
     cop = create(:communication_on_progress, cop_type: :basic)
     assert_equal 'basic_form', view.cop_form_partial(cop)
-  end
-
-  test "cop_date_range" do
-    cop = create(:communication_on_progress, starts_on: Date.new(2016, 8, 14), ends_on: Date.new(2017, 8, 14))
-    assert_equal 'August 2016&nbsp;&nbsp;&ndash;&nbsp;&nbsp;August 2017', view.cop_date_range(cop)
-  end
-
-  test "select_answer_class" do
-    assert_equal 'selected_question', select_answer_class(:literally_anything)
-    assert_equal 'unselected_question', view.select_answer_class(false)
-    assert_equal 'unselected_question', view.select_answer_class(nil)
   end
 
   test 'text_partial' do

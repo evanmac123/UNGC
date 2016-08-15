@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 
   before_filter :mailer_set_url_options
 
-  helper :datetime
+  helper DatetimeHelper
 
   helper_method \
     :current_container,

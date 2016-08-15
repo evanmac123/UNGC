@@ -1,4 +1,5 @@
 module Admin::ContactsHelper
+
   def login_fieldset_style(contact)
     if contact.can_login?
       'display: block'
@@ -15,7 +16,4 @@ module Admin::ContactsHelper
     ContactPolicy.new(current_contact).can_upload_image?(target)
   end
 
-  def current_contact_can_delete(current_contact, tabbed_contact)
-    ContactPolicy.new(current_contact).can_destroy?(tabbed_contact)
-  end
 end
