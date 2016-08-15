@@ -1,34 +1,4 @@
 module AdminHelper
-  def path_for_polymorphic_commentables(commentable)
-    case commentable
-    when Organization
-      admin_organization_comments_path(commentable.id)
-    when CommunicationOnProgress
-      admin_communication_on_progress_comments_path(commentable)
-    else
-      raise "Polymorphic comment wasn't aware of #{commentable.inspect}".inspect
-    end
-  end
-
-  def path_for_polymorphic_commentable(commentable, comment)
-    case commentable
-    when Organization
-      new_admin_organization_comment_path(commentable.id)
-    when CommunicationOnProgress
-      new_admin_communication_on_progress_comment_path(commentable)
-    else
-      raise "Polymorphic comment wasn't aware of #{commentable.inspect}".inspect
-    end
-  end
-
-  def possibly_link_to_organization
-    link_to 'Organization details', admin_organization_path(current_contact.organization.id) if current_contact
-  end
-
-  def possibly_link_to_edit_organization
-    link_to 'Edit your organization', edit_admin_organization_path(current_contact.organization.id) if current_contact
-  end
-
   def link_to_attached_file(object, file='attachment')
     options = {}
     # clean this up
@@ -52,7 +22,6 @@ module AdminHelper
       name = truncate options[:title], :length => 65
       link_to name, object.send(file).url, options
     end
-
   end
 
   def link_to_uploaded_file(object)
@@ -101,10 +70,6 @@ module AdminHelper
     contact_path(contact, :action => :edit)
   end
 
-  def show_check(condition)
-    condition ? 'checked' : 'unchecked'
-  end
-
   def display_readable_errors(object)
      error_messages = object.readable_error_messages.map { |error| content_tag :li, error }
      content_tag :ul, error_messages.join.html_safe
@@ -114,7 +79,147 @@ module AdminHelper
     link_to text.html_safe, url, :title => options[:title], :class => options[:class], :data => {'popup' => true}
   end
 
-  def staff_user?
-    current_contact && current_contact.from_ungc?
+  def participant_manager_only(&block)
+    yield if current_contact.is? Role.participant_manager
+  end
+
+  def staff_only(&block)
+    yield if current_contact && current_contact.from_ungc?
+  end
+
+  def staff_participant_manager_only(&block)
+    if current_contact && current_contact.from_ungc? &&
+        current_contact.is?(Role.participant_manager)
+      yield
+    end
+  end
+
+  def organization_only(&block)
+    yield if current_contact && current_contact.from_organization?
+  end
+
+  def css_display_style(show)
+    "display: #{show ? 'block' : 'none'}"
+  end
+
+  def retina_image(model, size, options={})
+    options[:data] ||= {}
+    options[:data].merge!(:at2x => model.cover_image(size, retina: true))
+    image_tag model.cover_image(size), options
+  end
+
+  def cop_action_links(cop)
+    actions = []
+    if current_contact.from_ungc?
+      actions << link_to('Approve', admin_communication_on_progress_comments_path(cop, :commit => LogoRequest::EVENT_APPROVE.titleize), :method => :post) if cop.can_approve?
+      actions << link_to('Reject', admin_communication_on_progress_comments_path(cop.id, :commit => LogoRequest::EVENT_REJECT.titleize), :method => :post) if cop.can_reject?
+    end
+    links = actions.join(" | ")
+    content_tag :p, links unless links.blank?
+  end
+
+  def dashboard_link_to_public_profile(local_network)
+    if local_network.country_code.present?
+      link = "/NetworksAroundTheWorld/local_network_sheet/#{local_network.country_code}.html"
+    else
+      link = "/NetworksAroundTheWorld/"
+    end
+  end
+
+  def announcement_count
+    @announcements.count > 0 ? "(#{@announcements.count})" : ''
+  end
+
+  def current_contact_can_edit_network?
+    current_contact.from_ungc? || (current_contact.local_network == @local_network)
+  end
+
+  def name_for_edit_link(current_contact)
+    if current_contact.from_organization?
+      "Edit your organization's profile"
+    else
+      "Edit"
+    end
+  end
+
+  def full_organization_status(organization)
+    if organization.approved? && organization.participant?
+      # they've been approved, but only participants have a COP state
+      if organization.delisted?
+        status = "#{organization.delisted_on} (Delisted)"
+      else
+        status = organization.cop_state.humanize
+      end
+    elsif organization.in_review? || organization.delay_review?
+      review_reason = " - #{organization.review_reason_value}" if organization.review_reason_value.present?
+      status = current_contact.from_organization? ? 'Application is under review' : "#{organization.state.humanize}#{review_reason}"
+    elsif organization.network_review?
+      status = current_contact.from_organization? ? 'Application is under review' : "Network Review: #{network_review_period(organization).downcase}"
+    else
+      status = organization.state.humanize
+    end
+  end
+
+  def display_id_type(organization)
+    if organization.approved?
+      if organization.participant?
+        'Participant ID'
+      else
+        'Organization ID'
+      end
+    else
+      'Application ID'
+    end
+  end
+
+  def local_network_membership
+    # TODO: should be replaced with @organization.local_networks.any? when implemented
+    case @organization.is_local_network_member
+      when true
+        'Member'
+      when false
+        'Not a member'
+      else
+        'Unknown'
+    end
+  end
+
+  def local_network_and_contact_exists?
+    @organization.local_network_name.present? && @organization.network_contact_person.present?
+  end
+
+  def link_to_getting_started
+    WelcomePackage.new(@organization).link
+  end
+
+  def link_to_local_network_welcome_letter_if_exists
+    filename = "/docs/networks_around_world_doc/communication/welcome_letters/local_network_welcome_letter_#{@organization.local_network_country_code}.pdf"
+    if FileTest.exists?("public/#{filename}")
+      link_to "Welcome Letter from your Local Network", filename, :class => 'pdf'
+    end
+  end
+
+  def current_contact_can_delete(current_contact, tabbed_contact)
+    ContactPolicy.new(current_contact).can_destroy?(tabbed_contact)
+  end
+
+  def edit_admin_cop_path(cop)
+    if cop.is_grace_letter?
+      edit_admin_organization_grace_letter_path(cop.organization.id, cop.id)
+    elsif cop.is_reporting_cycle_adjustment?
+      edit_admin_organization_reporting_cycle_adjustment_path(cop.organization.id, cop.id)
+    else
+      edit_admin_organization_communication_on_progress_path(cop.organization.id, cop.id)
+    end
+  end
+
+  def admin_cop_path(cop)
+    if cop.is_grace_letter?
+      admin_organization_grace_letter_path(cop.organization.id, cop)
+    elsif cop.is_reporting_cycle_adjustment?
+      admin_organization_reporting_cycle_adjustment_path(cop.organization.id, cop)
+    else
+      admin_organization_communication_on_progress_path(cop.organization.id, cop)
+    end
   end
 end

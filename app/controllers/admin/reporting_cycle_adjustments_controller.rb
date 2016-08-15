@@ -1,4 +1,5 @@
 class Admin::ReportingCycleAdjustmentsController < AdminController
+  helper Admin::CopsHelper
   before_filter :load_adjustment_and_organization
   before_filter :no_organization_or_local_network_access, only: [:edit, :update]
 

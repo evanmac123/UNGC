@@ -19,10 +19,4 @@ class Signing < ActiveRecord::Base
   belongs_to :signatory, :class_name => 'Organization', :foreign_key => :organization_id
   belongs_to :organization
 
-  def self.for_initiative_ids(ids)
-    where("initiative_id IN (?)", Initiative.find(ids).map(&:id))
-      .includes(:initiative, :organization)
-      .order("initiatives.name ASC")
-  end
-
 end

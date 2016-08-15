@@ -35,12 +35,12 @@ module Admin::LearningHelper
 
     content_tag :script, "var LocalNetworkRegions = #{regions.to_json};".html_safe, :type => "text/javascript"
   end
-end
 
-def issues_covered(event)
-  issues = ''
-  event.principles.each do |issue|
-    issues += content_tag :li, '&nbsp;'.html_safe, :class => Principle::TYPE_NAMES.key(issue.name), :title => issue.name
+  def issues_covered(event)
+    issues = ''
+    event.principles.each do |issue|
+      issues += content_tag :li, '&nbsp;'.html_safe, :class => Principle::TYPE_NAMES.key(issue.name), :title => issue.name
+    end
+    content_tag :ul, issues.html_safe, :class => 'issues_covered'
   end
-  content_tag :ul, issues.html_safe, :class => 'issues_covered'
 end

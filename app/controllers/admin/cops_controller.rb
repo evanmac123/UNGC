@@ -4,6 +4,7 @@ class Admin::CopsController < AdminController
   before_filter :cop_update_policy, only: [:update]
   before_filter :no_organization_or_local_network_access, only: [:edit, :backdate, :do_backdate]
   helper :datetime
+  helper ::CopsHelper
 
   def introduction
     @drafts = current_contact.organization.communication_on_progresses.in_progress

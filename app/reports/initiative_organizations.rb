@@ -3,13 +3,12 @@ class InitiativeOrganizations < SimpleReport
   InitiativeRecord = Struct.new(:signing, :organization, :initiative, :contribution)
 
   def records
-    join_tables = [:organization_type, :sector, :country]
-
-    signings = if @options[:initiatives]
-      Signing.for_initiative_ids(@options[:initiatives]).joins(:organization => [join_tables] )
-    else
-      Signing.for_initiative_ids(Initiative.map(&:id)).joins(:organization => [join_tables] )
-    end
+    signings = Signing
+      .joins(:initiative, :organization)
+      .includes(:initiative,
+                organization: [:country, :sector, :organization_type])
+      .where(initiative_id: @options[:initiatives])
+      .order('initiatives.name ASC')
 
     organizations = signings.map {|s| s.organization}
     contributions = ContributionStatusQuery.for_organizations(organizations)
@@ -47,29 +46,28 @@ class InitiativeOrganizations < SimpleReport
       'Last Contribution Year',
       'COP Status',
       'COP Differentiation'
-
     ]
   end
 
   def row(record)
-  [
-    record.organization.id,
-    record.organization.name,
-    record.organization.participant ? 1:0,
-    record.organization.joined_on,
-    record.initiative.name,
-    record.signing.added_on,
-    record.organization.organization_type_name,
-    record.organization.employees,
-    record.organization.is_ft_500 ? 1:0,
-    record.organization.sector_name,
-    record.organization.country_name,
-    record.organization.region_name,
-    record.organization.revenue_description,
-    record.contribution.latest_contributed_year,
-    record.organization.cop_state.try!(:titleize),
-    record.organization.differentiation_level
-  ]
+    [
+      record.organization.id,
+      record.organization.name,
+      record.organization.participant ? 1:0,
+      record.organization.joined_on,
+      record.initiative.name,
+      record.signing.added_on,
+      record.organization.organization_type_name,
+      record.organization.employees,
+      record.organization.is_ft_500 ? 1:0,
+      record.organization.sector_name,
+      record.organization.country_name,
+      record.organization.region_name,
+      record.organization.revenue_description,
+      record.contribution.latest_contributed_year,
+      record.organization.cop_state.try!(:titleize),
+      record.organization.differentiation_level
+    ]
   end
 
 end

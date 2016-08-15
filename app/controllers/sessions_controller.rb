@@ -1,6 +1,6 @@
 class SessionsController < Devise::SessionsController
   layout 'admin'
-  helper 'Admin'
+  helper AdminHelper
   before_filter :redirect_user_to_dashboard, :only => :new
   prepend_before_filter :check_contact, :only => :create
 

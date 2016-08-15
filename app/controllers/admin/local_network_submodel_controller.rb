@@ -4,7 +4,6 @@ class Admin::LocalNetworkSubmodelController < AdminController
   before_filter :load_submodel,  :only => [:show, :edit, :update, :destroy]
   before_filter :no_access_to_other_local_networks, :except => [:index, :show]
 
-  helper Admin::LocalNetworkSubmodelHelper
   helper_method :submodel, :return_url
 
   def create
@@ -86,4 +85,3 @@ class Admin::LocalNetworkSubmodelController < AdminController
   end
 
 end
-

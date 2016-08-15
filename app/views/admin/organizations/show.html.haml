@@ -21,7 +21,7 @@
 
   #overview.tab_content
     %ul{:class => "tools inline"}
-      %li= link_to text_for_edit_icon(current_contact), edit_admin_organization_path(@organization.id), :class => 'edit_large'
+      %li= link_to name_for_edit_link(current_contact), edit_admin_organization_path(@organization.id), :class => 'edit_large'
       - staff_only do
         - unless @organization.approved?
           %li{:style => 'margin-left: 362px;'}= link_to 'Reverse roles', reverse_roles_admin_organization_path(@organization.id), :class => 'refresh_large', :title => 'Switch the CEO and Contact Point roles, and transfer login information.'
@@ -31,7 +31,7 @@
       %dt.first= display_id_type(@organization)
       %dd.first= @organization.id
       %dt Status
-      %dd= display_status(@organization).html_safe
+      %dd= full_organization_status(@organization).html_safe
       - if @organization.delisted?
         %dt.delisted= display_delisted_description(@organization)
         %dd= @organization.removal_reason.description rescue "Unknown"

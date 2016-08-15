@@ -1,4 +1,5 @@
 class Admin::GraceLettersController < AdminController
+  helper Admin::CopsHelper
   before_filter :load_letter_and_organization
   before_filter :no_unapproved_organizations_access
   before_filter :no_organization_or_local_network_access, only: [:edit, :update]

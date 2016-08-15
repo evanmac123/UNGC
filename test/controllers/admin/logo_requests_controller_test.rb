@@ -120,7 +120,32 @@ class Admin::LogoRequestsControllerTest < ActionController::TestCase
       assert_equal 'New Purpose', @logo_request.purpose
 
     end
+  end
 
+  context 'pending logo request' do
+    setup do
+      create_organization_and_user
+      create_ungc_organization_and_user
+      create(:logo_publication)
+      @logo_request = create(:logo_request,
+        organization_id: @organization.id,
+        contact_id: @organization_user.id
+      )
+      @logo_request.logo_comments.create(
+        body: 'lorem ipsum',
+        contact_id: @staff_user.id,
+        attachment: fixture_file_upload('files/untitled.pdf', 'application/pdf'),
+        state_event: LogoRequest::EVENT_REVISE
+      )
+      @organization.approve!
+      sign_in @organization_user
+    end
+
+    should 'show logo request' do
+      get :show, id: @logo_request.id, organization_id: @logo_request.organization.id
+
+      assert_response :success
+    end
   end
 
   context "approval actions" do

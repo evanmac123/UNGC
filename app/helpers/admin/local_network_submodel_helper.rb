@@ -1,4 +1,5 @@
 module Admin::LocalNetworkSubmodelHelper
+
   def submodels_path
     send "admin_local_network_#{submodel.name.underscore.pluralize}_path", @local_network
   end
@@ -12,4 +13,3 @@ module Admin::LocalNetworkSubmodelHelper
   end
 
 end
-

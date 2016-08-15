@@ -1,15 +1,8 @@
 module DatetimeHelper
-
-  def m_yyyy(date)
-    date ? date.strftime('%B %Y') : '&nbsp;'
-  end
+  # TODO convert these to calls to I18n.l
 
   def yyyy_mm_dd(date)
     date ? date.strftime('%Y/%m/%d') : '&nbsp;'
-  end
-
-  def mm_dd_yyyy(date)
-    date ? date.strftime('%m/%d/%Y') : '&nbsp;'
   end
 
   def dd_month_yyyy(date)

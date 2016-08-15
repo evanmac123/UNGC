@@ -2,14 +2,14 @@
 
 %p= link_to 'New headline', new_admin_headline_path, class: 'new_headline_large', id: 'new_headline'
 
-- if paged_headlines.any?
+- if @paged_headlines.any?
   %table.dashboard_table
     %tr
       %th= sort_header 'Title', field: 'title'
       %th= sort_header 'Date', field: 'published_on'
       %th= sort_header 'Location', field: 'location'
       %th.actions Actions
-    - for headline in paged_headlines do
+    - for headline in @paged_headlines do
       %tr
         %td{title: headline.title}= link_to truncate(headline.title, length: 90), edit_admin_headline_path(headline)
         %td= headline.published_on || headline.approval
@@ -21,4 +21,4 @@
             %li= link_to 'Edit', edit_admin_headline_path(headline), class: 'edit', title: 'Edit details'
             %li= link_to 'Delete', admin_headline_path(headline), class: 'delete', data: { confirm: 'Are you sure you want to delete this headline?' }, method: :delete, title:'Delete entry'
 
-= will_paginate paged_headlines
+= will_paginate @paged_headlines

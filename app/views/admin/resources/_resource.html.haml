@@ -12,9 +12,9 @@
     = resource.principles_count
   %td.status-cell
     %span.small
-      = status_date(resource)
+      = resource.approved? ? resource.approved_at : resource.updated_at
       - unless resource.pending?
-        == by #{resource.approved_by.try(:name) || 'Unknown'}
+        = "by #{resource.approved_by.try!(:name) || 'Unknown'}"
 
   %td.action-cell.nowrap
     %ul.actions

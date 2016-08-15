@@ -18,7 +18,7 @@
           %td=h organization.old_id
           %td{:title => organization.name}=h truncate(organization.name, :length => 50)
           %td= organization.organization_type_name
-          %td= display_status(organization)
+          %td= full_organization_status(organization)
           %td=h organization.country_name
           %td
             %ul.actions

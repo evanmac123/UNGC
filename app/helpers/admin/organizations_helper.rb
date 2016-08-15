@@ -28,46 +28,10 @@ module Admin::OrganizationsHelper
     end
   end
 
-  def text_for_edit_icon(user)
-    if user.from_organization?
-      "Edit your organization's profile"
-    else
-      "Edit"
-    end
-  end
-
-  def link_to_commitment_letter(organization)
-    link_to_attached_file organization, 'commitment_letter'
-  end
-
   def initial_organization_state(organization)
     commands = ["$('.company_only').#{organization.company? ? 'show' : 'hide'}();"]
     commands << "$('.public_company_only').#{organization.public_company? ? 'show' : 'hide'}();"
     commands.collect{|c| javascript_tag(c)}.join.html_safe
-  end
-
-  def display_status(organization)
-
-    if organization.approved? && organization.participant?
-
-      # they've been approved, but only participants have a COP state
-      if organization.delisted?
-        status = "#{organization.delisted_on} (Delisted)"
-      else
-        status = organization.cop_state.humanize
-      end
-
-    elsif organization.in_review? || organization.delay_review?
-      review_reason = " - #{organization.review_reason_value}" if organization.review_reason_value.present?
-      status = current_contact.from_organization? ? 'Application is under review' : "#{organization.state.humanize}#{review_reason}"
-
-    elsif organization.network_review?
-      status = current_contact.from_organization? ? 'Application is under review' : "Network Review: #{network_review_period(organization).downcase}"
-
-    else
-      status = organization.state.humanize
-    end
-
   end
 
   def letter_of_commitment_updated(organization)
@@ -88,37 +52,8 @@ module Admin::OrganizationsHelper
     end
   end
 
-  def display_id_type(organization)
-    if organization.approved?
-      if organization.participant?
-        'Participant ID'
-      else
-        'Organization ID'
-      end
-    else
-      'Application ID'
-    end
-  end
-
   def local_network_detail(organization, detail)
     organization.country.try(:local_network) ? organization.country.try(:local_network).try(detail) : 'Unknown'
-  end
-
-  def local_network_membership
-    # TODO: should be replaced with @organization.local_networks.any? when implemented
-    case @organization.is_local_network_member
-      when true
-        'Member'
-      when false
-        'Not a member'
-      else
-        'Unknown'
-    end
-  end
-
-  # Called from dashboard_organization.html.haml to determine whether these profile sections shoud be displayed
-  def local_network_and_contact_exists?
-    @organization.local_network_name.present? && @organization.network_contact_person.present?
   end
 
   # display organizations with similar names
@@ -162,20 +97,9 @@ module Admin::OrganizationsHelper
     end
   end
 
-  def  alert_if_micro_enterprise(organization, current_contact)
+  def alert_if_micro_enterprise(organization, current_contact)
     if current_contact.from_ungc?
       organization.business_entity? && organization.employees < 10 ? 'red' : 'inherit'
-    end
-  end
-
-  def link_to_getting_started
-    WelcomePackage.new(@organization).link
-  end
-
-  def link_to_local_network_welcome_letter_if_exists
-    filename = "/docs/networks_around_world_doc/communication/welcome_letters/local_network_welcome_letter_#{@organization.local_network_country_code}.pdf"
-    if FileTest.exists?("public/#{filename}")
-      link_to "Welcome Letter from your Local Network", filename, :class => 'pdf'
     end
   end
 
@@ -194,28 +118,6 @@ module Admin::OrganizationsHelper
 
   def display_delisted_description(organization)
     organization.removal_reason == RemovalReason.delisted ? 'Reason for expulsion' : 'Reason for delisting'
-  end
-
-  def countries_list
-    Country.find(params[:country]).map { |c| c.name }.sort.join(', ')
-    countries = Country.find(params[:country]).map { |c| c.name }.sort
-    join_items_into_sentance(countries)
-  end
-
-  def join_items_into_sentance(items)
-    case items.length
-      when 1
-        items.first
-      when 2
-        items.join(' and ')
-      else
-        last_item = items.pop
-        items.join(', ') + ' and ' + last_item
-    end
-  end
-
-  def nice_date_from_param(join_date)
-    params[join_date].to_date.strftime("%e&nbsp;%B,&nbsp;%Y")
   end
 
   def searched_for
@@ -277,4 +179,27 @@ module Admin::OrganizationsHelper
     response.html_safe
   end
 
+  private
+
+  def countries_list
+    Country.find(params[:country]).map { |c| c.name }.sort.join(', ')
+    countries = Country.find(params[:country]).map { |c| c.name }.sort
+    join_items_into_sentance(countries)
+  end
+
+  def join_items_into_sentance(items)
+    case items.length
+      when 1
+        items.first
+      when 2
+        items.join(' and ')
+      else
+        last_item = items.pop
+        items.join(', ') + ' and ' + last_item
+    end
+  end
+
+  def nice_date_from_param(join_date)
+    params[join_date].to_date.strftime("%e&nbsp;%B,&nbsp;%Y")
+  end
 end

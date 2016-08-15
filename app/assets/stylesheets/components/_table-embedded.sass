@@ -41,3 +41,24 @@
 
   th
     background: none
+
+table.agenda
+  tbody
+    tr
+      td:first-child
+        ul
+          list-style-type: none
+          padding: 0
+          li:before
+            +fa-icon
+            content: $fa-var-clock-o
+            list-style-type: none
+            color: #699cc6
+      &:nth-child(odd)
+        th,
+        td
+          background-color: #ececec
+      h4
+        font-size: 1.1em
+        color: #4c6b8b
+        margin: 0
