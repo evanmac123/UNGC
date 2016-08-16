@@ -9,7 +9,7 @@ class LibraryController < ApplicationController
 
   def show
     show_resource do |resource|
-      resource.find(params[:id]).tap { |r| r.increment_views! }
+      resource.approved.find(params[:id]).tap { |r| r.increment_views! }
     end
   end
 
