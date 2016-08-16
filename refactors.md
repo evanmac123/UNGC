@@ -14,7 +14,7 @@ The main goal here is to reduce the amount of type-checking and conditionals thr
 
 * Use a STI approach: the quickest and possibly most effective refactor would be to move the COP model to a STI approach, whereby storing each different type in a new column on the table. That way, each type has its own subclass and have much cleaner methods that aren't full of conditionals. Taking advantage of a base class seems really useful here.
 
-For example, these types of constants would be better served on specific subclasses: https://github.com/unspace/UNGC/blob/master/app/models/communication_on_progress.rb#L92-L133
+For example, these types of constants would be better served on specific subclasses: https://github.com/unglobalcompact/UNGC/blob/master/app/models/communication_on_progress.rb#L92-L133
 
 * Defining the types is still a bit hazy at this point, as there are many differentiations:
 
@@ -30,6 +30,6 @@ type_of_cop defines:
 Within those types there are other considerations that seem to apply more generally across them, which indicates why it would be good to have a base class.
 
 * Additionally, reducing the amount of model methods would be ideal. Some of these are use for display only, and would better serve as view helpers.
-These methods are not necessary at all: https://github.com/unspace/UNGC/blob/master/app/models/communication_on_progress.rb#L149-L171
+These methods are not necessary at all: https://github.com/unglobalcompact/UNGC/blob/master/app/models/communication_on_progress.rb#L149-L171
 
 * If we want to go deeper, then separating the COP model into different models would also work, especially when it comes to any distinction with columns. Some polymorphism may also be required.
