@@ -105,7 +105,7 @@ class OrganizationSignup
     # TODO fix this.
     # No transaction and no exceptions mean that
     # any failures here will not be detected and we may have invalid/partial data.
-    # see https://github.com/unspace/UNGC/issues/360
+    # see https://github.com/unglobalcompact/UNGC/issues/360
     # Converting all the writes to raise on validation errors will make it clear
     # that there is a problem, and send all the data to honeybadger.
     # This is an interim fix until the application process is reworked in the new

@@ -11,8 +11,8 @@ class OrganizationSubmitsWithNotContactsTest < ActionDispatch::IntegrationTest
     create(:country, id:14, name: 'Bangladesh')
   }
 
-  # TODO make this test pass, see https://github.com/unspace/UNGC/issues/360 for details
-  # test 'Bug https://github.com/unspace/UNGC/issues/360' do
+  # TODO make this test pass, see https://github.com/unglobalcompact/UNGC/issues/361 for details
+  # test 'Bug https://github.com/unglobalcompact/UNGC/issues/361' do
   #   # step 1
   #   visit '/participation/join/application/step1/business'
   #   fill_in "Organization Name", with: "Infinity Integrated Systems Ltd"

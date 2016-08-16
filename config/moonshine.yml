@@ -36,7 +36,7 @@
 # If you change this value, you will need to run: cap vcs:install
 #:scm: git
 # Reposistory URI for checking out code at deploy time
-:repository: git@github.com:unspace/UNGC.git
+:repository: git@github.com:unglobalcompact/UNGC.git
 :deploy_via: remote_cache
 
 # Use :app_symlinks to setup directories under public/ that you want to persist

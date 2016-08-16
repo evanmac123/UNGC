@@ -8,7 +8,7 @@ currently maintained by:
 * [Ben Moss](https://github.com/drteeth)
 
 _A full list of contributors can be found
-[here](https://github.com/unspace/UNGC/graphs/contributors)._
+[here](https://github.com/unglobalcompact/UNGC/graphs/contributors)._
 
 ## Provisioning
 
@@ -27,7 +27,7 @@ steps to get up and running:
 3. Install a Git client ([Windows](http://git-scm.com/download/win) or [Mac](http://git-scm.com/download/mac))
 4. Mac: Open Terminal, Windows: Open Git Bash (Start > All Programs > Git > Git Bash)
 5. Change into the directory where you keep your projects: `cd /Users/me/Projects`
-6. Clone the repository onto your computer: `git clone git@github.com:unspace/UNGC.git`
+6. Clone the repository onto your computer: `git clone git@github.com:unglobalcompact/UNGC.git`
 7. Change into the project directory: `cd UNGC`
 8. Copy the `Vagrantfile.example` file to `Vagrantfile`, you can modify this file
    for your specific needs later: `cp Vagrantfile.example Vagrantfile`
