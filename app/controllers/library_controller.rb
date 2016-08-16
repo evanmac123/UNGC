@@ -8,8 +8,11 @@ class LibraryController < ApplicationController
   end
 
   def show
-    show_resource do |resource|
-      resource.approved.find(params[:id]).tap { |r| r.increment_views! }
+    show_resource do |resource_scope|
+      id = params.fetch(:id)
+      resource = resource_scope.approved.find(id)
+      resource.increment_views!
+      resource
     end
   end
 
@@ -43,13 +46,13 @@ class LibraryController < ApplicationController
 
   def show_resource
     set_current_container_by_path('/library')
-    resource = Resource.includes([
+    resource_scope = Resource.includes([
       issues: [:parent],
       sectors: [:parent],
       topics: [:parent],
       links: [:language]
     ])
-    resource = yield(resource)
+    resource = yield(resource_scope)
     @resource = LibraryDetailPresenter.new(resource)
     @page = LibraryDetailPage.new(current_container, resource)
     render :show
