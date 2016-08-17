@@ -21,11 +21,11 @@ class Api::V1::OrganizationsController < ApplicationController
     organizations = organizations.order("organizations.updated_at desc")
 
     organizations = organizations.
-      paginate(per_page: 100, page: page)
+      paginate(per_page: per_page, page: page)
 
-    response.headers['Current-Page']  = page.to_s
-    response.headers['Per-Page']      = '100'
-    response.headers['Total-Entries'] = organizations.count.to_s
+    response.headers['Current-Page']  = page
+    response.headers['Per-Page']      = per_page
+    response.headers['Total-Entries'] = organizations.count
 
     render json: OrganizationSerializer.wrap(organizations).as_json
   end
@@ -34,6 +34,10 @@ class Api::V1::OrganizationsController < ApplicationController
 
   def page
     params.fetch(:page, 1)
+  end
+
+  def per_page
+    100 # hardcode for now
   end
 
   def the_id
