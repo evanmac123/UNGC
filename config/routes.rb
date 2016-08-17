@@ -6,6 +6,8 @@ UNGC::Application.routes.draw do
     mount Sidekiq::Web => '/back-the-web'
   end
 
+  use_doorkeeper
+
   devise_for :contacts,
     path: '/',
     path_names: {
