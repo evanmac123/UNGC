@@ -23,9 +23,9 @@ class Api::V1::OrganizationsController < ApplicationController
     organizations = organizations.
       paginate(per_page: per_page, page: page)
 
-    response.headers['Current-Page']  = page
-    response.headers['Per-Page']      = per_page
-    response.headers['Total-Entries'] = organizations.count
+    response.headers['Current-Page']  = page.to_s
+    response.headers['Per-Page']      = per_page.to_s
+    response.headers['Total-Entries'] = organizations.count.to_s
 
     render json: OrganizationSerializer.wrap(organizations).as_json
   end
