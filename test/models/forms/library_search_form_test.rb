@@ -156,67 +156,6 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
 
   end
 
-  context "Sector selector options" do
-
-    setup do
-      @form = LibrarySearchForm.new 1, @search_params
-      @form.search_scope = all_group_facets(@sectors, :sector_ids)
-
-      @options = @form.sector_filter.options
-      @group_a = @options.first
-      @group_b = @options.last
-
-      @group = @group_a.first
-      @filters = @group_a.last
-      @filter = @filters.first
-
-      # the sector that should map to the filter
-      @sector = @sectors.first.children.first
-    end
-
-    should "have 2 items" do
-      assert_not_nil @group_a
-      assert_not_nil @group_b
-    end
-
-    should "be grouped by title" do
-      assert_match /Sector (A|B)/, @group.name
-    end
-
-    should "have a selected group" do
-      assert @group_b.first.selected?
-    end
-
-    should "have 3 children" do
-      assert_equal 3, @filters.count
-    end
-
-    should "include sector id" do
-      assert_equal @sector.id, @filter.id
-    end
-
-    should "be of type: sectors" do
-      assert_equal 'sectors', @filter.type
-    end
-
-    should "not be active by default" do
-      assert_equal false, @filter.selected?
-    end
-
-    should "have the sector name" do
-      assert_equal @sector.name, @filter.name
-    end
-
-    # TODO FIXME this test's output is not consistant and is causing CI to fail.
-    # should "selecting an option should make it active" do
-    #   form = LibrarySearchForm.new 1, @search_params
-    #   form.search_scope = all_group_facets(@sectors, :sector_ids)
-    #   option = form.sector_filter.options[0][1].last # group a, options
-    #   assert option.selected?
-    # end
-
-  end
-
   context 'search with sustainable development goals in params' do
     setup do
       @sdgs = 2.times.collect { create(:sustainable_development_goal) }
