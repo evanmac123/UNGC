@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160810155133) do
+ActiveRecord::Schema.define(version: 20160817172728) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -316,7 +316,7 @@ ActiveRecord::Schema.define(version: 20160810155133) do
     t.integer  "position",        limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "hint",            limit: 65535,                 null: false
+    t.text     "hint",            limit: 65535
     t.boolean  "open",                          default: false
   end
 
