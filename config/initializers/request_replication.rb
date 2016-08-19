@@ -1,4 +1,4 @@
-enabled = Rails.env.production?
+enabled = false #Rails.env.production?
 
 if enabled
   options = {
