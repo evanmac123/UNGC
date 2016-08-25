@@ -27,7 +27,9 @@ class Api::V1::OrganizationsController < ApplicationController
     response.headers['Per-Page']      = per_page.to_s
     response.headers['Total-Entries'] = organizations.count.to_s
 
-    render json: OrganizationSerializer.wrap(organizations).as_json
+    render json: {
+      organizations: OrganizationSerializer.wrap(organizations).as_json
+    }
   end
 
   private
@@ -37,7 +39,7 @@ class Api::V1::OrganizationsController < ApplicationController
   end
 
   def per_page
-    100 # hardcode for now
+    params.fetch(:per_page, 100)
   end
 
   def the_id

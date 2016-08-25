@@ -26,4 +26,3 @@ class OrganizationSerializer < ApplicationSerializer
   alias_method :organization, :object
 
 end
-
