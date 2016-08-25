@@ -59,7 +59,8 @@ class Resource < ActiveRecord::Base
     website: 9,
     video: 10,
     infographic: 11,
-    policy_document: 12
+    policy_document: 12,
+    podcast: 13,
   }
 
   scope :update_required, lambda { where("content_type IS NULL") }
