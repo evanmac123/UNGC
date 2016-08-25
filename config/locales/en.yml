@@ -94,6 +94,7 @@ en:
       presentation: 'Presentation'
       infographic: 'Infographic'
       policy_document: 'Policy Document'
+      podcast: 'Podcast'
 
   reporting_status:
     active: 'Active'
