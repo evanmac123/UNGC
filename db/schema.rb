@@ -763,6 +763,7 @@ ActiveRecord::Schema.define(version: 20160817172728) do
   add_index "organizations", ["participant", "id"], name: "index_organizations_on_participant_and_id", using: :btree
   add_index "organizations", ["participant"], name: "index_organizations_on_participant", using: :btree
   add_index "organizations", ["participant_manager_id"], name: "index_organizations_on_participant_manager_id", using: :btree
+  add_index "organizations", ["sector_id"], name: "index_organizations_on_sector_id", using: :btree
 
   create_table "page_groups", force: :cascade do |t|
     t.string   "name",                  limit: 255
@@ -993,6 +994,8 @@ ActiveRecord::Schema.define(version: 20160817172728) do
     t.datetime "updated_at"
     t.boolean  "preserved",              default: false, null: false
   end
+
+  add_index "sectors", ["name"], name: "index_sectors_on_name", using: :btree
 
   create_table "sessions", force: :cascade do |t|
     t.string   "session_id", limit: 255,   null: false
