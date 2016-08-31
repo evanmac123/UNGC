@@ -40,6 +40,7 @@ class Admin::SignInAsController < AdminController
   def search_contacts(terms)
     pattern = "%#{terms}%"
     sign_in_policy.sign_in_targets
+      .includes(:organization)
       .where("organizations.name like ? or concat_ws(' ', contacts.first_name, contacts.last_name) like ?", pattern, pattern)
       .order('organizations.name, contacts.first_name, contacts.last_name')
       .select('contacts.id', 'organizations.name', 'contacts.first_name', 'contacts.last_name')
