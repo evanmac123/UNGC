@@ -8,7 +8,7 @@
 
       <p>The following participants have been expelled for failure to communicate progress <%= link_to 'in accordance with the COP Policy', '/participation/report/cop' -%> by the required deadline.</p>
 
-      <h2>Total number of expelled participants: <%= count_all_orgs(:expelled_for_failure_to_communicate_progress) %></h2>
+      <h2>Total number of expelled participants: <%= @organizations.count %></h2>
       <%= per_page_select %>
     </header>
     <table class="table-embedded striped sortable">
@@ -21,7 +21,7 @@
         </tr>
       </thead>
       <tbody>
-        <% for organization in paged_organizations(:expelled_for_failure_to_communicate_progress)%>
+        <% @organizations.each do |organization| %>
           <tr>
             <td title="<%= organization.name %>" class='participant'>
               <%= link_to truncate(organization.name, :length => 40), participant_path(organization, :expelled) %>
@@ -39,6 +39,11 @@
         <% end %>
       </tbody>
     </table>
-    <%= paginate_orgs(:expelled_for_failure_to_communicate_progress, :anchor => 'paged_results') %>
+    <%= will_paginate(@organizations, {
+      previous_label: 'Previous',
+      next_label: 'Next',
+      page_links: false,
+      params: {anchor: 'paged_results'}
+    })%>
   </div>
 </section>

@@ -5,7 +5,7 @@
   <div class='wrapper'>
     <header class='main-content-header'>
       <h1>Submitted COE</h1>
-      <h2>Total number of COEs received: <%= count_all_cops(:coes) %></h2>
+      <h2>Total number of COEs received: <%= @cops.count %></h2>
       <%= per_page_select %>
     </header>
     <table class="table-embedded striped sortable">
@@ -18,7 +18,7 @@
         </tr>
       </thead>
       <tbody>
-        <% for cop in paged_cops(:coes) %>
+        <% @cops.each do |cop| %>
           <tr>
             <td title="<%= cop.organization_name %>" class='participant'>
               <%= link_to truncate(cop.organization_name, :length => 40), coe_path(cop) %>
@@ -36,6 +36,11 @@
         <% end %>
       </tbody>
     </table>
-    <%= paginate_cops(:coes, {:anchor => 'paged_results'}) %>
+    <%= will_paginate(@cops, {
+      previous_label: 'Previous',
+      next_label: 'Next',
+      page_links: false,
+      params: {anchor: 'paged_results'}
+    })%>
   </div>
 </section>
