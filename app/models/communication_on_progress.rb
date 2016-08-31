@@ -95,14 +95,17 @@ class CommunicationOnProgress < ActiveRecord::Base
   scope :notable, lambda {
     includes([:score, {:organization => [:country]}]).where("cop_score_id = ?", CopScore.notable.try(:id)).order("ends_on DESC")
   }
-  scope :active,   lambda { where("differentiation = ?", 'active').joins([{:organization => [:country, :sector]}]) }
-  scope :advanced, lambda { where("differentiation IN (?)", ['advanced','blueprint']).joins([{:organization => [:country, :sector]}]) }
-  scope :learner, lambda { where("differentiation = ?", 'learner').joins([{:organization => [:country, :sector]}]) }
-  scope :coes, lambda { where("cop_type = ?", 'non_business').joins([{:organization => [:country, :sector]}]) }
+
+  scope :active, lambda { where(differentiation: 'active') }
+  scope :advanced, lambda { where(differentiation: ['advanced','blueprint']) }
+  scope :learner, lambda { where(differentiation: 'learner') }
+  scope :coes, lambda { where(cop_type: 'non_business') }
+  scope :summary, lambda { eager_load(organization: [:country, :sector, :organization_type]) }
+
   scope :since_year, lambda { |year| where("created_at >= ?", Date.new(year, 01, 01)).includes([ :organization, {:organization => [:country, :organization_type] }]) }
   # feed contains daily COP submissions, without grace letters or reporting adjustments
   scope :for_feed, lambda { where("format NOT IN (?) AND published_on >= ?", ['grace_letter','reporting_cycle_adjustment'], Date.today).order("published_on") }
-  scope :by_year, lambda { order("communication_on_progresses.created_at DESC, sectors.name ASC, organizations.name ASC") }
+  scope :by_year, lambda { order("sectors.name ASC, organizations.name ASC") }
 
   FORMAT = {:standalone            => "Stand alone document",
             :sustainability_report => "Part of a sustainability or corporate (social) responsibility report",

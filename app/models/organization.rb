@@ -271,6 +271,8 @@ class Organization < ActiveRecord::Base
   scope :ready_for_invoice, lambda {where("joined_on >= ? AND joined_on <= ?", 2.days.ago.beginning_of_day, 2.days.ago.end_of_day)}
   scope :not_rejected, lambda { where.not(state: STATE_REJECTED) }
 
+  scope :summary, lambda { includes(:country, :sector, :organization_type) }
+
 
   def self.with_cop_status(filter_type)
     if filter_type.is_a?(Array)

@@ -14,31 +14,46 @@ class CopsController < ApplicationController
   def active
     set_current_container_by_path('/participation/report/cop/create-and-submit/active')
     @page = CopListPage.new(current_container, current_payload_data)
+    @cops = CommunicationOnProgress.summary.active.paginate(pagination_params)
   end
 
   def advanced
     set_current_container_by_path('/participation/report/cop/create-and-submit/advanced')
     @page = CopListPage.new(current_container, current_payload_data)
+    @cops = CommunicationOnProgress.summary.advanced.paginate(pagination_params)
   end
 
   def expelled
     set_current_container_by_path('/participation/report/cop/create-and-submit/expelled')
     @page = CopListPage.new(current_container, current_payload_data)
+    @organizations = Organization.participants
+      .summary
+      .companies_and_smes
+      .expelled_for_failure_to_communicate_progress
+      .paginate(pagination_params)
   end
 
   def learner
     set_current_container_by_path('/participation/report/cop/create-and-submit/learner')
     @page = CopListPage.new(current_container, current_payload_data)
+    @cops = CommunicationOnProgress.summary.learner.paginate(pagination_params)
   end
 
   def non_communicating
     set_current_container_by_path('/participation/report/cop/create-and-submit/non-communicating')
     @page = CopListPage.new(current_container, current_payload_data)
+
+    @organizations = Organization.participants
+      .summary
+      .companies_and_smes
+      .noncommunicating
+      .paginate(pagination_params)
   end
 
   def submitted_coe
     set_current_container_by_path('/participation/report/coe/create-and-submit/submitted-coe')
     @page = CopListPage.new(current_container, current_payload_data)
+    @cops = CommunicationOnProgress.summary.coes.paginate(pagination_params)
   end
 
   def show
@@ -58,5 +73,12 @@ class CopsController < ApplicationController
     respond_to do |format|
       format.atom { render :layout => false }
     end
+  end
+
+  def pagination_params
+    {
+      page: params.fetch(:page, 1),
+      per_page: params.fetch(:per_page, 10),
+    }
   end
 end
