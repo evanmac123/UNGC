@@ -491,6 +491,7 @@ UNGC::Application.routes.draw do
   get '/leaderssummit2016', to: redirect('/take-action/events/411-un-global-compact-leaders-summit-2016')
   get '/lead', to: redirect('/take-action/leadership/gc-lead')
   get '/HowToParticipate/Business_Organization_Information.html', to: redirect('/participation/join/application/step1/business')
+  get '/UNPrivateSectorForum2016', to: redirect('/take-action/events/691-united-nations-private-sector-forum-2016')
 
   # SDG related redirects
   get '/sdgpioneers', to: redirect('/what-is-gc/our-work/sustainable-development/global-goals-local-business/sdgpioneers')
