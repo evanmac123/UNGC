@@ -5,7 +5,7 @@
   <div class='wrapper'>
     <header class='main-content-header'>
       <h1>Non-Communicating Participants</h1>
-      <h2>Total number of non-communicating participants: <%= count_all_orgs(:noncommunicating) %></h2>
+      <h2>Total number of non-communicating participants: <%= @organizations.count %></h2>
       <%= per_page_select %>
     </header>
     <table class="table-embedded striped sortable">
@@ -19,7 +19,7 @@
         </tr>
       </thead>
       <tbody>
-        <% for organization in paged_organizations(:noncommunicating) %>
+        <% @organizations.each do |organization| %>
           <tr>
             <td title="<%= organization.name %>" class='participant'>
               <%= link_to truncate(organization.name, :length => 20), participant_path(organization, :noncommunicating) %>
@@ -40,6 +40,11 @@
         <% end %>
       </tbody>
     </table>
-    <%= paginate_orgs(:noncommunicating, :anchor => 'paged_results') %>
+    <%= will_paginate(@organizations, {
+      previous_label: 'Previous',
+      next_label: 'Next',
+      page_links: false,
+      params: {anchor: 'paged_results'}
+    })%>
   </div>
 </section>

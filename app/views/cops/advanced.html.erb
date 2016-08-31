@@ -5,7 +5,7 @@
   <div class='wrapper'>
     <header class='main-content-header'>
       <h1>GC Advanced</h1>
-      <h2>Total number of GC Advanced COPs received: <%= count_all_cops(:advanced) %></h2>
+      <h2>Total number of GC Advanced COPs received: <%= @cops.count %></h2>
       <%= per_page_select %>
     </header>
 
@@ -19,7 +19,7 @@
         </tr>
       </thead>
       <tbody>
-        <% for cop in paged_cops(:advanced) %>
+        <% @cops.each do |cop| %>
           <tr>
             <td title="<%= cop.organization_name -%>" class='participant'>
               <%= link_to truncate(cop.organization_name, :length => 40), show_cops_path(:advanced, cop) %>
@@ -37,6 +37,11 @@
         <% end %>
       </tbody>
     </table>
-    <%= paginate_cops(:advanced, {:anchor => 'paged_results'}) %>
+    <%= will_paginate(@cops, {
+      previous_label: 'Previous',
+      next_label: 'Next',
+      page_links: false,
+      params: {anchor: 'paged_results'}
+    })%>
   </div>
 </section>
