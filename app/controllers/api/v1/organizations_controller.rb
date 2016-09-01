@@ -1,4 +1,5 @@
 class Api::V1::OrganizationsController < ApplicationController
+  before_action :doorkeeper_authorize!
 
   def index
     organizations = Organization.participants.

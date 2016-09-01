@@ -5,6 +5,16 @@ class Api::V1::OrganizationsTest < ActionDispatch::IntegrationTest
   setup     { travel_to Time.zone.local(2016, 8, 11, 12, 43, 3) }
   teardown  { travel_back }
 
+  test "allows valid oauth tokens access" do
+    get '/api/v1/organizations.json', {}, oauth_token
+    assert_response :success
+  end
+
+  test "disallows requests without an oauth token" do
+    get '/api/v1/organizations.json'
+    assert_response :unauthorized
+  end
+
   test "/api/v1/organizations" do
     local_network = create(:local_network)
     country = create(:country, local_network: local_network, name: "France")
@@ -28,7 +38,8 @@ class Api::V1::OrganizationsTest < ActionDispatch::IntegrationTest
                organization_type: organization_type
               )
 
-    get '/api/v1/organizations.json'
+    get '/api/v1/organizations.json', {}, oauth_token
+
     assert_response :success
     json_response = JSON.parse(response.body)
 
@@ -70,12 +81,35 @@ class Api::V1::OrganizationsTest < ActionDispatch::IntegrationTest
     # And one who hasn't
     hasnt = create(:business, name: "We haven't")
 
-    get '/api/v1/organizations.json?initiative=climate'
+    get '/api/v1/organizations.json?initiative=climate', {}, oauth_token
 
+    assert_response :success
     json_response = JSON.parse(response.body)
     organizations = json_response['organizations']
     assert_equal 1, organizations.length
     assert_equal organizations.first['name'], "We signed"
   end
+
+  private
+
+  def oauth_token(app = nil)
+    app ||= Doorkeeper::Application.create!(
+      name: Faker::Name.name,
+      redirect_uri: "https://#{Faker::Internet.domain_word}.#{Faker::Internet.domain_suffix}/oauth/callback"
+    )
+
+    post '/oauth/token', {
+      grant_type: 'client_credentials',
+      client_id: app.uid,
+      client_secret: app.secret
+    }
+
+    assert_response :success
+    json_response = JSON.parse(response.body)
+
+    token = json_response['access_token']
+    { "Authorization" => "Bearer #{token}" }
+  end
+
 
 end
