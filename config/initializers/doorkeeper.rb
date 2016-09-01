@@ -8,9 +8,12 @@ Doorkeeper.configure do
 
   # If you want to restrict access to the web interface for adding oauth authorized applications, you need to declare the block below.
   admin_authenticator do
-    # Put your admin authentication logic here.
-    # Example implementation:
-    Content.ungc_staff.find_by_id(session[:contact_id]) || redirect_to(new_contact_session_url)
+    begin
+      contact_id = session["warden.user.contact.key"][0][0]
+      Contact.ungc_staff.find_by(id: contact_id)
+    rescue
+      redirect_to(new_contact_session_url)
+    end
   end
 
   # Authorization Code expiration time (default 10 minutes).
