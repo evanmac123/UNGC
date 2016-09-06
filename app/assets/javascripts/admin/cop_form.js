@@ -69,9 +69,14 @@ $(document).ready(function() {
     $("#submit_tab").slideDown();
   })
 
-  $("#new_cop_file").click(function(){
+  var addCopFileField = function(){
     $('#cop_files').append(replace_ids(cop_file_form));
-  });
+  };
+
+  $("#new_cop_file").click(addCopFileField);
+  if($('#new_cop_file').length) {
+    addCopFileField();
+  }
 
   $('#cop_form').submit(function(event) {
     $('input[type=submit]', this).attr('disabled', 'disabled');

@@ -263,6 +263,19 @@ class OrganizationTest < ActiveSupport::TestCase
     end
   end
 
+  should 'be able to submit after withdrawing and submitting a letter of recommitment' do
+    # Given a withdrawn organization
+    create_expelled_organization
+    @organization.update!(removal_reason: RemovalReason.withdrew)
+    assert_not @organization.can_submit_cop?
+
+    # When they submit a recommitment letter
+    @organization.update!(recommitment_letter_file: fixture_file_upload('files/untitled.pdf', 'application/pdf'))
+
+    # Then they should be able to submit a COP again
+    assert @organization.can_submit_cop?
+  end
+
   context "given a Non-Communicating participant" do
     setup do
       create_organization_and_user
