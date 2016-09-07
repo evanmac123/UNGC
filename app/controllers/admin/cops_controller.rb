@@ -97,9 +97,11 @@ class Admin::CopsController < AdminController
     if BackdateCommunicationOnProgress.backdate(@cop, published_on)
       flash[:notice] = 'The communication was backdated'
       redirect_to admin_organization_communication_on_progress_url(@organization.id, @cop, tab: :results)
+      log_event :backdate, :ok
     else
       flash[:error] = 'Sorry, we could not backdate the communication'
       render :backdate
+      log_event :backdate, :fail, @cop.errors
     end
   end
 
