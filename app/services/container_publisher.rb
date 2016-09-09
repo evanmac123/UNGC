@@ -37,6 +37,25 @@ class ContainerPublisher
     true
   end
 
+  def unpublish
+    return false unless published
+
+    container.transaction do
+      # return the container to published status and unlink the public payload
+      container.update!(
+        has_draft: true,
+        public_payload_id: nil
+      )
+
+      # content_type and tags follow the payload
+      update_content_type
+      update_tags
+
+      # no longer return this container in search results
+      Searchable.remove(container)
+    end
+  end
+
   private
 
   def update_payload

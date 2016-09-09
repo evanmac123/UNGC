@@ -1,5 +1,13 @@
 class ApplicationSerializer
+  include Rails.application.routes.url_helpers
+
   attr_reader :object, :options, :router
+
+  def self.wrap(objects)
+    objects.map do |o|
+      self.new(o).as_json
+    end
+  end
 
   def initialize(object, options = {})
     @object  = object

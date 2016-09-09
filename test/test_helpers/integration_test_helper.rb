@@ -179,12 +179,13 @@ module IntegrationTestHelper
       assert_select 'menu', 1
       assert_select '.events', 1 do
         assert_select '.tab-content-header', 'Events'
-        assert_select '.future-events .event', 3 do |events|
-          events.sort.each_with_index do |event, index|
-            assert_equal event.attributes['href'].value, event_path(equality[:events][index])
-            assert_select event, 'time', equality[:events][index].starts_at.strftime('%d-%b-%Y')
-            assert_select event, 'address', equality[:events][index].full_location
-            assert_select event, 'h2', equality[:events][index].title
+        assert_select '.future-events .event', 3 do |event_nodes|
+          event_nodes.each_with_index do |event_node, index|
+            event = equality[:events][index]
+            assert_equal event_node.attributes['href'].value, event_path(event)
+            assert_select event_node, 'time', event.starts_at.strftime('%d-%b-%Y')
+            assert_select event_node, 'address', event.full_location
+            assert_select event_node, 'h2', event.title
           end
         end
         assert_select '.events-component-footer', 'View All Events' do

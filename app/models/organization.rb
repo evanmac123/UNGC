@@ -518,6 +518,14 @@ class Organization < ActiveRecord::Base
     end
   end
 
+  def is_deleted
+    if state == "approved"
+      false
+    else
+      true
+    end
+  end
+
   def listing_status_name
     listing_status.try(:name)
   end
