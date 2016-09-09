@@ -25,7 +25,7 @@ class Initiative < ActiveRecord::Base
     :business_peace => 22, # Business for Peace - Expert group
     :business4peace => 51, # Business for Peace - Signatories
     :weps           => 25  # Women's Empowerment Principles
-  }
+  }.with_indifferent_access.freeze
 
   scope :for_filter, lambda { |filter| where("initiatives.id = ?", FILTER_TYPES[filter]) }
 

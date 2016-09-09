@@ -28,18 +28,12 @@ class Api::V1::ContributorsController < ApplicationController
 
   def index
     contributors = ContributorsQuery.search(query)
-    payload = ContributorSerializer.as_json(contributors) do |participant|
-      participant_url(participant)
-    end
-    render json: payload
+    render json: ContributorSerializer.wrap(contributors).as_json
   end
 
   def show
     contributors = ContributorsQuery.contributors_for(year)
-    payload = ContributorSerializer.as_json(contributors) do |participant|
-      participant_url(participant)
-    end
-    render json: payload
+    render json: ContributorSerializer.wrap(contributors).as_json
   end
 
   def year

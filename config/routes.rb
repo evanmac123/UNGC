@@ -6,6 +6,8 @@ UNGC::Application.routes.draw do
     mount Sidekiq::Web => '/back-the-web'
   end
 
+  use_doorkeeper
+
   devise_for :contacts,
     path: '/',
     path_names: {
@@ -187,6 +189,7 @@ UNGC::Application.routes.draw do
     namespace :v1 do
       get 'contributors' => 'contributors#index'
       get 'contributors/:year' => 'contributors#show'
+      get 'organizations' => 'organizations#index'
 
       namespace :autocomplete do
         get :participants
