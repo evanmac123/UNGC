@@ -270,6 +270,13 @@ class CopForm
       end
     end
 
+    def remove_empty_files_from(params)
+      # remove files missing their attachments
+      params.fetch(:cop_files_attributes, {}).delete_if do |id, file_attrs|
+        !file_attrs.key?('attachment')
+      end
+    end
+
     def handle_incoming_cop_answers(params)
       clear_answer_text_from_unselected_answers
 
@@ -316,6 +323,7 @@ class CopForm
 
     def do_save(params, validate: true)
       remove_empty_links_from(params)
+      remove_empty_files_from(params)
       handle_incoming_cop_answers(params)
       cop.assign_attributes(params)
       cop.contact_info ||= contact_info
