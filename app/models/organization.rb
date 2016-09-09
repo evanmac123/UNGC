@@ -727,14 +727,9 @@ class Organization < ActiveRecord::Base
     cop_state == COP_STATE_DELISTED
   end
 
-  # Is currently expelled
+  # Is currently expelled. See also: Organization#was_expelled?
   def expelled?
     delisted? && was_expelled?
-  end
-
-  # Is, or has previously been, expelled
-  def was_expelled?
-    delisted_on.present? && removal_reason == RemovalReason.delisted
   end
 
   def participant_for_less_than_years(years)
@@ -781,11 +776,12 @@ class Organization < ActiveRecord::Base
       return true
     end
 
-    if was_expelled?
+    if was_expelled? || voluntarily_withdrawn?
       # if a new Letter of Commitment was uploaded, then they can submit a COP
-      recommitment_letter && recommitment_letter.updated_at > delisted_on
+      return recommitted?
     end
 
+    false
   end
 
   def set_approved_fields
@@ -972,4 +968,17 @@ class Organization < ActiveRecord::Base
       end
     end
 
+    # Is currently, or has previously been, expelled
+    def was_expelled?
+      delisted_on.present? && removal_reason == RemovalReason.delisted
+    end
+
+    # Is currently, or has previously withdrawn
+    def voluntarily_withdrawn?
+      delisted_on.present? && removal_reason == RemovalReason.withdrew
+    end
+
+    def recommitted?
+      recommitment_letter && recommitment_letter.updated_at > delisted_on
+    end
 end
