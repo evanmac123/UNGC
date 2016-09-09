@@ -141,8 +141,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
         cop = assigns(:communication_on_progress)
 
         assert_equal false, cop.persisted?
-        assert_equal "Cop files is invalid, Cop files attachment can't be blank, and Attachment can't be blank",
-                     cop.errors.full_messages.to_sentence
+        assert_equal "Attachment can't be blank", cop.errors.full_messages.to_sentence
       end
 
     end
