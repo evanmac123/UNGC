@@ -74,7 +74,7 @@ $(document).ready(function() {
   };
 
   $("#new_cop_file").click(addCopFileField);
-  if($('#new_cop_file').length) {
+  if($('#new_cop_file').length && $('#cop_files > div').length == 0) {
     addCopFileField();
   }
 
@@ -94,11 +94,9 @@ $(document).ready(function() {
     var destroyCheckBox = $('#communication_on_progress_cop_files_attributes_'+id+'__destroy');
 
     if(destroyCheckBox.length > 0) {
-      console.log('destroying existing record');
       destroyCheckBox.prop("checked", true);
       $(containerDivId).hide('slow');
     } else {
-      console.log('disabling new record');
       hideAndDisableFormElements(containerDivId);
     }
 
