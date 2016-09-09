@@ -273,7 +273,7 @@ class CopForm
     def remove_empty_files_from(params)
       # remove files missing their attachments
       params.fetch(:cop_files_attributes, {}).delete_if do |id, file_attrs|
-        !file_attrs.key?('attachment')
+        !file_attrs.key?('attachment') && !file_attrs.key?('_destroy')
       end
     end
 
