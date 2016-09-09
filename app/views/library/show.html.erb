@@ -47,6 +47,14 @@
               <%- if link.is_youtube? -%>
                 <div class='video-iframe'><iframe width="560" height="315" src="<%= link.embed_url %>" frameborder="0" allowfullscreen></iframe></div>
               <%- end -%>
+
+              <%- if link.is_podcast? -%>
+                <audio controls>
+                  <source src="<%= link.url %>" type="audio/mp3">
+                  Your browser does not support the audio element.
+                </audio>
+              <%- end -%>
+
             </li>
           <%- end -%>
         </ul>
