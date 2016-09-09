@@ -41,6 +41,10 @@ class LinkPresenter
     type == 'video'
   end
 
+  def is_podcast?
+    type == 'mp3'
+  end
+
   def id
     @link.id
   end

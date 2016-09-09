@@ -95,9 +95,10 @@ class Container < ActiveRecord::Base
   }
 
   scope :published, -> {
-    where.not(public_payload_id: nil)
-      .where("path not like '/engage-locally/manage%'")
-      .where("path not like '/welcome%'")
+    where.not(path: nil)
+    .where.not(public_payload_id: nil)
+    .where("path not like '/engage-locally/manage%'")
+    .where("path not like '/welcome%'")
   }
 
   scope :visible, -> { where(visible: true) }

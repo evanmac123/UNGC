@@ -51,4 +51,6 @@ Rails.application.configure do
   config.action_controller.action_on_unpermitted_parameters = :raise
 
   config.active_record.raise_in_transactional_callbacks = false
+
+  Rails.application.routes.default_url_options[:host] = 'www.unglobalcompact.org'
 end
