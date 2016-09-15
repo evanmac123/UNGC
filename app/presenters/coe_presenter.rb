@@ -58,15 +58,6 @@ class CoePresenter < CommunicationPresenter
     Partial
   end
 
-  # ideally this would be refactored out to views with simple models
-  # but it's too risky atm
-  def render_questions_and_answers
-    questions.collect do |question|
-      answers = coe.cop_answers.all(:conditions => ['cop_attributes.cop_question_id=?', question.id], :include => [:cop_attribute])
-      render :partial => 'admin/cops/cop_answers', :locals => { :question => question, :answers => answers }
-    end.join.html_safe
-  end
-
   # should be moved to a service object? we're doing extensive quries
   def questions
     CopQuestion.find(attributes.collect(&:cop_question_id)).

@@ -1,0 +1,11 @@
+%ul{:class => 'questionnaire'}
+  %li{:class => 'question_group'}
+    = question.text
+
+    - answers.each do |a|
+      - css_class = if a.value? then 'selected_question' else 'advanced_question' end
+      %li{:id => a.cop_attribute.id, :class => css_class}
+        %p= a.cop_attribute.text
+        - if a.text.present?
+          %p= truncate(a.text, length: 255)
+
