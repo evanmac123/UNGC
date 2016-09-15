@@ -348,7 +348,7 @@ class CommunicationOnProgress < ActiveRecord::Base
       .select('cop_attribute_id, sum(cop_answers.value) as total')
       .joins(cop_attribute: [:cop_question])
       .where('cop_questions.initiative_id is null')
-      .where('cop_questions.grouping not in (?)', CopQuestion::EXEMPTED_GROUPS)
+      .where('cop_questions.grouping not in (?)', CopQuestion.exempted_groupings)
       .group('cop_questions.id')
       .having('total = 0')
   end

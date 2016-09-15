@@ -48,7 +48,8 @@ class CopQuestion < ActiveRecord::Base
     'city'                 => 'Non-Business: City',
     'labour'               => 'Non-Business: Labour',
     'ngo'                  => 'Non-Business: NGO',
-    'public'               => 'Non-Business: Public Sector Organization'
+    'public'               => 'Non-Business: Public Sector Organization',
+    'sdgs'                 => 'Sustainable Development Goals',
   }
 
   # for accessing particular grouping areas
@@ -56,7 +57,7 @@ class CopQuestion < ActiveRecord::Base
   LEAD_GROUPS     = ['lead_un_goals', 'lead_gc']
 
   # at least one cop_attribute must be covered per cop_question, unless the grouping area is exempted
-  EXEMPTED_GROUPS = ['business_peace', 'mandatory']
+  EXEMPTED_GROUPS = ['business_peace', 'mandatory', 'sdgs']
 
   # can optionally select the implementation area the question covers
   IMPLEMENTATION_AREAS =  ['policy', 'process', 'monitoring', 'performance']
@@ -68,5 +69,9 @@ class CopQuestion < ActiveRecord::Base
   scope :questions_for, lambda { |organization| where('(initiative_id IS NULL) OR (initiative_id IN (?))', organization.initiative_ids) }
   scope :group_by, lambda { |group| where('grouping = ?', group.to_s) }
   scope :group_by_initiative, lambda { |initiative| where('initiative_id = ?',  Initiative.id_by_filter(initiative)) }
+
+  def self.exempted_groupings
+    EXEMPTED_GROUPS
+  end
 
 end

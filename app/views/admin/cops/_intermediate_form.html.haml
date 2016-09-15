@@ -61,6 +61,9 @@
                     = form.radio_button :method_shared, key
                     = value
 
+          #cop_sdg_questions{:style => css_display_style(@communication_on_progress.submitted?)}
+            %fieldset= render_cop_questions_for :sdgs, year: 2016
+
   - if show_business_for_peace(@communication_on_progress)
     %div.tab_content{:id => "business_peace_additional_questions"}
       = render :partial => 'cop_business_peace_questionnaire', :locals => {:form => form, :cop => @communication_on_progress}

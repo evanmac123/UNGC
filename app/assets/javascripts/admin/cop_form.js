@@ -66,15 +66,53 @@ $(document).ready(function() {
 
   // Answered last required question, so show submit tab
   $("input[name='communication_on_progress[method_shared]']").click(function() {
+  })
+
+  var $methodShared =  $("input[name='communication_on_progress[method_shared]']");
+  $methodShared.on('click', function() {
+    // Answered last required question, so show submit tab
     $("#submit_tab").slideDown();
   })
+
+  // SDG Questions
+  if($('#cop_sdg_questions').length) {
+
+    var $firstSdgQuestion = $('#cop_sdg_questions fieldset fieldset:first-child');
+    var $lastSdgQuestion = $('#cop_sdg_questions fieldset fieldset:last-child');
+
+    // hide the last SDG question until we've a
+    var showLastQuestionAfterFirstAnswered = function(hideUnlessAnswered) {
+      // determine if any of the attributes of this question have been answered
+      // currently assumes that all questions are checkboxes.
+      var numAnswered = $firstSdgQuestion.find('input:checked').length;
+      if(numAnswered > 0 ) {
+        $lastSdgQuestion.fadeIn('slow');
+      } else if(hideUnlessAnswered) {
+        $lastSdgQuestion.hide();
+      }
+    }
+
+    // hide the last question on first load
+    showLastQuestionAfterFirstAnswered(true);
+
+    // Show the SDG Questions after method shared
+    $methodShared.on('click', function() {
+      $("#cop_sdg_questions").fadeIn('slow');
+    })
+
+    // Show the last question when we answer a question from the first
+    $firstSdgQuestion.on('click', function(e) {
+      showLastQuestionAfterFirstAnswered(false);
+    });
+
+  }
 
   var addCopFileField = function(){
     $('#cop_files').append(replace_ids(cop_file_form));
   };
 
   $("#new_cop_file").click(addCopFileField);
-  if($('#new_cop_file').length) {
+  if($('#new_cop_file').length && $('#cop_files > div').length == 0) {
     addCopFileField();
   }
 
@@ -94,11 +132,9 @@ $(document).ready(function() {
     var destroyCheckBox = $('#communication_on_progress_cop_files_attributes_'+id+'__destroy');
 
     if(destroyCheckBox.length > 0) {
-      console.log('destroying existing record');
       destroyCheckBox.prop("checked", true);
       $(containerDivId).hide('slow');
     } else {
-      console.log('disabling new record');
       hideAndDisableFormElements(containerDivId);
     }
 

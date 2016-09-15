@@ -44,3 +44,8 @@
   %dt
     %span.human_right Women's Empowerment
   %dd.indent= show_cop_attributes(communication_on_progress, nil, nil, 'additional', :weps)
+
+- if communication_on_progress.cop_answers.by_group(:sdgs).count > 0
+  %dt
+    %span{style: 'white-space: initial'}= t(:sdgs)
+  %dd.indent= show_cop_attributes(communication_on_progress, nil, nil, :sdgs)
