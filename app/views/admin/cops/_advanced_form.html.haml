@@ -103,6 +103,9 @@
 
             = render :partial => 'cop_third_party_and_GRI_questions', :locals => {:form => form}
 
+          #cop_sdg_questions{:style => css_display_style(@communication_on_progress.submitted?)}
+            %fieldset= render_cop_questions_for :sdgs, year: 2016
+
   %div.tab_content{:id => "strategy_additional_questions"}
     %h3 Implementing the Ten Principles into Strategies &amp; Operations
     %p For the following criterion, please check the best practices you have implemented and discussed in your COP.

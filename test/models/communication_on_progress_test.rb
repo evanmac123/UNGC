@@ -10,23 +10,15 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
   should have_many :cop_answers
   should have_many :cop_files
 
-  def generate_cop(organization, options={})
-    defaults = {
-      :organization_id => organization.id,
-      :ends_on         => Date.new(2009, 12, 31)
-    }
-    create(:communication_on_progress, defaults.merge(options))
-  end
-
   context "given a new COP" do
     setup do
       create_organization_and_user
-      language = create(:language)
+      create(:language)
     end
 
     should "be invalid if there is no file" do
       assert_raise ActiveRecord::RecordInvalid do
-        cop = create(:communication_on_progress,
+        create(:communication_on_progress,
           :organization_id    => @organization.id,
           :title              => 'Our COP',
           :format             => 'standalone',
@@ -48,7 +40,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
 
     should "be valid when a file is attached" do
       assert_difference 'CommunicationOnProgress.count' do
-        cop = create(:communication_on_progress,
+        create(:communication_on_progress,
           :organization_id                     => @organization.id,
           :title                               => 'Our COP',
           :format                              => 'standalone',
@@ -152,7 +144,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
 
   context "given an approved COP" do
     setup do
-      language = create(:language)
+      create(:language)
       create_organization_and_user
       @cop = create(:communication_on_progress, :organization_id => @organization.id,
                                               :cop_files_attributes => {
@@ -270,6 +262,60 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
     should "not meet advanced criteria" do
       refute @cop.meets_advanced_criteria
     end
+  end
+
+  test "#answered_all_questions? ignores exempted groups" do
+    # Given 2 questions exist for the advanced form:
+    # One for the SDG group, which is exempted
+    sdg_question = create(:cop_question, grouping: 'sdgs')
+
+    # One for UN Goals, which is not exempted
+    un_goals_question = create(:cop_question, grouping: 'un_goals')
+
+    # And 2 true/false Attributes for each question
+    sdg_attributes = create_list(:cop_attribute, 2,
+                                 cop_question: sdg_question,
+                                 open: false)
+
+    un_goals_attributes = create_list(:cop_attribute, 2,
+                                      cop_question: un_goals_question,
+                                      open: false)
+
+    # When a participant creates a COP
+    cop = create(:communication_on_progress)
+
+    # Answering both UN Goal Attributes
+    un_goals_attributes.each do |attribute|
+      create(:cop_answer,
+             communication_on_progress: cop,
+             cop_attribute: attribute,
+             value: true)
+    end
+
+    # And neither of the SDG ones (answering them in the negative)
+    sdg_attributes.each do |attribute|
+      create(:cop_answer,
+             communication_on_progress: cop,
+             cop_attribute: attribute,
+             value: false)
+    end
+
+    # Then they should still be have answered_all_questions
+    assert cop.answered_all_questions?, unanswered_questions(cop.empty_answers)
+  end
+
+  private
+
+  def unanswered_questions(empty_answers)
+    empty_answers.flat_map(&:cop_attribute).flat_map(&:cop_question)
+  end
+
+  def generate_cop(organization, options={})
+    defaults = {
+      :organization_id => organization.id,
+      :ends_on         => Date.new(2009, 12, 31)
+    }
+    create(:communication_on_progress, defaults.merge(options))
   end
 
 end

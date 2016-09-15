@@ -52,18 +52,14 @@ module ApplicationHelper
   end
 
   def show_cop_attributes(cop, principle, selected=false, grouping='additional', initiative=nil)
-    initiative_id = initiative ? Initiative.id_by_filter(initiative) : nil
-    attributes = cop.cop_attributes
-                  .where(cop_questions: {:principle_area_id => principle, :grouping => grouping, initiative_id: initiative_id})
-                  .includes(:cop_question)
-                  .order('cop_attributes.position')
-    questions = CopQuestion.find(attributes.collect &:cop_question_id).sort { |x,y| x.grouping <=> y.grouping }
+    query = QuestionnaireResultsQuery.new(cop.id)
+    query.only_answered if params[:action] == 'feed'
+    query.initiative(initiative)
+    query.grouping(grouping)
+    query.principle(principle)
 
-    questions.collect do |question|
-      answers = cop.cop_answers
-                   .where('cop_attributes.cop_question_id=?', question.id)
-                   .joins(:cop_attribute)
-      render :partial => 'admin/cops/cop_answers', :locals => { :question => question, :answers => answers }
+    query.run.map do |question, answers|
+      render_cop_answers(question, answers)
     end.join.html_safe
   end
 
@@ -90,6 +86,17 @@ module ApplicationHelper
 
   def m_yyyy(date)
     date ? date.strftime('%B %Y') : '&nbsp;'
+  end
+
+  private
+
+  def render_cop_answers(question, answers)
+    partial = if question.grouping == 'sdgs'
+                'admin/cops/cop_answers_sorted'
+              else
+                'admin/cops/cop_answers'
+              end
+    render partial: partial, locals: { question: question, answers: answers }
   end
 
 end
