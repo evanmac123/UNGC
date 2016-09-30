@@ -497,12 +497,12 @@ UNGC::Application.routes.draw do
   get '/UNPrivateSectorForum2016', to: redirect('/take-action/events/691-united-nations-private-sector-forum-2016')
 
   # SDG related redirects
-  get '/sdgpioneers', to: redirect('/what-is-gc/our-work/sustainable-development/global-goals-local-business/sdgpioneers')
-  get '/SDGpioneers', to: redirect('/what-is-gc/our-work/sustainable-development/global-goals-local-business/sdgpioneers')
-  get '/pioneers', to: redirect('/what-is-gc/our-work/sustainable-development/global-goals-local-business/sdgpioneers')
-  get '/what-is-gc/our-work/sustainable-development/17-global-goals', to: redirect('/what-is-gc/our-work/sustainable-development/sdgs/17-global-goals')
-  get '/what-is-gc/our-work/sustainable-development/ln-action-plan', to: redirect('/what-is-gc/our-work/sustainable-development/global-goals-local-business/ln-action-plan')
-  get '/what-is-gc/our-work/sustainable-development/sdgpioneers/nomination-form/new', to: redirect('/what-is-gc/our-work/sustainable-development/global-goals-local-business/sdgpioneers/nomination-form/new')
+  get '/sdgpioneers', to: redirect('/sdg/sdgpioneers')
+  get '/SDGpioneers', to: redirect('/sdg/sdgpioneers')
+  get '/pioneers', to: redirect('/sdg/sdgpioneers')
+  get '/what-is-gc/our-work/sustainable-development/17-global-goals', to: redirect('/sdg/sdgs/17-global-goals')
+  get '/what-is-gc/our-work/sustainable-development/ln-action-plan', to: redirect('/sdg/ln-action-plan')
+  get '/what-is-gc/our-work/sustainable-development/sdgpioneers/nomination-form/new', to: redirect('/sdg/sdgpioneers/nomination-form/new')
   get '/globalgoalslocalbusiness', to: redirect('/what-is-gc/our-work/sustainable-development/global-goals-local-business')
   if Feature.sdg_pioneer_form?
     get '/what-is-gc/our-work/sustainable-development/global-goals-local-business/sdgpioneers/nominate-yourself/new', to: redirect('/sdgpioneers')
