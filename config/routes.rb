@@ -497,9 +497,9 @@ UNGC::Application.routes.draw do
   get '/UNPrivateSectorForum2016', to: redirect('/take-action/events/691-united-nations-private-sector-forum-2016')
 
   # SDG related redirects
-  get '/sdgpioneers', to: redirect('/sdg/sdgpioneers')
-  get '/SDGpioneers', to: redirect('/sdg/sdgpioneers')
-  get '/pioneers', to: redirect('/sdg/sdgpioneers')
+  get '/sdgpioneers', to: redirect('/sdg/sdgpioneers/2016')
+  get '/SDGpioneers', to: redirect('/sdg/sdgpioneers/2016')
+  get '/pioneers', to: redirect('/sdg/sdgpioneers/2016')
   get '/what-is-gc/our-work/sustainable-development/17-global-goals', to: redirect('/sdg/sdgs/17-global-goals')
   get '/what-is-gc/our-work/sustainable-development/ln-action-plan', to: redirect('/sdg/ln-action-plan')
   get '/what-is-gc/our-work/sustainable-development/sdgpioneers/nomination-form/new', to: redirect('/sdg/sdgpioneers/nomination-form/new')
