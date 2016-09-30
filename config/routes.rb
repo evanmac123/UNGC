@@ -502,7 +502,6 @@ UNGC::Application.routes.draw do
   get '/pioneers', to: redirect('/what-is-gc/our-work/sustainable-development/global-goals-local-business/sdgpioneers')
   get '/what-is-gc/our-work/sustainable-development/17-global-goals', to: redirect('/what-is-gc/our-work/sustainable-development/sdgs/17-global-goals')
   get '/what-is-gc/our-work/sustainable-development/ln-action-plan', to: redirect('/what-is-gc/our-work/sustainable-development/global-goals-local-business/ln-action-plan')
-  get '/what-is-gc/our-work/sustainable-development/sdgpioneers', to: redirect('/what-is-gc/our-work/sustainable-development/global-goals-local-business/sdgpioneers')
   get '/what-is-gc/our-work/sustainable-development/sdgpioneers/nomination-form/new', to: redirect('/what-is-gc/our-work/sustainable-development/global-goals-local-business/sdgpioneers/nomination-form/new')
   get '/globalgoalslocalbusiness', to: redirect('/what-is-gc/our-work/sustainable-development/global-goals-local-business')
   if Feature.sdg_pioneer_form?
