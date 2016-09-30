@@ -24,7 +24,8 @@
       <% end %>
 
       <ul id='primary-navigation'>
-        <li><%= link_to 'What Is UN Global Compact?', '/what-is-gc', class: "nav-link #{request.fullpath =~ /\A\/what-is-gc/ ? 'active' : nil}" -%></li>
+        <li><%= link_to 'Who We Are', '/what-is-gc', class: "nav-link #{request.fullpath =~ /\A\/what-is-gc/ ? 'active' : nil}" -%></li>
+        <li><%= link_to 'The SDGs', '/sdgs', class: "nav-link #{request.fullpath =~ /\A\/the-sdgs/ ? 'active' : nil}" -%></li>
         <li><%= link_to 'Participation', '/participation', class: "nav-link #{request.fullpath =~ /\A\/participation/ ? 'active' : nil}" -%></li>
         <li><%= link_to 'Take Action', '/take-action', class: "nav-link #{request.fullpath =~ /\A\/take-action/ ? 'active' : nil}" -%></li>
         <li><%= link_to 'Engage Locally', '/engage-locally', class: "nav-link #{request.fullpath =~ /\A\/engage-locally/ ? 'active' : nil}" -%></li>
