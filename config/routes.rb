@@ -295,6 +295,10 @@ UNGC::Application.routes.draw do
     post  '/step7'            => 'signup#step7', :as => :organization_step7
   end
 
+  #Redirect for cop for company that is now banned from UNGC system
+  get '/participation/report/cop/create-and-submit/advanced/274431', to: redirect('/what-is-gc/participants/83761-T-C-Network-Solutions')
+
+
   get '/participation/report/coe/create-and-submit/submitted-coe' => "cops#submitted_coe"
   get '/participation/report/coe/create-and-submit/submitted-coe/:id' => "cops#show", as: :coe
   resource :cops, path: '/participation/report/cop/create-and-submit' do
@@ -496,10 +500,7 @@ UNGC::Application.routes.draw do
   get '/HowToParticipate/Business_Organization_Information.html', to: redirect('/participation/join/application/step1/business')
   get '/UNPrivateSectorForum2016', to: redirect('/take-action/events/691-united-nations-private-sector-forum-2016')
 
-  #2nd redirect for delisted company
-  get '/participation/report/cop/create-and-submit/advanced/274431', to: redirect('/what-is-gc/participants/83761-T-C-Network-Solutions')
-
-  #first redirect for delisted company
+  #redirect for delisted company
   get '/system/attachments/cop_2016/322211/original/ToddandClare.com_United_Nations_GC_Member_Report_COP_1042016.pdf', to: redirect('/what-is-gc/participants/83761-T-C-Network-Solutions')
 
   # SDG related redirects
