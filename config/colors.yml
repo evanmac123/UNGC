@@ -1,40 +1,51 @@
 # Blue
-dark-blue:    "#071e54"
-blue:         "#0c3f73"
-light-blue:   "#0487ba"
-pastel-blue:  "#80d4f6"
+dark-blue:    "#1e3250"
+blue:         "#4c6b8b"
+light-blue:   "#699cc6"
+pastel-blue:  "#aecfe6"
 
 # Teal
-darker-teal:  "#0b1f26" # Styleguide, Page 21
-dark-teal:    "#004d65"
-teal:         "#00979e"
-light-teal:   "#8fd2ca"
+# darker-teal:  "#0b1f26" # Styleguide, Page 21
+# dark-teal:    "#004d65"
+# teal:         "#00979e"
+# light-teal:   "#8fd2ca"
+
+# Teal is now the updated purple
+darker-teal:  "#93679c"
+dark-teal:    "#93679c"
+teal:   	  "#93679c"
+light-teal:   "#bea3c3"
 
 # Green
-dark-green:   "#11613c"
-green:        "#289346"
-light-green:  "#a5ce45"
+dark-green:   "#009e77"
+green:        "#009e77"
+light-green:  "#50b293"
 
 # Red
-dark-red:     "#bc1f38"
-red:          "#ec1f38"
-light-red:    "#fc4450"
-pastel-red:   "#f4837c"
+dark-red:     "#ee4d56"
+red:          "#ef7278"
+light-red:    "#f2949a"
+pastel-red:   "#f5b8bc"
 
 # Orange
-dark-orange:  "#f47621"
-orange:       "#faa51a"
-light-orange: "#fbd75b"
+dark-orange:  "#f6ad38"
+orange:       "#f6ad38"
+light-orange: "#f8bd61"
 
-# Grey
+# Old Grey
+#dark-grey:    "#3f3f3f"
+#grey:         "#696973"
+#light-grey:   "#a3a3a3"
+#blue-grey:    "#e6f8ff"
+
+# New grey
 dark-grey:    "#3f3f3f"
-grey:         "#696973"
-light-grey:   "#a3a3a3"
-blue-grey:    "#e6f8ff"
-
+grey:         "#b4ada8"
+light-grey:   "#d3cecb"
+blue-grey:    "#e0dedb"
 
 # Others
 twitter-blue:     "#55acee"
 facebook-blue:    "#3b5998"
 google-plus-red:  "#dd4b39"
-linkedin-blue:   "#0077b5"
+linkedin-blue:    "#0077b5"
