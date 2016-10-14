@@ -136,7 +136,8 @@
     right: 0
     bottom: 0
     background:
-      color: rgba(darken(color('dark-teal'), 5%), .6)
+      /*color: rgba(darken(color('dark-teal'), 5%), .6)*/
+      color: rgba(darken(color('dark-blue'), 5%), .6)
       blend-mode: multiply
     font:
       size: .875em
@@ -158,7 +159,7 @@
       &:hover,
       &:active,
       &.active
-        background-color: color('teal')
+        background-color: color('blue')
 
   @media only screen and (min-width: 881px)
     font-size: 1em
@@ -182,7 +183,7 @@
       position: relative
       padding: 0 1em
       line-height: 1
-      text-shadow: 0 1px 2px color('dark-teal')
+      text-shadow: 0 1px 2px color('blue')
 
       &:hover,
       &:active
@@ -206,7 +207,7 @@
 #main-search
   position: relative
   border: 0
-  background-color: color('darker-teal')
+  background-color: color('dark-blue')
 
   .search-field,
   .search-button
@@ -258,7 +259,7 @@
         color: #999
 
       &:focus
-        background-color: color('teal')
+        background-color: color('blue')
 
     .search-button
       padding: 10px
@@ -277,7 +278,7 @@
 
       &:hover,
       &:active
-        background: color('teal')
+        background: color('blue')
 
         &:before
           opacity: 1
@@ -290,10 +291,10 @@
         color: #666
 
       &:focus
-        background: color('teal')
+        background: color('blue')
 
         +placeholder
-          color: lighten(color('light-teal'), 10%)
+          color: lighten(color('light-blue'), 10%)
 
   @media only screen and (min-width: 881px)
     float: right
@@ -325,7 +326,7 @@
       opacity: .75
 
     &:hover:before
-      background: color('teal')
+      background: color('blue')
       opacity: 1
 
     fieldset
@@ -351,7 +352,7 @@
       padding: 0 .5em
 
       &:hover
-        color: color('dark-teal')
+        color: color('dark-blue')
 
       &:first-of-type
         padding-top: .25em
@@ -365,7 +366,7 @@
 
       &[checked] + label
         font-weight: 900
-        color: color('dark-grey')
+        color: color('dark-blue')
 
 
 #google_translate_element
@@ -392,7 +393,7 @@
     padding: 0 0 0 1em
     color: inherit
     line-height: 1
-    text-shadow: 0 1px 2px color('dark-teal')
+    text-shadow: 0 1px 2px color('dark-blue')
 
     img,
     span
