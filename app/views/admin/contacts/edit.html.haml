@@ -6,9 +6,16 @@
 
 - else
   %h2 Editing contact
+  - if @contact.has_login_role?
+    %fieldset#change_password
+      %legend Change password
+      %p
+        Click
+        = link_to 'here', edit_contact_registration_path
+        to change your password
 
   %fieldset#reset_password
-    %legend Reset password
+    %legend Send password reset email
     - if @contact.has_login_role?
       = form_for(:contact, url: @reset_password_path) do |form|
         %p Send a reset password email to a new email address for this contact.
