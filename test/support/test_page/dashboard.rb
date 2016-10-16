@@ -11,6 +11,10 @@ module TestPage
       login_as(@user)
     end
 
+    def click_on_logout
+      click_on 'Logout'
+    end
+
     def visit
       super path
     end

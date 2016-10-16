@@ -16,7 +16,8 @@ UNGC::Application.routes.draw do
     },
     controllers: {
       sessions: 'sessions',
-      passwords: 'admin/passwords'
+      passwords: 'admin/passwords',
+      registrations: 'admin/registrations',
     }
 
   # Backend routes

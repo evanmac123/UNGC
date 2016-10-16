@@ -23,7 +23,7 @@ class DummyAccounts
       stock_symbol: 'DUMMY_BUSINESS',
       contact: {
         username: 'dummy.business',
-        password: 'dummy.business',
+        password: 'Dummy1.business',
         first_name: 'Business',
         last_name: 'Contact',
         email: 'dummy.business@unglobalcompact.org'
@@ -38,7 +38,7 @@ class DummyAccounts
       organization_type: OrganizationType.academic,
       contact: {
         username: 'dummy.non-business',
-        password: 'dummy.non-business',
+        password: 'Dummy1.non-business',
         first_name: 'Non-Business',
         last_name: 'Contact',
         email: 'dummy.non-business@unglobalcompact.org'
@@ -49,7 +49,7 @@ class DummyAccounts
   def local_network_account
     create_contact(
       username: 'dummy.local-network',
-      password: 'dummy.local-network',
+      password: 'Dummy1.local-network',
       first_name: 'Local-Network',
       last_name: 'Contact',
       email: 'dummy.local-network@unglobalcompact.org',
@@ -68,7 +68,7 @@ class DummyAccounts
       stock_symbol: 'DUMMY_REPORTING_BUSINESS',
       contact: {
         username: 'dummy.reporting.business',
-        password: 'dummy.reporting.business',
+        password: 'Dummy1.reporting.business',
         first_name: 'Reporting-Business',
         last_name: 'Contact',
         email: 'dummy.reporting.business@unglobalcompact.org'
@@ -83,7 +83,7 @@ class DummyAccounts
       organization_type: OrganizationType.academic,
       contact: {
         username: 'dummy.reporting.non-business',
-        password: 'dummy.reporting.non-business',
+        password: 'Dummy1.reporting.non-business',
         first_name: 'Reporting-Non-Business',
         last_name: 'Contact',
         email: 'dummy.reporting.non-business@unglobalcompact.org'
@@ -95,7 +95,7 @@ class DummyAccounts
   def reporting_local_network_account
     create_contact(
       username: 'dummy.reporting.local-network',
-      password: 'dummy.reporting.local-network',
+      password: 'Dummy1.reporting.local-network',
       first_name: 'Reprting-Local-Network',
       last_name: 'Contact',
       email: 'dummy.reporting.local-network@unglobalcompact.org',

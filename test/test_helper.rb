@@ -134,7 +134,7 @@ class ActiveSupport::TestCase
     create(:country)
     @ungc = create(:organization, name: 'UNGC')
     @staff_user = create(:contact, username: 'staff',
-                                 password: 'password',
+                                 password: 'Passw0rd',
                                  organization_id: @ungc.id)
   end
 
@@ -154,7 +154,7 @@ class ActiveSupport::TestCase
     create(:country)
     @local_network_guest = create(:organization, name: 'Local Network Guests')
     @local_network_guest_user = create(:contact, username: 'guest',
-                                               password: 'password',
+                                               password: 'Passw0rd',
                                                organization_id: @local_network_guest.id)
   end
 
