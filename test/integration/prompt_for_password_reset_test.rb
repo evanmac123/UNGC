@@ -33,7 +33,7 @@ class PromptForPasswordResetTest < ActionDispatch::IntegrationTest
     login_page.visit
     login_page.fill_in_username(contact.username)
     login_page.fill_in_password('NewPassw0rd')
-    next_page = login_page.click_login
+    login_page.click_login
 
     # They should not be prompted to change their password again.
     assert_equal'/admin/dashboard', current_path
@@ -55,12 +55,34 @@ class PromptForPasswordResetTest < ActionDispatch::IntegrationTest
     assert_equal ['Current password is invalid'], next_page.error_messages
   end
 
+  test "a contact resetting their password" do
+    # Given a contact who needs to change their password
+    organization = create(:business)
+    contact = create(:contact,
+                     last_password_changed_at: nil,
+                     password: "OldPass0rd",
+                     organization: organization)
+
+    # And they have been sent a reset password email
+    token = contact.send_reset_password_instructions
+    visit edit_contact_password_path(reset_password_token: token)
+
+    # When they enter a new, valid passowrd
+    fill_in "New password", with: "NewPassw0rd"
+    fill_in "Confirm new password", with: "NewPassw0rd"
+    click_on "Change my password"
+
+    # Then they are not asked to enter a new one again
+    assert_match(Regexp.new(I18n.t('devise.passwords.updated')), page.html)
+    assert_no_match(/Your password must be changed/, page.html, "Expected to not be asked to change password")
+  end
+
   private
 
   def create_contact
     organization = create(:business)
-    contact = create(:contact, last_password_changed_at: nil,
-                     organization: organization)
+    create(:contact, last_password_changed_at: nil,
+           organization: organization)
   end
 
 end

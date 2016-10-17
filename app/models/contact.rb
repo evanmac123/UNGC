@@ -99,6 +99,7 @@ class Contact < ActiveRecord::Base
 
   before_update  :do_not_allow_last_contact_point_to_uncheck_role
   before_update  :do_not_allow_last_ceo_to_uncheck_role
+  before_update  :mark_passwords_as_updated
 
   # used for checkbox in sign up form
   # /app/views/signup/step5.html.haml
@@ -365,6 +366,12 @@ class Contact < ActiveRecord::Base
     def do_not_allow_last_ceo_to_uncheck_role
       if self.from_organization? && self.organization.participant && !self.is?(Role.ceo) && self.organization.contacts.ceos.count < 1
         self.roles << Role.ceo
+      end
+    end
+
+    def mark_passwords_as_updated
+      if self.changed.include?("encrypted_password")
+        self.last_password_changed_at = Time.now
       end
     end
 
