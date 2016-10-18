@@ -1,3 +1,5 @@
+skip
+
 require 'test_helper'
 
 class PromptForPasswordResetTest < ActionDispatch::IntegrationTest
