@@ -12,6 +12,14 @@ FactoryGirl.define do
     sequence(:username) do |n|
       Faker::Internet.user_name + n.to_s
     end
-    password { Faker::Internet.password }
+    password {
+      [
+        'a',                             # at least 1 lower case letter
+        'B',                             # at least 1 upper case letter
+        Faker::Number.number(1),         # 1 digit
+        Faker::Internet.password(3, 125) # randomness
+      ].join
+    }
+    last_password_changed_at { Contact::STRONG_PASSWORD_POLICY_DATE }
   end
 end

@@ -12,7 +12,7 @@ class ContactFlowsTest < ActionDispatch::IntegrationTest
     # sign in
     visit '/login'
     fill_in 'Username', with: @ungc_contact.username
-    fill_in 'Password', with: 'password' # the default password. see create_ungc_organization_and_user
+    fill_in 'Password', with: @ungc_contact.password
     click_on 'Login'
     assert_equal dashboard_path, current_path
 

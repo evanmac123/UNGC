@@ -61,8 +61,8 @@ class Admin::PasswordsControllerTest < ActionController::TestCase
       should "change the password" do
         put :update, :contact => {
           :reset_password_token   => @reset_token,
-          :password               => 'password',
-          :password_confirmation  => 'password'
+          :password               => 'NewPassw0rd',
+          :password_confirmation  => 'NewPassw0rd'
         }
 
         assert_response :redirect
@@ -70,14 +70,14 @@ class Admin::PasswordsControllerTest < ActionController::TestCase
 
         contact = @organization_user.reload
         assert_not_nil contact.encrypted_password
-        assert contact.valid_password? 'password'
+        assert contact.valid_password? 'NewPassw0rd'
       end
 
       should "not change the password with different passwords" do
         put :update, :contact => {
           :reset_password_token   => @reset_token,
-          :password               => 'password_1',
-          :password_confirmation  => 'password_2'
+          :password               => 'Passw0rd',
+          :password_confirmation  => 'OtherPassw0rd'
         }
 
         assert_select "div#error_explanation"

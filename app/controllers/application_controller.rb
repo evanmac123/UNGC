@@ -32,31 +32,22 @@ class ApplicationController < ActionController::Base
 
   # Override Devise Settings
   def after_sign_in_path_for(contact)
-    if contact.from_rejected_organization?
-      sign_out contact
-      flash[:notice] = nil
-      flash[:error] = "Sorry, your organization's application was rejected and can no longer be accessed."
-      new_contact_session_path
+    return_to_path = stored_location_for(:contact) || dashboard_path
+
+    case
+    when contact.from_rejected_organization?
+      sign_out_reject_organization_contact(contact)
+    when contact.needs_to_update_contact_info?
+      redirect_to_update_contact_info(contact)
+    when contact.needs_to_change_password?
+      redirect_to_change_password(return_to_path)
     else
-      redirect_path = edit_or_dashboard_path(contact)
-      back_or_default_path(redirect_path)
+      return_to_path
     end
   end
 
   def after_sign_out_path_for(contact)
     new_contact_session_path
-  end
-
-  def back_or_default_path(default)
-    stored_location_for(:contact) || default
-  end
-
-  def edit_or_dashboard_path(contact)
-    if @update_contact_info
-      edit_admin_organization_contact_path(contact.organization.id, contact, {:update => true})
-    else
-      dashboard_path
-    end
   end
 
   protected
@@ -150,6 +141,22 @@ class ApplicationController < ActionController::Base
   def layout_template_path(layout)
     # assumes .html and .erb
     Rails.root.join("app", "views", "static", "#{layout}.html.erb")
+  end
+
+  def sign_out_reject_organization_contact(contact)
+    sign_out contact
+    flash[:notice] = nil
+    flash[:error] = "Sorry, your organization's application was rejected and can no longer be accessed."
+    new_contact_session_path
+  end
+
+  def redirect_to_update_contact_info(contact)
+    edit_admin_organization_contact_path(contact.organization_id, contact, update: true)
+  end
+
+  def redirect_to_change_password(return_to_path)
+    session['contact_return_to'] = return_to_path
+    edit_contact_registration_path
   end
 
 end

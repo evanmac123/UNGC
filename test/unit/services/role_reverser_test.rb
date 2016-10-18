@@ -11,7 +11,7 @@ class RoleReverserTest < ActiveSupport::TestCase
     )
 
     @old_cp = create(:contact,
-      password: 'i-am-contact-point',
+      password: 'i-am-Contact-point-123',
       organization: @organization,
       roles: [Role.contact_point]
     )
@@ -39,7 +39,7 @@ class RoleReverserTest < ActiveSupport::TestCase
     end
 
     should 'no longer be able to log in' do
-      refute @new_ceo.valid_password? 'i-am-contact-point'
+      refute @new_ceo.valid_password? 'i-am-Contact-point-123'
       refute @new_ceo.valid_password? nil
     end
 
@@ -59,7 +59,7 @@ class RoleReverserTest < ActiveSupport::TestCase
     end
 
     should 'be able to login with the old contact points password' do
-      assert @new_cp.valid_password? 'i-am-contact-point'
+      assert @new_cp.valid_password? 'i-am-Contact-point-123'
     end
   end
 

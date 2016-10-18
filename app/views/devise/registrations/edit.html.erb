@@ -1,0 +1,57 @@
+<%= render(partial: 'components/meta_tags', locals: {
+  title: 'Change password',
+  description: 'Change your password',
+  keywords: ''
+}) %>
+<%= render partial: 'components/hero' %>
+
+<section class='main-content-section main-content-section-narrow' style="margin-bottom: 3em;">
+
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: 'form-classic' }) do |f| %>
+
+    <header class='main-content-header'>
+      <h1>Change password</h1>
+      <p>Your password must be changed</p>
+      <p>You new password must meet the following criteria:
+      <ul>
+        <li>must be at least 6 characters long</li>
+        <li>contain at least one uppercase character</li>
+        <li>contain at least one lowercase character</li>
+        <li>contain at least one number</li>
+        <li>not contain your email address</li>
+        <li>not contain your username</li>
+      </ul>
+    </header>
+
+    <section class='main-content-body'>
+
+      <%= devise_error_messages! %>
+
+      <div class="field">
+        <%= f.label :password %><br />
+        <%= f.password_field :password, autocomplete: "off" %>
+        <% if @minimum_password_length %>
+          <br />
+          <em><%= @minimum_password_length %> characters minimum</em>
+        <% end %>
+      </div>
+
+      <div class="field">
+        <%= f.label :password_confirmation %><br />
+        <%= f.password_field :password_confirmation, autocomplete: "off" %>
+      </div>
+
+      <div class="field">
+        <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
+        <%= f.password_field :current_password, autocomplete: "off" %>
+      </div>
+
+      <div class="actions">
+        <%= f.submit "Update" %>
+        <%= link_to "Back", :back %>
+      </div>
+
+    </section>
+
+  <% end %>
+</section>

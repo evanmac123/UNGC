@@ -19,7 +19,7 @@ class Admin::ContactsControllerTest < ActionController::TestCase
       :country_id => Country.first.id,
       :email      => 'test@example.com',
       :username   => 'test',
-      :password   => 'test'
+      :password   => 'Test123'
     }
   end
 
@@ -64,11 +64,11 @@ class Admin::ContactsControllerTest < ActionController::TestCase
       put :update, :organization_id => @organization.id,
                    :id              => @organization_user.to_param,
                    :contact         => { :username    => 'aaa',
-                                         :password => "password" }
+                                         :password => "Passw0rd" }
 
       @organization_user.reload
       assert_equal 'aaa', @organization_user.username
-      assert @organization_user.valid_password? 'password'
+      assert @organization_user.valid_password? "Passw0rd"
 
       assert_redirected_to dashboard_path(:tab => :contacts)
     end
@@ -128,11 +128,11 @@ class Admin::ContactsControllerTest < ActionController::TestCase
       put :update, :local_network_id => @local_network.id,
                    :id               => @network_contact.to_param,
                    :contact          => { :username    => 'aaa',
-                                          :password => "password" }
+                                          :password => "Passw0rd" }
 
       @network_contact.reload
       assert_equal 'aaa', @network_contact.username
-      assert @network_contact.valid_password? 'password'
+      assert @network_contact.valid_password? "Passw0rd"
 
       assert_redirected_to admin_local_network_path(@local_network.id, :tab => :contacts)
     end
@@ -154,7 +154,7 @@ class Admin::ContactsControllerTest < ActionController::TestCase
       put :update, :organization_id => @organization.id,
                    :id              => @organization_user.to_param,
                    :contact         => { :username    => 'aaa',
-                                         :password => "password" }
+                                         :password => "Passw0rd" }
 
       assert_redirected_to admin_organization_path(@organization.id, :tab => :contacts)
     end
@@ -197,7 +197,7 @@ class Admin::ContactsControllerTest < ActionController::TestCase
       put :update, :local_network_id => @local_network.id,
                    :id               => @network_contact.to_param,
                    :contact          => {:username    => 'aaa',
-                                         :password => "password" }.
+                                         :password => "Passw0rd" }.
                                          merge({:image => fixture_file_upload('files/untitled.jpg', 'image/jpeg')})
 
       assert_redirected_to admin_local_network_path(@local_network.id, tab: :contacts)

@@ -24,7 +24,7 @@ class SignupControllerTest < ActionController::TestCase
         country_id: Country.first.id,
         email: 'michael@example.com',
         username: 'username',
-        password: 'password',
+        password: 'Passw0rd',
         role_ids: [Role.contact_point.id]
       }
 

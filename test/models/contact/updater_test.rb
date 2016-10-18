@@ -3,7 +3,7 @@ require 'test_helper'
 class Contact::UpdaterTest < ActiveSupport::TestCase
   setup do
     create(:country) # Needed by create_contact. See example_data.rb.
-    @contact = create(:contact, password: 'password')
+    @contact = create(:contact, password: 'Passw0rd')
   end
 
   context 'update' do
@@ -26,7 +26,7 @@ class Contact::UpdaterTest < ActiveSupport::TestCase
 
       should 'update contact but not set password' do
         assert Contact::Updater.new(@contact, @policy).update(@params)
-        assert_equal 'password', @contact.password
+        assert_equal 'Passw0rd', @contact.password
       end
     end
 

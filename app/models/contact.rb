@@ -70,6 +70,7 @@ class Contact < ActiveRecord::Base
 
   # if they haven't logged in then we redirect them to their edit page to confirm their contact information
   MONTHS_SINCE_LOGIN = 6
+  STRONG_PASSWORD_POLICY_DATE = Date.new(2016, 9, 7)
 
   validates_presence_of     :prefix, :first_name, :email, :last_name, :job_title, :address, :city, :country
   validates_presence_of     :phone, unless: :from_ungc?
@@ -83,6 +84,7 @@ class Contact < ActiveRecord::Base
   validates_format_of       :email,
                               :with => /\A[A-Za-z0-9.'_%+-]+@[A-Za-z0-9'.-]+\.[A-Za-z]{2,6}\z/,
                               :message => "is not a valid email address"
+  validates_with PasswordStrengthValidator, :if => :password_required?
 
   belongs_to :country
   belongs_to :organization
@@ -97,6 +99,7 @@ class Contact < ActiveRecord::Base
 
   before_update  :do_not_allow_last_contact_point_to_uncheck_role
   before_update  :do_not_allow_last_ceo_to_uncheck_role
+  before_update  :mark_passwords_as_updated
 
   # used for checkbox in sign up form
   # /app/views/signup/step5.html.haml
@@ -268,9 +271,14 @@ class Contact < ActiveRecord::Base
 
   def needs_to_update_contact_info?
     if from_organization?
-      last_update = last_sign_in_at || updated_at
       last_update < (Date.today - Contact::MONTHS_SINCE_LOGIN.months)
     end
+  end
+
+  def needs_to_change_password?
+    return true if last_password_changed_at.nil?
+
+    last_password_changed_at < STRONG_PASSWORD_POLICY_DATE.beginning_of_day
   end
 
   def rejected_organization_email
@@ -361,8 +369,20 @@ class Contact < ActiveRecord::Base
       end
     end
 
+    def mark_passwords_as_updated
+      if self.changed.include?("encrypted_password")
+        self.last_password_changed_at = Time.now
+      end
+    end
+
     # TODO remove once encrypted_passwords are moved over to bcrypt
     def self.old_password_digest(password)
       Digest::SHA1.hexdigest("#{password}--UnGc--")
     end
+
+    def last_update
+      previous_sign_in_at = previous_changes.fetch(:last_sign_in_at, []).first
+      previous_sign_in_at || last_sign_in_at || updated_at
+    end
+
 end
