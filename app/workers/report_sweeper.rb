@@ -6,16 +6,11 @@ class ReportSweeper
   end
 
   def perform(status_id)
-    status = ReportStatus.find(status_id)
-
-    return unless status
-
-    if status.path && File.exist?(status.path)
-      File.unlink(status.path)
+    status = ReportStatus.find_by(status_id)
+    if status.present?
+      status.cleanup
+      status.destroy
     end
-
-    status.destroy
   end
 
 end
-

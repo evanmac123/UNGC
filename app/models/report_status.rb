@@ -28,4 +28,11 @@ class ReportStatus < ActiveRecord::Base
     self.status = FAILED
     save!
   end
+
+  def cleanup
+    if path && File.exist?(path)
+      File.unlink(path)
+    end
+  end
+
 end
