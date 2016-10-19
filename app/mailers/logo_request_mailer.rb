@@ -17,9 +17,12 @@ class LogoRequestMailer < ActionMailer::Base
   end
 
   def rejected(logo_request)
+    contact = logo_request.contact
+    return if contact.nil?
+
     @logo_request = logo_request
     mail \
-      :to => logo_request.contact.email_recipient,
+      :to => contact.email_recipient,
       :subject => "Global Compact Logo Request Status"
   end
 end
