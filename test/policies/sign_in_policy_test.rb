@@ -2,10 +2,6 @@ require 'test_helper'
 
 class SignInPolicyTest < ActiveSupport::TestCase
 
-  setup do
-    create_roles
-  end
-
   context "Network focal points" do
 
     should "be allowed to sign-in as Contact points from the same local network" do

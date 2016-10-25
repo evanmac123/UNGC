@@ -5,8 +5,6 @@ module COP
 
     setup do
       travel_to Date.new(2016, 7, 6)
-
-      create(:language, name: 'English')
       create(:container, path: '/participation/report')
     end
 

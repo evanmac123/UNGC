@@ -5,12 +5,7 @@ class SignupControllerTest < ActionController::TestCase
     setup do
       create(:container, path: '/participation/join/application', layout: :article)
 
-      create_roles
-      create(:organization_type)
       @country = create(:country)
-      @academic = create(:organization_type, name: 'Academic', type_property: 1 )
-      create(:organization_type, name: 'SME', type_property: 2 )
-      @sector = create(:sector)
       @listing_status = create(:listing_status)
 
       @signup_contact = {
@@ -71,7 +66,7 @@ class SignupControllerTest < ActionController::TestCase
                                      employees: 500,
                                      url: 'http://www.example.com',
                                      country_id: @country.id,
-                                     sector_id: @sector.id,
+                                     sector_id: Sector.last.id,
                                      listing_status_id: @listing_status.id,
                                      revenue: Organization::REVENUE_LEVELS.keys.first,
                                      organization_type_id: OrganizationType.first.id}
@@ -97,7 +92,6 @@ class SignupControllerTest < ActionController::TestCase
       @local_network = create(:local_network, funding_model: 'collaborative')
       @country.local_network_id = @local_network.id
 
-
       @signup = BusinessOrganizationSignup.new
       @signup.set_organization_attributes({name: 'ACME inc',
                                            organization_type_id: OrganizationType.first.id,
@@ -120,10 +114,9 @@ class SignupControllerTest < ActionController::TestCase
 
     # upload letter of commitment
     should "as a non-business the next_step for the ceo form should be step6" do
-      create_non_business_organization_type
       @signup = NonBusinessOrganizationSignup.new
       @signup.set_organization_attributes({name: 'ACME inc',
-                                           organization_type_id: @non_business_organization_type.id})
+                                           organization_type_id: OrganizationType.city.id})
       store_pending(@signup)
 
       post :step3, contact: @signup_contact
@@ -134,7 +127,7 @@ class SignupControllerTest < ActionController::TestCase
     should "as a business should get the fifth step page after selecting a contribution amount" do
       @signup = BusinessOrganizationSignup.new
       @signup.set_organization_attributes({name: 'ACME inc',
-                                           organization_type_id: OrganizationType.first.id,
+                                           organization_type_id: OrganizationType.sme.id,
                                            revenue: 2500})
       store_pending(@signup)
 
@@ -147,7 +140,7 @@ class SignupControllerTest < ActionController::TestCase
     should "as a business should get the sixth step page if they don't select a contribution amount" do
       @signup = BusinessOrganizationSignup.new
       @signup.set_organization_attributes({name: 'ACME inc',
-                                           organization_type_id: OrganizationType.first.id})
+                                           organization_type_id: OrganizationType.sme.id})
       store_pending(@signup)
 
       post :step5, organization: {pledge_amount: 0, no_pledge_reason: 'budget'}
@@ -157,7 +150,7 @@ class SignupControllerTest < ActionController::TestCase
     should "as a business should be redirected to 4 step page if they don't select a reason for not pledging" do
       @signup = BusinessOrganizationSignup.new
       @signup.set_organization_attributes({name: 'ACME inc',
-                                           organization_type_id: OrganizationType.first.id})
+                                           organization_type_id: OrganizationType.sme.id})
       store_pending(@signup)
 
       post :step5, organization: {pledge_amount: 0}
@@ -167,7 +160,7 @@ class SignupControllerTest < ActionController::TestCase
     should "get the sixth step page after posting ceo contact details" do
       @signup = BusinessOrganizationSignup.new
       @signup.set_organization_attributes({name: 'ACME inc',
-                                           organization_type_id: OrganizationType.first.id})
+                                           organization_type_id: OrganizationType.sme.id})
       store_pending(@signup)
 
       post :step6, contact: @signup_ceo
@@ -176,10 +169,9 @@ class SignupControllerTest < ActionController::TestCase
     end
 
     should "as a non-business should get the sixth step page after posting ceo contact details" do
-      create_non_business_organization_type
       @signup = NonBusinessOrganizationSignup.new
       @signup.set_organization_attributes({name: 'ACME inc',
-                                           organization_type_id: @non_business_organization_type.id})
+                                           organization_type_id: OrganizationType.city.id})
       store_pending(@signup)
 
       post :step6, contact: @signup_ceo
@@ -190,7 +182,7 @@ class SignupControllerTest < ActionController::TestCase
     should "get the seventh step page after submitting letter of commitment" do
       @signup = NonBusinessOrganizationSignup.new
       @signup.set_organization_attributes(name: 'City University',
-                                       organization_type_id: OrganizationType.first.id,
+                                       organization_type_id: OrganizationType.academic.id,
                                        employees: 50,
                                        country_id: Country.first.id,
                                        legal_status: fixture_file_upload('files/untitled.pdf', 'application/pdf'))

@@ -3,32 +3,27 @@ require 'test_helper'
 class OrganizationSignupTest < ActiveSupport::TestCase
   context "has sane defaults" do
     should "have an organization type" do
-      create_roles
       @os = BusinessOrganizationSignup.new
       assert_equal @os.business?, true
       assert_equal @os.non_business?, false
     end
 
     should "have an organization" do
-      create_roles
       @os = BusinessOrganizationSignup.new
       assert_equal @os.organization.class, Organization
     end
 
     should "have a primary_contact" do
-      create_roles
       Contact.expects(:new_contact_point).once
       @os = BusinessOrganizationSignup.new
     end
 
     should "have a ceo" do
-      create_roles
       Contact.expects(:new_ceo).once
       @os = BusinessOrganizationSignup.new
     end
 
     should "have a financial contact" do
-      create_roles
       Contact.expects(:new_financial_contact).once
       @os = BusinessOrganizationSignup.new
     end
@@ -37,7 +32,6 @@ class OrganizationSignupTest < ActiveSupport::TestCase
 
   context "signup process" do
     setup do
-      create_roles
       create(:country)
       create(:country)
       @os = BusinessOrganizationSignup.new
@@ -131,7 +125,6 @@ class OrganizationSignupTest < ActiveSupport::TestCase
 
   context "validates Business OrganizationSignup" do
     setup do
-      create_roles
       create(:organization_type,
         name: 'SME',
         type_property: 2,
@@ -183,7 +176,6 @@ class OrganizationSignupTest < ActiveSupport::TestCase
 
   context "validates NonBusinessOrganizationSignup" do
     setup do
-      create_roles
       @type = create(:organization_type, name: 'Academic', type_property: 1 )
       @country = create(:country)
       @os = NonBusinessOrganizationSignup.new

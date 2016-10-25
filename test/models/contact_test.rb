@@ -86,7 +86,6 @@ class ContactTest < ActiveSupport::TestCase
   context "given an organization with 1 contact point and 1 CEO" do
     setup do
       create_organization_and_ceo
-      create_roles
       @organization.approve
     end
 
@@ -105,7 +104,6 @@ class ContactTest < ActiveSupport::TestCase
 
   context "given an organization with 1 contact point and CEO" do
     setup do
-      create_roles
       create_organization_and_ceo
       @old_email = @organization_user.email
       assert @organization.reject
@@ -119,7 +117,6 @@ class ContactTest < ActiveSupport::TestCase
 
   context "contact creation helper methods" do
     setup do
-      create_roles
     end
 
     should "create a contact point" do
@@ -139,7 +136,7 @@ class ContactTest < ActiveSupport::TestCase
   end
 
   should 'escape the display name in email_recipient' do
-    contact = create(:contact, 
+    contact = create(:contact,
       first_name: "Anita",
       middle_name: "Marie",
       last_name: "Dobrzelecki, RN, BSN",

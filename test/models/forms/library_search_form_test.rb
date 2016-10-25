@@ -3,38 +3,30 @@ require 'test_helper'
 class LibrarySearchFormTest < ActiveSupport::TestCase
 
   setup do
-    # issues
-    @issues = create_issue_hierarchy
-    @selected_issue_area = @issues.first
-    @selected_issue = @issues.last.children.last
+    @language = Language.french
 
-    # topics
-    @topics = create_topic_hierarchy
-    @selected_topic_group = @topics.first
-    @selected_topic = @topics.last.children.last
+    @issue_area = find_issue("Social")
+    @issue = find_issue("Education")
 
-    # sectors
-    @sectors = create_sector_hierarchy
-    @selected_sector_group = @sectors.last
-    @selected_sector = @sectors.first.children.last
+    @topic_group = find_topic("Financial Markets")
+    @topic = find_topic("Social Enterprise")
 
-    # languages
-    @languages = ["English", "French"].map { |name| create(:language, name: name) }
-    @selected_language = @languages.last
+    @sector_group = find_sector("Retail")
+    @sector = find_sector("Tobacco")
 
     # search params
-    @search_params = search_params = {
-      issue_areas:    [@selected_issue_area.id.to_s],
-      issues:         [@selected_issue.id.to_s],
-      topic_groups:   [@selected_topic_group.id.to_s],
-      topics:         [@selected_topic.id.to_s],
-      sector_groups:  [@selected_sector_group.id.to_s],
-      sectors:        [@selected_sector.id.to_s],
-      languages:      [@selected_language.id.to_s],
+    @search_params = {
+      issue_areas:    [@issue_area.id.to_s],
+      issues:         [@issue.id.to_s],
+      topic_groups:   [@topic_group.id.to_s],
+      topics:         [@topic.id.to_s],
+      sector_groups:  [@sector_group.id.to_s],
+      sectors:        [@sector.id.to_s],
+      languages:      [@language.id.to_s],
     }.deep_stringify_keys
   end
 
-  should "maintain a list of active filters" do
+  test "maintain a list of active filters" do
     form = LibrarySearchForm.new 1, @search_params
 
     assert_equal [
@@ -48,13 +40,13 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
     ], form.active_filters.map(&:type).sort
 
     assert_equal [
-      @selected_issue.id,
-      @selected_issue_area.id,
-      @selected_language.id,
-      @selected_sector.id,
-      @selected_sector_group.id,
-      @selected_topic.id,
-      @selected_topic_group.id,
+      @issue.id,
+      @issue_area.id,
+      @language.id,
+      @sector.id,
+      @sector_group.id,
+      @topic.id,
+      @topic_group.id,
     ].sort, form.active_filters.map(&:id).sort
   end
 
@@ -62,29 +54,51 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
 
     setup do
       @form = LibrarySearchForm.new 1, @search_params
-      @form.search_scope = all_group_facets(@issues, :issue_ids)
+      @form.search_scope = FakeFacetResponse.with(:issue_ids, Issue.pluck(:id))
       @options = @form.issue_filter.options
 
-      @area = @options.last.first
-      @filters = @options.last.last
+      @area = @options.first.first
+      @filters = @options.first.last
     end
 
     should "have an issue area" do
-      assert_equal "Issue B", @area.name
+      assert_equal "Social", @area.name
     end
 
     should "have a selected issue area" do
-      issue_area_a = @options.first.first
-      assert issue_area_a.selected?
+      assert @area.selected?
     end
 
     should "have names" do
-      assert_equal ["Issue 4", "Issue 5", "Issue 6"], @filters.map(&:name)
+      expected = [
+        "Principle 1",
+        "Principle 2 ",
+        "Principle 3",
+        "Principle 4 ",
+        "Principle 5 ",
+        "Principle 6",
+        "Child Labour",
+        "Children's Rights",
+        "Education",
+        "Forced Labour",
+        "Health",
+        "Human Rights",
+        "Human Trafficking",
+        "Indigenous Peoples",
+        "Labour",
+        "Migrant Workers",
+        "Persons with Disabilities",
+        "Poverty",
+        "Gender Equality",
+        "Women's Empowerment",
+        "Youth"
+      ]
+      assert_equal expected, @filters.map(&:name)
     end
 
     should "have match the issue's ids" do
-      issue_b_child_ids = @issues.last.children.map(&:id)
-      assert_equal issue_b_child_ids, @filters.map(&:id)
+      child_ids = @issue_area.children.pluck(:id)
+      assert_equal child_ids, @filters.map(&:id)
     end
 
     should "have issue type" do
@@ -92,7 +106,30 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
     end
 
     should "have active states" do
-      assert_equal [false, false, true], @filters.map(&:selected?)
+      expected = [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ]
+      assert_equal expected, @filters.map(&:selected?)
     end
 
   end
@@ -101,29 +138,30 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
 
     setup do
       @form = LibrarySearchForm.new 1, @search_params
-      @form.search_scope = all_group_facets(@topics, :topic_ids)
+      @form.search_scope = FakeFacetResponse.with(:topic_ids, Topic.pluck(:id))
       @options = @form.topic_filter.options
 
-      @group = @options.last.first
-      @filters = @options.last.last
+      @group = @options.first.first # Financial Markets
+      @filters = @options[2][1]     # UN-Business Partnerships, Social Enterprise
     end
 
     should "have a topic group" do
-      assert_equal "Topic B", @group.name
+      assert_equal "Financial Markets", @group.name
     end
 
     should "have a selected topic group" do
-      topic_group_a = @options.first.first
-      assert topic_group_a.selected?
+      assert @group.selected?
     end
 
     should "have names" do
-      assert_equal ["Topic 4", "Topic 5", "Topic 6"], @filters.map(&:name)
+      expected = ["UN-Business Partnerships", "Social Enterprise"]
+      assert_equal expected, @filters.map(&:name)
     end
 
     should "have match the topic's ids" do
-      topic_b_child_ids = @topics.last.children.map(&:id)
-      assert_equal topic_b_child_ids, @filters.map(&:id)
+      partnerships = Topic.find_by!(name: "Partnerships")
+      child_ids = partnerships.children.pluck(:id)
+      assert_equal child_ids, @filters.map(&:id)
     end
 
     should "have topic type" do
@@ -131,7 +169,7 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
     end
 
     should "have active states" do
-      assert_equal [false, false, true], @filters.map(&:selected?)
+      assert_equal [false, true], @filters.map(&:selected?)
     end
 
   end
@@ -140,13 +178,13 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
 
     setup do
       @form = LibrarySearchForm.new 1, @search_params
-      @form.search_scope = FakeFacetResponse.with(:language_ids, @languages.map(&:id))
+      @form.search_scope = FakeFacetResponse.with(:language_ids, Language.pluck(:id))
       @options = @form.language_filter.options
     end
 
     should "have all the languages" do
-      expected = @languages.map &:id
-      actual = @options.map &:id
+      expected = Language.pluck(:id)
+      actual = @options.map(&:id)
       assert_equal expected, actual
     end
 
@@ -180,11 +218,16 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
 
   private
 
-  def all_group_facets(items, key)
-    ids = items.map do |item|
-      [item.id, item.children.map(&:id)]
-    end
-    FakeFacetResponse.with(key, ids.flatten)
+  def find_issue(name)
+    Issue.find_by!(name: name)
+  end
+
+  def find_topic(name)
+    Topic.find_by!(name: name)
+  end
+
+  def find_sector(name)
+    Sector.find_by!(name: name)
   end
 
 end

@@ -13,8 +13,8 @@ class CopsHelperTest < ActionView::TestCase
     # when we ask for the issue area coverage for human rights
     # we should get "50%"
 
-    human_rights = create(:principle_area, name: 'Human Rights')
-    labour = create(:principle_area, name: 'Labour')
+    human_rights = PrincipleArea.find_by!(name: 'Human Rights')
+    labour = PrincipleArea.find_by!(name: 'Labour')
 
     cop = create(:communication_on_progress)
 

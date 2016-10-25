@@ -9,6 +9,7 @@ require 'capybara/rails'
 require 'mocha/setup'
 require 'webmock/minitest'
 require 'test_helpers/integration_test_helper'
+require "#{Rails.root}/db/seeds.rb"
 
 # include helpers, modules etc
 Dir[Rails.root.join("test/support/**/*")].each { |f| require f }
@@ -60,33 +61,22 @@ class ActiveSupport::TestCase
     @logo_request.approve
   end
 
-
-  def create_non_business_organization_type
-    @non_business_organization_type = create(:organization_type, name: 'Academic',
-                                                               type_property: OrganizationType::NON_BUSINESS)
-  end
-
   def create_non_business_organization_and_user(state=nil)
-    create_non_business_organization_type
-    create_roles
-    create(:organization_type, name: 'Academic')
     create(:country)
     @organization = create(:organization, employees: 50,
                                         country: Country.first,
-                                        organization_type_id: OrganizationType.academic.id)
+                                        organization_type: OrganizationType.academic)
     @organization.approve! if state == 'approved'
     @organization_user = create(:contact, organization_id: @organization.id,
                                         role_ids: [Role.contact_point.id])
   end
 
   def create_organization_and_user(state=nil)
-    create_roles
-    create(:organization_type, name: 'SME')
     create(:country)
     sector = create(:sector)
     listing_status = create(:listing_status)
     @organization = create(:organization, employees: 50,
-                                        organization_type_id: OrganizationType.sme.id,
+                                        organization_type: OrganizationType.sme,
                                         country: Country.first,
                                         sector: sector,
                                         listing_status: listing_status,
@@ -130,7 +120,6 @@ class ActiveSupport::TestCase
   end
 
   def create_ungc_organization_and_user
-    create(:organization_type)
     create(:country)
     @ungc = create(:organization, name: 'UNGC')
     @staff_user = create(:contact, username: 'staff',
@@ -150,7 +139,6 @@ class ActiveSupport::TestCase
   end
 
   def create_local_network_guest_organization
-    create(:organization_type)
     create(:country)
     @local_network_guest = create(:organization, name: 'Local Network Guests')
     @local_network_guest_user = create(:contact, username: 'guest',
@@ -160,15 +148,13 @@ class ActiveSupport::TestCase
 
   def create_expelled_organization
     create_organization_and_user
-    create_removal_reasons
     @organization.update_attribute :delisted_on, Date.today - 1.month
     @organization.update_attribute :cop_state, Organization::COP_STATE_DELISTED
     @organization.update_attribute :active, false
-    @organization.update_attribute :removal_reason_id, RemovalReason.delisted.id
+    @organization.update_attribute :removal_reason, RemovalReason.delisted
   end
 
   def create_local_network_with_report_recipient
-    create_roles
     @local_network = create(:local_network, name: "Canadian Local Network")
     @country = create(:country, name: "Canada", local_network: @local_network)
     @network_contact = create(:contact, local_network_id: @local_network.id,
@@ -177,10 +163,6 @@ class ActiveSupport::TestCase
 
   def find_or_create_role(args={})
     Role.where(name: args[:name]).first || create(:role, args)
-  end
-
-  def create_roles
-    Role::FILTERS.values.each {|name| find_or_create_role(:name => name, :description => "value")}
   end
 
   def create_cop(organization_id, options = {})
@@ -194,10 +176,6 @@ class ActiveSupport::TestCase
 
   def create_principle_areas
     PrincipleArea::FILTERS.values.each {|name| create(:principle_area, name: name)}
-  end
-
-  def create_removal_reasons
-    RemovalReason::FILTERS.values.each {|description| create(:removal_reason, description: description)}
   end
 
   def create_initiatives
@@ -288,90 +266,8 @@ class ActiveSupport::TestCase
     data.merge(params)
   end
 
-  def create_issue_hierarchy(tree = nil)
-    if tree.nil?
-      tree = [
-        ["Issue A", [
-          "Issue 1",
-          "Issue 2",
-          "Issue 3",
-        ]],
-        ["Issue B", [
-          "Issue 4",
-          "Issue 5",
-          "Issue 6",
-        ]]
-      ]
-    end
-
-    tree.map do |parent_name, child_names|
-      issue_area = create(:issue, name: parent_name)
-      child_names.map do |child_name|
-        create(:issue, name: child_name, parent: issue_area)
-      end
-      issue_area
-    end
-
-  end
-
-  def create_topic_hierarchy(tree = nil)
-    if tree.nil?
-      tree = [
-        ["Topic A", [
-          "Topic 1",
-          "Topic 2",
-          "Topic 3",
-        ]],
-        ["Topic B", [
-          "Topic 4",
-          "Topic 5",
-          "Topic 6",
-        ]]
-      ]
-    end
-
-    tree.map do |parent_name, child_names|
-      parent = create(:topic, name: parent_name)
-      child_names.map do |child_name|
-        parent.children << create(:topic, name: child_name, parent: parent)
-      end
-      parent.tap {|p| p.save!}
-    end
-
-  end
-
-  def create_sector_hierarchy
-    tree = [
-        ["Sector A", [
-          "Sector 1",
-          "Sector 2",
-          "Sector 3",
-        ]],
-        ["Sector B", [
-          "Sector 4",
-          "Sector 5",
-          "Sector 6",
-        ]]
-      ]
-
-    tree.map do |group_name, child_names|
-      parent = create(:sector, name: group_name)
-      child_names.each_with_index.map do |child_name, i|
-        create(:sector,
-          name: child_name,
-          parent: parent,
-          icb_number: i
-        )
-      end
-      parent
-    end
-  end
-
   def headline_attributes_with_taggings
     create(:country)
-    create_issue_hierarchy
-    create_topic_hierarchy
-    create_sector_hierarchy
 
     country_id = Country.last.id
     issue_id = Issue.last.id
@@ -392,10 +288,6 @@ class ActiveSupport::TestCase
   end
 
   def resource_attributes_with_taggings
-    create_issue_hierarchy
-    create_topic_hierarchy
-    create_sector_hierarchy
-
     issue_id = Issue.last.id
     topic_id = Topic.last.id
     sector_id = Sector.last.id
@@ -407,12 +299,6 @@ class ActiveSupport::TestCase
     }).symbolize_keys
   end
 
-  def create_organization_type_sme
-    OrganizationType.sme || create_organization_type(
-      name: OrganizationType::FILTERS[:sme],
-      type_property: OrganizationType::BUSINESS
-    )
-  end
 end
 
 class ActionController::TestCase
@@ -423,6 +309,11 @@ class ActionDispatch::IntegrationTest
   include Capybara::DSL
   include Warden::Test::Helpers
   Warden.test_mode!
+
+  teardown do
+    Warden.test_reset!
+  end
+
 end
 
 class MockSearchResult < SimpleDelegator

@@ -3,17 +3,11 @@ require 'test_helper'
 class BusinessSignupTest < ActionDispatch::IntegrationTest
 
   setup do
-    create_roles
-    create(:organization_type, name: 'Company',
-           type_property: OrganizationType::BUSINESS)
-    create(:organization_type, name: 'SME',
-           type_property: OrganizationType::BUSINESS)
     create(:country, name: 'France')
     create(:country, name: 'Canada')
     create(:country, name: 'Norway')
     create(:listing_status, name: 'Publicly Listed')
     create(:exchange, name: 'ABC-Index')
-    create_sector_hierarchy
   end
 
   test "a valid business signup" do
@@ -25,7 +19,7 @@ class BusinessSignupTest < ActionDispatch::IntegrationTest
     select 'Publicly Listed', from: 'Ownership'
     select 'ABC-Index', from: 'Exchange', visible: false
     fill_in 'Stock symbol', with: 'ABCD', visible: false
-    select 'Sector 1', from: 'Sector', visible: false
+    select 'Mining', from: 'Sector', visible: false
     select 'between USD 50 million and USD 250 million', from: 'Annual Sales / Revenues'
     select 'France', from: 'Country'
     click_on 'Next'
@@ -98,7 +92,7 @@ class BusinessSignupTest < ActionDispatch::IntegrationTest
     assert_equal 'Publicly Listed', organization.listing_status.name
     assert_equal 'ABC-Index', organization.exchange.name
     assert_equal 'ABCD', organization.stock_symbol
-    assert_equal 'Sector 1', organization.sector.name
+    assert_equal 'Mining', organization.sector.name
     assert_equal 250, organization.pledge_amount
     assert_equal '', organization.no_pledge_reason
     assert_equal 'SME', organization.organization_type.name

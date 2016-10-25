@@ -4,7 +4,6 @@ class CopMailerTest < ActionMailer::TestCase
 
   context "given a submitted COP" do
     setup do
-      create_roles
       create_organization_and_user
       @cop = create_cop(@organization.id)
     end
@@ -50,7 +49,6 @@ class CopMailerTest < ActionMailer::TestCase
 
   context "given a COP from a Non Business" do
     setup do
-      create_roles
       create_non_business_organization_and_user
       @cop = create_cop(@organization.id)
     end
@@ -87,7 +85,6 @@ class CopMailerTest < ActionMailer::TestCase
 
   context "given three Learner COPs in a row over a one-year period" do
      setup do
-       create_roles
        create_organization_and_user
        @organization.participant_manager = create_participant_manager
        @first_cop  = create_cop(@organization.id, { :references_environment  => false })
@@ -115,7 +112,6 @@ class CopMailerTest < ActionMailer::TestCase
 
   context "given an organization with a Local Network" do
     setup do
-      create_roles
       create_organization_and_user
       create_ungc_organization_and_user
       create_local_network_with_report_recipient
@@ -161,7 +157,6 @@ class CopMailerTest < ActionMailer::TestCase
 
   context "given a non-communicating organization with no Local Network" do
     setup do
-      create_roles
       create_organization_and_user
       @organization.communication_late
       create_ungc_organization_and_user
@@ -194,7 +189,6 @@ class CopMailerTest < ActionMailer::TestCase
 
   context "given a non-communicating organization with a Local Network" do
     setup do
-      create_roles
       create_organization_and_user
       create_ungc_organization_and_user
       create_local_network_with_report_recipient

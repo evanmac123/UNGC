@@ -63,14 +63,12 @@ class LibraryControllerTest < ActionController::TestCase
   context "search" do
 
     setup do
-      @issues = create_issue_hierarchy
-      @topics = create_topic_hierarchy
-      @sectors = create_sector_hierarchy
+      @language = Language.english
 
-      @language = create(:language)
-      @issue = @issues.last.children.last
-      @topic = @topics.last.children.last
-      @sector = @sectors.last.children.last
+      # Leaf nodes
+      @issue = Issue.children.find_by(name: 'Indigenous Peoples')
+      @topic = Topic.children.find_by(name: 'UN-Business Partnerships')
+      @sector = Sector.children.find_by(name: 'Oil & Gas Producers')
 
       @search_params = {
         "issues" => [@issue.id],

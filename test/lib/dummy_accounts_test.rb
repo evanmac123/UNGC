@@ -4,9 +4,6 @@ require './lib/dummy_accounts'
 class DummyAccountsTest < ActiveSupport::TestCase
 
   setup do
-    create_roles
-    create(:sector)
-    create_organization_types
     create_listing_statuses
     create_staff_user
     create(:country, code: 'ca', local_network: create(:local_network))

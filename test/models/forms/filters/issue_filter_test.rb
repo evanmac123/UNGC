@@ -5,35 +5,36 @@ class IssueFilterTest < ActiveSupport::TestCase
   context "Effective selection set" do
 
     setup do
-      @issue_tree = create_issue_hierarchy
+      @social = Issue.find_by!(name: "Social")
+      @education = Issue.find_by!(name: "Education")
 
-      @issue_a, @issue_b = @issue_tree
-      @issue_1, @issue_2, @issue_3 = @issue_a.children
-      @issue_4, @issue_5, @issue_6 = @issue_b.children
+      @environment = Issue.find_by!(name: 'Environment')
+      @energy = Issue.find_by!(name: 'Energy')
 
-      selected_parents = [@issue_a.id]
-      selected_children = [@issue_2.id, @issue_6.id]
-      @filter = ::Filters::IssueFilter.new(selected_parents, selected_children)
+      # Filter down to Social with Education specifically selected
+      # And Energy on it's own
+      @filter = ::Filters::IssueFilter.new(
+        [@social.id],
+        [@education.id, @energy.id]
+      )
 
       @set = @filter.effective_selection_set
     end
 
-    should 'have selected the parent' do
-      assert_includes @set, @issue_a.id
-      assert_not_includes @set, @issue_b.id
+    should 'have selected the social parent' do
+      assert_includes @set, @social.id
+      assert_not_includes @set, @environment.id
     end
 
     should "have selected the parent's children" do
-      assert_includes @set, @issue_1.id
-      assert_includes @set, @issue_2.id
-      assert_includes @set, @issue_3.id
+      # the set contains all of the children
+      assert_empty @social.children.pluck(:id) - @set
     end
 
     should "have selected the individual child" do
-          assert_includes @set, @issue_1.id
-      assert_not_includes @set, @issue_4.id
-      assert_not_includes @set, @issue_5.id
-      assert_includes @set, @issue_6.id
+      assert_includes @set, @education.id
+      biodiversity = Issue.find_by!(name: "Biodiversity")
+      assert_not_includes @set, biodiversity.id
     end
 
   end

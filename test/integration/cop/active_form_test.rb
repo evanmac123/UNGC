@@ -5,7 +5,6 @@ module COP
 
     setup do
       travel_to Date.new(2016, 7, 6)
-      create(:language, name: 'English')
       # needed to show the public cop detail page
       create(:container, path: '/participation/report')
     end

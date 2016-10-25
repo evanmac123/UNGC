@@ -3,7 +3,6 @@ require 'test_helper'
 class NonBusinessSignupTest < ActionDispatch::IntegrationTest
 
   setup do
-    create_roles
     create(:organization_type, name: 'City', type_property: OrganizationType::NON_BUSINESS)
     create(:country, name: 'France')
     create(:country, name: 'Canada')
@@ -16,7 +15,7 @@ class NonBusinessSignupTest < ActionDispatch::IntegrationTest
     fill_in 'Organization Name', with: 'New Organization name'
     fill_in 'Website', with: 'http://some-website.org'
     fill_in 'Employees', with: '123'
-    select 'City', from: 'Type'
+    select 'Foundation', from: 'Type'
     select 'France', from: 'Country'
     fill_in 'Date of Registration', with: '2015-03-03'
     fill_in 'Place of Registration', with: 'Toronto'
@@ -76,7 +75,7 @@ class NonBusinessSignupTest < ActionDispatch::IntegrationTest
     assert_equal 'New Organization name', organization.name
     assert_equal 'http://some-website.org', organization.url
     assert_equal 123, organization.employees
-    assert_equal 'City', organization.organization_type.name
+    assert_equal 'Foundation', organization.organization_type.name
     assert_equal 'France', organization.country.name
     assert_nil organization.legal_status
 

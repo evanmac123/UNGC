@@ -27,21 +27,13 @@ FactoryGirl.define do
     factory :business do
       active_participant
       employees 11 # just big enough to be an SME
-
-      after(:build) do |org|
-        # the organization will assign the SME type
-        # in a before save callback, make sure it exists
-        if OrganizationType.sme.nil?
-          create(:sme_type)
-        end
-      end
     end
 
     factory :non_business do
       active_participant
 
       after(:build) do |org|
-        org.organization_type = OrganizationType.academic || create(:academic_type)
+        org.organization_type = OrganizationType.academic
       end
     end
 

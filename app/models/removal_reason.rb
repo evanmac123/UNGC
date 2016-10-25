@@ -18,6 +18,15 @@ class RemovalReason < ActiveRecord::Base
      :requested        => 'Participant requested withdrawal',
      :dialogue         => 'Expelled due to failure to engage in dialogue',
      :blacklisted      => 'Removed due to suspension or removal from the UN vendor list'
+
+     # these reasons are also present in the database:
+     # "Organization no longer exists",
+     # "Expelled due to failure to communicate progress",
+     # "Other reason related to the Integrity Measures",
+     # "Merger or acquisition",
+     # "Transfer of commitment",
+     # "Consolidation of commitment under the parent company",
+     # "Non-responsive"
   }
 
   def self.for_filter(filter_types)

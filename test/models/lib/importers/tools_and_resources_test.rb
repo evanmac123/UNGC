@@ -69,7 +69,7 @@ class ToolsAndResourcesTest < ActiveSupport::TestCase
     setup do
       # setup some languages
       @arabic = create(:language, name:"Arabic")
-      @english = create(:language, name:"English")
+      @english = Language.english
 
       # import some resources
       @importer.import_resources @importer.worksheet('resources')

@@ -2,10 +2,6 @@ require 'test_helper'
 
 class PromptForPasswordResetTest < ActionDispatch::IntegrationTest
 
-  setup do
-    create_roles
-  end
-
   test "a User with an older password is prompted to change it on login" do
     # Given a contact who needs to change their password
     organization = create(:business)
@@ -56,8 +52,6 @@ class PromptForPasswordResetTest < ActionDispatch::IntegrationTest
   end
 
   test "a contact resetting their password" do
-    skip # FIXME this test is failing periodically in CI
-
     # Given a contact who needs to change their password
     organization = create(:business)
     contact = create(:contact,

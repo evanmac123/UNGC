@@ -5,8 +5,8 @@ class CopFormTest < ActiveSupport::TestCase
   setup do
     create(:principle_area)
     create_organization_and_user
-    @english = create(:language, name:'English')
-    @french = create(:language, name:'French')
+    @english = Language.english
+    @french = Language.french
   end
 
   %w(basic intermediate advanced non_business).each do |type|
