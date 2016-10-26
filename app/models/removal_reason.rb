@@ -34,8 +34,7 @@ class RemovalReason < ActiveRecord::Base
 
   def self.for_filter(filter_types)
     if filter_types.is_a?(Array)
-      filter_types.map! { |f| FILTERS[f] }
-      where("description IN (?)", filter_types)
+      where("description IN (?)", filter_types.map { |f| FILTERS[f] })
     else
       where("description = ?", FILTERS[filter_types])
     end
