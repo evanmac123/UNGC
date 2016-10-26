@@ -95,7 +95,7 @@ class Organization < ActiveRecord::Base
   ORGANIZATION_FILE_TYPES = { :commitment_letter => 'commitment_letter', # this has to be migrated first
                               :recommitment_letter => 'recommitment_letter',
                               :withdrawal_letter => 'withdrawal_letter',
-                              :legal_status => 'legal_status' }
+                              :legal_status => 'legal_status' }.freeze
 
   has_one :legal_status, -> { where(attachable_key: ORGANIZATION_FILE_TYPES[:legal_status]) },
     class_name: 'UploadedFile', as: 'attachable', dependent: :destroy
@@ -105,7 +105,6 @@ class Organization < ActiveRecord::Base
 
   has_one :withdrawal_letter, -> { where(attachable_key: ORGANIZATION_FILE_TYPES[:withdrawal_letter]) },
     class_name: 'UploadedFile', as: 'attachable', dependent: :destroy
-
 
   attr_accessor :delisting_on
 
@@ -122,7 +121,6 @@ class Organization < ActiveRecord::Base
   before_save :set_initiative_signatory_sector
   before_destroy :delete_contacts
 
-
   has_attached_file :commitment_letter,
     :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
     :url => "/system/:attachment/:id/:style/:filename"
@@ -135,20 +133,33 @@ class Organization < ActiveRecord::Base
     {with: {participant: 1}}
   }
 
-  COP_STATE_ACTIVE = 'active'
-  COP_STATE_NONCOMMUNICATING = 'noncommunicating'
-  COP_STATE_DELISTED = 'delisted'
+  sphinx_scope(:publicly_delisted_participants) {
+    {
+      with: {
+        participant: 1,
+        removal_description: PUBLIC_DELISTED_REASONS.map do |symbol|
+          "'#{RemovalReason::FILTERS[symbol]}'"
+        end
+      },
+    }
+  }
+
+  COP_STATE_ACTIVE = 'active'.freeze
+  COP_STATE_NONCOMMUNICATING = 'noncommunicating'.freeze
+  COP_STATE_DELISTED = 'delisted'.freeze
+
+  PUBLIC_DELISTED_REASONS = [:delisted, :requested].freeze
 
   COP_STATES = {
     :active => COP_STATE_ACTIVE,
     :noncommunicating => COP_STATE_NONCOMMUNICATING,
     :delisted => COP_STATE_DELISTED
-  }
+  }.freeze
 
-  COP_TEMPORARY_PERIOD = 90
-  NEXT_BUSINESS_COP_YEAR = 1
-  NEXT_NON_BUSINESS_COP_YEAR = 2
-  EXPULSION_THRESHOLD = 1.year
+  COP_TEMPORARY_PERIOD = 90.freeze
+  NEXT_BUSINESS_COP_YEAR = 1.freeze
+  NEXT_NON_BUSINESS_COP_YEAR = 2.freeze
+  EXPULSION_THRESHOLD = 1.year.freeze
 
   REVENUE_LEVELS = {
     1 => 'less than USD 50 million',
@@ -156,7 +167,7 @@ class Organization < ActiveRecord::Base
     3 => 'between USD 250 million and USD 1 billion',
     4 => 'between USD 1 billion and USD 5 billion',
     5 => 'USD 5 billion or more'
-  }
+  }.freeze
 
   # Suggested pledge levels for funding models correspond to the revenue level
   # These are hard coded into the pledge form and are included here for reference
@@ -168,7 +179,7 @@ class Organization < ActiveRecord::Base
     3 => 10000,
     4 => 15000,
     5 => 15000
-  }
+  }.freeze
 
   COLLABORATIVE_PLEDGE_LEVELS = {
     1 => 250,
@@ -176,7 +187,7 @@ class Organization < ActiveRecord::Base
     3 => 5000,
     4 => 10000,
     5 => 15000
-  }
+  }.freeze
 
   INDEPENDENT_MINIMUM_PLEDGE_LEVELS = {
     250  => 'USD 250',
@@ -186,14 +197,14 @@ class Organization < ActiveRecord::Base
     2500 => 'USD 2500',
     3000 => 'USD 3000',
     4000 => 'USD 4000'
-    }
+  }.freeze
 
   COLLABORATIVE_MINIMUM_PLEDGE_LEVELS = {
     250  => 'USD 250',
     500  => 'USD 500',
     1000 => 'USD 1000',
     2000 => 'USD 2000'
-  }
+  }.freeze
 
   # identify why an organization has opted out of pledging during signup
   NO_PLEDGE_REASONS = {
@@ -203,8 +214,7 @@ class Organization < ActiveRecord::Base
     international: 'We cannot make international payments',
     benefits:      'We would like to see the benefits of participating before making a contribution',
     local_network: 'We are significant contributors to one or more Global Compact Local Networks'
-  }
-
+  }.freeze
 
   # identify why an organization is being reviewed
   REVIEW_REASONS = {
@@ -223,7 +233,7 @@ class Organization < ActiveRecord::Base
     ngo_verification:     'NGO Verification',
     purpose_activity:     'Purpose & Activities',
     logo_misuse:          'Logo Misuse'
-  }
+  }.freeze
 
   state_machine :cop_state, :initial => :active do
     after_transition :on => :delist, :do => :set_delisted_status
@@ -273,7 +283,6 @@ class Organization < ActiveRecord::Base
 
   scope :summary, lambda { includes(:country, :sector, :organization_type) }
 
-
   def self.with_cop_status(filter_type)
     if filter_type.is_a?(Array)
       statuses = filter_type.map { |t| COP_STATES[t] }
@@ -303,8 +312,12 @@ class Organization < ActiveRecord::Base
     where(:cop_state => COP_STATE_DELISTED).where(removal_reason_id: RemovalReason.withdrew.id).includes(:removal_reason)
   end
 
-  def self.expelled_for_failure_to_communicate_progress
-    where("organizations.removal_reason_id = ? AND active = ? AND cop_state NOT IN (?)", RemovalReason.for_filter(:delisted).map(&:id), false, [COP_STATE_ACTIVE, COP_STATE_NONCOMMUNICATING]).order('delisted_on DESC')
+  def self.publicly_delisted
+    delisted_cop_states = [COP_STATE_ACTIVE, COP_STATE_NONCOMMUNICATING]
+    removal_reasons = RemovalReason.for_filter(PUBLIC_DELISTED_REASONS)
+    where.not(cop_state: delisted_cop_states)
+      .where(removal_reason: removal_reasons, active: false)
+      .order('delisted_on DESC')
   end
 
   # scopes the organization depending on user_type
