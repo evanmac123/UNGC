@@ -2,8 +2,6 @@ require 'test_helper'
 
 class SignInAsTest < ActionDispatch::IntegrationTest
 
-  setup { create_roles }
-
   context 'json autocomplete' do
     setup do
       # Given a Network report recipient

@@ -5,7 +5,6 @@ class SessionsControllerTest < ActionController::TestCase
   def setup
     travel_to Contact::STRONG_PASSWORD_POLICY_DATE + 1.year
 
-    create_roles
     create_test_users
     @request.env['devise.mapping'] = Devise.mappings[:contact]
   end

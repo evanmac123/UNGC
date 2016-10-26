@@ -5,7 +5,6 @@ class InvoiceReminderTest < ActiveSupport::TestCase
     setup do
       @reminder = InvoiceReminder.new
 
-      create_roles
       create(:country)
 
       @business_type = create(:organization_type,

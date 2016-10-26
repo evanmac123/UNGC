@@ -5,7 +5,6 @@ class Admin::ContactsControllerTest < ActionController::TestCase
   def setup
     create(:organization_type)
     create(:country)
-    create_roles
     create_organization_and_ceo
 
     @new_contact_attributes = {

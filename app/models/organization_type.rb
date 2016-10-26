@@ -75,6 +75,10 @@ class OrganizationType < ActiveRecord::Base
     where(name: FILTERS[:city]).first
   end
 
+  def self.foundation
+    where(name: FILTERS[:foundation]).first
+  end
+
   def self.company
     where(name: FILTERS[:companies]).first
   end

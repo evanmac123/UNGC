@@ -3,7 +3,6 @@ require 'test_helper'
 class CopMailerHelperTest < ActionView::TestCase
   context 'given #link_to_local_network' do
     setup do
-      create_roles
       create_organization_and_user
     end
 

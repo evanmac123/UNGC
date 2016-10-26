@@ -15,7 +15,6 @@ class RoleTest < ActiveSupport::TestCase
 
   context "given two Roles" do
     setup do
-      create_roles
       @role = create(:role, :name => "New Role")
       @defined_role = Role.website_editor
     end

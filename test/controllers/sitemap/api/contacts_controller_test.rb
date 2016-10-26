@@ -21,7 +21,6 @@ class Sitemap::Api::ContactsControllerTest < ActionController::TestCase
   end
 
   test "gets current users and its role" do
-    create_roles
     @staff_user.roles << Role.website_editor
     @staff_user.save
     get :current
@@ -38,4 +37,3 @@ class Sitemap::Api::ContactsControllerTest < ActionController::TestCase
   end
 
 end
-

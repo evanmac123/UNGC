@@ -2,10 +2,6 @@ require 'test_helper'
 
 class Contact::LocalNetworkPolicyTest < ActiveSupport::TestCase
 
-  setup do
-    create_roles
-  end
-
   should 'reject non-network contacts' do
     contact = build(:contact)
     assert_raise do

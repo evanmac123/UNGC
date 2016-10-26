@@ -12,9 +12,6 @@ module COP
     end
 
     test "handle COP submission lifecycle" do
-      create(:language, name: 'English')
-      create_principle_areas
-
       # create a noncommunicating organization and user
       create_approved_organization_and_user
       @organization.communication_late!

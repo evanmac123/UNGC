@@ -8,7 +8,6 @@ class Sitemap::Api::ContainersControllerTest < ActionController::TestCase
   end
 
   test "a successful publish" do
-    create_roles
     @staff_user.roles << Role.website_editor
     @staff_user.save
     ContainerPublisher.any_instance.stubs(:publish).returns(true)
@@ -25,7 +24,6 @@ class Sitemap::Api::ContainersControllerTest < ActionController::TestCase
   end
 
   test "a failed publish" do
-    create_roles
     @staff_user.roles << Role.website_editor
     @staff_user.save
     ContainerPublisher.any_instance.stubs(:publish).returns(false)

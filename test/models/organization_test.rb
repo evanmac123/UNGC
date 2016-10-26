@@ -30,19 +30,13 @@ class OrganizationTest < ActiveSupport::TestCase
   end
 
   context "given a new organization" do
-    setup do
-      @companies = create(:organization_type, :name => 'Company')
-      @micro_enterprise = create(:organization_type, :name => 'Micro Enterprise')
-      @sme = create(:organization_type, :name => 'SME')
-      @academic = create_non_business_organization_type
-    end
 
     should "set the organization type to SME when it has less than 10 employees" do
-      @organization = Organization.create(:name                 => 'Approed small Company',
+      @organization = Organization.create(:name                 => 'Approved small Company',
                                           :employees            => 2,
-                                          :organization_type_id => @companies.id,
+                                          :organization_type    => OrganizationType.company,
                                           :state                => ApprovalWorkflow::STATE_APPROVED)
-      assert_equal @sme.id, @organization.organization_type_id
+      assert_equal OrganizationType.sme, @organization.organization_type
       assert !@organization.micro_enterprise?
     end
 
@@ -50,7 +44,7 @@ class OrganizationTest < ActiveSupport::TestCase
             unless the organization is approved" do
       @organization = Organization.create(:name                 => 'Small Company',
                                           :employees            => 2,
-                                          :organization_type_id => @companies.id,
+                                          :organization_type    => OrganizationType.company,
                                           :state                => ApprovalWorkflow::STATE_PENDING_REVIEW)
       assert @organization.micro_enterprise?
 
@@ -59,51 +53,34 @@ class OrganizationTest < ActiveSupport::TestCase
     should "set the organization type to SME when it has between 10 and 250 employees" do
       @organization = Organization.create(:name                 => 'SME',
                                           :employees            => 50,
-                                          :organization_type_id => @companies.id)
-      assert_equal @sme.id, @organization.organization_type_id
+                                          :organization_type    => OrganizationType.company)
+      assert_equal OrganizationType.sme, @organization.organization_type
     end
 
     should "set the organization type to Company when it has more than 250 employees" do
       @organization = Organization.create(:name                 => 'SME should be a Company',
                                           :employees            => 500,
-                                          :organization_type_id => @sme.id)
-      assert_equal @companies.id, @organization.organization_type_id
+                                          :organization_type    => OrganizationType.sme)
+      assert_equal OrganizationType.company, @organization.organization_type
     end
 
     should "set sector and listing_status to 'not applicable' when it is a non-business" do
-      @non_business = create(:organization_type, :name => 'Foundation', :type_property => 1)
-      @sector = create(:sector, :name => "Media")
       @listing_status = create(:listing_status, :name => "Private Company")
-      @sector_not_applicable = create(:sector, :name => "Not Applicable")
       @listing_not_applicable = create(:listing_status, :name => "Not Applicable")
       @organization = Organization.create(:name => "Foundation",
                                           :employees => 5,
-                                          :organization_type_id => @non_business.id,
+                                          :organization_type => OrganizationType.foundation,
                                           :sector => @sector,
                                           :listing_status => @listing_status)
-      assert_equal @sector_not_applicable, @organization.sector
+      assert_equal Sector.not_applicable, @organization.sector
       assert_equal @listing_not_applicable, @organization.listing_status
-    end
-
-    context "when creating a non-participant" do
-      setup do
-        @organization = Organization.create(:name => "Signatory", :employees => 10)
-      end
-
-      should "set sector to 'not applicable' when it is a signatory and no sector was selected" do
-        assert_equal Sector.not_applicable, @organization.sector
-      end
-
-      should "set organization type to 'Initiative Signatory'" do
-        assert_equal OrganizationType.signatory, @organization.organization_type
-      end
     end
 
     context "that is a non-business participant" do
       setup do
         @organization = Organization.create(:name => "University",
                                             :employees => 5,
-                                            :organization_type_id => @academic.id)
+                                            :organization_type => OrganizationType.academic)
         @organization.approve
       end
 
@@ -113,18 +90,18 @@ class OrganizationTest < ActiveSupport::TestCase
     end
 
     should "set sector when it is a signatory" do
-      @sector = create(:sector, :name => "Media")
+      media_sector = Sector.find_by(name: 'Media')
       @organization = Organization.create(:name => "Signatory",
                                           :employees => 10,
-                                          :organization_type_id => OrganizationType.signatory.try(:id),
-                                          :sector => @sector )
-      assert_equal Sector.find_by_name("Media"), @organization.sector
+                                          :organization_type => OrganizationType.signatory,
+                                          :sector => media_sector)
+      assert_equal media_sector, @organization.sector
     end
 
     should "identify Academic organizations" do
       @organization = Organization.create(:name => "University",
                                           :employees => 5,
-                                          :organization_type_id => @academic.id)
+                                          :organization_type => OrganizationType.academic)
       assert @organization.academic?
     end
 
@@ -132,7 +109,7 @@ class OrganizationTest < ActiveSupport::TestCase
       setup do
         @organization = Organization.create(:name => 'Company',
                                             :employees => 100,
-                                            :organization_type_id => OrganizationType.company.id)
+                                            :organization_type => OrganizationType.company)
       end
 
       should "update approval related fields" do
@@ -197,14 +174,9 @@ class OrganizationTest < ActiveSupport::TestCase
 
   context "given a climate change initiative, some organization types and an org" do
     setup do
-      @academia  = create(:organization_type, :name => 'Academic')
-      @public    = create(:organization_type, :name => 'Public Sector Organization')
-      @companies = create(:organization_type, :name => 'Company')
-      @sme       = create(:organization_type, :name => 'SME')
-      @micro     = create(:organization_type, :name => 'Micro Entreprise')
       @climate   = create(:initiative, :id => 2, :name => 'Climate Change')
 
-      @an_org    = create(:organization, :organization_type_id => @sme.id, :employees => 50)
+      @an_org    = create(:organization, :organization_type => OrganizationType.sme, :employees => 50)
     end
 
     should "find no orgs when filtering by initiative for climate" do
@@ -223,7 +195,7 @@ class OrganizationTest < ActiveSupport::TestCase
 
     context "and an_org is an SME" do
       setup do
-        @an_org.update_attribute :organization_type, @sme
+        @an_org.update_attribute :organization_type, OrganizationType.sme
       end
 
       should "find an_org when filtering by type" do
@@ -338,12 +310,10 @@ class OrganizationTest < ActiveSupport::TestCase
 
   context "given a new organization from Brazil" do
     setup do
-      create_roles
-      @company = create(:organization_type, :name => 'Company')
       @country = create(:country, :name => "Brazil" )
       @participant_manager = create_participant_manager
       @country = create(:country, :participant_manager => @participant_manager)
-      @organization = create(:organization, :organization_type_id => @company.id, :country_id => @country.id)
+      @organization = create(:organization, :organization_type => OrganizationType.company, :country_id => @country.id)
     end
     should "assign the Relationship Manager for Brazil" do
       assert_equal @participant_manager, @organization.participant_manager

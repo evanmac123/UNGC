@@ -5,7 +5,6 @@ class GraceLetterFormTest < ActiveSupport::TestCase
   context "given an existing organization and a user" do
     setup do
       create_organization_and_user
-      @english = create(:language, name: "English")
     end
 
     context "when the form is created" do
@@ -15,8 +14,8 @@ class GraceLetterFormTest < ActiveSupport::TestCase
       end
 
       should "have a default language" do
-        assert_equal @english.id, @form.cop_file.language_id
-        assert_equal @english.id, @form.language_id
+        assert_equal Language.english.id, @form.cop_file.language_id
+        assert_equal Language.english.id, @form.language_id
       end
 
       should "have a new cop file by default" do
@@ -73,7 +72,6 @@ class GraceLetterFormTest < ActiveSupport::TestCase
         @form = GraceLetterForm.new(@organization)
         @form.submit(cop_file_attributes)
       end
-
 
       should "set a new language" do
         l = create(:language)

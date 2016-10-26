@@ -3,7 +3,6 @@ require 'test_helper'
 class Admin::ResourcesControllerTest < ActionController::TestCase
 
   def create_website_editor
-    create_roles
     user = create_staff_user
     user.roles << Role.website_editor
     user
