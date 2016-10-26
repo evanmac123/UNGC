@@ -28,28 +28,27 @@ class RemovalReason < ActiveRecord::Base
      # "Non-responsive"
   }
 
-  scope :publicly_visible, -> {
+  scope :publicly_delisted, -> {
     for_filter([:delisted, :requested])
   }
 
-  def self.for_filter(filter_types)
-    if filter_types.is_a?(Array)
-      where("description IN (?)", filter_types.map { |f| FILTERS[f] })
-    else
-      where("description = ?", FILTERS[filter_types])
-    end
+  def self.for_filter(filters)
+    descriptions = Array(filters).map { |f| FILTERS.fetch(f) }
+    where(description: descriptions)
+  rescue KeyError => e
+    raise "Invalid RemovalReason #{e.message}. Expected one of: #{FILTERS.keys}"
   end
 
   def self.delisted
-    where(:description => FILTERS[:delisted]).first
+    find_by!(description: FILTERS[:delisted])
   end
 
   def self.blacklisted
-    where(:description => FILTERS[:blacklisted]).first
+    find_by!(description: FILTERS[:blacklisted])
   end
 
   def self.withdrew
-    where(:description => FILTERS[:requested]).first
+    find_by!(description: FILTERS[:requested])
   end
 
 end

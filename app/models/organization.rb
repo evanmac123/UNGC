@@ -129,26 +129,18 @@ class Organization < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 100
 
-  sphinx_scope(:participants_only) {
-    {with: {participant: 1}}
-  }
-
-  sphinx_scope(:publicly_delisted_participants) {
+  sphinx_scope(:publicly_delisted_participants) do
     {
       with: {
         participant: 1,
-        removal_description: PUBLIC_DELISTED_REASONS.map do |symbol|
-          "'#{RemovalReason::FILTERS[symbol]}'"
-        end
-      },
+        removal_reason_id: RemovalReason.publicly_delisted.ids,
+      }
     }
-  }
+  end
 
   COP_STATE_ACTIVE = 'active'.freeze
   COP_STATE_NONCOMMUNICATING = 'noncommunicating'.freeze
   COP_STATE_DELISTED = 'delisted'.freeze
-
-  PUBLIC_DELISTED_REASONS = [:delisted, :requested].freeze
 
   COP_STATES = {
     :active => COP_STATE_ACTIVE,
@@ -313,11 +305,13 @@ class Organization < ActiveRecord::Base
   end
 
   def self.publicly_delisted
-    delisted_cop_states = [COP_STATE_ACTIVE, COP_STATE_NONCOMMUNICATING]
-    removal_reasons = RemovalReason.for_filter(PUBLIC_DELISTED_REASONS)
-    where.not(cop_state: delisted_cop_states)
-      .where(removal_reason: removal_reasons, active: false)
-      .order('delisted_on DESC')
+    where(active: false)
+      .includes(:removal_reason)
+      .merge(RemovalReason.publicly_delisted)
+      .where.not(cop_state: [COP_STATE_ACTIVE, COP_STATE_NONCOMMUNICATING])
+      .order('delisted_on DESC').tap do |query|
+        ap query.to_sql
+      end
   end
 
   # scopes the organization depending on user_type
