@@ -133,9 +133,22 @@ class Organization < ActiveRecord::Base
     {with: {participant: 1}}
   }
 
+  sphinx_scope(:publicly_delisted_participants) {
+    {
+      with: {
+        participant: 1,
+        removal_description: PUBLIC_DELISTED_REASONS.map do |symbol|
+          "'#{RemovalReason::FILTERS[symbol]}'"
+        end
+      },
+    }
+  }
+
   COP_STATE_ACTIVE = 'active'.freeze
   COP_STATE_NONCOMMUNICATING = 'noncommunicating'.freeze
   COP_STATE_DELISTED = 'delisted'.freeze
+
+  PUBLIC_DELISTED_REASONS = [:delisted, :requested].freeze
 
   COP_STATES = {
     :active => COP_STATE_ACTIVE,
@@ -299,8 +312,12 @@ class Organization < ActiveRecord::Base
     where(:cop_state => COP_STATE_DELISTED).where(removal_reason_id: RemovalReason.withdrew.id).includes(:removal_reason)
   end
 
-  def self.expelled_for_failure_to_communicate_progress
-    where("organizations.removal_reason_id = ? AND active = ? AND cop_state NOT IN (?)", RemovalReason.for_filter(:delisted).map(&:id), false, [COP_STATE_ACTIVE, COP_STATE_NONCOMMUNICATING]).order('delisted_on DESC')
+  def self.publicly_delisted
+    delisted_cop_states = [COP_STATE_ACTIVE, COP_STATE_NONCOMMUNICATING]
+    removal_reasons = RemovalReason.for_filter(PUBLIC_DELISTED_REASONS)
+    where.not(cop_state: delisted_cop_states)
+      .where(removal_reason: removal_reasons, active: false)
+      .order('delisted_on DESC')
   end
 
   # scopes the organization depending on user_type

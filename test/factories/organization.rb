@@ -24,6 +24,19 @@ FactoryGirl.define do
       active true
     end
 
+    trait :inactive do
+      active false
+    end
+
+    factory :delisted_participant do
+      inactive
+      participant true
+      delisted_on Date.today
+      inactive_on Date.today
+      cop_state Organization::COP_STATE_DELISTED
+      removal_reason { RemovalReason.for_filter(:delisted).first }
+    end
+
     factory :business do
       active_participant
       employees 11 # just big enough to be an SME

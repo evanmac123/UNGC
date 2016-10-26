@@ -29,7 +29,7 @@ class CopsController < ApplicationController
     @organizations = Organization.participants
       .summary
       .companies_and_smes
-      .expelled_for_failure_to_communicate_progress
+      .publicly_delisted
       .paginate(pagination_params)
   end
 

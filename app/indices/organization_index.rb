@@ -52,6 +52,12 @@ ThinkingSphinx::Index.define :organization,
   has joined_on,
     facet: true
 
+  has removal_reason(:id),
+    as: :removal_reason_id
+
+  has removal_reason(:description),
+    as: :removal_description
+
   has organization_type(:name),
     as: :type_name
 
