@@ -7,18 +7,22 @@ class CaseExampleControllerTest < ActionController::TestCase
 
     create(:container, path: '/take-action/action/share-story')
 
-    @sector = create(:sector)
-    @sector2 = create(:sector)
-    @country = create(:country)
+    @beverage_sector = Sector.find_by!(name: "Beverages")
+    @media_sector = Sector.find_by!(name: "Media")
+    @country = create(:country, name: "Bermuda")
 
     @params = {
       company: 'Unspace',
       country_id: @country.id,
-      sector_ids: [@sector.id, @sector2.id],
+      sector_ids: [@beverage_sector.id, @media_sector.id],
       is_participant: true,
       magic: '3',
       file: fixture_file_upload('files/untitled.pdf', 'application/pdf')
     }
+  end
+
+  teardown do
+    Sidekiq::Testing.fake!
   end
 
   context 'form renders' do
@@ -45,14 +49,15 @@ class CaseExampleControllerTest < ActionController::TestCase
       assert_equal @params[:is_participant], case_example.is_participant
       assert case_example.file.file?
 
+      body = email.body.to_s
       assert_equal 'Case Example Received from Unspace', email.subject
       assert_equal 'rmteam@unglobalcompact.org', email.to[0]
-      assert_match /Unspace/, email.body.to_s
-      assert_match /#{@country.name}/, email.body.to_s
-      assert_match /#{@sector.name}/, email.body.to_s
-      assert_match /#{@sector2.name}/, email.body.to_s
-      assert_match /Yes/, email.body.to_s
-      assert_match /http:\/\/test.host#{Regexp.escape(case_example.file.url)}/, email.body.to_s
+      assert_match(/Unspace/, body)
+      assert_match(/#{@country.name}/, body)
+      assert_match(/#{@beverage_sector.name}/, body)
+      assert_match(/#{@media_sector.name}/, body)
+      assert_match(/Yes/, body)
+      assert_match(/http:\/\/test.host#{Regexp.escape(case_example.file.url)}/, body)
 
       assert_redirected_to case_example_path
     end
