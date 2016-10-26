@@ -129,15 +129,6 @@ class Organization < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 100
 
-  sphinx_scope(:publicly_delisted_participants) do
-    {
-      with: {
-        participant: 1,
-        removal_reason_id: RemovalReason.publicly_delisted.ids,
-      }
-    }
-  end
-
   COP_STATE_ACTIVE = 'active'.freeze
   COP_STATE_NONCOMMUNICATING = 'noncommunicating'.freeze
   COP_STATE_DELISTED = 'delisted'.freeze
@@ -304,10 +295,24 @@ class Organization < ActiveRecord::Base
     where(:cop_state => COP_STATE_DELISTED).where(removal_reason_id: RemovalReason.withdrew.id).includes(:removal_reason)
   end
 
+  sphinx_scope(:search_listed_and_publicly_delisted_participants) do
+    {
+      with: {
+        participant: 1,
+        # HACK: include 0 to include organizations with nils in removal_reason_id
+        removal_reason_id: [0] + RemovalReason.publicly_delisted.ids,
+      }
+    }
+  end
+
+  def self.listed_and_publicly_delisted
+    # publicly deslisted or no removal_reason
+    where(removal_reason_id: [nil] + RemovalReason.publicly_delisted.ids)
+  end
+
   def self.publicly_delisted
     where(active: false)
-      .includes(:removal_reason)
-      .merge(RemovalReason.publicly_delisted)
+      .where(removal_reason: RemovalReason.publicly_delisted)
       .where.not(cop_state: [COP_STATE_ACTIVE, COP_STATE_NONCOMMUNICATING])
       .order('delisted_on DESC')
   end
@@ -732,6 +737,8 @@ class Organization < ActiveRecord::Base
     cop_state == COP_STATE_NONCOMMUNICATING
   end
 
+  # FIXME it is very confusing to have .active? refer to cop_state here
+  # It is also shadowing the rails-provided method active? for the #active field
   def active?
     cop_state == COP_STATE_ACTIVE
   end

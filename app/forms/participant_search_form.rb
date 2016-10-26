@@ -134,7 +134,7 @@ class ParticipantSearchForm < FilterableForm
   end
 
   def search_scope
-    @search_scope ||= Organization.publicly_delisted_participants
+    @search_scope ||= Organization.search_listed_and_publicly_delisted_participants
   end
 
   class FacetFilter < Filters::FacetFilter

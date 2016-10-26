@@ -2,7 +2,7 @@ class Searchable::SearchableOrganization < Searchable::Base
   alias_method :organization, :model
 
   def self.all
-    Organization.participants.approved
+    Organization.participants.approved.listed_and_publicly_delisted
   end
 
   def document_type
