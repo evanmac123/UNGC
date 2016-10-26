@@ -399,7 +399,7 @@ class OrganizationTest < ActiveSupport::TestCase
       RemovalReason::FILTERS[:requested],
     ]
 
-    assert_equal expected, actual
+    assert_equal expected.sort, actual.sort
   end
 
 end
