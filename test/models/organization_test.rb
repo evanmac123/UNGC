@@ -383,4 +383,23 @@ class OrganizationTest < ActiveSupport::TestCase
 
   end
 
+  test "scope publicly visible delisted organizations" do
+    # Given removed organizations for each reason
+    RemovalReason.all.map do |reason|
+      create(:delisted_participant, removal_reason: reason)
+    end
+
+    # we should only get delisted and withdrawn/requested organizations back
+    actual = Organization.joins(:removal_reason)
+      .publicly_delisted
+      .pluck("removal_reasons.description")
+
+    expected = [
+      RemovalReason::FILTERS[:delisted],
+      RemovalReason::FILTERS[:requested],
+    ]
+
+    assert_equal expected, actual
+  end
+
 end
