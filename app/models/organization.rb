@@ -309,9 +309,7 @@ class Organization < ActiveRecord::Base
       .includes(:removal_reason)
       .merge(RemovalReason.publicly_delisted)
       .where.not(cop_state: [COP_STATE_ACTIVE, COP_STATE_NONCOMMUNICATING])
-      .order('delisted_on DESC').tap do |query|
-        ap query.to_sql
-      end
+      .order('delisted_on DESC')
   end
 
   # scopes the organization depending on user_type
