@@ -82,7 +82,7 @@ class Searchable < ActiveRecord::Base
       else
         # update the searchable
         log.info "Updating #{model.to_param}"
-        import(model)
+        import(searchable)
       end
     end
 
