@@ -12,6 +12,11 @@
 class RemovalReason < ActiveRecord::Base
   validates_presence_of :description
 
+  PUBLIC_REASONS = [
+    :delisted,
+    :requested
+  ].freeze
+
   FILTERS = {
      :delisted         => 'Expelled due to failure to communicate progress',
      :not_applicable   => 'Other',
@@ -26,10 +31,10 @@ class RemovalReason < ActiveRecord::Base
      # "Transfer of commitment",
      # "Consolidation of commitment under the parent company",
      # "Non-responsive"
-  }
+  }.freeze
 
   scope :publicly_delisted, -> {
-    for_filter([:delisted, :requested])
+    for_filter(PUBLIC_REASONS)
   }
 
   def self.for_filter(filters)
@@ -49,6 +54,18 @@ class RemovalReason < ActiveRecord::Base
 
   def self.withdrew
     find_by!(description: FILTERS[:requested])
+  end
+
+  def public_reason?
+    public_description.include?(self.description)
+  end
+
+  private
+
+  def self.public_descriptions
+    PUBLIC_REASONS.map do |sym|
+      FILTERS.fetch(sym)
+    end
   end
 
 end

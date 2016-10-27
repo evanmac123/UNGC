@@ -66,6 +66,26 @@ class Searchable < ActiveRecord::Base
       end
     end
 
+    def update_or_evict(model)
+      searchable = new_searchable(model)
+
+      if searchable.nil?
+        log.err "Failed to find searchable for: #{model.id}"
+        return
+      end
+
+      is_evicted = searchable.class.all.where(id: model.id).none?
+      if is_evicted
+        # the model no longer meets the criteria set in .all
+        log.info "Evicting #{model.name}"
+        remove(model)
+      else
+        # update the searchable
+        log.info "Updating #{model.name}"
+        import(model)
+      end
+    end
+
     def remove(model)
       searchable = new_searchable(model)
       return if searchable.nil?
