@@ -5,6 +5,10 @@ module Indexable
         Searchable.update_url(self)
       end
 
+      after_commit on: :update do
+        Searchable.update_or_evict(self)
+      end
+
       before_destroy do
         Searchable.remove(self)
       end

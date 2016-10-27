@@ -295,6 +295,8 @@ class Organization < ActiveRecord::Base
     where(:cop_state => COP_STATE_DELISTED).where(removal_reason_id: RemovalReason.withdrew.id).includes(:removal_reason)
   end
 
+  # TODO find a way to express the ActiveRecord scope belong in sphinx terms
+  # Not sure how we're going to be able to do that without 'or'
   sphinx_scope(:search_listed_and_publicly_delisted_participants) do
     {
       with: {
@@ -308,6 +310,7 @@ class Organization < ActiveRecord::Base
   def self.listed_and_publicly_delisted
     # publicly deslisted or no removal_reason
     where(removal_reason_id: [nil] + RemovalReason.publicly_delisted.ids)
+    where("active = ? or (removal_reason_id in (?))", true, RemovalReason.publicly_delisted.ids)
   end
 
   def self.publicly_delisted

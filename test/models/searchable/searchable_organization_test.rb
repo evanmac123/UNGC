@@ -6,7 +6,6 @@ class Searchable::SearchableOrganizationTest < ActiveSupport::TestCase
   private
 
   def organization
-    @organization_type ||= create(:organization_type)
     @organization ||= create(:organization).tap { |o| o.approve! }
   end
 

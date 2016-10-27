@@ -1,8 +1,13 @@
 class Searchable::SearchableOrganization < Searchable::Base
   alias_method :organization, :model
 
+  FIELDS = [:id, :name, :created_at, :updated_at]
+
   def self.all
-    Organization.participants.approved.listed_and_publicly_delisted
+    Organization.participants
+      .approved
+      .listed_and_publicly_delisted
+      .select(FIELDS)
   end
 
   def document_type
