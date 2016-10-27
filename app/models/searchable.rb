@@ -77,11 +77,11 @@ class Searchable < ActiveRecord::Base
       is_evicted = searchable.class.all.where(id: model.id).none?
       if is_evicted
         # the model no longer meets the criteria set in .all
-        log.info "Evicting #{model.name}"
+        log.info "Evicting #{model.to_param}"
         remove(model)
       else
         # update the searchable
-        log.info "Updating #{model.name}"
+        log.info "Updating #{model.to_param}"
         import(model)
       end
     end
