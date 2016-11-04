@@ -1,6 +1,6 @@
 desc "all the organization that have answers COP SDGs"
 task sdg_cop_orgs: :environment do
-  answers = CopAttribute.find_by_sql(<<-SQL)
+  query = <<-SQL
     select  cop_attributes.text as question_text, organizations.name as organization_name
     from cop_answers
     inner join cop_attributes
@@ -11,10 +11,11 @@ task sdg_cop_orgs: :environment do
     on communication_on_progresses.id = cop_answers.cop_id
     inner join organizations
     on organizations.id = communication_on_progresses.organization_id
-    where cop_attribute_id in (#{CopQuestion.sdgs.ids.join(",")})
+    where cop_questions.id in (#{CopQuestion.sdgs.ids.join(",")})
     and (value = 1 or cop_answers.text <> '')
     order by cop_id
   SQL
+  answers = CopAttribute.find_by_sql(query)
 
   answers = answers.group_by do |answer|
     answer[:organization_name]
@@ -34,5 +35,7 @@ task sdg_cop_orgs: :environment do
       questions: answers.map {|attr| attr[:question_text] }
     )
   end
+
+  ap "#{answers.count} respondents"
 
 end
