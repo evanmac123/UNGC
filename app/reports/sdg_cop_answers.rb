@@ -1,50 +1,70 @@
 class SdgCopAnswers < SimpleReport
 
   def records
-    query = <<-SQL
-      select  cop_attributes.text as question_text, organizations.name as organization_name, organizations.employees as employees, sector.name as sector, organization_type.name as organization_type, country.name as country,
-      from cop_answers
-      inner join cop_attributes
-      on cop_attributes.id = cop_answers.cop_attribute_id
-      inner join cop_questions
-      on cop_questions.id = cop_attributes.cop_question_id
-      inner join communication_on_progresses
-      on communication_on_progresses.id = cop_answers.cop_id
-      inner join organizations
-      on organizations.id = communication_on_progresses.organization_id
-      where cop_questions.id in (#{CopQuestion.sdgs.ids.join(",")})
-      and (value = 1 or cop_answers.text <> '')
-      order by cop_id
-    SQL
-    answers = CopAttribute.find_by_sql(query)
-
-    answers = answers.group_by do |answer|
-      answer[:organization_name]
-    end
-    answers.each do |organization_name, answers|
-        organization_name
-        answers.map {|attr| attr[:question_text] }
+    CopAnswer.joins(communication_on_progress: [:organization],
+                    cop_attribute: [:cop_question]).
+    includes(communication_on_progress: [{ organization: [:sector, :country, :organization_type] }],
+             cop_attribute: [:cop_question ]).
+    where("value = 1 or cop_answers.text <> ''").
+    where("grouping = 'sdgs'").
+    order(:cop_id).
+    group_by do |answer|
+      answer.communication_on_progress
     end
   end
 
   def render_output
-    self.render_xls_in_batches
+    self.render_xls
   end
 
   def headers
     [
       'organization name',
-      'sector',
-      'organization_type',
-      'country',
-      'employees',
       'cop type',
-      'questions'
+      'question + selected sdgs',
+      'free text answer',
+      'organizaton type',
+      'country',
+      'sector',
+      'employees'
     ]
   end
 
-  def rows(record)
+  def row(row)
+    communication_on_progress, answers = row
     [
-      ]
+      communication_on_progress.organization.name,
+      rename_cop_type(communication_on_progress),
+      combined_text(answers),
+      combined_answers(answers),
+      communication_on_progress.organization.organization_type_name,
+      communication_on_progress.organization.country_name,
+      communication_on_progress.organization.sector_name,
+      communication_on_progress.organization.employees
+    ]
   end
+
+  private
+
+  def rename_cop_type(cop)
+    if cop.cop_type == "intermediate"
+      "active"
+    else
+      cop.cop_type
+    end
+  end
+
+  def combined_answers(answers)
+    answers.map do |answer|
+      answer.text
+    end.reject {|a| a.blank? }.join(", ")
+  end
+
+  def combined_text(answers)
+    answers.map do |question|
+      question.cop_attribute.text
+    end.compact.join(",\n")
+  end
+
+
 end
