@@ -74,4 +74,8 @@ class CopQuestion < ActiveRecord::Base
     EXEMPTED_GROUPS
   end
 
+  def self.sdgs
+    where(grouping: 'sdgs')
+  end
+
 end

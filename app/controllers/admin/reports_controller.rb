@@ -65,6 +65,11 @@ class Admin::ReportsController < AdminController
     render_report(report, "approved_logo_requests_#{date_as_filename}.xls")
   end
 
+  def sdg_cop_answers
+    report = SdgCopAnswers.new
+    render_report(report, "sdg_cop_answers_#{date_as_filename}.xls")
+  end
+
   def sdg_pioneer_submission
     report = SdgPioneerSubmissionReport.new
     render_report(report, "sdg_pioneer_submission_#{date_as_filename}.xls")

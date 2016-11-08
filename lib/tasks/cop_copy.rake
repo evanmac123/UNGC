@@ -2,8 +2,8 @@ namespace :cop do
 
   desc "copy COPs from one organization to another"
   task :copy, [:first_organization,:second_organization] => :environment do |t, args|
-    arg1 = Organization.find_by(name: args[:first_organization])
-    arg2 = Organization.find_by(name: args[:second_organization])
+    arg1 = Organization.find_by!(name: args[:first_organization])
+    arg2 = Organization.find_by!(name: args[:second_organization])
 
     clone_cops(from: arg1, to: arg2)
 
