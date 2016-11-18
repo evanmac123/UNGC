@@ -5,6 +5,13 @@ public class UngcOpportunitySerializer extends UngcJsonSerializer {
   }
 
   public void writeUpsert(Opportunity op) {
+    Account account = op.Account;
+
+    if(account == null) {
+      System.debug('Ignoring contribution without an Account');
+      return;
+    }
+
     String organizationId = op.Account.AccountNumber;
     if(organizationId == null) {
       // Account's without AccountNumber are not UNGC contributions. ignore them.
@@ -32,4 +39,5 @@ public class UngcOpportunitySerializer extends UngcJsonSerializer {
   protected override String getModelName() {
     return 'contribution';
   }
+
 }

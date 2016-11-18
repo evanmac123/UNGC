@@ -15,8 +15,12 @@ public abstract class UngcJob {
     for(Id id : this.ids) {
       UNGCSync__c record = new UNGCSync__c();
       record.Errors__c = String.join(errors, ' ::: ');
-      saveRecord(record, id);
-      syncs.add(record);
+      if(id == null) {
+        System.debug('Ignoring job with missing ID');
+      } else {
+        saveRecord(record, id);
+        syncs.add(record);
+      }
     }
     insert syncs;
   }
