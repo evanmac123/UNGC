@@ -65,13 +65,13 @@ from installing any gems, packages, or dependencies directly on the server.
 
   # This recipe is used to configure the hostname on a server via the
   # `/etc/hostname` file. Generally, this requires a restart to take
-  # effect. We default back to `Facter.fqdn` (the current hostname) as
+  # effect. We default back to `Facter.value(:fqdn)` (the current hostname) as
   # a default value to avoid any unanticipated changes.
 
   def hostname
     file '/etc/hostname',
       :ensure  => :present,
-      :content => (configuration[:hostname] || Facter.fqdn || Facter.hostname || ''),
+      :content => (configuration[:hostname] || Facter.value(:fqdn) || Facter.value(:hostname) || ''),
       :owner   => 'root',
       :group   => 'root',
       :mode    => '644'
@@ -108,12 +108,12 @@ from installing any gems, packages, or dependencies directly on the server.
 
     file '/etc/mailname',
       :ensure  => :present,
-      :content => (configuration[:mailname] || Facter.fqdn || Facter.hostname || ''),
+      :content => (configuration[:mailname] || Facter.value(:fqdn) || Facter.value(:hostname) || ''),
       :owner   => 'root',
       :group   => 'root',
       :mode    => '644'
 
-    myhostname = configuration[:myhostname] || configuration[:mailname] || Facter.fqdn || Facter.hostname || ''
+    myhostname = configuration[:myhostname] || configuration[:mailname] || Facter.value(:fqdn) || Facter.value(:hostname) || ''
     mydomain_parts = myhostname.split('.')
     mydomain_parts.shift
     mydomain = mydomain_parts.join('.')
@@ -137,6 +137,70 @@ from installing any gems, packages, or dependencies directly on the server.
     service 'ntp', :ensure => :running, :require => package('ntp'), :pattern => 'ntpd'
   end
 
+  #### fail2ban
+
+  # A fine alternative to denyhosts that blocks IP addresses after failed login attempts.
+  # By default, it enables ssh and ssh-ddos actions.
+  #
+  # To change settings, add the following to config/moonshine.yml:
+  #
+  #    :fail2ban:
+  #      :apache: true
+  #      :ssh_ddos: false
+
+  def fail2ban
+
+    defaults = {
+      :ssh => true,
+      :pam_generic => false,
+      :xinetd_fail => false,
+      :ssh_ddos => true,
+      :apache => false,
+      :apache_multiport => false,
+      :apache_noscript => false,
+      :apache_overflows => false,
+      :vsftpd => false,
+      :proftpd => false,
+      :wuftpd => false,
+      :postfix => true,
+      :couriersmtp => false,
+      :courierauth => false,
+      :sasl => false
+    }
+
+    if configuration[:fail2ban]
+      defaults.merge!(configuration[:fail2ban])
+    end
+
+    configure :fail2ban => defaults
+
+    package 'fail2ban', :ensure => :installed
+
+    service 'fail2ban',
+      :ensure => :running,
+      :enable => true,
+      :require => [package('fail2ban')]
+
+    service 'rsyslog',
+      :ensure => :running,
+      :enable => true
+
+    file "/etc/fail2ban/jail.conf",
+      :ensure => :present,
+      :content => template(File.join(File.dirname(__FILE__), "templates", "jail.conf.erb")),
+      :owner => 'root',
+      :notify => service('fail2ban'),
+      :require => package('fail2ban')
+
+    file "/etc/rsyslog.d/fail2ban.conf",
+      :ensure => :present,
+      :content => template(File.join(File.dirname(__FILE__), "templates", "fail2ban.rsyslog.conf.erb")),
+      :owner => 'root',
+      :notify => [service('fail2ban'), service('rsyslog')],
+      :require => package('fail2ban')
+
+  end
+
   #### Time Zones
 
   # Sometimes it's desirable to have a server run in a time besides UTC.
@@ -155,6 +219,7 @@ from installing any gems, packages, or dependencies directly on the server.
       :content => zone+"\n",
       :ensure => :present
     file "/etc/localtime",
+      :backup => false,
       :ensure => "/usr/share/zoneinfo/#{zone}",
       :notify => service('ntp')
   end
@@ -199,6 +264,22 @@ CONFIG
       exec 'apt-get update', :command => 'apt-get update', :require => file('/etc/apt/sources.list')
     else
       exec 'apt-get update', :command => 'apt-get update'
+    end
+  end
+
+  #### Python Software Properties
+
+  # The python-software-properties (and software-properties-common on Ubuntu 14.04
+  # provides utilities for working with third party PPAs and Apt repos.
+
+  def python_software_properties
+    if ubuntu_trusty?
+      package 'software-properties-common',
+        :alias => 'python-software-properties',
+        :ensure => :installed
+    else
+      package 'python-software-properties',
+        :ensure => :installed
     end
   end
 
@@ -271,27 +352,27 @@ private
   # 8.10, 10.04 & 12.04, so we provide helpers to detect those versions.
 
   def ubuntu_lucid?
-    Facter.lsbdistid == 'Ubuntu' && Facter.lsbdistrelease.to_f == 10.04
+    Facter.value(:lsbdistid) == 'Ubuntu' && Facter.value(:lsbdistrelease).to_f == 10.04
   end
 
   def ubuntu_precise?
-    Facter.lsbdistid == 'Ubuntu' && Facter.lsbdistrelease.to_f == 12.04
+    Facter.value(:lsbdistid) == 'Ubuntu' && Facter.value(:lsbdistrelease).to_f == 12.04
   end
 
   def ubuntu_trusty?
-    Facter.lsbdistid == 'Ubuntu' && Facter.lsbdistrelease.to_f == 14.04
+    Facter.value(:lsbdistid) == 'Ubuntu' && Facter.value(:lsbdistrelease).to_f == 14.04
   end
 
   def ubuntu_intrepid?
-    Facter.lsbdistid == 'Ubuntu' && Facter.lsbdistrelease.to_f == 8.10
+    Facter.value(:lsbdistid) == 'Ubuntu' && Facter.value(:lsbdistrelease).to_f == 8.10
   end
 
   def distro_unattended_security_origin
-    case Facter.lsbdistrelease.to_f
+    case Facter.value(:lsbdistrelease).to_f
     when 8.10 then 'Ubuntu intrepid-security'
     when 10.04 then 'Ubuntu lucid-security'
     when 12.04 then 'Ubuntu precise-security'
-    when 14.04 then 'Ubuntu trusty-security'
+    when 14.04 then '${distro_id}:${distro_codename}-security'
     end
   end
 
