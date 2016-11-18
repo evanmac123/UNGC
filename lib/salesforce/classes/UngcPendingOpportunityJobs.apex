@@ -28,9 +28,8 @@ public class UngcPendingOpportunityJobs extends UngcPendingJob {
                 Opportunity__r.Payment_type__c,
                 Opportunity__r.IsDeleted
         FROM    UNGCSync__c
-        WHERE   (Type__c = :OPPORTUNITY_UPSERT OR Type__c = :OPPORTUNITY_DELETE)
-        AND     Opportunity__c != null
-        AND     Opportunity__r.Account.AccountNumber != null
+        WHERE   (Type__c = :OPPORTUNITY_UPSERT AND Opportunity__c != null)
+        OR      (Type__c = :OPPORTUNITY_DELETE AND DeletedId__c != null)
       ];
     }
     return this.syncs;
