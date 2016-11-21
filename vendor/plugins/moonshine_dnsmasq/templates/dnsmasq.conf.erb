@@ -3,6 +3,14 @@ cache-size = <%= cache_size %> # The number of domain lookups to cache.
 all-servers # Sends every DNS request to all servers and returns the first response.
 
 <% 
+servers.each do |server|
+%>
+server=<%= server %>
+<% 
+end 
+%>
+
+<% 
 if configuration[:dnsmasq] && configuration[:dnsmasq][:records] 
   configuration[:dnsmasq][:records].each do |h,i|
 %>

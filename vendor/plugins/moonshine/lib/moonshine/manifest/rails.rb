@@ -2,7 +2,7 @@
 # running on Ubuntu 8.10 or greater.
 class Moonshine::Manifest::Rails < Moonshine::Manifest
   def validate_platform
-    unless Facter.lsbdistid == 'Ubuntu' && Facter.lsbdistrelease.to_f >= 8.04
+    unless Facter.value(:lsbdistid) == 'Ubuntu' && Facter.value(:lsbdistrelease).to_f >= 8.04
       error = <<-ERROR
 
 
@@ -55,7 +55,7 @@ class Moonshine::Manifest::Rails < Moonshine::Manifest
       recipe :sqlite3
     end
     recipe :rails_rake_environment, :rails_gems, :rails_directories, :rails_bootstrap, :rails_migrations, :rails_logrotate
-    recipe :ntp, :time_zone, :postfix, :cron_packages, :motd, :security_updates, :apt_sources, :hostname
+    recipe :ntp, :time_zone, :postfix, :cron_packages, :motd, :security_updates, :apt_sources, :python_software_properties, :hostname
 
     if precompile_asset_pipeline?
       recipe :rails_asset_pipeline
