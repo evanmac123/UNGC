@@ -27,16 +27,16 @@ module MoonshineGeneratorHelpers
 
     def default_ruby
       case ruby_version
-      when /^1\.8/
-        'ree187'
-      when "1.9.2"
-        'src192'
       when "1.9.3"
         'src193'
       when "2.0.0"
         'src200'
       when /^2.1/
         'src21'
+      when /^2.2/
+        'src22'
+      when /^2.3/
+        'src23'
       else
       end
     end

@@ -12,8 +12,8 @@
 # * ree187
 # * src192
 # * src193
-:ruby: src21
 :rake_version: 10.1.0
+:ruby: src23
 # Name of your application. Should be something with only alphanumerics, hypens
 # and underscores.
 :application: unglobalcompact
@@ -101,7 +101,7 @@
     net_write_timeout = 1000
 
 :sphinx:
-  :version: 2.2.9
+  :version: 2.2.11
   :sphinx_yml: sphinx.yml
   :libstemmer: true
   :index_cron: false # A custom cron job using nice is setup in the sphinx_cron recipe

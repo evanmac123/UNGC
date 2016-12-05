@@ -359,8 +359,7 @@ class Organization < ActiveRecord::Base
 
   def self.applications_under_review
     where("organizations.state NOT IN (?)", [ApprovalWorkflow::STATE_APPROVED,
-                                             ApprovalWorkflow::STATE_REJECTED,
-                                             ApprovalWorkflow::STATE_REJECTED_MICRO ])
+                                             ApprovalWorkflow::STATE_REJECTED])
   end
 
   # this object really doesn't need anymore responsibilities

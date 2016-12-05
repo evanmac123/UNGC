@@ -513,7 +513,7 @@ module Moonshine
           desc "Install libyaml from source."
           task :install do
             remove_libyaml_from_apt
-            pv = "0.1.5"
+            pv = "0.1.6"
             p = "yaml-#{pv}"
             run [
               'cd /tmp',
@@ -568,54 +568,52 @@ module Moonshine
             #TODO apt-pinning to ensure ruby is never installed via apt
           end
 
-          task :ree do
+          task :brightbox21 do
             remove_ruby_from_apt
             run [
-              'cd /tmp',
-              'sudo rm -rf ruby-enterprise-1.8.6-20090610* || true',
-              'sudo mkdir -p /usr/lib/ruby/gems/1.8/gems || true',
-              'wget -q http://assets.railsmachine.com/other/ruby-enterprise-1.8.6-20090610.tar.gz',
-              'tar xzf ruby-enterprise-1.8.6-20090610.tar.gz',
-              'sudo /tmp/ruby-enterprise-1.8.6-20090610/installer --dont-install-useful-gems -a /usr'
+              'sudo rm -f /usr/bin/ruby',
+              'sudo rm -f /usr/bin/gem',
+              'sudo rm -f /usr/bin/rake',
+              'sudo rm -f /usr/bin/rdoc',
+              'sudo rm -f /usr/bin/irb',
+              'sudo rm -f /usr/bin/erb',
+              'sudo rm -f /usr/bin/ri',
+              'sudo rm -f /usr/bin/testrb',
+              'sudo apt-get install python-software-properties software-properties-common -y',
+              'sudo apt-add-repository ppa:brightbox/ruby-ng -y',
+              'sudo apt-get update',
+              'sudo apt-get install ruby2.1 ruby2.1-dev -y'
             ].join(' && ')
+            set :rubygems_version, fetch(:rubygems_version, '2.2.2')
+            set :bundler_version, fetch(:bundler_version, '1.6.2')
           end
 
-          task :ree187 do
+          task :brightbox193 do
             remove_ruby_from_apt
 
-            ree_release = fetch(:ree_187_release, '2012.02')
-            ree_src_uri = case ree_release
-                          when '2010.02'
-                            "http://rubyforge.org/frs/download.php/71096/ruby-enterprise-1.8.7-2010.02.tar.gz/noredirect "
-                          when '2010.01'
-                            'http://rubyforge.org/frs/download.php/68719/ruby-enterprise-1.8.7-2010.01.tar.gz/noredirect'
-                          when '2009.01'
-                            'http://rubyforge.org/frs/download.php/66162/ruby-enterprise-1.8.7-2009.10.tar.gz/noredirect'
-                          else
-                            "http://rubyenterpriseedition.googlecode.com/files/ruby-enterprise-1.8.7-#{ree_release}.tar.gz"
-                          end
-            run [
-              'cd /tmp',
-              "sudo rm -rf ruby-enterprise-1.8.7-#{ree_release}* || true",
-              "sudo mkdir -p /usr/lib/ruby/gems/1.8/gems || true",
-              "wget -q #{ree_src_uri} -O ruby-enterprise-1.8.7-#{ree_release}.tar.gz",
-              "tar xzf ruby-enterprise-1.8.7-#{ree_release}.tar.gz",
-              "sudo /tmp/ruby-enterprise-1.8.7-#{ree_release}/installer --dont-install-useful-gems --no-dev-docs -a /usr"
-            ].join(' && ')
-          end
+            version = capture("lsb_release -r").split(":").last.to_f
 
-          task :src187 do
-            remove_ruby_from_apt
+            repo_flag = ""
+            software_properties = "python-software-properties"
+
+            if version >= 12
+              repo_flag = "-y"
+              software_properties << " software-properties-common"
+            end
+
             run [
-              'cd /tmp',
-              'sudo rm -rf ruby-1.8.7-p249* || true',
-              'sudo mkdir -p /usr/lib/ruby/gems/1.8/gems || true',
-              'wget -q ftp://ftp.ruby-lang.org/pub/ruby/1.8/ruby-1.8.7-p249.tar.bz2',
-              'tar xjf ruby-1.8.7-p249.tar.bz2',
-              'cd /tmp/ruby-1.8.7-p249',
-              './configure --prefix=/usr',
-              'make',
-              'sudo make install'
+              'sudo rm -f /usr/bin/ruby',
+              'sudo rm -f /usr/bin/gem',
+              'sudo rm -f /usr/bin/rake',
+              'sudo rm -f /usr/bin/rdoc',
+              'sudo rm -f /usr/bin/irb',
+              'sudo rm -f /usr/bin/erb',
+              'sudo rm -f /usr/bin/ri',
+              'sudo rm -f /usr/bin/testrb',
+              "sudo apt-get install #{software_properties} -y",
+              "sudo apt-add-repository ppa:brightbox/ruby-ng #{repo_flag}",
+              'sudo apt-get update',
+              'sudo apt-get install build-essential ruby1.9.1 ruby1.9.1-dev -y'
             ].join(' && ')
           end
 
@@ -640,7 +638,7 @@ module Moonshine
           task :src193 do
             remove_ruby_from_apt
             libyaml.install
-            pv = "1.9.3-p547"
+            pv = "1.9.3-p551"
             p = "ruby-#{pv}"
             run [
               'cd /tmp',
@@ -668,7 +666,7 @@ module Moonshine
             end
             remove_ruby_from_apt
             libyaml.install
-            pv = "1.9.3-p547"
+            pv = "1.9.3-p551"
             p = "ruby-#{pv}"
             run [
               'sudo apt-get install autoconf -y || true',
@@ -679,24 +677,25 @@ module Moonshine
               "wget -q http://ftp.ruby-lang.org/pub/ruby/1.9/#{p}.tar.gz",
               "tar zxvf #{p}.tar.gz",
               "cd /tmp/#{p}",
-              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p547/railsexpress/01-fix-make-clean.patch",
-              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p547/railsexpress/02-railsbench-gc.patch",
-              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p547/railsexpress/03-display-more-detailed-stack-trace.patch",
-              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p547/railsexpress/04-fork-support-for-gc-logging.patch",
-              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p547/railsexpress/05-track-live-dataset-size.patch",
-              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p547/railsexpress/06-webrick_204_304_keep_alive_fix.patch",
-              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p547/railsexpress/07-export-a-few-more-symbols-for-ruby-prof.patch",
-              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p547/railsexpress/08-thread-variables.patch",
-              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p547/railsexpress/09-faster-loading.patch",
-              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p547/railsexpress/10-falcon-st-opt.patch",
-              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p547/railsexpress/11-falcon-sparse-array.patch",
-              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p547/railsexpress/12-falcon-array-queue.patch",
-              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p547/railsexpress/13-railsbench-gc-fixes.patch",
-              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p547/railsexpress/14-show-full-backtrace-on-stack-overflow.patch",
-              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p547/railsexpress/15-configurable-fiber-stack-sizes.patch",
-              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p547/railsexpress/16-backport-psych-20.patch",
-              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p547/railsexpress/17-fix-missing-c-return-event.patch",
-              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p547/railsexpress/18-fix-process-daemon-call.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p551/railsexpress/01-fix-make-clean.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p551/railsexpress/02-zero-broken-tests.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p551/railsexpress/03-railsbench-gc.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p551/railsexpress/04-display-more-detailed-stack-trace.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p551/railsexpress/05-fork-support-for-gc-logging.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p551/railsexpress/06-track-live-dataset-size.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p551/railsexpress/07-webrick_204_304_keep_alive_fix.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p551/railsexpress/08-export-a-few-more-symbols-for-ruby-prof.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p551/railsexpress/09-thread-variables.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p551/railsexpress/10-faster-loading.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p551/railsexpress/11-falcon-st-opt.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p551/railsexpress/12-falcon-sparse-array.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p551/railsexpress/13-falcon-array-queue.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p551/railsexpress/14-railsbench-gc-fixes.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p551/railsexpress/15-show-full-backtrace-on-stack-overflow.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p551/railsexpress/16-configurable-fiber-stack-sizes.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p551/railsexpress/17-backport-psych-20.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p551/railsexpress/18-fix-missing-c-return-event.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p551/railsexpress/19-fix-process-daemon-call.patch",
               'export CFLAGS="-march=core2 -O2 -pipe -fomit-frame-pointer"',
               'autoreconf -vf',
               "./configure --prefix=/usr",
@@ -707,8 +706,7 @@ module Moonshine
 
           task :src200 do
             remove_ruby_from_apt
-            libyaml.install
-            pv = "2.0.0-p481"
+            pv = "2.0.0-p648"
             p = "ruby-#{pv}"
             run [
               'cd /tmp',
@@ -723,8 +721,8 @@ module Moonshine
               'make',
               'sudo make install'
             ].join(' && ')
-            set :rubygems_version, fetch(:rubygems_version, '2.1.11')
-            set :bundler_version, fetch(:bundler_version, '1.3.5')
+            set :rubygems_version, fetch(:rubygems_version, '2.4.8')
+            set :bundler_version, fetch(:bundler_version, '1.10.6')
           end
 
           task :src200railsexpress do
@@ -734,8 +732,7 @@ module Moonshine
               upload ruby_patches_path.to_s, "/tmp/moonshine/", :via => :scp, :recursive => true
             end
             remove_ruby_from_apt
-            libyaml.install
-            pv = "2.0.0-p451"
+            pv = "2.0.0-p648"
             p = "ruby-#{pv}"
             run [
               'sudo apt-get install autoconf -y || true',
@@ -747,11 +744,10 @@ module Moonshine
               "wget -q http://ftp.ruby-lang.org/pub/ruby/2.0/#{p}.tar.gz",
               "tar xzf #{p}.tar.gz",
               "cd /tmp/#{p}",
-              "patch -p1 </tmp/moonshine/patches/ruby/2.0.0/p451/railsexpress/01-zero-broken-tests.patch",
-              "patch -p1 </tmp/moonshine/patches/ruby/2.0.0/p451/railsexpress/02-railsexpress-gc.patch",
-              "patch -p1 </tmp/moonshine/patches/ruby/2.0.0/p451/railsexpress/03-display-more-detailed-stack-trace.patch",
-              "patch -p1 </tmp/moonshine/patches/ruby/2.0.0/p451/railsexpress/04-show-full-backtrace-on-stack-overflow.patch",
-              "patch -p1 </tmp/moonshine/patches/ruby/2.0.0/p451/railsexpress/05-fix-missing-c-return-event.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/2.0.0/p648/railsexpress/01-zero-broken-tests.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/2.0.0/p648/railsexpress/02-railsexpress-gc.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/2.0.0/p648/railsexpress/03-display-more-detailed-stack-trace.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/2.0.0/p648/railsexpress/04-show-full-backtrace-on-stack-overflow.patch",
               './configure --prefix=/usr',
               'make',
               'sudo make install'
@@ -762,8 +758,7 @@ module Moonshine
 
           task :src21 do
             remove_ruby_from_apt
-            libyaml.install
-            pv = "2.1.2"
+            pv = "2.1.10"
             p = "ruby-#{pv}"
             run [
               'cd /tmp',
@@ -779,8 +774,8 @@ module Moonshine
               'make',
               'sudo make install'
             ].join(' && ')
-            set :rubygems_version, fetch(:rubygems_version, '2.2.2')
-            set :bundler_version, fetch(:bundler_version, '1.6.2')
+            set :rubygems_version, fetch(:rubygems_version, '2.6.4')
+            set :bundler_version, fetch(:bundler_version, '1.12.5')
           end
 
           task :src21railsexpress do
@@ -790,39 +785,8 @@ module Moonshine
               upload ruby_patches_path.to_s, "/tmp/moonshine/", :via => :scp, :recursive => true
             end
             remove_ruby_from_apt
-            libyaml.install
             sudo 'apt-get install autoconf -y || true',
-            # Patch 06-backport-006e66b6680f60adfb434ee7397f0dbc77de7873.patch modifies configure.in
-            # which requires autoconf to be run. Ruby 2.1.x requires autoconf >= 2.67 so we exclude
-            # patch 06 if the autoconf version is less than 2.67.
-            patches = [
-              "patch -p1 </tmp/moonshine/patches/ruby/2.1.2/railsexpress/01-zero-broken-tests.patch",
-              "patch -p1 </tmp/moonshine/patches/ruby/2.1.2/railsexpress/02-improve-gc-stats.patch",
-              "patch -p1 </tmp/moonshine/patches/ruby/2.1.2/railsexpress/03-display-more-detailed-stack-trace.patch",
-              "patch -p1 </tmp/moonshine/patches/ruby/2.1.2/railsexpress/04-show-full-backtrace-on-stack-overflow.patch",
-              "patch -p1 </tmp/moonshine/patches/ruby/2.1.2/railsexpress/05-fix-missing-c-return-event.patch",
-              "patch -p1 </tmp/moonshine/patches/ruby/2.1.2/railsexpress/06-backport-006e66b6680f60adfb434ee7397f0dbc77de7873.patch",
-              "patch -p1 </tmp/moonshine/patches/ruby/2.1.2/railsexpress/07-funny-falcon-stc-density.patch",
-              "patch -p1 </tmp/moonshine/patches/ruby/2.1.2/railsexpress/08-funny-falcon-stc-pool-allocation.patch",
-              #"patch -p1 </tmp/moonshine/patches/ruby/2.1.2/railsexpress/09-aman-opt-aset-aref-str.patch",
-              "patch -p1 </tmp/moonshine/patches/ruby/2.1.2/railsexpress/10-funny-falcon-method-cache.patch"
-            ]
-            autoconf_output = capture('autoconf --version')
-            autoconf_version = Gem::Version.new(autoconf_output.match(/^autoconf \(GNU Autoconf\) (\d\.\d{2})/)[1])
-            if autoconf_version < Gem::Version.new('2.67')
-              patches = [
-                "patch -p1 </tmp/moonshine/patches/ruby/2.1.2/railsexpress/01-zero-broken-tests.patch",
-                "patch -p1 </tmp/moonshine/patches/ruby/2.1.2/railsexpress/02-improve-gc-stats.patch",
-                "patch -p1 </tmp/moonshine/patches/ruby/2.1.2/railsexpress/03-display-more-detailed-stack-trace.patch",
-                "patch -p1 </tmp/moonshine/patches/ruby/2.1.2/railsexpress/04-show-full-backtrace-on-stack-overflow.patch",
-                "patch -p1 </tmp/moonshine/patches/ruby/2.1.2/railsexpress/05-fix-missing-c-return-event.patch",
-                "patch -p1 </tmp/moonshine/patches/ruby/2.1.2/railsexpress/07-funny-falcon-stc-density.patch",
-                "patch -p1 </tmp/moonshine/patches/ruby/2.1.2/railsexpress/08-funny-falcon-stc-pool-allocation.patch",
-                #"patch -p1 </tmp/moonshine/patches/ruby/2.1.2/railsexpress/09-aman-opt-aset-aref-str.patch",
-                "patch -p1 </tmp/moonshine/patches/ruby/2.1.2/railsexpress/10-funny-falcon-method-cache.patch"
-              ]
-            end
-            pv = "2.1.2"
+            pv = "2.1.8"
             p = "ruby-#{pv}"
             run [
               'cd /tmp',
@@ -834,13 +798,68 @@ module Moonshine
               "wget -q http://cache.ruby-lang.org/pub/ruby/2.1/#{p}.tar.gz",
               "tar xzf #{p}.tar.gz",
               "cd /tmp/#{p}",
-              *patches,
+              "patch -p1 </tmp/moonshine/patches/ruby/2.1.8/railsexpress/01-zero-broken-tests.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/2.1.8/railsexpress/02-improve-gc-stats.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/2.1.8/railsexpress/03-display-more-detailed-stack-trace.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/2.1.8/railsexpress/04-show-full-backtrace-on-stack-overflow.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/2.1.8/railsexpress/05-funny-falcon-stc-density.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/2.1.8/railsexpress/06-funny-falcon-stc-pool-allocation.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/2.1.8/railsexpress/07-aman-opt-aset-aref-str.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/2.1.8/railsexpress/08-funny-falcon-method-cache.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/2.1.8/railsexpress/09-heap-dump-support.patch",
               './configure --prefix=/usr',
               'make',
               'sudo make install'
             ].join(' && ')
-            set :rubygems_version, fetch(:rubygems_version, '2.2.2')
-            set :bundler_version, fetch(:bundler_version, '1.6.2')
+            set :rubygems_version, fetch(:rubygems_version, '2.6.2')
+            set :bundler_version, fetch(:bundler_version, '1.11.2')
+          end
+
+          task :src22 do
+            remove_ruby_from_apt
+            pv = "2.2.5"
+            p = "ruby-#{pv}"
+            run [
+              'cd /tmp',
+              "sudo rm -rf #{p}* || true",
+              'sudo rm -rf /usr/lib/ruby/gems/1.8 || true',
+              'sudo rm -rf /usr/lib/ruby/gems/1.9.1 || true',
+              'sudo rm -rf /usr/lib/ruby/gems/2.0.0 || true',
+              'sudo rm -rf /usr/lib/ruby/gems/2.1.0 || true',
+              'sudo mkdir -p /usr/lib/ruby/gems/2.2.0/gems || true',
+              "wget -q http://cache.ruby-lang.org/pub/ruby/2.2/#{p}.tar.gz",
+              "tar xzf #{p}.tar.gz",
+              "cd /tmp/#{p}",
+              './configure --prefix=/usr',
+              'make',
+              'sudo make install'
+            ].join(' && ')
+            set :rubygems_version, fetch(:rubygems_version, '2.6.4')
+            set :bundler_version, fetch(:bundler_version, '1.12.5')
+          end
+
+          task :src23 do
+            remove_ruby_from_apt
+            pv = "2.3.1"
+            p = "ruby-#{pv}"
+            run [
+              'cd /tmp',
+              "sudo rm -rf #{p}* || true",
+              'sudo rm /usr/bin/rake || true',
+              'sudo rm -rf /usr/lib/ruby/gems/1.8 || true',
+              'sudo rm -rf /usr/lib/ruby/gems/1.9.1 || true',
+              'sudo rm -rf /usr/lib/ruby/gems/2.0.0 || true',
+              'sudo rm -rf /usr/lib/ruby/gems/2.1.0 || true',
+              'sudo mkdir -p /usr/lib/ruby/gems/2.2.0/gems || true',
+              "wget -q http://cache.ruby-lang.org/pub/ruby/2.3/#{p}.tar.gz",
+              "tar xzf #{p}.tar.gz",
+              "cd /tmp/#{p}",
+              './configure --prefix=/usr',
+              'make',
+              'sudo make install'
+            ].join(' && ')
+            set :rubygems_version, fetch(:rubygems_version, '2.6.4')
+            set :bundler_version, fetch(:bundler_version, '1.12.5')
           end
 
           task :install_rubygems do
@@ -865,7 +884,7 @@ module Moonshine
             sudo 'gem install rake --no-rdoc --no-ri' unless fetch(:ruby).start_with?('src2')
             sudo 'gem install i18n --no-rdoc --no-ri' # workaround for missing activesupport-3.0.2 dep on i18n
 
-            shadow_puppet_version = fetch(:shadow_puppet_version, '~> 0.9.1')
+            shadow_puppet_version = fetch(:shadow_puppet_version, '~> 0.10.3')
             sudo "gem install shadow_puppet --no-rdoc --no-ri --version '#{shadow_puppet_version}'"
             if rails_root.join('Gemfile').exist?
               bundler_version = fetch(:bundler_version, '1.1.3')

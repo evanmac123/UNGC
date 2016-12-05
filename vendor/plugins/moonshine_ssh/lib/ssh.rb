@@ -8,7 +8,7 @@ module SSH
   #   configure(:ssh => {:permit_root_login => 'yes', :port => 9022})
   #
   def ssh(options = {})
-    ssh_provider = :init
+    ssh_provider = :upstart
     if ubuntu_trusty?
       ssh_provider = :upstart
     end
