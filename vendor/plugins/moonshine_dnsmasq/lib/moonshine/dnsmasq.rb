@@ -5,7 +5,8 @@ module Moonshine
       configure(:dnsmasq => {})
       cache_size = configuration[:dnsmasq][:cache_size] || 256
       listen_address = configuration[:dnsmasq][:listen_address] || '127.0.0.1'
-
+      servers = configuration[:dnsmasq][:servers] || ['8.8.8.8', '8.8.4.4', '208.67.222.222', '208.67.220.220']
+      
       package 'dnsmasq',
         :ensure => :installed
         

@@ -6,7 +6,7 @@ module Sphinx
     manifest.class_eval do
       extend ClassMethods
 
-      configure :sphinx => { :version => '0.9.8.1', :extra => {}, :use_god => true }
+      configure :sphinx => { :version => '0.9.8.1', :extra => {}, :use_god => true, :sphinx_yml => 'thinking_sphinx.yml' }
       configure :rails_logrotate => {}
 
     end

@@ -69,6 +69,14 @@
   ## here in your VirtualHost entry or in the global configuration.
   ##
 
+<% if passenger_major_version >= 4 && passenger_minor_version >= 0 && passenger_patch_version >= 26 %>
+  ## PassengerBufferUpload
+  #
+  # Uses apache for file uploads and then hands off to the app.
+  
+  PassengerBufferUpload <%= passenger_config_boolean(configuration[:passenger][:buffer_upload], true) %>
+<% end %>
+
 <% if passenger_major_version < 4 %>
 
   ## RailsAutoDetect
@@ -211,7 +219,7 @@
     BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
   </IfModule>
 
-  RequestHeader set X-Request-Start "%t"
+  RequestHeader set<%= "ifempty" if ubuntu_trusty? %> X-Request-Start "%t"
   Header unset X-Powered-by
   Header unset Server
   
@@ -270,7 +278,7 @@
 
 <% if configuration[:ssl] %>
 <VirtualHost <%= configuration[:ssl][:ip] || '_default_' %>:443>
-  RequestHeader set X_FORWARDED_PROTO "https"
+  RequestHeader set X-FORWARDED-PROTO "https"
 
   SSLEngine on
   SSLCipherSuite <%= configuration[:ssl][:cipher_suite] || 'ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:ECDHE-RSA-RC4-SHA:ECDHE-ECDSA-RC4-SHA:AES128:AES256:RC4-SHA:HIGH:!aNULL:!eNULL:!EXPORT:!DES:!3DES:!MD5:!PSK' %>
@@ -281,7 +289,7 @@
   <% else %>
   # SSLCertificateChainFile /etc/apache2/ssl.crt/server-ca.crt
   <% end %>
-  SSLProtocol <%= configuration[:ssl][:protocol] || 'ALL -SSLv2' %>
+  SSLProtocol <%= configuration[:ssl][:protocol] || 'ALL -SSLv2 -SSLv3' %>
   SSLHonorCipherOrder <%= configuration[:ssl][:honor_cipher_order] || 'on' %>
 
   BrowserMatch ".*MSIE.*" nokeepalive ssl-unclean-shutdown downgrade-1.0 force-response-1.0
@@ -349,6 +357,14 @@
   ## The following options are Rails specific options. They may occur
   ## here in your VirtualHost entry or in the global configuration.
   ##
+  
+<% if passenger_major_version >= 4 && passenger_minor_version >= 0 && passenger_patch_version >= 26 %>
+  ## PassengerBufferUpload
+  #
+  # Uses apache for file uploads and then hands off to the app.
+  
+  PassengerBufferUpload <%= passenger_config_boolean(configuration[:passenger][:buffer_upload], true) %>
+<% end %>
   
   <% if passenger_major_version < 4 %>
 
@@ -472,7 +488,7 @@
     BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
   </IfModule>
 
-  RequestHeader set X-Request-Start "%t"
+  RequestHeader set<%= "ifempty" if ubuntu_trusty? %> X-Request-Start "%t"
   Header unset X-Powered-by
   Header unset Server
   
