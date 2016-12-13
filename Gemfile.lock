@@ -1,14 +1,14 @@
 GIT
-  remote: git://github.com/amatsuda/jquery-rjs.git
-  revision: 33e0fc1c0b25cf88948673c7d561ca6ff2db77ad
-  ref: master
+  remote: https://github.com/amatsuda/jquery-rjs.git
+  revision: 1288c097aa1c25657b46f474e3b6e1c3d84b8e76
+  branch: master
   specs:
     jquery-rjs (0.1.1)
       jquery-rails
       rails (>= 3.2)
 
 GIT
-  remote: git://github.com/bitfield-co/rack-request_replication.git
+  remote: https://github.com/bitfield-co/rack-request_replication.git
   revision: d5c9ec568603df06195693b4ac7852c9d99cc86d
   branch: master
   specs:
@@ -17,16 +17,16 @@ GIT
       redis (>= 1.0.0)
 
 GIT
-  remote: git://github.com/jeremydurham/custom-err-msg.git
+  remote: https://github.com/jeremydurham/custom-err-msg.git
   revision: 3a8ec9dddc7a5b0aab7c69a6060596de300c68f4
-  ref: master
+  branch: master
   specs:
     custom_error_message (1.1.1)
 
 GIT
-  remote: git://github.com/seuros/state_machine.git
-  revision: b5baef856b170f18dc2fdc36def2411c255335b9
-  ref: master
+  remote: https://github.com/seuros/state_machine.git
+  revision: 95ba53f03e5657a5873343c2b1dc6a148ea3542e
+  branch: master
   specs:
     state_machine (1.2.0)
 
