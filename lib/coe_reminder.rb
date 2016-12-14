@@ -96,12 +96,7 @@ class CoeReminder
     def notify(mail_method, organizations)
       organizations.each do |org|
         log "Emailing organization #{org.id}:#{org.name}"
-        begin
-          CoeMailer.delay.public_send(mail_method, org)
-        rescue => e
-          error "Could not send email", e
-        end
-      end
+        ReportingStatusNotifier.perform_async(mail_method, org.id)
     end
 
     def non_communicating

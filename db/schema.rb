@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160907170916) do
+ActiveRecord::Schema.define(version: 20161213224052) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -891,6 +891,16 @@ ActiveRecord::Schema.define(version: 20160907170916) do
     t.string   "format",        limit: 255
     t.datetime "created_at",                              null: false
     t.datetime "updated_at",                              null: false
+  end
+
+  create_table "reporting_reminder_email_statuses", force: :cascade do |t|
+    t.integer  "organization_id", limit: 4,     null: false
+    t.boolean  "success",                       null: false
+    t.text     "message",         limit: 65535
+    t.string   "reporting_type",  limit: 255
+    t.string   "email",           limit: 255
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
   end
 
   create_table "resource_links", force: :cascade do |t|
