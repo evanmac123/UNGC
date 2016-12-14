@@ -62,11 +62,7 @@ class CopReminder
     def notify(mail_method, organizations)
       organizations.each do |org|
         log "Emailing organization #{org.id}:#{org.name}"
-        begin
-          CopMailer.delay.public_send(mail_method, org)
-        rescue => e
-          error "Could not send email", e
-        end
+        ReportingStatusNotifier.perform_async(mail_method, org.id)
       end
     end
 
