@@ -229,10 +229,11 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
     end
 
     should "be considered Learner if they are missing one of the 6 criteria" do
+      learner_policy = CommunicationOnProgress::LearnerPolicy.new(@organization)
       @cop.update_attribute :references_environment, false
       assert_equal 'learner', @cop.differentiation
       assert @cop.learner?
-      assert @organization.last_cop_is_learner?
+      assert learner_policy.last_cop_is_learner?
     end
 
   end
