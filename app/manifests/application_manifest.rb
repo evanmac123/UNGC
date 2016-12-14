@@ -112,7 +112,7 @@ class ApplicationManifest < Moonshine::Manifest::Rails
       :require => package('junglediskserver')
 
     service 'junglediskserver',
-      :provider => :init,
+      :provider => :upstart,
       :enable => true,
       :ensure => :running,
       :require => package('junglediskserver')
