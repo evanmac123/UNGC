@@ -36,4 +36,12 @@ class ResourceLink < ActiveRecord::Base
     self.increment! :views
   end
 
+  def url=(url)
+    write_attribute(:url, url.try(:strip))
+  end
+
+  def url
+    read_attribute(:url).try(:strip)
+  end
+
 end
