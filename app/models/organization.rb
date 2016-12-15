@@ -696,39 +696,13 @@ class Organization < ActiveRecord::Base
     last_approved_cop && last_approved_cop.learner?
   end
 
-  # last two COPs were Learner
+    # last two COPs were Learner
   def double_learner?
-    if last_cop_is_learner? && communication_on_progresses.approved.count > 1
-      communication_on_progresses[1].learner?
-    end
+    CommunicationOnProgress::LearnerPolicy.new(self).is_double_learner?
   end
 
   def triple_learner_for_one_year?
-
-    return false if communication_on_progresses.approved.count < 3
-
-    return false unless communication_on_progresses[0].learner? &&
-                        communication_on_progresses[1].learner? &&
-                        communication_on_progresses[2].learner?
-
-    # gather learner COPs
-    cops = []
-    communication_on_progresses.approved.order('published_on DESC').each do |cop|
-      next if cop.is_grace_letter? || cop.is_reporting_cycle_adjustment?
-      cops << cop if cop.learner?
-    end
-
-    # check if the total time between first and last COP is two years
-    first_cop   = cops.last
-    second_cop  = cops.first
-    months_between_cops = (first_cop.published_on.month - second_cop.published_on.month) + 12 * (first_cop.published_on.year - second_cop.published_on.year)
-    months_between_cops = months_between_cops.abs
-    if months_between_cops == 12
-      # same month, so compare date
-      first_cop.published_on.day <= second_cop.published_on.day
-    else
-      months_between_cops >= 12
-    end
+    CommunicationOnProgress::LearnerPolicy.new(self).is_triple_learner?
   end
 
   def rejected?
