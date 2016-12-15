@@ -97,6 +97,7 @@ class CoeReminder
       organizations.each do |org|
         log "Emailing organization #{org.id}:#{org.name}"
         ReportingStatusNotifier.perform_async(mail_method, org.id)
+      end
     end
 
     def non_communicating
