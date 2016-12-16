@@ -19,8 +19,11 @@ class SdgCopAnswers < SimpleReport
 
   def headers
     [
+      'organization id',
       'organization name',
+      'cop id',
       'cop type',
+      'cop published on',
       'question + selected sdgs',
       'free text answer',
       'organizaton type',
@@ -33,8 +36,11 @@ class SdgCopAnswers < SimpleReport
   def row(row)
     communication_on_progress, answers = row
     [
+      communication_on_progress.organization.id,
       communication_on_progress.organization.name,
+      communication_on_progress.id,
       rename_cop_type(communication_on_progress),
+      communication_on_progress.published_on,
       combined_text(answers),
       combined_answers(answers),
       communication_on_progress.organization.organization_type_name,
