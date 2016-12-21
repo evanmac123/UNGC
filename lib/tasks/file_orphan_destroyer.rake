@@ -8,7 +8,6 @@ namespace :cop do
     puts "Aiming Lasers"
     puts "Destroying Orphan Files"
     orphan_cops_files.destroy_orphans
-
     puts "Long live the Empire"
   end
 end
