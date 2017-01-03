@@ -38,7 +38,7 @@ gem 'virtus',               '~> 1.0.5'
 gem 'capistrano',           '~> 2.15.5'
 gem 'plugger' # supports moonshine plugin on rails4
 gem 'databasedotcom'
-gem 'net-ssh'
+gem 'net-ssh', '~> 4.0'
 
 # for upgrading to rails 4+, need to be removed eventually.
 gem 'rails-observers'
@@ -46,7 +46,7 @@ gem 'rails-observers'
 gem 'ranked-model',         '~> 0.4.0'
 gem 'fog'
 gem "non-stupid-digest-assets"
-gem 'htmlentities'
+gem 'htmlentities', '~> 4.3', '>= 4.3.4'
 gem 'sinatra', '>= 1.3.0', :require => nil
 gem 'rack-request_replication', git: 'https://github.com/bitfield-co/rack-request_replication.git', branch: 'master'
 
