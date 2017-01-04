@@ -68,6 +68,7 @@ class ContributionStatusTest < ActionController::TestCase
 
   context" given an organization that already contributed for next year" do
     setup do
+      travel_to Date.new(2015, 6, 1)
       org = stub(
         joined_on: Date.parse("2010-01-01"),
         delisted?: false,
@@ -78,6 +79,10 @@ class ContributionStatusTest < ActionController::TestCase
       @p = ContributionStatus.new(org, campaigns)
     end
 
+    teardown do
+      travel_back
+    end
+
     should "have the proper latest_annual_contribution_year" do
       assert_equal @p.latest_annual_contribution_year, 2016
     end
@@ -85,6 +90,8 @@ class ContributionStatusTest < ActionController::TestCase
 
   context" given a LEAD organization" do
     setup do
+      travel_to Date.new(2015, 6, 1)
+
       org = stub(
         joined_on: Date.parse("2010-01-01"),
         delisted?: false,
@@ -92,6 +99,10 @@ class ContributionStatusTest < ActionController::TestCase
       )
 
       @p = ContributionStatus.new(org, [create_lead_contribution_campaign(2015), create_lead_contribution_campaign(2016)])
+    end
+
+    teardown do
+      travel_back
     end
 
     should "have the proper latest_annual_contribution_year" do
