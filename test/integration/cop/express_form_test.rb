@@ -4,7 +4,7 @@ module COP
   class ExpressFormTest < ActionDispatch::IntegrationTest
 
     setup do
-      travel_to Date.new(2016, 7, 6)
+      travel_to DateTime.new(2016, 7, 6, 12, 0, 0)
       create(:container, path: '/participation/report')
     end
 

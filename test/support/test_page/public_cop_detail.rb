@@ -18,9 +18,13 @@ module TestPage
     end
 
     def format
-      case @cop.cop_type
-      when 'intermediate' then result_items[4]
-      when 'advanced' then result_items[5]
+      case
+      when @cop.type == 'ExpressCop'
+        result_items[4]
+      when @cop.cop_type == 'intermediate'
+        result_items[4]
+      when @cop.cop_type == 'advanced'
+        result_items[5]
       else
         result_items[3]
       end
