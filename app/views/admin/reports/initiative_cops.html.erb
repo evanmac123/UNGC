@@ -1,0 +1,34 @@
+<h2>Generate COP report based on an Initiative<h2>
+
+<ul class="tools inline">
+  <li>
+    <%= link_to_download_report text: "Download Excel Report", format: 'xls'%>
+  </li>
+</ul>
+
+<p>
+  <%= form_for admin_report_path(:action => :initiative_cops, :html => {:method => :get}) do |form|%>
+  <fieldset>
+      <legend>Initiatives</legend>
+      <% Initiative.all.in_groups_of(Initiative.count / 3, false) do |initiatives| %>
+        <ol class="checkbox_list column">
+          <% for initiative in initiatives %>
+            <li>
+              <%= check_box_tag "initiatives", initiative.id, @initiative, { id: "initiatives_#{initiative.id}", class: "label_right" } %>
+              <%= label_tag "initiatives_#{initiative.id}", initiative.name, class: 'checkbox_label normal' %>
+            </li>
+          <% end %>
+        </ol>
+      <% end %>
+    </fieldset>
+    <ul class="tools inline">
+      <li>
+        <%= form.submit "Create Excel with selection", class: 'new_large', style: 'margin-right: 25px;' %>
+      </li>
+      <li>
+        <%= link_to 'Clear selections', admin_report_path(:action => :initiative_cops), :class => 'cancel_large' %>
+      </li>
+    </ul>
+  <% end %>
+</p>
+<%= render partial: 'report_modal' %>

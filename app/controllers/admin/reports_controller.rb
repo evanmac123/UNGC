@@ -65,6 +65,23 @@ class Admin::ReportsController < AdminController
     render_report(report, "approved_logo_requests_#{date_as_filename}.xls")
   end
 
+  def initiative_cops
+    @start_year = params[:start_year] || Date.today.year
+    @start_month = params[:start_month] || Date.today.prev_month
+    @start_day = params[:start_day] || Date.today
+    @end_year = params[:end_year] || Date.today.year
+    @end_month = params[:end_month] || Date.today.month
+    @end_day = params[:end_day] || Date.today
+    if params[:initiative]
+      @initiative  = Initiative.pluck(:id)
+    end
+
+    report = InitiativeCops.new(start_year: @start_year, start_month: @start_month, start_day: @start_day,
+                                end_year: @end_year, end_month: @end_month, end_day: @end_day,
+                                initiative: @initiative)
+    render_report(report, "initiative_cops_#{date_as_filename}.xls")
+  end
+
   def sdg_cop_answers
     report = SdgCopAnswers.new
     render_report(report, "sdg_cop_answers_#{date_as_filename}.xls")
