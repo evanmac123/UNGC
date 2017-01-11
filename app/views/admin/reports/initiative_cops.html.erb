@@ -10,23 +10,35 @@
   <%= form_for admin_report_path(:action => :initiative_cops, :html => {:method => :get}) do |form|%>
   <fieldset>
       <legend>Initiatives</legend>
-      <% Initiative.all.in_groups_of(Initiative.count / 3, false) do |initiatives| %>
+        <h5>Starting Date<h5>
+          <p>
+            <%= select_month_tag(@start_month) %>
+            <%= select_day(@start_day) %>
+            <%= select_year_tag(@start_year) %>
+          </p>
+        <h5>Ending Date</h5>
+          <p>
+            <%= select_month_tag(@end_month) %>
+            <%= select_day(@end_day) %>
+            <%= select_year_tag(@end_year) %>
+          </p>
+
+
+      <% Initiative.initiatives_for_cop_form.each_pair do |key, value| %>
         <ol class="checkbox_list column">
-          <% for initiative in initiatives %>
             <li>
-              <%= check_box_tag "initiatives", initiative.id, @initiative, { id: "initiatives_#{initiative.id}", class: "label_right" } %>
-              <%= label_tag "initiatives_#{initiative.id}", initiative.name, class: 'checkbox_label normal' %>
+              <%= check_box_tag "initiatives", key, @initiative, { id: "initiatives_#{value}", class: "label_right" } %>
+              <%= label_tag "initiatives_#{key}", key, class: 'checkbox_label normal' %>
             </li>
-          <% end %>
         </ol>
       <% end %>
     </fieldset>
     <ul class="tools inline">
       <li>
-        <%= form.submit "Create Excel with selection", class: 'new_large', style: 'margin-right: 25px;' %>
+        <%= form.submit "Create Excel with selected Initiative", admin_report_path(:action => :initiative_cops), class: 'new_large', style: 'margin-right: 25px;' %>
       </li>
       <li>
-        <%= link_to 'Clear selections', admin_report_path(:action => :initiative_cops), :class => 'cancel_large' %>
+        <%= link_to 'Clear selection', admin_report_path(:action => :initiative_cops), :class => 'cancel_large' %>
       </li>
     </ul>
   <% end %>

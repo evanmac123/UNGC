@@ -35,4 +35,9 @@ class Initiative < ActiveRecord::Base
     i = find_by_id FILTER_TYPES[filter_type]
     i.try(:id)
   end
+
+  def self.initiatives_for_cop_form
+    FILTER_TYPES
+  end
+  
 end
