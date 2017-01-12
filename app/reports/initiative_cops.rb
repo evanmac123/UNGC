@@ -1,33 +1,16 @@
 class InitiativeCops < SimpleReport
 
-  attr_accessor :start_year, :start_month, :start_day, :end_year, :end_month, :end_day, :initiative
+  attr_accessor :date_range, :initiative_name
 
-  def initialize(start_year:, start_month:, start_day:, end_year:, end_month:, end_day:, initiative:)
-    @start_year = start_year
-    @start_month = start_month
-    @start_day = start_day
-    @end_year = end_year
-    @end_month = end_month
-    @end_day = end_day
-    @initiative = initiative
-  end
-
-  def start_period
-    Date.new(@start_year, @start_month, @start_day)
-  end
-
-  def end_period
-    Date.new(@end_year, @end_month, @end_day)
-  end
-
-  def time_range
-    start_period..end_period
+  def initialize(date_range, initiative_name)
+    @date_range = date_range
+    @initiative_name = initiative_name
   end
 
   def records
-    CopAnswer.by_initiative(@initiative)
+    CopAnswer.by_initiative(@initiative_name)
              .joins(communication_on_progress: [:organization])
-             .where(communication_on_progresses: { published_on: time_range })
+             .where(communication_on_progresses: { published_on: @date_range })
   end
 
   def headers

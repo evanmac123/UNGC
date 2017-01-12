@@ -66,19 +66,16 @@ class Admin::ReportsController < AdminController
   end
 
   def initiative_cops
-    @start_year = params[:start_year] || Date.today.year
-    @start_month = params[:start_month] || Date.today.prev_month
-    @start_day = params[:start_day] || Date.today
-    @end_year = params[:end_year] || Date.today.year
-    @end_month = params[:end_month] || Date.today.month
-    @end_day = params[:end_day] || Date.today
-    if params[:initiative]
-      @initiative  = Initiative.pluck(:id)
+    if params[:initiatives]
+      @initiative_name  = params[:initiatives]
     end
+    begin_date = params.fetch(:start_date, {}).values.map {|v| v.to_i}
+    finish_date = params.fetch(:end_date, {}).values.map {|v| v.to_i}
+    start_date = Date.new(*begin_date)
+    end_date = Date.new(*finish_date)
+    date_range = start_date..end_date
 
-    report = InitiativeCops.new(start_year: @start_year, start_month: @start_month, start_day: @start_day,
-                                end_year: @end_year, end_month: @end_month, end_day: @end_day,
-                                initiative: @initiative)
+    report = InitiativeCops.new(date_range, initiative: @initiative_name)
     render_report(report, "initiative_cops_#{date_as_filename}.xls")
   end
 

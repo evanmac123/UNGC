@@ -7,22 +7,13 @@
 </ul>
 
 <p>
-  <%= form_for admin_report_path(:action => :initiative_cops, :html => {:method => :get}) do |form|%>
+  <%= form_for admin_report_path(:action => :initiative_cops), :html => {:method => :get} do |form|%>
   <fieldset>
       <legend>Initiatives</legend>
         <h5>Starting Date<h5>
-          <p>
-            <%= select_month_tag(@start_month) %>
-            <%= select_day(@start_day) %>
-            <%= select_year_tag(@start_year) %>
-          </p>
+        <%= select_date(@start_date, prefix: "start_date", prompt: {day: 'Choose day', month: 'Choose month', year: 'Choose year'}) %>
         <h5>Ending Date</h5>
-          <p>
-            <%= select_month_tag(@end_month) %>
-            <%= select_day(@end_day) %>
-            <%= select_year_tag(@end_year) %>
-          </p>
-
+        <%= select_date(@end_date, prefix: "end_date", prompt: {day: 'Choose day', month: 'Choose month', year: 'Choose year'}) %>
 
       <% Initiative.initiatives_for_cop_form.each_pair do |key, value| %>
         <ol class="checkbox_list column">
@@ -35,7 +26,7 @@
     </fieldset>
     <ul class="tools inline">
       <li>
-        <%= form.submit "Create Excel with selected Initiative", admin_report_path(:action => :initiative_cops), class: 'new_large', style: 'margin-right: 25px;' %>
+        <%= form.submit "Create Excel with selected Initiative", class: 'new_large', style: 'margin-right: 25px;' %>
       </li>
       <li>
         <%= link_to 'Clear selection', admin_report_path(:action => :initiative_cops), :class => 'cancel_large' %>
