@@ -164,9 +164,8 @@ class Admin::CopsControllerTest < ActionController::TestCase
     setup do
       create_organization_and_user
       @organization.approve!
-      create_initiatives
-      initiative = Initiative.for_filter(:lead).first
-      create(:signing, :organization_id => @organization.id, :initiative_id => initiative.id)
+      initiative_id = Initiative.id_by_filter(:lead)
+      create(:signing, :organization_id => @organization.id, :initiative_id => initiative_id)
     end
 
     should "get the LEAD COP form" do

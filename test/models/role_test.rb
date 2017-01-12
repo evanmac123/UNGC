@@ -65,9 +65,10 @@ class RoleTest < ActiveSupport::TestCase
 
     context "that has joined the Caring for Climate initiative" do
       setup do
-        create_initiatives
-        @climate_role = create(:role, :name => "Caring for Climate Contact", :initiative_id => @climate_initiative.id)
-        @climate_initiative.signings.create :signatory => @business
+        climate_initiative = Initiative.find_by_filter(:climate)
+        @climate_role = create(:role, :name => "Caring for Climate Contact",
+          :initiative => climate_initiative)
+        climate_initiative.signings.create :signatory => @business
         @roles = Role.visible_to(@business_contact)
       end
 

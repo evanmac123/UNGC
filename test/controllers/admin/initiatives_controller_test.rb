@@ -8,12 +8,11 @@ class Admin::InitiativesControllerTest < ActionController::TestCase
     end
 
     should "index" do
-      initiatives = 2.times.map { create(:initiative) }
       get :index
 
       assert_response :success
       assert_template :index
-      assert_equal 2, assigns(:initiatives).count
+      assert_equal Initiative.count, assigns(:initiatives).count
     end
 
     should "new" do

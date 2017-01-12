@@ -174,8 +174,7 @@ class OrganizationTest < ActiveSupport::TestCase
 
   context "given a climate change initiative, some organization types and an org" do
     setup do
-      @climate   = create(:initiative, :id => 2, :name => 'Climate Change')
-
+      @climate   = Initiative.find_by_filter(:climate)
       @an_org    = create(:organization, :organization_type => OrganizationType.sme, :employees => 50)
     end
 

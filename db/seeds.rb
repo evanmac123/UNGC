@@ -231,6 +231,47 @@ end
 # TODO ListingStatus
 # TODO Exchanges
 
+# Initiative.pluck(:id, :name, :active)
+initiatives = [
+  [21, "Anti-Corruption Working Group", true],
+  [131, "Board Members", false],
+  [22, "Business for Peace Expert Group", false],
+  [51, "Business for Peace Signatories", true],
+  [181, "Call to Action: Anti-Corruption and the Post-2015 Development Agenda", true],
+  [191, "Carbon Pricing Champions", true],
+  [2, "Caring For Climate", true],
+  [15, "Caring for Climate (delisted signatories)", false],
+  [16, "Caring for Climate (non-business)", true],
+  [5, "CEO Letter on UNCAC Review Mechanism", false],
+  [4, "CEO Statement on Human Rights", false],
+  [1, "CEO Water Mandate", true],
+  [7, "CEO Water Mandate (Non-Endorsing)", false],
+  [151, "Child Labour Platform", true],
+  [14, "Environmental Stewardship Group", false],
+  [91, "Food and Agriculture Business Principles", false],
+  [13, "Founding Companies", true],
+  [121, "GC 100", true],
+  [171, "Global Compact Board Programme", true],
+  [19, "Global Compact LEAD", true],
+  [3, "Global Framework Agreement (Labour)", true],
+  [11, "Human Rights and Labour Working Group", true],
+  [161, "Integrity Measures - Dialogue Facilitation", false],
+  [111, "Leader's Summit 2013", false],
+  [12, "Leaders Summit Champions - 2010", false],
+  [81, "Prospective Organizations", false],
+  [101, "Rio+20 Corporate Sustainability Forum - 2012", false],
+  [211, "Social & Governance", false],
+  [71, "Social Enterprise and Impact Investing Engagement", false],
+  [24, "Supply Chain Advisory Group", true],
+  [201, "WEPs Leadership Group", false],
+  [25, "Women's Empowerment Principles", true],
+  [221, "ZERO HUNGER CHALLENGE", false]
+]
+initiatives.each do |id, name, active|
+  initiative = Initiative.find_or_create_by!(id: id)
+  initiative.update(name: name, active: active)
+end
+
 if false # disable for now
   # Create container/payloads that are required for the site to function
   # TODO There are many many pages missing currently, but they should be added.

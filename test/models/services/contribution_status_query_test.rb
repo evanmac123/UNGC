@@ -134,7 +134,6 @@ class ContributionStatusQueryTest < ActionController::TestCase
 
     context "An organization signed onto Global Compact Lead and has contributed for the current year" do
       setup do
-        create_initiatives
         @campaign_lead_this_year = create(:campaign, name: "LEAD #{Date.today.year}")
         @lead = Initiative.for_filter(:lead).first
         @lead.signings.create signatory: @organization
@@ -148,7 +147,6 @@ class ContributionStatusQueryTest < ActionController::TestCase
 
     context "An organization signed onto Global Compact Lead this year and with a normal contribution the past year" do
       setup do
-        create_initiatives
         @campaign_lead_this_year = create(:campaign, name: "LEAD #{Date.today.year}")
         @lead = Initiative.for_filter(:lead).first
         @lead.signings.create signatory: @organization
