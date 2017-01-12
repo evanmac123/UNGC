@@ -10,13 +10,15 @@
   <%= form_for admin_report_path(:action => :initiative_cops), :html => {:method => :get} do |form|%>
   <fieldset>
       <legend>Initiatives</legend>
+      <div>
         <h5>Starting Date<h5>
         <%= select_date(@start_date, prefix: "start_date", prompt: {day: 'Choose day', month: 'Choose month', year: 'Choose year'}) %>
         <h5>Ending Date</h5>
         <%= select_date(@end_date, prefix: "end_date", prompt: {day: 'Choose day', month: 'Choose month', year: 'Choose year'}) %>
+      </div>
 
       <h5>Select only ONE initiative<h5>
-        
+
       <% Initiative.initiatives_for_cop_form.each_pair do |key, value| %>
         <ol class="checkbox_list column">
             <li>

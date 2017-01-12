@@ -76,7 +76,7 @@ class Admin::ReportsController < AdminController
     date_range = start_date..end_date
 
     report = InitiativeCops.new(date_range: date_range,
-                               initiative_name: @initiative_name)
+                                initiative_name: @initiative_name)
     render_report(report, "initiative_cops_#{date_as_filename}.xls")
   end
 
