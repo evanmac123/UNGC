@@ -2,9 +2,10 @@ class InitiativeCops < SimpleReport
 
   attr_accessor :date_range, :initiative_name
 
-  def initialize(date_range, initiative_name)
-    @date_range = date_range
-    @initiative_name = initiative_name
+  def initialize(options)
+    super(options)
+    @date_range = options.fetch(:date_range)
+    @initiative_name = options.fetch(:initiative_name)
   end
 
   def records
