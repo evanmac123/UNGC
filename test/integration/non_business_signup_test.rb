@@ -117,7 +117,7 @@ class NonBusinessSignupTest < ActionDispatch::IntegrationTest
     assert_equal 'TRONDHEIM', ceo.state
     assert_equal '7030', ceo.postal_code
     assert_equal 'Norway', ceo.country.name
-    assert_equal nil, ceo.welcome_package
+    assert_nil ceo.welcome_package
     assert_equal true, ceo.is?(Role.ceo)
     assert_nil ceo.username
     assert_nil ceo.encrypted_password

@@ -204,6 +204,8 @@ class CopFormTest < ActiveSupport::TestCase
     should "set basic fields" do
       @attrs.merge!(
         contact_info: @organization_user.contact_info,
+        description: "A standard COP",
+        method_shared: "gc_website",
         state: 'approved',
         format: 'basic',
       )

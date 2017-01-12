@@ -4,7 +4,6 @@ universal: &universal
   url_host: 'unglobalcompact.org'
 
 development:
-  test: thing
   path_to_cop_xml: '../shared/data/cop_xml/*'
   salesforce:
     :host: 'cs18.salesforce.com'
@@ -19,12 +18,10 @@ development:
   <<: *universal
 
 test:
-  test: thing
   path_to_cop_xml: 'data/cop_xml'
   <<: *universal
 
 production:
-  test: thing
   path_to_cop_xml: '../../shared/data/cop_xml/*'
   salesforce:
     :host: 'na18.salesforce.com'
@@ -37,7 +34,6 @@ production:
   <<: *universal
 
 staging:
-  test: thing
   salesforce:
     :host: 'cs18.salesforce.com'
     :username: 'salesforce@unglobalcompact.org.ungc'
@@ -49,5 +45,4 @@ staging:
   <<: *universal
 
 preview:
-  test: thing
   <<: *universal

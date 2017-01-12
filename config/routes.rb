@@ -505,13 +505,18 @@ UNGC::Application.routes.draw do
   #redirect for delisted company
   get '/system/attachments/cop_2016/322211/original/ToddandClare.com_United_Nations_GC_Member_Report_COP_1042016.pdf', to: redirect('/what-is-gc/participants/83761-T-C-Network-Solutions')
 
+  #redirects for Action Platforms and ToolBox
+  get '/ourwork', to: redirect('/what-is-gc/our-work/all')
+  get '/actionplatforms', to: redirect('/sdgs/sdg-solutions-platforms')
+  get '/events', to: redirect('/take-action/events')
+  get '/sdgpioneers', to: redirect('/sdgs/sdgpioneers/2016')
+
   # SDG related redirects
-  get '/sdgpioneers', to: redirect('/sdg/sdgpioneers/2016')
-  get '/SDGpioneers', to: redirect('/sdg/sdgpioneers/2016')
-  get '/pioneers', to: redirect('/sdg/sdgpioneers/2016')
-  get '/what-is-gc/our-work/sustainable-development/17-global-goals', to: redirect('/sdg/sdgs/17-global-goals')
-  get '/what-is-gc/our-work/sustainable-development/ln-action-plan', to: redirect('/sdg/ln-action-plan')
-  get '/what-is-gc/our-work/sustainable-development/sdgpioneers/nomination-form/new', to: redirect('/sdg/sdgpioneers/nomination-form/new')
+  get '/SDGpioneers', to: redirect('/sdgs/sdgpioneers/2016')
+  get '/pioneers', to: redirect('/sdgs/sdgpioneers/2016')
+  get '/what-is-gc/our-work/sustainable-development/17-global-goals', to: redirect('/sdgs/sdgs/17-global-goals')
+  get '/what-is-gc/our-work/sustainable-development/ln-action-plan', to: redirect('/sdgs/ln-action-plan')
+  get '/what-is-gc/our-work/sustainable-development/sdgpioneers/nomination-form/new', to: redirect('/sdgs/sdgpioneers/nomination-form/new')
   get '/globalgoalslocalbusiness', to: redirect('/what-is-gc/our-work/sustainable-development/global-goals-local-business')
   if Feature.sdg_pioneer_form?
     get '/what-is-gc/our-work/sustainable-development/global-goals-local-business/sdgpioneers/nominate-yourself/new', to: redirect('/sdgpioneers')

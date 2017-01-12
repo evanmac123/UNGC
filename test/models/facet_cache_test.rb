@@ -22,7 +22,7 @@ class FacetCacheTest < ActiveSupport::TestCase
     end
 
     should 'return nil for an unknown key' do
-      assert_equal nil, cache.fetch('unknown')
+      assert_nil cache.fetch('unknown')
     end
 
     should 'return return a default value when provided' do

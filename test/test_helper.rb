@@ -178,11 +178,6 @@ class ActiveSupport::TestCase
     PrincipleArea::FILTERS.values.each {|name| create(:principle_area, name: name)}
   end
 
-  def create_initiatives
-    @lead_initiative    = create(:initiative, id: 19, name: 'Global Compact LEAD')
-    @climate_initiative = create(:initiative, id: 2,  name: 'Caring for Climate')
-  end
-
   def cop_file_attributes
     attrs = build(:cop_file).attributes
     HashWithIndifferentAccess.new(attrs.merge(attachment: fixture_file_upload('files/untitled.pdf', 'application/pdf')))

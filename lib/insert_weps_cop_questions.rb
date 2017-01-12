@@ -4,7 +4,7 @@ class InsertWepsCopQuestions
   def run
 
     delete_questions
-    weps_initiative_id = Initiative.for_filter(:weps).first.id
+    weps_initiative_id = Initiative.id_by_filter(:weps)
 
     # Question 1
 
@@ -105,7 +105,7 @@ class InsertWepsCopQuestions
   end
 
   def delete_questions
-    weps_initiative_id = Initiative.for_filter(:weps).first.id
+    weps_initiative_id = Initiative.id_by_filter(:weps)
     CopQuestion.where("initiative_id = #{weps_initiative_id}").each {|q| q.destroy}
   end
 
@@ -115,15 +115,15 @@ class InsertWepsCopQuestions
     attributes.each_with_index do |a, index|
       CopAttribute.create(cop_question_id: question.id, text: a, position: index + 1)
     end
-    
+
     # same three attributes for all questions
-    
+
     position = question.cop_attributes.count + 1
     CopAttribute.create(cop_question_id: question.id, text: "No practice for this criterion has been reported", position: position, open: false)
-    
+
     position = question.cop_attributes.count + 1
     CopAttribute.create(cop_question_id: question.id, text: "Other established or emerging best practices", hint: "Specify in under 255 characters, including spaces. Alternatively, indicate if your COP does not address this but explains the reason for omission (e.g., topic deemed immaterial, legal prohibitions, privacy, competitive advantage).", position: position, open: true)
-    
+
     position = question.cop_attributes.count + 1
     CopAttribute.create(cop_question_id: question.id, text: "Any relevant policies, procedures, and activities that the company plans to undertake by its next COP to address this area, including goals, timelines, metrics, and responsible staff", hint: "This option is for companies that have not yet begun to implement, but transparently and thoroughly disclose future plans to progress in this area in their COP", position: position, open: false)
 

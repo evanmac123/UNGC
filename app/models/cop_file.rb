@@ -42,7 +42,10 @@ class CopFile < ActiveRecord::Base
            :support_statement     => 'support_statement'}
 
   def self.all_files
-    includes([{:communication_on_progress => [:organization]}, :language ])
+    includes(:language, communication_on_progress: [
+        organization: [:organization_type, :country]
+      ])
+      .joins(:communication_on_progress)
       .where(['language_id IS NOT NULL'])
       .order("cop_files.created_at DESC")
   end
