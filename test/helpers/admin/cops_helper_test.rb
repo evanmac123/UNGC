@@ -20,18 +20,16 @@ class Admin::CopsHelperTest < ActionView::TestCase
 
   test "show_business_for_peace" do
     organization = create(:organization)
-    b4p_id = Initiative::FILTER_TYPES[:business4peace]
-    b4p = create(:initiative, id: b4p_id)
-    create(:signing, organization: organization, initiative: b4p)
+    b4p_id = Initiative.id_by_filter(:business4peace)
+    create(:signing, organization: organization, initiative_id: b4p_id)
     cop = create(:communication_on_progress, organization: organization)
     assert_equal true, view.show_business_for_peace(cop)
   end
 
   test "show_weps" do
     organization = create(:organization)
-    weps_id = Initiative::FILTER_TYPES[:weps]
-    weps = create(:initiative, id: weps_id)
-    create(:signing, organization: organization, initiative: weps)
+    weps_id = Initiative.id_by_filter(:weps)
+    create(:signing, organization: organization, initiative_id: weps_id)
     cop = create(:communication_on_progress, organization: organization)
     assert_equal true, view.show_weps(cop)
   end

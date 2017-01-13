@@ -74,9 +74,8 @@ class Api::V1::OrganizationsTest < ActionDispatch::IntegrationTest
   test "filter organization by climate initiative" do
     # Given an organization which has signed the climate initiative
     signed = create(:business, name: "We signed")
-    climate_id = Initiative::FILTER_TYPES[:climate]
-    climate = create(:initiative, id: climate_id)
-    create(:signing, organization: signed, initiative: climate)
+    climate_id = Initiative.id_by_filter(:climate)
+    create(:signing, organization: signed, initiative_id: climate_id)
 
     # And one who hasn't
     hasnt = create(:business, name: "We haven't")

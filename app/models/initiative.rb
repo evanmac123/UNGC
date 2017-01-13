@@ -31,13 +31,16 @@ class Initiative < ActiveRecord::Base
 
   scope :active, lambda { where(active: true) }
 
-  def self.id_by_filter(filter_type)
-    i = find_by_id FILTER_TYPES[filter_type]
-    i.try(:id)
+  def self.id_by_filter(filter)
+    FILTER_TYPES[filter]
+  end
+
+  def self.find_by_filter(filter)
+    find(id_by_filter(filter))
   end
 
   def self.initiatives_for_cop_form
     FILTER_TYPES
   end
-  
+
 end

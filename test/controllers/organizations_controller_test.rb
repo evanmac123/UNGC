@@ -3,8 +3,8 @@ require 'test_helper'
 class OrganizationsControllerTest < ActionController::TestCase
   context "given a json request to index" do
     setup do
-      @climate    = create(:initiative, :id => 2, :name => 'Caring for Climate')
-      @other_init = create(:initiative, :id => 4, :name => 'Human Rights')
+      @climate    = Initiative.find_by_filter(:climate)
+      @other_init = Initiative.find_by_filter(:human_rights)
     end
 
     should "return an empty array if none exist" do
