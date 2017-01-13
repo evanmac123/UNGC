@@ -4,7 +4,7 @@ class InitiativeCops < SimpleReport
 
   def initialize(options)
     super(options)
-    @date_range = options.fetch(:date_range)
+    @date_range = parse_date_range(options)
     @initiative_name = options.fetch(:initiative_name)
   end
 
@@ -46,5 +46,21 @@ class InitiativeCops < SimpleReport
     ]
   end
 
+  private
+
+  def parse_date_range(options)
+    # Due to serialization from sidekiq, we'll either get a range of dates
+    # or a string representing a range of dates.
+    # convert it down to a string and parse it back up so we always get
+    # what we want.
+
+    range_string = options.fetch(:date_range).to_s
+
+    # 08-Jan-2017..18-Jan-2017
+    start_date, end_date = range_string.split("..").map do |str|
+      Date.parse(str)
+    end
+    start_date..end_date
+  end
 
 end
