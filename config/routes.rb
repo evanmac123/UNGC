@@ -507,7 +507,7 @@ UNGC::Application.routes.draw do
 
   #redirects for Action Platforms and ToolBox
   get '/ourwork', to: redirect('/what-is-gc/our-work/all')
-  get '/actionplatforms', to: redirect('/sdgs/sdg-solutions-platforms')
+  get '/actionplatforms', to: redirect('/sdgs/action-platforms')
   get '/sdgs/sdg-solutions-platforms', to: redirect('/sdgs/action-platforms')
   get '/events', to: redirect('/take-action/events')
   get '/sdgpioneers', to: redirect('/sdgs/sdgpioneers/2016')
