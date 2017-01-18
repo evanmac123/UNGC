@@ -55,6 +55,7 @@ group :development do
   gem 'rerun'
   gem 'thin'
   gem 'bullet'
+  gem 'brakeman', '~> 3.4', '>= 3.4.1'
 end
 
 group :test do

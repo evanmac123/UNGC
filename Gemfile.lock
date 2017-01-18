@@ -88,6 +88,7 @@ GEM
     bourbon (4.2.1)
       sass (~> 3.4)
       thor
+    brakeman (3.4.1)
     builder (3.2.3)
     bullet (5.1.1)
       activesupport (>= 3.0.0)
@@ -464,6 +465,7 @@ DEPENDENCIES
   annotate (~> 2.7.1)
   awesome_print
   bourbon (~> 4.2.1)
+  brakeman (~> 3.4, >= 3.4.1)
   bullet
   byebug
   capistrano (~> 2.15.5)
