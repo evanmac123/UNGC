@@ -44,7 +44,7 @@ gem 'net-ssh', '~> 4.0'
 gem 'rails-observers'
 
 gem 'ranked-model',         '~> 0.4.0'
-gem 'fog'
+gem 'fog',                  '~> 1.38'
 gem "non-stupid-digest-assets"
 gem 'htmlentities', '~> 4.3', '>= 4.3.4'
 gem 'sinatra', '>= 1.3.0', :require => nil
