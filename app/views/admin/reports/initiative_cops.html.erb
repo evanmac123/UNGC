@@ -17,13 +17,13 @@
         <%= select_date(@end_date, prefix: "end_date", prompt: {day: 'Choose day', month: 'Choose month', year: 'Choose year'}) %>
       </div>
 
-      <h5>Select only ONE initiative<h5>
+      <h5>Select an initiative<h5>
 
       <% Initiative.initiatives_for_cop_form.each_pair do |key, value| %>
         <ol class="checkbox_list column">
             <li>
-              <%= check_box_tag "initiatives", key, @initiative, { id: "initiatives_#{value}", class: "label_right" } %>
-              <%= label_tag "initiatives_#{key}", key, class: 'checkbox_label normal' %>
+              <%= radio_button_tag "initiatives", key, @initiative, { id: "initiatives_#{value}", class: "label_right" } %>
+              <%= label_tag "initiatives_#{key}", t(key, scope: :initiative_cops), class: 'checkbox_label normal' %>
             </li>
         </ol>
       <% end %>

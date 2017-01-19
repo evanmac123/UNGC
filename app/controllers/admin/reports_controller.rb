@@ -69,14 +69,18 @@ class Admin::ReportsController < AdminController
     if params[:initiatives]
       @initiative_name  = params[:initiatives]
     end
-    begin_date = format_begin_date(params)
-    finish_date = format_finish_date(params)
-    start_date = Date.new(*begin_date)
-    end_date = Date.new(*finish_date)
-    date_range = start_date..end_date
 
-    report = InitiativeCops.new(date_range: date_range,
-                                initiative_name: @initiative_name)
+    @start_date = format_begin_date(params)
+    @end_date = format_finish_date(params)
+
+    date_range = @start_date..@end_date
+    debugger
+    if @start_date && @end_date && @start_date < @end_date
+      report = InitiativeCops.new(date_range: date_range,
+                                  initiative_name: @initiative_name)
+    else
+      flash[:notice] = 'Please provide valid dates'
+    end
     render_report(report, "initiative_cops_#{date_as_filename}.xls")
   end
 
@@ -271,12 +275,14 @@ class Admin::ReportsController < AdminController
     Date.today.iso8601.gsub('-', '_')
   end
 
-  def format_begin_date(params)
-    params.fetch(:start_date, {}).slice(:year, :month, :day).values.map {|v| v.to_i}
+  def format_begin_date(params = {})
+    begin_date = params.fetch(:start_date, {}).slice(:year, :month, :day).values.map {|v| v.to_i}
+    Date.new(*begin_date) if Date.valid_date?(*begin_date)
   end
 
-  def format_finish_date(params)
-    params.fetch(:end_date, {}).slice(:year, :month, :day).values.map {|v| v.to_i}
+  def format_finish_date(params = {})
+    finish_date = params.fetch(:end_date, {}).slice(:year, :month, :day).values.map {|v| v.to_i}
+    Date.new(*finish_date) if Date.valid_date?(*finish_date)
   end
 
 end
