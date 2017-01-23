@@ -67,7 +67,7 @@ class Admin::ReportsController < AdminController
 
   def initiative_cops
     @initiatives_form = PrepareInitiativeCopReport.new(
-      initiative_name: params[:initiatives],
+      initiative_name: initiative_cop_params["initiative_name"],
       start_year: initiative_cop_params["start_date(1i)"],
       start_month: initiative_cop_params["start_date(2i)"],
       start_day: initiative_cop_params["start_date(3i)"],
@@ -275,7 +275,6 @@ class Admin::ReportsController < AdminController
   end
 
   def initiative_cop_params
-    # TODO initiatives
     params.fetch(:report, {}).permit(
       "start_date(1i)",
       "start_date(2i)",
@@ -283,6 +282,7 @@ class Admin::ReportsController < AdminController
       "end_date(1i)",
       "end_date(2i)",
       "end_date(3i)",
+      "initiative_name",
     )
   end
 

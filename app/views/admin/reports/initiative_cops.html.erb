@@ -26,8 +26,8 @@
       <% InitiativeCops.initiative_names.each_pair do |slug, title| %>
         <ol class="checkbox_list column">
             <li>
-              <%= radio_button_tag "initiatives", slug, @initiative_name, { id: "initiatives_#{slug}", class: "label_right" } %>
-              <%= label_tag "initiatives_#{slug}", title, class: 'checkbox_label normal' %>
+              <%= form.radio_button :initiative_name, slug, class: "label_right" %>
+              <%= form.label :initiative_name, title, value: slug, class: "checkbox_label normal" %>
             </li>
         </ol>
       <% end %>
