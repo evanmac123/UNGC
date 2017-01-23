@@ -23,11 +23,11 @@
 
       <h5>Select an initiative<h5>
 
-      <% InitiativeCops.initiative_names.each_pair do |initiative, value| %>
+      <% InitiativeCops.initiative_names.each_pair do |slug, title| %>
         <ol class="checkbox_list column">
             <li>
-              <%= radio_button_tag "initiatives", initiative, @initiative_name, { id: "initiatives_#{value}", class: "label_right" } %>
-              <%= label_tag "initiatives_#{value}", t(initiative, scope: :initiative_cops), class: 'checkbox_label normal' %>
+              <%= radio_button_tag "initiatives", slug, @initiative_name, { id: "initiatives_#{slug}", class: "label_right" } %>
+              <%= label_tag "initiatives_#{slug}", title, class: 'checkbox_label normal' %>
             </li>
         </ol>
       <% end %>

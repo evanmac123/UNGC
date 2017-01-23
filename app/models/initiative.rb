@@ -39,8 +39,4 @@ class Initiative < ActiveRecord::Base
     find(id_by_filter(filter))
   end
 
-  def self.initiatives_for_cop_form
-    FILTER_TYPES
-  end
-
 end
