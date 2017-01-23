@@ -2,7 +2,11 @@
 
 <ul class="tools inline">
   <li>
-    <%= link_to_download_report text: "Download Excel Report", format: 'xls'%>
+    <% if @initiatives_form.errors.any? %>
+      <%= @initiatives_form.errors.full_messages.to_sentence %>
+    <% else %>
+      <%= link_to_download_report text: "Download Excel Report", format: 'xls'%>
+    <% end %>
   </li>
 </ul>
 
@@ -11,10 +15,10 @@
   <fieldset>
       <legend>Initiatives</legend>
       <div>
-        <h5>Starting Date<h5>
-        <%= form.date_select :start_date, prompt: {start_day: 'Choose day', start_month: 'Choose month', start_year: 'Choose year'} %>
+        <h5>Starting Date</h5>
+        <%= form.date_select :start_date %>
         <h5>Ending Date</h5>
-        <%= form.date_select :end_date, prompt: {end_day: 'Choose day', end_month: 'Choose month', end_year: 'Choose year'} %>
+        <%= form.date_select :end_date %>
       </div>
 
       <h5>Select an initiative<h5>
@@ -23,7 +27,7 @@
         <ol class="checkbox_list column">
             <li>
               <%= radio_button_tag "initiatives", initiative, @initiative_name, { id: "initiatives_#{value}", class: "label_right" } %>
-              <%= label_tag "initiatives_#{initiative}", t(initiative, scope: :initiative_cops), class: 'checkbox_label normal' %>
+              <%= label_tag "initiatives_#{value}", t(initiative, scope: :initiative_cops), class: 'checkbox_label normal' %>
             </li>
         </ol>
       <% end %>

@@ -66,17 +66,21 @@ class Admin::ReportsController < AdminController
   end
 
   def initiative_cops
-    if params[:initiatives]
-      @initiative_name  = params[:initiatives]
-    end
-
-    @initiatives_form = PrepareInitiativeCopReport.new(initiative_cop_params)
+    @initiatives_form = PrepareInitiativeCopReport.new(
+      initiative_name: params[:initiatives],
+      start_year: initiative_cop_params["start_date(1i)"],
+      start_month: initiative_cop_params["start_date(2i)"],
+      start_day: initiative_cop_params["start_date(3i)"],
+      end_year: initiative_cop_params["end_date(1i)"],
+      end_month: initiative_cop_params["end_date(2i)"],
+      end_day: initiative_cop_params["end_date(3i)"],
+    )
 
     if @initiatives_form.valid?
-      report = InitiativeCops.new(date_range: date_range,
-                                  initiative_name: @initiative_name)
+      report = InitiativeCops.new(date_range: @initiatives_form.date_range,
+                                  initiative_name: @initiatives_form.initiative_name)
+      render_report(report, "initiative_cops_#{date_as_filename}.xls")
     end
-    render_report(report, "initiative_cops_#{date_as_filename}.xls")
   end
 
   def sdg_cop_answers
@@ -271,7 +275,15 @@ class Admin::ReportsController < AdminController
   end
 
   def initiative_cop_params
-    params.fetch(:report, {}).permit(start_date:[:year, :month, :day], end_date:[:year, :month, :day])
+    # TODO initiatives
+    params.fetch(:report, {}).permit(
+      "start_date(1i)",
+      "start_date(2i)",
+      "start_date(3i)",
+      "end_date(1i)",
+      "end_date(2i)",
+      "end_date(3i)",
+    )
   end
 
 end
