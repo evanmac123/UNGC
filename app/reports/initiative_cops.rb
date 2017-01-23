@@ -5,13 +5,34 @@ class InitiativeCops < SimpleReport
   def initialize(options)
     super(options)
     @date_range = parse_date_range(options)
-    @initiative_name = options.fetch(:initiative_name)
+    @initiative_name = options.fetch(:initiative_name).to_s
+  end
+
+  def self.initiative_names
+    {
+      weps: "WEPs",                     # Initiative
+      lead: "LEAD",                     # Initiative
+      business_peace: "Busines peace",  # Grouping
+      human_rights: "Human Rights",     # Principle Area
+    }
   end
 
   def records
-    CopAnswer.by_initiative(@initiative_name)
-             .joins(communication_on_progress: [:organization])
-             .where(communication_on_progresses: { published_on: @date_range })
+    answer = case @initiative_name
+    when "weps", "lead"
+      CopAnswer.by_initiative(@initiative_name)
+    when "business_peace"
+      CopAnswer.by_group(@initiative_name)
+    when "human_rights"
+      human_rights = PrincipleArea.area_for(:human_rights)
+      human_rights_question_ids = CopQuestion.where(principle_area: human_rights).pluck(:id)
+      CopAnswer.joins(:cop_attribute).where(cop_attributes: {cop_question_id: human_rights_question_ids})
+    else
+      raise "Unexpected initiative name: #{@initiative_name}"
+    end
+
+    answer.joins(communication_on_progress: [:organization])
+      .where(communication_on_progresses: { published_on: @date_range })
   end
 
   def headers
