@@ -56,6 +56,7 @@ group :development do
   gem 'thin'
   gem 'bullet'
   gem 'brakeman', '~> 3.4', '>= 3.4.1'
+  gem 'bundler-audit', '~> 0.5.0'
 end
 
 group :test do
