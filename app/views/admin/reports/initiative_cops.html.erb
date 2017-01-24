@@ -21,13 +21,13 @@
         <%= form.date_select :end_date %>
       </div>
 
-      <h5 style="margin: 1em;">Select an initiative<h5>
+      <h5 style="margin: 1em;">Select an Initiative<h5>
 
       <% InitiativeCops.initiative_names.each_pair do |slug, title| %>
           <ol class="radio_button column">
               <li>
                 <%= form.radio_button :initiative_name, slug, style: 'float: left' %>
-                <%= form.label :initiative_name, title, value: slug, style: 'padding-left: 10px;'  %>
+                <%= form.label :initiative_name, title, value: slug, style: 'padding-left: 10px; font-size: large;'  %>
               </li>
           </ol>
       <% end %>
