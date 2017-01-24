@@ -1,5 +1,9 @@
 :domain: staging.ungc.managedmachine.com
 
+:apache:
+  :users:
+    ungc: sustainability
+
 :webdav:
   :domain: webdav-staging.unglobalcompact.org
 
