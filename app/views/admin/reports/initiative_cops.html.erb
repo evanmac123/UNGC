@@ -15,21 +15,21 @@
   <fieldset>
       <legend>Initiatives</legend>
       <div>
-        <h5>Starting Date</h5>
+        <h5 style="margin: 1em;">Starting Date</h5>
         <%= form.date_select :start_date %>
-        <h5>Ending Date</h5>
+        <h5 style="margin: 1em;">Ending Date</h5>
         <%= form.date_select :end_date %>
       </div>
 
-      <h5>Select an initiative<h5>
+      <h5 style="margin: 1em;">Select an initiative<h5>
 
       <% InitiativeCops.initiative_names.each_pair do |slug, title| %>
-        <ol class="checkbox_list column">
-            <li>
-              <%= form.radio_button :initiative_name, slug, class: "label_right" %>
-              <%= form.label :initiative_name, title, value: slug, class: "checkbox_label normal" %>
-            </li>
-        </ol>
+          <ol class="radio_button column">
+              <li>
+                <%= form.radio_button :initiative_name, slug, style: 'float: left' %>
+                <%= form.label :initiative_name, title, value: slug, style: 'padding-left: 10px;'  %>
+              </li>
+          </ol>
       <% end %>
     </fieldset>
     <ul class="tools inline">

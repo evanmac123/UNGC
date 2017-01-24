@@ -12,8 +12,8 @@ class InitiativeCops < SimpleReport
     {
       weps: "WEPs",                     # Initiative
       lead: "LEAD",                     # Initiative
-      business_peace: "Busines peace",  # Grouping
-      human_rights: "Human Rights",     # Principle Area
+      business_peace: "Busines for Peace Signatories",  # Grouping
+      human_rights: "Human Rights and Labour",     # Principle Area
     }
   end
 
