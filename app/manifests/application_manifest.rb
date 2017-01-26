@@ -28,7 +28,7 @@ class ApplicationManifest < Moonshine::Manifest::Rails
   recipe :webdav
   recipe :ssh
   recipe :ssh_config
-  recipe :denyhosts
+  recipe :fail2ban
   recipe :dnsmasq
   recipe :resolv_conf
   recipe :passenger_monitor
