@@ -16,9 +16,9 @@
       <legend>Initiatives</legend>
       <div>
         <h5 style="margin: 1em;">Starting Date</h5>
-        <%= form.date_select :start_date %>
+        <%= form.date_select(:start_date, start_year: 2007, end_year: Date.today.year)  %>
         <h5 style="margin: 1em;">Ending Date</h5>
-        <%= form.date_select :end_date %>
+        <%= form.date_select(:end_date, start_year: 2007, end_year: Date.today.year)  %>
       </div>
 
       <h5 style="margin: 1em;">Select an Initiative<h5>
