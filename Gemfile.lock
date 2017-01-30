@@ -353,7 +353,6 @@ GEM
     minitest (5.10.1)
     mocha (1.1.0)
       metaclass (~> 0.0.1)
-    money (2.1.5)
     multi_json (1.11.2)
     multipart-post (1.2.0)
     mysql2 (0.3.18)
@@ -568,7 +567,6 @@ DEPENDENCIES
   jquery-ui-rails
   minitest
   mocha (~> 1.1.0)
-  money (~> 2.1.5)
   mysql2 (~> 0.3.17)
   net-ssh (~> 4.0)
   non-stupid-digest-assets
