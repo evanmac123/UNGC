@@ -28,6 +28,10 @@ class OrganizationMailerPreview < ActionMailer::Preview
   end
 
   def approved_business
+    organization
+    business
+
+    OrganizationMailer.approved_business(organization)
   end
 
   def approved_nonbusiness
@@ -82,6 +86,10 @@ class OrganizationMailerPreview < ActionMailer::Preview
     @organization ||= FactoryGirl.create(:organization, country: country).tap do |org|
       org.comments.create!(body: FixtureReplacement.random_string, contact: staff_user)
     end
+  end
+
+  def business
+    @business ||= FactoryGirl.create(:organization_type: organization_type)
   end
 
   def country
