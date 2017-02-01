@@ -82,12 +82,12 @@ class OrganizationMailerPreview < ActionMailer::Preview
 
   def organization
     @organization ||= FactoryGirl.create(:organization, country: country).tap do |org|
-      org.comments.create!(body: FixtureReplacement.random_string, contact: staff_user)
+      org.comments.create!(body: Faker::Lorem.sentence, contact: staff_user)
     end
   end
 
   def business
-    @business ||= FactoryGirl.create(organization_type: organization_type)
+    @business ||= FactoryGirl.create(:business)
   end
 
   def country
