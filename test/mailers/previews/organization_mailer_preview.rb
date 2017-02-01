@@ -26,8 +26,7 @@ class OrganizationMailerPreview < ActionMailer::Preview
   end
 
   def approved_business
-    organization
-    business
+    create_contact_point
 
     OrganizationMailer.approved_business(organization)
   end
