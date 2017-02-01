@@ -1,0 +1,45 @@
+<h2>Generate COP report based on an Initiative<h2>
+
+<ul class="tools inline">
+  <li>
+    <% if @initiatives_form.errors.any? %>
+      <%= @initiatives_form.errors.full_messages.to_sentence %>
+    <% else %>
+      <%= link_to_download_report text: "Download Excel Report", format: 'xls'%>
+    <% end %>
+  </li>
+</ul>
+
+<p>
+  <%= form_for @initiatives_form, as: :report, url: admin_report_path(:action => :initiative_cops), :html => {:method => :get} do |form|%>
+  <fieldset>
+      <legend>Initiatives</legend>
+      <div>
+        <h5 style="margin: 1em;">Starting Date</h5>
+        <%= form.date_select(:start_date, start_year: 2007, end_year: Date.today.year)  %>
+        <h5 style="margin: 1em;">Ending Date</h5>
+        <%= form.date_select(:end_date, start_year: 2007, end_year: Date.today.year)  %>
+      </div>
+
+      <h5 style="margin: 1em;">Select an Initiative<h5>
+
+      <% InitiativeCops.initiative_names.each_pair do |slug, title| %>
+          <ol class="radio_button column">
+              <li>
+                <%= form.radio_button :initiative_name, slug, style: 'float: left' %>
+                <%= form.label :initiative_name, title, value: slug, style: 'padding-left: 10px; font-size: large;'  %>
+              </li>
+          </ol>
+      <% end %>
+    </fieldset>
+    <ul class="tools inline">
+      <li>
+        <%= form.submit "Create Excel with selected Initiative", class: 'new_large', style: 'margin-right: 25px;' %>
+      </li>
+      <li>
+        <%= link_to 'Clear selection', admin_report_path(:action => :initiative_cops), :class => 'cancel_large' %>
+      </li>
+    </ul>
+  <% end %>
+</p>
+<%= render partial: 'report_modal' %>

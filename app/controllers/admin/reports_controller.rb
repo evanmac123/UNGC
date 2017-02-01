@@ -65,6 +65,24 @@ class Admin::ReportsController < AdminController
     render_report(report, "approved_logo_requests_#{date_as_filename}.xls")
   end
 
+  def initiative_cops
+    @initiatives_form = PrepareInitiativeCopReport.new(
+      initiative_name: initiative_cop_params["initiative_name"],
+      start_year: initiative_cop_params["start_date(1i)"],
+      start_month: initiative_cop_params["start_date(2i)"],
+      start_day: initiative_cop_params["start_date(3i)"],
+      end_year: initiative_cop_params["end_date(1i)"],
+      end_month: initiative_cop_params["end_date(2i)"],
+      end_day: initiative_cop_params["end_date(3i)"],
+    )
+
+    if @initiatives_form.valid?
+      report = InitiativeCops.new(date_range: @initiatives_form.date_range,
+                                  initiative_name: @initiatives_form.initiative_name)
+      render_report(report, "initiative_cops_#{date_as_filename}.xls")
+    end
+  end
+
   def sdg_cop_answers
     report = SdgCopAnswers.new
     render_report(report, "sdg_cop_answers_#{date_as_filename}.xls")
@@ -254,6 +272,18 @@ class Admin::ReportsController < AdminController
 
   def date_as_filename
     Date.today.iso8601.gsub('-', '_')
+  end
+
+  def initiative_cop_params
+    params.fetch(:report, {}).permit(
+      "start_date(1i)",
+      "start_date(2i)",
+      "start_date(3i)",
+      "end_date(1i)",
+      "end_date(2i)",
+      "end_date(3i)",
+      "initiative_name",
+    )
   end
 
 end
