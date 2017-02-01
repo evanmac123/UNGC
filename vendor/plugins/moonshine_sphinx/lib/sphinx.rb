@@ -14,6 +14,7 @@ module Sphinx
 
   module ClassMethods
     def sphinx_yml
+      configuration[:sphinx][:sphinx_yml] ||= 'thinking_sphinx.yml'
       @sphinx_yml ||= Pathname.new(configuration[:deploy_to]) + "shared/config/#{configuration[:sphinx][:sphinx_yml]}"
     end
 
@@ -140,7 +141,7 @@ module Sphinx
 
     exec 'sphinx',
       :command => [
-        "./configure #{ '--with-libstemmer' if libstemmer}",
+        "/tmp/sphinx-#{file_version}/configure #{ '--with-libstemmer' if libstemmer}",
         'make',
         'make install'
       ].join(' && '),
