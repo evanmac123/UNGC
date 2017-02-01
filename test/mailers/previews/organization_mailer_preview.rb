@@ -1,5 +1,3 @@
-# require './db/example_data'
-
 class OrganizationMailerPreview < ActionMailer::Preview
 
   def submission_received
@@ -89,7 +87,7 @@ class OrganizationMailerPreview < ActionMailer::Preview
   end
 
   def business
-    @business ||= FactoryGirl.create(:organization_type: organization_type)
+    @business ||= FactoryGirl.create(organization_type: organization_type)
   end
 
   def country
