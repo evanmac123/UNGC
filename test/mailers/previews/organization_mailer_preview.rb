@@ -43,6 +43,10 @@ class OrganizationMailerPreview < ActionMailer::Preview
   end
 
   def approved_city
+    create_ceo
+    create_contact_point
+
+    OrganizationMailer.approved_city(organization)
   end
 
   def reject_microenterprise
