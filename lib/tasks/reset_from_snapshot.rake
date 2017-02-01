@@ -1,13 +1,18 @@
 require 'net/scp'
 
 namespace :db do
-  desc "re-create the database from yesterday's production snapshot"
-  task reset_from_snapshot: :environment do
+  desc "re-create the database from target_date's production snapshot. Usage: rake db:reset_from_snapshot[2016-02-23] or omit the date for yesterday's snapshot"
+  task :reset_from_snapshot, [:date] => :environment do |task, args|
     raise "Must be NOT be run from the production environment" if Rails.env.production?
     host = 'unglobalcompact.org'
 
-    yesterday = (Date.today - 1.day).strftime('%Y_%m_%d')
-    snapshot = "production_unglobalcompact_#{yesterday}.sql"
+    target_date = if date_str = args[:date]
+                    date_str.gsub('-', '_')
+                  else
+                    1.day.ago.strftime('%Y_%m_%d')
+                  end
+
+    snapshot = "production_unglobalcompact_#{target_date}.sql"
     server_path = "/home/rails/ungc/mysql_dumps/#{snapshot}.gz"
     snapshot_dir = "./tmp/snapshots"
     snapshot_path = "#{snapshot_dir}/#{snapshot}"
@@ -20,7 +25,7 @@ namespace :db do
 
       Net::SCP.start("unglobalcompact.org", "rails") do |scp|
         scp.download!(server_path, zipped_path) do |ch, name, sent, total|
-          $stdout.write sprintf("\rGetting the latest mysql production snapshot... %.1f%", (sent.to_f/total.to_f * 100))
+          $stdout.write sprintf("\rGetting the #{target_date} mysql production snapshot... %.1f%", (sent.to_f/total.to_f * 100))
           $stdout.flush
         end
       end

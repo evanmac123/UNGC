@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.5.1'
+gem 'rails', '4.2.7.1'
 
 gem 'mysql2',               '~> 0.3.17'
 gem 'facets',               '~> 3.0.0', require: false
@@ -9,7 +9,6 @@ gem 'will_paginate',        '~> 3.0.7'
 gem 'paperclip',            '~> 4.3.6'
 gem 'haml',                 '~> 4.0.6'
 gem 'acts_as_commentable',  '~> 4.0.2'
-gem 'money',                '~> 2.1.5'
 gem 'spreadsheet',          '0.6.5.9'
 gem 'thinking-sphinx',      '~> 3.2.0'
 gem 'state_machine',                    git: 'https://github.com/seuros/state_machine.git', branch: 'master'
@@ -44,7 +43,7 @@ gem 'net-ssh', '~> 4.0'
 gem 'rails-observers'
 
 gem 'ranked-model',         '~> 0.4.0'
-gem 'fog'
+gem 'fog',                  '~> 1.38'
 gem "non-stupid-digest-assets"
 gem 'htmlentities', '~> 4.3', '>= 4.3.4'
 gem 'sinatra', '>= 1.3.0', :require => nil
@@ -55,6 +54,8 @@ group :development do
   gem 'rerun'
   gem 'thin'
   gem 'bullet'
+  gem 'brakeman', '~> 3.4', '>= 3.4.1'
+  gem 'bundler-audit', '~> 0.5.0'
 end
 
 group :test do
