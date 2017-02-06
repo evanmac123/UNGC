@@ -77,7 +77,7 @@ class Organization < ActiveRecord::Base
   validates :isin, length: { is: 12 }, :unless => Proc.new { |organization| organization.isin.blank? }
 
   has_many :signings, dependent: :destroy
-  has_many :initiatives, :through => :signings, dependent: :destroy
+  has_many :initiatives, :through => :signings
   has_many :contacts
   has_many :logo_requests
   has_many :communication_on_progresses

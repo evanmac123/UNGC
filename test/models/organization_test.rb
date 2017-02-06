@@ -192,6 +192,18 @@ class OrganizationTest < ActiveSupport::TestCase
       end
     end
 
+    context "an_org is deleted and the signing association is also deleted" do
+      setup do
+        organization = create(:organization)
+        @signing = create(:signing, organization: organization)
+        organization.destroy!
+      end
+
+      should "destory associations" do
+        assert_nil Signing.find_by_id(@signing)
+      end
+    end
+
     context "and an_org is an SME" do
       setup do
         @an_org.update_attribute :organization_type, OrganizationType.sme
