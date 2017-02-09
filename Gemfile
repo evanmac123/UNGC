@@ -56,6 +56,7 @@ group :development do
   gem 'bullet'
   gem 'brakeman', '~> 3.4', '>= 3.4.1'
   gem 'bundler-audit', '~> 0.5.0'
+  gem 'web-console', '~> 2.1.3'
 end
 
 group :test do
@@ -73,7 +74,6 @@ group :development, :test do
   gem 'pry-rails'
   gem 'quiet_assets'
   gem 'byebug'
-  gem 'web-console', '~> 2.0'
   gem 'spring'
   gem 'factory_girl_rails', '~> 4.0'
   gem 'faker'
