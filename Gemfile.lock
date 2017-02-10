@@ -374,7 +374,7 @@ GEM
       cocaine (~> 0.5.5)
       mime-types
       mimemagic (= 0.3.0)
-    passenger (4.0.59)
+    passenger (4.0.60)
       daemon_controller (>= 1.2.0)
       rack
       rake (>= 0.8.1)
@@ -573,7 +573,7 @@ DEPENDENCIES
   net-ssh (~> 4.0)
   non-stupid-digest-assets
   paperclip (~> 4.3.6)
-  passenger (~> 4.0.57)
+  passenger (~> 4.0.60)
   plugger
   pry-rails
   quiet_assets
