@@ -15,7 +15,7 @@ gem 'state_machine',                    git: 'https://github.com/seuros/state_ma
 gem 'acts_as_tree',         '~> 2.0.0'
 gem 'annotate',             '~> 2.7.1'
 gem 'custom_error_message',             git: 'https://github.com/jeremydurham/custom-err-msg.git', branch: 'master'
-gem 'devise',               '~> 3.4.1'
+gem 'devise',               '~> 3.5.4'
 gem 'doorkeeper'
 gem 'dynamic_form',         '~> 1.1.4'
 gem 'skylight', '~> 1.0', '>= 1.0.1'
