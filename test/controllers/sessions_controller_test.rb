@@ -3,7 +3,7 @@ require 'test_helper'
 class SessionsControllerTest < ActionController::TestCase
 
   def setup
-    travel_to Contact::STRONG_PASSWORD_POLICY_DATE + 1.year
+    travel_to Contact::STRONG_PASSWORD_POLICY_DATE + 1.month
 
     create_test_users
     @request.env['devise.mapping'] = Devise.mappings[:contact]
