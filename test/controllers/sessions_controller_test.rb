@@ -3,7 +3,7 @@ require 'test_helper'
 class SessionsControllerTest < ActionController::TestCase
 
   def setup
-    travel_to Contact::STRONG_PASSWORD_POLICY_DATE + 1.year
+    travel_to Contact::STRONG_PASSWORD_POLICY_DATE + 1.month
 
     create_test_users
     @request.env['devise.mapping'] = Devise.mappings[:contact]
@@ -68,18 +68,35 @@ context "given an organization user" do
   end
 
   should 'login with cookie' do
+    # Given a Contact that chose to be remembered
     @contact.remember_me!
+
+    # And they logged in creating a cookie
+    travel_to 1.minute.from_now
     @request.cookies["remember_contact_token"] = cookie_for(@contact)
+
+    # When they visit again later
+    travel_to 1.day.from_now
     get :new
-    assert @controller.send(:current_contact)
+
+    # Then they should be logged in again
+    assert_not_nil @controller.send(:current_contact)
   end
 
   should 'fail expired cookie login' do
+    # Given a Contact that chose to be remembered
     @contact.remember_me!
-    @contact.update_attribute :remember_created_at, 3.weeks.ago
+
+     # And they logged in creating a cookie
+    travel_to 1.minute.from_now
     @request.cookies["remember_contact_token"] = cookie_for(@contact)
+
+     # When they visit again after the expiry period
+    travel_to Contact.remember_for.from_now + 1.day
     get :new
-    assert !@controller.send(:current_contact)
+
+    # Then they should not be logged in.
+    assert_nil @controller.send(:current_contact).try!(:name)
   end
 
   should 'fail cookie login' do
