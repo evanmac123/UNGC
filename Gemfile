@@ -18,7 +18,6 @@ gem 'custom_error_message',             git: 'https://github.com/jeremydurham/cu
 gem 'devise',               '~> 3.4.1'
 gem 'doorkeeper'
 gem 'dynamic_form',         '~> 1.1.4'
-gem 'skylight', '~> 1.0', '>= 1.0.1'
 gem 'honeybadger', '~> 2.0'
 
 gem 'sass-rails',           '5.0.3'
