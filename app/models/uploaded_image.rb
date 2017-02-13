@@ -17,6 +17,8 @@
 #
 # later we plan to add an image library that lets you browse them
 class UploadedImage < ActiveRecord::Base
+  validates :url, length: { maximum: 255, too_long: "has a %{count} character limit" }
+  
   def licensing
     if (json = read_attribute(:licensing_data))
       MultiJson.load(json, symbolize_keys: true)

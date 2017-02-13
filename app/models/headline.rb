@@ -36,6 +36,7 @@ class Headline < ActiveRecord::Base
 
   validates_presence_of :title, on: :create, message: "^Please provide a title"
   validates_length_of :title, maximum: 255
+  validates :call_to_action_url, length: { maximum: 255, too_long: "has a %{count} character limit" }
 
   cattr_reader :per_page
   @@per_page = 15

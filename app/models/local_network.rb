@@ -84,6 +84,8 @@ class LocalNetwork < ActiveRecord::Base
                       :message => "for website is invalid. Please enter one address in the format http://unglobalcompact.org/",
                       :unless => Proc.new { |local_network| local_network.url.blank? }
 
+  validates :url, length: { maximum: 255, too_long: "has a %{count} character limit" }
+
   accepts_nested_attributes_for :contribution_levels_info
 
   NUMERIC =  [:membership_companies, :membership_sme, :membership_micro_enterprise,
