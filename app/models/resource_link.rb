@@ -18,6 +18,7 @@ class ResourceLink < ActiveRecord::Base
   belongs_to :language
 
   validates_presence_of :title, :link_type
+  validates :url, length: { maximum: 255, too_long: "has a %{count} character limit" }
 
   TYPES = {
     :doc => 'Word document',

@@ -19,6 +19,7 @@ class CopLink < ActiveRecord::Base
                       with: URI::regexp(['http', 'https']),
                       message: "for website is invalid. Please enter one address in the format http://company.com/",
                       if: Proc.new { |link| link.url.present? }
+  validates :url, length: { maximum: 255, too_long: "has a %{count} character limit" }
   belongs_to :communication_on_progress, :foreign_key => :cop_id
   belongs_to :language
 end

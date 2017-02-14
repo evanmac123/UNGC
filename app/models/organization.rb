@@ -75,6 +75,7 @@ class Organization < ActiveRecord::Base
   validates_presence_of :stock_symbol, :if => Proc.new { |organization| organization.public_company? }
   validates_presence_of :delisted_on,  :if => Proc.new { |organization| organization.require_delisted_on? }, :on => :update
   validates :isin, length: { is: 12 }, :unless => Proc.new { |organization| organization.isin.blank? }
+  validates :url, length: { maximum: 255, too_long: "has a %{count} character limit" }
 
   has_many :signings, dependent: :destroy
   has_many :initiatives, :through => :signings

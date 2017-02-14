@@ -77,6 +77,9 @@ class Event < ActiveRecord::Base
     'image/jpeg'
   ]
 
+  validates :call_to_action_1_url, length: { maximum: 255, too_long: "has a %{count} character limit" }
+  validates :call_to_action_2_url, length: { maximum: 255, too_long: "has a %{count} character limit" }
+
   permalink :date_for_permalink
 
   enum priority: {
@@ -153,4 +156,6 @@ class Event < ActiveRecord::Base
   def ends_on
     ends_at
   end
+
+
 end

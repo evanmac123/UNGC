@@ -128,6 +128,17 @@ class EventTest < ActiveSupport::TestCase
       end
     end
 
+    context "with an invalid url" do
+      setup do
+        @event.call_to_action_1_url = "B3lBn76KKzCmOvp7EVomvPSEsiwsE3Bo0H1WhhyZK6Xq5Co2wL0W2x8swBpqOvJ1xiUcUhBNnDuIceTTNyJa5Yj1q4qinFYBpg4VXbYiOeehI9G2V3oJjhiBWqS05YSHQyZBAKGcnO7njnL9A1vq5kBNB01yBSCIZ3Lb4uDMfZScmv7KMgrsGixzq46aL3IJQW8MH37loOlMU4NPVWAh0HMlMUDlDQsf48T9895kbtZ7z8JDYs8WUXsyNlrwcTv1"
+      end
+
+      should "reject url" do
+        assert_not @event.valid?
+        assert_contains @event.errors.full_messages, "Call to action 1 url has a 255 character limit"
+      end
+    end
+
   end
 
 end
