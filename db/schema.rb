@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161213224052) do
+ActiveRecord::Schema.define(version: 20170215134054) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -401,6 +401,20 @@ ActiveRecord::Schema.define(version: 20161213224052) do
 
   add_index "event_sponsors", ["event_id"], name: "index_event_sponsors_on_event_id", using: :btree
   add_index "event_sponsors", ["sponsor_id"], name: "index_event_sponsors_on_sponsor_id", using: :btree
+
+  create_table "event_store_events", force: :cascade do |t|
+    t.string   "stream",     limit: 255,   null: false
+    t.string   "event_type", limit: 255,   null: false
+    t.string   "event_id",   limit: 255,   null: false
+    t.text     "metadata",   limit: 65535
+    t.text     "data",       limit: 65535, null: false
+    t.datetime "created_at",               null: false
+  end
+
+  add_index "event_store_events", ["created_at"], name: "index_event_store_events_on_created_at", using: :btree
+  add_index "event_store_events", ["event_id"], name: "index_event_store_events_on_event_id", unique: true, using: :btree
+  add_index "event_store_events", ["event_type"], name: "index_event_store_events_on_event_type", using: :btree
+  add_index "event_store_events", ["stream"], name: "index_event_store_events_on_stream", using: :btree
 
   create_table "events", force: :cascade do |t|
     t.string   "title",                        limit: 255
