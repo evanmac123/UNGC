@@ -15,7 +15,7 @@ class LogoRequestMailerPreview < ActionMailer::Preview
   private
 
   def logo_request
-    @logo_request ||= FactoryGirl.create(:logo_request, logo_comment: logo_comment)
+    @logo_request ||= FactoryGirl.create(:logo_request, logo_comments: [logo_comment], contact: contact)
   end
 
   def logo_comment
