@@ -10,10 +10,12 @@ class LogoRequestMailer < ActionMailer::Base
   end
 
   def approved(logo_request)
-    @logo_request = logo_request
-    mail \
-      :to => logo_request.contact.email_recipient,
-      :subject => "Your Global Compact Logo Request has been accepted"
+    # if has_logo_comment?
+      @logo_request = logo_request
+      mail \
+        :to => logo_request.contact.email_recipient,
+        :subject => "Your Global Compact Logo Request has been accepted"
+    # end
   end
 
   def rejected(logo_request)

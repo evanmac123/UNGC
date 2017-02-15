@@ -92,6 +92,10 @@ class LogoRequest < ActiveRecord::Base
     reviewer.try(:name)
   end
 
+  def has_logo_comment?
+    self.logo_comments.present?
+  end
+
   private
     def set_approved_on
       update_attribute :approved_on, Date.today
