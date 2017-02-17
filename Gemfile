@@ -9,6 +9,7 @@ gem 'will_paginate',        '~> 3.0.7'
 gem 'paperclip',            '~> 4.3.6'
 gem 'haml',                 '~> 4.0.6'
 gem 'acts_as_commentable',  '~> 4.0.2'
+gem 'money-rails',          '~> 1.8'
 gem 'spreadsheet',          '0.6.5.9'
 gem 'thinking-sphinx',      '~> 3.2.0'
 gem 'state_machine',                    git: 'https://github.com/seuros/state_machine.git', branch: 'master'
@@ -47,6 +48,7 @@ gem "non-stupid-digest-assets"
 gem 'htmlentities', '~> 4.3', '>= 4.3.4'
 gem 'sinatra', '>= 1.3.0', :require => nil
 gem 'rack-request_replication', git: 'https://github.com/bitfield-co/rack-request_replication.git', branch: 'master'
+gem 'rails_event_store', '~> 0.14.3'
 
 group :development do
   gem 'faraday'
