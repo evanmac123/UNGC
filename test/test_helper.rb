@@ -12,7 +12,8 @@ require 'test_helpers/integration_test_helper'
 require "#{Rails.root}/db/seeds.rb"
 
 # include helpers, modules etc
-Dir[Rails.root.join("test/support/**/*")].each { |f| require f }
+require_relative "support/test_page/base.rb"
+Dir[Rails.root.join("test/support/**/*.rb")].each { |f| require f }
 
 class ActiveSupport::TestCase
   include FactoryGirl::Syntax::Methods
