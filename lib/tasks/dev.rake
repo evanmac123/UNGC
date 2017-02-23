@@ -1,3 +1,5 @@
+return unless Rails.env.development?
+
 require "factory_girl"
 
 namespace :dev do
