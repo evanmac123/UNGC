@@ -1,12 +1,11 @@
-return unless Rails.env.development?
-
-require "factory_girl"
-
 namespace :dev do
 
   desc "seed the dev environment"
   task prime: [:environment, :"db:seed"] do
-    seed_staff_user
+    if Rails.env.development?
+      require "factory_girl"
+      seed_staff_user
+    end
   end
 
   private
