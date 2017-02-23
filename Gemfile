@@ -20,6 +20,7 @@ gem 'devise',               '~> 3.5.4'
 gem 'doorkeeper'
 gem 'dynamic_form',         '~> 1.1.4'
 gem 'honeybadger', '~> 2.0'
+gem 'restforce'
 
 gem 'sass-rails',           '~> 5.0.6'
 gem 'coffee-rails',         '~> 4.1.0'
