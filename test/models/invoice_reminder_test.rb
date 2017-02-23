@@ -24,7 +24,7 @@ class InvoiceReminderTest < ActiveSupport::TestCase
         organization_type_id: @business_type.id
       )
       create(:contact,
-        :organization_id => Organization.first.id,
+        :organization_id => @org1.id,
         :role_ids        => [Role.contact_point.id]
       )
 
