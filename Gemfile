@@ -21,7 +21,7 @@ gem 'doorkeeper'
 gem 'dynamic_form',         '~> 1.1.4'
 gem 'honeybadger', '~> 2.0'
 
-gem 'sass-rails',           '5.0.3'
+gem 'sass-rails',           '~> 5.0.6'
 gem 'coffee-rails',         '~> 4.1.0'
 gem 'jquery-rjs',                       git: 'https://github.com/amatsuda/jquery-rjs.git', branch: 'master'
 gem 'jquery-rails',         '~> 4.0.4'
