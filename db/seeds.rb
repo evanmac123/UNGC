@@ -272,6 +272,14 @@ initiatives.each do |id, name, active|
   initiative.update(name: name, active: active)
 end
 
+ungc_name = DEFAULTS[:ungc_organization_name]
+ungc = Organization.where(name: ungc_name).first_or_create
+ungc.update!(
+  organization_type: OrganizationType.find_by(name: "NGO Global"),
+  participant: false,
+  employees: 33
+)
+
 if false # disable for now
   # Create container/payloads that are required for the site to function
   # TODO There are many many pages missing currently, but they should be added.
