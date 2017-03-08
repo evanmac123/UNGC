@@ -121,16 +121,16 @@ class ActiveSupport::TestCase
   end
 
   def create_ungc_organization_and_user
-    create(:country)
-    @ungc = create(:organization, name: 'UNGC')
-    @staff_user = create(:contact, username: 'staff',
-                                 password: 'Passw0rd',
-                                 organization_id: @ungc.id)
+    # Legacy, the UNGC organization is now created in the seeds
+    # all we have left to do is create the staff user
+    create_staff_user
   end
 
   def create_staff_user
-    create_ungc_organization_and_user
-    return @staff_user
+    @ungc = Organization.find_by!(name: DEFAULTS[:ungc_organization_name])
+    @staff_user = create(:contact, username: 'staff',
+                                 password: 'Passw0rd',
+                                 organization_id: @ungc.id)
   end
 
   def create_participant_manager
