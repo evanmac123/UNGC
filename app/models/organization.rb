@@ -267,6 +267,11 @@ class Organization < ActiveRecord::Base
 
   scope :summary, lambda { includes(:country, :sector, :organization_type) }
 
+  scope :expelled, lambda {
+    # currently delisted for failure to communicate
+    where(cop_state: COP_STATE_DELISTED, removal_reason: RemovalReason.delisted)
+  }
+
   def self.with_cop_status(filter_type)
     if filter_type.is_a?(Array)
       statuses = filter_type.map { |t| COP_STATES[t] }
@@ -727,6 +732,18 @@ class Organization < ActiveRecord::Base
   # Is currently expelled. See also: Organization#was_expelled?
   def expelled?
     delisted? && was_expelled?
+  end
+
+  def withdraw
+    self.cop_state = COP_STATE_DELISTED
+    self.removal_reason = RemovalReason.withdrew
+    self.delisted_on = Time.now
+    self.active = false
+  end
+
+  def withdraw!
+    withdraw
+    save!
   end
 
   def participant_for_less_than_years(years)

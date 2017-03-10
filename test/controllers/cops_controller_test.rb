@@ -42,9 +42,23 @@ class CopsControllerTest < ActionController::TestCase
  test "should get expelled" do
    create(:container, path:'/participation/report/cop/create-and-submit/expelled')
 
+   # Given active, withdrawn and delisted organizations
+   active = create(:business, active: true, name: "active")
+   withdrawn = create(:business, name: "withdrawn").tap(&:withdraw!)
+   expelled = create(:business, name: "expelled").tap { |o|
+     o.communication_late!
+     o.delist!
+   }
+
    get :expelled
    assert_response :success
    assert_not_nil assigns(:page)
+
+   organizations = assigns(:organizations).map(&:name)
+
+   assert_not_includes organizations, active.name
+   assert_includes organizations, expelled.name
+   assert_not_includes organizations, withdrawn.name
  end
 
  test "should get learner" do
@@ -177,7 +191,6 @@ class CopsControllerTest < ActionController::TestCase
    create_principle_areas
    sign_in @organization_user
  end
-
 
  def create_cop_with_differentiation(differentiation_level)
    cop = create_cop(@organization.id)

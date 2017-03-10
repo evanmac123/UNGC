@@ -29,7 +29,7 @@ class CopsController < ApplicationController
     @organizations = Organization.participants
       .summary
       .companies_and_smes
-      .publicly_delisted
+      .expelled
       .paginate(pagination_params)
   end
 
