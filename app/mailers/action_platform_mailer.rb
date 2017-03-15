@@ -7,7 +7,7 @@ class ActionPlatformMailer < ActionMailer::Base
               .find(order_id)
 
     mail \
-      to: 'rmteam@unglobalcompact.org',
+      to: 'ceteam@unglobalcompact.org',
       subject: "Action Platform Order Received from #{@order.organization.name}"
   end
 

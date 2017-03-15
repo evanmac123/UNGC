@@ -1,11 +1,14 @@
 <p>Hello,</p>
 
-<p>An Action Platform order has just been placed by <%= link_to @order.organization.name, admin_organization_url(@order.organization) %>.</p>
+<p>An Action Platform order has just been placed for <%= link_to @order.organization.name, admin_organization_url(@order.organization) %> by <%= mail_to @order.financial_contact.email_recipient %>.
 <p>They have requested to be signed up for the following platforms:</p>
 
 <ul>
   <% @order.subscriptions.each do |subscription| %>
-    <li><%= subscription.platform.name %> ==> <%= subscription.contact.name %></li>
+    <li>
+      <%= subscription.platform.name %> ==>
+      <%= mail_to subscription.contact.email_recipient %>
+    </li>
   <% end %>
 </ul>
 
