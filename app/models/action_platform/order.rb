@@ -11,6 +11,6 @@ class ActionPlatform::Order < ActiveRecord::Base
   end
 
   enum status: {
-    "pending": 0
+    "pending" => 0
   }
 end
