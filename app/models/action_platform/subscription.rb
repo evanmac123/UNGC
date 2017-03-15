@@ -28,7 +28,7 @@ class ActionPlatform::Subscription < ActiveRecord::Base
   def self.for(organization:)
     joins(:order).
       includes(:platform).
-      where("action_platform_orders.organization_id": organization.id).
+      where("action_platform_orders.organization_id" => organization.id).
       flat_map { |subscription| subscription.platform }
   end
 end
