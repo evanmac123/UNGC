@@ -18,7 +18,6 @@ namespace :db do
     snapshot_dir = "./tmp/snapshots"
     snapshot_path = "#{snapshot_dir}/#{snapshot}"
     zipped_path = "#{snapshot_path}.gz"
-    extra_tables_path = "#{snapshot_dir}/sessions_and_searchables_tables.sql.gz"
     unzipped_sessions_and_searchables_tables_path = "#{snapshot_dir}/sessions_and_searchables_tables.sql"
     zipped_sessions_and_searchables_tables_path = "#{unzipped_sessions_and_searchables_tables_path}.gz"
 
@@ -49,7 +48,9 @@ namespace :db do
     end
 
     if File.exist? zipped_sessions_and_searchables_tables_path
-      FileUtils.rm unzipped_sessions_and_searchables_tables_path
+      if File.exist? unzipped_sessions_and_searchables_tables_path
+        FileUtils.rm unzipped_sessions_and_searchables_tables_path
+      end
       system "gunzip #{zipped_sessions_and_searchables_tables_path}"
     end
 
