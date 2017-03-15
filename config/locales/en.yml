@@ -155,3 +155,15 @@ en:
       annual_report: 'Part of an annual (financial) report'
       sustainability_report: 'Part of a sustainability or corporate (social) responsibility report'
       standalone: 'Stand alone document'
+
+  action_platform:
+    accepts_terms_of_use: "I acknowledge that the UN Global Compact reserves the right to suspend the company's participation in an Action Platform if the company is de-listed from the UN Global Compact or listed as \"non-communicating\" on the UN Global Compact website."
+    confirm_financial_contact: "The financial contact information is correct; this individual should receive any invoices related to Action Platform participation."
+    revenue_label: "Updated revenue ($US):"
+    confirm_subscription: "Thank you for joining the Global Compact Action Platform(s):"
+    you_will_be_invoiced: "Someone from our office will be in touch with you shortly regarding next steps. "
+    labels:
+      dashboard_tab: "Action Platforms"
+    actions:
+      submit: "Sign-up"
+      signup: "Signup for Action Platforms"

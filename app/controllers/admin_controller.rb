@@ -24,7 +24,7 @@ class AdminController < ApplicationController
 
     elsif current_contact.from_organization?
       @organization = current_contact.organization
-
+      @action_platforms = ActionPlatform::Subscription.for(organization: @organization)
     end
 
     policy = SignInPolicy.new(current_contact)

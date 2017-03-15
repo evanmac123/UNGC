@@ -417,6 +417,24 @@ class OrganizationTest < ActiveSupport::TestCase
     organization = create(:organization)
     organization.url = "http://goodlink.com/B3lBn76KKzCmOvp7EVomvPSEsiwsE3Bo0H1WhhyZK6Xq5Co2wL0W2x8swBpqOvJ1xiUcUhBNnDuIceTTNyJa5Yj1q4qinFYBpg4VXbYiOeehI9G2V3oJjhiBWqS05YSHQyZBAKGcnO7njnL9A1vq5kBNB01yBSCIZ3Lb4uDMfZScmv7KMgrsGixzq46aL3IJQW8MH37loOlMU4NPVWAh0HMlMUDlDQsf48T9895kbtZ7z8JDYs8WUXsyNlrwcTv1"
     assert_not organization.valid?
+    assert_includes organization.errors.full_messages, "Website has a 255 character limit"
+  end
+
+  test "action platforms" do
+    organization = create(:organization)
+    approved = create(:action_platform_subscription, organization: organization,
+                      status: "approved")
+    pending = create(:action_platform_subscription, organization: organization,
+                     status: "pending")
+    expired = create(:action_platform_subscription, organization: organization,
+                     status: "approved",
+                     expires_on: Date.yesterday)
+
+    subs = organization.action_platform_subscriptions
+
+    assert_includes subs, approved
+    assert_not_includes subs, pending
+    assert_not_includes subs, expired
   end
 
 end

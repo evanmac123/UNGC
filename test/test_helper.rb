@@ -310,6 +310,10 @@ class ActionDispatch::IntegrationTest
     Warden.test_reset!
   end
 
+  def t(*args)
+    I18n.t(*args)
+  end
+
 end
 
 class MockSearchResult < SimpleDelegator

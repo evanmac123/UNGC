@@ -21,10 +21,12 @@
 //= require jquery.tablesorter.pager
 //= require jquery.jeditable.mini
 //= require jquery.tree.min
+//= require jquery.priceformat.min
 //= require chosen.jquery.min
 //= require select2
 //= require_self
 //= require retina
+//= require action_platform
 
 // Array Remove - By John Resig (MIT Licensed)
 Array.prototype.remove = function(from, to) {
