@@ -11,7 +11,44 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170215134054) do
+ActiveRecord::Schema.define(version: 20170301185304) do
+
+  create_table "action_platform_orders", force: :cascade do |t|
+    t.integer  "organization_id",      limit: 4,                   null: false
+    t.integer  "financial_contact_id", limit: 4,                   null: false
+    t.integer  "status",               limit: 4,   default: 0,     null: false
+    t.integer  "price_cents",          limit: 8,   default: 0,     null: false
+    t.string   "price_currency",       limit: 255, default: "USD", null: false
+    t.datetime "created_at",                                       null: false
+    t.datetime "updated_at",                                       null: false
+  end
+
+  add_index "action_platform_orders", ["financial_contact_id"], name: "index_action_platform_orders_on_financial_contact_id", using: :btree
+
+  create_table "action_platform_platforms", force: :cascade do |t|
+    t.string   "name",        limit: 255,   null: false
+    t.text     "description", limit: 65535, null: false
+    t.integer  "status",      limit: 4
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.string   "slug",        limit: 32,    null: false
+  end
+
+  create_table "action_platform_subscriptions", force: :cascade do |t|
+    t.integer  "contact_id",      limit: 4, null: false
+    t.integer  "platform_id",     limit: 4, null: false
+    t.integer  "order_id",        limit: 4, null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.integer  "organization_id", limit: 4, null: false
+    t.integer  "status",          limit: 4, null: false
+    t.date     "expires_on"
+  end
+
+  add_index "action_platform_subscriptions", ["contact_id"], name: "index_action_platform_subscriptions_on_contact_id", using: :btree
+  add_index "action_platform_subscriptions", ["order_id"], name: "index_action_platform_subscriptions_on_order_id", using: :btree
+  add_index "action_platform_subscriptions", ["organization_id"], name: "index_action_platform_subscriptions_on_organization_id", using: :btree
+  add_index "action_platform_subscriptions", ["platform_id"], name: "index_action_platform_subscriptions_on_platform_id", using: :btree
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -815,6 +852,8 @@ ActiveRecord::Schema.define(version: 20170215134054) do
     t.boolean  "is_tobacco"
     t.string   "no_pledge_reason",               limit: 255
     t.string   "isin",                           limit: 255
+    t.integer  "precise_revenue_cents",          limit: 8
+    t.string   "precise_revenue_currency",       limit: 255, default: "USD", null: false
   end
 
   add_index "organizations", ["country_id"], name: "index_organizations_on_country_id", using: :btree
@@ -1172,6 +1211,11 @@ ActiveRecord::Schema.define(version: 20170215134054) do
     t.boolean  "has_licensing",                default: false
   end
 
+  add_foreign_key "action_platform_orders", "contacts", column: "financial_contact_id"
+  add_foreign_key "action_platform_subscriptions", "action_platform_orders", column: "order_id"
+  add_foreign_key "action_platform_subscriptions", "action_platform_platforms", column: "platform_id"
+  add_foreign_key "action_platform_subscriptions", "contacts"
+  add_foreign_key "action_platform_subscriptions", "organizations"
   add_foreign_key "event_sponsors", "events"
   add_foreign_key "event_sponsors", "sponsors"
   add_foreign_key "events", "contacts"

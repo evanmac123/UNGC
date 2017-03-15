@@ -1,0 +1,204 @@
+<section class="action-platform-page">
+  <h2>Action Platforms:</h2>
+  <p class="blurb">Beginning in 2017 we are offering a new portfolio of Action Platforms to advance business activities and outcomes in relation to the Ten Principles and the SDGs. Developed in consultation with LEAD companies, Local Networks, UN agencies and relevant partners, Action Platforms fill emerging gaps in advancing the SDGs. They are tailored for up to 40 companies and require a fee for non-LEAD participants in 2017 (see <a href="https://www.unglobalcompact.org/what-is-gc/participants/search?utf8=%E2%9C%93&search%5Bkeywords%5D=&search%5Binitiatives%5D%5B%5D=19&search%5Bper_page%5D=10&search%5Bsort_field%5D=&search%5Bsort_direction%5D=asc" target="_blank">LEAD participants</a>).</p>
+  <ul>
+    <li>Select the Action Platforms that you would like to sign up for</li>
+    <li>Confirm or update your financial contact information</li>
+    <li>Provide us with up to date revenue information</li>
+  </ul>
+  <h3 style="text-align: center; width: 100%; background: #e8e8e8; padding: 1em 0;">1. Sign up to the Action Platforms</h3>
+</section>
+<%= form_for(@order,
+             url: admin_action_platform_subscriptions_path,
+             as: :order) do |f| %>
+
+  <% if @order.errors.any? %>
+    <div class="errors-container">
+      <h2><%= pluralize(@order.errors.count, "error") %> prohibited this nomination from being sent:</h2>
+
+      <ul class='errors-list'>
+        <% @order.errors.full_messages.each do |message| %>
+          <li class='error'><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% @order.platforms_with_subscriptions.each do |platform, subscription| %>
+    <% prefix = "order[subscriptions][#{platform.id}]" %>
+    <div class="action-platform ap-boxes" role="<%= platform.slug %>">
+      <div class='field field-checkbox'>
+        <label>
+          <h2>
+            <%= check_box_tag "#{prefix}[selected]", "1", subscription.selects?(platform), class: "platform-selection" %>
+            <%= platform.name %>
+          </h2>
+        </label>
+
+        <p><%= platform.description %></p>
+        <p>Please identify the focal point within your company who will engage in this platform.</p>
+        <%= select_tag("#{prefix}[contact_id]",
+                       options_for_select(@order.contacts, subscription.contact_id),
+                       prompt: "Select a contact...") %>
+        <%= hidden_field_tag "#{prefix}[platform_id]", platform.id %>
+        <p>If you do not see the focal point on this list, please add them <%= link_to "here.", dashboard_path(tab: :contacts) %></p>
+      </div>
+    </div>
+  <%- end -%>
+
+<div class="clear break"><br></div>
+
+<section class="ap-section">
+
+<h3 style="text-align: center; width: 100%; background: #e8e8e8; padding: 1em 0;">2. Financial Information</h3>
+
+  <section id="half-wrap">
+
+  <section class="ap-form-2 rev">
+    <h4>Please provide us with updated revenue information</h4>
+    <div class="field">
+      <%= f.label :revenue, t("action_platform.revenue_label") %>
+      <%= f.text_field :revenue %>
+    </div>
+  </section>
+
+  </section>
+
+  <table class="ap-table">
+    <tbody>
+      <tr>
+        <th>Annual Sales/Revenue (USD)</th>
+        <th>Annual Participant Fee (USD)</th>
+        <th>Annual Action Platform Fee (USD)</th>
+      </tr>
+      <tr>
+        <td>&gt;5b</td>
+        <td>20,000</td>
+        <td>20,000</td>
+      </tr>
+      <tr>
+        <td>1 - 5b</td>
+        <td>15,000</td>
+        <td>15,000</td>
+      </tr>
+      <tr>
+        <td>250m - 1b</td>
+        <td>10,000</td>
+        <td>10,000</td>
+      </tr>
+      <tr>
+        <td>50m - 250m</td>
+        <td>5,000</td>
+        <td>5,000</td>
+      </tr>
+      <tr>
+        <td>25 - 50m</td>
+        <td>2,500</td>
+        <td>2,500</td>
+      </tr>
+      <tr>
+        <td><25m</td>
+        <td>500</td>
+        <td>500</td>
+      </tr>
+    </tbody>
+  </table>
+
+<div class="clear break"></div>
+
+<section class="ap-form">
+  <section>
+    <h4>Please confirm your financial contact's information</h4>
+    <%= f.hidden_field :financial_contact_id %>
+    <div class="field one-6">
+      <%= f.label :prefix %>
+      <%= f.text_field :prefix %>
+    </div>
+    <div class="field two-6">
+      <%= f.label :first_name %>
+      <%= f.text_field :first_name %>
+    </div>
+    <div class="field one-6">
+      <%= f.label :middle_name %>
+      <%= f.text_field :middle_name %>
+    </div>
+    <div class="field two-6 last">
+      <%= f.label :last_name %>
+      <%= f.text_field :last_name %>
+    </div>
+    <div class="clear"></div>
+    <div class="field one-6">
+      <%= f.label :job_title %>
+      <%= f.text_field :job_title %>
+    </div>
+    <div class="field two-6">
+      <%= f.label :email %>
+      <%= f.text_field :email %>
+    </div>
+    <div class="field one-6">
+      <%= f.label :phone %>
+      <%= f.text_field :phone %>
+    </div>
+    <div class="field last one-6">
+      <%= f.label :fax %>
+      <%= f.text_field :fax %>
+    </div>
+    <div class="clear"></div>
+    <div class="field two-6">
+      <%= f.label :address %>
+      <%= f.text_field :address %>
+    </div>
+    <div class="field last one-6">
+      <%= f.label :address_more, "Address 2" %>
+      <%= f.text_field :address_more %>
+    </div>
+    <div class="clear"></div>
+    <div class="field two-6">
+      <%= f.label :city %>
+      <%= f.text_field :city %>
+    </div>
+    <div class="field one-6">
+      <%= f.label :state %>
+      <%= f.text_field :state %>
+    </div>
+    <div class="field one-6">
+      <%= f.label :postal_code %>
+      <%= f.text_field :postal_code %>
+    </div>
+    <div class="field two-6 last">
+      <%= f.label :country %>
+      <%= f.collection_select :country_id, @order.countries, :id, :name %>
+    </div>
+    <div class="clear"></div>
+    <div class="field fin-contact last">
+      <%= f.check_box :confirm_financial_contact %>
+      <%= f.label :confirm_financial_contact, t("action_platform.confirm_financial_contact") %>
+    </div>
+  </section>
+</section>
+</section>
+
+<div class="clear break"></div>
+
+<section class="ap-section">
+
+<h3 style="text-align: center; width: 100%; background: #e8e8e8; padding: 1em 0;">3. Confirm your Participation</h3>
+
+<section class="ap-form-2">
+  <div class="field terms">
+    <%= f.check_box :accepts_terms_of_use %>
+    <%= f.label :accepts_terms_of_use, t("action_platform.accepts_terms_of_use") %>
+  </div>
+
+<div class="clear break"><br></div>
+
+  <div class="field button">
+    <%= f.submit t("action_platform.actions.submit") %>
+  </div>
+
+</section>
+
+</section>
+
+</section>
+<% end %>

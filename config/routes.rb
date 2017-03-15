@@ -183,6 +183,9 @@ UNGC::Application.routes.draw do
       get '/' => :create, as: :sign_in_as
     end
 
+    namespace :action_platform do
+      resources :subscriptions
+    end
   end
 
   # public api

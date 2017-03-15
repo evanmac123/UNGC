@@ -83,6 +83,12 @@ class Organization < ActiveRecord::Base
   has_many :logo_requests
   has_many :communication_on_progresses
   has_many :contributions
+  has_many :action_platform_orders, dependent: :destroy,
+    class_name: "ActionPlatform::Order"
+  has_many :action_platform_subscriptions, -> { active },
+    class_name: "ActionPlatform::Subscription",
+    dependent: :destroy
+
   belongs_to :sector
   belongs_to :organization_type
   belongs_to :listing_status
@@ -126,6 +132,8 @@ class Organization < ActiveRecord::Base
     :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
     :url => "/system/:attachment/:id/:style/:filename"
   do_not_validate_attachment_file_type :commitment_letter
+
+  monetize :precise_revenue_cents, allow_nil: true
 
   cattr_reader :per_page
   @@per_page = 100

@@ -1,0 +1,12 @@
+<p>Hello,</p>
+
+<p>An Action Platform order has just been placed by <%= link_to @order.organization.name, admin_organization_url(@order.organization) %>.</p>
+<p>They have requested to be signed up for the following platforms:</p>
+
+<ul>
+  <% @order.subscriptions.each do |subscription| %>
+    <li><%= subscription.platform.name %> ==> <%= subscription.contact.name %></li>
+  <% end %>
+</ul>
+
+<p>For reference the order id is: <%= @order.id %> and the status is "<%= @order.status %>".</p>

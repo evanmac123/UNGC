@@ -1,0 +1,9 @@
+<h2><%= t("action_platform.confirm_subscription") %></h2>
+
+<ul>
+  <% @order.subscriptions.each do |subscription| %>
+    <li><%= subscription.platform.name %>: <%= subscription.contact.name %></li>
+  <% end %>
+</ul>
+
+<p><%= t("action_platform.you_will_be_invoiced") %></p>

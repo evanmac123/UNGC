@@ -8,6 +8,7 @@
     %li= link_to 'Logo Requests', '#logos'
     %li= link_to @organization.cop_acronym.pluralize, '#cops'
     %li= link_to "Draft #{@organization.cop_acronym.pluralize}", '#cop_drafts'
+    %li= link_to t("action_platform.labels.dashboard_tab"), "#action_platforms"
 
   #overview.tab_content
     %ul#contacts_tools{:class => "tools inline"}
@@ -139,3 +140,6 @@
 
     #cop_drafts.tab_content
       = render :partial => 'admin/cops/drafts', locals: { drafts: current_contact.organization.communication_on_progresses.in_progress }
+
+    #action_platforms.tab_content
+      = render partial: "/admin/action_platform/landing"

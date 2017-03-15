@@ -5,6 +5,7 @@ namespace :dev do
     if Rails.env.development?
       require "factory_girl"
       seed_staff_user
+      action_platforms
     end
   end
 
@@ -16,6 +17,10 @@ namespace :dev do
       password: "Passw0rd",
       organization: Organization.find_by(name: DEFAULTS[:ungc_organization_name])
     )
+  end
+
+  def action_platforms
+    Rake::Task["action_platforms:create"]
   end
 
 end
