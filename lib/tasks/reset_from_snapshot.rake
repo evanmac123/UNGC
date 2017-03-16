@@ -54,15 +54,9 @@ namespace :db do
       system "gunzip #{zipped_sessions_and_searchables_tables_path}"
     end
 
-    puts "\nRecreating the database from schema"
+    puts "\nRecreating the database"
     Rake::Task["db:drop"].invoke
     Rake::Task["db:create"].invoke
-    # Rake::Task["db:schema:load"].invoke
-
-    # puts "Emptying schema_migrations table"
-    # conn = ActiveRecord::Base.connection
-    # tables = conn.execute("show tables").map { |r| r[0] }
-    # tables.delete "schema_migrations"
 
     puts "Seeding the database from the snapshot"
     config   = Rails.configuration.database_configuration
