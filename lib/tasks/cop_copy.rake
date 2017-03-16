@@ -1,4 +1,6 @@
 namespace :cop do
+  #Usage:
+  #rake cop:copy["source","destination"]
 
   desc "copy COPs from one organization to another"
   task :copy, [:first_organization,:second_organization] => :environment do |t, args|
