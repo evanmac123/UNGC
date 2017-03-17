@@ -3,13 +3,14 @@ machine:
   # Version of ruby to use
   ruby:
     version:
-      2.1.2
+      2.3.3
 
 general:
   branches:
     only:
       - master
       - production
+      - staging
 
 dependencies:
   pre:
