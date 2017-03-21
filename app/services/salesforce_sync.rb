@@ -13,8 +13,6 @@ class SalesforceSync
     jobs.map(&:execute).all?
   end
 
-  private
-
   class Job
     attr_reader :id, :args
 
@@ -42,7 +40,7 @@ class SalesforceSync
       update
     rescue ActiveRecord::RecordInvalid => e
       if deleting_an_unsynced_record?
-        Rails.logger.warn "the #{type} record #{id} is being deleted, but we never had it in the first place. Ignoring."
+        Rails.logger.warn "the record #{id} is being deleted, but we never had it in the first place. Ignoring."
       else
         raise e
       end
@@ -61,20 +59,28 @@ class SalesforceSync
   class CampaignJob < Job
     def update
       Campaign.transaction do
-        campaign = Campaign.where(campaign_id: id).
+        @campaign = Campaign.where(campaign_id: id).
           first_or_initialize
         campaign.update!(args)
       end
+    end
+
+    def record
+      @campaign
     end
   end
 
   class ContributionJob < Job
     def update
       Contribution.transaction do
-        campaign = Contribution.where(contribution_id: id).
+        @contribution = Contribution.where(contribution_id: id).
           first_or_initialize
-        campaign.update!(args)
+        contribution.update!(args)
       end
+    end
+
+    def record
+      @contribution
     end
   end
 end
