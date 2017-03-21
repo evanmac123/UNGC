@@ -61,7 +61,7 @@ class SalesforceSync
       Campaign.transaction do
         @campaign = Campaign.where(campaign_id: id).
           first_or_initialize
-        campaign.update!(args)
+        @campaign.update!(args)
       end
     end
 
@@ -75,7 +75,7 @@ class SalesforceSync
       Contribution.transaction do
         @contribution = Contribution.where(contribution_id: id).
           first_or_initialize
-        contribution.update!(args)
+        @contribution.update!(args)
       end
     end
 
