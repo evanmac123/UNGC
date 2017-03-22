@@ -10,7 +10,7 @@ general:
     only:
       - master
       - production
-      - staging
+      # - staging
 
 dependencies:
   pre:
