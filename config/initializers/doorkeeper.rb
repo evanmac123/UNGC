@@ -3,7 +3,7 @@ Doorkeeper.configure do
 
   # This block will be called to check whether the resource owner is authenticated or not.
   resource_owner_authenticator do
-    Contact.find_by(id: session[:contact_id]) || redirect_to(new_contact_session_url)
+    current_contact || warden.authenticate!(:scope => :contact)
   end
 
   # If you want to restrict access to the web interface for adding oauth authorized applications, you need to declare the block below.
@@ -79,7 +79,7 @@ Doorkeeper.configure do
   # by default in non-development environments). OAuth2 delegates security in
   # communication to the HTTPS protocol so it is wise to keep this enabled.
   #
-  # force_ssl_in_redirect_uri !Rails.env.development?
+  force_ssl_in_redirect_uri Rails.env.production?
 
   # Specify what grant flows are enabled in array of Strings. The valid
   # strings and the flows they enable are:

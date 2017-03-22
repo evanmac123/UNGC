@@ -34,10 +34,10 @@ production:
   salesforce:
     :host: 'na18.salesforce.com'
     :username: 'salesforce@unglobalcompact.org'
-    :password: 'UNGCS4l3sf0rc3'
-    :token: 'oBpRASHMnOONWexsNk0yE9tc'
-    :client_id: '3MVG9yZ.WNe6byQA3.eubyLjVXqbjVD.LVqC4SvP4zG6qovb77mwdCwgjK3mCXStC2TMqs17Q400NSGt6e.TK'
-    :client_secret: '4153199578286720849'
+    :password: 'UNGC2017!'
+    :token: 'zMhu9bdAj9BbTioxOnx1GYou'
+    :client_id: '3MVG9yZ.WNe6byQA3.eubyLjVXu.C2uy4iK.BzfJQK._fMp.Uo1fSYe5rOaIfUiCLXOVpLyQjXds2eD6FaoCB'
+    :client_secret: '3432384631816779467'
     :callback_url: 'https://www.unglobalcompact.org/salesforce/sync'
   <<: *universal
 

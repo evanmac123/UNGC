@@ -191,6 +191,7 @@ UNGC::Application.routes.draw do
   # public api
   namespace :api, defaults: {format: :json} do
     namespace :v1 do
+      get '/me' => 'credentials#me'
       get 'contributors' => 'contributors#index'
       get 'contributors/:year' => 'contributors#show'
       get 'organizations' => 'organizations#index'

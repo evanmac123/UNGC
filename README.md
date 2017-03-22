@@ -3,9 +3,8 @@
 Welcome to the UNGC project, it was started in the summer of 2009 and is
 currently maintained by:
 
-* [Venu Keesari](https://github.com/vkeesari) &ndash; _**lead**_
-* [Mattia Gheda](https://github.com/ghedamat)
 * [Ben Moss](https://github.com/drteeth)
+* [Abin Abraham](http://github.com/abinofbrooklyn)
 
 _A full list of contributors can be found
 [here](https://github.com/unglobalcompact/UNGC/graphs/contributors)._
