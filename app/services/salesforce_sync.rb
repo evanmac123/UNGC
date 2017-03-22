@@ -13,6 +13,7 @@ class SalesforceSync
     jobs.map(&:execute).all?
   end
 
+  # Abstract job for syncing a model
   class Job
     attr_reader :id, :args
 
@@ -37,50 +38,50 @@ class SalesforceSync
     end
 
     def execute
-      update
-    rescue ActiveRecord::RecordInvalid => e
-      if deleting_an_unsynced_record?
-        Rails.logger.warn "the record #{id} is being deleted, but we never had it in the first place. Ignoring."
-      else
-        raise e
+      transaction do
+        record = find_record(id)
+        if record.present?
+          record.update!(args)
+        elsif args[:is_deleted] == true
+          Rails.logger.warn(<<-WARNING)
+                          The record #{id} is being deleted, but we never had it
+                          in the first place. Ignoring the command.
+                          WARNING
+          nil
+        else
+          create_record(args)
+        end
       end
     end
-
-    private
-
-    def deleting_an_unsynced_record?
-      record.valid? == false &&
-        record.persisted? == false &&
-        args.fetch(:is_deleted) == true
-    end
-
   end
 
+  # Syncs a Campaign
   class CampaignJob < Job
-    def update
-      Campaign.transaction do
-        @campaign = Campaign.where(campaign_id: id).
-          first_or_initialize
-        @campaign.update!(args)
-      end
+    def transaction(&block)
+      Campaign.transaction(&block)
     end
 
-    def record
-      @campaign
+    def find_record(id)
+      Campaign.find_by(campaign_id: id)
+    end
+
+    def create_record(args)
+      Campaign.create!(args.merge(campaign_id: id))
     end
   end
 
+  # Syncs a Contribution
   class ContributionJob < Job
-    def update
-      Contribution.transaction do
-        @contribution = Contribution.where(contribution_id: id).
-          first_or_initialize
-        @contribution.update!(args)
-      end
+    def transaction(&block)
+      Contribution.transaction(&block)
     end
 
-    def record
-      @contribution
+    def find_record(id)
+      Contribution.find_by(contribution_id: id)
+    end
+
+    def create_record(args)
+      Contribution.create!(args.merge(contribution_id: id))
     end
   end
 end
