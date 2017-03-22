@@ -1,5 +1,5 @@
 class ActionPlatformMailer < ActionMailer::Base
-  default :from => UNGC::Application::EMAIL_SENDER
+  default from: UNGC::Application::EMAIL_SENDER
 
   def order_received(order_id)
     @order = ActionPlatform::Order \
@@ -8,6 +8,7 @@ class ActionPlatformMailer < ActionMailer::Base
 
     mail \
       to: 'ceteam@unglobalcompact.org',
+      cc: 'actionplatforms@unglobalcompact.org',
       subject: "Action Platform Order Received from #{@order.organization.name}"
   end
 
