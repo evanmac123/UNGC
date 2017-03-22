@@ -3,6 +3,7 @@ body
   font-size: 13px
   font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif
   font-weight: 400
+  padding-bottom: 5em
 
 a, a:visited,
 #main_content h1,
@@ -50,12 +51,12 @@ ul.nav_bar li.google_translate_button
 .tab_container div.tab_content,
 .tab_container ul.tab_nav li a,
 .tab_container ul.tab_nav li button
-  border: 1px solid #e8e8e8
+  border: 1px solid #cccccc
 
 .tab_container ul.tab_nav li a,
 ul.view_modes li a
   border: none
-  border-top: 1px solid #e8e8e8
+  border-top: 1px solid #cccccc
 
 .tab_container.top_tabs ul.tab_nav li,
 ul.view_modes li
@@ -65,14 +66,14 @@ ul.view_modes li
 
 .tab_container ul.tab_nav li:first-child,
 ul.view_modes li:first-child a
-  border-left: 1px solid #e8e8e8
+  border-left: 1px solid #cccccc
 
 .tab_container ul.tab_nav li:last-child,
 ul.view_modes li:last-child a
-  border-right: 1px solid #e8e8e8
+  border-right: 1px solid #cccccc
 
 .tab_container div.tab_content
-  border: 1px solid #e8e8e8 !important
+  border: 1px solid #cccccc !important
 
 .full-width
   width: 100%
@@ -85,13 +86,12 @@ ul.view_modes li:last-child a
     margin: 0
     background: none
     li a
-      padding: 0.7em 0.5em
+      padding: 0.7em 0.7em
       background: none
       border-right: none
       font-size: 1em
       font-family: "Roboto", "Roboto Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif
       font-weight: 100
-      text-transform: uppercase
       letter-spacing: 0.02em
 
 .full-width.dark
@@ -123,14 +123,41 @@ h1#page_header
 
 #main_content
   margin-top: 3em
-
-#main_content a.new_large, #main_content a.edit_large, #main_content a.edit_small, #main_content a.new_page_large, #main_content div.new_page_large, #main_content a.info_large, #main_content div.hint_toggle, #main_content a.web_preview_large, #main_content a.delete_doc, #main_content a.new_user_large, #main_content a.new_headline_large, #main_content a.refresh_large, #main_content a.delete_large, #main_content a.cancel_large, #main_content a.edit_page_large, #main_content a.go_back_large, #main_content a.download_large, #main_content a.folder_large, #main_content a.search_large, #main_content a.new_org, #main_content a.zip_file_large, #main_content a.guest_large, #main_content button.new_large, #main_content .approve, #main_content .revoke, #main_content a.backdate
-  color: rgba(30,50,80,1)
+  a.new_large,
+  a.edit_large,
+  a.edit_small,
+  a.new_page_large,
+  div.new_page_large,
+  a.info_large,
+  div.hint_toggle,
+  a.web_preview_large,
+  a.delete_doc,
+  a.new_user_large,
+  a.new_headline_large,
+  a.refresh_large,
+  a.delete_large,
+  a.cancel_large,
+  a.edit_page_large,
+  a.go_back_large,
+  a.download_large,
+  a.folder_large,
+  a.search_large,
+  a.new_org,
+  a.zip_file_large,
+  a.guest_large,
+  button.new_large,
+  .approve,
+  .revoke,
+  a.backdate
+    color: rgba(30,50,80,1)
 
 #body-content-wrapper,
 .new_contact
   width: 100%
   max-width: 50em
+
+#main_content .new_contact input.button
+  margin-top: -0.5em !important
 
 //page table content
 
@@ -142,6 +169,9 @@ h1#page_header
   max-height: inherit
   overflow-x: hidden
   overflow-y: visible
+
+.tab_container.left_tabs .tab_content
+  width: 885px
 
 #main_content table.dashboard_table th
   background: #e8e8e8 no-repeat 100% 0
@@ -163,23 +193,40 @@ div.pagination
     legend
       padding: 0 0 1em 0
 
-#main_content fieldset input[type="checkbox"], #main_content fieldset input[type="radio"], #main_content fieldset input[type="file"], #main_content fieldset li.date select
-  display: inline-block
-  position: relative
-  padding: 0 0 0 1.25em
+#main_content
+  fieldset input[type="checkbox"],
+  fieldset input[type="radio"],
+  fieldset input[type="file"],
+  fieldset li.date select
+    display: inline-block
+    position: relative
+    padding: 0 0 0 1.25em
+  fieldset input[type="file"]
+    padding: 0
+    border: none
+    margin-left: 0
 
 #main_content fieldset input[type="checkbox"]
   margin-left: 0
 
-#main_content fieldset input, #main_content fieldset select, #main_content fieldset textarea
-  border: 1px solid #ccc
-  border-radius: 0.25em
-  padding: 0.5em
-  background: #fdfdfd
+#main_content
+  fieldset
+    input,
+    select,
+    textarea
+      border: 1px solid #ccc
+      border-radius: 0.25em
+      padding: 0.5em
+      background: #fdfdfd
+    select
+      margin-left: 0
+
+//Buttons
 
 #main_content
   input.button,
-  input[type="submit" i]
+  input[type="submit" i],
+  a.cancel_large
     background-color: #4c6b8b
     display: inline-block
     font-family: "Flama Bold", "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif
@@ -202,6 +249,39 @@ div.pagination
     -moz-osx-font-smoothing: grayscale
     cursor: pointer
     margin-top: 1em
+    opacity: 1
+    &:hover
+      opacity: 0.9
+  a.cancel_large
+    opacity: 1
+    background: #f65058
+    padding: 0.7em 2em 0.1em 2em
+    &:hover
+      text-decoration: none
+      opacity: 0.9
+
+#main_content
+  .button_to
+    input.button,
+    input[type="submit" i]
+      background: none
+      color: rgba(30,50,80,1)
+      font-weight: bold
+      padding: 0 0.5em
+      font-size: 1em
+      text-transform: none
+
+//CK WYDIWYG editor
+#main_content
+  #cke_headline_description,
+  #cke_event_description,
+  #cke_event_programme_description,
+  #cke_event_media_description,
+  #cke_sponsors_description,
+  #cke_local_network_description,
+  #additional-tabs .cke
+    margin-left: 151px
+    width: 650px !important
 
 //footer
 #footer
