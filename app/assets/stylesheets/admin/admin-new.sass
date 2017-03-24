@@ -31,6 +31,8 @@ a:visited, a:hover
 
 form#search
   top: 0
+  right: 0
+  left: inherit
   .search_box
     padding: 7px 9px
     border: none
@@ -75,6 +77,15 @@ ul.view_modes li:last-child a
 .tab_container div.tab_content
   border: 1px solid #cccccc !important
 
+// left tabs
+.tab_container.left_tabs
+  ul.tab_nav
+    width: 100%
+    float: left
+    li
+      display: block
+      float: left
+
 .full-width
   width: 100%
   margin: 0 0 1em 0
@@ -107,9 +118,9 @@ ul.view_modes li:last-child a
   padding: 0 2%
 
 h1#page_header
-  width: 100%
+  width: 90%
   height: 75px
-  padding: 0 10px 0.5em 10px
+  padding: 0 5% 0.5em 5%
   margin: 0
   background: rgba(30,50,80,0.85)
   background-blend-mode: multiply
@@ -170,11 +181,18 @@ h1#page_header
   overflow-x: hidden
   overflow-y: visible
 
-.tab_container.left_tabs .tab_content
-  width: 885px
+.tab_container.left_tabs div.tab_content
+  max-width: 1000px
+  width: 100%
+  margin-left: 0
+  left: 0
 
-#main_content table.dashboard_table th
-  background: #e8e8e8 no-repeat 100% 0
+#main_content
+  table.dashboard_table
+    th
+      background: #e8e8e8 no-repeat 100% 0
+    td:last-of-type
+      min-width: 112px
 
 div.pagination
   font-size: 1.25em
@@ -211,6 +229,7 @@ div.pagination
 
 #main_content
   fieldset
+    background: none
     input,
     select,
     textarea
@@ -282,6 +301,102 @@ div.pagination
   #additional-tabs .cke
     margin-left: 151px
     width: 650px !important
+
+// Icons
+#main_content
+  table.dashboard_table
+    ul.actions
+      a
+        padding: 0.05em 0.1em 0.15em 0.4em
+        text-decoration: none
+        background: none
+        text-indent: -99999px
+        font-weight: 100
+        -webkit-font-smoothing: antialiased
+        -moz-osx-font-smoothing: greyscale
+        border-radius: 0.3em
+        &:hover
+          text-decoration: none
+      a.edit
+        background: #699cc6
+        padding: 0.05em 0.1em 0.15em 0.45em
+        &:after
+          font-size: 1em
+          color: white
+          content: "\f044"
+          font-family: FontAwesome
+          font-style: normal
+          font-weight: 100
+          text-decoration: inherit
+          display: block
+          text-indent: 0
+          margin: -0.8em 0 0 0
+          -webkit-font-smoothing: antialiased
+          -moz-osx-font-smoothing: greyscale
+      a.delete
+        background: #666
+        padding: 0.05em 0.05em 0.15em 0.5em
+        &:after
+          font-size: 1em
+          color: white
+          content: "\f1f8"
+          font-family: FontAwesome
+          font-style: normal
+          font-weight: 100
+          text-decoration: inherit
+          display: block
+          text-indent: 0
+          margin: -0.8em 0 0 0
+          -webkit-font-smoothing: antialiased
+          -moz-osx-font-smoothing: greyscale
+      a.preview
+        background: #4c6b8b
+        padding: 0.05em 0.15em 0.15em 0.4em
+        &:after
+          font-size: 1em
+          color: white
+          content: "\f06e"
+          font-family: FontAwesome
+          font-style: normal
+          font-weight: 100
+          text-decoration: inherit
+          display: block
+          text-indent: 0
+          margin: -0.8em 0 0 0
+          -webkit-font-smoothing: antialiased
+          -moz-osx-font-smoothing: greyscale
+      a.approve
+        background: #f65058
+        padding: 0.0em 0.1em 0.15em 0.4em
+        &:after
+          font-size: 1em
+          color: white
+          content: "\f165"
+          font-family: FontAwesome
+          font-style: normal
+          font-weight: 100
+          text-decoration: inherit
+          display: block
+          text-indent: 0
+          margin: -0.8em 0 0 0
+          -webkit-font-smoothing: antialiased
+          -moz-osx-font-smoothing: greyscale
+      a.revoke
+        background: #00af66
+        padding: 0.05em 0.1em 0.15em 0.4em
+        &:after
+          font-size: 1em
+          color: white
+          content: "\f164"
+          font-family: FontAwesome
+          font-style: normal
+          font-weight: 100
+          text-decoration: inherit
+          display: block
+          text-indent: 0
+          margin: -0.8em 0 0 0
+          -webkit-font-smoothing: antialiased
+          -moz-osx-font-smoothing: greyscale
 
 //footer
 #footer
