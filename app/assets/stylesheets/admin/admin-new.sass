@@ -287,7 +287,7 @@ div.pagination
   a.cancel_large
     opacity: 1
     background: #f65058
-    padding: 0.7em 2em 0.1em 2em
+    padding: 0.8em 2em 0.3em 2em
     &:hover
       text-decoration: none
       opacity: 0.9
@@ -333,132 +333,61 @@ div.pagination
           text-decoration: none
           opacity: 0.8
       a.edit
-        background: #4c6b8b
-        padding: 0.05em 0.1em 0.18em 0.45em
-        &:after
-          font-size: 1em
-          color: white
-          content: "\f044"
-          font-family: FontAwesome
-          font-style: normal
-          font-weight: 100
-          text-decoration: inherit
-          display: block
-          text-indent: 0
-          margin: -0.8em 0 0 0
-          -webkit-font-smoothing: antialiased
-          -moz-osx-font-smoothing: grayscale
-      a.delete
-        background: #666
-        padding: 0.05em 0.05em 0.18em 0.5em
-        &:after
-          font-size: 1em
-          color: white
-          content: "\f1f8"
-          font-family: FontAwesome
-          font-style: normal
-          font-weight: 100
-          text-decoration: inherit
-          display: block
-          text-indent: 0
-          margin: -0.8em 0 0 0
-          -webkit-font-smoothing: antialiased
-          -moz-osx-font-smoothing: grayscale
-      a.preview
-        background: #4c6b8b
         padding: 0.05em 0.15em 0.18em 0.4em
-        &:after
-          font-size: 1em
-          color: white
-          content: "\f06e"
-          font-family: FontAwesome
-          font-style: normal
-          font-weight: 100
-          text-decoration: inherit
-          display: block
-          text-indent: 0
-          margin: -0.8em 0 0 0
-          -webkit-font-smoothing: antialiased
-          -moz-osx-font-smoothing: grayscale
+        background: #4c6b8b url('icons/updated/edit.png')
+        background-size: auto 11px
+        background-repeat: no-repeat
+        background-position: 6px 4px
+      a.delete
+        padding: 0.05em 0.15em 0.18em 0.4em
+        background: #666 url('icons/updated/trash.png')
+        background-size: auto 12px
+        background-repeat: no-repeat
+        background-position: 6px 3px
+      a.preview
+        padding: 0.05em 0.15em 0.18em 0.4em
+        background: #4c6b8b url('icons/updated/eye.png')
+        background-size: auto 9px
+        background-repeat: no-repeat
+        background-position: 5px 5px
       a.approve
-        background: #f65058
-        padding: 0.0em 0.1em 0.18em 0.4em
-        &:after
-          font-size: 1em
-          color: white
-          content: "\f165"
-          font-family: FontAwesome
-          font-style: normal
-          font-weight: 100
-          text-decoration: inherit
-          display: block
-          text-indent: 0
-          margin: -0.8em 0 0 0
-          -webkit-font-smoothing: antialiased
-          -moz-osx-font-smoothing: grayscale
+        padding: 0.05em 0.15em 0.18em 0.4em
+        background: #f65058 url('icons/updated/thumbs-down.png')
+        background-size: auto 10px
+        background-repeat: no-repeat
+        background-position: 6px 5px
       a.revoke
-        background: #00af66
-        padding: 0.05em 0.1em 0.18em 0.4em
-        &:after
-          font-size: 1em
-          color: white
-          content: "\f164"
-          font-family: FontAwesome
-          font-style: normal
-          font-weight: 100
-          text-decoration: inherit
-          display: block
-          text-indent: 0
-          margin: -0.8em 0 0 0
-          -webkit-font-smoothing: antialiased
-          -moz-osx-font-smoothing: grayscale
+        padding: 0.05em 0.15em 0.18em 0.4em
+        background: #00af66 url('icons/updated/thumbs-up.png')
+        background-size: auto 10px
+        background-repeat: no-repeat
+        background-position: 6px 4px
 
 .tab_container
   div.meta
     ul.post_tools
       a.edit,
       a.delete
-        background: #4c6b8b
-        padding: 0.3em 0 0 0.4em
-        display: block
-        border-radius: 0.2em
-        width: 18px
-        height: 18px
+        padding: 0.1em 0 0 0.4em
+        background: #4c6b8b url(icons/updated/edit.png)
+        background-size: auto 11px
+        background-repeat: no-repeat
+        background-position: 7px 5px
+        border-radius: 3px
+        width: 21px
+        height: 21px
         margin-right: 0.5em
         &:hover
           text-decoration: none
-        &:after
-          font-size: 1.1em
-          border-radius: 1em
-          color: white
-          content: "\f044"
-          font-family: FontAwesome
-          font-style: normal
-          font-weight: 100
-          text-decoration: inherit
-          display: block
-          text-indent: 0
-          margin: 0
-          padding: 0
-          -webkit-font-smoothing: antialiased
-          -moz-osx-font-smoothing: grayscale
       a.delete
-        background: #f65058
-        &:after
-          font-size: 1.1em
-          border-radius: 1em
-          color: white
-          content: "\f00d"
-          font-family: FontAwesome
-          font-style: normal
-          font-weight: 100
-          text-decoration: inherit
-          display: block
-          text-indent: 0
-          margin: 0
-          padding: 0
-          -webkit-font-smoothing: antialiased
-          -moz-osx-font-smoothing: grayscale
+        background: #f65058 url(icons/updated/close.png)
+        background-size: auto 11px
+        background-repeat: no-repeat
+        background-position: 7px 5px
+        border-radius: 3px
+        width: 21px
+        height: 21px
+        margin-right: 1em
 
 #main_content
   fieldset
@@ -487,8 +416,9 @@ div.pagination
   a.new_headline_large,
   a.edit_large,
   a.new_user_large,
-  a.go_back_large
-    padding: 0.5em 0.6em 0 0.7em
+  a.go_back_large,
+  a.refresh_large
+    padding: 0.5em 0.6em 0 0.3em
     background: #f65058
     color: white
     -webkit-font-smoothing: antialiased
@@ -498,145 +428,98 @@ div.pagination
     -webkit-transition: 0.5s ease all
     -moz-transition: 0.5s ease all
     transition: 0.5s ease all
+    margin-right: 1em
+    cursor: pointer
     &:hover
       opacity: 0.8
       -webkit-transition: 0.5s ease all
       -moz-transition: 0.5s ease all
       transition: 0.5s ease all
       text-decoration: none
-    &:before
-      font-size: 1em
-      color: white
-      content: "\f00d"
-      font-family: FontAwesome
-      padding: 0 0.5em 0 0
   a.new_large
-    background: #00af66
+    background: #00af66 url('icons/updated/plus.png')
+    background-size: auto 12px
+    background-repeat: no-repeat
+    background-position: 7px 7px
     display: inline-block
-    &:before
-      font-size: 1em
-      color: white
-      content: "\f067"
-      font-family: FontAwesome
-      padding: 0 0.5em 0 0
+    padding: 0.5em 0.8em 0 1.8em
+    max-height: 20px
+  a#new_event.new_large
+    padding: 0.35em 0.8em 0.1em 1.8em
   a.web_preview_large
-    background: #699cc6
-    &:before
-      font-size: 1em
-      color: white
-      content: "\f06e"
-      font-family: FontAwesome
-      padding: 0 0.5em 0 0
+    background: #699cc6 url('icons/updated/eye.png')
+    background-size: auto 11px
+    background-repeat: no-repeat
+    background-position: 6px 8px
+    padding: 0.5em 0.8em 0 2em
   a.guest_large
-    background: #699cc6
-    &:before
-      font-size: 1em
-      color: white
-      content: "\f007"
-      font-family: FontAwesome
-      padding: 0 0.5em 0 0
+    background: #699cc6 url('icons/updated/user.png')
+    background-size: auto 12px
+    background-repeat: no-repeat
+    background-position: 8px 7px
+    padding: 0.5em 0.8em 0 1.9em
   a.new_user_large
-    background: #00af66
-    &:before
-      font-size: 1em
-      color: white
-      content: "\f234"
-      font-family: FontAwesome
-      padding: 0 0.5em 0 0
+    background: #00af66 url('icons/updated/user-plus.png')
+    background-size: auto 12px
+    background-repeat: no-repeat
+    background-position: 8px 7px
+    padding: 0.5em 0.8em 0 2.1em
   a.edit_page_large
-    background: #699cc6
-    &:before
-      font-size: 1em
-      color: white
-      content: "\f0f6"
-      font-family: FontAwesome
-      padding: 0 0.5em 0 0
+    background: #699cc6 url('icons/updated/edit.png')
+    background-size: auto 12px
+    background-repeat: no-repeat
+    background-position: 8px 7px
+    padding: 0.45em 0.8em 0 2.1em
   a.search_large
-    background: #699cc6
-    &:before
-      font-size: 1em
-      color: white
-      content: "\f002"
-      font-family: FontAwesome
-      padding: 0 0.5em 0 0
+    background: #699cc6 url('icons/updated/search.png')
+    background-size: auto 12px
+    background-repeat: no-repeat
+    background-position: 8px 7px
+    padding: 0.45em 0.8em 0 1.9em
   a.new_headline_large
-    background: #00af66
+    background: #00af66 url('icons/updated/newspaper-o.png')
+    background-size: auto 12px
+    background-repeat: no-repeat
+    background-position: 7px 7px
     display: inline-block
-    &:before
-      font-size: 1em
-      color: white
-      content: "\f1ea"
-      font-family: FontAwesome
-      padding: 0 0.5em 0 0
+    padding: 0.3em 0.8em 0 2.2em
+    max-height: 22px
   a.edit_large
-    background: #699cc6
-    &:before
-      font-size: 1em
-      color: white
-      content: "\f044"
-      font-family: FontAwesome
-      height: 20px
+    background: #699cc6 url('icons/updated/edit.png')
+    background-size: auto 12px
+    background-repeat: no-repeat
+    background-position: 8px 7px
+    padding: 0.5em 0.8em 0 2.1em
   a.go_back_large
-    background: #699cc6
-    &:before
-      font-size: 1em
-      color: white
-      content: "\f060"
-      font-family: FontAwesome
-      height: 20px
+    background: #699cc6 url('icons/updated/arrow_left.png')
+    background-size: auto 12px
+    background-repeat: no-repeat
+    background-position: 8px 7px
+    padding: 0.5em 0.8em 0 2.1em
+  a.refresh_large
+    background: #699cc6 url('icons/updated/refresh.png')
+    background-size: auto 12px
+    background-repeat: no-repeat
+    background-position: 8px 7px
+    padding: 0.5em 0.8em 0 2.1em
 
 #action_platforms
   a
-    padding: 0.5em 0.6em 0.65em 0.7em
-    background: #699cc6
+    background: #00af66 url('icons/updated/plus.png')
+    background-size: auto 12px
+    background-repeat: no-repeat
+    background-position: 7px 7px
+    display: inline-block
+    padding: 0.5em 0.8em 0.5em 2em
+    border-radius: 3px
+    font-weight: normal
     color: white
-    font-weight: bold
-    -webkit-font-smoothing: antialiased
-    -moz-osx-font-smoothing: grayscale
-    border-radius: 0.3em
-    opacity: 1
-    -webkit-transition: 0.5s ease all
-    -moz-transition: 0.5s ease all
-    transition: 0.5s ease all
     &:hover
       text-decoration: none
-    &:before
-      font-size: 1em
-      color: white
-      content: "\f067"
-      font-family: FontAwesome
-      padding: 0 0.5em 0 0
 
-#main_content
-  a.new_large,
-  a.edit_large,
-  a.edit_small,
-  a.new_page_large,
-  div.new_page_large,
-  a.info_large,
-  div.hint_toggle,
-  a.web_preview_large,
-  a.delete_doc,
-  a.new_user_large,
-  a.new_headline_large,
-  a.refresh_large,
-  a.delete_large,
-  a.cancel_large,
-  a.edit_page_large,
-  a.go_back_large,
-  a.download_large,
-  a.folder_large,
-  a.search_large,
-  a.new_org,
-  a.zip_file_large,
-  a.guest_large,
-  button.new_large,
-  .approve,
-  .revoke,
-  a.backdate
-    margin-right: 10px
-    -webkit-font-smoothing: antialiased
-    -moz-osx-font-smoothing: grayscale
+ul.tools.inline
+  a
+    max-height: 20px
 
 //footer
 #footer
