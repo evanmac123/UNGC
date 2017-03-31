@@ -190,6 +190,11 @@ class Contact < ActiveRecord::Base
     address.format
   end
 
+  def email_address
+    email
+  end
+
+
   def contact_info
     "#{full_name_with_title}\n#{job_title}\n#{email}\n#{phone}"
   end
