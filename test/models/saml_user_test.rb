@@ -58,7 +58,7 @@ class SamlUserTest < ActiveSupport::TestCase
     # Then we find that contact
     assert_not_nil user
     assert_equal contact.id, user.id
-  end.id
+  end
 
   test "it allows staff to authenticate" do
     # Given a staff contact
