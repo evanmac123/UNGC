@@ -347,6 +347,8 @@ GEM
     hpricot (0.8.6)
     htmlentities (4.3.4)
     http_parser.rb (0.6.0)
+    httparty (0.14.0)
+      multi_xml (>= 0.5.2)
     i18n (0.7.0)
     ice_nine (0.11.1)
     inflecto (0.0.2)
@@ -367,6 +369,8 @@ GEM
       rb-inotify (>= 0.9)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
+    macaddr (1.7.1)
+      systemu (~> 2.6.2)
     mail (2.6.4)
       mime-types (>= 1.16, < 4)
     metaclass (0.0.4)
@@ -391,6 +395,7 @@ GEM
       money (~> 6.8.1)
       railties (>= 3.0)
     multi_json (1.11.2)
+    multi_xml (0.6.0)
     multipart-post (1.2.0)
     mysql2 (0.3.18)
     net-scp (1.2.1)
@@ -489,8 +494,16 @@ GEM
       json (>= 1.7.5)
     riddle (1.5.12)
     ruby-ole (1.2.11.8)
+    ruby-saml (1.4.2)
+      nokogiri (>= 1.5.10)
     ruby_event_store (0.13.0)
     safe_yaml (1.0.4)
+    saml_idp (0.4.0)
+      activesupport
+      builder
+      httparty
+      nokogiri (>= 1.6.2)
+      uuid
     sass (3.4.23)
     sass-rails (5.0.6)
       railties (>= 4.0.0, < 6)
@@ -536,6 +549,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    systemu (2.6.5)
     thin (1.6.3)
       daemons (~> 1.0, >= 1.0.9)
       eventmachine (~> 1.0)
@@ -559,6 +573,8 @@ GEM
       execjs (>= 0.3.0)
       json (>= 1.8.0)
     uniform_notifier (1.10.0)
+    uuid (2.3.8)
+      macaddr (~> 1.0)
     virtus (1.0.5)
       axiom-types (~> 0.1)
       coercible (~> 1.0)
@@ -640,6 +656,8 @@ DEPENDENCIES
   ranked-model (~> 0.4.0)
   rerun
   restforce
+  ruby-saml
+  saml_idp
   sass-rails (~> 5.0.6)
   scout (= 5.9.8)
   shoulda
@@ -658,4 +676,4 @@ DEPENDENCIES
   will_paginate (~> 3.0.7)
 
 BUNDLED WITH
-   1.14.4
+   1.14.6

@@ -8,6 +8,11 @@ UNGC::Application.routes.draw do
 
   use_doorkeeper
 
+  get '/saml/auth' => 'saml_idp#new'
+  get '/saml/metadata' => 'saml_idp#show'
+  post '/saml/auth' => 'saml_idp#create'
+  match '/saml/logout' => 'saml_idp#logout', via: [:get, :post, :delete]
+
   devise_for :contacts,
     path: '/',
     path_names: {
