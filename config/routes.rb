@@ -529,8 +529,8 @@ UNGC::Application.routes.draw do
   get '/what-is-gc/our-work/sustainable-development/sdgpioneers/nomination-form/new', to: redirect('/sdgs/sdgpioneers/nomination-form/new')
   get '/globalgoalslocalbusiness', to: redirect('/what-is-gc/our-work/sustainable-development/global-goals-local-business')
   if Feature.sdg_pioneer_form?
-    get '/what-is-gc/our-work/sustainable-development/global-goals-local-business/sdgpioneers/nominate-yourself/new', to: redirect('/sdgpioneers')
-    get '/what-is-gc/our-work/sustainable-development/global-goals-local-business/sdgpioneers/nomination-form/new', to: redirect('/sdgpioneers')
+    get '/what-is-gc/our-work/sustainable-development/global-goals-local-business/sdgpioneers/nominate-yourself/new', to: redirect('/sdgs/sdgpioneers/submission-form')
+    get '/what-is-gc/our-work/sustainable-development/global-goals-local-business/sdgpioneers/nomination-form/new', to: redirect('/sdgs/sdgpioneers/submission-form')
   end
 
   # SDG sitemap redirects
