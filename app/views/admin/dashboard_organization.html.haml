@@ -8,7 +8,8 @@
     %li= link_to 'Logo Requests', '#logos'
     %li= link_to @organization.cop_acronym.pluralize, '#cops'
     %li= link_to "Draft #{@organization.cop_acronym.pluralize}", '#cop_drafts'
-    %li= link_to t("action_platform.labels.dashboard_tab"), "#action_platforms"
+    - if @organization.business?
+      %li= link_to t("action_platform.labels.dashboard_tab"), "#action_platforms"
 
   #overview.tab_content
     %ul#contacts_tools{:class => "tools inline"}
