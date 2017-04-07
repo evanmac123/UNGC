@@ -1,5 +1,5 @@
 public class UngcSyncRequest {
-  private static final String UNGC_URL = '{{CALLBACK_URL}}';
+  private static final String UNGC_URL = 'https://www.unglobalcompact.org/salesforce/sync';
   private static final String API_TOKEN = '16d7d6089b8fe0c5e19bfe10bb156832';
 
   private final List<String> errors;
@@ -11,17 +11,22 @@ public class UngcSyncRequest {
   }
 
   public boolean send() {
-    Http http = new Http();
-    HttpRequest req = createRequest();
-    HTTPResponse res = http.send(req);
-    if (res.getStatusCode() == 200) {
-      return true;
-    } else {
-      String message = 'Error from ' + req.getEndpoint() + ': (' + res.getStatusCode() + ') ' + res.getStatus();
-      errors.add(message);
-      errors.add('service returned:' + res.getBody());
-      return false;
+
+    if(!Test.isRunningTest()){
+
+      Http http = new Http();
+      HttpRequest req = createRequest();
+      HTTPResponse res = http.send(req);
+      if (res.getStatusCode() == 200) {
+        return true;
+      } else {
+        String message = 'Error from ' + req.getEndpoint() + ': (' + res.getStatusCode() + ') ' + res.getStatus();
+        errors.add(message);
+        errors.add('service returned:' + res.getBody());
+        return false;
+      }
     }
+    return false;
   }
 
   public List<String> getErrors() {
