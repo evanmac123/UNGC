@@ -12,7 +12,11 @@
       <%= content_tag(:p, content_tag(:span, notice), {class: 'success-message'}) if notice %>
 
       <p>
-        Nominate a colleague or someone that you think is doing great work to advance Sustainable Development Goals at the local level. Individuals who are working at any level of an organization that is an active participant in the Global Compact are eligible to nominate someone else. Once nominated we will ask the person you selected to complete the "Nominate Yourself" form.
+        At the UN Global Compact, the search is on for SDG Pioneers who are making global goals local business. It's time to celebrate the individuals and businesses behind sustainablity in local markets.
+      </p>
+
+      <p>
+        Do you have a colleague or know someone that you think is doing great work to advance the Sustainable Development Goals? Individuals who are working at any level of a business that is an active participant in the UN Global Compact are eligible for consideration.. Your nominee will be requested to submit the "Nominate Yourself" form in order to complete the submission process.
       </p>
 
       <% if @other.errors.any? %>
@@ -104,15 +108,15 @@
       <fieldset>
         <div class="field field-required">
           <%= f.label :why_nominate do %>
-            Please explain why you think that this individual should be nominated as a Local SDG Pioneer
+            Please explain why you think that this individual should be nominated as a SDG Pioneer
           <% end %>
-          <%= f.text_area :why_nominate, placeholder: 'Please limit to 400 words' %>
+          <%= f.text_area :why_nominate, placeholder: 'Please limit to 150 words' %>
         </div>
       </fieldset>
 
       <fieldset>
         <div class="field field-required">
-          <p>We need your permission to share your name and contact information with the individual you are nominating as a Local SDG Pioneer. </p>
+          <p>We need your permission to share your name and contact information with the individual you are nominating as a SDG Pioneer. Please kindly note that your nomination is not an official submission. Once nominated we will ask the person you selected to complete the "Nominate Yourself" form.</p>
           <label>
             <%= f.check_box :accepts_tou %> I agree that the UN Global Compact can share my information with the individual I am nominating as a Local SDG Pioneer.
           </label>

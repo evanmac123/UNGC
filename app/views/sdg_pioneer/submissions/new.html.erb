@@ -12,11 +12,11 @@
       <%= content_tag(:p, content_tag(:span, notice), {class: 'success-message'}) if notice %>
 
       <p>
-        At the UN Global Compact, the search is on for Local SDG Pioneers who are making global goals local business. It's time to celebrate the individuals and businesses behind sustainablity in local markets.
+        At the UN Global Compact, the search is on for SDG Pioneers who are making global goals local business. It's time to celebrate the individuals and businesses behind sustainablity in local markets.
       </p>
 
       <p>
-        Are you a business leader or change maker advancing sustainable development locally? If so, we want to hear your story.
+        Are you a business leader or change maker advancing sustainable development? If so, we want to hear your story.
       </p>
 
       <% if @submission.errors.any? %>
@@ -44,15 +44,6 @@
             <%= f.label :pioneer_type_local_change_maker, 'Local change-makers' %>
             </li>
           </ul>
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <div class="field field-required">
-          <div>
-            <%= f.label :global_goals_activity, 'Tell us what you are doing to become a local SDG Pioneer in your country' %>
-          </div><br/>
-            <%= f.text_area :global_goals_activity, placeholder: 'Please limit to 800 words' %>
         </div>
       </fieldset>
 
@@ -137,7 +128,7 @@
 
       <fieldset>
         <div class="field">
-          Is this organization an active UN Global Compact participant or PRME participant? *<br />
+          Is the nominee's company a UN Global Compact signatory? (*Please note that only UN Global Compact business signatories will be considered.)<br />
           <%= f.radio_button(:is_participant, true) %>
           <%= f.label(:is_participant_true, "Yes") %>
           <br />
@@ -160,10 +151,37 @@
 
       <fieldset>
         <div class="field field-required">
-          <%= f.label :reason_for_being do %>
-            Tell us about yourself and why you want to be a Local SDG Pioneer.
+          <%= f.label :company_success do %>
+            How have you contributed to your company's success by supporting the SDGs? Please be as specific as possible and elaborate on measurable outcomes where relevant.
           <% end %>
-          <%= f.text_area :reason_for_being, placeholder: 'Please limit to 400 words' %>
+          <%= f.text_area :company_success, placeholder: 'Please limit to 150 words' %>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <div class="field field-required">
+          <%= f.label :innovative_sdgs do %>
+            Have you led the development of innovative products, services, and/or business models that advance the SDGs? If yes, please be as specific as possible and demonstrate ownership of the process.
+          <% end %>
+          <%= f.text_area :innovative_sdgs, placeholder: 'Please limit to 150 words' %>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <div class="field field-required">
+          <%= f.label :ten_principles do %>
+            How have you led efforts to integrate the <a href="/what-is-gc/mission/principles" target="_blank">UN Global Compact's Ten Principles</a> into your business strategies and functions?
+          <% end %>
+          <%= f.text_area :ten_principles, placeholder: 'Please limit to 150 words' %>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <div class="field field-required">
+          <%= f.label :awareness_and_mobilize do %>
+            How have you raised awareness and mobilized your network (colleagues and external stakeholders) to support the sustainable development agenda?
+          <% end %>
+          <%= f.text_area :awareness_and_mobilize, placeholder: 'Please limit to 150 words' %>
         </div>
       </fieldset>
 
@@ -171,7 +189,7 @@
         <div class="field field-required">
           <p>We need your permission to potentially share your story with the world.</p>
           <label>
-            <%= f.check_box :accepts_tou %> I agree that the UN Global Compact can use this information for any purposes related to the the Local SDG Pioneers.
+            <%= f.check_box :accepts_tou %> I agree that the UN Global Compact can use this information for any purposes related to the the SDG Pioneers.
           </label>
         </div>
       </fieldset>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170301185304) do
+ActiveRecord::Schema.define(version: 20170417215840) do
 
   create_table "action_platform_orders", force: :cascade do |t|
     t.integer  "organization_id",      limit: 4,                   null: false
@@ -1077,6 +1077,10 @@ ActiveRecord::Schema.define(version: 20170301185304) do
     t.string   "website_url",               limit: 255
     t.datetime "created_at",                                              null: false
     t.datetime "updated_at",                                              null: false
+    t.text     "company_success",           limit: 65535
+    t.text     "innovative_sdgs",           limit: 65535
+    t.text     "ten_principles",            limit: 65535
+    t.text     "awareness_and_mobilize",    limit: 65535
   end
 
   create_table "searchables", force: :cascade do |t|
