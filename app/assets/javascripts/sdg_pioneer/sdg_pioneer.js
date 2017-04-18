@@ -26,6 +26,10 @@ $(function() {
     source: "/api/v1/autocomplete/sdg_pioneer_submissions.json"
   });
 
+  $("#other_organization_name").autocomplete({
+    source: "/api/v1/autocomplete/sdg_pioneer_submissions.json"
+  });
+
   $("#submission_country_name").autocomplete({
     source: "/api/v1/autocomplete/countries.json"
   });
@@ -42,6 +46,31 @@ $(function() {
       $extraNominationFields.find('input').attr('disabled', 'disabled');
     }
 
+  });
+
+  $(document).ready(function() {
+    $('#ungc-participant').hide();
+    $('#nominate-pioneer').hide();
+    $('#join-ungc').hide();
+    $('input[type="radio"]').click(function() {
+      if($(this).attr('id') == 'submission_is_participant_true' || $(this).attr('id') == 'other_is_participant_true') {
+        $('#ungc-participant').show();
+        $('#join-ungc').hide();
+      }
+      else {
+        $('#ungc-participant').hide();
+        $('#join-ungc').show();
+      }
+    });
+
+    $('input[type="radio"]').click(function() {
+      if($(this).attr('id') == 'submission_is_participant_false' || $(this).attr('id') == 'other_is_participant_false') {
+        $('#nominate-pioneer').hide();
+      }
+      else {
+        $('#nominate-pioneer').show();
+      }
+    });
   });
 
 });

@@ -7,6 +7,10 @@ class SdgPioneer::OthersController < ApplicationController
   def create
     @other = SdgPioneer::Other.new(nomination_params)
 
+    # do we have an exact match on organization name?
+    query = SdgPioneer::EligibleBusinessesQuery.new(named: @other.organization_name)
+    @other.organization_name_matched = query.run.any?
+
     if @other.save
       SdgPioneer::Notification.notify_of_nomination(@other)
       redirect_to sdg_pioneer_index_path, notice: I18n.t('sdg_pioneer.nominated')
@@ -19,7 +23,6 @@ class SdgPioneer::OthersController < ApplicationController
 
   def nomination_params
     params.require(:other).permit(
-      :organization_type,
       :submitter_name,
       :submitter_place_of_work,
       :submitter_job_title,
@@ -31,7 +34,8 @@ class SdgPioneer::OthersController < ApplicationController
       :nominee_phone,
       :nominee_title,
       :why_nominate,
-      :sdg_pioneer_role,
+      :organization_name,
+      :organization_name_matched,
       :accepts_tou
     )
   end

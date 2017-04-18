@@ -1,6 +1,6 @@
-<%= render partial: 'components/meta_tags', locals: { title: "Local SDG Pioneers", description: t('sdg_pioneer.other.blurb'), keywords: 'sustainable development goals nominate pioneers' } %>
+<%= render partial: 'components/meta_tags', locals: { title: "SDG Pioneers", description: t('sdg_pioneer.other.blurb'), keywords: 'sustainable development goals nominate pioneers' } %>
 
-<%= render partial: 'components/hero', locals: { hero: {theme: 'dark', size: 'small', title: {first: "Local SDG Pioneers"}, blurb: t('sdg_pioneer.other.blurb'), image: image_path('sdg_pioneer/nomination_form_bg.png') } } %>
+<%= render partial: 'components/hero', locals: { hero: {theme: 'dark', size: 'small', title: {first: "SDG Pioneers"}, blurb: t('sdg_pioneer.other.blurb'), image: image_path('sdg_pioneer/nomination_form_bg.png') } } %>
 
 <section class='main-content-section main-content-section-narrow'>
   <%= form_for @other, as: :other, html: {class: 'form-classic wrapper'} do |f| %>
@@ -32,22 +32,6 @@
       <% end %>
 
       <fieldset>
-        <%= f.label :organization_type do %>
-          Which of the following groups is your organization a part of?</br></br>
-          <% end %>
-        <select name="other[organization_type]" id="other_organization_type">
-          <option value="">Select one</option>
-          <option value="gc_lead">Global Compact LEAD</option>
-          <option value="non_business">Global Compact non-business participants</option>
-          <option value="business">Global Compact business participants</option>
-          <option value="local_network">Global Compact Local Network Representative or Contact Point</option>
-          <option value="prme">PRME Champion schools</option>
-          <option value="un">UN Agency, Fund or Programme</option>
-        </select>
-        </br>
-      </fieldset>
-
-      <fieldset>
         <div class="field field-required">
           <%= f.label :submitter_name, "Your name" %>
           <%= f.text_field :submitter_name %>
@@ -72,13 +56,22 @@
 
       <fieldset>
         <div class="field">
-          <span>For which Local SDG Pioneer role are you nominating this individual? *</span></br></br>
-            <label><%= f.radio_button(:sdg_pioneer_role, :business_leaders_entrepreneurs) %>
-              <b>Local business leaders and entrepreneurs</b> who have demonstrated business success through advancing sustainable development – based on technologies, services or business models – in the country or region which is the primary base for their operations. This could include local leaders of a country division of a global company.
-            </label></br></br>
-            <label><%= f.radio_button(:sdg_pioneer_role, :change_makers) %>
-              <b>Local change-makers</b> who, through their work, have been advocates for sustainable development and actively mobilized local businesses beyond their own organization or sector, in their country or region which is the primary base for their operations. This is also open to Global Compact participants from civil society and PRME schools.
-            </label>
+          Is the nominee's company a UN Global Compact signatory? (*Please note that only UN Global Compact business signatories will be considered.)<br />
+          <%= f.radio_button(:is_participant, true) %>
+          <%= f.label(:is_participant_true, "Yes") %>
+          <br />
+          <%= f.radio_button(:is_participant, false) %>
+          <%= f.label(:is_participant_false, "No") %> <br />
+        </div>
+        <div id="ungc-participant" class="field field-required ui-widget">
+          <%= f.label :organization_name do %>
+            Organization name
+          <% end %>
+          <%= f.text_field :organization_name %>
+        </div>
+
+        <div id="join-ungc">
+          <p>We greatly appreciate your interest in the SDG Pioneers. However, at the moment we are only considering UN Global Compact business signatories. For more information on how to join the UN Global Compact, please visit our <a href="/participation/join/application" target="_blank">website.</a></p>
         </div>
       </fieldset>
 
@@ -125,7 +118,7 @@
 
       <fieldset>Questions? Email: <a href="mailto:sdgpioneers@unglobalcompact.org" target="_top">sdgpioneers@unglobalcompact.org</a></fieldset>
 
-      <%= f.submit 'Nominate' %>
+      <%= f.submit 'Nominate', id: "nominate-pioneer" %>
 
     </section>
 

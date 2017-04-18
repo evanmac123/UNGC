@@ -1,6 +1,6 @@
-<%= render partial: 'components/meta_tags', locals: { title: "Local SDG Pioneers", description: t('sdg_pioneer.submission.blurb'), keywords: 'sustainable development goals submission pioneers' } %>
+<%= render partial: 'components/meta_tags', locals: { title: "SDG Pioneers", description: t('sdg_pioneer.submission.blurb'), keywords: 'sustainable development goals submission pioneers' } %>
 
-<%= render partial: 'components/hero', locals: { hero: {theme: 'dark', size: 'small', title: {first: "Local SDG Pioneers"}, blurb: t('sdg_pioneer.submission.blurb'), image: image_path('sdg_pioneer/local_business_leaders_bg.png') } } %>
+<%= render partial: 'components/hero', locals: { hero: {theme: 'dark', size: 'small', title: {first: "SDG Pioneers"}, blurb: t('sdg_pioneer.submission.blurb'), image: image_path('sdg_pioneer/local_business_leaders_bg.png') } } %>
 
 <section class='main-content-section main-content-section-narrow'>
   <%= form_for @submission, as: :submission, html: {multipart: true, class: 'form-classic wrapper'} do |f| %>
@@ -16,7 +16,7 @@
       </p>
 
       <p>
-        Are you a business leader or change maker advancing sustainable development? If so, we want to hear your story.
+        <strong>Are you a business leader or change maker advancing sustainable development? If so, we want to hear your story.</strong>
       </p>
 
       <% if @submission.errors.any? %>
@@ -32,18 +32,57 @@
       <% end %>
 
       <fieldset>
-        <p><strong>Which type of Pioneer are you? *</strong></p>
-        <div id="pioneer-custom-radio" class="field">
-          <ul>
-            <li>
-            <%= f.radio_button :pioneer_type, :local_business_leader %>
-            <%= f.label :pioneer_type_local_business_leader, 'Local busines leader' %>
-            </li>
-            <li>
-            <%= f.radio_button(:pioneer_type, :local_change_maker) %>
-            <%= f.label :pioneer_type_local_change_maker, 'Local change-makers' %>
-            </li>
-          </ul>
+        <div class="field">
+          Is the nominee's company a UN Global Compact signatory? (*Please note that only UN Global Compact business signatories will be considered.)<br />
+          <%= f.radio_button(:is_participant, true) %>
+          <%= f.label(:is_participant_true, "Yes") %>
+          <br />
+          <%= f.radio_button(:is_participant, false) %>
+          <%= f.label(:is_participant_false, "No") %> <br />
+        </div>
+        <div id="join-ungc">
+          <p>We greatly appreciate your interest in the SDG Pioneers. However, at the moment we are only considering UN Global Compact business signatories. For more information on how to join the UN Global Compact, please visit our <a href="/participation/join/application" target="_blank">website.</a></p>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <div id="ungc-participant" class="field field-required ui-widget">
+          <%= f.label :organization_name do %>
+            Organization name
+          <% end %>
+          <%= f.text_field :organization_name %>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <label><strong>Tell us about yourself</strong></label>
+        <div class="field field-required field-has-placeholder">
+          <%= f.label :name, 'Name' %>
+          <%= f.text_field :name, placeholder: 'Name' %>
+        </div>
+
+        <div class="field field-required field-has-placeholder">
+          <%= f.label :title, 'Title' %>
+          <%= f.text_field :title, placeholder: 'Title' %>
+        </div>
+
+        <div class="field field-required field-has-placeholder">
+          <%= f.label :email, 'Email' %>
+          <%= f.text_field :email, placeholder: 'Email' %>
+        </div>
+
+        <div class="field field-has-placeholder">
+          <%= f.label :phone, 'Telephone' %>
+          <%= f.text_field :phone, placeholder: 'Telephone' %>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <div class="field field-required">
+          <%= f.label :country_name do %>
+            Country of primary operation (if the company operates in multiple countries, please only indicate the country where the submission's activities take place):
+          <% end %>
+          <%= f.text_field :country_name %>
         </div>
       </fieldset>
 
@@ -95,61 +134,6 @@
       </fieldset>
 
       <fieldset>
-        <label><strong>Tell us about yourself</strong></label>
-        <div class="field field-required field-has-placeholder">
-          <%= f.label :name, 'Name' %>
-          <%= f.text_field :name, placeholder: 'Name' %>
-        </div>
-
-        <div class="field field-required field-has-placeholder">
-          <%= f.label :title, 'Title' %>
-          <%= f.text_field :title, placeholder: 'Title' %>
-        </div>
-
-        <div class="field field-required field-has-placeholder">
-          <%= f.label :email, 'Email' %>
-          <%= f.text_field :email, placeholder: 'Email' %>
-        </div>
-
-        <div class="field field-has-placeholder">
-          <%= f.label :phone, 'Telephone' %>
-          <%= f.text_field :phone, placeholder: 'Telephone' %>
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <div class="field field-required ui-widget">
-          <%= f.label :organization_name do %>
-            Organization name
-          <% end %>
-          <%= f.text_field :organization_name %>
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <div class="field">
-          Is the nominee's company a UN Global Compact signatory? (*Please note that only UN Global Compact business signatories will be considered.)<br />
-          <%= f.radio_button(:is_participant, true) %>
-          <%= f.label(:is_participant_true, "Yes") %>
-          <br />
-          <%= f.radio_button(:is_participant, false) %>
-          <%= f.label(:is_participant_false, "No, but we will apply to join before 30 April") %> <br />
-        </div>
-        <div>
-          <i>If you are unsure whether your organization is an active UN Global Compact participant, find your profile on our <a href="/what-is-gc/participants/" target="_blank">participant list</a>. If your organization is interested in joining the UN Global Compact <a href="/participation/join/application/" target="_blank">complete our application</a> (business schools can <a href="http://www.unprme.org/how-to-participate/how-to-sign-up.php" target="_blank">click here</a> to access the PRME application).</i>
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <div class="field field-required">
-          <%= f.label :country_name do %>
-            Country of primary operation (if the company operates in multiple countries, please only indicate the country where the submission's activities take place):
-          <% end %>
-          <%= f.text_field :country_name %>
-        </div>
-      </fieldset>
-
-      <fieldset>
         <div class="field field-required">
           <%= f.label :company_success do %>
             How have you contributed to your company's success by supporting the SDGs? Please be as specific as possible and elaborate on measurable outcomes where relevant.
@@ -196,10 +180,9 @@
 
       <fieldset>Questions? Email: <a href="mailto:sdgpioneers@unglobalcompact.org" target="_top">sdgpioneers@unglobalcompact.org</a></fieldset>
 
-      <%= f.submit 'Nominate' %>
+      <%= f.submit 'Nominate', id: "nominate-pioneer" %>
 
     </section>
-
   <% end %>
 
 </section>
