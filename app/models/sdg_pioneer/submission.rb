@@ -24,7 +24,6 @@
 class SdgPioneer::Submission < ActiveRecord::Base
   before_create :set_pioneer_type
 
-  validates :pioneer_type,                presence: true
   validates :matching_sdgs,               presence: true
   validates :name,                        presence: true, length: { maximum: 255 }
   validates :title,                       presence: true, length: { maximum: 255 }
@@ -76,10 +75,8 @@ class SdgPioneer::Submission < ActiveRecord::Base
     SustainableDevelopmentGoal.where(id: matching_sdgs).pluck(:name)
   end
 
-  private
-
   def set_pioneer_type
-    self.pioneer_type = :business_leader
+    self.pioneer_type ||= :business_leader
   end
 
 end

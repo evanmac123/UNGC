@@ -34,6 +34,7 @@ class SdgPioneer::OthersController < ApplicationController
       :nominee_phone,
       :nominee_title,
       :why_nominate,
+      :is_participant,
       :organization_name,
       :organization_name_matched,
       :accepts_tou

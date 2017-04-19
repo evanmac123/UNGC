@@ -24,7 +24,6 @@ class SdgPioneer::SubmissionsController < ApplicationController
 
   def submission_params
     params.require(:submission).permit(
-      :pioneer_type,
       :company_success,
       :innovative_sdgs,
       :ten_principles,
