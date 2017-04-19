@@ -48,29 +48,42 @@ $(function() {
 
   });
 
-  $(document).ready(function() {
-    $('#ungc-participant').hide();
-    $('#nominate-pioneer').hide();
-    $('#join-ungc').hide();
-    $('input[type="radio"]').click(function() {
-      if($(this).attr('id') == 'submission_is_participant_true' || $(this).attr('id') == 'other_is_participant_true') {
-        $('#ungc-participant').show();
-        $('#join-ungc').hide();
-      }
-      else {
-        $('#ungc-participant').hide();
-        $('#join-ungc').show();
-      }
-    });
+  var $organizationField = $('#ungc-participant');
+  var $joinDialog = $('#join-ungc');
+  var submitButton = $('#nominate-pioneer');
+  var yesButton = $('#submission_is_participant_true, #other_is_participant_true');
+  var noButton = $('#submission_is_participant_false, #other_is_participant_false');
 
-    $('input[type="radio"]').click(function() {
-      if($(this).attr('id') == 'submission_is_participant_false' || $(this).attr('id') == 'other_is_participant_false') {
-        $('#nominate-pioneer').hide();
-      }
-      else {
-        $('#nominate-pioneer').show();
-      }
-    });
-  });
+  function showParticipantField() {
+    $organizationField.show();
+    $joinDialog.hide();
+    submitButton.show();
+  }
+
+  function disableSdgForm() {
+    $organizationField.hide();
+    $joinDialog.show();
+    submitButton.hide();
+  }
+
+  function disableFormAndParticipantField() {
+    $organizationField.hide();
+    $joinDialog.hide();
+    submitButton.hide();
+  }
+
+  yesButton.on('click', showParticipantField);
+  noButton.on('click', disableSdgForm);
+
+  var yesButtonChecked = yesButton.filter(":checked").length > 0;
+  var noButtonChecked = noButton.filter(":checked").length > 0;
+
+  if(yesButtonChecked) {
+    showParticipantField();
+  } else if (noButtonChecked) {
+    disableSdgForm();
+  } else {
+    disableFormAndParticipantField();
+  }
 
 });
