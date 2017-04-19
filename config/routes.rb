@@ -331,7 +331,7 @@ UNGC::Application.routes.draw do
   get '/'         => 'static#home',       as: :root
   get '/layout-sample' => 'static#layout_sample', as: :layout_sample
 
-  namespace :sdg_pioneer, path: '/what-is-gc/our-work/sustainable-development/global-goals-local-business/sdgpioneers' do
+  namespace :sdg_pioneer, path: '/sdgs/sdgpioneers' do
     get :index, path: '/'
     if Feature.sdg_pioneer_form?
       resources :submissions, path: 'nominate-yourself', only: [:new, :create]
@@ -519,19 +519,15 @@ UNGC::Application.routes.draw do
   get '/actionplatforms', to: redirect('/sdgs/action-platforms')
   get '/sdgs/sdg-solutions-platforms', to: redirect('/sdgs/action-platforms')
   get '/events', to: redirect('/take-action/events')
-  get '/sdgpioneers', to: redirect('/sdgs/sdgpioneers/2016')
+  get '/sdgpioneers', to: redirect('/sdgs/sdgpioneers')
 
   # SDG related redirects
-  get '/SDGpioneers', to: redirect('/sdgs/sdgpioneers/2016')
-  get '/pioneers', to: redirect('/sdgs/sdgpioneers/2016')
+  get '/SDGpioneers', to: redirect('/sdgs/sdgpioneers')
+  get '/pioneers', to: redirect('/sdgs/sdgpioneers')
   get '/what-is-gc/our-work/sustainable-development/17-global-goals', to: redirect('/sdgs/sdgs/17-global-goals')
   get '/what-is-gc/our-work/sustainable-development/ln-action-plan', to: redirect('/sdgs/ln-action-plan')
-  get '/what-is-gc/our-work/sustainable-development/sdgpioneers/nomination-form/new', to: redirect('/sdgs/sdgpioneers/nomination-form/new')
+  # get '/what-is-gc/our-work/sustainable-development/sdgpioneers/nomination-form/new', to: redirect('/sdgs/sdgpioneers/nomination-form/new')
   get '/globalgoalslocalbusiness', to: redirect('/what-is-gc/our-work/sustainable-development/global-goals-local-business')
-  if Feature.sdg_pioneer_form?
-    get '/what-is-gc/our-work/sustainable-development/global-goals-local-business/sdgpioneers/nominate-yourself/new', to: redirect('/sdgs/sdgpioneers/submission-form')
-    get '/what-is-gc/our-work/sustainable-development/global-goals-local-business/sdgpioneers/nomination-form/new', to: redirect('/sdgs/sdgpioneers/submission-form')
-  end
 
   # SDG sitemap redirects
   get '/what-is-gc/our-work/sustainable-development/sdgs', to: redirect('/sdgs/about')
@@ -575,9 +571,6 @@ UNGC::Application.routes.draw do
   get '/newsandevents/event_calendar/webinars.html', to: redirect('/take-action/events')
   get '/NewsAndEvents/event_calendar/webinars.html', to: redirect('/take-action/events')
   get '/Issues/financial_markets/global_compact_100.html', to: redirect('/take-action/action/global-compact-100')
-  get '/sdgpioneers', to: redirect('/what-is-gc/our-work/sustainable-development/sdgpioneers')
-  get '/SDGpioneers', to: redirect('/what-is-gc/our-work/sustainable-development/sdgpioneers')
-  get '/pioneers', to: redirect('/what-is-gc/our-work/sustainable-development/sdgpioneers')
 
   # old redirects porting
   get '/climate', to: redirect('/what-is-gc/our-work/environment/climate')
