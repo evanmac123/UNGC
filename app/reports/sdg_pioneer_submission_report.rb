@@ -1,13 +1,18 @@
 class SdgPioneerSubmissionReport < SimpleReport
 
   def records
-    SdgPioneer::Submission.all
+    date  = Date.new(2017,04,01)
+    SdgPioneer::Submission.where(created_at: >= date)
   end
 
   def headers
     [
       'Type',
-      'Global goals local business',
+      'Company Success',
+      'SDG Innovations',
+      'Awareness and Mobilization',
+      'Ten Principles'
+      'Matching SDGs'
       'Name',
       'Title',
       'Email',
@@ -15,7 +20,6 @@ class SdgPioneerSubmissionReport < SimpleReport
       'Organization name',
       'Exact match',
       'Country',
-      'Reason',
       'Accepted Terms',
       'Created at',
     ]
@@ -24,7 +28,10 @@ class SdgPioneerSubmissionReport < SimpleReport
   def row(submission)
     [
       submission.pioneer_type,
-      submission.global_goals_activity,
+      submission.company_success,
+      submission.innovative_sdgs,
+      submission.awareness_and_mobilize,
+      submission.ten_principles
       submission.matching_sdgs,
       submission.name,
       submission.title,
@@ -33,10 +40,8 @@ class SdgPioneerSubmissionReport < SimpleReport
       submission.organization_name,
       submission.organization_name_matched,
       submission.country_name,
-      submission.reason_for_being,
       submission.accepts_tou,
       submission.created_at,
-      submission.updated_at,
     ]
   end
 end
