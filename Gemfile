@@ -55,6 +55,7 @@ gem 'saml_idp'
 
 group :development do
   gem 'faraday'
+  gem 'faraday-cookie_jar' # TODO: move these out of dev
   gem 'rerun'
   gem 'thin'
   gem 'bullet'
