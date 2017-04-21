@@ -2,7 +2,7 @@ class SdgPioneerOtherReport < SimpleReport
 
   def records
     date  = Date.new(2017,04,01)
-    SdgPioneer::Other.where(created_at: >= date)
+    SdgPioneer::Other.where("created_at >= ?", date)
   end
 
   def headers

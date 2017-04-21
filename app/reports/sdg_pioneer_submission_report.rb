@@ -2,7 +2,7 @@ class SdgPioneerSubmissionReport < SimpleReport
 
   def records
     date  = Date.new(2017,04,01)
-    SdgPioneer::Submission.where(created_at: >= date)
+    SdgPioneer::Submission.where("created_at >= ?", date)
   end
 
   def headers
@@ -11,8 +11,8 @@ class SdgPioneerSubmissionReport < SimpleReport
       'Company Success',
       'SDG Innovations',
       'Awareness and Mobilization',
-      'Ten Principles'
-      'Matching SDGs'
+      'Ten Principles',
+      'Matching SDGs',
       'Name',
       'Title',
       'Email',
@@ -31,7 +31,7 @@ class SdgPioneerSubmissionReport < SimpleReport
       submission.company_success,
       submission.innovative_sdgs,
       submission.awareness_and_mobilize,
-      submission.ten_principles
+      submission.ten_principles,
       submission.matching_sdgs,
       submission.name,
       submission.title,
