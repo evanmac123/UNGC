@@ -1,7 +1,7 @@
 # require './lib/igloo/igloo_api.rb'
 
-desc  "sycn contacts with Igloo every 5 minutes"
-task :igloo_sync => :environment do |t, args|
+desc "sycn contacts with Igloo every 5 minutes"
+task igloo_sync: :environment do |t, args|
   puts "something"
   # contacts = IglooContactsQuery.run
 
@@ -15,7 +15,7 @@ task :igloo_sync => :environment do |t, args|
     appPass: password,
     username: "katzen@unglobalcompact.org",
     password: "password123",
-    community: 'unglobalcompact.igloocommunities.com'
+    community: "unglobalcompact.igloocommunities.com"
   }
 
   ungc_sam_id = 178911
@@ -23,7 +23,11 @@ task :igloo_sync => :environment do |t, args|
 
   igloo = Igloo::IglooApi.new(credentials)
   igloo.authenticate
-  igloo.find_user(sam)
-  igloo.update_user(sam, "Sam works for the UNGC")
+  # igloo.find_user(sam)
+  # igloo.update_user(sam, "Sam works for the UNGC")
 
+  abin = Contact.find_by(email: "abraham@unglobalcompact.org")
+  ben = Contact.find_by(email: "ben@unspace.ca")
+  contacts = [abin, ben]
+  igloo.bulk_upload(contacts)
 end
