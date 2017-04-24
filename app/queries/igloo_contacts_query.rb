@@ -1,48 +1,33 @@
 class IglooContactsQuery
 
-  def initialize(contact: nil)
-    @contact = contact
-  end
-
   def run
-    result = Contact.where("updated_at >= ?", 5.minutes.ago).includes(:organization)
-    result + updated_action_platform_organizations + updated_action_platform_contacts
-    + action_platform_contacts + action_platform_organizations
+    ungc_staff.to_a + action_platform_signatories.to_a
   end
 
-  def updated_organization
-    contacts_that_may_have_new_organization_names = Organization.includes(:contacts)
-    .where("updated_at >= ?", 5.minutes.ago).flat_map do |org|
-      org.contacts
-    end
-    contacts_that_may_have_new_organization_names
+  private
+
+  def cutoff
+    5.minutes.ago
   end
 
-  def action_platform_contacts
-    subscriptions = ActionPlatform::Subscription.all
-    contacts = subscriptions.map do |subscription|
-      subscription.contact
-    end
-    contacts
+  def ungc_staff
+    ungc_name = DEFAULTS[:ungc_organization_name]
+    Contact.
+      includes(:organization).
+      joins(:organization).
+      where("organizations.name = ?", ungc_name).
+      where("contacts.updated_at >= ? or organizations.updated_at >= ?", cutoff, cutoff).
+      select(:id, :first_name, :last_name, :job_title)
   end
 
-  def action_platform_organizations
-    subscriptions = ActionPlatform::Subscription.all
-    organizations = subscriptions.map do |subscription|
-      subscription.organization
-    end
-    organizations
+  def action_platform_signatories
+    Contact.
+      includes(:organization).
+      joins(:organization).
+      joins("inner join action_platform_subscriptions on action_platform_subscriptions.contact_id = contacts.id").
+      joins("left join sectors on sectors.id = organizations.sector_id").
+      joins("left join countries on countries.id = contacts.country_id").
+      where("contacts.updated_at >= ? or organizations.updated_at >= ? or sectors.updated_at >= ? or countries.updated_at >=?", cutoff, cutoff, cutoff, cutoff)
   end
-
-  def updated_action_platform_contacts
-    ActionPlatform::Subscription.joins(:contact).where("contacts.updated_at >= ?", 5.minutes.ago)
-  end
-
-  def updated_action_platform_organizations
-    ActionPlatform::Subscription.joins(:organization).where("organizations.updated_at >= ?", 5.minutes.ago)
-  end
-
-
-
 
 end

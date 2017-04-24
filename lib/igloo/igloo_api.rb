@@ -123,7 +123,7 @@ module Igloo
           "lastname" => contact.last_name,
           "email" => contact.email,
           "customIdentifier" => contact.id,
-          "bio" => "test bio",
+          "bio" => "",
           "birthdate" => nil,
           "gender" => nil,
           "address" => nil,
@@ -191,7 +191,6 @@ module Igloo
         request.url(url)
         request.headers["Cookie"] = cookie
         request.body = body
-        ap request
       end
 
       response
