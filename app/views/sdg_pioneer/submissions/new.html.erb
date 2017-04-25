@@ -12,7 +12,7 @@
       <%= content_tag(:p, content_tag(:span, notice), {class: 'success-message'}) if notice %>
 
       <p>
-        At the UN Global Compact, the search is on for SDG Pioneers who are making global goals local business. It's time to celebrate the individuals and businesses behind sustainablity in local markets.
+        At the UN Global Compact, the search is on for SDG Pioneers business leaders who are doing an exceptional job of taking action to advance the Global Goals.
       </p>
 
       <p>
@@ -102,37 +102,6 @@
         </div>
       </fieldset>
 
-      <fieldset style="margin-top: 4em">
-        <strong>Supporting information</strong>
-        <div class="attachments field field-required">
-          Please provide any annual reports, press clippings or other relevant documentation that supports your submission.<br />
-
-          <div class="attachment">
-            <%= file_field_tag 'submission[uploaded_supporting_documents][][attachment]' %>
-          </div>
-
-          <div class="attachment-container"></div>
-
-          <a class="add-another-attachment" href="#">Add another document</a>
-
-          <script class="attachment-template" type="text/x-jquery-tmpl">
-            <div class="attachment">
-              <a href="#" class="delete fa fa-times-circle"></a>
-              <%= file_field_tag 'submission[uploaded_supporting_documents][][attachment]' %>
-            </div>
-          </script>
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <div class="field field-required">
-          <%= f.label :website_url do %>
-            Website that includes information relevant to your activities.
-          <% end %>
-          <%= f.text_field :website_url %>
-        </div>
-      </fieldset>
-
       <fieldset>
         <div class="field field-required">
           <%= f.label :company_success do %>
@@ -168,6 +137,38 @@
           <%= f.text_area :awareness_and_mobilize, placeholder: 'Please limit to 150 words' %>
         </div>
       </fieldset>
+
+      <fieldset style="margin-top: 4em">
+        <strong>Supporting information</strong>
+        <div class="attachments field field-required">
+          Please provide any annual reports, press clippings or other relevant documentation that supports your submission.<br />
+
+          <div class="attachment">
+            <%= file_field_tag 'submission[uploaded_supporting_documents][][attachment]' %>
+          </div>
+
+          <div class="attachment-container"></div>
+
+          <a class="add-another-attachment" href="#">Add another document</a>
+
+          <script class="attachment-template" type="text/x-jquery-tmpl">
+            <div class="attachment">
+              <a href="#" class="delete fa fa-times-circle"></a>
+              <%= file_field_tag 'submission[uploaded_supporting_documents][][attachment]' %>
+            </div>
+          </script>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <div class="field field-required">
+          <%= f.label :website_url do %>
+            Website that includes information relevant to your activities.
+          <% end %>
+          <%= f.text_field :website_url %>
+        </div>
+      </fieldset>
+
 
       <fieldset>
         <div class="field field-required">
