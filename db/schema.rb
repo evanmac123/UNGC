@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170301185304) do
+ActiveRecord::Schema.define(version: 20170418211533) do
 
   create_table "action_platform_orders", force: :cascade do |t|
     t.integer  "organization_id",      limit: 4,                   null: false
@@ -1043,21 +1043,24 @@ ActiveRecord::Schema.define(version: 20170301185304) do
   end
 
   create_table "sdg_pioneer_others", force: :cascade do |t|
-    t.string   "submitter_name",          limit: 255
-    t.string   "submitter_place_of_work", limit: 255
-    t.string   "submitter_email",         limit: 255
-    t.string   "nominee_name",            limit: 255
-    t.string   "nominee_email",           limit: 255
-    t.string   "nominee_phone",           limit: 255
-    t.string   "nominee_work_place",      limit: 255
-    t.string   "organization_type",       limit: 255
-    t.string   "submitter_job_title",     limit: 255
-    t.string   "submitter_phone",         limit: 255
-    t.boolean  "accepts_tou",                           default: false, null: false
-    t.string   "nominee_title",           limit: 255
-    t.text     "why_nominate",            limit: 65535
-    t.integer  "sdg_pioneer_role",        limit: 4
+    t.string   "submitter_name",            limit: 255
+    t.string   "submitter_place_of_work",   limit: 255
+    t.string   "submitter_email",           limit: 255
+    t.string   "nominee_name",              limit: 255
+    t.string   "nominee_email",             limit: 255
+    t.string   "nominee_phone",             limit: 255
+    t.string   "nominee_work_place",        limit: 255
+    t.string   "organization_type",         limit: 255
+    t.string   "submitter_job_title",       limit: 255
+    t.string   "submitter_phone",           limit: 255
+    t.boolean  "accepts_tou",                             default: false, null: false
+    t.string   "nominee_title",             limit: 255
+    t.text     "why_nominate",              limit: 65535
+    t.integer  "sdg_pioneer_role",          limit: 4
     t.datetime "emailed_at"
+    t.boolean  "is_participant"
+    t.string   "organization_name",         limit: 255
+    t.boolean  "organization_name_matched"
   end
 
   create_table "sdg_pioneer_submissions", force: :cascade do |t|
@@ -1077,6 +1080,10 @@ ActiveRecord::Schema.define(version: 20170301185304) do
     t.string   "website_url",               limit: 255
     t.datetime "created_at",                                              null: false
     t.datetime "updated_at",                                              null: false
+    t.text     "company_success",           limit: 65535
+    t.text     "innovative_sdgs",           limit: 65535
+    t.text     "ten_principles",            limit: 65535
+    t.text     "awareness_and_mobilize",    limit: 65535
   end
 
   create_table "searchables", force: :cascade do |t|

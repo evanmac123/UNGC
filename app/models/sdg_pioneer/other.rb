@@ -18,22 +18,26 @@
 #  why_nominate            :text(65535)
 #  sdg_pioneer_role        :integer
 #  emailed_at              :datetime
+#  organization_name         :string(255)
+#  organization_name_matched :boolean          default(FALSE), not null
+#  is_participant            :boolean
 #
 
 class SdgPioneer::Other < ActiveRecord::Base
-  validates :organization_type, presence: true
   validates :submitter_name,            presence: true, length: {maximum: 255}
   validates :submitter_place_of_work,   presence: true, length: {maximum: 255}
   validates :submitter_job_title,       presence: true, length: {maximum: 255}
   validates :submitter_email,           presence: true, length: {maximum: 255}
   validates :submitter_phone,           length: {maximum: 32}
-  validates :sdg_pioneer_role,          presence: true
   validates :nominee_name,              presence: true, length: {maximum: 255}
   validates :nominee_work_place,        presence: true, length: {maximum: 255}
   validates :nominee_title,             presence: true, length: {maximum: 255}
   validates :nominee_email,             presence: true, length: {maximum: 255}
   validates :nominee_phone,             length: {maximum: 32}
-  validates :why_nominate,              presence: true, length: {maximum: 5000}
+  validates :why_nominate,              presence: true, length: {maximum: 500}
+  validates :organization_name,         presence: true, length: { maximum: 255 }
+  validates :organization_name_matched, inclusion: [true, false]
+
   validates :accepts_tou,               presence: true
 
   enum sdg_pioneer_role: [

@@ -22,6 +22,7 @@ private class UngcSyncTests {
 
   static testMethod void testHappyPath() {
     Test.setMock(HttpCalloutMock.class, new MockResponse(200));
+    UngcSyncRequest.httpCallsAreMocked = true;
 
     Campaign campaign = createCampaign();
     Opportunity opportunity = createOpportunity();
@@ -41,6 +42,7 @@ private class UngcSyncTests {
 
   static testMethod void testFailurePath() {
     Test.setMock(HttpCalloutMock.class, new MockResponse(422));
+    UngcSyncRequest.httpCallsAreMocked = true;
 
     Campaign campaign = createCampaign();
     Opportunity opportunity = createOpportunity();
@@ -56,6 +58,18 @@ private class UngcSyncTests {
 
     undelete campaign;
     undelete opportunity;
+  }
+
+  static testMethod void testPendingJobs() {
+    Test.setMock(HttpCalloutMock.class, new MockResponse(200));
+    UngcSyncRequest.httpCallsAreMocked = true;
+
+    UngcPendingJobs pendingJobs = new UngcPendingJobs();
+
+    JSONGenerator gen = JSON.createGenerator(true);
+    pendingJobs.writeTo(gen);
+
+    System.assertNotEquals('wrong', gen.getAsString());
   }
 
   private static Opportunity createOpportunity() {

@@ -26,6 +26,10 @@ $(function() {
     source: "/api/v1/autocomplete/sdg_pioneer_submissions.json"
   });
 
+  $("#other_organization_name").autocomplete({
+    source: "/api/v1/autocomplete/sdg_pioneer_submissions.json"
+  });
+
   $("#submission_country_name").autocomplete({
     source: "/api/v1/autocomplete/countries.json"
   });
@@ -43,5 +47,43 @@ $(function() {
     }
 
   });
+
+  var $organizationField = $('#ungc-participant');
+  var $joinDialog = $('#join-ungc');
+  var submitButton = $('#nominate-pioneer');
+  var yesButton = $('#submission_is_participant_true, #other_is_participant_true');
+  var noButton = $('#submission_is_participant_false, #other_is_participant_false');
+
+  function showParticipantField() {
+    $organizationField.show();
+    $joinDialog.hide();
+    submitButton.show();
+  }
+
+  function disableSdgForm() {
+    $organizationField.hide();
+    $joinDialog.show();
+    submitButton.hide();
+  }
+
+  function disableFormAndParticipantField() {
+    $organizationField.hide();
+    $joinDialog.hide();
+    submitButton.hide();
+  }
+
+  yesButton.on('click', showParticipantField);
+  noButton.on('click', disableSdgForm);
+
+  var yesButtonChecked = yesButton.filter(":checked").length > 0;
+  var noButtonChecked = noButton.filter(":checked").length > 0;
+
+  if(yesButtonChecked) {
+    showParticipantField();
+  } else if (noButtonChecked) {
+    disableSdgForm();
+  } else {
+    disableFormAndParticipantField();
+  }
 
 });

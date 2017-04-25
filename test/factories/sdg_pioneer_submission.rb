@@ -7,10 +7,13 @@ FactoryGirl.define do
     title Faker::Name.title
     email Faker::Internet.email
     phone Faker::PhoneNumber.phone_number
-    pioneer_type :local_change_maker
-    global_goals_activity Faker::StarWars.quote
+    pioneer_type :business_leader
     website_url Faker::Internet.url
     reason_for_being { Faker::Lorem.paragraph }
+    company_success { Faker::Lorem.paragraph }
+    innovative_sdgs { Faker::Lorem.paragraph }
+    ten_principles { Faker::Lorem.paragraph }
+    awareness_and_mobilize { Faker::Lorem.paragraph }
     matching_sdgs { create_list(:sustainable_development_goal, 2).map(&:id) }
     # other_relevant_info Faker::Lorem.paragraph
     # local_business_name Faker::Company.name
