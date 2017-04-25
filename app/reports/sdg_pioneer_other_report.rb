@@ -1,7 +1,8 @@
 class SdgPioneerOtherReport < SimpleReport
 
   def records
-    SdgPioneer::Other.all
+    date  = Date.new(2017,04,01)
+    SdgPioneer::Other.where("created_at >= ?", date)
   end
 
   def headers
@@ -16,8 +17,7 @@ class SdgPioneerOtherReport < SimpleReport
       'Submitter Job Title',
       'Submitter Phone',
       'Nominee Title',
-      'Why Nominate',
-      'SDG Pioneer Role' ]
+      'Why Nominate' ]
   end
 
   def row(business)
@@ -32,8 +32,7 @@ class SdgPioneerOtherReport < SimpleReport
       business.submitter_job_title,
       business.submitter_phone,
       business.nominee_title,
-      business.why_nominate,
-      business.sdg_pioneer_role ]
+      business.why_nominate ]
   end
 
 end

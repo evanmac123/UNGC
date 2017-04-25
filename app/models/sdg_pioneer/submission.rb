@@ -22,8 +22,8 @@
 #
 
 class SdgPioneer::Submission < ActiveRecord::Base
-  validates :pioneer_type,                presence: true
-  validates :global_goals_activity,       presence: true, length: { maximum: 5000 }
+  before_create :set_pioneer_type
+
   validates :matching_sdgs,               presence: true
   validates :name,                        presence: true, length: { maximum: 255 }
   validates :title,                       presence: true, length: { maximum: 255 }
@@ -32,7 +32,10 @@ class SdgPioneer::Submission < ActiveRecord::Base
   validates :organization_name,           presence: true, length: { maximum: 255 }
   validates :organization_name_matched,   inclusion: [true, false]
   validate :validate_country_name
-  validates :reason_for_being,            presence: true, length: { maximum: 5000 }
+  validates :company_success,            presence: true, length: { maximum: 500 }
+  validates :innovative_sdgs,            presence: true, length: { maximum: 500 }
+  validates :ten_principles,             presence: true, length: { maximum: 500 }
+  validates :awareness_and_mobilize,     presence: true, length: { maximum: 500 }
   validates :accepts_tou,                 inclusion: [true, false]
   validates :supporting_documents,        length: { minimum: 1, maximmum: 12 }
   validates :website_url,                 length: { maximum: 255 }
@@ -46,6 +49,7 @@ class SdgPioneer::Submission < ActiveRecord::Base
   enum pioneer_type: [
     :local_business_leader,
     :local_change_maker,
+    :business_leader
   ]
 
   serialize :matching_sdgs, JSON
@@ -69,6 +73,10 @@ class SdgPioneer::Submission < ActiveRecord::Base
 
   def matching_sdg_names
     SustainableDevelopmentGoal.where(id: matching_sdgs).pluck(:name)
+  end
+
+  def set_pioneer_type
+    self.pioneer_type ||= :business_leader
   end
 
 end

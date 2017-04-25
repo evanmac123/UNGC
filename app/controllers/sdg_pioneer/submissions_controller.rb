@@ -24,8 +24,10 @@ class SdgPioneer::SubmissionsController < ApplicationController
 
   def submission_params
     params.require(:submission).permit(
-      :pioneer_type,
-      :global_goals_activity,
+      :company_success,
+      :innovative_sdgs,
+      :ten_principles,
+      :awareness_and_mobilize,
       :name,
       :title,
       :email,
@@ -33,7 +35,6 @@ class SdgPioneer::SubmissionsController < ApplicationController
       :organization_name,
       :organization_name_matched,
       :country_name,
-      :reason_for_being,
       :accepts_tou,
       :is_participant,
       :website_url,
