@@ -16,7 +16,7 @@
       </p>
 
       <p>
-        <strong>Are you a business leader or change maker advancing sustainable development? If so, we want to hear your story.</strong>
+        <strong>Are you a business leader advancing sustainable development? If so, we want to hear your story.</strong>
       </p>
 
       <% if @submission.errors.any? %>
@@ -141,7 +141,7 @@
       <fieldset style="margin-top: 4em">
         <strong>Supporting information</strong>
         <div class="attachments field field-required">
-          Please provide any annual reports, press clippings or other relevant documentation that supports your submission.<br />
+          Please provide any annual reports, press clippings or other relevant documentation that support your submission.<br />
 
           <div class="attachment">
             <%= file_field_tag 'submission[uploaded_supporting_documents][][attachment]' %>
@@ -174,7 +174,7 @@
         <div class="field field-required">
           <p>We need your permission to potentially share your story with the world.</p>
           <label>
-            <%= f.check_box :accepts_tou %> I agree that the UN Global Compact can use this information for any purposes related to the the SDG Pioneers.
+            <%= f.check_box :accepts_tou %> I agree that the UN Global Compact can use this information for any purpose related to the SDG Pioneers.
           </label>
         </div>
       </fieldset>
