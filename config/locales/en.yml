@@ -129,7 +129,7 @@ en:
       nominate_business: 'Nominate a business'
     submission:
       title: "Nominate yourself"
-      blurb: "Making global goals local business."
+      blurb: ""
       action: "Nominate a business"
       local_network_status:
         :yes: 'Yes'
@@ -137,7 +137,7 @@ en:
         :not_available: 'There is no Local Network in that country'
     other:
       title: "Nominate someone else"
-      blurb: "Making global goals local business."
+      blurb: ""
       action: "Nominate other"
     nominated: 'Your nomination was successfully submitted'
     validations:
