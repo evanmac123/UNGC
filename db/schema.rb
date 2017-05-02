@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170418211533) do
+ActiveRecord::Schema.define(version: 20170502180628) do
 
   create_table "action_platform_orders", force: :cascade do |t|
     t.integer  "organization_id",      limit: 4,                   null: false
@@ -1021,25 +1021,27 @@ ActiveRecord::Schema.define(version: 20170418211533) do
   end
 
   create_table "sdg_pioneer_individuals", force: :cascade do |t|
-    t.boolean "is_participant"
-    t.string  "name",                           limit: 255
-    t.string  "email",                          limit: 255
-    t.string  "phone",                          limit: 255
-    t.text    "description_of_individual",      limit: 65535
-    t.text    "other_relevant_info",            limit: 65535
-    t.string  "organization_name",              limit: 255
-    t.boolean "accepts_tou",                                  default: false, null: false
-    t.string  "supporting_link",                limit: 255
-    t.string  "matching_sdgs",                  limit: 255
-    t.string  "local_business_nomination_name", limit: 255
-    t.boolean "is_nominated"
-    t.string  "nominating_organization",        limit: 255
-    t.string  "title",                          limit: 255
-    t.string  "country_name",                   limit: 255
-    t.integer "local_network_status",           limit: 4
-    t.string  "website_url",                    limit: 255
-    t.string  "nominating_individual",          limit: 255
-    t.boolean "organization_name_matched",                    default: false, null: false
+    t.boolean  "is_participant"
+    t.string   "name",                           limit: 255
+    t.string   "email",                          limit: 255
+    t.string   "phone",                          limit: 255
+    t.text     "description_of_individual",      limit: 65535
+    t.text     "other_relevant_info",            limit: 65535
+    t.string   "organization_name",              limit: 255
+    t.boolean  "accepts_tou",                                  default: false, null: false
+    t.string   "supporting_link",                limit: 255
+    t.string   "matching_sdgs",                  limit: 255
+    t.string   "local_business_nomination_name", limit: 255
+    t.boolean  "is_nominated"
+    t.string   "nominating_organization",        limit: 255
+    t.string   "title",                          limit: 255
+    t.string   "country_name",                   limit: 255
+    t.integer  "local_network_status",           limit: 4
+    t.string   "website_url",                    limit: 255
+    t.string   "nominating_individual",          limit: 255
+    t.boolean  "organization_name_matched",                    default: false, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "sdg_pioneer_others", force: :cascade do |t|
@@ -1061,6 +1063,8 @@ ActiveRecord::Schema.define(version: 20170418211533) do
     t.boolean  "is_participant"
     t.string   "organization_name",         limit: 255
     t.boolean  "organization_name_matched"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "sdg_pioneer_submissions", force: :cascade do |t|
