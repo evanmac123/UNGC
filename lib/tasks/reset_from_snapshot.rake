@@ -4,7 +4,7 @@ namespace :db do
   desc "re-create the database from target_date's production snapshot. Usage: rake db:reset_from_snapshot[2016-02-23] or omit the date for yesterday's snapshot"
   task :reset_from_snapshot, [:date] => :environment do |task, args|
     raise "Must be NOT be run from the production environment" if Rails.env.production?
-    host = 'unglobalcompact.org'
+    # host = 'unglobalcompact.org'
 
     target_date = if date_str = args[:date]
                     date_str.gsub('-', '_')
@@ -54,36 +54,49 @@ namespace :db do
       system "gunzip #{zipped_sessions_and_searchables_tables_path}"
     end
 
+    Rake::Task["db:setup_from_snapshot"].invoke(
+      snapshot_path,
+      unzipped_sessions_and_searchables_tables_path
+    )
+  end
+
+  desc "Setup from snapshot"
+  task :setup_from_snapshot, [:main_tables, :extra_tables] => :environment do |task, args|
+    snapshot_path = args[:main_tables]
+    extras_path = args[:extra_tables]
+
     puts "\nRecreating the database"
     Rake::Task["db:drop"].invoke
     Rake::Task["db:create"].invoke
 
-    puts "Seeding the database from the snapshot"
     config   = Rails.configuration.database_configuration
-    host     = config[Rails.env]["host"]
+    # host     = config[Rails.env]["host"]
     database = config[Rails.env]["database"]
     username = config[Rails.env]["username"]
     password = config[Rails.env]["password"]
 
+    puts "Seeding the database from the snapshot from #{snapshot_path}"
     cmd = ['mysql', '-D', database]
     cmd << "-u#{username}" if username.present?
     cmd << "-p#{password}" if password.present?
     cmd << "< #{snapshot_path}"
     system cmd.join(" ")
 
-    puts "Appending the sessions and searchables tables"
+    puts "Appending the sessions and searchables tables from #{extras_path}"
     cmd = ['mysql', '-D', database]
     cmd << "-u#{username}" if username.present?
     cmd << "-p#{password}" if password.present?
-    cmd << "< #{unzipped_sessions_and_searchables_tables_path}"
+    cmd << "< #{extras_path}"
     system cmd.join(" ")
-
-    Rake::Task["db:migrate:status"].invoke
 
     puts "Migrating development and test environments"
     Rake::Task["db:migrate"].invoke
     Rake::Task["db:test:prepare"].invoke
+
+    puts "Creating dummy accounts"
     Rake::Task["db:create_dummy_accounts"].invoke
+
+    puts "Done"
   end
 
   desc "create dummy accounts for non-production environments"
