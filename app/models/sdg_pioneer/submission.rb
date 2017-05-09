@@ -30,7 +30,7 @@ class SdgPioneer::Submission < ActiveRecord::Base
   validates :email,                       presence: true, length: { maximum: 255 }
   validates :phone,                       presence: true, length: { maximum: 255 }
   validates :organization_name,           presence: true, length: { maximum: 255 }
-  validates :organization_name_matched,   inclusion: [true, false]
+  validates :organization_name_matched,   inclusion: [true, false], presence: true
   validate :validate_country_name
   validates :company_success,            presence: true, length: { maximum: 500 }
   validates :innovative_sdgs,            presence: true, length: { maximum: 500 }
