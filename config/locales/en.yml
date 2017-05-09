@@ -32,7 +32,7 @@ en:
         submitter_job_title: "Your job title"
         submitter_email: "Your email address"
         submitter_phone: "Your phone number"
-        sdg_pioneer_role: "Local SDG Pioneer role"
+        sdg_pioneer_role: "SDG Pioneer role"
         nominee_work_place: "Nominee organization"
         why_nominate: "Reason for nomination"
         accepts_tou: ""
@@ -48,7 +48,7 @@ en:
             accepts_tou:
               blank: "You must accept the agreement"
             reason_for_being:
-              blank: "Please tell us why you want to be a Local SDG Pioneer"
+              blank: "Please tell us why you want to be a SDG Pioneer"
         sdg_pioneer/other:
           attributes:
             accepts_tou:
@@ -143,6 +143,7 @@ en:
     validations:
       organization_name: 'is not among the active participants'
       country_name: 'is not among the countries provided'
+      organization_name_matched: 'is not a matching name'
 
   communication_on_progress:
     format:
