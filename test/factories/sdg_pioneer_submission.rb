@@ -20,7 +20,7 @@ FactoryGirl.define do
     # is_nominated Faker::Boolean.boolean
     # nominating_organization Faker::Company.name
     # nominating_individual Faker::Name.name
-    organization_name_matched Faker::Boolean.boolean
+    organization_name_matched true
     accepts_tou true
     after(:build) do |o|
       o.supporting_documents.build
