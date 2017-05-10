@@ -79,4 +79,12 @@ class SdgPioneer::Submission < ActiveRecord::Base
     self.pioneer_type ||= :business_leader
   end
 
+  def all_submissions
+    self.all
+  end
+
+  def business_leader
+    all_submissions.business_leader
+  end
+
 end
