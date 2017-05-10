@@ -1,10 +1,7 @@
-<h2>Submissions</h2>
+<h2>Buisness Leaders</h2>
 
-<% @submission_type.each do |type, submissions| %>
-  <h3><%= type  %></h3>
-    <ol>
-      <% submissions.each do |submission| %>
-        <li><%= link_to submission.organization_name, admin_sdg_pioneers_submission_path(submission) %></li>
-      <% end %>
-    </ol>
-<% end %>
+<ol>
+  <% @business_leaders.each do |submission| %>
+    <li><%= link_to submission.organization_name, admin_sdg_pioneers_submission_path(submission) %></li>
+  <% end %>
+<ol>

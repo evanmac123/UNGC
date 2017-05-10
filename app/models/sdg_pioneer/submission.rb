@@ -19,6 +19,10 @@
 #  website_url               :string(255)
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
+#  company_success           :text(65535)
+#  innovative_sdgs           :text(65535)
+#  ten_principles            :text(65535)
+#  awareness_and_mobilize    :text(65535)
 #
 
 class SdgPioneer::Submission < ActiveRecord::Base

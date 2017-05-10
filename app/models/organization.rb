@@ -46,6 +46,8 @@
 #  is_tobacco                     :boolean
 #  no_pledge_reason               :string(255)
 #  isin                           :string(255)
+#  precise_revenue_cents          :integer
+#  precise_revenue_currency       :string(255)      default("USD"), not null
 #
 
 class Organization < ActiveRecord::Base
