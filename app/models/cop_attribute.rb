@@ -8,7 +8,7 @@
 #  position        :integer
 #  created_at      :datetime
 #  updated_at      :datetime
-#  hint            :text(65535)      not null
+#  hint            :text(65535)
 #  open            :boolean          default(FALSE)
 #
 

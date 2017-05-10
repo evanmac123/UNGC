@@ -2,25 +2,27 @@
 #
 # Table name: sdg_pioneer_others
 #
-#  id                      :integer          not null, primary key
-#  submitter_name          :string(255)
-#  submitter_place_of_work :string(255)
-#  submitter_email         :string(255)
-#  nominee_name            :string(255)
-#  nominee_email           :string(255)
-#  nominee_phone           :string(255)
-#  nominee_work_place      :string(255)
-#  organization_type       :string(255)
-#  submitter_job_title     :string(255)
-#  submitter_phone         :string(255)
-#  accepts_tou             :boolean          default(FALSE), not null
-#  nominee_title           :string(255)
-#  why_nominate            :text(65535)
-#  sdg_pioneer_role        :integer
-#  emailed_at              :datetime
-#  organization_name         :string(255)
-#  organization_name_matched :boolean          default(FALSE), not null
+#  id                        :integer          not null, primary key
+#  submitter_name            :string(255)
+#  submitter_place_of_work   :string(255)
+#  submitter_email           :string(255)
+#  nominee_name              :string(255)
+#  nominee_email             :string(255)
+#  nominee_phone             :string(255)
+#  nominee_work_place        :string(255)
+#  organization_type         :string(255)
+#  submitter_job_title       :string(255)
+#  submitter_phone           :string(255)
+#  accepts_tou               :boolean          default(FALSE), not null
+#  nominee_title             :string(255)
+#  why_nominate              :text(65535)
+#  sdg_pioneer_role          :integer
+#  emailed_at                :datetime
 #  is_participant            :boolean
+#  organization_name         :string(255)
+#  organization_name_matched :boolean
+#  created_at                :datetime
+#  updated_at                :datetime
 #
 
 class SdgPioneer::Other < ActiveRecord::Base
