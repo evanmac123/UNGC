@@ -41,6 +41,7 @@
 #  image_file_size           :integer
 #  image_updated_at          :datetime
 #  encrypted_password        :string(255)
+#  last_password_changed_at  :datetime
 #
 
 require 'digest/sha1'

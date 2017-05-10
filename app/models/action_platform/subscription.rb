@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: action_platform_subscriptions
+#
+#  id              :integer          not null, primary key
+#  contact_id      :integer          not null
+#  platform_id     :integer          not null
+#  order_id        :integer          not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  organization_id :integer          not null
+#  status          :integer          not null
+#  expires_on      :date
+#
+
 class ActionPlatform::Subscription < ActiveRecord::Base
   belongs_to :contact
   belongs_to :platform
