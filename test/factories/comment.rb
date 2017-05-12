@@ -1,7 +1,6 @@
 FactoryGirl.define do
   factory :comment do
     body { Faker::Lorem.paragraph }
-    commentable factory: :organization
-    contact
+    association :contact, factory: :contact
   end
 end

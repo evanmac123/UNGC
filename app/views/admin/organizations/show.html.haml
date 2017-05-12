@@ -13,9 +13,11 @@
       %li== <a href="#cops">#{@organization.cop_acronym}s</a>
     - if @organization.logo_requests.any?
       %li <a href="#logo_requests">Logo Requests</a>
-    - if @organization.contributions.any?
-      - staff_only do
+    - staff_only do
+      - if @organization.contributions.any?
         %li <a href="#contributions">Contributions</a>
+        - if @organization.due_diligence_reviews.any?
+          %li <a href="#due_diligence_reviews">Due Diligence</a>
     - if @organization.initiatives.any? and current_contact.from_ungc?
       %li <a href="#initiatives">Engagement</a>
 
@@ -198,8 +200,8 @@
           %th.actions Actions
         = render :partial => 'admin/initiatives/signing', :collection => @organization.signings.order("added_on DESC").load
 
-  - if @organization.contributions.any?
-    - staff_only do
+  - staff_only do
+    - if @organization.contributions.any?
       #contributions.tab_content
         %h2 Contributions
         %table.dashboard_table#contributions_dashboard_table
@@ -211,3 +213,21 @@
             %th.title Payment Type
             %th.title Status
           = render :partial => 'admin/organizations/contribution', :collection => @organization.contributions.visible_in_dashboard
+
+    - if @organization.due_diligence_reviews.any?
+      #due_diligence_reviews.tab_content
+        %h2 Due Diligence
+        %table.dashboard_table#due_diligence_reviews_dashboard_table
+          %tr
+            %th.title Status
+            %th.title LOE
+            %th.title Integrity
+            %th.title Event
+            %th.title Individual
+            %th.title Additional Information
+            %th.title Approving Chief
+            %th.title Requester
+            %th.title Created On
+            %th.actions Actions
+          = render partial: 'admin/organizations/due_diligence_review',
+                collection: @organization.due_diligence_reviews, as: :review

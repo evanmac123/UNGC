@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171030205721) do
+ActiveRecord::Schema.define(version: 20171114185109) do
 
   create_table "action_platform_orders", force: :cascade do |t|
     t.integer  "organization_id",      limit: 4,                   null: false
@@ -468,6 +468,43 @@ ActiveRecord::Schema.define(version: 20171030205721) do
     t.string   "invoice_number",   limit: 255
     t.string   "credit_card_type", limit: 255
   end
+
+  create_table "due_diligence_reviews", force: :cascade do |t|
+    t.integer  "organization_id",                    limit: 4
+    t.integer  "requester_id",                       limit: 4
+    t.string   "state",                              limit: 255,   null: false
+    t.integer  "level_of_engagement",                limit: 4
+    t.string   "world_check_allegations",            limit: 2000
+    t.boolean  "included_in_global_marketplace"
+    t.boolean  "subject_to_sanctions"
+    t.boolean  "excluded_by_norwegian_pension_fund"
+    t.boolean  "involved_in_landmines"
+    t.boolean  "involved_in_tobacco"
+    t.integer  "esg_score",                          limit: 4
+    t.integer  "highest_controversy_level",          limit: 4
+    t.integer  "rep_risk_peak",                      limit: 4
+    t.integer  "rep_risk_current",                   limit: 4
+    t.integer  "rep_risk_severity_of_news",          limit: 4
+    t.string   "local_network_input",                limit: 2000
+    t.text     "analysis_comments",                  limit: 65535
+    t.text     "additional_research",                limit: 65535
+    t.string   "integrity_explanation",              limit: 1000
+    t.string   "engagement_rationale",               limit: 2000
+    t.string   "approving_chief",                    limit: 100
+    t.datetime "created_at",                                       null: false
+    t.datetime "updated_at",                                       null: false
+    t.string   "additional_information",             limit: 512
+    t.integer  "reason_for_decline",                 limit: 4
+    t.boolean  "subject_to_dialog_facilitation"
+    t.integer  "with_reservation",                   limit: 4
+    t.boolean  "requires_local_network_input"
+    t.integer  "event_id",                           limit: 4
+    t.string   "individual_subject",                 limit: 100
+  end
+
+  add_index "due_diligence_reviews", ["event_id"], name: "index_due_diligence_reviews_on_event_id", using: :btree
+  add_index "due_diligence_reviews", ["organization_id"], name: "index_due_diligence_reviews_on_organization_id", using: :btree
+  add_index "due_diligence_reviews", ["requester_id"], name: "index_due_diligence_reviews_on_requester_id", using: :btree
 
   create_table "event_sponsors", force: :cascade do |t|
     t.integer "event_id",   limit: 4
@@ -1282,6 +1319,8 @@ ActiveRecord::Schema.define(version: 20171030205721) do
   add_foreign_key "action_platform_subscriptions", "contacts"
   add_foreign_key "action_platform_subscriptions", "organizations"
   add_foreign_key "crm_owners", "contacts"
+  add_foreign_key "due_diligence_reviews", "contacts", column: "requester_id"
+  add_foreign_key "due_diligence_reviews", "organizations"
   add_foreign_key "event_sponsors", "events"
   add_foreign_key "event_sponsors", "sponsors"
   add_foreign_key "events", "contacts"

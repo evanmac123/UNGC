@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <style>
+     body { font-family: Helvetica,Arial,"sans-serif"; }
+      .comment_container { padding: 0.5em; border: 1px solid #999;}
+      .comment { padding: 1em 2em; font-style: italic;}
+      .button { padding: 1em; font-size: 0.9em; display: inline-block; }
+    </style>
+  </head>
+
+  <body>
+    <section>
+      <p>
+        <strong><%= @comment.contact_name %></strong> commented on <strong><%= @comment.organization_name %></strong>'s Due Diligence Review
+      </p>
+      <div class="comment_container">
+        <p>
+          <%= @comment.contact_name %>: <%= @comment.created_at %>
+        </p>
+        <p class="comment">
+          <%= @comment.body %>
+        </p>
+      </div>
+      <%= link_to "View Due Diligence Review", admin_due_diligence_review_url(@comment.commentable), class: "button" %>
+    </section>
+  </body>
+</html>

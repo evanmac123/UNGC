@@ -1,0 +1,2 @@
+module DueDiligence::RiskAssessment
+end

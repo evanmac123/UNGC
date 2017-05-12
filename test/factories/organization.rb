@@ -50,5 +50,11 @@ FactoryGirl.define do
       end
     end
 
+    trait :has_participant_manager do
+      association :participant_manager, factory: :contact
+    end
+
+    factory :organization_with_participant_manager, traits: [:has_participant_manager]
+
   end
 end

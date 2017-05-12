@@ -1,0 +1,22 @@
+%tr
+  - policy = DueDiligence::ReviewPolicy.new(review)
+  %td= review.state.humanize
+  %td= review.level_of_engagement
+  %td= review.integrity_reservation? ? 'Reservation' : (review.no_reservation? ? 'Approved' : nil)
+  %td= review.event&.title
+  %td= review.individual_subject
+  %td= review.additional_information
+  %td= review.approving_chief
+  %td= review.requester.name
+  %td= review.created_at
+  %td
+    %ul.actions
+      %li
+        = link_to 'View Details', admin_due_diligence_review_path(review.id), class: "preview", title: "Show"
+      - if policy.can_edit?(current_contact)
+        %li
+          = link_to 'Edit', edit_path_for_review(review), class: "edit", title: "Edit"
+      - if policy.can_destroy?(current_contact)
+        %li
+          = link_to 'Destroy', admin_due_diligence_review_path(review.id), class: "delete",
+              title: "Delete", data: { confirm: 'Are you sure?' }, method: :delete

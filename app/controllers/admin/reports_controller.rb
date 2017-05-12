@@ -1,4 +1,5 @@
 class Admin::ReportsController < AdminController
+  before_action :no_organization_access
 
   def index
     local_network = current_contact.local_network
@@ -237,6 +238,11 @@ class Admin::ReportsController < AdminController
   def cop_water_mandate_submissions
     report = CopWaterMandateSubmissions.new
     render_report(report, "cop_water_mandate_submissions_#{date_as_filename}.xls")
+  end
+
+  def due_diligence_reviews
+    report = DueDiligence::ReviewsReport.new
+    render_report(report, "due_diligence_reviews_#{date_as_filename}.xls")
   end
 
   def networks

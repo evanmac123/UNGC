@@ -94,6 +94,7 @@ class Contact < ActiveRecord::Base
   has_many :cop_log_entries, dependent: :nullify
   has_one :crm_owner, class_name: "Crm::Owner"
   has_one :igloo_user, dependent: :destroy
+  has_many :due_diligence_reviews, class_name: DueDiligence::Review, foreign_key: :requester_id
 
   default_scope { order('contacts.first_name') }
 

@@ -89,6 +89,7 @@ class Organization < ActiveRecord::Base
   has_many :logo_requests
   has_many :communication_on_progresses
   has_many :contributions
+  has_many :due_diligence_reviews, dependent: :destroy, class_name: 'DueDiligence::Review'
   has_many :action_platform_orders, dependent: :destroy,
     class_name: "ActionPlatform::Order"
   has_many :action_platform_subscriptions, -> { active },

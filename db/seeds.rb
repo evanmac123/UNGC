@@ -12,6 +12,8 @@ roles = [
   "Annual Survey Contact",
   "Website Editor",
   "Participant Relationship Manager",
+  "Integrity Manager",
+  "Integrity Team Member",
 ]
 roles.each do |name|
   Role.find_or_create_by!(name: name, description: name)
@@ -226,6 +228,37 @@ removal_reasons = [
   "Non-responsive"]
 removal_reasons.each do |description|
   RemovalReason.find_or_create_by!(description: description)
+end
+
+ungc = Organization.find_or_create_by!(name: "UNGC") do |organization|
+  organization.organization_type = OrganizationType.for_filter(:civil_global).first
+  organization.sector_id = Sector.not_applicable
+  organization.participant = false
+  organization.employees = 33
+  organization.url = "http://unglobalcompact.org/"
+  organization.active = false
+  organization.state = "approved"
+  organization.is_ft_500 = false
+  organization.cop_state = "active"
+end
+
+Country.find_or_create_by!(name: 'United States of America') do |country|
+  country.code = 'US'
+  country.region = 'northern_america'
+end
+
+# Create a contact with the role of integrity manager
+Contact.find_or_create_by!(last_name: "UNGC") do |contact|
+  contact.organization_id = ungc.id,
+  contact.roles << Role.integrity_manager
+  contact.prefix = 'Mr'
+  contact.first_name = 'Manager'
+  contact.email = 'emailx34B@example.com'
+  contact.job_title = 'Manager of Integrity'
+  contact.address = '13344'
+  contact.city = 'New York'
+  contact.country = Country.first
+  contact.phone = '2126553433'
 end
 
 # TODO ListingStatus

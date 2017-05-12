@@ -206,6 +206,20 @@ UNGC::Application.routes.draw do
     get("choose-level-of-participation" => "level_of_participations#new",
       as: :choose_level_of_participation)
     post("choose-level-of-participation" => "level_of_participations#create")
+    namespace :due_diligence do
+      resources :reviews, only: [:show, :new, :create, :update] do
+        collection do
+          get :for_state
+        end
+
+        resources :comments, only: :create
+      end
+      get 'reviews' => 'reviews#for_state'
+      resources :risk_assessments,
+                :local_network_review,
+                :integrity_review,
+                :final_decisions, only: [:edit, :update]
+    end
   end
 
   # public api
@@ -218,6 +232,8 @@ UNGC::Application.routes.draw do
 
       namespace :autocomplete do
         get :participants
+        get :organizations
+        get :events
         get :countries
         get :sdg_pioneer_submissions
         get :staff

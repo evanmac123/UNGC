@@ -1,0 +1,9 @@
+<%= @comment.contact_name %> commented on <%= @comment.organization_name %>'s Due Diligence Review
+
+----
+<%= @comment.contact_name %>: <%= @comment.created_at %>
+
+"<%= @comment.body %>"
+-----
+
+View Due Diligence Review (<%= admin_due_diligence_review_url(@comment.commentable) %>)

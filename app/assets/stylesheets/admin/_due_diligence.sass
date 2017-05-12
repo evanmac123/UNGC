@@ -1,0 +1,62 @@
+.state-o-meter
+  margin: 0.5em 0
+
+  > span
+    padding: 0.5em
+    display: inline-block
+    text-align: center
+    border: 1px solid $dark_blue
+
+    &.active
+      color: white
+      background-color: $dark_blue
+
+    &.inactive
+      background-color: $light_grey
+
+    &.approved
+      color: white
+      background-color: green
+      border: 1px solid green
+
+    &.rejected
+      color: white
+      background-color: darken(red, 20)
+      border: 1px solid darken(red, 20)
+
+.field
+  margin-bottom: 2em
+
+  input, textarea
+    display: block
+    top: 0
+    margin-top: 0.3em
+    width: 20em
+
+  textarea
+    max-width: 80em
+    width: 60%
+
+  input[type=checkbox]
+    display: inline-block
+    width: inherit
+    top: 0
+
+#summary
+  section
+    margin-left: 2em
+
+.controversy
+  span, label
+    &.level_4, &.level_5
+      background-color: #F75D59
+      display: inline-block
+    width: 4em
+    display: inline-block
+    padding: 4px 10px
+    margin-right: 2em
+  input[type=radio]
+    display: inline-block
+    padding: 4px 10px
+    width: 1em
+

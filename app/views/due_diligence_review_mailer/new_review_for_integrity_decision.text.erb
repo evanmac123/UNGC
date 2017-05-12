@@ -1,0 +1,31 @@
+Integrity Decision Requested: <%= @review.level_of_engagement.humanize %><%= " (#{@review.individual_subject})" \
+          if @review.speaker? && @review.individual_subject.present? %> - <%= @review.organization.name %>
+
+View Due Diligence Review (<%= admin_due_diligence_review_url(@review) %>)
+
+Organization: <%= @review.organization.name %>
+Level of Engagement: <%= @review.level_of_engagement %>
+Event: <%= @review.event&.title %>
+Individual: <%= @review.individual_subject %>
+
+Submitted by: <%= @contact.name %>
+
+Anaylsis Comments:
+
+<%= @review.analysis_comments %>
+
+Local Network Input:
+
+<%= @review.local_network_input %>
+
+Additional Information:
+
+<%= @review.additional_information %>
+
+Name of Requester: <%= @review.requester.name %>
+Relationship Manager: <%= @review.organization.try(:participant_manager_name) %>
+UNGC join date: <%= @review.organization.joined_on %>
+
+Request created: <%= @review.created_at %>
+
+View Due Diligence Review (<%= admin_due_diligence_review_url(@review) %>)

@@ -4,9 +4,17 @@ module TestPage
     include Warden::Test::Helpers
     include Rails.application.routes.url_helpers
 
-    def visit(path, code = 200)
-      super(path)
+    # alias to Capybara::DSL::visit so we can use it without calling ensure_path
+    alias :super_visit :visit
+
+    def visit(path_to_visit = nil, code = 200)
+      super(path_to_visit || self.path)
       ensure_path(path, code)
+    end
+
+    def visit_redirect(path_to_visit = nil, redirected_path = nil, code = 200)
+      super_visit(path_to_visit || self.path)
+      ensure_path(redirected_path || self.path, code)
     end
 
     def transition_to(other_page)
@@ -51,6 +59,10 @@ module TestPage
 
     def flash_text
       find('.flash').text
+    end
+
+    def t(path)
+      I18n.t(path)
     end
 
   end

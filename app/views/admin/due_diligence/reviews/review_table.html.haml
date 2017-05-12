@@ -1,0 +1,80 @@
+%h2=title
+
+= render partial: 'control_actions'
+
+%div.tab_container
+  = render partial: 'control_tabs'
+
+  %div.tab_content
+    =form_tag({ controller: :reviews , action: :for_state }, { method: :get }) do
+      =label_tag :only_mine do
+        =check_box_tag(:only_mine, 1, params[:only_mine] == '1')
+        ='Only mine'
+      -if params[:state]&.include?('all')
+        =text_field_tag('state[]', 'all', hidden: true)
+        - DueDiligence::Review::ALL_STATES.each do |state|
+          =label_tag "#{state}_state" do
+            =check_box_tag('state[]', state, params[:state].include?(state.to_s), id: "#{state}_state")
+            =state.to_s.humanize
+      -else
+        =text_field_tag('state[]', params[:state]&.first || 'in_review', hidden: true)
+
+      =button_tag 'Search'
+      %table.reviews_table.dashboard_table
+        %tr
+          %th= sort_header 'ID', field: 'id'
+          - if params[:state]&.include?('all')
+            %th= sort_header 'Status', field: 'state'
+          - if params[:state] == ['engagement_review'] || params[:state]&.include?('all')
+            %th= sort_header 'Integrity', field: 'with_reservation'
+          %th= sort_header 'Organization', field: 'name'
+          %th= sort_header 'LOE', field: 'level_of_engagement'
+          %th= sort_header 'Event', field: 'event.title'
+          %th= sort_header 'Individual', field: 'individual_subject'
+          - if params[:state] == ['local_network_review']
+            %th='Local Network'
+          %th= sort_header 'Date Created', field: 'created_at'
+          - unless params[:state] == ['integrity_review'] || params[:state]&.include?('all')
+            %th= sort_header 'Relationship Mgr', field: 'organization.contacts.first_name', direction: 'ASC'
+          %th= sort_header 'Requester', field: 'requester'
+          %th Actions
+
+        - @reviews.each do |review|
+          - review = DueDiligence::Review::Presenter.new(review)
+          - policy = DueDiligence::ReviewPolicy.new(review)
+          %tr.review
+            %td= review.id
+            - if params[:state]&.include?('all')
+              %td= review.state.humanize.titleize
+            - if params[:state] == ['engagement_review'] || params[:state]&.include?('all')
+              %td=review.integrity_reservation? ? 'Reservation' : 'Approved'
+            %td.name{:title => review.organization_name}
+              = "#{truncate(review.organization_name, :length => 40)} (#{review.organization.country.name})"
+              = # duplicate_application(review)
+            %td=review.level_of_engagement&.humanize&.titleize
+            %td=truncate(review.event_title, :length => 40)
+            %td=truncate(review.individual_subject, :length => 40)
+            - if params[:state] == ['local_network_review']
+              %td="Contact: #{review.organization.network_contact_person.name}"
+            %td
+              = review.created_at
+              %br/
+              %span.small= display_days_ago(review.created_at)
+            - unless params[:state] == ['integrity_review'] || params[:state]&.include?('all')
+              %td=h review.organization&.participant_manager_name
+            %td=review.requester&.name
+            %td
+              %ul.actions
+                %li
+                  = link_to 'Show', admin_due_diligence_review_path(review.id), :class => "preview", :title => "Show"
+                - if policy.can_edit?(current_contact)
+                  %li
+                    = link_to 'Edit', edit_path_for_review(review), :class => "edit", :title => "Edit"
+                - if policy.can_destroy?(current_contact)
+                  %li
+                    = link_to 'Destroy', admin_due_diligence_review_path(review.id), :class => "delete", :title => "Delete", :data => { :confirm => 'Are you sure?' }, :method => :delete
+
+      - unless params[:page] == 'all'
+        = will_paginate @reviews
+= render partial: 'control_actions', locals: { for_state: for_state }
+

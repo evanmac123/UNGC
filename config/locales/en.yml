@@ -6,6 +6,7 @@ en:
     formats:
       default: '%d %B %Y'
       short: "%b %d"
+      datetime: '%d-%b-%Y %I:%M%p'
 
   hello: "Hello world"
   activerecord:
@@ -223,3 +224,29 @@ en:
     confirm_submission: "I confirm the information I have entered is correct and I acknowledge that my company is required to produce an annual Communication on Progress (COP) in order to remain an active Participant or Signatory of the UN Global Compact."
     success: "Thank you for your submission"
     is_subsidiary_question: "Is your company a subsidiary or country office of a Global Compact Participant or Signatory?"
+  due_diligence:
+    actions:
+      new_review: 'New due diligence review'
+      submit_review: 'Submit for Review'
+      add_risk_assessment: 'Risk assessment'
+      add_legal_recommendations: 'Integrity Recommendations'
+      add_final_decision: 'Engagement Decision'
+      request_integrity_review: 'Request Integrity Decision'
+      request_network_input: 'Request local network input'
+    collection_titles:
+      all: All Due Diligence Reviews
+      in_review: Pending Due Diligence Research
+      local_network_review: Pending Local Network Input
+      integrity_review: Pending Integrity Decision
+      engagement_review: Pending Engagement Decision
+      engaged: Engaged Reviews
+      declined: Declined Reviews
+      rejected: Rejected Reviews
+    state:
+      in_review: In Review
+      local_network_review: Local Network Review
+      integrity_review: Integrity Review
+      engagement_review: Engagement Review
+      engaged: Engaged
+      declined: Declined
+      rejected: Rejected

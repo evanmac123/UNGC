@@ -1,0 +1,109 @@
+<%- organization = @review.organization -%>
+<%- last_cop = organization.communication_on_progresses.first -%>
+
+<h2>
+  [<%= @review.state %>] Due diligence review for
+  <span class="organization-name"><%= @review.organization_name %></span>
+</h2>
+<% if @review.event_title.present? %>
+    <h5>
+      Event: <%= @review.event_title %>
+    </h5>
+<% end %>
+
+<p/>
+
+<% if @review_policy.can_edit?(current_contact) %>
+  <%= link_to("Process Review", edit_path_for_review(@review), class: "cancel_large") %>
+<% end %>
+
+<section id="summary">
+
+  <h4>Basic facts:</h4>
+  <section id="basic-facts">
+    <ul>
+      <li><strong>Name of Requester:</strong> <%= @review.requester_name %><br /></li>
+      <li><strong>Level of Engagement:</strong> <%= @review.level_of_engagement_title %><br /></li>
+      <li><strong>Individual:</strong> <%= @review.individual_subject %><br /></li>
+      <li><strong>Event:</strong> <%= @review.event_title %><br /></li>
+      <li><strong>Additional Information:</strong> <%= @review.additional_information %><br /></li>
+      <li><strong>Relationship Manager:</strong> <%= @review.organization.try(:participant_manager_name) %><br /></li>
+      <li><strong>UNGC ID:</strong> <%= organization.id %><br /></li>
+      <li><strong>UNGC join date:</strong> <%= organization.joined_on %><br /></li>
+      <li><strong>Date of last submitted COP/ COE:</strong> <%= last_cop.try!(:published_on) || "None" %><br /></li>
+      <li><strong>COP/ COE Status:</strong> <%= organization.cop_state.titlecase %><br /></li>
+      <li><strong>Organization Name:</strong> <%= organization.name %><br /></li>
+      <li><strong>Country:</strong> <%= organization.country_name %><br /></li>
+      <li><strong><%= link_to "More information", [:admin, organization] %></strong></li>
+    </ul>
+  </section>
+
+  <%= render 'risk_assessment' %>
+
+  <h4>Integrity Decision</h4>
+
+  <section id="engagement-recommendations">
+    <% if @review.engaged? || @review.declined? || @review.rejected? %>
+        <p><strong>Decision:</strong> <%= @review.rejected? ? 'Rejected' : "Approved with #{@review.with_reservation}" %></p>
+    <% end %>
+    <% if @review.engaged? && @review.integrity_reservation? %>
+        <p><strong>Subject was engaged in spite of Integrity reservation.</strong></p>
+    <% end %>
+    <p><strong>Explanation:</strong> <%= @review.integrity_explanation %></p>
+  </section>
+
+  <h4>Engagement Decision</h4>
+  <section id="final-decision">
+    <% if @review.engaged? || @review.declined?  %>
+    <p>
+      <strong>Decision:</strong>
+
+      <%= @review.state %>
+
+      <% if @review.declined? %>
+        <%= @review.reason_for_decline %>
+      <% end %>
+
+    </p>
+    <% end %>
+    <p><strong>Made by:</strong> <%= @review.approving_chief %></p>
+    <p><strong>Decision:</strong> <%= @review.engagement_rationale %></p>
+    <% if @review.engaged? || @review.declined? || @review.rejected? %>
+        <p><strong>Decision:</strong> <%= @review.rejected? ? 'Rejected' : "Approved with #{@review.with_reservation}" %></p>
+    <% end %>
+  </section>
+  <hr>
+  <section id="comments">
+    <h5>Comments:</h5>
+    <div class="tab_container">
+      <p>
+        <ul class="items">
+          <%= render partial: "admin/comments/comment", collection: @review.comments %>
+          <%= form_for(:comment, url: admin_due_diligence_review_comments_path(@review)) do |form| %>
+            <p>
+              <%= form.label :body, 'Comment' %>
+              <%= form.text_field :body %>
+            </p>
+            <p>
+              <%= form.check_box :notify_participant_manager %>
+              <%= form.label :notify_participant_manager, "Notify Participant Manager" %>
+            </p>
+            <p>
+              <%= form.submit 'Add comment' %>
+            </p>
+          <% end %>
+        </ul>
+      </p>
+    </div>
+  </section>
+  <section id="history">
+    <h5>History:</h5>
+    <ol class="event-log">
+      <% @review.events.each do |event| %>
+        <li>
+          <%= t event.name %> by <%= event.author %> (<%= event.timestamp.to_s(:datetime) %>)
+        </li>
+      <% end %>
+    </ol>
+  </section>
+</section>

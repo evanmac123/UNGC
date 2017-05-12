@@ -1,0 +1,5 @@
+%p.actions
+  = link_to t('due_diligence.actions.new_review'), new_admin_due_diligence_review_path, class: "cancel_large"
+  = link_to 'All Pages', for_state_admin_due_diligence_reviews_path(state: params[:state], page: 'all', only_mine: params[:only_mine])
+  = '/'
+  = link_to 'Paginate', for_state_admin_due_diligence_reviews_path(state: params[:state], only_mine: params[:only_mine])

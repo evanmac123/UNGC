@@ -58,5 +58,12 @@ module ApprovalWorkflow
       scope :rejected, -> { where(:state => STATE_REJECTED) }
       scope :unreplied, -> { where(:state => STATE_IN_REVIEW, :replied_to => false) }
     end
+
+    # Instance methods
+
+    # disallow comments on approved and rejected models
+    def allow_comments?
+      not(approved? || rejected?)
+    end
   end
 end

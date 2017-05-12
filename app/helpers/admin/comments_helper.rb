@@ -9,6 +9,8 @@ module Admin::CommentsHelper
       admin_organization_comments_path(commentable.id)
     when CommunicationOnProgress
       admin_communication_on_progress_comments_path(commentable)
+    when ::DueDiligence::Review::Presenter
+      admin_due_diligence_review_comments_path(commentable)
     else
       raise "Polymorphic comment wasn't aware of #{commentable.inspect}".inspect
     end

@@ -27,9 +27,10 @@ class Api::V1::AutocompleteTest < ActionDispatch::IntegrationTest
     assert_equal expected, json_body
   end
 
+
   should "autocomplete countries" do
     create(:country, name: 'Canada')
-    usa = create(:country, name: 'United States of America')
+    usa = Country.find_by(name: 'United States of America')
     uae = create(:country, name: 'United Arab Emirates')
 
     visit '/api/v1/autocomplete/countries.json?term=nited'

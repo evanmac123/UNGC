@@ -26,3 +26,10 @@ guard :minitest, spring: true, all_on_start: false do
   watch(%r{^test/.+_test\.rb$})
   watch(%r{^test/test_helper\.rb$}) { 'test' }
 end
+
+guard 'spring', bundler: true do
+  watch('Gemfile.lock')
+  watch(%r{^config/})
+  watch(%r{^spec/(support|factories)/})
+  watch(%r{^spec/factory.rb})
+end

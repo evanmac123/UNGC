@@ -361,6 +361,10 @@ GEM
     guard-minitest (2.4.6)
       guard-compat (~> 1.2)
       minitest (>= 3.0)
+    guard-spring (1.1.1)
+      guard (~> 2.0)
+      guard-compat (~> 1.1)
+      spring
     haml (4.0.6)
       tilt
     hashdiff (0.3.0)
@@ -465,6 +469,9 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
+    pry-byebug (3.0.1)
+      byebug (~> 3.4)
+      pry (~> 0.10)
     pry-rails (0.3.3)
       pry (>= 0.9.10)
     quiet_assets (1.1.0)
@@ -585,7 +592,7 @@ GEM
     slop (3.6.0)
     spreadsheet (0.6.5.9)
       ruby-ole (>= 1.0)
-    spring (2.0.0)
+    spring (2.0.1)
       activesupport (>= 4.2)
     sprockets (3.7.1)
       concurrent-ruby (~> 1.0)
@@ -687,6 +694,7 @@ DEPENDENCIES
   foreman
   guard
   guard-minitest
+  guard-spring
   haml (~> 4.0.6)
   honeybadger (~> 2.0)
   hpricot (= 0.8.6)
@@ -705,6 +713,7 @@ DEPENDENCIES
   passenger (~> 4.0.60)
   plugger
   poltergeist (~> 1.10)
+  pry-byebug
   pry-rails
   quiet_assets
   rack-request_replication!

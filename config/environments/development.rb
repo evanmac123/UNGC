@@ -13,6 +13,9 @@ Rails.application.configure do
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
 
+  # ActiveJob
+  config.active_job.queue_adapter = :inline
+
   # ActionMailer
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.perform_deliveries = true

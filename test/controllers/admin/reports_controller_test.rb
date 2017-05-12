@@ -111,6 +111,12 @@ class Admin::ReportsControllerTest < ActionController::TestCase
       assert_excel_content_type
     end
 
+    should "get the due diligence reviews report as xls" do
+      get :due_diligence_reviews, {:format => 'xls'}
+      assert_response :success
+      assert_excel_content_type
+    end
+
     context "given the initiatives report" do
       setup do
         @organization       = create(:organization)

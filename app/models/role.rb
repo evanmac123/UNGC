@@ -32,7 +32,9 @@ class Role < ActiveRecord::Base
     :network_representative    => 'Network Representative',
     :survey_contact            => 'Annual Survey Contact',
     :website_editor            => 'Website Editor',
-    :participant_manager       => 'Participant Relationship Manager'
+    :participant_manager       => 'Participant Relationship Manager',
+    :integrity_team_member     => 'Integrity Team Member',
+    :integrity_manager         => 'Integrity Manager',
   }
 
   def self.visible_to(user, current_contact=nil)
@@ -137,6 +139,14 @@ class Role < ActiveRecord::Base
   scope :website_editors, -> { where(name: FILTERS[:website_editor]) }
   def self.website_editor
     @_website_editor ||= find_by(name: FILTERS[:website_editor])
+  end
+
+  def self.integrity_team_member
+    @_integrity_team_member ||= find_by(name: FILTERS[:integrity_team_member])
+  end
+
+  def self.integrity_manager
+    @_integrity_manager ||= find_by(name: FILTERS[:integrity_manager])
   end
 
   scope :network_regional_managers, -> { where(name: FILTERS[:network_regional_manager]) }

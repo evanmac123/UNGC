@@ -80,6 +80,13 @@ class AdminController < ApplicationController
     end
   end
 
+  def no_organization_access
+    if current_contact.from_organization?
+      flash[:notice] = "You do not have permission to access that resource"
+      redirect_to dashboard_path
+    end
+  end
+
   private
 
   def contact_path(contact, params={})

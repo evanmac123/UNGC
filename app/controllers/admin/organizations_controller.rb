@@ -1,4 +1,6 @@
 class Admin::OrganizationsController < AdminController
+  helper Admin::DueDiligence::Helper
+
   before_filter :load_organization, :only => [:show, :edit, :update, :destroy, :approve, :reject, :reverse_roles, :show_welcome_letter]
   before_filter :load_organization_types, :only => :new
   before_filter :no_rejected_organizations_access, :only => :edit

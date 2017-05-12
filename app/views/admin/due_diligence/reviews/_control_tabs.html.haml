@@ -1,0 +1,9 @@
+%ul.view_modes
+  %li= link_to 'In Review', for_state_admin_due_diligence_reviews_path(state: [:in_review], only_mine: params[:only_mine]), id: "show_in_review", class: "restrictions #{ ' selected' if params[:state].blank? || params[:state] == ['in_review'] }"
+  %li= link_to 'Local Network', for_state_admin_due_diligence_reviews_path(state: [:local_network_review], only_mine: params[:only_mine]), :id => "local_network_review", :class => "restrictions #{' selected' if params[:state] == ['local_network_review'] }"
+  %li= link_to 'Integrity Decision', for_state_admin_due_diligence_reviews_path(state: [:integrity_review], only_mine: params[:only_mine]), :id => "show_integrity_review", :class => "restrictions #{' selected' if params[:state] == ['integrity_review'] }"
+  %li= link_to 'Engagement Decision', for_state_admin_due_diligence_reviews_path(state: [:engagement_review], only_mine: params[:only_mine]), :id => "show_engagement_decision", :class => "restrictions #{' selected' if params[:state] == ['engagement_review'] }"
+  %li= '&nbsp&nbsp&nbsp&nbsp&nbsp'.html_safe
+  %li= link_to 'All Reviews', for_state_admin_due_diligence_reviews_path(state: ['all'], only_mine: params[:only_mine]), :id => "show_all", :class => "restrictions #{' selected' if params[:state]&.include?('all') }"
+  - # %li= link_to 'Search', search_admin_due_diligence_reviews_path, :id => "show_search", :class => "restrictions #{action_name == 'search' ? ' selected' : ''}"
+

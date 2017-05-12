@@ -34,7 +34,7 @@
       <%= render :partial => 'layouts/main_nav' %>
     </div>
   </section>
-  <div class="container">
+  <div class="container <%= 'liquid' if @liquid_layout %>">
       <div class="span-24" id="main_content">
         <%= flash_messages_for :error, :notice, :alert %>
         <%= yield %>

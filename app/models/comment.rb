@@ -38,7 +38,7 @@ class Comment < ActiveRecord::Base
   after_create :update_commentable_replied_to_and_reviewer_id
 
   validates :contact, presence: true
-  validate :no_comment_on_approved_or_rejected_commentable
+  validate :comments_must_be_allowed
   validate :organization_user_cannot_approve_or_reject
 
   def copy_local_network?
@@ -60,9 +60,9 @@ class Comment < ActiveRecord::Base
       end
     end
 
-    def no_comment_on_approved_or_rejected_commentable
-      if commentable && (commentable.approved? || commentable.rejected?)
-        errors.add :base, "cannot add comments to a #{commentable.state} model"
+    def comments_must_be_allowed
+      if commentable && !commentable.allow_comments?
+        errors.add :base, "cannot add comments in the #{commentable.state} state"
       end
     end
 
@@ -73,6 +73,8 @@ class Comment < ActiveRecord::Base
     end
 
     def update_commentable_replied_to_and_reviewer_id
+      return unless commentable.respond_to?(:replied_to)
+
       if from_ungc?
         commentable.update(reviewer: contact, replied_to: true)
       else

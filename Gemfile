@@ -86,9 +86,11 @@ end
 
 group :development, :test do
   gem 'pry-rails'
+  gem 'pry-byebug'
   gem 'quiet_assets'
   gem 'byebug'
   gem 'spring'
+  gem 'guard-spring'
   gem 'factory_girl_rails', '~> 4.0'
   gem 'faker'
   gem 'dotenv-rails'

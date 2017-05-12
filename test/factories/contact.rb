@@ -24,6 +24,18 @@ FactoryGirl.define do
 
     factory :staff_contact do
       organization { Organization.find_by!(name: DEFAULTS[:ungc_organization_name]) }
+
+      trait :integrity_team_member do
+        after(:build) do |contact, evaluator|
+          contact.roles << Role.integrity_team_member
+        end
+      end
+
+      trait :integrity_manager do
+        after(:build) do |contact, evaluator|
+          contact.roles << Role.integrity_manager
+        end
+      end
     end
   end
 end

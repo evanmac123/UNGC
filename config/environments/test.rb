@@ -35,6 +35,7 @@ Rails.application.configure do
     host: '127.0.0.1',
     port: 3001
   }
+  config.active_job.queue_adapter = :inline
 
   # Randomize the order test cases are executed.
   config.active_support.test_order = :random

@@ -35,7 +35,7 @@ module Admin::OrganizationsHelper
   end
 
   def letter_of_commitment_updated(organization)
-    if organization.commitment_letter_updated_at > organization.created_at
+    if organization&.commitment_letter_updated_at > organization.created_at
       "updated #{display_days_ago(organization.commitment_letter_updated_at)}"
     end
   end

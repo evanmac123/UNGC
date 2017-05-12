@@ -2,7 +2,6 @@ require 'test_helper'
 
 class ContactFlowsTest < ActionDispatch::IntegrationTest
   setup do
-    create(:country, name: 'United States of America' )# Needed by create new contact
     @ungc_contact = create_staff_user
     @ungc_organization = @ungc
   end
