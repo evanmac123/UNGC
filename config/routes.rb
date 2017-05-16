@@ -510,6 +510,7 @@ UNGC::Application.routes.draw do
   get '/HowToParticipate/Business_Organization_Information.html', to: redirect('/participation/join/application/step1/business')
   get '/UNPrivateSectorForum2016', to: redirect('/take-action/events/691-united-nations-private-sector-forum-2016')
   get '/COP/', to: redirect('participation/report')
+  get '/UNGA17', to: redirect('/take-action/events/leaders-summit-2017/ga-week-business-guide')
 
   #redirect for delisted company
   get '/system/attachments/cop_2016/322211/original/ToddandClare.com_United_Nations_GC_Member_Report_COP_1042016.pdf', to: redirect('/what-is-gc/participants/83761-T-C-Network-Solutions')
