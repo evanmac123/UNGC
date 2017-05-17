@@ -121,41 +121,41 @@
       command: "/bin/bash -l -c 'cd /vagrant && bundle -j2'"
 
     - name: Configure database.yml
-      tags: dbyml
+      tags: railsapp
       copy:
         src: ../config/database.yml.sample
         dest: /vagrant/config/database.yml
 
     - name: Set the database username
-      tags: dbyml
+      tags: railsapp
       replace:
         path: /vagrant/config/database.yml
         regexp: '# username: .*'
         replace: 'username: rails'
 
     - name: Set the database password
-      tags: dbyml
+      tags: railsapp
       replace:
         path: /vagrant/config/database.yml
         regexp: '# password: .*'
         replace: 'password: 12345'
 
     - name: Configure secrets.yml
-      tags: dbyml
+      tags: railsapp
       copy:
         src: ../config/secrets.yml.example
         dest: /vagrant/config/secrets.yml
 
     - name: Create the development database
-      tags: dbyml
+      tags: railsapp
       command: "/bin/bash -l -c 'cd /vagrant && rake db:drop db:create db:schema:load'"
 
     - name: Create the test database
-      tags: dbyml
+      tags: railsapp
       command: "/bin/bash -l -c 'cd /vagrant && RAILS_ENV=test rake db:drop db:create db:test:prepare'"
 
     - name: Build the initial search index
-      tags: dbyml
+      tags: railsapp
       command: "/bin/bash -l -c 'cd /vagrant && rake search:rebuild'"
 
     # - name: Install npm dependencies
