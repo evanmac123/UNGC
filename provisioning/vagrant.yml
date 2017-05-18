@@ -91,13 +91,13 @@
       tags: sphinx
       service: name=sphinxsearch state=stopped
 
-    # - name: Install global npm packages
-    #   tags: node
-    #   npm: name={{item}} global=yes
-    #   with_items:
-    #     - bower
-    #     - ember-cli
-    #     - node-sass
+    - name: Install global npm packages
+      tags: node
+      npm: name={{item}} global=yes
+      with_items:
+        - bower
+        - ember-cli
+        - node-sass
 
     - name: Create a symlink for pdf2txt
       tags: pdf
@@ -158,14 +158,14 @@
       tags: railsapp
       command: "/bin/bash -l -c 'cd /vagrant && rake search:rebuild'"
 
-    # - name: Install npm dependencies
-    #   tags: js
-    #   command: "/bin/bash -l -c 'cd /vagrant/frontend/sitemap && npm install --no-bin-links'"
+    - name: Install npm dependencies
+      tags: js
+      command: "/bin/bash -l -c 'cd /vagrant/frontend/sitemap && npm install --no-bin-links'"
 
-    # - name: Install bower dependencies
-    #   tags: js
-    #   command: "/bin/bash -l -c 'cd /vagrant/frontend/sitemap && bower install'"
+    - name: Install bower dependencies
+      tags: js
+      command: "/bin/bash -l -c 'cd /vagrant/frontend/sitemap && bower install'"
 
-    # - name: Build the ember app
-    #   tags: js
-    #   command: "/bin/bash -l -c 'cd /vagrant/frontend/sitemap && ember build'"
+    - name: Build the ember app
+      tags: js
+      command: "/bin/bash -l -c 'cd /vagrant/frontend/sitemap && ember build'"
