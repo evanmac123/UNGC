@@ -1,0 +1,16 @@
+%h2== #{@platform.name} (#{@platform.subscriptions.active.count} / #{@platform.subscriptions.count})
+
+%ul.tools.inline
+  %li= render :partial => 'admin/action_platform/platforms/back_to_index'
+
+%p
+%table.dashboard_table
+  %tr
+    %th.title Name
+    %th.status Status
+    %th.status Subscribed on
+    %th.status Expires on
+    %th.status Organization Type
+    %th.status COP Status
+    %th.actions Actions
+  = render :partial => 'admin/action_platform/platforms/subscription', :collection => @subscriptions

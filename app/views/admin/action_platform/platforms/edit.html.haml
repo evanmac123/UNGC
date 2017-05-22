@@ -1,0 +1,10 @@
+%h2 Edit platform
+
+
+%ul.tools.inline
+  %li= render :partial => 'admin/action_platform/platforms/add_new'
+  %li= render :partial => 'admin/action_platform/platforms/back_to_index'
+
+= form_for @platform, builder: DefaultFormBuilder, url: admin_action_platform_platform_path(@platform) do |form|
+  = render :partial => form
+  = form.submit 'Save changes', :class => 'button'

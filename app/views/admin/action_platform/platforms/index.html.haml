@@ -1,0 +1,13 @@
+%h2 Platforms
+
+%p
+  %ul.tools.inline
+    %li= render :partial => 'admin/action_platform/platforms/add_new'
+%table.dashboard_table#platforms_table
+  %tr
+    %th.last_updated Last updated on
+    %th.title Name
+    %th.slug Slug
+    %th.subscriptions_count{:style=>"text-align:right"} Subscriptions (active / total)
+    %th.actions Actions
+  = render :partial => 'admin/action_platform/platforms/platform', :collection => @platforms
