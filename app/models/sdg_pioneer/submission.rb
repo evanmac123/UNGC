@@ -32,10 +32,10 @@ class SdgPioneer::Submission < ActiveRecord::Base
   validates :organization_name,           presence: true, length: { maximum: 255 }
   validates :organization_name_matched,   inclusion: [true, false], presence: { message: "is not in our system as an active participant" }
   validate :validate_country_name
-  validates :company_success,            presence: true, length: { maximum: 1000 }
-  validates :innovative_sdgs,            presence: true, length: { maximum: 1000 }
-  validates :ten_principles,             presence: true, length: { maximum: 1000 }
-  validates :awareness_and_mobilize,     presence: true, length: { maximum: 1000 }
+  validates :company_success,            presence: true, length: { maximum: 1500 }
+  validates :innovative_sdgs,            presence: true, length: { maximum: 1500 }
+  validates :ten_principles,             presence: true, length: { maximum: 1500 }
+  validates :awareness_and_mobilize,     presence: true, length: { maximum: 1500 }
   validates :accepts_tou,                 inclusion: [true, false]
   validates :supporting_documents,        length: { minimum: 1, maximmum: 12 }
   validates :website_url,                 length: { maximum: 255 }
