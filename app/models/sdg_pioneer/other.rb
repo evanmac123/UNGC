@@ -36,7 +36,7 @@ class SdgPioneer::Other < ActiveRecord::Base
   validates :nominee_title,             presence: true, length: {maximum: 255}
   validates :nominee_email,             presence: true, length: {maximum: 255}
   validates :nominee_phone,             length: {maximum: 32}
-  validates :why_nominate,              presence: true, length: {maximum: 500}
+  validates :why_nominate,              presence: true, length: {maximum: 1000}
   validates :organization_name,         presence: true, length: { maximum: 255 }
   validates :organization_name_matched, inclusion: [true, false]
 
