@@ -6,7 +6,7 @@ class ActionPlatformContacts < SimpleReport
   def headers
     [
       'organization',
-      'pariticpant id'
+      'pariticpant id',
       'action platform name',
       'first name',
       'last name'
@@ -16,7 +16,7 @@ class ActionPlatformContacts < SimpleReport
   def row(record)
     [
       record.organization.name,
-      record.organization.id,
+      record.organization_id,
       record.platform.name,
       record.contact.first_name,
       record.contact.last_name
