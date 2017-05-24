@@ -6,7 +6,7 @@ class ActionPlatformContacts < SimpleReport
   def headers
     [
       'organization',
-      'pariticpant id'
+      'pariticpant id',
       'action platform name',
       'first name',
       'last name'
