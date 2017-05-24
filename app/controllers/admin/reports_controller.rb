@@ -183,6 +183,11 @@ class Admin::ReportsController < AdminController
     render_report(report, "local_network_participants_withdrawn_#{date_as_filename}.xls")
   end
 
+  def action_platform_contacts
+    report = ActionPlatformContacts.new
+    render_report(report, "action_platform_contacts_#{date_as_filename}.xls")
+  end
+
   def initiative_contacts
     report = InitiativeContacts.new
     render_report(report, "water_mandate_contacts_#{date_as_filename}.xls")
