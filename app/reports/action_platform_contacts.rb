@@ -16,7 +16,7 @@ class ActionPlatformContacts < SimpleReport
   def row(record)
     [
       record.organization.name,
-      record.organization_id,
+      record.organization.id,
       record.platform.name,
       record.contact.first_name,
       record.contact.last_name
