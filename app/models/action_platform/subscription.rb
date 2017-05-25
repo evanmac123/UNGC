@@ -40,6 +40,10 @@ class ActionPlatform::Subscription < ActiveRecord::Base
     Date.today > expires_on
   end
 
+  def self.has_active_subscription?(contact)
+    active.where(contact: contact).any?
+  end
+
   def self.for(organization:)
     joins(:order).
       includes(:platform).

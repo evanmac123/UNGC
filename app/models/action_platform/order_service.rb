@@ -37,7 +37,6 @@ module ActionPlatform
         # TODO don't n+1 the platform lookup
         @subscriptions.each do |s|
           platform_id = s.fetch(:platform_id)
-          platform = Platform.find(platform_id)
           order.subscriptions.create!(
             contact_id: s.fetch(:contact_id),
             platform_id: platform_id,
