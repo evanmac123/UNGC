@@ -35,13 +35,18 @@ class ActionPlatform::Subscription < ActiveRecord::Base
   end
 
   scope :active, -> { approved.where("expires_on >= ?", Date.today) }
+  scope :for_contact, -> (contact) { active.where(contact: contact) }
 
   def expired?
     Date.today > expires_on
   end
 
   def self.has_active_subscription?(contact)
-    active.where(contact: contact).any?
+    active.for_contact(contact).any?
+  end
+
+  def self.for_contact(contact)
+    where(contact: contact)
   end
 
   def self.for(organization:)
@@ -50,4 +55,5 @@ class ActionPlatform::Subscription < ActiveRecord::Base
       where("action_platform_orders.organization_id" => organization.id).
       flat_map { |subscription| subscription.platform }
   end
+
 end
