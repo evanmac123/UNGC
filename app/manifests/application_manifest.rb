@@ -90,7 +90,7 @@ class ApplicationManifest < Moonshine::Manifest::Rails
     cron 'igloo',
       :command => '/srv/unglobalcompact/current/script/cron/igloo',
       :user => 'rails',
-      :minute => 5,
+      :minute => '*/5',
       :ensure => :present
 
   end
