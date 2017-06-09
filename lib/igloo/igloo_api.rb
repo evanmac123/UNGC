@@ -206,13 +206,13 @@ module Igloo
 
       url = "/.api/api.svc/bulk_user_action/create_job"
 
-      # response = conn.post do |request|
-      #   request.url(url)
-      #   request.headers["Cookie"] = cookie
-      #   request.body = body
-      # end
+      response = conn.post do |request|
+        request.url(url)
+        request.headers["Cookie"] = cookie
+        request.body = body
+      end
 
-      # response
+      response
     end
 
     # Pipe delimited list of Action Platform Spaces on igloo
