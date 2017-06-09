@@ -1,2 +1,2 @@
 #!/bin/sh
-cd /srv/unglobalcompact/current && bundle exec rake igloo_sync
+cd /srv/unglobalcompact/current && RAILS_ENV=production bundle exec rake igloo_sync
