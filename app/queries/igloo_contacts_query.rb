@@ -27,7 +27,8 @@ class IglooContactsQuery
       joins("inner join action_platform_subscriptions on action_platform_subscriptions.contact_id = contacts.id").
       joins("left join sectors on sectors.id = organizations.sector_id").
       joins("left join countries on countries.id = contacts.country_id").
-      where("contacts.updated_at >= ? or organizations.updated_at >= ? or sectors.updated_at >= ? or countries.updated_at >=?", cutoff, cutoff, cutoff, cutoff)
+      where("contacts.updated_at >= ? or organizations.updated_at >= ? or sectors.updated_at >= ? or countries.updated_at >=?",
+        cutoff, cutoff, cutoff, cutoff)
   end
 
 end
