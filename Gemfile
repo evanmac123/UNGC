@@ -56,6 +56,7 @@ gem 'rails_event_store', '~> 0.14.3'
 gem 'saml_idp'
 gem 'faraday'
 gem 'faraday-cookie_jar'
+gem 'awesome_print', require: 'ap'
 
 group :development do
   gem 'rerun'
@@ -78,7 +79,6 @@ group :test do
 end
 
 group :development, :test do
-  gem 'awesome_print', require: 'ap'
   gem 'pry-rails'
   gem 'quiet_assets'
   gem 'byebug'
