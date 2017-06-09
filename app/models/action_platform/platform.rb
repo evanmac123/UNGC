@@ -12,10 +12,10 @@
 #
 
 class ActionPlatform::Platform < ActiveRecord::Base
-	has_many :subscriptions, dependent: :destroy
-	
-	validates :name, presence: true, length: { in: 1..250 }
+  has_many :subscriptions, dependent: :destroy
+
+  validates :name, presence: true, length: { in: 1..250 }
   validates :description, presence: true
-	validates :slug, presence: true, length: { in: 1..32 } 
-	
+  validates :slug, presence: true, length: { in: 1..32 }
+
 end
