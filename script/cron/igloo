@@ -1,3 +1,2 @@
 #!/bin/sh
-date >> /Users/abinabraham/code/UNGC/tmp/igloo
-rake igloo_sync
+cd /srv/unglobalcompact/current && bundle exec rake igloo_sync
