@@ -15,7 +15,7 @@ class ParticipantsController < ApplicationController
       :sector,
       :listing_status,
       :communication_on_progresses,
-			action_platform_subscriptions: [:platform]
+      action_platform_subscriptions: [:platform]
     ).participants.find(participant_id)
   end
 

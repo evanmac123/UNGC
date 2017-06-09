@@ -190,13 +190,13 @@ UNGC::Application.routes.draw do
 
     namespace :action_platform do
       resources :subscriptions
-			resources :platforms
-			resources :platform_subscriptions , only: [:destroy] do
-				member do
-					post :approve
-					post :revoke
-				end
-			end
+      resources :platforms
+      resources :platform_subscriptions , only: [:destroy] do
+        member do
+          post :approve
+          post :revoke
+        end
+      end
     end
   end
 
@@ -216,12 +216,11 @@ UNGC::Application.routes.draw do
 
     end
   end
-	
 
-	namespace :action_platform do
-		resources :platforms, only: [:show]
-	end
-  
+  namespace :action_platform do
+    resources :platforms, only: [:show]
+  end
+
   # Salesforce webook routes
   namespace :salesforce, defaults: { format: 'json' } do
     post '/sync' => 'api#sync'

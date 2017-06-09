@@ -114,9 +114,9 @@ class ParticipantPage < SimpleDelegator
     end
   end
 
-	def action_platform_subscriptions
-		participant.action_platform_subscriptions
-	end
+  def action_platform_subscriptions
+   participant.action_platform_subscriptions
+  end
 
   class CommunicationOnProgressPresenter < SimpleDelegator
 
