@@ -54,10 +54,10 @@ gem 'sinatra', '>= 1.3.0', :require => nil
 gem 'rack-request_replication', git: 'https://github.com/bitfield-co/rack-request_replication.git', branch: 'master'
 gem 'rails_event_store', '~> 0.14.3'
 gem 'saml_idp'
+gem 'faraday'
+gem 'faraday-cookie_jar'
 
 group :development do
-  gem 'faraday'
-  gem 'faraday-cookie_jar' # TODO: move these out of dev
   gem 'rerun'
   gem 'thin'
   gem 'bullet'
