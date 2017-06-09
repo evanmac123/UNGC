@@ -9,11 +9,8 @@ task igloo_sync: :environment do |t, args|
     community: "unglobalcompact.igloocommunities.com"
   }
 
-  igloo = Igloo::IglooApi.new(credentials)
-  igloo.authenticate
+  sync = Igloo::Sync.new(credentials)
+  sync.run
 
-  contacts = IglooContactsQuery.new.run
-  puts "Syncing #{contacts.count} contacts"
-  igloo.bulk_upload(contacts)
   puts "Done."
 end

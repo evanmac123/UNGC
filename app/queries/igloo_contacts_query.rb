@@ -1,34 +1,31 @@
 class IglooContactsQuery
+  attr_reader :cutoff
 
-  def run
-    ungc_staff.to_a + action_platform_signatories.to_a
+  def initialize(cutoff = nil)
+    @cutoff ||= DateTime.new(2016, 1, 1)
   end
 
-  private
-
-  def cutoff
-    5.minutes.ago
-  end
-
-  def ungc_staff
+  def staff
     ungc_name = DEFAULTS[:ungc_organization_name]
     Contact.
       includes(:organization).
       joins(:organization).
       where("organizations.name = ?", ungc_name).
-      where("contacts.updated_at >= ? or organizations.updated_at >= ?", cutoff, cutoff).
-      select(:id, :first_name, :last_name, :job_title)
+      where("contacts.updated_at >= ? or organizations.updated_at >= ?", cutoff, cutoff)
   end
 
   def action_platform_signatories
+    tables = %w(contacts organizations sectors countries action_platform_subscriptions)
+    recent_updates = tables.map { |t| "#{t}.updated_at >= ?" }.join(" or ")
+    bind_params = tables.count.times.map { cutoff }
+
     Contact.
       includes(:organization).
       joins(:organization).
       joins("inner join action_platform_subscriptions on action_platform_subscriptions.contact_id = contacts.id").
       joins("left join sectors on sectors.id = organizations.sector_id").
       joins("left join countries on countries.id = contacts.country_id").
-      where("contacts.updated_at >= ? or organizations.updated_at >= ? or sectors.updated_at >= ? or countries.updated_at >=?",
-        cutoff, cutoff, cutoff, cutoff)
+      where(recent_updates, *bind_params)
   end
 
 end
