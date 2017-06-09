@@ -86,6 +86,13 @@ class ApplicationManifest < Moonshine::Manifest::Rails
       :hour => '*/2',
       :minute => 40,
       :ensure => :present
+
+    cron 'igloo',
+      :command => '/srv/unglobalcompact/current/script/cron/igloo',
+      :user => 'rails',
+      :minute => 5,
+      :ensure => :present
+
   end
 
   def jungle_disk
