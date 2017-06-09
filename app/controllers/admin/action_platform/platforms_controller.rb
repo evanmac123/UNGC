@@ -1,10 +1,18 @@
 class Admin::ActionPlatform::PlatformsController < AdminController
   before_filter :no_organization_or_local_network_access
-  before_filter :load_platform
 
   def index
     # TODO need to eager load relationships count. Currently the view triggers an 2(N+1)
     @platforms = ::ActionPlatform::Platform.all.order("updated_at DESC")
+  end
+
+  def show
+    @platform = load_platform
+    @subscriptions = ::ActionPlatform::Subscription.
+      includes(:platform, :contact, organization: [:organization_type]).
+      joins(:order).
+      where(platform: @platform).
+      order("action_platform_orders.updated_at DESC")
   end
 
   def new
@@ -14,50 +22,35 @@ class Admin::ActionPlatform::PlatformsController < AdminController
   def create
     @platform = ::ActionPlatform::Platform.new(platform_params)
     if @platform.save
-      flash[:notice] = 'Platform created.'
-      redirect_to admin_action_platform_platforms_path
+      redirect_to admin_action_platform_platforms_path, notice: 'Platform created.'
     else
-      render :action => "new"
+      render action: :new
     end
   end
 
   def update
-    @platform.attributes = platform_params
-    if @platform.save
-      flash[:notice] = 'Platform updated.'
-      redirect_to admin_action_platform_platforms_path
+    @platform = load_platform
+    if @platform.update(platform_params)
+      redirect_to admin_action_platform_platforms_path, notice: 'Platform updated.'
     else
-    render :action => "edit"
+      render action: :edit
     end
   end
 
   def destroy
-    if @platform.destroy
+    platform = load_platform
+    if platform.destroy
       flash[:notice] = "Platform removed."
     else
-    flash[:notice] = 'Sorry, there was a problem removing the platform.'
+      flash[:notice] = 'Sorry, there was a problem removing the platform.'
     end
     redirect_to admin_action_platform_platforms_path
-  end
-
-
-  def show
-    @subscriptions = fetch_subscriptions(@platform)
   end
 
   private
 
   def load_platform
-    @platform = ::ActionPlatform::Platform.find params[:id] if params[:id]
-  end
-
-  # TODO this might require some extra TLC. The order is not very intuitive.
-  def fetch_subscriptions(platform)
-    platform.
-      subscriptions.
-      order("action_platform_subscriptions.created_at DESC").
-      includes(organization: [:organization_type]).
-      order("organizations.cop_state, organizations.name")
+    @platform = ::ActionPlatform::Platform.find(params.fetch(:id))
   end
 
   def platform_params
