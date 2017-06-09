@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170502180628) do
+ActiveRecord::Schema.define(version: 20170529143700) do
 
   create_table "action_platform_orders", force: :cascade do |t|
     t.integer  "organization_id",      limit: 4,                   null: false
@@ -28,7 +28,6 @@ ActiveRecord::Schema.define(version: 20170502180628) do
   create_table "action_platform_platforms", force: :cascade do |t|
     t.string   "name",        limit: 255,   null: false
     t.text     "description", limit: 65535, null: false
-    t.integer  "status",      limit: 4
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
     t.string   "slug",        limit: 32,    null: false
@@ -539,6 +538,14 @@ ActiveRecord::Schema.define(version: 20170502180628) do
   add_index "headlines", ["contact_id"], name: "index_headlines_on_contact_id", using: :btree
   add_index "headlines", ["headline_type"], name: "index_headlines_on_headline_type", using: :btree
   add_index "headlines", ["published_on"], name: "index_headlines_on_published_on", using: :btree
+
+  create_table "igloo_users", force: :cascade do |t|
+    t.integer  "contact_id", limit: 4, null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "igloo_users", ["contact_id"], name: "index_igloo_users_on_contact_id", using: :btree
 
   create_table "initiatives", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -1231,6 +1238,7 @@ ActiveRecord::Schema.define(version: 20170502180628) do
   add_foreign_key "event_sponsors", "sponsors"
   add_foreign_key "events", "contacts"
   add_foreign_key "headlines", "contacts"
+  add_foreign_key "igloo_users", "contacts"
   add_foreign_key "issues", "issues", column: "parent_id"
   add_foreign_key "oauth_access_grants", "contacts", column: "resource_owner_id"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"

@@ -51,7 +51,11 @@ class SamlUserTest < ActiveSupport::TestCase
     contact = create(:contact, organization: organization)
 
     # And a Subscription to that platform for that contact and organization
-    create(:action_platform_subscription, contact: contact, organization: organization, platform: platform)
+    create(:action_platform_subscription,
+      contact: contact,
+      organization: organization,
+      platform: platform,
+      status: :approved)
 
     # When we try to authenticate with the contact's username and password
     user = SamlUser.authenticate(contact.username, contact.password)

@@ -1,6 +1,18 @@
 module Igloo
   class IglooApi
 
+    SPACE_NAMES = {
+      "The Blueprint for SDG Leadership" => "Blueprint for SDG Leadership",
+      "Reporting on the SDGs" => "Reporting on the SDGs",
+      "Breakthrough Innovation" => "Breakthrough Innovation for the SDGs",
+      "Financial Innovation for the SDGs" => "Financial Innovation for the SDGs",
+      "Pathways to Low-Carbon & Resilient Development" => "Pathways to Low-Carbon & Resilient Development",
+      "Health is Everyone's Business" => "Health is Everyone's Business",
+      "Business for Inclusion" => "Business for Inclusion & Gender Equality",
+      "Business Action for Humanitarian Needs" => "Business for Humanitarian Action and Peace",
+      "Decent Work in Global Supply Chains" => "Decent Work in Global Supply Chains",
+    }.freeze
+
     def initialize(credentials)
       @credentials = credentials
     end
@@ -59,9 +71,7 @@ module Igloo
         request.body = body
       end
 
-      response.body.tap do |value|
-        ap value
-      end
+      response.body
     end
 
     def bulk_upload(contacts)
@@ -161,7 +171,7 @@ module Igloo
           "i_report_to" => nil,
           "i_report_to_email" => nil,
           "im_skypeforbusiness" => nil,
-          "groupsToAdd" => nil,
+          "groupsToAdd" => groups_for(contact),
           "groupsToRemove" => nil,
         }
 
@@ -203,6 +213,23 @@ module Igloo
       # userId: 1fbu5da4-217d-478d-b087-0c869ad5f59a
       # X-File-Name:big-toast-img.png
       # X-File-Size:250568
+    end
+
+    private
+
+    # Pipe delimited list of Action Platform Spaces on igloo
+    def groups_for(contact)
+      ActionPlatform::Subscription.active.for_contact(contact).
+        includes(:platform).
+        flat_map { |s| space_name(s.platform.name) }.
+        join(" | ")
+    end
+
+    # Members are added to Igloo spaces by appending "~Space Members"
+    # To the name of the group. This `space_name` translates the ActionPlatform name
+    # in the database to match the Spaces in Igloo
+    def space_name(platform_name)
+      "#{SPACE_NAMES.fetch(platform_name)}~Space Members"
     end
 
   end

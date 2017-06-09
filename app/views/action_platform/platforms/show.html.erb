@@ -1,0 +1,12 @@
+<%= render partial: 'components/meta_tags' %>
+<%= render partial: 'components/hero' %>
+
+<section class='main-content-section main-content-section-narrow'>
+  <div class='wrapper'>
+
+    <%= content_tag(:header, content_tag(:h1, @page.title), {class: 'main-content-header'}) %>
+    <section class='main-content-body'>
+      <%= @page.description %>
+    </section>
+  </div>
+</section>
