@@ -10,7 +10,7 @@ class IglooContactsQueryTest < ActiveSupport::TestCase
     travel_back
     updated.touch
 
-    results = IglooContactsQuery.new.run
+    results = IglooContactsQuery.new(1.year.ago).action_platform_signatories
     assert_includes results, updated
     assert_not_includes results, not_updated
   end
@@ -23,7 +23,7 @@ class IglooContactsQueryTest < ActiveSupport::TestCase
     travel_back
     updated.organization.touch
 
-    results = IglooContactsQuery.new.run
+    results = IglooContactsQuery.new(1.year.ago).action_platform_signatories
     assert_includes results, updated
     assert_not_includes results, not_updated
   end
@@ -36,7 +36,7 @@ class IglooContactsQueryTest < ActiveSupport::TestCase
     travel_back
     updated.country.touch
 
-    results = IglooContactsQuery.new.run
+    results = IglooContactsQuery.new(1.year.ago).action_platform_signatories
     assert_includes results, updated
     assert_not_includes results, not_updated
   end
@@ -49,7 +49,7 @@ class IglooContactsQueryTest < ActiveSupport::TestCase
     travel_back
     updated.organization.sector.touch
 
-    results = IglooContactsQuery.new.run
+    results = IglooContactsQuery.new(1.year.ago).action_platform_signatories
     assert_includes results, updated
     assert_not_includes results, not_updated
   end
@@ -57,21 +57,21 @@ class IglooContactsQueryTest < ActiveSupport::TestCase
   test "not include all contacts" do
     contact = create(:contact)
 
-    results = IglooContactsQuery.new.run
+    results = IglooContactsQuery.new.action_platform_signatories
     assert_not_includes results, contact
   end
 
   test "includes staff" do
     contact = create_staff_user
 
-    results = IglooContactsQuery.new.run
+    results = IglooContactsQuery.new.staff
     assert_includes results, contact
   end
 
   test "includes a contact subscribed to an action platform" do
     contact = create_ap_subcriber
 
-    results = IglooContactsQuery.new.run
+    results = IglooContactsQuery.new.action_platform_signatories
     assert_includes results, contact
   end
 

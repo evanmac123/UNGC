@@ -11,7 +11,7 @@ module Igloo
       query = IglooContactsQuery.new(cutoff)
 
       update_action_platform_signatories(query)
-      # update_staff(query)
+      # update_staff(query) TODO: re-enable this
 
       write_new_sync_time
     end
