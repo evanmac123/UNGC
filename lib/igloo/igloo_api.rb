@@ -74,6 +74,15 @@ module Igloo
       response.body
     end
 
+    def stream_update_photo(contact)
+      # TODO: implement me
+      # Request URL:https://unglobalcompact.igloocommunities.com/.api/api.svc/account/profile/streamUpdatePhoto?_reqts=1493058171489&userId=1fb55da4-217d-478d-b087-0c869ad5f59a
+      # Request Method:POST
+      # userId: 1fbu5da4-217d-478d-b087-0c869ad5f59a
+      # X-File-Name:big-toast-img.png
+      # X-File-Size:250568
+    end
+
     def bulk_upload(contacts)
       # _reqts=1493056853670
       # TODO: deal with commas in fields
@@ -171,8 +180,8 @@ module Igloo
           "i_report_to" => nil,
           "i_report_to_email" => nil,
           "im_skypeforbusiness" => nil,
-          "groupsToAdd" => groups_for(contact),
-          "groupsToRemove" => nil,
+          "groupsToAdd" => active_groups_for(contact),
+          "groupsToRemove" => inactive_groups_for(contact),
         }
 
         attrs.values.join(",")
@@ -197,32 +206,34 @@ module Igloo
 
       url = "/.api/api.svc/bulk_user_action/create_job"
 
-      response = conn.post do |request|
-        request.url(url)
-        request.headers["Cookie"] = cookie
-        request.body = body
-      end
+      # response = conn.post do |request|
+      #   request.url(url)
+      #   request.headers["Cookie"] = cookie
+      #   request.body = body
+      # end
 
-      response
+      # response
     end
-
-    def stream_update_photo(contact)
-      # TODO: implement me
-      # Request URL:https://unglobalcompact.igloocommunities.com/.api/api.svc/account/profile/streamUpdatePhoto?_reqts=1493058171489&userId=1fb55da4-217d-478d-b087-0c869ad5f59a
-      # Request Method:POST
-      # userId: 1fbu5da4-217d-478d-b087-0c869ad5f59a
-      # X-File-Name:big-toast-img.png
-      # X-File-Size:250568
-    end
-
-    private
 
     # Pipe delimited list of Action Platform Spaces on igloo
-    def groups_for(contact)
+    def active_groups_for(contact)
+      # TODO: don't do the database work here
+      # TODO: eliminate the n+1
       ActionPlatform::Subscription.active.for_contact(contact).
         includes(:platform).
         flat_map { |s| space_name(s.platform.name) }.
-        join(" | ")
+        tap { |name| ap [:active, name] }.
+        join("|")
+    end
+
+    def inactive_groups_for(contact)
+      # TODO: don't do the database work here
+      # TODO: eliminate the n+1
+      ActionPlatform::Subscription.inactive.for_contact(contact).
+        includes(:platform).
+        flat_map { |s| space_name(s.platform.name) }.
+        tap { |name| ap [:not, name] }.
+        join("|")
     end
 
     # Members are added to Igloo spaces by appending "~Space Members"

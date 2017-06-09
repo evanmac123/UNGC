@@ -35,6 +35,7 @@ class ActionPlatform::Subscription < ActiveRecord::Base
   end
 
   scope :active, -> { approved.where("expires_on >= ?", Date.today) }
+  scope :inactive, -> { where("status = 0 or expires_on < ?", Time.zone.now.to_date) }
   scope :for_contact, -> (contact) { active.where(contact: contact) }
 
   def expired?
