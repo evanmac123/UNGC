@@ -5,10 +5,10 @@ module Igloo
       @api = Igloo::IglooApi.new(credentials)
     end
 
-    def run
+    def run(query: nil)
       @api.authenticate
       cutoff = read_last_sync_time
-      query = IglooContactsQuery.new(cutoff)
+      query ||= IglooContactsQuery.new(cutoff)
 
       update_action_platform_signatories(query)
       # update_staff(query) TODO: re-enable this
