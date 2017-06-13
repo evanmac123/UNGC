@@ -1,18 +1,6 @@
 module Igloo
   class IglooApi
 
-    SPACE_NAMES = {
-      "The Blueprint for SDG Leadership" => "Blueprint for SDG Leadership",
-      "Reporting on the SDGs" => "Reporting on the SDGs",
-      "Breakthrough Innovation" => "Breakthrough Innovation for the SDGs",
-      "Financial Innovation for the SDGs" => "Financial Innovation for the SDGs",
-      "Pathways to Low-Carbon & Resilient Development" => "Pathways to Low-Carbon & Resilient Development",
-      "Health is Everyone's Business" => "Health is Everyone's Business",
-      "Business for Inclusion" => "Business for Inclusion & Gender Equality",
-      "Business Action for Humanitarian Needs" => "Business for Humanitarian Action and Peace",
-      "Decent Work in Global Supply Chains" => "Decent Work in Global Supply Chains",
-    }.freeze
-
     def initialize(credentials)
       @credentials = credentials
     end
@@ -84,107 +72,11 @@ module Igloo
     end
 
     def bulk_upload(contacts)
-      # _reqts=1493056853670
-      # TODO: deal with commas in fields
-
-      headers = [
-        "firstname",
-        "lastname",
-        "email",
-        "customIdentifier",
-        "bio",
-        "birthdate",
-        "gender",
-        "address",
-        "address2",
-        "city",
-        "state",
-        "zipcode",
-        "country",
-        "cellphone",
-        "fax",
-        "busphone",
-        "buswebsite",
-        "company",
-        "department",
-        "occupation",
-        "sector",
-        "im_skype",
-        "im_googletalk",
-        "im_msn",
-        "im_aol",
-        "s_facebook",
-        "s_linkedin",
-        "s_twitter",
-        "website",
-        "blog",
-        "associations",
-        "hobbies",
-        "interests",
-        "skills",
-        "isSAML",
-        "managedByLdap",
-        "s_google",
-        "status",
-        "extension",
-        "i_report_to",
-        "i_report_to_email",
-        "im_skypeforbusiness",
-        "groupsToAdd",
-        "groupsToRemove",
-      ]
-
       lines = []
-      lines << headers.join(",")
-      lines += contacts.map do |contact|
-        attrs = {
-          "firstname" => contact.first_name,
-          "lastname" => contact.last_name,
-          "email" => contact.email,
-          "customIdentifier" => contact.id,
-          "bio" => "",
-          "birthdate" => nil,
-          "gender" => nil,
-          "address" => nil,
-          "address2" => nil,
-          "city" => nil,
-          "state" => nil,
-          "zipcode" => nil,
-          "country" => contact.country.name,
-          "cellphone" => nil,
-          "fax" => nil,
-          "busphone" => nil,
-          "buswebsite" => nil,
-          "company" => contact.organization.name,
-          "department" => nil,
-          "occupation" => contact.job_title,
-          "sector" => contact.organization.sector.try!(:name), # TODO: convert from UNGC => Igloo
-          "im_skype" => nil,
-          "im_googletalk" => nil,
-          "im_msn" => nil,
-          "im_aol" => nil,
-          "s_facebook" => nil,
-          "s_linkedin" => nil,
-          "s_twitter" => nil,
-          "website" => nil,
-          "blog" => nil,
-          "associations" => nil,
-          "hobbies" => nil,
-          "interests" => nil,
-          "skills" => nil,
-          "isSAML" => nil,
-          "managedByLdap" => nil,
-          "s_google" => nil,
-          "status" => nil,
-          "extension" => nil,
-          "i_report_to" => nil,
-          "i_report_to_email" => nil,
-          "im_skypeforbusiness" => nil,
-          "groupsToAdd" => active_groups_for(contact),
-          "groupsToRemove" => inactive_groups_for(contact),
-        }
+      lines << BULK_UPLOAD_HEADERS.join(",")
 
-        attrs.values.join(",")
+      contacts.each do |contact|
+        lines << to_csv_row(contact)
       end
 
       csvData = lines.join("\n")
@@ -241,5 +133,114 @@ module Igloo
       "#{SPACE_NAMES.fetch(platform_name)}~Space Members"
     end
 
+    def to_csv_row(contact)
+      attrs = {
+        "firstname" => contact.first_name,
+        "lastname" => contact.last_name,
+        "email" => contact.email,
+        "customIdentifier" => contact.id,
+        "bio" => "",
+        "birthdate" => nil,
+        "gender" => nil,
+        "address" => nil,
+        "address2" => nil,
+        "city" => nil,
+        "state" => nil,
+        "zipcode" => nil,
+        "country" => contact.country.name,
+        "cellphone" => nil,
+        "fax" => nil,
+        "busphone" => nil,
+        "buswebsite" => nil,
+        "company" => contact.organization.name,
+        "department" => nil,
+        "occupation" => contact.job_title,
+        "sector" => contact.organization.sector.try!(:name), # TODO: convert from UNGC => Igloo
+        "im_skype" => nil,
+        "im_googletalk" => nil,
+        "im_msn" => nil,
+        "im_aol" => nil,
+        "s_facebook" => nil,
+        "s_linkedin" => nil,
+        "s_twitter" => nil,
+        "website" => nil,
+        "blog" => nil,
+        "associations" => nil,
+        "hobbies" => nil,
+        "interests" => nil,
+        "skills" => nil,
+        "isSAML" => nil,
+        "managedByLdap" => nil,
+        "s_google" => nil,
+        "status" => nil,
+        "extension" => nil,
+        "i_report_to" => nil,
+        "i_report_to_email" => nil,
+        "im_skypeforbusiness" => nil,
+        "groupsToAdd" => active_groups_for(contact),
+        "groupsToRemove" => inactive_groups_for(contact),
+      }
+
+      attrs.values.join(",")
+    end
+
+    SPACE_NAMES = {
+      "The Blueprint for SDG Leadership" => "Blueprint for SDG Leadership",
+      "Reporting on the SDGs" => "Reporting on the SDGs",
+      "Breakthrough Innovation" => "Breakthrough Innovation for the SDGs",
+      "Financial Innovation for the SDGs" => "Financial Innovation for the SDGs",
+      "Pathways to Low-Carbon & Resilient Development" => "Pathways to Low-Carbon & Resilient Development",
+      "Health is Everyone's Business" => "Health is Everyone's Business",
+      "Business for Inclusion" => "Business for Inclusion & Gender Equality",
+      "Business Action for Humanitarian Needs" => "Business for Humanitarian Action and Peace",
+      "Decent Work in Global Supply Chains" => "Decent Work in Global Supply Chains",
+    }.freeze
+
+    BULK_UPLOAD_HEADERS = [
+      "firstname",
+      "lastname",
+      "email",
+      "customIdentifier",
+      "bio",
+      "birthdate",
+      "gender",
+      "address",
+      "address2",
+      "city",
+      "state",
+      "zipcode",
+      "country",
+      "cellphone",
+      "fax",
+      "busphone",
+      "buswebsite",
+      "company",
+      "department",
+      "occupation",
+      "sector",
+      "im_skype",
+      "im_googletalk",
+      "im_msn",
+      "im_aol",
+      "s_facebook",
+      "s_linkedin",
+      "s_twitter",
+      "website",
+      "blog",
+      "associations",
+      "hobbies",
+      "interests",
+      "skills",
+      "isSAML",
+      "managedByLdap",
+      "s_google",
+      "status",
+      "extension",
+      "i_report_to",
+      "i_report_to_email",
+      "im_skypeforbusiness",
+      "groupsToAdd",
+      "groupsToRemove",
+    ].freeze
   end
 end

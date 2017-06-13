@@ -25,7 +25,8 @@ class IglooContactsQuery
       joins("inner join action_platform_subscriptions on action_platform_subscriptions.contact_id = contacts.id").
       joins("left join sectors on sectors.id = organizations.sector_id").
       joins("left join countries on countries.id = contacts.country_id").
-      where(recent_updates, *bind_params)
+      where(recent_updates, *bind_params).
+      select("contacts.*, action_platform_subscriptions.status as subscription_status")
   end
 
 end
