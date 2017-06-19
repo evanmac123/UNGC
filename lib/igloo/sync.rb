@@ -11,7 +11,7 @@ module Igloo
       query ||= IglooContactsQuery.new(cutoff)
 
       update_action_platform_signatories(query)
-      # update_staff(query) TODO: re-enable this
+      update_staff(query)
 
       write_new_sync_time
     end
@@ -20,13 +20,13 @@ module Igloo
 
     def update_action_platform_signatories(query)
       contacts = query.action_platform_signatories
-      puts "Updating #{contacts.count} ActionPlatform signatories"
+      puts "Updating ActionPlatform signatories"
       @api.bulk_upload(contacts)
     end
 
     def update_staff(query)
       contacts = query.staff
-      puts "Adding #{contacts.count} staff"
+      puts "Adding staff"
       @api.bulk_upload(contacts)
     end
 
