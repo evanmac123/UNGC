@@ -19,6 +19,10 @@ class Admin::ActionPlatform::PlatformsController < AdminController
     @platform = ::ActionPlatform::Platform.new
   end
 
+  def edit
+    @platform = load_platform
+  end
+
   def create
     @platform = ::ActionPlatform::Platform.new(platform_params)
     if @platform.save

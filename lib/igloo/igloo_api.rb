@@ -113,7 +113,7 @@ module Igloo
       # TODO: eliminate the n+1
       ActionPlatform::Subscription.active.for_contact(contact).
         includes(:platform).
-        flat_map { |s| space_name(s.platform.name) }
+        flat_map { |s| space_name(s.platform.name) }.
         join("|")
     end
 
@@ -122,7 +122,7 @@ module Igloo
       # TODO: eliminate the n+1
       ActionPlatform::Subscription.inactive.for_contact(contact).
         includes(:platform).
-        flat_map { |s| space_name(s.platform.name) }
+        flat_map { |s| space_name(s.platform.name) }.
         join("|")
     end
 
