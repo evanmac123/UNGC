@@ -1,8 +1,8 @@
 class IglooContactsQuery
   attr_reader :cutoff
 
-  def initialize(cutoff = nil)
-    @cutoff ||= DateTime.new(2016, 1, 1)
+  def initialize(cutoff = DateTime.new(2016, 1, 1))
+    @cutoff = cutoff
   end
 
   def staff
