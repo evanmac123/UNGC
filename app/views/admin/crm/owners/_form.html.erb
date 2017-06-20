@@ -1,0 +1,9 @@
+<%= form_for [:admin, @owner] do |f| %>
+  <%= f.label :name, "Participant Manager" %>
+  <%= f.text_field :name %>
+  <%= f.hidden_field :contact_id %>
+  <%#= f.select :contact_id, @participant_managers%>
+  <%= f.label :crm_id, "Salesforce ID" %>
+  <%= f.text_field :crm_id %>
+  <%= f.submit "Save" %>
+<% end %>

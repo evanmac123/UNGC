@@ -36,6 +36,8 @@ en:
         nominee_work_place: "Nominee organization"
         why_nominate: "Reason for nomination"
         accepts_tou: ""
+      donation:
+        token: ""
     errors:
       models:
         sdg_pioneer/submission:
@@ -53,6 +55,15 @@ en:
           attributes:
             accepts_tou:
               blank: "You must accept the agreement"
+        donation:
+          attributes:
+            token:
+              blank: "We were unable to process your donation"
+        donation/form:
+          attributes:
+            invoice_number:
+              invalid_invoice_code: "is invalid, please check it before re-submitting"
+
   notice:
     only_sme: "Only SMEs may submit ExpressCOPs"
     cop_published: "The communication has been published on the Global Compact website"
@@ -168,3 +179,10 @@ en:
     actions:
       submit: "Sign-up"
       signup: "Signup for Action Platforms"
+
+  pending_review: Pending Review
+  in_review: In Review
+  network_review: Network Review
+  delay_review: Delay Review
+  approved: Approved
+  rejected: Rejected

@@ -8,6 +8,14 @@ class AutocompleteQuery
     json(search_or_empty(search_term))
   end
 
+  protected
+
+  def do_search(search_term)
+    @model.select(:id, :name)
+          .order(:name)
+          .where("name like ?", "%#{search_term}%")
+  end
+
   private
 
   def json(items)
@@ -23,10 +31,7 @@ class AutocompleteQuery
   def search_or_empty(search_term, minimum_characters = 2)
     return @model.none if search_term.blank? || search_term.length < minimum_characters
 
-    @model.select(:id, :name)
-          .order(:name)
-          .where("name like ?", "%#{search_term}%")
-          .limit(5)
+    do_search(search_term).limit(5)
   end
 
 end

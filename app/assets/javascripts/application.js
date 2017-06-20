@@ -1,6 +1,7 @@
 //= require 'jquery'
 //= require 'jquery-ui'
 //= require jquery.tablesorter.min
+//= require jquery.priceformat.min
 //= require_tree ./news
 //= require_tree ./library
 //= require accordion
@@ -20,3 +21,4 @@
 //= require tabbed-component
 //= require tied-principles
 //= require_tree ./sdg_pioneer
+//= require donations

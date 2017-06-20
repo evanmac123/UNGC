@@ -33,7 +33,9 @@ class OrganizationUpdater
     registration = organization.registration
     organization.attributes = organization_params
     registration.attributes = registration_params
-    organization.save && registration.save && organization.set_last_modified_by(contact)
+
+    organization.last_modified_by_id = contact.id
+    organization.save && registration.save
   end
 
   def error_message

@@ -8,8 +8,8 @@ development:
   salesforce:
     :host: 'test.salesforce.com'
     :username: 'ben@bitfield.co.ungcfull'
-    :password: 'ungcsalesf0rce'
-    :token: '9iCvBfGrY4U7Gb1GyQvFah8u'
+    :password: 'wbz6jN3sAAp9rXED'
+    :token: '5kr7HVZUrdrkK7TcJDRXHkbb'
     :client_id: '3MVG9ogKZdEXNjz1r3.A6o1O2hjz9FcnWsqF0haXa8I9qsrI0bn4Tyfx2rHJSbGhzHO4KGrHjHlJNQzOa3Syp'
     :client_secret: '6757790698554189730'
     # The only way to push scripts to production are to push to this Sandbox environment first, and publish from there
@@ -20,7 +20,7 @@ development:
 test:
   path_to_cop_xml: 'data/cop_xml'
   salesforce:
-    :host: 'host'
+    :host: 'fake.salesforce.host'
     :username: 'username'
     :password: 'password'
     :token: 'token'
@@ -45,8 +45,8 @@ staging:
   salesforce:
     :host: 'test.salesforce.com'
     :username: 'ben@bitfield.co.ungcfull'
-    :password: 'ungcsalesf0rce'
-    :token: '9iCvBfGrY4U7Gb1GyQvFah8u'
+    :password: 'wbz6jN3sAAp9rXED'
+    :token: '5kr7HVZUrdrkK7TcJDRXHkbb'
     :client_id: '3MVG9ogKZdEXNjz1r3.A6o1O2hjz9FcnWsqF0haXa8I9qsrI0bn4Tyfx2rHJSbGhzHO4KGrHjHlJNQzOa3Syp'
     :client_secret: '6757790698554189730'
     :callback_url: 'https://staging.unglobalcompact.org/salesforce/sync'

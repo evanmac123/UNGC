@@ -1,0 +1,26 @@
+<%=
+  render(partial: 'components/meta_tags', locals: {
+    title: "Contribute",
+    description: "",
+    keywords: ""
+  })
+%>
+
+<%=
+  render(partial: 'components/hero', locals: {
+    hero: {
+      theme: 'dark',
+      size: 'small',
+      title: {first: "Contribute"},
+      image: image_path("donations/plant-hands.jpg")
+    }
+  })
+%>
+
+<section class='main-content-section main-content-section-narrow'>
+
+  <span role="donation-status">
+    <%= flash[:notice] %>
+  </span>
+
+</section>

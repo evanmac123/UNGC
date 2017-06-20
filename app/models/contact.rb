@@ -102,6 +102,10 @@ class Contact < ActiveRecord::Base
   before_update  :do_not_allow_last_ceo_to_uncheck_role
   before_update  :mark_passwords_as_updated
 
+  after_commit Crm::CommitHooks.new(:create), on: :create
+  after_commit Crm::CommitHooks.new(:update), on: :update
+  after_commit Crm::CommitHooks.new(:destroy), on: :destroy
+
   # used for checkbox in sign up form
   # /app/views/signup/step5.html.haml
   attr_accessor :foundation_contact
@@ -198,6 +202,14 @@ class Contact < ActiveRecord::Base
 
   def contact_info
     "#{full_name_with_title}\n#{job_title}\n#{email}\n#{phone}"
+  end
+
+  def full_address
+    if address_more.present?
+      "#{address}\n#{address_more}"
+    else
+      address
+    end
   end
 
   def from_ungc?

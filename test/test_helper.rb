@@ -1,11 +1,13 @@
 require 'simplecov'
 require 'factory_girl'
 SimpleCov.start
+require 'fake_stripe'
 
 ENV["RAILS_ENV"] = "test"
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 require 'capybara/rails'
+require "capybara/poltergeist"
 require 'mocha/setup'
 require 'webmock/minitest'
 require 'test_helpers/integration_test_helper'
@@ -312,6 +314,34 @@ class ActionDispatch::IntegrationTest
 
   def t(*args)
     I18n.t(*args)
+  end
+
+end
+
+class JavascriptIntegrationTest < ActionDispatch::IntegrationTest
+
+  self.use_transactional_fixtures = false
+
+  setup do
+    Capybara.asset_host = "http://localhost:3000"
+    @javascript_driver = Capybara.javascript_driver
+    Capybara.javascript_driver= :poltergeist
+    @default_driver = Capybara.default_driver
+    Capybara.default_driver = :poltergeist
+
+    DatabaseCleaner.strategy = :truncation
+    DatabaseCleaner.start
+  end
+
+  teardown do
+    Capybara.reset!
+    DatabaseCleaner.clean
+    load Rails.root + File.join(".", "db", "seeds.rb")
+
+    # Reset the tools
+    Capybara.javascript_driver = @javascript_driver
+    Capybara.default_driver = @default_driver
+    DatabaseCleaner.strategy = :transaction
   end
 
 end

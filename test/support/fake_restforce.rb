@@ -4,6 +4,7 @@ class FakeRestforce
     @records = {
       'Account' => {},
       'Contact' => {},
+      Crm::DonationSync::SObjectName => {},
     }
   end
 
@@ -53,7 +54,7 @@ class FakeRestforce
     models = @records.fetch(type)
 
     models.values.detect do |model|
-      model[field_name] == value
+      model[field_name].to_s == value.to_s
     end
   end
 

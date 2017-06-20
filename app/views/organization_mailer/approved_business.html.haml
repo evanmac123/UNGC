@@ -66,7 +66,8 @@
 
 %p== Participating companies are expected to make a regular annual financial contribution to help support the work of the UN Global Compact. These donations are vital to our ability to provide a valuable framework for corporate change and to deliver maximum benefit to companies. The Foundation for the Global Compact, a registered 501(c)(3), serves as the financial intermediary for all contributions.
 
-= link_to 'Global Compact Foundation','http://www.unglobalcompact.org/about/foundation'
+= link_to('Global Compact Foundation',
+  "https://www.unglobalcompact.org/about/foundation?contact_id=#{@contact.id}&organization_id=#{@contact.organization_id}", role: "donation-link")
 
 %p
   %strong Monthly Bulletin

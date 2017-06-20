@@ -130,6 +130,10 @@ class Organization < ActiveRecord::Base
   before_save :set_initiative_signatory_sector
   before_destroy :delete_contacts
 
+  after_commit Crm::CommitHooks.new(:create), on: :create
+  after_commit Crm::CommitHooks.new(:update), on: :update
+  after_commit Crm::CommitHooks.new(:destroy), on: :destroy
+
   has_attached_file :commitment_letter,
     :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
     :url => "/system/:attachment/:id/:style/:filename"
@@ -161,6 +165,14 @@ class Organization < ActiveRecord::Base
     3 => 'between USD 250 million and USD 1 billion',
     4 => 'between USD 1 billion and USD 5 billion',
     5 => 'USD 5 billion or more'
+  }.freeze
+
+  REVENUE_AMOUNTS = {
+    1 => 50_000_000,
+    2 => 250_000_000,
+    3 => 1_000_000_000,
+    4 => 5_000_000_000,
+    5 => 10_000_000_000,
   }.freeze
 
   # Suggested pledge levels for funding models correspond to the revenue level
@@ -419,10 +431,6 @@ class Organization < ActiveRecord::Base
     end
   end
 
-  def set_last_modified_by(current_contact)
-    update_attribute :last_modified_by_id, current_contact.id
-  end
-
   def local_network
     country.try(:local_network)
   end
@@ -478,8 +486,7 @@ class Organization < ActiveRecord::Base
   end
 
   def company?
-    organization_type.try(:name) == 'Company' ||
-      organization_type.try(:name) == 'SME'
+    organization_type_name == 'Company' || organization_type_name == 'SME'
   end
 
   def non_business?
@@ -601,6 +608,11 @@ class Organization < ActiveRecord::Base
 
   def revenue_description
     revenue ? REVENUE_LEVELS[revenue] : ''
+  end
+  alias_method :revenue_range, :revenue_description
+
+  def revenue_upper_value
+    REVENUE_AMOUNTS[revenue]
   end
 
   def suggested_pledge
@@ -1005,4 +1017,5 @@ class Organization < ActiveRecord::Base
     def recommitted?
       recommitment_letter && recommitment_letter.updated_at > delisted_on
     end
+
 end
