@@ -83,7 +83,7 @@ module Igloo
 
       body = URI.encode_www_form(
         csvData: csvData,
-        title: "Testing bulk upload",
+        title: "UNGC Website Sync",
         type: "update",
         groupDelimiter: "|",
         spaceDelimiter: "~",
