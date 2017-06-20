@@ -1,0 +1,11 @@
+<table>
+  <% @owners.each do |owner| %>
+    <tr>
+      <td><%= link_to owner.contact.name, edit_admin_crm_owner_path(owner) %></td>
+      <td><%= owner.crm_id %></td>
+      <td><%= link_to "Delete", admin_crm_owner_path(owner), method: :delete, data: { confirm: "Are you sure?" } %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= link_to "New Owner", new_admin_crm_owner_path %>

@@ -5,6 +5,7 @@
     %li <a href="#logos">Logo Requests</a>
     %li <a href="#cops">COPs</a>
     %li <a href="#sign_in_as_contact_point_tab">Sign-in as contact point</a>
+    %li <a href="#crm_owners">CRM Owners</a>
 
   - if @pending_organizations.any?
     #organizations.tab_content
@@ -48,3 +49,8 @@
   #sign_in_as_contact_point_tab.tab_content
     %h3 Sign in as other contacts
     = render partial: 'admin/sign_in_as/form'
+
+  #crm_owners.tab_content
+    %h3 CRM Owners
+    = link_to "CRM Owners", admin_crm_owners_path
+

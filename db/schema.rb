@@ -430,6 +430,40 @@ ActiveRecord::Schema.define(version: 20170529143700) do
 
   add_index "countries", ["participant_manager_id"], name: "index_countries_on_participant_manager_id", using: :btree
 
+  create_table "crm_owners", force: :cascade do |t|
+    t.integer  "contact_id", limit: 4,   null: false
+    t.string   "crm_id",     limit: 255, null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "crm_owners", ["contact_id"], name: "index_crm_owners_on_contact_id", unique: true, using: :btree
+
+  create_table "donations", force: :cascade do |t|
+    t.integer  "amount_cents",     limit: 8,     default: 0,     null: false
+    t.string   "amount_currency",  limit: 255,   default: "USD", null: false
+    t.string   "first_name",       limit: 255,                   null: false
+    t.string   "last_name",        limit: 255,                   null: false
+    t.string   "company_name",     limit: 255,                   null: false
+    t.string   "address",          limit: 255,                   null: false
+    t.string   "address_more",     limit: 255
+    t.string   "city",             limit: 255,                   null: false
+    t.string   "state",            limit: 255,                   null: false
+    t.string   "postal_code",      limit: 255,                   null: false
+    t.string   "country_name",     limit: 255,                   null: false
+    t.string   "email_address",    limit: 255,                   null: false
+    t.integer  "contact_id",       limit: 4
+    t.integer  "organization_id",  limit: 4
+    t.string   "reference",        limit: 255,                   null: false
+    t.string   "response_id",      limit: 255
+    t.text     "full_response",    limit: 65535
+    t.integer  "status",           limit: 4
+    t.datetime "created_at",                                     null: false
+    t.datetime "updated_at",                                     null: false
+    t.string   "invoice_number",   limit: 255
+    t.string   "credit_card_type", limit: 255
+  end
+
   create_table "event_sponsors", force: :cascade do |t|
     t.integer "event_id",   limit: 4
     t.integer "sponsor_id", limit: 4
@@ -1234,6 +1268,7 @@ ActiveRecord::Schema.define(version: 20170529143700) do
   add_foreign_key "action_platform_subscriptions", "action_platform_platforms", column: "platform_id"
   add_foreign_key "action_platform_subscriptions", "contacts"
   add_foreign_key "action_platform_subscriptions", "organizations"
+  add_foreign_key "crm_owners", "contacts"
   add_foreign_key "event_sponsors", "events"
   add_foreign_key "event_sponsors", "sponsors"
   add_foreign_key "events", "contacts"

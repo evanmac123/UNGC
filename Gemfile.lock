@@ -121,6 +121,7 @@ GEM
       orm_adapter (~> 0.5.0)
     climate_control (0.0.3)
       activesupport (>= 3.0)
+    cliver (0.3.2)
     cocaine (0.5.8)
       climate_control (>= 0.0.3, < 1.0)
     coderay (1.1.0)
@@ -186,6 +187,10 @@ GEM
     factory_girl_rails (4.6.0)
       factory_girl (~> 4.5.0)
       railties (>= 3.0.0)
+    fake_stripe (0.0.10.6)
+      capybara
+      sinatra
+      webmock
     faker (1.6.3)
       i18n (~> 0.5)
     faraday (0.9.2)
@@ -412,6 +417,7 @@ GEM
     net-ssh (4.0.0)
     net-ssh-gateway (1.2.0)
       net-ssh (>= 2.6.5)
+    netrc (0.11.0)
     nokogiri (1.7.0.1)
       mini_portile2 (~> 2.1.0)
     non-stupid-digest-assets (1.0.4)
@@ -427,6 +433,10 @@ GEM
       rack
       rake (>= 0.8.1)
     plugger (0.0.4)
+    poltergeist (1.13.0)
+      capybara (~> 2.1)
+      cliver (~> 0.3.1)
+      websocket-driver (>= 0.2.0)
     pry (0.10.1)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -494,6 +504,10 @@ GEM
       listen (~> 2.7, >= 2.7.3)
     responders (2.3.0)
       railties (>= 4.2.0, < 5.1)
+    rest-client (2.0.0)
+      http-cookie (>= 1.0.2, < 2.0)
+      mime-types (>= 1.16, < 4.0)
+      netrc (~> 0.8)
     restforce (2.5.0)
       faraday (~> 0.9.0)
       faraday_middleware (>= 0.8.8)
@@ -556,7 +570,11 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    stripe (1.58.0)
+      rest-client (>= 1.4, < 4.0)
     systemu (2.6.5)
+    test_after_commit (1.1.0)
+      activerecord (>= 3.2)
     thin (1.6.3)
       daemons (~> 1.0, >= 1.0.9)
       eventmachine (~> 1.0)
@@ -635,6 +653,7 @@ DEPENDENCIES
   dynamic_form (~> 1.1.4)
   facets (~> 3.0.0)
   factory_girl_rails (~> 4.0)
+  fake_stripe (~> 0.0.10.6)
   faker
   faraday
   faraday-cookie_jar
@@ -658,6 +677,7 @@ DEPENDENCIES
   paperclip (~> 4.3.6)
   passenger (~> 4.0.60)
   plugger
+  poltergeist (~> 1.10)
   pry-rails
   quiet_assets
   rack-request_replication!
@@ -678,6 +698,8 @@ DEPENDENCIES
   spreadsheet (= 0.6.5.9)
   spring
   state_machine!
+  stripe (~> 1.58)
+  test_after_commit (~> 1.1)
   thin
   thinking-sphinx (~> 3.2.0)
   uglifier (~> 2.7.2)

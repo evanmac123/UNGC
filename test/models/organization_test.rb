@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require 'test_helper'
 
 class OrganizationTest < ActiveSupport::TestCase
@@ -428,13 +429,13 @@ class OrganizationTest < ActiveSupport::TestCase
                      status: "pending")
     expired = create(:action_platform_subscription, organization: organization,
                      status: "approved",
-                     expires_on: Date.yesterday)
+                     expires_on: Time.zone.yesterday)
 
-    subs = organization.action_platform_subscriptions
+    subs = organization.action_platform_subscriptions.pluck(:id)
 
-    assert_includes subs, approved
-    assert_not_includes subs, pending
-    assert_not_includes subs, expired
+    assert_includes subs, approved.id
+    assert_not_includes subs, pending.id
+    assert_not_includes subs, expired.id
   end
 
 end

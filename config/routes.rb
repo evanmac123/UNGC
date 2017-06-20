@@ -198,6 +198,10 @@ UNGC::Application.routes.draw do
         end
       end
     end
+
+    namespace :crm do
+      resources :owners, except: [:show]
+    end
   end
 
   # public api
@@ -212,6 +216,7 @@ UNGC::Application.routes.draw do
         get :participants
         get :countries
         get :sdg_pioneer_submissions
+        get :staff
       end
 
     end
@@ -253,6 +258,14 @@ UNGC::Application.routes.draw do
 
     get '/(*path)' => 'index#frontend', as: :root, format: :html
   end
+
+	controller :donations, path: 'contributions' do
+		get '' => :new, as: :new_donation
+		post '' => :create, as: :donations
+    get 'confirmation' => :confirmation, as: :donation_confirmation
+	end
+
+  get '/about/foundation' => 'donations#index'
 
   controller :library, path: 'library' do
     get ''                                        => :index,  as: :library
@@ -318,7 +331,6 @@ UNGC::Application.routes.draw do
 
   #Redirect for cop for company that is now banned from UNGC system
   get '/participation/report/cop/create-and-submit/advanced/274431', to: redirect('/what-is-gc/participants/83761-T-C-Network-Solutions')
-
 
   get '/participation/report/coe/create-and-submit/submitted-coe' => "cops#submitted_coe"
   get '/participation/report/coe/create-and-submit/submitted-coe/:id' => "cops#show", as: :coe
@@ -571,7 +583,6 @@ UNGC::Application.routes.draw do
   get '/participantsandstakeholders/civil_society.html', to: redirect('/what-is-gc/participants')
   get '/NewsAndEvents/event_calendar/index.html', to: redirect('/take-action/events')
   get '/COP/communicating_progress/basic_cop_template.html', :to => redirect('/library/2971')
-
 
   # google links
   get '/aboutthegc', to: redirect('/what-is-gc')

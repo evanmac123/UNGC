@@ -13,6 +13,11 @@ class Api::V1::AutocompleteController < ApplicationController
     render json: autocomplete(Country.all)
   end
 
+  def staff
+    authenticate_contact!
+    render json: AutocompleteContactQuery.new.search(term)
+  end
+
   private
 
   def autocomplete(scope)

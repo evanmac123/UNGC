@@ -37,6 +37,8 @@ module Crm
       else
         client.find(type, id_or_field, field_name)
       end
+    rescue Faraday::Error::ResourceNotFound
+      nil
     end
 
     def update(type, id, params)
@@ -48,15 +50,11 @@ module Crm
     end
 
     def find_account(organization_id)
-      query = "select Id from Account where AccountNumber = '#{organization_id}'"
-      accounts = client.query(query)
-      accounts.first
+      find('Account', organization_id.to_s, 'UNGC_ID__c')
     end
 
     def find_contact(contact_id)
-      client.find('Contact', contact_id, 'UNGC_Contact_ID__c')
-    rescue Faraday::Error::ResourceNotFound
-      nil
+      find('Contact', contact_id.to_s, 'UNGC_Contact_ID__c')
     end
 
     def self.coerce(value)
@@ -73,6 +71,10 @@ module Crm
       when Date
         # YYYY-MM-DD
         value.strftime("%Y-%m-%d")
+      when Hash
+        value.transform_values { |v| coerce(v) }
+      else
+        raise "Unexpected type: #{value.class}"
       end
     end
 

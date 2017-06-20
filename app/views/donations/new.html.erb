@@ -1,0 +1,158 @@
+<%=
+  render(partial: 'components/meta_tags', locals: {
+    title: "Contribute",
+    description: "",
+    keywords: ""
+  })
+%>
+
+<%=
+  render(partial: 'components/hero', locals: {
+    hero: {
+      theme: 'dark',
+      size: 'small',
+      title: {first: "Contribute"},
+      image: image_path("donations/plant-hands.jpg")
+    }
+  })
+%>
+
+<script type="text/javascript">
+  Stripe.setPublishableKey("<%= @donation.publishable_key %>");
+</script>
+
+<section class='main-content-section main-content-section-narrow'>
+
+  <%= form_for @donation, url: donations_path, as: :donation, html: { class: 'form-classic wrapper' }  do |form| %>
+
+    <section class='main-content-body'>
+
+      <% if @donation.errors.any? %>
+        <div class="errors-container">
+          <h2><%= pluralize(@donation.errors.count, "error") %> prohibited your contribution from being submitted:</h2>
+
+          <ul class='errors-list'>
+            <% @donation.errors.full_messages.each do |message| %>
+              <li class='error'><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <p class="form-header">1. Your Contribution</p>
+
+      <div class="field field-required field-has-placeholder">
+        <%= form.label :amount, "Annual contribution amount (USD)" %>
+        <%= form.text_field(:amount, length: 5, value: @donation.formatted_amount,
+                            placeholder: "Annual contribution amount") %>
+      </div>
+
+      <span class="line"></span>
+      <div class="clear"></div>
+      <p class="form-header">2. Your Information</p>
+
+      <div class="field field-required field-has-placeholder four-8">
+        <%= form.label :first_name %>
+        <%= form.text_field :first_name, length: 20, placeholder: "First name" %>
+      </div>
+
+      <div class="field field-required field-has-placeholder four-8">
+        <%= form.label :last_name %>
+        <%= form.text_field :last_name, length: 20, placeholder: "Last name" %>
+      </div>
+
+      <div class="field field-required field-has-placeholder four-8 clear">
+        <%= form.label :company_name %>
+        <%= form.text_field(:company_name, length: 20, placeholder: "Organization name",
+                            data: { autocomplete: "participants" }) %>
+      </div>
+
+      <div class="field field-required field-has-placeholder six-8">
+        <%= form.label :address %>
+        <%= form.text_field(:address, length: 20, data: { stripe: "address_line1" },
+                            placeholder: "Address") %>
+      </div>
+
+      <div class="field field-required field-has-placeholder two-8">
+        <%= form.label :address_more %>
+        <%= form.text_field(:address_more, length: 20, data: { stripe: "address_line2" },
+                            placeholder: "Address line 2") %>
+      </div>
+
+      <div class="field field-required field-has-placeholder four-8">
+        <%= form.label :city %>
+        <%= form.text_field(:city, length: 20, data: { stripe: "address_city" },
+                            placeholder: "City") %>
+      </div>
+
+      <div class="field field-required field-has-placeholder two-8">
+        <%= form.label :state %>
+        <%= form.text_field(:state, length: 20, data: { stripe: "address_state" },
+                            placeholder: "State/Province") %>
+      </div>
+
+      <div class="field field-required field-has-placeholder two-8">
+        <%= form.label :postal_code %>
+        <%= form.text_field(:postal_code, length: 6, data: { stripe: "address_zip" },
+                            placeholder: "Zip/Postal Code") %>
+      </div>
+
+      <div class="field field-required field-has-placeholder">
+        <%= form.label :country_name %>
+        <%= form.text_field(:country_name, length: 20, data: { stripe: "address_country" },
+                            placeholder: "Country") %>
+      </div>
+
+      <div class="field field-required field-has-placeholder">
+        <%= form.label :email_address %>
+        <%= form.text_field :email_address, length: 6, placeholder: "E-mail Address" %>
+      </div>
+
+      <span class="line"></span>
+      <div class="clear"></div>
+      <p class="form-header">3. Payment Information</p>
+
+      <div class="field field-required field-has-placeholder four-8">
+        <%= form.label :credit_card_type %>
+        <%= form.select(:credit_card_type, @donation.credit_card_types, prompt: "Credit card type") %>
+      </div>
+
+      <div class="field field-required field-has-placeholder four-8">
+        <input type="text" size="20" data-stripe="number" placeholder="Card Number">
+      </div>
+
+      <div class="field field-required field-has-placeholder four-8">
+        <%= text_field_tag nil, @donation.name_on_card, data: { stripe: "name" }, placeholder: "Name (as it appears on card)" %>
+      </div>
+
+      <div class="field field-required field-has-placeholder four-8">
+        <%= form.label :invoice_number %>
+        <%= form.text_field(:invoice_number, length: 20,
+                            placeholder: "Invoice ID") %>
+      <p class="small">Please refer to your invoice or other documentation from the Global Compact</p>
+      </div>
+
+      <div class="field field-required field-has-placeholder two-8">
+        <input type="text" size="2" data-stripe="exp_month" placeholder="Month (MM)">
+      </div>
+
+      <div class="field field-required field-has-placeholder two-8">
+        <input type="text" size="2" data-stripe="exp_year" placeholder="Year (YY)">
+      </div>
+
+      <div class="field field-required field-has-placeholder three-8">
+        <input type="text" size="4" data-stripe="cvc" placeholder="CVC">
+        <p class="small">The 3-digit number on the back of your credit card. American Express users, it is the 4-digit number on the front of your card.</p>
+      </div>
+
+      <%= form.hidden_field :contact_id %>
+      <%= form.hidden_field :organization_id %>
+
+      <input type="submit" class="submit clear" value="Contribute">
+      <span class="payment-errors"></span>
+      <br><br><p>The Foundation for the Global Compact is a non-profit, charitable organization registered in the United States (US Tax ID 16-1756484), therefore your contribution may be tax-deductible in your jurisdiction.</p>
+    <% end %>
+
+  </section>
+
+</section>

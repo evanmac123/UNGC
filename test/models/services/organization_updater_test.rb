@@ -16,9 +16,11 @@ class OrganizationUpdaterTest < ActiveSupport::TestCase
 
       # TODO investigate these
       @organization.expects(:set_replied_to).once
-      @organization.expects(:set_last_modified_by).once
+      @organization.expects(:last_modified_by_id=).
+        with(@organization_user.id).
+        once
 
-      @u.update(@organization, @organization_user)
+      assert @u.update(@organization, @organization_user)
     end
   end
 

@@ -53,6 +53,7 @@ gem 'htmlentities', '~> 4.3', '>= 4.3.4'
 gem 'sinatra', '>= 1.3.0', :require => nil
 gem 'rack-request_replication', git: 'https://github.com/bitfield-co/rack-request_replication.git', branch: 'master'
 gem 'rails_event_store', '~> 0.14.3'
+gem 'stripe', '~> 1.58'
 gem 'saml_idp'
 gem 'faraday'
 gem 'faraday-cookie_jar'
@@ -75,6 +76,9 @@ group :test do
   gem 'mocha', '~> 1.1.0'
   gem 'database_cleaner'
   gem 'webmock'
+  gem 'test_after_commit', '~> 1.1'
+  gem 'poltergeist', '~> 1.10'
+  gem 'fake_stripe', '~> 0.0.10.6', require: false
   gem 'ruby-saml'
 end
 
