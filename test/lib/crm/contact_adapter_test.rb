@@ -42,6 +42,13 @@ class Crm::ContactAdapterTest < ActiveSupport::TestCase
     assert_equal "+1-234-345-4567", converted.fetch("Phone")
   end
 
+  test "truncates phone numbers" do
+    long = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQR"
+    expected = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJK..."
+    converted = convert_contact(phone: long)
+    assert_equal expected, converted.fetch("Phone")
+  end
+
   test "converts MobilePhone" do
     converted = convert_contact(mobile: "+1-234-345-4567")
     assert_equal "+1-234-345-4567", converted.fetch("MobilePhone")

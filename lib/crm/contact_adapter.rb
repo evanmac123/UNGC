@@ -1,32 +1,26 @@
 module Crm
-  class ContactAdapter
+  class ContactAdapter < AdapterBase
 
     def to_crm_params(contact)
       {
-        'UNGC_Contact_ID__c' => contact.id,     # Number(18,0)
-        'Salutation' => contact.prefix,         # Picklist
-        'FirstName' => contact.first_name,      # Text(40)
-        'LastName' => contact.last_name,        # Text(80)
-        'Title' => contact.job_title,           # Text(128)
-        'OwnerId' => find_owner(contact),       # Lookup(User)
-        'Email' => contact.email,               # Email
-        'Phone' => contact.phone,               # Phone
-        'MobilePhone' => contact.mobile,        # Phone
-        'npe01__PreferredPhone__c' => "Work",   # Picklist
-        'Fax' => contact.fax,                   # Fax
-        'Role__c' => contact.roles
-          .map(&:name)
-          .join(";"),                           # Picklist (Multi-Select)
-
-        # These are combined into an Address type
-        'MailingStreet' => contact.full_address,
-        'MailingCity' => contact.city,
-        'MailingState' => contact.state,
-        'MailingPostalCode' => contact.postal_code.try!(:truncate, 20),
-        'MailingCountry' => contact.country.name,
-      }.transform_values do |value|
-        Crm::Salesforce.coerce(value)
-      end
+        'UNGC_Contact_ID__c' => number(contact.id),
+        'Salutation' => picklist(contact.prefix),
+        'FirstName' => text(contact.first_name, 40),
+        'LastName' => text(contact.last_name, 80),
+        'Title' => text(contact.job_title, 128),
+        'OwnerId' => find_owner(contact),
+        'Email' => email(contact.email),
+        'Phone' => phone(contact.phone),
+        'MobilePhone' => phone(contact.mobile),
+        'npe01__PreferredPhone__c' => picklist("Work"),
+        'Fax' => fax(contact.fax),
+        'Role__c' => picklist(contact.roles.map(&:name)),
+        'MailingStreet' => text(contact.full_address),
+        'MailingCity' => text(contact.city),
+        'MailingState' => text(contact.state),
+        'MailingPostalCode' => postal_code(contact.postal_code),
+        'MailingCountry' => text(contact.country.name),
+      }
     end
 
     private
