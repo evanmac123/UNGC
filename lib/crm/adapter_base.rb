@@ -36,7 +36,7 @@ module Crm
     protected
 
     def coerce(input)
-      Salesforce.coerce(input)
+      Crm::Salesforce.coerce(input)
     end
   end
 end
