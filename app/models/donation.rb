@@ -48,6 +48,12 @@ class Donation < ActiveRecord::Base
     self.company_name ||= organization.try!(:name)
   end
 
+  before_validation do
+    if organization_id.blank? && company_name.present?
+      self.organization = Organization.find_by(name: company_name)
+    end
+  end
+
   validates :amount, presence: true
   validates :first_name, presence: true
   validates :last_name, presence: true
