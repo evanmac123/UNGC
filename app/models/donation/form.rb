@@ -73,7 +73,7 @@ class Donation::Form < Donation
         publishable_key: pk_test_.....
         secret_key: sk_test_.....
 
-      to config/secrets.yml
+      to config/secrets.yml under the 'development' and 'test' sections
       See config/secrets.yml.example
 
       MESSAGE

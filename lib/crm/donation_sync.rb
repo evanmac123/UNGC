@@ -24,11 +24,14 @@ module Crm
     private
 
     def to_crm(donation)
+      # NB we need to parse the raw stripe response
+      # so that we can serialize it all back down as a single
+      # JSON field.
       {
         IdField => donation.id,
         MetadataField => {
           ungc: donation.metadata,
-          stripe_response: donation.full_response,
+          stripe_response: JSON.parse(donation.full_response),
         }.to_json
       }.transform_values do |value|
         Crm::Salesforce.coerce(value)
