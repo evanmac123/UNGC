@@ -53,13 +53,13 @@ class Salesforce::ApiControllerTest < ActionController::TestCase
     attrs = contribution_attributes(params).with_indifferent_access
     id = attrs[:id]
     sync(attrs)
-    Contribution.find_by_contribution_id(id)
+    Contribution.find_by(contribution_id: id)
   end
 
   def send_update_contribution(params = {})
     id = params[:id] || @id
     sync({"id" => id, "type" => 'contribution'}.merge(params))
-    Contribution.find_by_contribution_id(id)
+    Contribution.find_by(contribution_id: id)
   end
 
   context "Campaigns" do
