@@ -44,12 +44,17 @@ class SalesforceSync
           record.update!(args)
         elsif args[:is_deleted] == true
           Rails.logger.warn(<<-WARNING)
-                          The record #{id} is being deleted, but we never had it
-                          in the first place. Ignoring the command.
-                          WARNING
+            The record #{id} is being deleted, but we never had it
+            in the first place. Ignoring the command.
+          WARNING
           nil
         else
-          create_record(args)
+          begin
+            create_record(args)
+          rescue ActiveRecord::RecordNotUnique
+            record = find_record(id)
+            record.update!(args)
+          end
         end
       end
     end
