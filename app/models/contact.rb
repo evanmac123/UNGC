@@ -175,7 +175,7 @@ class Contact < ActiveRecord::Base
   end
 
   scope :for_country, lambda { |country| where(:country_id => country.id) }
-  scope :with_login, lambda { where("username IS NOT NULL") }
+  scope :with_login, lambda { where("username IS NOT NULL and username != ''") }
 
   def name
     [first_name, last_name].join(' ')

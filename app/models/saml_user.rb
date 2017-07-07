@@ -12,7 +12,7 @@ class SamlUser
     return if contact.nil?
     return unless contact.valid_password?(password)
 
-    if authorized?(contact)
+    if can_login?(contact)
       track_igloo_sign_in(contact)
       self.new(contact)
     end
@@ -28,8 +28,9 @@ class SamlUser
 
   private
 
-  def self.authorized?(contact)
-    contact.from_ungc? || ActionPlatform::Subscription.has_active_subscription?(contact)
+  def self.can_login?(contact)
+    policy = Igloo::SignInPolicy.new
+    policy.can_sign_in?(contact)
   end
 
   # keep track of which contacts have signed in via SAML
