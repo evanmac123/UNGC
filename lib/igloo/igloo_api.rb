@@ -71,18 +71,11 @@ module Igloo
       # X-File-Size:250568
     end
 
-    def bulk_upload(contacts)
-      lines = []
-      lines << BULK_UPLOAD_HEADERS.join(",")
-
-      contacts.each do |contact|
-        lines << to_csv_row(contact)
-      end
-
-      csvData = lines.join("\n")
+    def bulk_upload(csv)
+      return if csv.blank?
 
       body = URI.encode_www_form(
-        csvData: csvData,
+        csvData: csv,
         title: "UNGC Website Sync",
         type: "update",
         groupDelimiter: "|",
@@ -104,143 +97,17 @@ module Igloo
         request.body = body
       end
 
-      response
+      if response.success?
+        response
+      else
+        path = "./tmp/failed-igloo-sync.csv"
+        File.open(path, "w") do |f|
+          f.write(csv)
+        end
+        raise response.body.to_s
+        puts "the failed csv can be found here: #{path}"
+      end
     end
 
-    # Pipe delimited list of Action Platform Spaces on igloo
-    def active_groups_for(contact)
-      # TODO: don't do the database work here
-      # TODO: eliminate the n+1
-      ActionPlatform::Subscription.active.for_contact(contact).
-        includes(:platform).
-        flat_map { |s| space_name(s.platform.name) }.
-        join("|")
-    end
-
-    def inactive_groups_for(contact)
-      # TODO: don't do the database work here
-      # TODO: eliminate the n+1
-      ActionPlatform::Subscription.inactive.for_contact(contact).
-        includes(:platform).
-        flat_map { |s| space_name(s.platform.name) }.
-        join("|")
-    end
-
-    # Members are added to Igloo spaces by appending "~Space Members"
-    # To the name of the group. This `space_name` translates the ActionPlatform name
-    # in the database to match the Spaces in Igloo
-    def space_name(platform_name)
-      "#{SPACE_NAMES.fetch(platform_name)}~Space Members"
-    end
-
-    def to_csv_row(contact)
-      attrs = {
-        "firstname" => contact.first_name,
-        "lastname" => contact.last_name,
-        "email" => contact.email,
-        "customIdentifier" => contact.id,
-        "bio" => "",
-        "birthdate" => nil,
-        "gender" => nil,
-        "address" => nil,
-        "address2" => nil,
-        "city" => nil,
-        "state" => nil,
-        "zipcode" => nil,
-        "country" => contact.country.name,
-        "cellphone" => nil,
-        "fax" => nil,
-        "busphone" => nil,
-        "buswebsite" => nil,
-        "company" => contact.organization.name,
-        "department" => nil,
-        "occupation" => contact.job_title,
-        "sector" => contact.organization.sector.try!(:name), # TODO: convert from UNGC => Igloo
-        "im_skype" => nil,
-        "im_googletalk" => nil,
-        "im_msn" => nil,
-        "im_aol" => nil,
-        "s_facebook" => nil,
-        "s_linkedin" => nil,
-        "s_twitter" => nil,
-        "website" => nil,
-        "blog" => nil,
-        "associations" => nil,
-        "hobbies" => nil,
-        "interests" => nil,
-        "skills" => nil,
-        "isSAML" => nil,
-        "managedByLdap" => nil,
-        "s_google" => nil,
-        "status" => nil,
-        "extension" => nil,
-        "i_report_to" => nil,
-        "i_report_to_email" => nil,
-        "im_skypeforbusiness" => nil,
-        "groupsToAdd" => active_groups_for(contact),
-        "groupsToRemove" => inactive_groups_for(contact),
-      }
-
-      attrs.values.join(",")
-    end
-
-    SPACE_NAMES = {
-      "The Blueprint for SDG Leadership" => "Blueprint for SDG Leadership",
-      "Reporting on the SDGs" => "Reporting on the SDGs",
-      "Breakthrough Innovation" => "Breakthrough Innovation for the SDGs",
-      "Financial Innovation for the SDGs" => "Financial Innovation for the SDGs",
-      "Pathways to Low-Carbon & Resilient Development" => "Pathways to Low-Carbon & Resilient Development",
-      "Health is Everyone's Business" => "Health is Everyone's Business",
-      "Business for Inclusion" => "Business for Inclusion & Gender Equality",
-      "Business Action for Humanitarian Needs" => "Business for Humanitarian Action and Peace",
-      "Decent Work in Global Supply Chains" => "Decent Work in Global Supply Chains",
-    }.freeze
-
-    BULK_UPLOAD_HEADERS = [
-      "firstname",
-      "lastname",
-      "email",
-      "customIdentifier",
-      "bio",
-      "birthdate",
-      "gender",
-      "address",
-      "address2",
-      "city",
-      "state",
-      "zipcode",
-      "country",
-      "cellphone",
-      "fax",
-      "busphone",
-      "buswebsite",
-      "company",
-      "department",
-      "occupation",
-      "sector",
-      "im_skype",
-      "im_googletalk",
-      "im_msn",
-      "im_aol",
-      "s_facebook",
-      "s_linkedin",
-      "s_twitter",
-      "website",
-      "blog",
-      "associations",
-      "hobbies",
-      "interests",
-      "skills",
-      "isSAML",
-      "managedByLdap",
-      "s_google",
-      "status",
-      "extension",
-      "i_report_to",
-      "i_report_to_email",
-      "im_skypeforbusiness",
-      "groupsToAdd",
-      "groupsToRemove",
-    ].freeze
   end
 end

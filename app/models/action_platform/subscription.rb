@@ -34,9 +34,18 @@ class ActionPlatform::Subscription < ActiveRecord::Base
     self.status ||= "pending"
   end
 
-  scope :active, -> { approved.where("expires_on >= ?", Time.zone.now) }
+  scope :active, -> { approved.where("expires_on >= ?", Time.zone.now.to_date) }
   scope :inactive, -> { where("status = 0 or expires_on < ?", Time.zone.now.to_date) }
   scope :for_contact, -> (contact) { active.where(contact: contact) }
+
+  def active?
+    approved? && (expires_on >= Time.zone.now.to_date)
+  end
+
+  def inactive?
+    !approved? || (expires_on < Time.zone.now.to_date)
+  end
+
   def expired?
     Date.today > expires_on
   end

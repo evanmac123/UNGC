@@ -66,8 +66,7 @@ class SamlUserTest < ActiveSupport::TestCase
 
   test "it allows staff to authenticate" do
     # Given a staff contact
-    ungc = Organization.find_by(name: "UNGC")
-    staff = create(:contact, organization: ungc)
+    staff = create(:staff_contact)
 
     # When we authenticate
     user = SamlUser.authenticate(staff.username, staff.password)

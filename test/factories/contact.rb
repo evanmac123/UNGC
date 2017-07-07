@@ -21,5 +21,9 @@ FactoryGirl.define do
       ].join
     }
     last_password_changed_at { Contact::STRONG_PASSWORD_POLICY_DATE }
+
+    factory :staff_contact do
+      organization { Organization.find_by!(name: DEFAULTS[:ungc_organization_name]) }
+    end
   end
 end
