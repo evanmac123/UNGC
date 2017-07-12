@@ -534,6 +534,7 @@ UNGC::Application.routes.draw do
   get '/UNPrivateSectorForum2016', to: redirect('/take-action/events/691-united-nations-private-sector-forum-2016')
   get '/COP/', to: redirect('participation/report')
   get '/UNGA17', to: redirect('/take-action/events/leaders-summit-2017/ga-week-business-guide')
+  get '/unga17', to: redirect('/take-action/events/leaders-summit-2017/ga-week-business-guide')
   get '/SDGMatrix', to: redirect('/library/3111')
 
   #redirect for delisted company
