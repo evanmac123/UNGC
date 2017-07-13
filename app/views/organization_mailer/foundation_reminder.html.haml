@@ -40,7 +40,9 @@
     %td
       USD 250 (suggested minimum)
 
-%p==The following link will take you to the online donation page of the Foundation's website where you can make your contribution by credit card: http://globalcompactfoundation.org/donate/?invoice=#{@organization.invoice_id}
+%p
+  The following link will take you to the online donation page where you can make your contribution by credit card:
+  = link_to "Contribution Form", "https://www.unglobalcompact.org/contributions"
 
 %p Additional payment methods *
 
@@ -65,7 +67,7 @@
 %p
   Account name: Foundation for the Global Compact
   %br/
-  Bank: Wells Fargo Bank, N.A. 420 Montgomery St., San Francisco, CA 94104, USA 
+  Bank: Wells Fargo Bank, N.A. 420 Montgomery St., San Francisco, CA 94104, USA
   %br/
   Account number: 7348801387
   %br/
@@ -77,12 +79,12 @@
 
 %p
   %strong (2) ACH Payment
-  
+
 %p
   ABA Routing Number: 026012881
   %br/
   Account Number: 7348801387
-  
+
 %strong Please note:
 Contributions cannot be credited to your company unless payments include the following Invoice ID:
 %strong= @organization.invoice_id
