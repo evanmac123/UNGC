@@ -31,16 +31,37 @@ module Crm
 
       params['AccountId'] = account_id || lookup_account_id(ungc_contact)
 
-      contact_id = if sf_contact.nil?
-                     params['npe01__PreferredPhone__c'] = "Work"
-                     @crm.create('Contact', params)
-                   else
-                     params['npe01__PreferredPhone__c'] = sf_contact.npe01__PreferredPhone__c || "Work"
-                     @crm.update('Contact', sf_contact.Id, params)
-                     sf_contact.Id
-                   end
+      if sf_contact.nil?
+        params['npe01__PreferredPhone__c'] = "Work"
+        create_contact(params)
+      else
+        params['npe01__PreferredPhone__c'] = sf_contact.npe01__PreferredPhone__c || "Work"
+        update_contact(sf_contact.Id, params)
+        sf_contact.Id
+      end
+    end
 
-      contact_id
+    private
+
+    def create_contact(params)
+      @crm.create('Contact', params)
+    rescue Faraday::ClientError => e
+      duplicate_pattern = /UNGC_Contact_ID__c duplicates value on record with id: (\w+)/
+
+      matches = duplicate_pattern.match(e.to_s)
+      if matches
+        # this is a concurrency error, the record has been created since we checked
+        # try again as an update
+        salesforce_id = matches[1]
+        update_contact(salesforce_id, params)
+      else
+        # Not sure what this is, raise it again
+        raise e
+      end
+    end
+
+    def update_contact(salesforce_id, params)
+      @crm.update('Contact', salesforce_id, params)
     end
 
     def lookup_account_id(ungc_contact)
