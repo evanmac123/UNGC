@@ -1,5 +1,4 @@
 require "test_helper"
-skip
 
 class DonationIntegrationTest < JavascriptIntegrationTest
 
@@ -7,6 +6,7 @@ class DonationIntegrationTest < JavascriptIntegrationTest
   teardown { FakeStripe.reset }
 
   test "submitting a donation" do
+    skip
     # Given I am logged in as an organization user
     contact = create_organization_user
     login_as(contact)
