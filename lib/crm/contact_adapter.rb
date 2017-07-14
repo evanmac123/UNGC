@@ -26,8 +26,11 @@ module Crm
     private
 
     def find_owner(contact)
-      manager_id = contact.organization.try!(:participant_manager_id)
-      Crm::Owner.owner_id(manager_id)
+      owner_id = contact.organization.
+        try!(:participant_manager).
+        try!(:crm_owner).
+        try!(:crm_id)
+      owner_id || Crm::Owner::DEFAULT_OWNER_ID
     end
 
   end

@@ -51,9 +51,9 @@ module Crm
     def upsert_contacts(organization, account_id)
       contact_sync = Crm::ContactSync.new(@crm)
 
-      organization.contacts.map do |ungc_contact|
-        contact_sync.upsert(ungc_contact, account_id: account_id)
-      end
+      organization.contacts.
+        includes(:roles, :country, organization: [participant_manager: [:crm_owner]]).
+        each { |c| contact_sync.upsert(c, account_id: account_id) }
     end
 
   end

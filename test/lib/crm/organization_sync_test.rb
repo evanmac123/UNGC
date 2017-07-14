@@ -18,7 +18,7 @@ class Crm::OrganizationSyncTest < ActiveSupport::TestCase
   # TODO This test overlaps with the functional test, merge them
   test "after updating an organization, new contacts are created" do
     contact = create(:contact)
-    organization = build_stubbed(:organization, contacts: [contact])
+    organization = create(:organization, contacts: [contact])
 
     crm = mock("crm")
     crm.expects(:log)
@@ -42,7 +42,7 @@ class Crm::OrganizationSyncTest < ActiveSupport::TestCase
   # TODO This test overlaps with the functional test, merge them
   test "after creating an organization, existing contacts are updated" do
     contact = create(:contact)
-    organization = build_stubbed(:organization, contacts: [contact])
+    organization = create(:organization, contacts: [contact])
 
     crm = mock("crm")
     crm.expects(:log)

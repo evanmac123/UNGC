@@ -33,7 +33,7 @@ module Crm
         "Rejoined_On__c" => organization.rejoined_on, # Date
         "Local_Network__c" => organization.local_network.present?, # Checkbox
         "State__c" => I18n.t(organization.state), # Picklist
-        "OwnerId" => Crm::Owner.owner_id(organization.participant_manager_id), # Lookup(User)
+        "OwnerId" => organization.participant_manager.try!(:crm_owner).try!(:crm_id) || Crm::Owner::DEFAULT_OWNER_ID,
         "Removal_Reason__c" => organization.removal_reason.try!(:description), # Picklist
         "ISIN__c" => organization.isin, # Text(40)
         # Billing Address

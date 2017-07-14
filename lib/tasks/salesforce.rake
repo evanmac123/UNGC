@@ -30,15 +30,20 @@ namespace :salesforce do
   desc "seed the salesforce contact => sf mapping"
   task seed_owners: :environment do
     {
-      18334 => '005A00000039Eu7',  # Gordana
-      32100 => '005A0000003aYu4',  # Ben
-      38847 => '005A0000003YpfW',  # Alex Tarazi
-      40613 => '005A0000003Ypfb',  # Naoko
-      121481 => '00512000005yehm', # Thorin*/
-      134581 => '005A0000005ZOKV', # Carolina
-      137681 => '005120000063TB4', # Sigrun
-    }.each do |contact_id, sf_id|
-      Crm::Owner.create!(contact_id: contact_id, crm_id: sf_id)
+      "filipic@unglobalcompact.org"          => '005A00000039Eu7', # Gordana
+      "africa@unglobalcompact.org"           => '005A00000039Eu7', # Gordana
+      "kimura@unglobalcompact.org"           => '005A0000003Ypfb', # Naoko
+      "liu@unglobalcompact.org"              => '005A0000003Ypfb', # Naoko
+      "chin@unglobalcompact.org"             => '005A0000003aYu4', # Ben
+      "tarazi@unglobalcompact.org"           => '005A0000003YpfW', # Alex Tarazi
+      "schriber@globalcompactfoundation.org" => '00512000005yehm', # Thorin
+      "lima@unglobalcompact.org"             => '005A0000005ZOKV', # Carolina
+      "skudem@unglobalcompact.org"           => '005120000063TB4', # Sigrun
+    }.each do |email, salesforce_id|
+      contact = Contact.find_by!(email: email)
+      Crm::Owner.find_or_create_by(contact: contact) do |owner|
+        owner.crm_id = salesforce_id
+      end
     end
   end
 
