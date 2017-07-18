@@ -3,7 +3,7 @@ class Salesforce::ApiController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
   def sync
-    status = if SalesforceSync.sync job_params[:_json]
+    status = if SalesforceSync.sync_async job_params[:_json]
       :ok
     else
       :unprocessable_entity
