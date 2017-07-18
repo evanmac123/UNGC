@@ -9,7 +9,7 @@ class SalesforceSync
     include Sidekiq::Worker
 
     def perform(jobs)
-      sync = SalesforceSync.new
+      sync = SalesforceSync.new(jobs)
       sync.process
     end
 
