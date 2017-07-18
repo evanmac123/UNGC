@@ -32,6 +32,7 @@ class SalesforceSync
     attr_reader :id, :args
 
     def self.create(args)
+      args = args.with_indifferent_access
       type = args.delete(:type)
       id = args.delete(:id)
       args = args
