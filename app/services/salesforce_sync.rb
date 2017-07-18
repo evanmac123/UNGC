@@ -5,6 +5,20 @@ class SalesforceSync
     new(jobs).process
   end
 
+  class Worker
+    include Sidekiq::Worker
+
+    def perform(jobs)
+      sync = SalesforceSync.new
+      sync.process
+    end
+
+  end
+
+  def self.sync_async(jobs)
+    Worker.perform_async(jobs)
+  end
+
   def initialize(jobs)
     @jobs = Array(jobs).map { |args| Job.create(args) }
   end
