@@ -7,7 +7,6 @@ module Igloo
       @child_syncs = syncs || [
         Igloo::PlatformSubscriptionSync.new(@api),
         Igloo::LocalNetworkSync.new(@api),
-        Igloo::StaffSync.new(@api),
       ]
       @log = log
       @track = track
@@ -38,7 +37,7 @@ module Igloo
       time = JSON.parse(File.read(@file))
       last_sync = time.fetch("last_sync_time")
       DateTime.parse(last_sync)
-    rescue => e
+    rescue
       DateTime.new(2000, 1, 1)
     end
 
