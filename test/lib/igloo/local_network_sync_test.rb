@@ -68,10 +68,22 @@ module Igloo
       assert_equal "90210", sync.convert(contact).fetch("zipcode")
     end
 
-    test "phone" do
+    test "busphone" do
       contact = build_network_contact(phone: "1-234-456-7890")
       sync = LocalNetworkSync.new(nil)
-      assert_equal "1-234-456-7890", sync.convert(contact).fetch("phone")
+      assert_equal "1-234-456-7890", sync.convert(contact).fetch("busphone")
+    end
+
+    test "address" do
+      contact = build_network_contact(address: "123 Green St.")
+      sync = LocalNetworkSync.new(nil)
+      assert_equal "123 Green St.", sync.convert(contact).fetch("address")
+    end
+
+    test "address2" do
+      contact = build_network_contact(address_more: "Suite 234")
+      sync = LocalNetworkSync.new(nil)
+      assert_equal "Suite 234", sync.convert(contact).fetch("address2")
     end
 
     test "company" do
