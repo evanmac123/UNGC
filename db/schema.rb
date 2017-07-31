@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170529143700) do
+ActiveRecord::Schema.define(version: 20170731184914) do
 
   create_table "action_platform_orders", force: :cascade do |t|
     t.integer  "organization_id",      limit: 4,                   null: false
@@ -943,10 +943,10 @@ ActiveRecord::Schema.define(version: 20170529143700) do
   add_index "pages", ["version_number"], name: "index_pages_on_version_number", using: :btree
 
   create_table "payloads", force: :cascade do |t|
-    t.integer  "container_id",   limit: 4,     null: false
-    t.text     "json_data",      limit: 65535, null: false
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.integer  "container_id",   limit: 4,          null: false
+    t.text     "json_data",      limit: 4294967295, null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.integer  "created_by_id",  limit: 4
     t.integer  "updated_by_id",  limit: 4
     t.integer  "approved_by_id", limit: 4
