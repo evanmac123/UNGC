@@ -1,6 +1,10 @@
 require 'test_helper'
+require 'sidekiq/testing'
 
 class Salesforce::ApiControllerTest < ActionController::TestCase
+
+  setup    { Sidekiq::Testing.inline!  }
+  teardown { Sidekiq::Testing.fake!    }
 
   def auth_with_token(token)
     @request.env['HTTP_AUTHORIZATION'] = "Token token=#{token}"
