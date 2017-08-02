@@ -96,7 +96,7 @@ module Igloo
     test "groupsToAdd" do
       contact = build_network_contact
       sync = LocalNetworkSync.new(nil)
-      assert_equal "Local Network Members", sync.convert(contact).fetch("groupsToAdd")
+      assert_equal "Local Network Representatives", sync.convert(contact).fetch("groupsToAdd")
     end
 
     test "sends multiple contacts to the API" do
