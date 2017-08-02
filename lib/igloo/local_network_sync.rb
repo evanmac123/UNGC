@@ -30,7 +30,7 @@ module Igloo
         "state" => contact.state,
         "company" => "LN #{contact.local_network.name}",
         "occupation" => contact.roles.map(&:name).join(", "),
-        "groupsToAdd" => "Local Network Members",
+        "groupsToAdd" => "Local Network Representatives",
       }
     end
 
