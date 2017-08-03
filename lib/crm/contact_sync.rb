@@ -46,7 +46,7 @@ module Crm
     def create_contact(params)
       @crm.create('Contact', params)
     rescue Faraday::ClientError => e
-      duplicate_pattern = /UNGC_Contact_ID__c duplicates value on record with id: (\w+)/
+      duplicate_pattern = /duplicate value found: .* on record with id: (\w+)/
 
       matches = duplicate_pattern.match(e.to_s)
       if matches
