@@ -17,8 +17,11 @@
   = @logo_request.purpose
 
 %p
-  %strong Latest Comment:
-  = simple_format(@logo_request.logo_comments.first.body)
+%table{:border => 1, :cellspacing => 1, :cellpadding => 15, :style => 'background: #E5EDF8;'}
+  %tr
+    %td
+      %strong Latest Comment:
+      = simple_format(@logo_request.logo_comments.first.body)
 
   - if @logo_request.from_company?
     %p
