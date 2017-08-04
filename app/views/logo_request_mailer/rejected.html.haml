@@ -6,7 +6,10 @@
 
 == Your logo request to use the logo in your publication "#{@logo_request.purpose}" has been declined. The UN Global Compact welcomes your organization's intention to promote the Global Compact Logo. Unfortunately, #{@logo_request.organization.name} will not be permitted to use the logo as explained below:
 
-%p= simple_format(@logo_request.logo_comments.first.body)
+%table{:border => 1, :cellspacing => 1, :cellpadding => 15, :style => 'background: #E5EDF8;'}
+  %tr
+    %td
+      %p= simple_format(@logo_request.logo_comments.first.body)
 
 - if @logo_request.from_company?
   %p

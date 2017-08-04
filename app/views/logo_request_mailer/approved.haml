@@ -5,8 +5,12 @@
   Accepted
 
 %p
-  == We are pleased to inform you that your logo request has been approved for use in "#{@logo_request.purpose}".
-  = simple_format(@logo_request.logo_comments.first.body)
+  == We are pleased to inform you that your logo request has been approved for use in "#{@logo_request.purpose}"
+
+  %table{:border => 1, :cellspacing => 1, :cellpadding => 15, :style => 'background: #E5EDF8;'}
+    %tr
+      %td
+        = simple_format(@logo_request.logo_comments.first.body)
 
 %p
   == To download the logo files for #{@logo_request.organization.name}, please login at the Global Compact website and visit the original logo submission:
