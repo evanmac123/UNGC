@@ -1,0 +1,530 @@
+body
+  background: white
+  font-size: 13px
+  font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif
+  font-weight: 400
+  padding-bottom: 5em
+
+a, a:visited,
+#main_content h1,
+#main_content h2,
+#main_content h3,
+#main_content h4,
+#main_content h5,
+#main_content h6,
+#main_content dt
+  color: rgba(30,50,80,1)
+
+a:visited, a:hover
+  color: rgba(30,50,80,1)
+
+.full-width ul.nav_bar li a:hover
+  color: #699cc6
+
+//global admin font
+
+.small,
+.tab_container ul.items li.item div.body dl.contact_data,
+#main_content dd ul.questionnaire li.unselected_question p, #main_content dd ul.questionnaire li.selected_question p, #main_content dd ul.questionnaire li.advanced_question p
+  font-size: 1em
+
+//search
+
+form#search
+  top: 0
+  right: 0
+  left: inherit
+  .search_box
+    padding: 7px 9px
+    border: none
+    border-radius: 4px
+
+//tabs
+
+ul.nav_bar li.current a,
+.tab_container ul.tab_nav li a, .tab_container ul.tab_nav li button,
+ul.view_modes li a
+  background: rgba(30,50,80,1)
+  padding: 10px 12px
+  &:hover
+    background: #4c6b8b
+    color: #ffffff
+
+ul.nav_bar li.google_translate_button
+  border: none
+  float: left
+
+.tab_container div.tab_content,
+.tab_container ul.tab_nav li a,
+.tab_container ul.tab_nav li button
+  border: 1px solid #cccccc
+
+.tab_container ul.tab_nav li a,
+ul.view_modes li a
+  border: none
+  border-top: 1px solid #cccccc
+
+.tab_container.top_tabs ul.tab_nav li,
+ul.view_modes li
+  margin-right: 0
+
+.tab_container.top_tabs ul.tab_nav a.selected
+  background: #4c6b8b
+  color: white
+
+.tab_container ul.tab_nav li:first-child,
+ul.view_modes li:first-child a
+  border-left: 1px solid #cccccc
+
+.tab_container ul.tab_nav li:last-child,
+ul.view_modes li:last-child a
+  border-right: 1px solid #cccccc
+
+.tab_container div.tab_content
+  border: 1px solid #cccccc !important
+
+// left tabs
+.tab_container.left_tabs
+  ul.tab_nav
+    width: 100%
+    float: left
+    li
+      display: block
+      float: left
+
+.full-width
+  width: 100%
+  margin: 0 0 1em 0
+  background: rgba(30,50,80,0.85)
+  .container
+    padding: 0
+  ul.nav_bar
+    padding: 0
+    margin: 0
+    background: none
+    li a
+      padding: 0.7em 0.7em
+      background: none
+      border-right: none
+      font-size: 1em
+      font-family: "Roboto", "Roboto Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif
+      font-weight: 100
+      letter-spacing: 0.02em
+      &:hover
+        background: #4c6b8b
+        color: #ffffff
+
+.full-width.dark
+  background: rgba(30,50,80,1)
+
+.container,
+.span-24, div.span-24
+  background: none
+  max-width: 1080px
+  width: 96%
+
+.container
+  padding: 0 2%
+
+h1#page_header
+  width: 90%
+  height: 75px
+  padding: 0 5% 0.5em 5%
+  margin: 0
+  background: rgba(30,50,80,0.85)
+  background-blend-mode: multiply
+  z-index: 99999
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+  a img
+    width: 200px
+  .container
+    padding: 0
+
+#main_content
+  margin-top: 3em
+  a.new_large,
+  a.edit_large,
+  a.edit_small,
+  a.new_page_large,
+  div.new_page_large,
+  a.info_large,
+  div.hint_toggle,
+  a.web_preview_large,
+  a.delete_doc,
+  a.new_user_large,
+  a.new_headline_large,
+  a.refresh_large,
+  a.delete_large,
+  a.cancel_large,
+  a.edit_page_large,
+  a.go_back_large,
+  a.download_large,
+  a.folder_large,
+  a.search_large,
+  a.new_org,
+  a.zip_file_large,
+  a.guest_large,
+  button.new_large,
+  .approve,
+  .revoke,
+  a.backdate
+    color: rgba(30,50,80,1)
+
+#body-content-wrapper,
+.new_contact
+  width: 100%
+  max-width: 50em
+
+#main_content .new_contact input.button
+  margin-top: -0.5em !important
+
+//page table content
+
+.tab_container div.tab_content
+  border: 1px solid #333
+  padding: 1em 10px
+  min-height: 250px
+  position: relative
+  max-height: inherit
+  overflow-x: hidden
+  overflow-y: visible
+
+.tab_container.left_tabs div.tab_content
+  max-width: 1000px
+  width: 100%
+  margin-left: 0
+  left: 0
+
+#main_content
+  table.dashboard_table
+    th
+      background: #ffffff no-repeat 100% 0
+    th:last-of-type
+      border-right: none
+    td:last-of-type
+      min-width: 112px
+      border-right: none
+
+div.pagination
+  font-size: 1.25em
+  padding: 1em 0
+
+//forms
+
+#main_content
+  fieldset
+    border: none
+    padding: 0
+    label
+      color: rgba(30,50,80,1)
+    input
+      margin: 2px 4px 1px 0
+    legend
+      padding: 0 0 1em 0
+
+#main_content
+  fieldset input[type="checkbox"],
+  fieldset input[type="radio"],
+  fieldset input[type="file"],
+  fieldset li.date select
+    display: inline-block
+    position: relative
+    padding: 0 0 0 1.25em
+  fieldset input[type="file"]
+    padding: 0
+    border: none
+    margin-left: 0
+
+#main_content fieldset input[type="checkbox"]
+  margin-left: 0
+
+#main_content
+  fieldset
+    background: none
+    input,
+    select,
+    textarea
+      border: 1px solid #ccc
+      border-radius: 0.25em
+      padding: 0.5em
+      background: #fdfdfd
+    select
+      margin-left: 0
+
+//Buttons
+
+#main_content
+  input.button,
+  input[type="submit" i],
+  a.cancel_large
+    background-color: #4c6b8b
+    display: inline-block
+    font-family: "Flama Bold", "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif
+    font-weight: bold
+    font-size: 1.2em
+    color: white
+    text-align: center
+    text-transform: uppercase
+    padding: 0.6em 2em
+    border: 0
+    border-radius: 0.25em
+    text-decoration: none
+    -webkit-transition-property: background-color color
+    -moz-transition-property: background-color color
+    transition-property: background-color color
+    -webkit-transition-duration: 150ms
+    -moz-transition-duration: 150ms
+    transition-duration: 150ms
+    -webkit-font-smoothing: antialiased
+    -moz-osx-font-smoothing: grayscale
+    cursor: pointer
+    margin-top: 1em
+    opacity: 1
+    width: auto
+    &:hover
+      opacity: 0.9
+  a.cancel_large
+    opacity: 1
+    background: #f65058
+    padding: 0.8em 2em 0.3em 2em
+    &:hover
+      text-decoration: none
+      opacity: 0.9
+
+#main_content
+  .button_to
+    input.button,
+    input[type="submit" i]
+      background: none
+      color: rgba(30,50,80,1)
+      font-weight: bold
+      padding: 0 0.5em
+      font-size: 1em
+      text-transform: none
+
+//CK WYDIWYG editor
+#main_content
+  #cke_headline_description,
+  #cke_event_description,
+  #cke_event_programme_description,
+  #cke_event_media_description,
+  #cke_sponsors_description,
+  #cke_local_network_description,
+  #additional-tabs .cke
+    margin-left: 151px
+    width: 650px !important
+
+// Icons
+#main_content
+  table.dashboard_table
+    ul.actions
+      a
+        padding: 0.05em 0.1em 0.18em 0.4em
+        text-decoration: none
+        background: none
+        text-indent: -99999px
+        font-weight: 100
+        -webkit-font-smoothing: antialiased
+        -moz-osx-font-smoothing: grayscale
+        border-radius: 0.3em
+        opacity: 1
+        &:hover
+          text-decoration: none
+          opacity: 0.8
+      a.edit
+        padding: 0.05em 0.15em 0.18em 0.4em
+        background: #4c6b8b asset-url('icons/updated/edit.png')
+        background-size: auto 11px
+        background-repeat: no-repeat
+        background-position: 6px 4px
+      a.delete
+        padding: 0.05em 0.15em 0.18em 0.4em
+        background: #666 asset-url('icons/updated/trash.png')
+        background-size: auto 12px
+        background-repeat: no-repeat
+        background-position: 6px 3px
+      a.preview
+        padding: 0.05em 0.15em 0.18em 0.4em
+        background: #4c6b8b asset-url('icons/updated/eye.png')
+        background-size: auto 9px
+        background-repeat: no-repeat
+        background-position: 5px 5px
+      a.approve
+        padding: 0.05em 0.15em 0.18em 0.4em
+        background: #f65058 asset-url('icons/updated/thumbs-down.png')
+        background-size: auto 10px
+        background-repeat: no-repeat
+        background-position: 6px 5px
+      a.revoke
+        padding: 0.05em 0.15em 0.18em 0.4em
+        background: #00af66 asset-url('icons/updated/thumbs-up.png')
+        background-size: auto 10px
+        background-repeat: no-repeat
+        background-position: 6px 4px
+
+.tab_container
+  div.meta
+    ul.post_tools
+      a.edit,
+      a.delete
+        padding: 0.1em 0 0 0.4em
+        background: #4c6b8b asset-url('icons/updated/edit.png')
+        background-size: auto 11px
+        background-repeat: no-repeat
+        background-position: 7px 5px
+        border-radius: 3px
+        width: 21px
+        height: 21px
+        margin-right: 0.5em
+        &:hover
+          text-decoration: none
+      a.delete
+        background: #f65058 asset-url('icons/updated/close.png')
+        background-size: auto 11px
+        background-repeat: no-repeat
+        background-position: 7px 5px
+        border-radius: 3px
+        width: 21px
+        height: 21px
+        margin-right: 1em
+
+#main_content
+  fieldset
+    .author_table
+      .remove_author
+        padding-left: 0.6em
+        background: #f65058
+        color: white
+        -webkit-font-smoothing: antialiased
+        -moz-osx-font-smoothing: grayscale
+        border-radius: 0.3em
+        &:before
+          font-size: 1em
+          color: white
+          content: "\f00d"
+          font-family: FontAwesome
+          padding: 0 0.5em 0 0
+
+#main_content
+  a.delete_large,
+  a.new_large,
+  a.web_preview_large,
+  a.guest_large,
+  a.edit_page_large,
+  a.search_large,
+  a.new_headline_large,
+  a.edit_large,
+  a.new_user_large,
+  a.go_back_large,
+  a.refresh_large
+    padding: 0.5em 0.6em 0 0.3em
+    background: #f65058
+    color: white
+    -webkit-font-smoothing: antialiased
+    -moz-osx-font-smoothing: grayscale
+    border-radius: 0.3em
+    opacity: 1
+    -webkit-transition: 0.5s ease all
+    -moz-transition: 0.5s ease all
+    transition: 0.5s ease all
+    margin-right: 1em
+    cursor: pointer
+    &:hover
+      opacity: 0.8
+      -webkit-transition: 0.5s ease all
+      -moz-transition: 0.5s ease all
+      transition: 0.5s ease all
+      text-decoration: none
+  a.new_large
+    background: #00af66 asset-url('icons/updated/plus.png')
+    background-size: auto 12px
+    background-repeat: no-repeat
+    background-position: 7px 7px
+    display: inline-block
+    padding: 0.5em 0.8em 0 1.8em
+    max-height: 20px
+  a#new_event.new_large
+    padding: 0.35em 0.8em 0.1em 1.8em
+  a.web_preview_large
+    background: #699cc6 asset-url('icons/updated/eye.png')
+    background-size: auto 11px
+    background-repeat: no-repeat
+    background-position: 6px 8px
+    padding: 0.5em 0.8em 0 2em
+  a.guest_large
+    background: #699cc6 asset-url('icons/updated/user.png')
+    background-size: auto 12px
+    background-repeat: no-repeat
+    background-position: 8px 7px
+    padding: 0.5em 0.8em 0 1.9em
+  a.new_user_large
+    background: #00af66 asset-url('icons/updated/user-plus.png')
+    background-size: auto 12px
+    background-repeat: no-repeat
+    background-position: 8px 7px
+    padding: 0.5em 0.8em 0 2.1em
+  a.edit_page_large
+    background: #699cc6 asset-url('icons/updated/edit.png')
+    background-size: auto 12px
+    background-repeat: no-repeat
+    background-position: 8px 7px
+    padding: 0.45em 0.8em 0 2.1em
+  a.search_large
+    background: #699cc6 asset-url('icons/updated/search.png')
+    background-size: auto 12px
+    background-repeat: no-repeat
+    background-position: 8px 7px
+    padding: 0.45em 0.8em 0 1.9em
+  a.new_headline_large
+    background: #00af66 asset-url('icons/updated/newspaper-o.png')
+    background-size: auto 12px
+    background-repeat: no-repeat
+    background-position: 7px 7px
+    display: inline-block
+    padding: 0.3em 0.8em 0 2.2em
+    max-height: 22px
+  a.edit_large
+    background: #699cc6 asset-url('icons/updated/edit.png')
+    background-size: auto 12px
+    background-repeat: no-repeat
+    background-position: 8px 7px
+    padding: 0.5em 0.8em 0 2.1em
+  a.go_back_large
+    background: #699cc6 asset-url('icons/updated/arrow_left.png')
+    background-size: auto 12px
+    background-repeat: no-repeat
+    background-position: 8px 7px
+    padding: 0.5em 0.8em 0 2.1em
+  a.refresh_large
+    background: #699cc6 asset-url('icons/updated/refresh.png')
+    background-size: auto 12px
+    background-repeat: no-repeat
+    background-position: 8px 7px
+    padding: 0.5em 0.8em 0 2.1em
+
+#action_platforms
+  a
+    background: #00af66 asset-url('icons/updated/plus.png')
+    background-size: auto 12px
+    background-repeat: no-repeat
+    background-position: 7px 7px
+    display: inline-block
+    padding: 0.5em 0.8em 0.5em 2em
+    border-radius: 3px
+    font-weight: normal
+    color: white
+    &:hover
+      text-decoration: none
+
+ul.tools.inline
+  a
+    max-height: 20px
+
+//footer
+#footer
+  display: none
+  width: 100%
+  max-width: 100%
+  min-height: 100px
+  bottom: 0

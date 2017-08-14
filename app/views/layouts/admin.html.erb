@@ -13,8 +13,9 @@
     -->
     <%= stylesheet_link_tag 'admin/print', :media => 'print' %>
     <%= javascript_include_tag 'admin' %>
-  </head>
+  </head> 
   <body class="<%= (@body_class || "form") %>">
+  <h1 id="page_header">
     <div class="container">
       <% if current_contact and current_contact.from_ungc? %>
         <form action="/admin/organizations/search" id="search" method="get" name="search">
@@ -23,16 +24,22 @@
           <input alt="Search" class="search_submit" name="submit" src="<%= asset_path("search_submit.png") %>" type="image"></input>
         </form>
       <% end %>
-      <h1 id="page_header">
         <a href="/">
-          <img src="<%= asset_path('logo.png') %>" style="margin-left: 2px; margin-top: 15px; margin-bottom: 15px;"/>
+          <img src="<%= asset_path('new-logo-white.svg') %>" style="margin-left: 2px; margin-top: 15px; margin-bottom: 15px;"/>
         </a>
-      </h1>
+    </div>
+  </h1>
+  <section class="full-width dark">
+    <div class="container">
       <%= render :partial => 'layouts/main_nav' %>
+    </div>
+  </section>
+  <div class="container">
       <div class="span-24" id="main_content">
         <%= flash_messages_for :error, :notice, :alert %>
         <%= yield %>
       </div>
+  </div>
       <div class="span-24" id="footer">
         &nbsp;
       </div>
