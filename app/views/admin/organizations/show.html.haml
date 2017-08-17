@@ -14,7 +14,7 @@
     - if @organization.logo_requests.any?
       %li <a href="#logo_requests">Logo Requests</a>
     - if @organization.contributions.any?
-      - participant_manager_only do
+      - staff_only do
         %li <a href="#contributions">Contributions</a>
     - if @organization.initiatives.any? and current_contact.from_ungc?
       %li <a href="#initiatives">Engagement</a>
