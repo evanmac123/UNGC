@@ -193,7 +193,7 @@
         = render :partial => 'admin/initiatives/signing', :collection => @organization.signings.order("added_on DESC").load
 
   - if @organization.contributions.any?
-    - participant_manager_only do
+    - staff_only do
       #contributions.tab_content
         %h2 Contributions
         %table.dashboard_table#contributions_dashboard_table
