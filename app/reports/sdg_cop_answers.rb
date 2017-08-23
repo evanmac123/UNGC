@@ -40,7 +40,7 @@ class SdgCopAnswers < SimpleReport
   end
 
   def render_output
-    self.render_xls_in_batches
+    self.render_xls
   end
 
   def headers
