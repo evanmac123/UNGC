@@ -1,107 +1,115 @@
+# -*- coding: utf-8 -*-
 class SdgCopAnswers < SimpleReport
 
+  COLUMN_INDEXES = {
+    6511 =>  9, #opportunity,
+    6521 => 10, #priorities,
+    6531 => 11, #indicators,
+    6541 => 12, #business_model,
+    6551 => 13, #activity,
+    6561 => 14, #collaboration,
+    6571 => 15, #other,
+    6341 => 16, #sdg1,
+    6351 => 17, #sdg2,
+    6361 => 18, #sdg3,
+    6371 => 19, #sdg4,
+    6381 => 20, #sdg5,
+    6391 => 21, #sdg6,
+    6401 => 22, #sdg7,
+    6411 => 23, #sdg8,
+    6421 => 24, #sdg9,
+    6431 => 25, #sdg10,
+    6441 => 26, #sdg11,
+    6451 => 27, #sdg12,
+    6461 => 28, #sdg13,
+    6471 => 29, #sdg14,
+    6481 => 30, #sdg15,
+    6491 => 31, #sdg16,
+    6501 => 32, #sdg17,
+  }
+
   def records
-    CopAnswer.joins(communication_on_progress: [:organization],
-                    cop_attribute: [:cop_question]).
-    includes(communication_on_progress: [{ organization: [:sector, :country, :organization_type] }],
-             cop_attribute: [:cop_question ]).
-    where("grouping = 'sdgs'").
-    order(:cop_id).
-    group_by do |answer|
-      answer.communication_on_progress
-    end
+    CopAnswer.joins(communication_on_progress: [:organization], cop_attribute: [:cop_question]).
+      includes(communication_on_progress: [{ organization: [:sector, :country, :organization_type] }],
+        cop_attribute: [:cop_question ]).
+      where("grouping = 'sdgs'").
+      order(:cop_id).
+      group_by do |answer|
+        answer.communication_on_progress
+      end
   end
 
   def render_output
-    self.render_xls
+    self.render_xls_in_batches
   end
 
   def headers
-    # [
-    #   'organization id',
-    #   'organization name',
-    #   'cop id',
-    #   'cop type',
-    #   'cop published on',
-    #   'question + selected sdgs',
-    #   'free text answer',
-    #   'organizaton type',
-    #   'country',
-    #   'sector',
-    #   'employees'
-    # ]
     [
-      'Organization ID',
-      'Organization Name',
-      'COP ID',
-      'COP Type',
-      'COP Published On',
-      'Organization Type',
-      'Country',
-      'Sector',
-      'Employees',
-      'Opportunities and responsibilities that one or more SDGs represent to our business',
-      'Where the company’s priorities lie with respect to one or more SDGs',
-      'Goals and indicators set by our company with respect to one or more',
-      'How one or more SDGs are integrated into the company’s business model',
-      'The (expected) outcomes and impact of your company’s activities related to the SDGs',
-      'If the companies activities related to the SDGs are undertaken in collaboration with other stakeholder',
-      'Other established or emerging best practices',
-      'SDG 1',
-      'SDG 2',
-      'SDG 3',
-      'SDG 4',
-      'SDG 5',
-      'SDG 6',
-      'SDG 7',
-      'SDG 8',
-      'SDG 9',
-      'SDG 10',
-      'SDG 11',
-      'SDG 12',
-      'SDG 13',
-      'SDG 14',
-      'SDG 15',
-      'SDG 16',
-      'SDG 17',
+      "Organization ID",
+      "Organization Name",
+      "COP ID",
+      "COP Type",
+      "COP Published On",
+      "Organization Type",
+      "Country",
+      "Sector",
+      "Employees",
+      "Opportunities and responsibilities that one or more SDGs represent to our business",
+      "Where the company’s priorities lie with respect to one or more SDGs",
+      "Goals and indicators set by our company with respect to one or more",
+      "How one or more SDGs are integrated into the company’s business model",
+      "The (expected) outcomes and impact of your company’s activities related to the SDGs",
+      "If the companies activities related to the SDGs are undertaken in collaboration with other stakeholder",
+      "Other established or emerging best practices",
+      "SDG 1",
+      "SDG 2",
+      "SDG 3",
+      "SDG 4",
+      "SDG 5",
+      "SDG 6",
+      "SDG 7",
+      "SDG 8",
+      "SDG 9",
+      "SDG 10",
+      "SDG 11",
+      "SDG 12",
+      "SDG 13",
+      "SDG 14",
+      "SDG 15",
+      "SDG 16",
+      "SDG 17",
     ]
   end
 
-  def row(row)
-    communication_on_progress, answers = row
-    [
-      communication_on_progress.organization.id,
-      communication_on_progress.organization.name,
-      communication_on_progress.id,
-      rename_cop_type(communication_on_progress),
-      communication_on_progress.published_on,
-      communication_on_progress.organization.organization_type_name,
-      communication_on_progress.organization.country_name,
-      communication_on_progress.organization.sector_name,
-      communication_on_progress.organization.employees,
-      opportunity_answer.map {|ans| ans},
-      priority_answer.map {|ans| ans},
-      indicator_answer.map {|ans| ans},
-      business_model_answer.map {|ans| ans},
-      activity_answer.map {|ans| ans},
-      sdg1.map {|ans| ans},
-      sdg2.map {|ans| ans},
-      sdg3.map {|ans| ans},
-      sdg4.map {|ans| ans},
-      sdg5.map {|ans| ans},
-      sdg6.map {|ans| ans},
-      sdg7.map {|ans| ans},
-      sdg8.map {|ans| ans},
-      sdg9.map {|ans| ans},
-      sdg10.map {|ans| ans},
-      sdg11.map {|ans| ans},
-      sdg12.map {|ans| ans},
-      sdg13.map {|ans| ans},
-      sdg14.map {|ans| ans},
-      sdg15.map {|ans| ans},
-      sdg16.map {|ans| ans},
-      sdg17.map {|ans| ans}
+  def row(cop_with_answers)
+    cop, answers = cop_with_answers
+
+    # create a row with the COP info
+    excel_row = [
+      cop.organization.id,
+      cop.organization.name,
+      cop.id,
+      rename_cop_type(cop),
+      cop.published_on,
+      cop.organization.organization_type_name,
+      cop.organization.country_name,
+      cop.organization.sector_name,
+      cop.organization.employees,
     ]
+
+    # loop through the answers one at a time
+    # adding the value of the answer to the corresponding position (index)
+    # in the excel row
+    answers.each do |answer|
+      # find the column index based on the cop_attribute_id
+      column_index = COLUMN_INDEXES.fetch(answer.cop_attribute_id)
+
+      # put the value of the answer in that column for this row
+      excel_row[column_index] = answer.value ? 1 : 0
+    end
+
+    # return the row
+    excel_row
   end
 
   private
@@ -112,415 +120,6 @@ class SdgCopAnswers < SimpleReport
     else
       cop.cop_type
     end
-  end
-
-  # def combined_answers(answers)
-  #   answers.map do |answer|
-  #     answer.text
-  #     answer.value
-  #   end
-  # end
-  #
-  # def combined_text(answers)
-  #   answers.map do |question|
-  #     question.cop_attribute.text
-  #   end
-  # end
-
-  def get_opportunity_answers(records)
-    values = []
-    cop_answers = records.values.flatten
-    cop_answers.each do |answer|
-      if answer.cop_attribute_id == 6511
-        values << answer.value
-      end
-    end
-    values.map do |answer|
-      answer ? 1:0
-    end
-  end
-
-  def opportunity_answer
-    results = get_opportunity_answers(records)
-    results.map { |answer| answer }
-  end
-
-  def get_priorities_answer(records)
-    values = []
-    cop_answers = records.values.flatten
-    cop_answers.each do |answer|
-      if answer.cop_attribute_id == 6521
-        values << answer.value
-      end
-    end
-    values.map do |answer|
-      answer ? 1:0
-    end
-  end
-
-  def priority_answer
-    results = get_priorities_answer(records)
-    results.map { |answer, v| answer }
-  end
-
-  def get_indicators_answer(records)
-    values = []
-    cop_answers = records.values.flatten
-    cop_answers.each do |answer|
-      if answer.cop_attribute_id == 6531
-        values << answer.value
-      end
-    end
-    values.map do |answer|
-      answer ? 1:0
-    end
-  end
-
-  def indicator_answer
-    results = get_indicators_answer(records)
-    results.map { |answer| answer }
-  end
-
-  def get_business_model_answer(records)
-    values = []
-    cop_answers = records.values.flatten
-    cop_answers.each do |answer|
-      if answer.cop_attribute_id == 6541
-        values << answer.value
-      end
-    end
-    values.map do |answer|
-      answer ? 1:0
-    end
-  end
-
-  def business_model_answer
-    results = get_business_model_answer(records)
-    results.map { |answer| answer }
-  end
-
-  def get_activity_answes(records)
-    values = []
-    cop_answers = records.values.flatten
-    cop_answers.each do |answer|
-      if answer.cop_attribute_id == 6551
-        values << answer.value
-      end
-    end
-    values.map do |answer|
-      answer ? 1:0
-    end
-  end
-
-  def activity_answer
-    results = get_activity_answes(records)
-    results.map { |answer| answer }
-  end
-
-  def get_sdg1_answers(records)
-    values = []
-    cop_answers = records.values.flatten
-    cop_answers.each do |answer|
-      if answer.cop_attribute_id == 6341
-        values << answer.value
-      end
-    end
-    values.map do |answer|
-      answer ? 1:0
-    end
-  end
-
-  def sdg1
-    results = get_sdg1_answers(records)
-    results.map { |answer| answer }
-  end
-
-  def get_sdg2_answers(records)
-    values = []
-    cop_answers = records.values.flatten
-    cop_answers.each do |answer|
-      if answer.cop_attribute_id == 6351
-        values << answer.value
-      end
-    end
-    values.map do |answer|
-      answer ? 1:0
-    end
-  end
-
-  def sdg2
-    results = get_sdg2_answers(records)
-    results.map { |answer| answer }
-  end
-
-  def get_sdg3_answers(records)
-    values = []
-    cop_answers = records.values.flatten
-    cop_answers.each do |answer|
-      if answer.cop_attribute_id == 6361
-        values << answer.value
-      end
-    end
-    values.map do |answer|
-      answer ? 1:0
-    end
-  end
-
-  def sdg3
-    results = get_sdg3_answers(records)
-    results.map { |answer| answer }
-  end
-
-  def get_sdg4_answers(records)
-    values = []
-    cop_answers = records.values.flatten
-    cop_answers.each do |answer|
-      if answer.cop_attribute_id == 6371
-        values << answer.value
-      end
-    end
-    values.map do |answer|
-      answer ? 1:0
-    end
-  end
-
-  def sdg4
-    results = get_sdg4_answers(records)
-    results.map { |answer| answer }
-  end
-
-  def get_sdg5_answers(records)
-    values = []
-    cop_answers = records.values.flatten
-    cop_answers.each do |answer|
-      if answer.cop_attribute_id == 6381
-        values << answer.value
-      end
-    end
-    values.map do |answer|
-      answer ? 1:0
-    end
-  end
-
-  def sdg5
-    results = get_sdg5_answers(records)
-    results.map { |answer| answer }
-  end
-
-  def get_sdg6_answers(records)
-    values = []
-    cop_answers = records.values.flatten
-    cop_answers.each do |answer|
-      if answer.cop_attribute_id == 6391
-        values << answer.value
-      end
-    end
-    values.map do |answer|
-      answer ? 1:0
-    end
-  end
-
-  def sdg6
-    results = get_sdg6_answers(records)
-    results.map { |answer| answer }
-  end
-
-  def get_sdg7_answers(records)
-    values = []
-    cop_answers = records.values.flatten
-    cop_answers.each do |answer|
-      if answer.cop_attribute_id == 6401
-        values << answer.value
-      end
-    end
-    values.map do |answer|
-      answer ? 1:0
-    end
-  end
-
-  def sdg7
-    results = get_sdg7_answers(records)
-    results.map { |answer| answer }
-  end
-
-  def get_sdg8_answers(records)
-    values = []
-    cop_answers = records.values.flatten
-    cop_answers.each do |answer|
-      if answer.cop_attribute_id == 6411
-        values << answer.value
-      end
-    end
-    values.map do |answer|
-      answer ? 1:0
-    end
-  end
-
-  def sdg8
-    results = get_sdg8_answers(records)
-    results.map { |answer| answer }
-  end
-
-  def get_sdg9_answers(records)
-    values = []
-    cop_answers = records.values.flatten
-    cop_answers.each do |answer|
-      if answer.cop_attribute_id == 6421
-        values << answer.value
-      end
-    end
-    values.map do |answer|
-      answer ? 1:0
-    end
-  end
-
-  def sdg9
-    results = get_sdg9_answers(records)
-    results.map { |answer| answer }
-  end
-
-  def get_sdg10_answers(records)
-    values = []
-    cop_answers = records.values.flatten
-    cop_answers.each do |answer|
-      if answer.cop_attribute_id == 6431
-        values << answer.value
-      end
-    end
-    values.map do |answer|
-      answer ? 1:0
-    end
-  end
-
-  def sdg10
-    results = get_sdg10_answers(records)
-    results.map { |answer| answer }
-  end
-
-  def get_sdg11_answers(records)
-    values = []
-    cop_answers = records.values.flatten
-    cop_answers.each do |answer|
-      if answer.cop_attribute_id == 6441
-        values << answer.value
-      end
-    end
-    values.map do |answer|
-      answer ? 1:0
-    end
-  end
-
-  def sdg11
-    results = get_sdg11_answers(records)
-    results.map { |answer| answer }
-  end
-
-  def get_sdg12_answers(records)
-    values = []
-    cop_answers = records.values.flatten
-    cop_answers.each do |answer|
-      if answer.cop_attribute_id == 6451
-        values << answer.value
-      end
-    end
-    values.map do |answer|
-      answer ? 1:0
-    end
-  end
-
-  def sdg12
-    results = get_sdg12_answers(records)
-    results.map { |answer| answer }
-  end
-
-  def get_sdg13_answers(records)
-    values = []
-    cop_answers = records.values.flatten
-    cop_answers.each do |answer|
-      if answer.cop_attribute_id == 6461
-        values << answer.value
-      end
-    end
-    values.map do |answer|
-      answer ? 1:0
-    end
-  end
-
-  def sdg13
-    results = get_sdg13_answers(records)
-    results.map { |answer| answer }
-  end
-
-  def get_sdg14_answers(records)
-    values = []
-    cop_answers = records.values.flatten
-    cop_answers.each do |answer|
-      if answer.cop_attribute_id == 6471
-        values << answer.value
-      end
-    end
-    values.map do |answer|
-      answer ? 1:0
-    end
-  end
-
-  def sdg14
-    results = get_sdg14_answers(records)
-    results.map { |answer| answer }
-  end
-
-  def get_sdg15_answers(records)
-    values = []
-    cop_answers = records.values.flatten
-    cop_answers.each do |answer|
-      if answer.cop_attribute_id == 6481
-        values << answer.value
-      end
-    end
-    values.map do |answer|
-      answer ? 1:0
-    end
-  end
-
-  def sdg15
-    results = get_sdg15_answers(records)
-    results.map { |answer| answer }
-  end
-
-  def get_sdg16_answers(records)
-    values = []
-    cop_answers = records.values.flatten
-    cop_answers.each do |answer|
-      if answer.cop_attribute_id == 6491
-        values << answer.value
-      end
-    end
-    values.map do |answer|
-      answer ? 1:0
-    end
-  end
-
-  def sdg16
-    results = get_sdg16_answers(records)
-    results.map { |answer| answer }
-  end
-
-  def get_sdg17_answers(records)
-    values = []
-    cop_answers = records.values.flatten
-    cop_answers.each do |answer|
-      if answer.cop_attribute_id == 6501
-        values << answer.value
-      end
-    end
-    values.map do |answer|
-      answer ? 1:0
-    end
-  end
-
-  def sdg17
-    results = get_sdg17_answers(records)
-    results.map { |answer| answer }
   end
 
 end
