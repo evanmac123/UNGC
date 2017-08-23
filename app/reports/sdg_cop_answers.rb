@@ -79,8 +79,28 @@ class SdgCopAnswers < SimpleReport
       communication_on_progress.organization.country_name,
       communication_on_progress.organization.sector_name,
       communication_on_progress.organization.employees,
-      combined_text(answers),
-      combined_answers(answers),
+      opportunity_answer.map {|ans| ans},
+      priority_answer.map {|ans| ans},
+      indicator_answer.map {|ans| ans},
+      business_model_answer.map {|ans| ans},
+      activity_answer.map {|ans| ans},
+      sdg1.map {|ans| ans},
+      sdg2.map {|ans| ans},
+      sdg3.map {|ans| ans},
+      sdg4.map {|ans| ans},
+      sdg5.map {|ans| ans},
+      sdg6.map {|ans| ans},
+      sdg7.map {|ans| ans},
+      sdg8.map {|ans| ans},
+      sdg9.map {|ans| ans},
+      sdg10.map {|ans| ans},
+      sdg11.map {|ans| ans},
+      sdg12.map {|ans| ans},
+      sdg13.map {|ans| ans},
+      sdg14.map {|ans| ans},
+      sdg15.map {|ans| ans},
+      sdg16.map {|ans| ans},
+      sdg17.map {|ans| ans}
     ]
   end
 
@@ -94,28 +114,413 @@ class SdgCopAnswers < SimpleReport
     end
   end
 
-  def combined_answers(answers)
-    answers.map do |answer|
-      answer.text
-    end.reject {|a| a.blank? }.join(", ")
-  end
+  # def combined_answers(answers)
+  #   answers.map do |answer|
+  #     answer.text
+  #     answer.value
+  #   end
+  # end
+  #
+  # def combined_text(answers)
+  #   answers.map do |question|
+  #     question.cop_attribute.text
+  #   end
+  # end
 
-  def combined_text(answers)
-    answers.map do |question|
-      question.cop_attribute.text
-    end.compact.join(",\n")
-  end
-
-  def first_answer(answers)
-    answers.flat_map do |key, value|
-      value.map do |cop_answer|
-        if cop_answer.cop_attribute_id == 6511
-          puts cop_answer.cop_attribute.text
-          puts cop_answer.value
-        end
+  def get_opportunity_answers(records)
+    values = []
+    cop_answers = records.values.flatten
+    cop_answers.each do |answer|
+      if answer.cop_attribute_id == 6511
+        values << answer.value
       end
+    end
+    values.map do |answer|
+      answer ? 1:0
     end
   end
 
+  def opportunity_answer
+    results = get_opportunity_answers(records)
+    results.map { |answer| answer }
+  end
+
+  def get_priorities_answer(records)
+    values = []
+    cop_answers = records.values.flatten
+    cop_answers.each do |answer|
+      if answer.cop_attribute_id == 6521
+        values << answer.value
+      end
+    end
+    values.map do |answer|
+      answer ? 1:0
+    end
+  end
+
+  def priority_answer
+    results = get_priorities_answer(records)
+    results.map { |answer, v| answer }
+  end
+
+  def get_indicators_answer(records)
+    values = []
+    cop_answers = records.values.flatten
+    cop_answers.each do |answer|
+      if answer.cop_attribute_id == 6531
+        values << answer.value
+      end
+    end
+    values.map do |answer|
+      answer ? 1:0
+    end
+  end
+
+  def indicator_answer
+    results = get_indicators_answer(records)
+    results.map { |answer| answer }
+  end
+
+  def get_business_model_answer(records)
+    values = []
+    cop_answers = records.values.flatten
+    cop_answers.each do |answer|
+      if answer.cop_attribute_id == 6541
+        values << answer.value
+      end
+    end
+    values.map do |answer|
+      answer ? 1:0
+    end
+  end
+
+  def business_model_answer
+    results = get_business_model_answer(records)
+    results.map { |answer| answer }
+  end
+
+  def get_activity_answes(records)
+    values = []
+    cop_answers = records.values.flatten
+    cop_answers.each do |answer|
+      if answer.cop_attribute_id == 6551
+        values << answer.value
+      end
+    end
+    values.map do |answer|
+      answer ? 1:0
+    end
+  end
+
+  def activity_answer
+    results = get_activity_answes(records)
+    results.map { |answer| answer }
+  end
+
+  def get_sdg1_answers(records)
+    values = []
+    cop_answers = records.values.flatten
+    cop_answers.each do |answer|
+      if answer.cop_attribute_id == 6341
+        values << answer.value
+      end
+    end
+    values.map do |answer|
+      answer ? 1:0
+    end
+  end
+
+  def sdg1
+    results = get_sdg1_answers(records)
+    results.map { |answer| answer }
+  end
+
+  def get_sdg2_answers(records)
+    values = []
+    cop_answers = records.values.flatten
+    cop_answers.each do |answer|
+      if answer.cop_attribute_id == 6351
+        values << answer.value
+      end
+    end
+    values.map do |answer|
+      answer ? 1:0
+    end
+  end
+
+  def sdg2
+    results = get_sdg2_answers(records)
+    results.map { |answer| answer }
+  end
+
+  def get_sdg3_answers(records)
+    values = []
+    cop_answers = records.values.flatten
+    cop_answers.each do |answer|
+      if answer.cop_attribute_id == 6361
+        values << answer.value
+      end
+    end
+    values.map do |answer|
+      answer ? 1:0
+    end
+  end
+
+  def sdg3
+    results = get_sdg3_answers(records)
+    results.map { |answer| answer }
+  end
+
+  def get_sdg4_answers(records)
+    values = []
+    cop_answers = records.values.flatten
+    cop_answers.each do |answer|
+      if answer.cop_attribute_id == 6371
+        values << answer.value
+      end
+    end
+    values.map do |answer|
+      answer ? 1:0
+    end
+  end
+
+  def sdg4
+    results = get_sdg4_answers(records)
+    results.map { |answer| answer }
+  end
+
+  def get_sdg5_answers(records)
+    values = []
+    cop_answers = records.values.flatten
+    cop_answers.each do |answer|
+      if answer.cop_attribute_id == 6381
+        values << answer.value
+      end
+    end
+    values.map do |answer|
+      answer ? 1:0
+    end
+  end
+
+  def sdg5
+    results = get_sdg5_answers(records)
+    results.map { |answer| answer }
+  end
+
+  def get_sdg6_answers(records)
+    values = []
+    cop_answers = records.values.flatten
+    cop_answers.each do |answer|
+      if answer.cop_attribute_id == 6391
+        values << answer.value
+      end
+    end
+    values.map do |answer|
+      answer ? 1:0
+    end
+  end
+
+  def sdg6
+    results = get_sdg6_answers(records)
+    results.map { |answer| answer }
+  end
+
+  def get_sdg7_answers(records)
+    values = []
+    cop_answers = records.values.flatten
+    cop_answers.each do |answer|
+      if answer.cop_attribute_id == 6401
+        values << answer.value
+      end
+    end
+    values.map do |answer|
+      answer ? 1:0
+    end
+  end
+
+  def sdg7
+    results = get_sdg7_answers(records)
+    results.map { |answer| answer }
+  end
+
+  def get_sdg8_answers(records)
+    values = []
+    cop_answers = records.values.flatten
+    cop_answers.each do |answer|
+      if answer.cop_attribute_id == 6411
+        values << answer.value
+      end
+    end
+    values.map do |answer|
+      answer ? 1:0
+    end
+  end
+
+  def sdg8
+    results = get_sdg8_answers(records)
+    results.map { |answer| answer }
+  end
+
+  def get_sdg9_answers(records)
+    values = []
+    cop_answers = records.values.flatten
+    cop_answers.each do |answer|
+      if answer.cop_attribute_id == 6421
+        values << answer.value
+      end
+    end
+    values.map do |answer|
+      answer ? 1:0
+    end
+  end
+
+  def sdg9
+    results = get_sdg9_answers(records)
+    results.map { |answer| answer }
+  end
+
+  def get_sdg10_answers(records)
+    values = []
+    cop_answers = records.values.flatten
+    cop_answers.each do |answer|
+      if answer.cop_attribute_id == 6431
+        values << answer.value
+      end
+    end
+    values.map do |answer|
+      answer ? 1:0
+    end
+  end
+
+  def sdg10
+    results = get_sdg10_answers(records)
+    results.map { |answer| answer }
+  end
+
+  def get_sdg11_answers(records)
+    values = []
+    cop_answers = records.values.flatten
+    cop_answers.each do |answer|
+      if answer.cop_attribute_id == 6441
+        values << answer.value
+      end
+    end
+    values.map do |answer|
+      answer ? 1:0
+    end
+  end
+
+  def sdg11
+    results = get_sdg11_answers(records)
+    results.map { |answer| answer }
+  end
+
+  def get_sdg12_answers(records)
+    values = []
+    cop_answers = records.values.flatten
+    cop_answers.each do |answer|
+      if answer.cop_attribute_id == 6451
+        values << answer.value
+      end
+    end
+    values.map do |answer|
+      answer ? 1:0
+    end
+  end
+
+  def sdg12
+    results = get_sdg12_answers(records)
+    results.map { |answer| answer }
+  end
+
+  def get_sdg13_answers(records)
+    values = []
+    cop_answers = records.values.flatten
+    cop_answers.each do |answer|
+      if answer.cop_attribute_id == 6461
+        values << answer.value
+      end
+    end
+    values.map do |answer|
+      answer ? 1:0
+    end
+  end
+
+  def sdg13
+    results = get_sdg13_answers(records)
+    results.map { |answer| answer }
+  end
+
+  def get_sdg14_answers(records)
+    values = []
+    cop_answers = records.values.flatten
+    cop_answers.each do |answer|
+      if answer.cop_attribute_id == 6471
+        values << answer.value
+      end
+    end
+    values.map do |answer|
+      answer ? 1:0
+    end
+  end
+
+  def sdg14
+    results = get_sdg14_answers(records)
+    results.map { |answer| answer }
+  end
+
+  def get_sdg15_answers(records)
+    values = []
+    cop_answers = records.values.flatten
+    cop_answers.each do |answer|
+      if answer.cop_attribute_id == 6481
+        values << answer.value
+      end
+    end
+    values.map do |answer|
+      answer ? 1:0
+    end
+  end
+
+  def sdg15
+    results = get_sdg15_answers(records)
+    results.map { |answer| answer }
+  end
+
+  def get_sdg16_answers(records)
+    values = []
+    cop_answers = records.values.flatten
+    cop_answers.each do |answer|
+      if answer.cop_attribute_id == 6491
+        values << answer.value
+      end
+    end
+    values.map do |answer|
+      answer ? 1:0
+    end
+  end
+
+  def sdg16
+    results = get_sdg16_answers(records)
+    results.map { |answer| answer }
+  end
+
+  def get_sdg17_answers(records)
+    values = []
+    cop_answers = records.values.flatten
+    cop_answers.each do |answer|
+      if answer.cop_attribute_id == 6501
+        values << answer.value
+      end
+    end
+    values.map do |answer|
+      answer ? 1:0
+    end
+  end
+
+  def sdg17
+    results = get_sdg17_answers(records)
+    results.map { |answer| answer }
+  end
 
 end
