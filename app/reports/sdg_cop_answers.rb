@@ -17,19 +17,19 @@ class SdgCopAnswers < SimpleReport
   end
 
   def headers
-    [
-      'organization id',
-      'organization name',
-      'cop id',
-      'cop type',
-      'cop published on',
-      'question + selected sdgs',
-      'free text answer',
-      'organizaton type',
-      'country',
-      'sector',
-      'employees'
-    ]
+    # [
+    #   'organization id',
+    #   'organization name',
+    #   'cop id',
+    #   'cop type',
+    #   'cop published on',
+    #   'question + selected sdgs',
+    #   'free text answer',
+    #   'organizaton type',
+    #   'country',
+    #   'sector',
+    #   'employees'
+    # ]
     [
       'Organization ID',
       'Organization Name',
