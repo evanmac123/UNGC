@@ -18,7 +18,7 @@ class DataVisualization::SectorsController::SectorDataTest < ActionController::T
     @organization3.rejoined_on = Date.new(2015,03,14)
 
     # When we run the sector growth query
-    sector_data = DataVisualization::SectorsController::SectorData.new(@country.id)
+    sector_data = DataVisualization::SectorsController::SectorDataQueries.new(@country.id)
     growth =  sector_data.sector_growth_calculation
 
 
