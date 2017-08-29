@@ -272,7 +272,7 @@ function drawSdgSectorCharts(data, sdgOne) {
 
   // sdg buttons active/select state
   $( document ).ready(function() {
-      $(".sdg1").addClass("active");
+      $(".sdg-button:nth-of-type(1)").addClass("active");
   });
 
   $('.sdg-button').on('click', function (e) {
