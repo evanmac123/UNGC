@@ -1,0 +1,48 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.16/d3.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js"></script>
+
+<h1 style="margin-top: 140px"><%= @country.name %></h1>
+
+<svg class="pie"></svg>
+<ul class="legend"></ul>
+
+<script type="text/javascript">
+  var sectors = <%= raw @top_5_sectors.to_json %>
+
+  var pie = d3.layout.pie()
+   .value(function(d) { return d.count })
+
+  var slices = pie(sectors);
+
+  var arc = d3.svg.arc()
+    .innerRadius(0)
+    .outerRadius(50);
+
+  // helper that returns a color based on an ID
+  var color = d3.scale.category10();
+
+  var svg = d3.select('svg.pie');
+  var g = svg.append('g')
+    .attr('transform', 'translate(200, 50)')
+
+  g.selectAll('path.slice')
+    .data(slices)
+      .enter()
+        .append('path')
+          .attr('class', 'slice')
+          .attr('d', arc)
+          .attr('fill', function(d) {
+            return color(d.data.sector);
+          });
+
+  // building a legend is as simple as binding
+  // more elements to the same data. in this case,
+  // <text> tags
+  var legend = d3.select('.legend');
+  legend.selectAll('li')
+      .data(slices)
+        .enter()
+          .append('li')
+            .text(function(d) { return d.data.sector + " (" + d.data.count + ")"; })
+            .attr('style', function(d) { return "color: " + color(d.data.sector) + ";"; })
+</script>

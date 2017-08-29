@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 15.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns:amcharts="http://amcharts.com/ammap"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="850.354px"
+	 height="875.369px" viewBox="0 0 850.354 875.369" enable-background="new 0 0 850.354 875.369" xml:space="preserve">
+<defs>
+	
+	
+		<amcharts:ammap  projection="mercator" leftLongitude="-58.270506" topLatitude="6.009283" bottomLatitude="1.837306" rightLongitude="-53.951025">
+		</amcharts:ammap>
+</defs>
+<g>
+	<path id="SR-WA" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M554.28,16.46l-4.63-3.06L530.09,62.09l61.851,1.16
+		L571.27,43.53L554.28,16.46z"/>
+	<path id="SR-SA" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M549.65,13.4L428.16,3.07l-5.78,58.22l-3.88,27.17
+		l3.33,26.35l89.79-3.82l18.47-48.9L549.65,13.4z"/>
+	<path id="SR-PM" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M574.27,32.56l-19.989-16.1l16.989,27.07L574.27,32.56z"/>
+	<path id="SR-CR" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M422.38,61.29l-7.66-25.41L282.76,6.94l20.91,80.9
+		l2.78,44.91L418.5,88.46L422.38,61.29z"/>
+	<path id="SR-CM" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M576.6,0l50.16,25.77l-52.49,6.79l-3,10.97l20.671,19.72
+		l1.72,26.76l79.54-5.4L658,2.07L576.6,0z"/>
+	<path id="SR-SI" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M398.19,822.55l20.029-42.88l-45.15-40.7l32.36-53.46
+		l51.12,25.63l151.22-41.949l60.421,57.85l54.89-33.08l40.59-73.06l-8.1-54.29l43.939-95.73l-83.34-118.37l-15.05-137.66l32.82-61.4
+		l-66.061-32.18l-38.81,78.12l21.979,17.96L619.98,348.39L546.31,391.49l-46.02-211.85l-34.31,20.31l-52.301-22.16l4.82-89.33
+		l-112.05,44.29L158.5,143.9l-9.47,46.53l-80.33,3.93l-45.76,35.01l16.03,35.47L0.49,396.27L76.01,515.44l67.5-1.78l20.97,108.59
+		l98.23,161.52L398.19,822.55z"/>
+	<path id="SR-PR" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M591.94,63.25l-61.851-1.16l-18.47,48.9l-89.79,3.82
+		l-3.33-26.35l-4.82,89.33l52.301,22.16l34.31-20.31l30.17-46.5l68.15-0.92l27.58,68.31l2.88-1.14l38.81-78.12l5.32-36.66
+		l-79.54,5.4L591.94,63.25z"/>
+	<path id="SR-MA" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M763.52,126.48l29.74-95.68L658,2.07l15.2,82.54
+		l-5.32,36.66l66.061,32.18L763.52,126.48z"/>
+	<path id="SR-BR" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M626.19,200.53l-27.58-68.31l-68.15,0.92l-30.17,46.5
+		l46.02,211.85l73.671-43.101l31.069-131.04l-21.979-17.96L626.19,200.53z"/>
+	<path id="SR-NI" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M175.39,56.96l0.17-22.01l-5.44,13.12L175.39,56.96z
+		 M303.67,87.84l-20.91-80.9l-91.35,0.05l-19.3,78.06l-34,47.68l20.39,11.17l147.95-11.15L303.67,87.84z"/>
+</g>
+</svg>

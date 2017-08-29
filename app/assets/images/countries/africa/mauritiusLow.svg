@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 15.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns:amcharts="http://amcharts.com/ammap"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="844.5px" height="904.5px"
+	 viewBox="0 0 844.5 904.5" enable-background="new 0 0 844.5 904.5" xml:space="preserve">
+<defs>
+	
+	
+		<amcharts:ammap  projection="mercator" bottomLatitude="-20.5344343112" leftLongitude="57.300567627" topLatitude="-19.9736714582" rightLongitude="57.8155517578">
+		</amcharts:ammap>
+</defs>
+<g>
+	<path id="MU-PW" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M272.14,326.44l-33.12,343.81l59.27,61.38l95.87-35.34
+		l87.16-102.271L296.54,330.15L272.14,326.44z"/>
+	<path id="MU-PL" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M394.56,349.21l-10.86-137.9l-74.25,0.2l-48.62,67.82
+		l11.31,47.11l24.4,3.71L394.56,349.21z"/>
+	<path id="MU-SA" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M155.95,861.71l376.12-10.29L472.6,701.87l-78.439-5.58
+		l-95.87,35.34l-155.14,52.08L155.95,861.71z"/>
+	<path id="MU-RN" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M155.95,861.71l-12.8-78l155.14-52.08l-59.27-61.38
+		l33.12-343.81l-11.31-47.11L120.54,420.37l-31.97,319.1L0.46,745.53L155.95,861.71z"/>
+	<path id="MU-RR" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M449.87,0l82,268.87l166.87-102.66L611.16,0H449.87z"/>
+	<path id="MU-PA" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M449.87,0L309.45,211.51l74.25-0.2l10.86,137.9
+		l100.02-29.57l37.29-50.77L449.87,0z"/>
+	<path id="MU-MO" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M394.56,349.21l-98.02-19.06L481.32,594.02l111.56-26.029
+		l-62.76-131.95l52.3-52.021l-87.84-64.38L394.56,349.21z"/>
+	<path id="MU-GP" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M771,527.12l-178.12,40.87L481.32,594.02L394.16,696.29
+		l78.439,5.58l59.471,149.55L681.97,751.31L664,670.26L771,527.12z"/>
+	<path id="MU-BL" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M771,527.12l28.54-141.94l-100.8-218.97L531.87,268.87
+		l-37.29,50.77l87.84,64.38l-52.3,52.021l62.76,131.95L771,527.12z"/>
+</g>
+</svg>

@@ -1,0 +1,32 @@
+<div id="sdg-charts-page">
+<section class="main-content-section align-center light-theme" style="">
+    <div class="full-width-wrapper">
+      <div class="wrapper">
+        <header class="main-content-header"><h1>SDG data for all participants</h1></header>
+        <section class="main-content-body">
+        <div id="data-vis">
+          <div id="total-sdg-count"></div>
+          <header class="main-content-header"><h4>Click on a SDG icon to see which sectors are reporting activites to advance the SDGs</h4></header>
+          <div class="wrapper"><div id="sdgButtons"></div></div>
+          <div id="total-sdg-sector"></div>
+        </div>
+        <!-- <div class="wrapper white-bg full">
+          <div id="sdg-vis" class="center"><%= link_to 'Return to SDG Countries Page', data_visualization_sdgs_path %></div>
+        </div> -->
+        </section>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+$(function() {
+	var totalSdgCount = <%= raw @participant_overall_sdg_breakdown.to_json %>;
+	countTotalSdgs(totalSdgCount);
+});
+
+$(function() {
+	var totalSdgSectorCount = <%= raw @participant_overall_sdg_sector_count.to_json %>;
+	drawTotalSdgSectorCharts(totalSdgSectorCount);
+});
+</script>

@@ -1,6 +1,12 @@
 //= require 'jquery'
 //= require 'jquery-ui'
 //= require jquery.tablesorter.min
+//= require d3.min
+//= require topojson.v1.min
+//= require queue.min
+//= require d3-geo-projection.v1.min
+//= require d3-tip
+//= require jenks
 //= require jquery.priceformat.min
 //= require_tree ./news
 //= require_tree ./library
@@ -21,4 +27,5 @@
 //= require tabbed-component
 //= require tied-principles
 //= require_tree ./sdg_pioneer
+//= require_tree ./d3
 //= require donations

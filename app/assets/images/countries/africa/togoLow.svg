@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 15.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns:amcharts="http://amcharts.com/ammap"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1024px"
+	 height="2126.514px" viewBox="0 0 1024 2126.514" enable-background="new 0 0 1024 2126.514" xml:space="preserve">
+<defs>
+	
+	
+		<amcharts:ammap  projection="mercator" leftLongitude="-0.144042" topLatitude="11.1404963" rightLongitude="1.8088217" bottomLatitude="6.112395">
+		</amcharts:ammap>
+</defs>
+<g>
+	<path id="TG-S" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M0.19,0l74.82,30.28l-42.82,179.3l198.93,146.17L230.29,459
+		l65.55,66.26l51.2-0.74l23.75-121.51l106.75-19.439l-97-69.09l8.44-129.771l49.33-125.23L268.48,84.35l-0.42-29.25L0.19,0z"/>
+	<path id="TG-C" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M726.59,1152.51L723.25,858l-72.08-89.59L479.05,804.39
+		l-20.13,76.45l-90.49-11.12l-101.6,88.75L221.3,979.74l0.72,24.5l99.27,97.949l39.57,79.15l-57,38.99l11.83,128.82l249.21-35.521
+		L587.31,1237l-11.529-86.37L726.59,1152.51z"/>
+	<path id="TG-K" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M651.17,768.41l-39.81-103.99l3.229-189.13l-137.05-91.72
+		L370.79,403.01l-23.75,121.51l-51.2,0.74L230.29,459l-18.39,2.81l-1.1,152.311l-35.34,2.49l47.92,28.199l-60.55,5.69l29.43,28.42
+		l-30.82,31.25l75.86-24.92l49.12,37.92l-41.07,155.29l21.48,80.01l101.6-88.75l90.49,11.12l20.13-76.45L651.17,768.41z"/>
+	<path id="TG-M" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M554.83,2090.37l244.979-72.97l-88.77-165.57l-0.75-92.97
+		l-132.67,74.96l-49.41-35.5l-80.8-0.891l-16.88,68.45l-69.54,45.53l22.05,47.32l88.95,39.13L554.83,2090.37z"/>
+	<path id="TG-P" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M726.59,1152.51l-150.81-1.88L587.31,1237l-22.409,76.63
+		l-249.21,35.521l3.95,80.229l-47.89,80.79l61.08,83.75l-19.05,111.98l-42.45,24.01l89.66,181.5l69.54-45.53l16.88-68.45l80.8,0.891
+		l49.41,35.5l132.67-74.96l-13.25-36.721l38.47-2.01L726.59,1152.51z"/>
+</g>
+</svg>

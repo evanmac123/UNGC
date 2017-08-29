@@ -1,0 +1,12 @@
+<section class="main-content-section main-content-section-narrow">
+  <div class="wrapper">
+    <header class="main-content-header"><h1>Sectors by Country</h1></header>
+    <section class="columns">
+  <% @countries.each do |country| %>
+    <div class="sector-countries-button" id="data-visualization-<%= country.name %>">
+      <%= link_to country.name, data_visualization_sector_path(country) %>
+    </div>
+  <% end %>
+</section>
+</div>
+</section>

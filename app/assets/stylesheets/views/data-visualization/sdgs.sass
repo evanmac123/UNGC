@@ -1,0 +1,738 @@
+.main-content-section
+  margin: 7em auto 0 auto
+  .wrapper
+    //margin: 0 6.25%
+    max-width: 1280px
+    width: 100%
+    margin: 0 auto
+    padding-left: 1em
+    padding-bottom: 1em
+  #wrapper
+    margin: 0 6.25%
+    padding-left: 4.4em
+  &:first-child
+    padding-top: 1em
+  .main-content-header
+    max-width: 1050px
+    margin: 0 auto
+
+#data-vis
+  margin: 0 auto
+  margin-top: 0 !important
+  padding: 0 1em 2em 1em
+  max-width: 960px
+  .title, .sdg-title
+    color: rgba(63, 63, 63, 1)
+    fill: rgba(63, 63, 63, 1)
+    font-size: 1.1em
+    margin: 2em 0 1em
+    font-family: "Flama Bold", "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif
+  //width: 80%
+
+.tick
+  font-size: 1.2em !important
+
+  .title
+    margin-top: -1em
+    margin-left: -300px !important
+    left: -100px !important
+  svg
+    //max-width: 200px !important
+
+//.title
+  text-anchor: middle !important
+  -webkit-transform: translate(50px,50px) !important
+  -moz-transform: translate(50px,50px) !important
+  -ms-transform: translate(50px,50px) !important
+  -o-transform: translate(50px,50px) !important
+  transform: translate(50px,50px) !important
+
+.cops
+  #data-vis
+    margin-top: 10em !important
+
+#cops-page
+  #cop-counter
+    margin-top: -1.5em
+  #cop-year
+    margin: 3em auto 1em auto
+    max-width: 675px
+  .cop-title
+    font-size: 1em !important
+    padding: 0 0 1.5em 0
+  .year-button
+    padding: 0.25em 0.5em
+    font-size: 0.85em
+    margin: 0 0 1em 0
+    background: rgb(30,50,80)
+    border-radius: 0
+    border-right: 1px solid rgba(255,255,255,0.4)
+    //opacity: 0.5
+  &.active
+    opacity: 1
+  #chart-area
+    margin: 1em auto !important
+    max-width: 700px
+
+#dount-chart
+  svg
+    margin-top: -2em
+  .tooltip
+    top: 105px
+    left: 310px
+    .year
+      font-weight: bold
+
+#sdg-charts-page, #cops-page
+  .main-content-section > .full-width-wrapper > .wrapper
+    margin: 0
+    padding: 0
+  #dount-chart
+    .tooltip
+      top: 110px
+      left: 180px
+    svg
+      //margin-left: -230px !important
+    //.legend
+      left: -200px !important
+  //#sector-organization
+    svg
+      margin-left: 100px !important
+  #sector-growth
+    margin: 0 auto
+    max-width: 650px
+    #sector-dropdown
+      margin: 1em 0
+    .background
+      fill: #fff
+    .axis
+      line
+        stroke: #555
+    text
+      font-size: 1em
+
+#sdg-vis, #cop-vis, #sector-vis
+  display: block
+  margin: 0 auto
+  text-align: center
+  clear: both
+  a
+    font-family: "Flama Bold", "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif
+    font-weight: bold
+    display: inline-block
+    margin: 0 0.25em 0.5em 0
+    background: rgb(30,50,80)
+    font-size: 1em
+    color: white
+    text-align: center
+    text-transform: uppercase
+    padding: 0.5em 2em
+    border: 0
+    text-decoration: none
+    -webkit-transition-duration: 150ms
+    -moz-transition-duration: 150ms
+    transition-duration: 150ms
+    -webkit-font-smoothing: antialiased
+    -moz-osx-font-smoothing: grayscale
+
+#sdg-vis
+  margin-top: -4em
+
+#sector-vis
+  margin-bottom: 2em
+
+.d3-tip
+  line-height: 1.5
+  font-size: 0.8em !important
+  font-weight: 400
+  font-family: Roboto, Flama, Helvetica, Arial, sans-serif
+  padding: 1em
+  background: rgba(255,255,255,1) !important
+  color: rgb(63,63,63)
+  border-radius: 1px
+  pointer-events: none
+  z-index: 99
+  transition: 0.2s ease all
+  &:after,
+  .details
+    transition: 0.2s ease all
+    color: #333 !important
+
+.toolTip
+  position: absolute
+  text-align: center
+  width: 180px
+  height: auto
+  z-index: 999
+  padding: 8px
+  margin-top: -20px
+  font-size: 0.85em
+  background: #fff
+  pointer-events: none
+
+//Landing map specifics
+#landing-map-page
+  .full-width.dark-blue
+    background: #132033
+    .wrapper
+      .main-content-header
+        max-width: 1280px
+        width: 100%
+        display: block
+        clear: both
+        margin: 0 auto
+        padding: 3em 0 0 0
+        z-index: 99
+        text-align: center
+        h1
+          color: white
+  #data-vis
+    max-width: 100%
+    padding: 0
+    #worldmap
+      margin: -3em 0 0 7%
+      padding: 0
+      svg
+        shape-rendering: geometricPrecision
+
+.wrapper.white-bg.full
+  background: #fff
+  max-width: 100%
+  padding: 6em 0 0 0
+
+//Specific to SDG count
+#sdg-charts-page
+  padding: 0 1em
+  #sdg-count
+    .title
+      left: -200px !important
+      position: absolute
+
+#data-vis
+  #sdg-count
+    max-height: 475px
+    max-width: 800px
+    svg
+      rect
+
+  #sdg-sector
+    max-width: 800px
+    margin: 0 auto
+    .title
+    .toolTip
+      left: 60% !important
+      top: 200px !important
+
+.columns
+  margin: 1em 0 5em 0
+  -moz-column-count: 1
+  -webkit-column-count: 1
+  column-count: 1
+  -webkit-column-gap: 2em /* Chrome, Safari, Opera */
+  -moz-column-gap: 2em /* Firefox */
+  column-gap: 2em
+
+.sdg-countries-button
+  background-size: 20px
+  background-repeat: no-repeat
+  padding: 0 0 0 30px
+  a
+    cursor: pointer
+    padding-left: 2em
+    margin-left: -2em
+
+.sdg-button:nth-of-type(7),
+.sdg-button:nth-of-type(13)
+  //clear: left
+
+#sdgButtons
+  margin: 0 auto
+  float: none
+  //width: 520px
+  padding: 2em 0 0 0
+  border-top: 1px solid #cccccc
+
+.sdg-button
+  background-repeat: no-repeat
+  height: auto
+  width: auto
+  max-width: 100%
+  max-height: 100%
+  color: black
+  height: 40px
+  width: 40px
+  background-size: 100% auto !important
+  padding: 0
+  display: inline-block
+  margin: 0 0.25em 0.25em 0
+  cursor: pointer
+  border-radius: 0
+  opacity: 0.5
+  &.active
+    opacity: 1
+  &:hover
+    opacity: 1
+
+//.sdg-button:first-of-type
+  opacity: 1
+
+.sdg1
+  background-image: image-url("sdg_icons/sdg-01.svg")
+
+.sdg2
+  background-image: image-url("sdg_icons/sdg-02.svg")
+
+.sdg3
+  background-image: image-url("sdg_icons/sdg-03.svg")
+
+.sdg4
+  background-image: image-url("sdg_icons/sdg-04.svg")
+
+.sdg5
+  background-image: image-url("sdg_icons/sdg-05.svg")
+
+.sdg6
+  background-image: image-url("sdg_icons/sdg-06.svg")
+
+.sdg7
+  background-image: image-url("sdg_icons/sdg-07.svg")
+
+.sdg8
+  background-image: image-url("sdg_icons/sdg-08.svg")
+
+.sdg9
+  background-image: image-url("sdg_icons/sdg-09.svg")
+
+.sdg10
+  background-image: image-url("sdg_icons/sdg-10.svg")
+
+.sdg11
+  background-image: image-url("sdg_icons/sdg-11.svg")
+
+.sdg12
+  background-image: image-url("sdg_icons/sdg-12.svg")
+
+.sdg13
+  background-image: image-url("sdg_icons/sdg-13.svg")
+
+.sdg14
+  background-image: image-url("sdg_icons/sdg-14.svg")
+
+.sdg15
+  background-image: image-url("sdg_icons/sdg-15.svg")
+
+.sdg16
+  background-image: image-url("sdg_icons/sdg-16.svg")
+
+.sdg17
+  background-image: image-url("sdg_icons/sdg-17.svg")
+
+#data-visualization-afghanistan
+  background-image: image-url("countries/asia/afghanistanLow.svg")
+#data-visualization-albania
+  background-image: image-url("countries/europe/albaniaLow.svg")
+#data-visualization-algeria
+  background-image: image-url("countries/mena/algeriaLow.svg")
+#data-visualization-andorra
+  background-image: image-url("countries/europe/andorraLow.svg")
+#data-visualization-angola
+  background-image: image-url("countries/africa/angolaLow.svg")
+#data-visualization-argentina
+  background-image: image-url("countries/latin_am/argentinaLow.svg")
+#data-visualization-armenia
+  background-image: image-url("countries/europe/armeniaLow.svg")
+#data-visualization-australia
+  background-image: image-url("countries/oceania/australiaLow.svg")
+#data-visualization-austria
+  background-image: image-url("countries/europe/austriaLow.svg")
+#data-visualization-azerbaijan
+  background-image: image-url("countries/europe/azerbaijanLow.svg")
+// #data-visualization-bahamas
+//   background-image: image-url()
+#data-visualization-bahrain
+  background-image: image-url("countries/mena/bahrainLow.svg")
+#data-visualization-bangladesh
+  background-image: image-url("countries/asia/bangladeshLow.svg")
+// #data-visualization-barbados
+//   background-image: image-url()
+#data-visualization-belarus
+  background-image: image-url("countries/europe/belarusLow.svg")
+#data-visualization-belgium
+  background-image: image-url("countries/europe/belgiumLow.svg")
+#data-visualization-belize
+  background-image: image-url("countries/latin_am/belizeLow.svg")
+// #data-visualization-benin
+//   background-image: image-url()
+#data-visualization-bermuda
+  background-image: image-url("countries/latin_am/bermudaHigh.svg")
+#data-visualization-bolivia
+  background-image: image-url("countries/latin_am/boliviaLow.svg")
+#data-visualization-bosnia-herzegovina
+  background-image: image-url("countries/europe/bosniaHerzegovinaRegionsLow.svg")
+#data-visualization-brazil
+  background-image: image-url("countries/latin_am/brazilLow.svg")
+// #data-visualization-brunei-darussalam
+//   background-image: image-url()
+#data-visualization-bulgaria
+  background-image: image-url("countries/europe/bulgariaLow.svg")
+// #data-visualization-burkina-faso
+//   background-image: image-url()
+// #data-visualization-burundi
+//   background-image: image-url()
+#data-visualization-cambodia
+  background-image: image-url("countries/asia/cambodiaLow.svg")
+#data-visualization-cameroon
+  background-image: image-url("countries/africa/cameroonLow.svg")
+#data-visualization-canada
+  background-image: image-url("countries/north_am/canadaLow.svg")
+#data-visualization-cape-verde
+  background-image: image-url("countries/africa/capeVerdeLow.svg")
+#data-visualization-central-african-republic
+  background-image: image-url("countries/africa/centralAfricanRepublicLow.svg")
+#data-visualization-chile
+  background-image: image-url("countries/latin_am/chileLow.svg")
+#data-visualization-china
+  background-image: image-url("countries/asia/chinaLow.svg")
+#data-visualization-colombia
+  background-image: image-url("countries/latin_am/colombiaLow.svg")
+#data-visualization-congo
+  background-image: image-url("countries/africa/congoDRLow.svg")
+// #data-visualization-congo-democratic-republic-of
+//   background-image: image-url()
+#data-visualization-costa-rica
+  background-image: image-url("countries/latin_am/costaRicaLow.svg")
+#data-visualization-cote-d-ivoire
+  background-image: image-url("countries/africa/ivoryCoastLow.svg")
+#data-visualization-croatia
+  background-image: image-url("countries/europe/croatiaLow.svg")
+#data-visualization-cyprus
+  background-image: image-url("countries/europe/cyprusLow.svg")
+#data-visualization-czechia
+  background-image: image-url("countries/europe/czechRepublicLow.svg")
+#data-visualization-denmark
+  background-image: image-url("countries/europe/denmarkLow.svg")
+#data-visualization-djibouti
+  background-image: image-url("countries/africa/djiboutiLow.svg")
+#data-visualization-dominican-republic
+  background-image: image-url("countries/latin_am/dominicanRepublicLow.svg")
+#data-visualization-ecuador
+  background-image: image-url("countries/latin_am/ecuadorLow.svg")
+#data-visualization-egypt
+  background-image: image-url("countries/mena/egyptLow.svg")
+#data-visualization-el-salvador
+  background-image: image-url("countries/latin_am/elSalvadorLow.svg")
+#data-visualization-estonia
+  background-image: image-url("countries/europe/estoniaLow.svg")
+#data-visualization-ethiopia
+  background-image: image-url("countries/africa/ethiopiaLow.svg")
+#data-visualization-finland
+  background-image: image-url("countries/europe/finlandLow.svg")
+#data-visualization-france
+  background-image: image-url("countries/europe/franceLow.svg")
+#data-visualization-gabon
+  background-image: image-url("countries/africa/gabonLow.svg")
+#data-visualization-gambia
+  background-image: image-url("countries/africa/gambiaLow.svg")
+#data-visualization-georgia
+  background-image: image-url("countries/europe/georgiaLow.svg")
+#data-visualization-germany
+  background-image: image-url("countries/europe/germanyLow.svg")
+#data-visualization-ghana
+  background-image: image-url("countries/africa/ghanaLow.svg")
+#data-visualization-greece
+  background-image: image-url("countries/europe/greeceLow.svg")
+#data-visualization-guatemala
+  background-image: image-url("countries/latin_am/guatemalaLow.svg")
+#data-visualization-guinea
+  background-image: image-url("countries/africa/centralAfricanRepublicLow.svg")
+#data-visualization-guyana
+  background-image: image-url("countries/latin_am/guyanaLow.svg")
+#data-visualization-haiti
+  background-image: image-url("countries/latin_am/haitiLow.svg")
+#data-visualization-honduras
+  background-image: image-url("countries/latin_am/hondurasLow.svg")
+#data-visualization-hungary
+  background-image: image-url("countries/europe/hungaryLow.svg")
+#data-visualization-iceland
+  background-image: image-url("countries/europe/icelandLow.svg")
+#data-visualization-india
+  background-image: image-url("countries/asia/indiaLow.svg")
+#data-visualization-indonesia
+  background-image: image-url("countries/asia/indonesiaLow.svg")
+#data-visualization-iran-islamic-republic-of
+  background-image: image-url("countries/mena/iranLow.svg")
+#data-visualization-iraq
+  background-image: image-url("countries/mena/iraqLow.svg")
+#data-visualization-ireland
+  background-image: image-url("countries/europe/irelandLow.svg")
+#data-visualization-israel
+  background-image: image-url("countries/europe/israelLow.svg")
+#data-visualization-italy
+  background-image: image-url("countries/europe/italyLow.svg")
+#data-visualization-japan
+  background-image: image-url("countries/asia/japanLow.svg")
+#data-visualization-jordan
+  background-image: image-url("countries/asia/jordanLow.svg")
+#data-visualization-kazakhstan
+  background-image: image-url("countries/asia/kazakhstanLow.svg")
+#data-visualization-kenya
+  background-image: image-url("countries/africa/kenyaLow.svg")
+#data-visualization-korea-republic-of
+  background-image: image-url("countries/asia/southKoreaLow.svg")
+#data-visualization-kosovo
+  background-image: image-url("countries/europe/kosovoLow.svg")
+#data-visualization-kuwait
+  background-image: image-url("countries/mena/kuwaitLow.svg")
+#data-visualization-kyrgyzstan
+  background-image: image-url("countries/asia/kyrgyzstanLow.svg")
+#data-visualization-lao-people-s-democratic-republic
+  background-image: image-url("countries/asia/laosLow.svg")
+#data-visualization-latvia
+  background-image: image-url("countries/europe/latviaLow.svg")
+#data-visualization-lebanon
+  background-image: image-url("countries/mena/lebanonLow.svg")
+#data-visualization-lesotho
+  background-image: image-url("countries/africa/lesothoLow.svg")
+#data-visualization-liberia
+  background-image: image-url("countries/africa/liberiaLow.svg")
+#data-visualization-libya
+  background-image: image-url("countries/mena/libyaLow.svg")
+#data-visualization-liechtenstein
+  background-image: image-url("countries/europe/liechtensteinHigh.svg")
+#data-visualization-lithuania
+  background-image: image-url("countries/europe/lithuaniaLow.svg")
+#data-visualization-luxembourg
+  background-image: image-url("countries/europe/luxembourgLow.svg")
+#data-visualization-macedonia-the-former-yugoslav-republic-of
+  background-image: image-url("countries/europe/macedoniaLow.svg")
+#data-visualization-madagascar
+  background-image: image-url("countries/africa/madagascarLow.svg")
+#data-visualization-malawi
+  background-image: image-url("countries/africa/malawiLow.svg")
+#data-visualization-malaysia
+  background-image: image-url("countries/asia/malaysiaLow.svg")
+#data-visualization-maldives
+  background-image: image-url"countries/asia/maldivesLow.svg"()
+#data-visualization-malta
+  background-image: image-url("countries/europe/maltaHigh.svg")
+#data-visualization-mauritius
+  background-image: image-url("countries/africa/mauritiusLow.svg")
+#data-visualization-mexico
+  background-image: image-url("countries/latin_am/mexicoLow.svg")
+#data-visualization-moldova-republic-of
+  background-image: image-url("countries/europe/moldovaLow.svg")
+#data-visualization-monaco
+  background-image: image-url("countries/europe/monacoLow.svg")
+#data-visualization-mongolia
+  background-image: image-url("countries/asia/mongoliaLow.svg")
+#data-visualization-montenegro
+  background-image: image-url("countries/europe/montenegroLow.svg")
+#data-visualization-morocco
+  background-image: image-url("countries/mena/moroccoLow.svg")
+#data-visualization-mozambique
+  background-image: image-url("countries/africa/mozambiqueLow.svg")
+#data-visualization-myanmar
+  background-image: image-url("countries/asia/myanmarLow.svg")
+// #data-visualization-namibia
+//   background-image: image-url()
+#data-visualization-nepal
+  background-image: image-url("countries/asia/nepalLow.svg")
+#data-visualization-netherlands
+  background-image: image-url("countries/europe/netherlandsLow.svg")
+#data-visualization-new-zealand
+  background-image: image-url("countries/oceania/newZealandLow.svg")
+#data-visualization-nicaragua
+  background-image: image-url("countries/latin_am/nicaraguaLow.svg")
+#data-visualization-niger
+  background-image: image-url("countries/africa/nigerLow.svg")
+#data-visualization-nigeria
+  background-image: image-url("countries/africa/nigeriaLow.svg")
+#data-visualization-norway
+  background-image: image-url("countries/europe/norwayLow.svg")
+#data-visualization-oman
+  background-image: image-url("countries/mena/omanLow.svg")
+#data-visualization-pakistan
+  background-image: image-url("countries/asia/pakistanLow.svg")
+#data-visualization-palestine-state-of
+  background-image: image-url("countries/mena/palestineLow.svg")
+#data-visualization-panama
+  background-image: image-url("countries/latin_am/panamaLow.svg")
+//#data-visualization-papua-new-guinea
+  background-image: image-url("")
+#data-visualization-paraguay
+  background-image: image-url("countries/latin_am/paraguayLow.svg")
+#data-visualization-peru
+  background-image: image-url("countries/latin_am/peruLow.svg")
+#data-visualization-philippines
+  background-image: image-url("countries/asia/philippinesLow.svg")
+#data-visualization-poland
+  background-image: image-url("countries/europe/polandLow.svg")
+#data-visualization-portugal
+  background-image: image-url("countries/europe/portugalLow.svg")
+#data-visualization-qatar
+  background-image: image-url("countries/mena/qatarLow.svg")
+#data-visualization-romania
+  background-image: image-url("countries/europe/romaniaLow.svg")
+#data-visualization-russian-federation
+  background-image: image-url("countries/europe/russiaLow.svg")
+// #data-visualization-rwanda
+//   background-image: image-url()
+#data-visualization-san-marino
+  background-image: image-url("countries/europe/sanMarinoLow.svg")
+#data-visualization-saudi-arabia
+  background-image: image-url("countries/mena/saudiArabiaLow.svg")
+#data-visualization-senegal
+  background-image: image-url("countries/africa/senegalLow.svg")
+#data-visualization-serbia
+  background-image: image-url("countries/europe/serbiaLow.svg")
+#data-visualization-seychelles
+  background-image: image-url("countries/africa/seychellesLow.svg")
+#data-visualization-sierra-leone
+  background-image: image-url("countries/africa/sierraLeoneLow.svg")
+#data-visualization-singapore
+  background-image: image-url("countries/asia/singaporeLow.svg")
+#data-visualization-slovakia
+  background-image: image-url("countries/europe/slovakiaLow.svg")
+#data-visualization-slovenia
+  background-image: image-url("countries/europe/sloveniaLow.svg")
+#data-visualization-somalia
+  background-image: image-url("countries/africa/somaliaLow.svg")
+#data-visualization-south-africa
+  background-image: image-url("countries/africa/southAfricaLow.svg")
+#data-visualization-south-sudan
+  background-image: image-url("countries/africa/southSudanLow.svg")
+#data-visualization-spain
+  background-image: image-url("countries/europe/spainLow.svg")
+#data-visualization-sri-lanka
+  background-image: image-url("countries/asia/sriLankaLow.svg")
+#data-visualization-sudan
+  background-image: image-url("countries/africa/sudanLow.svg")
+#data-visualization-suriname
+  background-image: image-url("countries/latin_am/surinameLow.svg")
+#data-visualization-sweden
+  background-image: image-url("countries/europe/swedenLow.svg")
+#data-visualization-switzerland
+  background-image: image-url("countries/europe/switzerlandLow.svg")
+#data-visualization-syrian-arab-republic
+  background-image: image-url("countries/mena/syriaLow.svg")
+#data-visualization-tanzania-united-republic-of
+  background-image: image-url("countries/africa/tanzaniaLow.svg")
+#data-visualization-thailand
+  background-image: image-url("countries/asia/thailandLow.svg")
+#data-visualization-togo
+  background-image: image-url("countries/africa/togoLow.svg")
+#data-visualization-trinidad-and-tobago
+  background-image: image-url("countries/latin_am/trinidadAndTobagoLow.svg")
+#data-visualization-tunisia
+  background-image: image-url("countries/mena/tunisiaLow.svg")
+#data-visualization-turkey
+  background-image: image-url("countries/europe/turkeyLow.svg")
+#data-visualization-turkmenistan
+  background-image: image-url("countries/asia/turkmenistanLow.svg")
+#data-visualization-uganda
+  background-image: image-url("countries/africa/ugandaLow.svg")
+#data-visualization-ukraine
+  background-image: image-url("countries/europe/ukraineLow.svg")
+#data-visualization-united-arab-emirates
+  background-image: image-url("countries/mena/unitedArabEmiratesLow.svg")
+#data-visualization-united-kingdom
+  background-image: image-url("countries/europe/unitedKingdomLow.svg")
+#data-visualization-united-states-of-america
+  background-image: image-url("countries/north_am/usaLow.svg")
+#data-visualization-uruguay
+  background-image: image-url("countries/latin_am/uruguayLow.svg")
+// #data-visualization-uzbekistan
+//   background-image: image-url()
+#data-visualization-venezuela
+  background-image: image-url("countries/latin_am/venezuelaLow.svg")
+#data-visualization-viet-nam
+  background-image: image-url("countries/asia/vietnamLow.svg")
+#data-visualization-yemen
+  background-image: image-url("countries/mena/yemenLow.svg")
+#data-visualization-zambia
+  background-image: image-url("countries/africa/zambiaLow.svg")
+#data-visualization-zimbabwe
+  background-image: image-url("countries/africa/zimbabweLow.svg")
+
+
+//2 cols for mobile:
+//@media only screen and (max-width: 800px)
+  .columns
+    -moz-column-count: 1
+    -webkit-column-count: 1
+    column-count: 1
+
+//gradual breakpoints
+
+@media only screen and (min-width: 450px)
+  #data-vis
+    #worldmap
+      //margin-top: -3em
+      //margin-bottom: -4em
+
+  .columns
+    -moz-column-count: 2
+    -webkit-column-count: 2
+    column-count: 2
+
+@media only screen and (min-width: 650px)
+  #data-vis
+    #worldmap
+      //margin-top: -3em
+      //margin-bottom: -4em
+
+  #landing-map-page
+    .full-width.dark-blue
+      .wrapper
+        .main-content-header
+          padding: 9em 0 0 0
+
+@media only screen and (min-width: 850px)
+
+  .columns
+    -moz-column-count: 3
+    -webkit-column-count: 3
+    column-count: 3
+
+@media only screen and (min-width: 1100px)
+  #data-vis
+    #worldmap
+      //margin-left: 0%
+
+  .columns
+    -moz-column-count: 5
+    -webkit-column-count: 5
+    column-count: 5
+
+@media only screen and (min-width: 1200px)
+  #data-vis
+    #worldmap
+      //margin-left: -8%
+
+  #landing-map-page
+    .full-width.dark-blue
+      .wrapper
+        .main-content-header
+          padding: 10em 0 0 0
+
+  #landing-map-page
+    #data-vis
+      #worldmap
+        margin: -5em 0 0 7%
+
+@media only screen and (min-width: 1400px)
+  #data-vis
+    #worldmap
+      //margin-left: -18%
+
+@media only screen and (min-width: 1600px)
+  #data-vis
+    #worldmap
+      //margin-left: -24%
+      //margin-top: -7em
+
+@media only screen and (min-width: 1800px)
+  #data-vis
+    #worldmap
+      //margin-left: -29%
+      //margin-top: -7em

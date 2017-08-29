@@ -1,0 +1,12 @@
+<section class="main-content-section main-content-section-narrow cops">
+  <div class="wrapper">
+    <header class="main-content-header"><h1>Participant Countries</h1></header>
+    <section class="columns">
+      <% @countries.each do |country| %>
+        <div class="cop-countries-button" id="data-visualization-<%= country.name %>">
+          <%= link_to country.name, data_visualization_cop_path(country) %>
+        </div>
+      <% end %>
+    </section>
+  </div>
+</section>

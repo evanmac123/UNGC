@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 15.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns:amcharts="http://amcharts.com/ammap"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1024px" height="768px"
+	 viewBox="0 0 1024 768" enable-background="new 0 0 1024 768" xml:space="preserve">
+<defs>
+	
+	
+		<amcharts:ammap  projection="mercator" leftLongitude="-61.9314175" topLatitude="11.3625022" bottomLatitude="10.0424809" rightLongitude="-60.4924983">
+		</amcharts:ammap>
+</defs>
+<g>
+	<path id="TT-TOB" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M799.47,0L709.53,27.36l-94.48,76.77l25.12,12
+		L793.8,44.72L799.47,0z"/>
+	<path id="TT-POS" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M237.71,386.7l-21.41,5.069l30.34,18.171L237.71,386.7z"
+		/>
+	<path id="TT-CHA" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M318.68,450.5l-23.19-0.45l-17.77,0.75l-12.06,15.53
+		l-0.03,8.97l47.05,10.21L318.68,450.5z"/>
+	<path id="TT-SFO" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M277.45,627.59l7.76-29.43l-18.07,0.17l-17.21,34.9
+		L277.45,627.59z"/>
+	<path id="TT-TUP" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M430.86,312.59l-102.89-0.1l6.49,38.51L286,356.06
+		l9.49,93.99l23.19,0.45l73.78-15l21.51-19.37l-7.38-50.75l-14.35-6.09l46.8-26.61L430.86,312.59z M372.35,426.29l-11.95-3.76
+		l5.76-23.19L372.35,426.29z"/>
+	<path id="TT-PTF" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M126.32,681.41l8.74,13.57l11.88-2.69l22.95-26.11
+		l-4.88-10.29L126.32,681.41z"/>
+	<path id="TT-PED" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M312.92,735.13l3.55-83.479l-39.02-24.061l-27.52,5.641
+		l-17.55,5.289l29.55,31.421l-20.09,67.1L312.92,735.13z"/>
+	<path id="TT-CTT" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M416.34,513.59l-11.88-5.68l4.46-27.15l-16.46-45.26
+		l-73.78,15l-6,35.01l-47.05-10.21l-14.58,53.46l16.09,69.57l18.07-0.17l66.13-13.32l38.61,14.99L416.34,513.59z"/>
+	<path id="TT-PRT" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M389.95,599.83l-38.61-14.99l-66.13,13.32l-7.76,29.43
+		l39.02,24.061l-3.55,83.479l114.49-1.36l-8.141-89.47L389.95,599.83z"/>
+	<path id="TT-SJL" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M295.49,450.05L286,356.06l48.46-5.06l-6.49-38.51
+		L301,333.23l-23.68,7.909v-12.22l-3.49,7.91l-7.15-7.13l-16.86,11.42l-12.11,45.58l8.93,23.24l19.02,56.39l12.06-15.53
+		L295.49,450.05z"/>
+	<path id="TT-MRC" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M506.54,509.38l-90.2,4.21l-26.39,86.24l29.319,44.47
+		l8.141,89.47l44.32-11.55l33.029-23.359l25.9-1.5l-3.86-63.12l23.59-47.641l-31.3-30.119L506.54,509.38z"/>
+	<path id="TT-SGE" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M506.54,509.38l-2.29-26.77l16.44-14.181L509.8,382.24
+		l47.13-46.25l24.15-42.62l-97.32,3.58l-52.899,15.64l8.18,20.09l-46.8,26.61l14.35,6.09l7.38,50.75l-21.51,19.37l16.46,45.26
+		l-4.46,27.15l11.88,5.68L506.54,509.38z"/>
+	<path id="TT-ARI" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M372.35,426.29l-6.19-26.95l-5.76,23.19L372.35,426.29z"
+		/>
+	<path id="TT-SIP" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M22.66,752.75l54.82-24.15l60.89,1.46l35.96,14.99
+		l67.51-8.01l20.09-67.1l-29.55-31.421l-60.34-4.109l-7.03,21.479l4.88,10.29l-22.95,26.11l-11.88,2.69l-8.74-13.57l-55.99,19.05
+		l-69.8,44.12L22.66,752.75z"/>
+	<path id="TT-DMN" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M136.2,385.23l4.51-12.851l-12.77,11.601L136.2,385.23z
+		 M237.71,386.7l12.11-45.58l-63.67,3.979l-37.21,23.7l6.38,9.84l60.98,13.13L237.71,386.7z"/>
+</g>
+</svg>

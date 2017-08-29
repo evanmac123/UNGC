@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 15.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns:amcharts="http://amcharts.com/ammap"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1024px" height="768px"
+	 viewBox="0 0 1024 768" enable-background="new 0 0 1024 768" xml:space="preserve">
+<defs>
+	
+	
+		<amcharts:ammap  projection="mercator" leftLongitude="46.5530399" topLatitude="30.1036993" bottomLatitude="28.5244463" rightLongitude="48.4304579">
+		</amcharts:ammap>
+</defs>
+<g>
+	<path id="KW-HW" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M656.97,381.32l-35.93-28.33l-6.98,18.71l7.131,16.87
+		L656.97,381.32z"/>
+	<path id="KW-JA" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M696.87,55.69l-28.54,1.05l32.2,27.18l-43.04,14.86
+		l7.66,26.97l-28.261,18.71l76.91,97.08l54.88-74.79L696.87,55.69z M480.54,0L347.71,2.96l-89.77,43.12L135.49,316.6L0.53,484.71
+		l384.21,57.46l136.06-38.24l30.15-101.319l9.76-21.08l-2.68-6.38l-58.9-34.24l103.9-87.95l90.55,6.8l-77.9-128.49l-20.02-80.68
+		L480.54,0z"/>
+	<path id="KW-MU" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M662.14,428.01l-5.17-46.689l-35.779,7.25l10.859,41.75
+		L662.14,428.01z"/>
+	<path id="KW-AH" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M478,754.49l321.47-3.34L662.14,428.01l-30.09,2.311
+		L565.9,441.73l-14.95-39.12L520.8,503.93l-136.06,38.24L478,754.49z"/>
+	<path id="KW-FA" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M621.19,388.57l-7.131-16.87l-53.35,9.83l-9.76,21.08
+		l14.95,39.12l66.149-11.41L621.19,388.57z"/>
+	<path id="KW-KU" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M621.04,352.99l-63.01,22.16l2.68,6.38l53.35-9.83
+		L621.04,352.99z M777.75,321.7l-46.7-10.57l53.53,33.01L777.75,321.7z"/>
+</g>
+</svg>

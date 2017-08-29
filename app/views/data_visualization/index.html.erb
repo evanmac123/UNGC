@@ -1,0 +1,24 @@
+<div id="landing-map-page">
+<!--  <section class="main-content-section main-content-section-narrow"> -->
+
+    <div id="data-vis">
+      <div class="full-width dark-blue">
+        <div class="wrapper">
+          <header class="main-content-header"><h1>Explore our Participants</h1></header>
+          <div id="worldmap" style="text-align: center;"></div>
+        </div>
+      </div>
+      <div class="wrapper white-bg full">
+        <div id="sdg-vis" class="center"><%= link_to 'Participant Sustainable Development Data', data_visualization_sdgs_path %></div>
+      </div>
+      </div>
+    </div>
+<!-- </section> -->
+</div>
+
+<script>
+$(function() {
+	var countryOrganizationCount = <%= raw @countries.to_json %>;
+	countOrganization(countryOrganizationCount);
+});
+</script>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 15.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns:amcharts="http://amcharts.com/ammap"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="848.5px" height="768px"
+	 viewBox="0 0 848.5 768" enable-background="new 0 0 848.5 768" xml:space="preserve">
+<defs>
+	
+	
+		<amcharts:ammap  projection="mercator" bottomLatitude="12.354723" leftLongitude="36.433348" topLatitude="18.0204137" rightLongitude="43.1429694">
+		</amcharts:ammap>
+</defs>
+<g>
+	<path id="ER-DK" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M769.55,725.721l22.63-32.371l29.561-9.949l-13.86-23.43
+		l-8.67,13.459l-17.43-7.559l-29.37-46.41l-18.35,1.209l-10.811-42.969l-72.67-44.711L590.13,447.6l-47.63-7.16L519.44,409
+		l-25.96,75.609l56.939,28.092L734.061,712.85L769.55,725.721z"/>
+	<path id="ER-DU" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M418.57,464.201l-47.11-82.851l-63.91,2.51l-62.83,26.091
+		l-1.58,35.75l22.49,28.969l51.17-9.48l17.07-19.34l23.56,25.9l36.45-15.66L418.57,464.201z"/>
+	<path id="ER-AS" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M327.8,332.13l-16.26-35.04l-37.11-14.5l-21.93-74.32
+		l-34-10.36l-2.84-109.1l-61.57,28.28l-10.99,35.09l-50.28-4.99l-6.27,78.72l16.94,32.23l57.15,40.62l146.69,35.69L327.8,332.13z"/>
+	<path id="ER-SK" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M454.59,294.25L442.4,309.72l18.729,11.87l-17.1-5.05
+		l4.93,11.78l50.97,3.27l-29-7.93L454.59,294.25z M465.07,281.5l-7.601-15l-7.189,11.07L465.07,281.5z M285.39,30.76l-43.73,59.75
+		l-26-1.7l2.84,109.1l34,10.36l21.93,74.32l37.11,14.5l16.26,35.04l43.66,49.22l47.11,82.851l74.91,20.408L519.44,409l-49.03-3.811
+		l-9.45-44.109l-24.3-20.13l-12.09,13.989l9.64,26.721l-16.52,9.779L367.64,288.55l-59.9-215.88L285.39,30.76z"/>
+	<path id="ER-MA" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M371.46,381.35l-43.66-49.22l-20.47,2.32l0.22,49.41
+		L371.46,381.35z"/>
+	<path id="ER-GB" fill="#1E3250" stroke="#1E3250" stroke-width="0.5" d="M160.64,298.76l-57.15-40.62l-16.94-32.23L26.9,386.59
+		L38.93,493.4l63.4-1.631l27.74-22.139l30.87,43.129l40.12-94.949l42.08,27.891l1.58-35.75l62.83-26.091l-0.22-49.41L160.64,298.76z
+		"/>
+</g>
+</svg>

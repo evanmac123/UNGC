@@ -362,6 +362,14 @@ UNGC::Application.routes.draw do
     end
   end
 
+  namespace :data_visualization, path: 'interactive' do
+    get :index, path: '/'
+    # resources :cops, only: [:index, :show]
+    # resources :sectors, only: [:index, :show]
+    resources :sdgs, only: [:index, :show]
+    # resources :participant_sdgs, path: 'participant-sdgs', only: [:index]
+  end
+
   # REDIRECTS
   get '/AboutTheGC/global_compact_strategy.html', to: redirect('/what-is-gc/strategy')
   get '/AboutTheGC/TheTenPrinciples/index.html', to: redirect('/what-is-gc/mission/principles')

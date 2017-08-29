@@ -21,4 +21,5 @@ Rails.application.config.assets.precompile += %w(
   sitemap.js
   sample.css
   sample.js
+  worldmap.json
 )

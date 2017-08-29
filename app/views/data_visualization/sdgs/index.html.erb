@@ -1,0 +1,16 @@
+<section class="main-content-section main-content-section-narrow">
+  <div class="wrapper">
+    <header class="main-content-header"><h1>Where are companies reporting on activities to advance the SDGs</h1></header>
+    <section class="columns">
+      <% @countries.each do |country| %>
+        <div class="sdg-countries-button" id="data-visualization-<%= country.name.parameterize %>">
+          <%= link_to country.name, data_visualization_sdg_path(country) %>
+        </div>
+      <% end %>
+    </section>
+    <div class="wrapper white-bg full">
+      <div id="sdg-vis" class="center"><%= link_to 'Return to the Interactive Page', data_visualization_index_path %></div>
+    </div>
+
+  </div>
+</section>
