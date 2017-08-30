@@ -125,8 +125,10 @@ function countSdgs(data) {
       .style("left", (d3.event.pageX - 300) + "px")
       .style("top", (d3.event.pageY - 340) + "px")
       .html((d.count) + " participants are reporting activities to advance " + (mapper[d.sdg]))
+      //Implement darkening of bar on hover over
     })
     .on("mouseout", function(d){ tooltip.style("display", "none");
+    //Return bars to the regular color
     d3.select(this).style("fill", function(d) { return colorScale(d.sdg); })});
     svg.append("g")
     .attr("class","y axis")
