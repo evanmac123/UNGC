@@ -8,7 +8,11 @@ function countOrganization(data) {
   .attr('class', 'd3-tip')
   .offset([5, 0])
   .html(function(d) {
-    return "<strong>Country: </strong><span class='details'>" + d.properties.name + "<br></span><strong>Active Participants: </strong><span class='details'>" + (d[colorVariable] || 0) + "</span>";
+    if (d.properties.name == "Antarctica") {
+      return "<strong>Continent: </strong><span class='details'>" + d.properties.name + "<br></span>";
+    } else {
+      return "<strong>Country: </strong><span class='details'>" + d.properties.name + "<br></span><strong>Active Participants: </strong><span class='details'>" + (d[colorVariable] || 0) + "</span>";
+    }
   });
 
   var margin = {top: 0, right: 0, bottom: 0, left: 0};
