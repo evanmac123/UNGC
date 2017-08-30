@@ -125,7 +125,7 @@
         <%= text_field_tag nil, @donation.name_on_card, data: { stripe: "name" }, placeholder: "Name (as it appears on card)" %>
       </div>
 
-      <div class="field field-required field-has-placeholder four-8">
+      <div class="field field-has-placeholder four-8">
         <%= form.label :invoice_number %>
         <%= form.text_field(:invoice_number, length: 20,
                             placeholder: "Invoice ID") %>
