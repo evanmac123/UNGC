@@ -108,7 +108,6 @@ function countSdgs(data) {
     .attr("dy", -5)
     .text(function(d) { return "Companies are reporting on these SDGs"; })
 
-
     svg.selectAll(".sdgSelections")
     .data(sortedData)
     .enter().append("rect")
@@ -127,9 +126,8 @@ function countSdgs(data) {
       .html((d.count) + " participants are reporting activities to advance " + (mapper[d.sdg]))
       //Implement darkening of bar on hover over
     })
-    .on("mouseout", function(d){ tooltip.style("display", "none");
-    //Return bars to the regular color
-    d3.select(this).style("fill", function(d) { return colorScale(d.sdg); })});
+    .on("mouseout", function(d){ tooltip.style("display", "none")
+    .style("fill", function(d) { return colorScale(d.sdg); })});
     svg.append("g")
     .attr("class","y axis")
     .call(yAxis);
@@ -144,14 +142,7 @@ function countSdgs(data) {
   function resizeChart() {
 
     var margin = {top: 20, right: 280, bottom: 50, left: 10};
-    width = parseInt(d3.select("#sdg-count").style("width")) - margin.left - margin.right,
-    //max-width = 900 - margin.left - margin.right,
-    //height = 450 - margin.top - margin.bottom;
-
-    //height = parseInt(d3.select("#data-vis").style("height")) - margin.top - margin.bottom;
-    //var margin = {top: 20, right: 250, bottom: 100, left: 60};
-    //var width = window.innerWidth - margin.left - margin.right,
-    //height = window.innerHeight - margin.top - margin.bottom;
+    width = parseInt(d3.select("#sdg-count").style("width")) - margin.left - margin.right;
 
     xScale.range([0,width]);
     yScale.rangeRound([height, 0]);
