@@ -154,7 +154,7 @@ class Donation::ChargeDonorTest < ActiveSupport::TestCase
   end
 
   def events
-    event_store.read_stream_events_forward("donations")
+    event_store.read_all_streams_forward
   end
 
   def event_store

@@ -37,7 +37,7 @@ class Donation::ChargeDonor
       response_id: charge.id,
       full_response: charge.to_json
     )
-    EventPublisher.publish(create_success_event, to: "donations")
+    EventPublisher.publish(create_success_event, to: stream_name(donation))
   end
 
   def handle_card_error(donation, e)
@@ -45,7 +45,7 @@ class Donation::ChargeDonor
       status: "failed",
       full_response: e.json_body || {}.to_json
     )
-    EventPublisher.publish(create_failure_event, to: "donations")
+    EventPublisher.publish(create_failure_event, to: stream_name(donation))
   end
 
   def handle_stripe_error(donation, e)
@@ -53,7 +53,7 @@ class Donation::ChargeDonor
       status: "failed",
       full_response: e.json_body || {}.to_json
     )
-    EventPublisher.publish(create_failure_event, to: "donations")
+    EventPublisher.publish(create_failure_event, to: stream_name(donation))
     @log.error("Failed to accept donation", e, donation.attributes)
   end
 
@@ -72,7 +72,7 @@ class Donation::ChargeDonor
 
   def publish_event(success)
     event = create_event(success)
-    EventPublisher.publish(event, to: "donations")
+    EventPublisher.publish(event, to: stream_name(donation))
   end
 
   def create_event(success)
@@ -100,6 +100,10 @@ class Donation::ChargeDonor
       organization_id: donation.organization_id,
       contact_id: donation.contact_id
     })
+  end
+
+  def stream_name(donation)
+    "donation_#{donation.id}"
   end
 
 end

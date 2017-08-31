@@ -15,4 +15,22 @@ namespace :data do
     Searchable.index_searchable(searchable, inactive)
   end
 
+  desc "Fix donation stream names"
+  task fix_donation_event_stream_names: :environment do
+    class EventStoreEvent < ActiveRecord::Base; end
+
+    fixed = 0
+    EventStoreEvent.
+      where(event_type: "Donation::CreatedEvent").each do |event|
+      data = YAML.load(event.data)
+      if event.stream == "donations"
+        stream_name= "donation_#{data.fetch(:donation_id)}"
+        event.update!(stream: stream_name)
+        fixed += 1
+      end
+    end
+
+    puts "Fixed #{fixed} Events."
+  end
+
 end
