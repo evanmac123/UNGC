@@ -165,6 +165,10 @@ class CommunicationOnProgress < ActiveRecord::Base
     ends_on.try(:strftime, '%Y')
   end
 
+  def start_year
+    starts_on.try(:strftime, '%Y')
+  end
+
   def cop_questions
     @questions ||= CopQuestion.questions_for(self.organization)
   end
