@@ -43,13 +43,7 @@ function countOrganization(data) {
 
   svg.call(tip);
 
-  queue()
-    .defer(d3.json, '/worldmap.json')
-    .defer(d3.json, '/interactive.json')
-    .await(ready);
-
   function ready(error, geography, orgCountsByCountry) {
-
     orgCountsByCountry.forEach(function(orgCount) {
       // find the matching country in the worldmap
       var feature = geography.features.find(function(f) {
@@ -119,6 +113,11 @@ function countOrganization(data) {
       .attr('class', 'names')
       .attr('d', path);
   }
+
+  queue()
+    .defer(d3.json, '/worldmap.json')
+    .defer(d3.json, '/interactive.json')
+    .await(ready);
 
   window.addEventListener("resize", resizeChart);
 

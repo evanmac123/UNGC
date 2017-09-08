@@ -1,4 +1,4 @@
-class DataVisualization::SdgDataQueries
+class DataVisualization::SdgCountryQueries
   attr_reader :data
 
   def initialize(country_id = nil)
@@ -65,5 +65,4 @@ class DataVisualization::SdgDataQueries
       [ sdg: attr.text, count: attr.answer_count, sector: attr.sector_name, country: @country_name ]
     end
   end
-
 end

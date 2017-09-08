@@ -186,3 +186,14 @@ en:
   delay_review: Delay Review
   approved: Approved
   rejected: Rejected
+
+  interactive:
+    sdgs:
+      regions:
+        asia: 'Asia'
+        africa: 'Africa'
+        oceania: 'Oceania'
+        mena: 'MENA'
+        latin_america: 'Latin America and the Caribbean'
+        northern_america: 'Northern America'
+        europe: 'Europe'

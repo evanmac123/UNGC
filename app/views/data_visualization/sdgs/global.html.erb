@@ -1,0 +1,33 @@
+<div id="sdg-charts-page">
+<section class="main-content-section sdgs align-center light-theme" style="">
+    <div class="full-width-wrapper">
+      <div class="wrapper">
+        <header class="main-content-header"><h1>Activities to support advancing the SDGs from all reporting companies</h1></header>
+        <section class="main-content-body">
+        <div id="data-vis">
+          <div id="sdg-global-count"></div>
+          <header class="main-content-header"><h4>Click on a SDG icon to see which sectors are reporting activities to advance the SDGs</h4></header>
+          <div class="wrapper"><div id="sdgButtons"></div></div>
+          <div id="sdg-global-sector"></div>
+        </div>
+        <div class="wrapper white-bg full">
+          <div id="sdg-vis" class="center"><%= link_to 'Return to SDGs Page', data_visualization_sdgs_path %></div>
+        </div>
+        </section>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+$(function() {
+	var sdgTotalCount = <%= raw @global_total.to_json %>;
+	countGlobalTotalSdgs(sdgTotalCount);
+});
+
+$(function() {
+  var sdgTotalSector = <%= raw @global_sector.to_json %>;
+  drawGlobalSdgSectorCharts(sdgTotalSector);
+});
+
+</script>

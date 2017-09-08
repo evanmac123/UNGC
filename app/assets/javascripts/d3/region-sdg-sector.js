@@ -1,4 +1,4 @@
-function drawSdgSectorCharts(data, sdgOne) {
+function drawSdgRegionSectorCharts(data, sdgOne) {
   //sdgOne is not set yet, it will be set below or the first existing sdg will be set
   var goals = {
     "SDG 1: End poverty in all its forms everywhere" : "Goal 1: No Poverty",
@@ -40,10 +40,12 @@ function drawSdgSectorCharts(data, sdgOne) {
     "SDG 17: Strengthen the means of implementation and revitalize the global partnership for sustainable development" : "Partnership for the Goals"
   };
 
+  var sdgs = Object.keys(goals);
+
   var margin = {top: 40, right: 40, bottom: 30, left: 221};
 
   //var width = 700 - margin.left - margin.right,
-  width = parseInt(d3.select("#sdg-sector").style("width")) - margin.left - margin.right,
+  width = parseInt(d3.select("#sdg-region-sector").style("width")) - margin.left - margin.right,
   height = 500 - margin.top - margin.bottom;
 
     var yScale = d3.scaleBand()
@@ -60,31 +62,13 @@ function drawSdgSectorCharts(data, sdgOne) {
         .tickSize(0)
         .tickPadding(8);
 
-    var tooltip = d3.select("#sdg-sector").append("div").attr("class", "sdg-sector toolTip");
+    var tooltip = d3.select("#sdg-region-sector").append("div").attr("class", "sdg-sector toolTip");
 
     var colorScale = d3.scaleOrdinal()
-    .domain([
-      "SDG 1: End poverty in all its forms everywhere",
-      "SDG 2: End hunger, achieve food security and improved nutrition and promote sustainable agriculture",
-      "SDG 3: Ensure healthy lives and promote well-being for all at all ages",
-      "SDG 4: Ensure inclusive and equitable quality education and promote lifelong learning opportunities for all",
-      "SDG 5: Achieve gender equality and empower all women and girls",
-      "SDG 6: Ensure availability and sustainable management of water and sanitation for all",
-      "SDG 7: Ensure access to affordable, reliable, sustainable and modern energy for all",
-      "SDG 8: Promote sustained, inclusive and sustainable economic growth, full and productive employment and decent work for all",
-      "SDG 9: Build resilient infrastructure, promote inclusive and sustainable industrialization and foster innovation",
-      "SDG 10: Reduce inequality within and among countries",
-      "SDG 11: Make cities and human settlements inclusive, safe, resilient and sustainable",
-      "SDG 12: Ensure sustainable consumption and production patterns",
-      "SDG 13: Take urgent action to combat climate change and its impacts",
-      "SDG 14: Conserve and sustainably use the oceans, seas and marine resources for sustainable development",
-      "SDG 15: Protect, restore and promote sustainable use of terrestrial ecosystems, sustainably manage forests, combat desertification, and halt and reverse land degradation and halt biodiversity loss",
-      "SDG 16: Promote peaceful and inclusive societies for sustainable development, provide access to justice for all and build effective, accountable and inclusive institutions at all levels",
-      "SDG 17: Strengthen the means of implementation and revitalize the global partnership for sustainable development"
-    ])
+    .domain(sdgs)
     .range(["#e6162d", "#cfa41e", "#2c9f44", "#bf1a33", "#ea3f29", "#31abda", "#f8bc00", "#8c1238", "#ee6f1f", "#dd0085", "#f4a119", "#cb9022", "#487a3c", "#2878bd", "#41b443", "#1c508c", "#203169"]);
 
-    var svg = d3.select("#sdg-sector").append("svg")
+    var svg = d3.select("#sdg-region-sector").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
@@ -105,17 +89,41 @@ function drawSdgSectorCharts(data, sdgOne) {
     var sdgTitle2 = svg.append("text");
 
     var updateChart = function(data) {
+      function regionName(data) {
+        switch(data[0].region) {
+          case "latin_america":
+            return "Latin America and the Carribean";
+            break;
+          case "europe":
+            return "Europe";
+            break;
+          case "northern_america":
+            return "Northern America";
+            break;
+          case "oceania":
+            return "Oceania";
+            break;
+          case "asia":
+            return "Asia";
+            break;
+          case "africa":
+            return "Africa";
+            break;
+          default:
+            return "MENA";
+        }
+      }
       //update title of chart
       sdgTitle
           .attr("class", "sdg-title")
           .attr("x", 0)
           .attr("dy", -25)
-          .text("Sectors in " + data[0].country);
+          .text("Which sectors in " + regionName(data));
       sdgTitle2
           .attr("class", "sdg-title")
           .attr("x", 0)
           .attr("dy", -7)
-          .text(" are reporting on " + titleGoals[data[0].sdg]);
+          .text(" are advancing " + titleGoals[data[0].sdg]);
 
 
       sortedData = data.sort(function(x, y){
@@ -158,9 +166,9 @@ function drawSdgSectorCharts(data, sdgOne) {
           .style("fill", function(d) { return colorScale(d.sdg); })
           .on("mouseenter", function(d) {
             tooltip
-              .style("left", d3.event.pageX - 50 + "px")
-              .style("top", d3.event.pageY - 70 + "px")
               .style("display", "inline-block")
+              .style("top", 200 + "px")
+              .style("left", 60 + "%")
               .html((d.sector) + ": " + (d.count))
               //d3.select(this).style("fill", "#004d65");
           })
@@ -222,17 +230,13 @@ function drawSdgSectorCharts(data, sdgOne) {
     function resizeChart() {
 
       var margin = {top: 40, right: 220, bottom: 100, left: 50};
-      width = parseInt(d3.select("#sdg-sector").style("width")) - margin.left - margin.right,
-      //var width = window.innerWidth - margin.left - margin.right,
-      //height = window.innerHeight - margin.top - margin.bottom;
-      //width = 200 - margin.left - margin.right,
-      //height = 450 - margin.top - margin.bottom;
+      width = parseInt(d3.select("#sdg-region-sector").style("width")) - margin.left - margin.right,
 
       xScale.range([0,width]);
       yScale.rangeRound([height, 0]);
       xAxis.tickSize(0);
 
-      var svg = d3.select("#sdg-sector").select("svg"),
+      var svg = d3.select("#sdg-region-sector").select("svg"),
       g = svg.select("g");
 
       svg.transition()
@@ -260,19 +264,11 @@ function drawSdgSectorCharts(data, sdgOne) {
       .attr("y", function(d) { return yScale(d.sector) })
       .attr("height", yScale.bandwidth())
 
-      // updating the position of the title
-      //g.select(".sdg-title")
-      //.transition()
-      //.attr("x", width/40)
-      //.attr("dy", -4)
-      //.style("white-space", "normal")
-
-
   }
 
   // sdg buttons active/select state
   $( document ).ready(function() {
-      $(".sdg-button:nth-of-type(1)").addClass("active");
+      $(".sdg1").addClass("active");
   });
 
   $('.sdg-button').on('click', function (e) {
