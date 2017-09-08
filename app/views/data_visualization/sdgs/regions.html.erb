@@ -1,0 +1,16 @@
+<section class="main-content-section sdgs main-content-section-narrow">
+  <div class="wrapper">
+    <header class="main-content-header"><h1>Activities to support advancing the SDGs by Region</h1></header>
+    <header class="main-content-header"><h4>Click on a region below to see what SDGs companies in the region are reporting against in their COP</h4></header>
+    <section class="center">
+      <% @regions.each do |region| %>
+        <div class="sdg-regions-button button" id="data-visualization-<%= region %>">
+          <%= link_to t(region, scope: "interactive.sdgs.regions"),   data_visualization_region_sdgs_path(region) %>
+        </div>
+      <% end %>
+    </section>
+    <div class="wrapper white-bg full">
+      <div id="sdg-vis" class="center"><%= link_to 'Return to SDGs Page', data_visualization_sdgs_path %></div>
+    </div>
+  </div>
+</section>

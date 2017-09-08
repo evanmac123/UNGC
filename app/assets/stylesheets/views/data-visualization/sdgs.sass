@@ -1,4 +1,4 @@
-.main-content-section
+.main-content-section.sdgs
   margin: 7em auto 0 auto
   .wrapper
     //margin: 0 6.25%
@@ -15,6 +15,12 @@
   .main-content-header
     max-width: 1050px
     margin: 0 auto
+    text-align: center
+  h1,h2,h3,h4,h5,h6
+    text-align: center
+
+.center
+  text-align: center
 
 #data-vis
   margin: 0 auto
@@ -111,7 +117,7 @@
     text
       font-size: 1em
 
-#sdg-vis, #cop-vis, #sector-vis
+#sdg-vis, #cop-vis, #sector-vis, #participant-vis
   display: block
   margin: 0 auto
   text-align: center
@@ -135,13 +141,42 @@
     -webkit-font-smoothing: antialiased
     -moz-osx-font-smoothing: grayscale
 
-#sdg-vis, #cop-vis, #sector-vis
+#sdg-vis, #cop-vis, #sector-vis, #participant-vis
+  a:hover, a:active
+    background-color: #699cc6
+    opacity: 0.8
+
+.sdg-index-button
+  display: inline-block
+  margin: 0 auto
+  text-align: center
+  float: none
+  a
+    font-family: "Flama Bold", "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif
+    font-weight: bold
+    display: inline-block
+    margin: 0 0.25em 0.5em 0
+    background: rgb(30,50,80)
+    font-size: 1em
+    color: white
+    text-align: center
+    text-transform: uppercase
+    padding: 0.5em 2em
+    border: 0
+    text-decoration: none
+    -webkit-transition-duration: 150ms
+    -moz-transition-duration: 150ms
+    transition-duration: 150ms
+    -webkit-font-smoothing: antialiased
+    -moz-osx-font-smoothing: grayscale
+
+.sdg-index-button
   a:hover, a:active
     background-color: #699cc6
     opacity: 0.8
 
 
-#sdg-vis
+#sdg-vis, #participant-vis
   margin-top: -4em
 
 #sector-vis
@@ -209,22 +244,21 @@
 //Specific to SDG count
 #sdg-charts-page
   padding: 0 1em
-  #sdg-count
+  #sdg-country-count, #sdg-global-count, #sdg-region-count
     .title
       left: -200px !important
       position: absolute
 
 #data-vis
-  #sdg-count
+  #sdg-country-sector, #sdg-global-sector, #sdg-region-sector
     max-height: 475px
     max-width: 800px
     svg
       rect
 
-  #sdg-sector
+  .sdg-sector
     max-width: 800px
     margin: 0 auto
-    .title
     .toolTip
       left: 60% !important
       top: 200px !important
@@ -250,6 +284,13 @@
 .sdg-button:nth-of-type(7),
 .sdg-button:nth-of-type(13)
   //clear: left
+
+.sdg-regions-button
+  padding: 0 10px
+  background-color: #1e3250
+  a
+    color: white
+
 
 #sdgButtons
   margin: 0 auto

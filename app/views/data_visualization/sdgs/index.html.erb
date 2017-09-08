@@ -1,14 +1,12 @@
-<section class="main-content-section main-content-section-narrow">
-  <div class="wrapper">
-    <header class="main-content-header"><h1>SDG data collected through COP submissions</h1></header>
-    <header class="main-content-header"><h3>Click on a country below to see what SDGs companies are reporting against in their COP</h3></header>
-    <section class="columns">
-      <% @countries.each do |country| %>
-        <div class="sdg-countries-button" id="data-visualization-<%= country.name.parameterize %>">
-          <%= link_to country.name, data_visualization_sdg_path(country) %>
-        </div>
-      <% end %>
-    </section>
+<section class="main-content-section sdgs main-content-section-narrow">
+  <div class="wrapper center">
+    <header class="main-content-header"><h1>Data found in the COPs about activities to support advancing the Sustainable Development Goals</h1></header>
+    <div class="wrapper">
+      <div class="sdg-index-button center"><%= link_to 'Explore SDGs Globally',  data_visualization_sdgs_global_path %></div>
+      <div class="sdg-index-button center"><%= link_to 'Explore SDGs by Region',  data_visualization_sdgs_regions_path %></div>
+      <div class="sdg-index-button center"><%= link_to 'Explore SDGs by Country',  data_visualization_sdgs_countries_path %></div>
+    </div>
+
     <div class="wrapper white-bg full">
       <div id="sdg-vis" class="center"><%= link_to 'Return to the Interactive Page', data_visualization_index_path %></div>
     </div>

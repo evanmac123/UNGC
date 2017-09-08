@@ -1,4 +1,4 @@
-class DataVisualization::TotalSdgsQueries
+class DataVisualization::SdgGlobalQueries
 
   def overall_sdg_breakdown
     CopAttribute.joins(cop_answers: [communication_on_progress: [:organization]])

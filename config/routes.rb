@@ -364,10 +364,15 @@ UNGC::Application.routes.draw do
 
   namespace :data_visualization, path: 'interactive' do
     get :index, path: '/'
+    get 'sdgs' => 'sdgs#index'
+    get 'sdgs/global' => 'sdgs#global'
+    get 'sdgs/regions' => 'sdgs#regions'
+    get 'sdgs/regions/:region' => 'sdgs#region', as: :region_sdgs
+    get 'sdgs/countries' => 'sdgs#countries'
+    get 'sdgs/countries/:id' => 'sdgs#country', as: :country_sdgs
+
     # resources :cops, only: [:index, :show]
     # resources :sectors, only: [:index, :show]
-    resources :sdgs, only: [:index, :show]
-    # resources :participant_sdgs, path: 'participant-sdgs', only: [:index]
   end
 
   # REDIRECTS

@@ -1,0 +1,16 @@
+<section class="main-content-section sdgs main-content-section-narrow">
+  <div class="wrapper">
+    <header class="main-content-header"><h1>Activities to support advancing the SDGs by Country</h1></header>
+    <header class="main-content-header"><h4>Click on a country below to see what SDGs companies are reporting against in their COP</h4></header>
+    <section class="columns">
+      <% @countries.each do |country| %>
+        <div class="sdg-countries-button" id="data-visualization-<%= country.name.parameterize %>">
+          <%= link_to country.name,   data_visualization_country_sdgs_path(country) %>
+        </div>
+      <% end %>
+    </section>
+    <div class="wrapper white-bg full">
+      <div id="sdg-vis" class="center"><%= link_to 'Return to SDGs Page', data_visualization_sdgs_path %></div>
+    </div>
+  </div>
+</section>

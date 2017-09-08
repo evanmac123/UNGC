@@ -1,5 +1,4 @@
-function countSdgs(data) {
-
+function countSdgsRegions(data) {
   var mapper = {
     "SDG 1: End poverty in all its forms everywhere" : "Goal 1: No Poverty",
     "SDG 2: End hunger, achieve food security and improved nutrition and promote sustainable agriculture" : "Goal 2: Zero Hunger",
@@ -20,10 +19,12 @@ function countSdgs(data) {
     "SDG 17: Strengthen the means of implementation and revitalize the global partnership for sustainable development" : "Goal 17: Partnership for the Goals"
   };
 
+  var sdgs = Object.keys(mapper);
+
   var margin = {top: 20, right: 40, bottom: 40, left: 275};
 
   //var width = 250 - margin.left - margin.right,
-  width = parseInt(d3.select("#sdg-count").style("width")) - margin.left - margin.right,
+  width = parseInt(d3.select("#sdg-region-count").style("width")) - margin.left - margin.right,
   height = 420 - margin.top - margin.bottom;
 
   var yScale = d3.scaleBand()
@@ -43,38 +44,13 @@ function countSdgs(data) {
     return mapper[d]
   });
 
-  var tooltip = d3.select("#sdg-count").append("div").attr("class", "toolTip");
-
-  //function mousemove() {
-    //div
-      //.text(d3.event.pageX + ", " + d3.event.pageY)
-      //.style("left", (d3.event.pageX - 34) + "px")
-      //.style("top", (d3.event.pageY - 12) + "px");
-    //}
+  var tooltip = d3.select("#sdg-region-count").append("div").attr("class", "toolTip");
 
   var colorScale = d3.scaleOrdinal()
-  .domain([
-    "SDG 1: End poverty in all its forms everywhere",
-    "SDG 2: End hunger, achieve food security and improved nutrition and promote sustainable agriculture",
-    "SDG 3: Ensure healthy lives and promote well-being for all at all ages",
-    "SDG 4: Ensure inclusive and equitable quality education and promote lifelong learning opportunities for all",
-    "SDG 5: Achieve gender equality and empower all women and girls",
-    "SDG 6: Ensure availability and sustainable management of water and sanitation for all",
-    "SDG 7: Ensure access to affordable, reliable, sustainable and modern energy for all",
-    "SDG 8: Promote sustained, inclusive and sustainable economic growth, full and productive employment and decent work for all",
-    "SDG 9: Build resilient infrastructure, promote inclusive and sustainable industrialization and foster innovation",
-    "SDG 10: Reduce inequality within and among countries",
-    "SDG 11: Make cities and human settlements inclusive, safe, resilient and sustainable",
-    "SDG 12: Ensure sustainable consumption and production patterns",
-    "SDG 13: Take urgent action to combat climate change and its impacts",
-    "SDG 14: Conserve and sustainably use the oceans, seas and marine resources for sustainable development",
-    "SDG 15: Protect, restore and promote sustainable use of terrestrial ecosystems, sustainably manage forests, combat desertification, and halt and reverse land degradation and halt biodiversity loss",
-    "SDG 16: Promote peaceful and inclusive societies for sustainable development, provide access to justice for all and build effective, accountable and inclusive institutions at all levels",
-    "SDG 17: Strengthen the means of implementation and revitalize the global partnership for sustainable development"
-  ])
+  .domain(sdgs)
   .range(["#e6162d", "#cfa41e", "#2c9f44", "#bf1a33", "#ea3f29", "#31abda", "#f8bc00", "#8c1238", "#ee6f1f", "#dd0085", "#f4a119", "#cb9022", "#487a3c", "#2878bd", "#41b443", "#1c508c", "#203169"]);
 
-  var svg = d3.select("#sdg-count").append("svg")
+  var svg = d3.select("#sdg-region-count").append("svg")
   .attr("width", width + margin.left + margin.right)
   //.attr("height", height + margin.top + margin.bottom)
   .append("g")
@@ -108,6 +84,7 @@ function countSdgs(data) {
     .attr("dy", -5)
     .text(function(d) { return "Companies are reporting on these SDGs"; })
 
+
     svg.selectAll(".sdgSelections")
     .data(sortedData)
     .enter().append("rect")
@@ -123,11 +100,10 @@ function countSdgs(data) {
       .style("display", "block")
       .style("left", (d3.event.pageX - 300) + "px")
       .style("top", (d3.event.pageY - 340) + "px")
-      .html((d.count) + " participants are reporting activities to advance " + (mapper[d.sdg]))
-      //Implement darkening of bar on hover over
+      .html((d.count) + " companies are reporting activities to advance " + (mapper[d.sdg]))
     })
-    .on("mouseout", function(d){ tooltip.style("display", "none")
-    .style("fill", function(d) { return colorScale(d.sdg); })});
+    .on("mouseout", function(d){ tooltip.style("display", "none");
+    d3.select(this).style("fill", function(d) { return colorScale(d.sdg); })});
     svg.append("g")
     .attr("class","y axis")
     .call(yAxis);
@@ -142,7 +118,14 @@ function countSdgs(data) {
   function resizeChart() {
 
     var margin = {top: 20, right: 280, bottom: 50, left: 10};
-    width = parseInt(d3.select("#sdg-count").style("width")) - margin.left - margin.right;
+    width = parseInt(d3.select("#sdg-region-count").style("width")) - margin.left - margin.right,
+    //max-width = 900 - margin.left - margin.right,
+    //height = 450 - margin.top - margin.bottom;
+
+    //height = parseInt(d3.select("#data-vis").style("height")) - margin.top - margin.bottom;
+    //var margin = {top: 20, right: 250, bottom: 100, left: 60};
+    //var width = window.innerWidth - margin.left - margin.right,
+    //height = window.innerHeight - margin.top - margin.bottom;
 
     xScale.range([0,width]);
     yScale.rangeRound([height, 0]);
