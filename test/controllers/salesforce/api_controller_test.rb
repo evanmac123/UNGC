@@ -10,12 +10,12 @@ class Salesforce::ApiControllerTest < ActionController::TestCase
     @request.env['HTTP_AUTHORIZATION'] = "Token token=#{token}"
   end
 
-  def auth_with_vaild_token
+  def auth_with_valid_token
     auth_with_token '16d7d6089b8fe0c5e19bfe10bb156832'
   end
 
   def sync(*jobs)
-    auth_with_vaild_token
+    auth_with_valid_token
     params = {"_json" => jobs}
     post :sync, api: params, format: :json
   end

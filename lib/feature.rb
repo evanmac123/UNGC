@@ -15,4 +15,8 @@ class Feature
     false
   end
 
+  def self.level_of_participation_required?
+    Time.zone.now.to_date >= Date.new(2017, 10, 15) || Rails.env.test?
+  end
+
 end

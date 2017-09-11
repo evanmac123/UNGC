@@ -297,6 +297,10 @@ class ActiveSupport::TestCase
     }).symbolize_keys
   end
 
+  def fixture_pdf_file
+    fixture_file_upload('files/untitled.pdf', 'application/pdf')
+  end
+
 end
 
 class ActionController::TestCase

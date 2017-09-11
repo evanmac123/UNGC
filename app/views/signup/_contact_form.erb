@@ -70,25 +70,6 @@
     <%- end -%>
   </fieldset>
 
-  <%- if welcome_package -%>
-    <fieldset>
-      <h3>Welcome Package</h3>
-
-      <p>New participants will receive immediate access to a digital welcome package containing materials for better understanding the Global Compact, its requirements for participants, and how organizations can get started.</p>
-
-      <%- if physical_welcome_package -%>
-        <p>A hard copy version of the welcome package can be provided upon request and will take 6 to 8 weeks (or more) to arrive at the mailing address provided.</p>
-
-        <p>In consideration of the environment, we encourage participants to access the digital package.</p>
-
-        <div id='check_contact' class='field field-checkbox'>
-          <%= form.check_box :welcome_package %>
-          <%= label_tag :contact_welcome_package, "A welcome package in hard copy format should be sent to the Highest Level Executive's mailing address" %>
-        </div>
-      <%- end -%>
-    </fieldset>
-  <%- end -%>
-
   <%- if account_info -%>
     <fieldset>
       <h3>Login information</h3>

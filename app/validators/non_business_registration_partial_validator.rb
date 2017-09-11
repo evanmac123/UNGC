@@ -12,9 +12,10 @@ class NonBusinessRegistrationPartialValidator < NonBusinessRegistrationValidator
 
   private
 
-    def validate_legal_status
-      if @legal_status_id.blank? && registration.number.blank?
-        registration.errors.add :number, "can't be blank"
-      end
+  def validate_legal_status
+    if @legal_status_id.blank? && registration.number.blank?
+      registration.errors.add :number, "can't be blank"
     end
+  end
+
 end

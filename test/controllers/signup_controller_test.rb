@@ -62,14 +62,21 @@ class SignupControllerTest < ActionController::TestCase
     end
 
     should "get the second step page after posting organization details" do
-      post :step2, organization: {name: 'ACME inc',
-                                     employees: 500,
-                                     url: 'http://www.example.com',
-                                     country_id: @country.id,
-                                     sector_id: Sector.last.id,
-                                     listing_status_id: @listing_status.id,
-                                     revenue: Organization::REVENUE_LEVELS.keys.first,
-                                     organization_type_id: OrganizationType.first.id}
+      params = {
+        name: 'ACME inc',
+        employees: 500,
+        url: 'http://www.example.com',
+        country_id: @country.id,
+        sector_id: Sector.last.id,
+        listing_status_id: @listing_status.id,
+        revenue: Organization::REVENUE_LEVELS.keys.first,
+        level_of_participation: "signatory_level",
+        is_tobacco: "true",
+        is_landmine: "true",
+        is_biological_weapons: "true",
+        organization_type_id: OrganizationType.first.id
+      }
+      post :step2, organization: params
       assert_response :success
       assert_template 'step2'
     end

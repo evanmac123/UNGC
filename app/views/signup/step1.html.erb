@@ -81,6 +81,53 @@
         <%= form.collection_select :country_id, Country.all, :id, :name, {include_blank: true}, {} %>
       </div>
 
+      <%- if @signup.business? -%>
+        <% if Feature.level_of_participation_required? %>
+          <div class='field field-required'>
+            <%= form.label :level_of_participation, t("signup.level_of_participation")  %>
+            <%= form.select :level_of_participation, @signup.levels_of_participation, prompt: t("signup.level_of_participation") %>
+          </div>
+        <% end %>
+
+        <div class='field'>
+          <h3>Does your company derive any revenue from the:</h3>
+          <ul>
+            <li>
+              <%= form.label :is_tobacco do %>
+                <%= t "signup.tobacco?" %>*
+                <br />
+                <%= form.radio_button(:is_tobacco, true) %>
+                <%= form.label(:is_tobacco_true, "Yes") %>
+                <br />
+                <%= form.radio_button(:is_tobacco, false) %>
+                <%= form.label(:is_tobacco_false, "No") %>
+              <% end %>
+            </li>
+            <li>
+              <%= form.label :is_landmine do %>
+                <%= t "signup.landmines?" %>*
+                <br />
+                <%= form.radio_button(:is_landmine, true) %>
+                <%= form.label(:is_landmine_true, "Yes") %>
+                <br />
+                <%= form.radio_button(:is_landmine, false) %>
+                <%= form.label(:is_landmine_false, "No") %>
+              <% end %>
+            </li>
+            <li>
+              <%= form.label :is_biological_weapons  do %>
+                <%= t "signup.biological_weapons?" %>*
+                <br />
+                <%= form.radio_button(:is_biological_weapons, true) %>
+                <%= form.label(:is_biological_weapons_true, "Yes") %>
+                <br />
+                <%= form.radio_button(:is_biological_weapons, false) %>
+                <%= form.label(:is_biological_weapons_falsk, "No") %>
+              <% end %>
+            </li>
+          </ul>
+        </div>
+      <% end %>
 
       <%- if @signup.non_business? -%>
         <h2>Legal Status</h2>

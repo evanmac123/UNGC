@@ -18,6 +18,9 @@ en:
         url: "Website"
         isin: "ISIN"
         delisted_on: "Delisting date"
+        is_tobacco: "Revenue from tobacco"
+        is_landmine: "Revenue from landmines"
+        is_biological_weapons: "Revenue from weapons"
       sdg_pioneer/submission:
         is_nominated: ""
         is_participant: ""
@@ -63,6 +66,10 @@ en:
           attributes:
             invoice_number:
               invalid_invoice_code: "is invalid, please check it before re-submitting"
+        organization:
+          is_tobacco: "must be selected"
+          is_landmine: "must be selected"
+          is_biological_weapons: "must be selected"
 
   notice:
     only_sme: "Only SMEs may submit ExpressCOPs"
@@ -197,3 +204,11 @@ en:
         latin_america: 'Latin America and the Caribbean'
         northern_america: 'Northern America'
         europe: 'Europe'
+
+  signup:
+    tobacco?: Production or manufacturing of tobacco.
+    landmines?: Production, sale and/or transfer of antipersonnel landmines or cluster bombs.
+    biological_weapons?: Sale, production, manufacturing, possession, distribution and/or transport or transfer of nuclear, chemical or biological weapons.
+    level_of_participation: Level of Participation
+  signatory_level: Signatory Level
+  participant_level: Participant Level

@@ -34,7 +34,7 @@ class BusinessOrganizationSignup < OrganizationSignup
 
   def pledge_complete?
     organization.errors.clear # needed but could lead to unexpected behaviour
-    if organization.pledge_amount.to_i == 0 && organization.no_pledge_reason.blank?
+    if organization.pledge_amount.to_i <= 0 && organization.no_pledge_reason.blank?
       organization.errors.add :no_pledge_reason, "must be selected"
       return false
     else
@@ -68,16 +68,20 @@ class BusinessOrganizationSignup < OrganizationSignup
         organization.contacts << financial_contact
       end
     end
+
+    true
   end
 
   def local_valid_organization?
     validate_sector
     validate_listing_status
     validate_revenue
+    validate_level_of_participation
+    validate_revenue_from_sources
   end
 
   def listing_status_options
-    ListingStatus.applicable.collect {|t| [t.name, t.id]}
+    ListingStatus.applicable.collect { |t| [t.name, t.id] }
   end
 
   def to_s
@@ -88,19 +92,46 @@ class BusinessOrganizationSignup < OrganizationSignup
     super + @financial_contact.errors.full_messages
   end
 
+  def levels_of_participation
+    Organization.level_of_participations.map do |slug, _id|
+      [I18n.t(slug), slug]
+    end
+  end
+
+
   private
-    def validate_sector
-      return if organization.sector.present?
-      organization.errors.add :sector_id, "can't be blank"
-    end
 
-    def validate_listing_status
-      return if organization.listing_status.present?
-      organization.errors.add :listing_status_id, "can't be blank"
-    end
+  def validate_sector
+    return if organization.sector.present?
+    organization.errors.add :sector_id, "can't be blank"
+  end
 
-    def validate_revenue
-      return if organization.revenue.present?
-      organization.errors.add :revenue, "can't be blank"
+  def validate_listing_status
+    return if organization.listing_status.present?
+    organization.errors.add :listing_status_id, "can't be blank"
+  end
+
+  def validate_revenue
+    return if organization.revenue.present?
+    organization.errors.add :revenue, "can't be blank"
+  end
+
+  def validate_level_of_participation
+    if Feature.level_of_participation_required? && organization.level_of_participation.nil?
+      organization.errors.add :level_of_participation, "must be selected"
     end
+  end
+
+  def validate_revenue_from_sources
+    if organization.is_tobacco.nil?
+      organization.errors.add :is_tobacco, :is_tobacco
+    end
+    if organization.is_landmine.nil?
+      organization.errors.add :is_landmine, :is_landmine
+    end
+    if organization.is_biological_weapons.nil?
+      organization.errors.add :is_biological_weapons, :is_biological_weapons
+    end
+  end
+
 end

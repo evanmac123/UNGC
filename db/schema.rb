@@ -899,6 +899,8 @@ ActiveRecord::Schema.define(version: 20170911171150) do
     t.string   "isin",                           limit: 255
     t.integer  "precise_revenue_cents",          limit: 8
     t.string   "precise_revenue_currency",       limit: 255, default: "USD", null: false
+    t.boolean  "is_biological_weapons"
+    t.integer  "level_of_participation",         limit: 4
   end
 
   add_index "organizations", ["country_id"], name: "index_organizations_on_country_id", using: :btree
