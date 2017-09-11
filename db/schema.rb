@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170731184914) do
+ActiveRecord::Schema.define(version: 20170911171150) do
 
   create_table "action_platform_orders", force: :cascade do |t|
     t.integer  "organization_id",      limit: 4,                   null: false
@@ -345,7 +345,9 @@ ActiveRecord::Schema.define(version: 20170731184914) do
     t.text     "text",             limit: 65535, null: false
   end
 
+  add_index "cop_answers", ["cop_attribute_id"], name: "index_cop_answers_on_cop_attribute_id", using: :btree
   add_index "cop_answers", ["cop_id"], name: "index_cop_answers_on_cop_id", using: :btree
+  add_index "cop_answers", ["value"], name: "index_cop_answers_on_value", using: :btree
 
   create_table "cop_attributes", force: :cascade do |t|
     t.integer  "cop_question_id", limit: 4
@@ -358,6 +360,7 @@ ActiveRecord::Schema.define(version: 20170731184914) do
   end
 
   add_index "cop_attributes", ["cop_question_id", "position"], name: "index_cop_attributes_on_cop_question_id_and_position", using: :btree
+  add_index "cop_attributes", ["text"], name: "index_cop_attributes_on_text", using: :btree
 
   create_table "cop_files", force: :cascade do |t|
     t.integer  "cop_id",                  limit: 4
@@ -429,6 +432,7 @@ ActiveRecord::Schema.define(version: 20170731184914) do
   end
 
   add_index "countries", ["participant_manager_id"], name: "index_countries_on_participant_manager_id", using: :btree
+  add_index "countries", ["region"], name: "index_countries_on_region", using: :btree
 
   create_table "crm_owners", force: :cascade do |t|
     t.integer  "contact_id", limit: 4,   null: false
