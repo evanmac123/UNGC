@@ -254,6 +254,11 @@ class Organization < ActiveRecord::Base
     end
   end
 
+  enum level_of_participation: {
+    signatory_level: 1,
+    participant_level: 2,
+  }
+
   scope :active, lambda { where("organizations.active = ?", true) }
   scope :participants, lambda { where("organizations.participant = ?", true) }
   scope :companies_and_smes, lambda { joins(:organization_type).merge(OrganizationType.for_filter(:sme, :companies)).includes(:organization_type) }

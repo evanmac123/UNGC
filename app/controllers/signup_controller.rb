@@ -199,7 +199,11 @@ class SignupController < ApplicationController
         :sector_id,
         :revenue,
         :country_id,
-        :legal_status
+        :legal_status,
+        :is_tobacco,
+        :is_landmine,
+        :is_biological_weapons,
+        :level_of_participation,
       )
     end
 
@@ -231,7 +235,6 @@ class SignupController < ApplicationController
         :country_id,
         :username,
         :password,
-        :welcome_package,
         :role_ids => []
       )
     end

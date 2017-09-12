@@ -20,7 +20,7 @@
       <%= form.error_messages header_message: false %>
       <%= render 'flash_error_messages' %>
 
-      <%= render partial: 'contact_form', locals: {form: form, account_info: false, contact_type: 'Financial Contact', financial_contact: true, welcome_package: false} %>
+      <%= render partial: 'contact_form', locals: { form: form, account_info: false, contact_type: 'Financial Contact', financial_contact: true } %>
 
       <%= form.submit 'Next', class: 'button' %>
 

@@ -141,21 +141,23 @@ class OrganizationSignup
 
   private
 
-    # Makes sure the CEO and Contact point don't have the same email address
-    def unique_emails?
-      unique = (ceo.email.try(:downcase) != primary_contact.email.try(:downcase))
-      ceo.errors.add :email, "cannot be the same as the Contact Point" unless unique
-      return unique
-    end
+  # Makes sure the CEO and Contact point don't have the same email address
+  def unique_emails?
+    unique = (ceo.email.try(:downcase) != primary_contact.email.try(:downcase))
+    ceo.errors.add :email, "cannot be the same as the Contact Point" unless unique
+    return unique
+  end
 
-    def validate_country
-      return if organization.country.present?
+  def validate_country
+    unless organization.country.present?
       organization.errors.add :country_id, "must be selected"
     end
+  end
 
-    def validate_type
-      return if organization.organization_type.present?
+  def validate_type
+    unless organization.organization_type.present?
       organization.errors.add :organization_type_id, "must be selected"
     end
+  end
 
 end
