@@ -2,7 +2,7 @@
 require "test_helper"
 
 class Donation::FormTest < ActiveSupport::TestCase
-	
+
   test "defaults first_name" do
     form = create_form(first_name: "First")
     assert_equal "First", form.first_name
@@ -81,6 +81,17 @@ class Donation::FormTest < ActiveSupport::TestCase
     donation = Donation::Form.new(amount: nil)
     assert_nil donation.formatted_amount
   end
+
+	test "rejects donation if amount is less than 50 cents" do
+		donation = build(:donation_form, amount: 0.45)
+		refute donation.valid?
+		assert_contains donation.errors.full_messages, "You are bad because the amount you gave me was too low."
+	end
+
+	test "accepts donation if amount is less than 50 cents" do
+		donation = build(:donation_form, amount: 0.50)
+		assert donation.valid?, donation.errors.full_messages
+	end
 
   test "defaults organization details when the contact is from an organization" do
     contact, _ = create_contact_from_organization(

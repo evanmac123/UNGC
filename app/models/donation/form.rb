@@ -32,6 +32,7 @@ class Donation::Form < Donation
 
   validates :token, presence: true
   validate :validate_invoice_number_organization_prefix_match
+  validate :minimum_amount
 
   def self.from(contact:)
     params = {
@@ -94,6 +95,13 @@ class Donation::Form < Donation
   def formatted_amount
     if amount > 0
       amount.format
+    end
+  end
+
+  def minimum_amount
+    puts amount.fractional
+    if amount.fractional < 50
+      errors.add(:amount, "contributions must be at least 50 cents")
     end
   end
 
