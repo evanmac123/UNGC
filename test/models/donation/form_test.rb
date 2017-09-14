@@ -2,7 +2,7 @@
 require "test_helper"
 
 class Donation::FormTest < ActiveSupport::TestCase
-	
+
   test "defaults first_name" do
     form = create_form(first_name: "First")
     assert_equal "First", form.first_name
@@ -114,24 +114,42 @@ class Donation::FormTest < ActiveSupport::TestCase
 		assert form.valid?, form.errors.full_messages
   end
 
-	test "invoice number has a prefix that match the organization id" do
-		organization = create(:organization)
-    form = build(
-			:donation_form,
-			:invoice_number => organization.id.to_s.reverse+"-invoice12345",
-			:organization => organization
-		)
-		refute form.valid?
+  test "invoice number has a prefix that matches the organization id" do
+    organization = create(:organization)
+
+    invalid_form = build(:donation_form, organization: organization,
+      invoice_number: "#{organization.id.to_s.reverse}-invoice12345",
+    )
+    refute invalid_form.valid?
     error_message = I18n.t("activerecord.errors.models.donation/form.attributes.invoice_number.invalid_invoice_code")
-		assert_includes form.errors.full_messages, "Invoice number #{error_message}"
+    assert_includes invalid_form.errors.full_messages, "Invoice number #{error_message}"
+
+    valid_form = build(:donation_form, organization: organization,
+      invoice_number: "#{organization.id}-invoice12345",
+    )
+    assert valid_form.valid?, valid_form.errors.full_messages
+  end
+
+  test "invoice number has a prefix that matches the organization's invoice id" do
+    organization = create(:organization)
+
+    invalid_form = build(:donation_form, organization: organization,
+      invoice_number: "FGCD#{organization.id.to_s.reverse}-invoice12345",
+    )
+    refute invalid_form.valid?
+    error_message = I18n.t("activerecord.errors.models.donation/form.attributes.invoice_number.invalid_invoice_code")
+    assert_includes invalid_form.errors.full_messages, "Invoice number #{error_message}"
+
+    valid_form = build(:donation_form, organization: organization,
+      invoice_number: "FGCD#{organization.id}-invoice12345",
+    )
+    assert valid_form.valid?, valid_form.errors.full_messages
   end
 
   test "invoice number accepts UTF-8 characters" do
 		organization = build_stubbed(:organization)
-    form = build(
-			:donation_form,
-      :invoice_number => " #{organization.id} ‒ 78 | 88",
-			:organization => organization
+    form = build(:donation_form, organization: organization,
+      invoice_number: " #{organization.id} ‒ 78 | 88",
 		)
 		assert form.valid?, form.errors.full_messages
   end
