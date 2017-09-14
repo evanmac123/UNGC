@@ -126,7 +126,7 @@ class Donation::Form < Donation
     if invoice_number.present?
       org_id, code = split_invoice_code_and_organization_id
       if org_id.present? && code.present?
-        return org_id  == organization_id.to_s
+        return org_id == organization_id.to_s || org_id == organization.invoice_id
       end
     end
     false
