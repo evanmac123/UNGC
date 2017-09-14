@@ -99,9 +99,8 @@ class Donation::Form < Donation
   end
 
   def minimum_amount
-    puts amount.fractional
     if amount.fractional < 50
-      errors.add(:amount, "contributions must be at least 50 cents")
+      errors.add(:amount, "must be at least 50 cents")
     end
   end
 

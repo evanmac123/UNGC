@@ -85,7 +85,7 @@ class Donation::FormTest < ActiveSupport::TestCase
 	test "rejects donation if amount is less than 50 cents" do
 		donation = build(:donation_form, amount: 0.45)
 		refute donation.valid?
-		assert_contains donation.errors.full_messages, "You are bad because the amount you gave me was too low."
+		assert_contains donation.errors.full_messages, "Amount must be at least 50 cents"
 	end
 
 	test "accepts donation if amount is less than 50 cents" do
