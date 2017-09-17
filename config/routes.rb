@@ -550,6 +550,7 @@ UNGC::Application.routes.draw do
   get '/unga17', to: redirect('/take-action/events/leaders-summit-2017/ga-week-business-guide')
   get '/SDGMatrix', to: redirect('/library/3111')
   get '/unpsf', to: redirect('/take-action/events/1051-united-nations-private-sector-forum-2017')
+  get '/2015commitments', to: redirect('/docs/news_events/PSF2017/2015-Check-In-Full-Reports.pdf')
 
   #redirect for delisted company
   get '/system/attachments/cop_2016/322211/original/ToddandClare.com_United_Nations_GC_Member_Report_COP_1042016.pdf', to: redirect('/what-is-gc/participants/83761-T-C-Network-Solutions')
