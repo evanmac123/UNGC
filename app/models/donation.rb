@@ -85,7 +85,7 @@ class Donation < ActiveRecord::Base
     code
   end
 
-  protected
+  private
 
   def split_invoice_code_and_organization_id
     return [] if invoice_number.blank?

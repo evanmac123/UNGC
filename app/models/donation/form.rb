@@ -31,7 +31,6 @@ class Donation::Form < Donation
   attr_accessor :name_on_card, :token
 
   validates :token, presence: true
-  validate :validate_invoice_number_organization_prefix_match
   validate :minimum_amount
 
   def self.from(contact:)
@@ -112,24 +111,6 @@ class Donation::Form < Donation
       "Discover",
       "Diners Club",
     ]
-  end
-
-  def validate_invoice_number_organization_prefix_match
-    if invoice_number.present? && !invoice_number_references_organization?
-      errors.add(:invoice_number, :invalid_invoice_code)
-    end
-  end
-
-  private
-
-  def invoice_number_references_organization?
-    if invoice_number.present?
-      org_id, code = split_invoice_code_and_organization_id
-      if org_id.present? && code.present?
-        return org_id == organization_id.to_s || org_id == organization.invoice_id
-      end
-    end
-    false
   end
 
 end
