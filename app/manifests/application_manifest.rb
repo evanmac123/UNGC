@@ -64,7 +64,7 @@ class ApplicationManifest < Moonshine::Manifest::Rails
        :user => 'rails',
        :hour => 1,
        :minute => 0,
-       :ensure => :present
+       :ensure => :absent
 
      cron 'start_mysqldump',
        :command => '/srv/unglobalcompact/current/script/cron/start_mysqldump',
