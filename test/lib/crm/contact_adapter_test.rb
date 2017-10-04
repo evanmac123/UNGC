@@ -67,8 +67,8 @@ module Crm
     end
 
     test "converts MailingCity" do
-      converted = convert_contact(city: "Toronto")
-      assert_equal "Toronto", converted.fetch("MailingCity")
+      converted = convert_contact(city: "Nelson Mandela Bay Metropolitan Municipality")
+      assert_equal "Nelson Mandela Bay Metropolitan Munic...", converted.fetch("MailingCity")
     end
 
     test "converts MailingState" do

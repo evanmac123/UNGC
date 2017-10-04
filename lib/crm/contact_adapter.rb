@@ -16,7 +16,7 @@ module Crm
         'Fax' => fax(contact.fax),
         'Role__c' => picklist(contact.roles.map(&:name)),
         'MailingStreet' => text(contact.full_address),
-        'MailingCity' => text(contact.city),
+        'MailingCity' => text(contact.city, 40),
         'MailingState' => text(contact.state),
         'MailingPostalCode' => postal_code(contact.postal_code),
         'MailingCountry' => text(contact.country.name),
