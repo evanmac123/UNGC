@@ -50,12 +50,15 @@ module Igloo
     # To the name of the group. This `space_name` translates the ActionPlatform name
     # in the database to match the Spaces in Igloo
     def space_name(platform_name)
-      igloo_name = SPACE_NAMES[platform_name]
-      if igloo_name.present?
-        "#{igloo_name}~Space Members"
-      else
-        @log.error "No Igloo space name registered for #{platform_name}"
-      end
+      igloo_name = if SPACE_NAMES.key?(platform_name)
+                     SPACE_NAMES.fetch(platform_name)
+                   else
+                     # we don't have a known igloo group name, flag it
+                     # and assume it's the same as the platform name
+                     @log.error "No Igloo space name registered for #{platform_name}"
+                     platform_name
+                   end
+      "#{igloo_name}~Space Members"
     end
 
     SPACE_NAMES = {
@@ -68,6 +71,7 @@ module Igloo
       "Business for Inclusion" => "Business for Inclusion &amp; Gender Equality",
       "Business Action for Humanitarian Needs" => "Business for Humanitarian Action and Peace",
       "Decent Work in Global Supply Chains" => "Decent Work in Global Supply Chains",
+      "Water Stewardess for the SDGs" => "Water Stewardess for the SDGs",
     }.freeze
 
   end
