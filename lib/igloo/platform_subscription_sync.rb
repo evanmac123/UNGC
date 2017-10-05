@@ -5,6 +5,7 @@ module Igloo
       @api = api
       @query = query || Igloo::PlatformSubscriptionQuery.new
       @csv_adapter = CsvAdapter.new
+      @log = NotificationServiceLogger.new
     end
 
     def upload_recent(cutoff)
@@ -49,7 +50,12 @@ module Igloo
     # To the name of the group. This `space_name` translates the ActionPlatform name
     # in the database to match the Spaces in Igloo
     def space_name(platform_name)
-      "#{SPACE_NAMES.fetch(platform_name)}~Space Members"
+      igloo_name = SPACE_NAMES[platform_name]
+      if igloo_name.present?
+        "#{igloo_name}~Space Members"
+      else
+        @log.error "No Igloo space name registered for #{platform_name}"
+      end
     end
 
     SPACE_NAMES = {
