@@ -18,6 +18,17 @@ module ApplicationHelper
     Time.now.strftime('%Y').to_i
   end
 
+  def options_for_enum(active_record_enum, scope: nil)
+    active_record_enum.keys.map do |value|
+      text = if scope.present?
+        I18n.t(value, scope: scope)
+      else
+        value.humanize
+      end
+      [text, value]
+    end
+  end
+
   def search_filter(filter, disabled: false)
     options = {
       label: filter.label,

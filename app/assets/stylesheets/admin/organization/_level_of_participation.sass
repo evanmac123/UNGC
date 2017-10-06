@@ -1,0 +1,265 @@
+.level-of-participation-page
+  padding: 0 2em
+  font-size: 14px
+  color: rgb(63,63,63)
+  ul li
+    padding: 0.25em 0
+  p.blurb
+    font-size: 1.25em
+  a, a:visited, a:hover
+    color: #699cc6
+    font-weight: bold
+
+  input.radio-button-image + label
+    font-size: 1.25em
+
+  .signatory .radio-button-image + label,
+  .participant .radio-button-image + label
+    margin: 0.3em 0 0 0
+    display: block
+
+.lop-section
+  padding: 0 2em
+  //margin-top: 2em
+  .button input[type="submit"]
+    width: 100% !important
+  thead
+    th
+      background: #fff
+      font-size: 1em
+      text-align: left
+      padding: 0.8em
+      //border: 5px solid white
+      &.participant
+        background: rgb(30,50,80)
+        border-right: 2px solid rgb(30,50,80)
+        color: white
+        cursor: pointer
+      &.signatory
+        background: #699cc6
+        border-right: 2px solid #699cc6
+        color: white
+        cursor: pointer
+  td
+    line-height: 1.25em
+    background: #e6e6e6
+    border-top: 2px solid white
+    border-bottom: 2px solid white
+    padding: 0.25em 1.5em
+  tr:nth-of-type(1)
+    td
+      border-top: none
+      padding-top: 1em
+    td:nth-of-type(1)
+      background: white
+  tr:nth-of-type(2)
+    td
+      font-weight: bold
+  tr td:nth-of-type(1)
+    font-weight: bold
+    min-width: 185px
+  tr td:nth-of-type(2)
+    border-right: 2px solid rgb(30,50,80)
+    border-left: 2px solid white
+    background: #d9d9d9
+  tr td:nth-of-type(3)
+    border-right: 2px solid #699cc6
+    ol
+      list-style-type: disc
+    //border-left: 5px solid white
+  #select-parent-company
+    margin-top: -0.5em
+    margin-bottom: 1em
+
+.lop-form
+  width: 910px
+  clear: both
+  box-sizing: content-box
+  box-sizing: border-box
+  padding-top: 1em
+  .bold
+    font-weight: bold
+  input,
+  select,
+  textarea
+    display: block
+    //float: left
+    border: 1px solid #ccc
+    border-radius: 0.25em
+    padding: 1em 0.7em
+    width: 90% !important
+    background: #fdfdfd
+  .leftcheck,
+  #select-invoice-date
+    input
+      display: block
+      float: left
+      width: 20px !important
+    input#level_of_participation_invoice_date
+      width: 275px !important
+      margin-top: 10px
+    label
+      display: inline-block
+      float: left
+      margin-top: 0.3em
+      max-width: 800px
+      font-weight: bold
+    span
+      display: block
+    #level_of_participation_is_subsidiary_false
+      margin-left: 1.25em
+  #select-invoice-date
+    input
+      margin-top: -3px
+    label
+      float: none
+      clear: right
+      width: 100%
+      padding-top: 8px
+  .button
+    input
+      width: 100% !important
+      margin-top: 3em !important
+
+p.leftindent
+  margin: 1em 0 0 2em
+
+.lop-form
+  #level_of_participation_level_of_participation_participant_level,
+  #level_of_participation_level_of_participation_signatory_level
+    display: block
+    float: left
+    width: 25px !important
+    margin: 0.25em 0 0 0
+
+.lop-form
+  .field
+    display: block
+    float: left
+    margin: 0.5em 1.6% 0 0
+
+.lop-form
+  .last
+    margin-right: 0 !important
+
+/*  GROUPING  */
+.lop-form:before,
+.lop-form:after
+  content: ''
+  display:table
+
+.lop-form::after
+  clear:both
+
+.lop-form .field,
+.lop-form2 .field
+  &.one-6
+    width: 15.33%
+  &.two-6
+    width: 32.26%
+  &.three-6
+    width: 49.2%
+  &.four-6
+    width: 66.13%
+  &.five-6
+    width: 83.06%
+  &.five-6
+    width: 100%
+
+.lop-form-2,
+.fin-contact
+  label,
+  input
+    display: block
+    float: left
+    width: auto
+  label
+    padding: 0.3em 0 0.5em 0.3em
+    line-height: 1.3em
+
+.lop-form-2
+  .terms
+    margin: 0 0 1em 0
+    label
+      display: block
+      float: left
+      width: 90%
+      clear: right
+      padding: 0.3em 0 0 0.5em
+
+#half-wrap
+  width: 425px
+  display: block
+  float: left
+  input,
+  select,
+  textarea
+    display: block
+    border: 1px solid #ccc
+    border-radius: 0.25em
+    padding: 1em 0.7em
+    width: 90%
+    background: #fdfdfd
+
+.button input[type="submit"]
+  background: rgba(30,50,80,1)
+  display: inline-block
+  font-family: "Flama Bold", "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif
+  font-weight: bold
+  font-size: 1em
+  color: white
+  text-align: center
+  text-transform: uppercase
+  padding: 1em 2em
+  margin: 1em 0
+  border: 0
+  text-decoration: none
+  -webkit-transition-property: background-color color
+  -moz-transition-property: background-color color
+  transition-property: background-color color
+  -webkit-transition-duration: 150ms
+  -moz-transition-duration: 150ms
+  transition-duration: 150ms
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+
+.lop-boxes
+  margin: 1em
+  width: 400px
+  display: block
+  float: left
+  padding: 1em 1.5em
+  height: 370px
+  border-left: 5px solid rgba(30,50,80,1)
+  h2
+    font-size: 1.25em
+    font-family: 'Roboto', 'Flama', Helvetica
+
+.rev
+  padding: 1em 0
+
+.level-of-participation
+  background-color: #efefef
+  margin-bottom: 2em
+
+  .platform-selection
+    top: auto
+
+table.lop-table
+  margin: 10px 0 0 1em
+  width: 420px
+  display: block
+  float: left
+  th
+    border-bottom: 2px solid rgba(30,50,80,1)
+    text-align: left
+  tr:nth-child(even)
+    background: #e8e8e8
+  td
+    padding: 1em
+    border-right: 1px solid #ccc
+
+.break
+  border-bottom: 1px solid #e8e8e8
+  margin: 1em 0
+  display: block

@@ -142,4 +142,50 @@ $(function(){
     $('#errorExplanation').toggle();
     $('#contact_form').toggle();
   });
+
+  var $isSubsidiary = $('input[name="organization[is_subsidiary]"]');
+  var $parentCompanyField = $('#select-parent-company');
+  var $parentCompanyId = $('#organization_parent_company_id');
+  var $parentCompanyName = $("input[data-autocomplete]");
+  var $autocompleteField = $parentCompanyName.data('autocomplete');
+  var autocompleteUrl = "/api/v1/autocomplete/" + $autocompleteField + ".json";
+  var $invoiceDate = $('#select-invoice-date');
+  var $levelOfParticipation = $('input[name="organization[organization]"]');
+
+  var onSubsidiaryValueChanged = function(e) {
+    $parentCompanyField.toggle(this.value === "true");
+  };
+
+  $isSubsidiary.on('change', onSubsidiaryValueChanged);
+
+  onSubsidiaryValueChanged();
+
+  $parentCompanyName.autocomplete({
+    source: autocompleteUrl,
+    select: function(event, ui) {
+      console.log(ui.item.id);
+      $parentCompanyId.val(ui.item.id);
+    }
+  });
+
+  var $revenue = $("#organization_precise_revenue");
+  $revenue.priceFormat({
+    prefix: "$",
+    centsLimit: 0,
+    clearOnEmpty: true
+  });
+
+  $('input[type=radio][name=preset_invoice_dates]').change(function(e) {
+    var input = $(this).val(),
+        timestamp = Date.parse(input),
+        dateField = document.querySelector("#organization_invoice_date");
+
+    if(isNaN(timestamp)) {
+      dateField.value = null;
+    } else {
+      dateField.value = input;
+    }
+  });
+
+
 });

@@ -1,19 +1,26 @@
 <%= render partial: 'components/meta_tags' %>
 <%= render partial: 'components/hero' %>
-<section class='main-content-section main-content-section-narrow'>
+
+<section class='main-content-section main-content-section-narrow engagement-tier'>
   <div class='wrapper'>
     <header class='main-content-header'>
       <h1><%= signup_type -%> Organization Application</h1>
     </header>
+
+    <h2>Engagement Tier</h2>
+
+    <p>
+      Starting in January 2018, the UN Global Compact will offer two distinct engagement tiers to suit your company’s needs: Participant or Signatory. In order to engage in either tier, and remain an active Participant or Signatory of the UN Global Compact, we ask larger companies to make a required annual financial contribution, based on their company’s annual gross revenue/sales.
+    </p>
 
     <%= form_for(@signup.organization, url: organization_step5_path, html: {multipart: true, class: 'form-classic signup'}) do |form| %>
 
       <%= form.error_messages(message: false) %>
       <%= render 'flash_error_messages' %>
 
-      <h2>Financial Commitment</h2>
+      <%= render partial: "/shared/participation_level_selector", locals: { form: form } %>
 
-      <%= render partial: @signup.pledge_form_type, locals: {form: form} %>
+      <br><p>** <a href="https://www.unglobalcompact.org/engage-locally" target="_blank">Please contact your Local Network for more details</a></p>
 
       <%= form.submit 'Next', class: 'button' %>
     <%- end -%>

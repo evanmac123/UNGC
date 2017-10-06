@@ -1,0 +1,68 @@
+# -*- coding: utf-8 -*-
+class Admin::LevelOfParticipationsController < AdminController
+
+  def new
+    organization = find_organization
+
+    default_form_params = {
+      organization: organization,
+    }
+
+    contact = organization.contacts.financial_contacts.first
+    if contact.present?
+      default_form_params.merge!(
+        financial_contact: Organization::LevelOfParticipationForm::FinancialContact.from(contact)
+      )
+    end
+
+    @form = Organization::LevelOfParticipationForm.new(default_form_params)
+  end
+
+  def create
+    @form = Organization::LevelOfParticipationForm.new(organization: find_organization)
+    @form.attributes = form_params
+    if @form.save
+      redirect_to dashboard_url, notice: I18n.t("level_of_participation.success")
+    else
+      render :new
+    end
+  end
+
+  private
+
+  def form_params
+    params.require(:level_of_participation).permit(
+      :level_of_participation,
+      :contact_point_id,
+      :is_subsidiary,
+      :parent_company_name,
+      :parent_company_id,
+      :annual_revenue,
+      :confirm_financial_contact_info,
+      :confirm_submission,
+      :invoice_date,
+      financial_contact: [
+        :id,
+        :prefix,
+        :first_name,
+        :middle_name,
+        :last_name,
+        :job_title,
+        :email,
+        :phone,
+        :fax,
+        :address,
+        :address_more,
+        :city,
+        :state,
+        :postal_code,
+        :country_id,
+      ]
+    )
+  end
+
+  def find_organization
+    current_contact.organization
+  end
+
+end

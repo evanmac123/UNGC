@@ -98,6 +98,7 @@ class Organization < ActiveRecord::Base
   belongs_to :country
   belongs_to :removal_reason
   belongs_to :participant_manager, :class_name => 'Contact'
+  belongs_to :parent_company, class_name: "Organization"
 
   has_one :non_business_organization_registration
 
@@ -129,6 +130,7 @@ class Organization < ActiveRecord::Base
   before_save :set_non_business_sector_and_listing_status
   before_save :set_initiative_signatory_sector
   before_destroy :delete_contacts
+  before_validation :set_bracketed_revenue
 
   after_commit Crm::CommitHooks.new(:create), on: :create
   after_commit Crm::CommitHooks.new(:update), on: :update
@@ -1006,6 +1008,17 @@ class Organization < ActiveRecord::Base
       contacts.each do |c|
         c.roles.delete_all
         c.delete
+      end
+    end
+
+    def set_bracketed_revenue
+      if revenue.nil? && precise_revenue.present?
+        REVENUE_AMOUNTS.each do |key, amount|
+          if key < 5 && precise_revenue < Money.new(amount)
+            self.revenue = key
+          end
+        end
+        self.revenue ||= 5 # 5 billion or more
       end
     end
 

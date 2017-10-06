@@ -3,14 +3,26 @@ require "test_helper"
 class BusinessSignupTest < ActionDispatch::IntegrationTest
 
   setup do
-    create(:country, name: "France")
     create(:country, name: "Canada")
     create(:country, name: "Norway")
     create(:listing_status, name: "Publicly Listed")
     create(:exchange, name: "ABC-Index")
+    travel_to Date.new(2019, 1, 1)
+  end
+
+  teardown do
+    travel_back
   end
 
   test "a valid business signup" do
+    # Given a parent company
+    parent_company = create(:business)
+
+    # and a country from a network that requires invoicing
+    create(:country,
+      name: "France",
+      local_network: create(:local_network, invoice_options_available: "yes"))
+
     # step 1
     visit "/participation/join/application/step1/business"
 
@@ -21,22 +33,14 @@ class BusinessSignupTest < ActionDispatch::IntegrationTest
     select "ABC-Index", from: "Exchange", visible: false
     fill_in "Stock symbol", with: "ABCD", visible: false
     select "Mining", from: "Sector", visible: false
-    select "between USD 50 million and USD 250 million", from: "Annual Sales / Revenues"
+    fill_in I18n.t("level_of_participation.confirm_annual_revenue"), with: "$250,000,000"
     select "France", from: "Country"
-
-    within("label[for='organization_is_tobacco']") do
-      choose "Yes"
-    end
-
-    within("label[for='organization_is_landmine']") do
-      choose "Yes"
-    end
-
-    within("label[for='organization_is_biological_weapons']") do
-      choose "Yes"
-    end
-
-    select "Participant Level", from: t("signup.level_of_participation")
+    within("label[for='organization_is_subsidiary']") { choose "Yes" }
+    fill_in "organization_parent_company_name", with: parent_company.name
+    simulate_parent_company_selection(parent_company)
+    within("label[for='organization_is_tobacco']") { choose "Yes" }
+    within("label[for='organization_is_landmine']") { choose "Yes" }
+    within("label[for='organization_is_biological_weapons']") { choose "Yes" }
 
     click_on "Next"
     assert_equal organization_step2_path, current_path, validation_errors
@@ -61,7 +65,7 @@ class BusinessSignupTest < ActionDispatch::IntegrationTest
     click_on "Next"
     assert_equal organization_step3_path, current_path, validation_errors
 
-    # step 3
+    # step3
     fill_in "Prefix", with: "Ms."
     fill_in "First name", with: "Doris"
     fill_in "Middle name", with: "P"
@@ -79,17 +83,22 @@ class BusinessSignupTest < ActionDispatch::IntegrationTest
     click_on "Next"
     assert_equal organization_step4_path, current_path, validation_errors
 
-    # step 4 Financial Commitment
+    # step4 level of participation, invoice date
+    choose "PARTICIPANT"
+
     click_on "Next"
     assert_equal organization_step5_path, current_path, validation_errors
 
-    # step 5 Financial Contact
+    # step5 financial contact info
     fill_in "Prefix", with: "Mrs."
     fill_in "First name", with: "Lisandra"
     fill_in "Last name", with: "Mueller"
     fill_in "Job title", with: "CTO"
     fill_in "Email", with: "limueller@block.name"
     fill_in "Phone", with: "(123) 123 1234"
+
+    today = Time.zone.now.strftime("%d/%m/%Y")
+    fill_in "organization[invoice_date]", with: today
 
     click_on "Next"
     assert_equal organization_step6_path, current_path, validation_errors
@@ -109,11 +118,16 @@ class BusinessSignupTest < ActionDispatch::IntegrationTest
     assert_equal "ABC-Index", organization.exchange.name
     assert_equal "ABCD", organization.stock_symbol
     assert_equal "Mining", organization.sector.name
-    assert_equal 250, organization.pledge_amount
-    assert_equal "", organization.no_pledge_reason
+    assert_equal 250_000_000_00, organization.precise_revenue.cents
     assert_equal "SME", organization.organization_type.name
     assert_equal "France", organization.country.name
+    assert_not_nil organization.parent_company
+    assert organization.is_tobacco?
+    assert organization.is_landmine?
+    assert organization.is_biological_weapons?
     assert_nil organization.legal_status
+    assert_equal Date.new(2019, 1, 1), organization.invoice_date
+    assert_equal "participant_level", organization.level_of_participation
 
     # commitment letter
     commitment_letter_file_name = organization.commitment_letter_file_name
@@ -158,6 +172,7 @@ class BusinessSignupTest < ActionDispatch::IntegrationTest
 
     # financial_contact
     financial_contact = organization.contacts.financial_contacts.first
+    assert_not_nil financial_contact, "financial contact wasn't created"
     assert_equal "Mrs.", financial_contact.prefix
     assert_equal "Lisandra", financial_contact.first_name
     assert_equal "", financial_contact.middle_name
@@ -176,14 +191,16 @@ class BusinessSignupTest < ActionDispatch::IntegrationTest
   private
 
   def validation_errors
-    errors = all("#errorExplanation")
-    if errors.any?
-      ap errors.map(&:text).join("\n")
-    end
+    errors = all(".error-list .error")
+    errors.map(&:text).join("\n")
   end
 
   def t(*args)
     I18n.t(*args)
+  end
+
+  def simulate_parent_company_selection(parent_company)
+    find(:xpath, "//input[@id='organization_parent_company_id']").set(parent_company.id)
   end
 
 end

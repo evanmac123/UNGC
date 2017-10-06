@@ -12,6 +12,7 @@ class SignupController < ApplicationController
   end
 
   # shows organization form
+  # posts to step2
   def step1
     clear_organization_signup
 
@@ -25,8 +26,10 @@ class SignupController < ApplicationController
 
   # POST from organization form
   # shows contact form
+  # posts to step3
   def step2
     if request.post?
+      # Accept input from step1
       @signup.set_organization_attributes(organization_params)
       @signup.set_registration_attributes(registration_params)
 
@@ -41,6 +44,8 @@ class SignupController < ApplicationController
 
   # POST from contact form
   # shows ceo form
+  # posts to step4 for businesses
+  # posts to step6 for non-businesses
   def step3
     if request.post?
       @signup.set_primary_contact_attributes(contact_params)
@@ -50,8 +55,9 @@ class SignupController < ApplicationController
     @next_step = @signup.business? ? organization_step4_path : organization_step6_path
 
     if @signup.valid_primary_contact?
-      @signup.prepare_ceo
+      @signup.prefill_ceo_contact_info
     else
+      # There was a problem with step2, send them back
       flash[:error] = @signup.error_messages
       redirect_to organization_step2_path
     end
@@ -59,84 +65,58 @@ class SignupController < ApplicationController
 
   # POST from ceo form
   # pledge form if business organization
+  # posts to step5
   def step4
-    if request.post?
-      @signup.set_ceo_attributes(contact_params)
-      store_organization_signup
-    end
-
-    unless @signup.valid_ceo?
-      flash[:error] = @signup.error_messages
-      redirect_to organization_step3_path
-    end
-
-    # highlight amount by assigning CSS class
-    @suggested_pledge_amount = {}
-    @suggested_pledge_amount[@signup.organization.revenue] = 'highlight_suggested_amount'
+    handle_ceo_attributes()
   end
 
   # POST from pledge form
-  # ask for financial contact if pledge was made
+  # ask for financial contact info
+  # posts to step6
   def step5
     if request.post?
-      @signup.set_pledge_attributes(pledge_params)
-      @signup.prepare_financial_contact
+      @signup.select_participation_level(participation_level_params)
+      @signup.prefill_financial_contact_address
 
       store_organization_signup
     end
 
-    case
-    when @signup.pledge_incomplete?
+    unless @signup.valid_participant_level?
       flash[:error] = @signup.error_messages
       redirect_to organization_step4_path
-    when !@signup.require_pledge?
-      flash[:error] = @signup.error_messages
-      redirect_to organization_step6_path
-    else
-      # render step5 form
     end
   end
 
   # POST from ceo or financial contact form
   # shows commitment letter form
+  # posts to step7
   def step6
-    # coming from step5, organization has selected a pledge amount
-    if @signup.require_pledge?
+    if @signup.business?
       if request.post?
-        @signup.set_financial_contact_attributes(contact_params) if contact_params
+        @signup.organization.invoice_date = params.fetch(:organization, {}).fetch(:invoice_date, nil)
+        @signup.set_financial_contact_attributes(contact_params)
         store_organization_signup
       end
 
-      if !@signup.financial_contact.valid? && !@signup.primary_contact.is?(Role.financial_contact)
+      if !@signup.financial_contact.valid? || !@signup.valid_invoice_date?
         flash[:error] = @signup.error_messages
         redirect_to organization_step5_path
       end
-    # coming from step3 or 4
     else
-      if request.post?
-        @signup.set_ceo_attributes(contact_params) if contact_params
-        store_organization_signup
-      end
-
-      unless @signup.valid_ceo?
-        flash[:error] = @signup.error_messages
-        redirect_to organization_step3_path
-      end
+      handle_ceo_attributes
     end
   end
 
   # POST from commitment letter form
   # shows thank you page
   def step7
-    if commitment_letter_params[:commitment_letter]
+    if request.post?
       @signup.set_commitment_letter_attributes(commitment_letter_params)
     end
 
     if @signup.complete_valid?
       @signup.save
-
       send_mail
-
       clear_organization_signup
       session[:is_jci_referral] = nil
     else
@@ -148,107 +128,122 @@ class SignupController < ApplicationController
 
   private
 
-    def load_page
-      @page = SignupPage.new
+  def handle_ceo_attributes()
+    if request.post?
+      @signup.set_ceo_attributes(contact_params)
+      store_organization_signup
     end
 
-    def load_organization_signup
-      @signup = pending_signups.load || create_signup(params[:org_type])
+    unless @signup.valid_ceo?
+      flash[:error] = @signup.error_messages
+      redirect_to organization_step3_path
     end
+  end
 
-    def store_organization_signup
-      pending_signups.store(@signup)
-    end
+  def load_page
+    @page = SignupPage.new
+  end
 
-    def clear_organization_signup
-      pending_signups.clear
-    end
+  def load_organization_signup
+    @signup = pending_signups.load || create_signup(params[:org_type])
+  end
 
-    def pending_signups
-      PendingSignup.new(session.id)
-    end
+  def store_organization_signup
+    pending_signups.store(@signup)
+  end
 
-    def send_mail
-      OrganizationMailer.submission_received(@signup.organization).deliver
-      if session[:is_jci_referral]
-        OrganizationMailer.submission_jci_referral_received(@signup.organization).deliver
-      end
-    rescue Exception
-      flash[:error] = 'Sorry, we could not send the confirmation email due to a server error.'
-    end
+  def clear_organization_signup
+    pending_signups.clear
+  end
 
-    def create_signup(org_type)
-      if org_type == NONBUSINESS_PARAM
-        NonBusinessOrganizationSignup.new
-      else
-        BusinessOrganizationSignup.new
-      end
-    end
+  def pending_signups
+    PendingSignup.new(session.id)
+  end
 
-    def organization_params
-      params.require(:organization).permit(
-        :name,
-        :url,
-        :employees,
-        :organization_type_id,
-        :listing_status_id,
-        :is_ft_500,
-        :exchange_id,
-        :stock_symbol,
-        :isin,
-        :sector_id,
-        :revenue,
-        :country_id,
-        :legal_status,
-        :is_tobacco,
-        :is_landmine,
-        :is_biological_weapons,
-        :level_of_participation,
-      )
+  def send_mail
+    OrganizationMailer.submission_received(@signup.organization).deliver
+    if session[:is_jci_referral]
+      OrganizationMailer.submission_jci_referral_received(@signup.organization).deliver
     end
+  rescue Exception
+    flash[:error] = 'Sorry, we could not send the confirmation email due to a server error.'
+  end
 
-    def registration_params
-      params.fetch(:non_business_organization_registration, {}).permit(
-        :date,
-        :place,
-        :authority,
-        :number,
-        :legal_status
-      )
+  def create_signup(org_type)
+    if org_type == NONBUSINESS_PARAM
+      NonBusinessOrganizationSignup.new
+    else
+      BusinessOrganizationSignup.new
     end
+  end
 
-    def contact_params
-      params.require(:contact).permit(
-        :foundation_contact,
-        :prefix,
-        :first_name,
-        :middle_name,
-        :last_name,
-        :job_title,
-        :email,
-        :phone,
-        :address,
-        :address_more,
-        :city,
-        :state,
-        :postal_code,
-        :country_id,
-        :username,
-        :password,
-        :role_ids => []
-      )
-    end
+  def organization_params
+    params.require(:organization).permit(
+      :name,
+      :url,
+      :employees,
+      :organization_type_id,
+      :listing_status_id,
+      :is_ft_500,
+      :exchange_id,
+      :stock_symbol,
+      :isin,
+      :sector_id,
+      :precise_revenue,
+      :country_id,
+      :legal_status,
+      :is_subsidiary,
+      :parent_company_id,
+      :is_tobacco,
+      :is_landmine,
+      :is_biological_weapons,
+      :parent_company_name,
+      :parent_company_id
+    )
+  end
 
-    def pledge_params
-      params.require(:organization).permit(
-        :pledge_amount,
-        :no_pledge_reason
-      )
-    end
+  def registration_params
+    params.fetch(:non_business_organization_registration, {}).permit(
+      :date,
+      :place,
+      :authority,
+      :number,
+      :legal_status
+    )
+  end
 
-    def commitment_letter_params
-      organization_params = params.fetch(:organization, {}).permit(:commitment_letter)
-      non_business_params = params.fetch(:non_business_organization_registration, {})
-      organization_params.merge(non_business_params)
-    end
+  def contact_params
+    params.require(:contact).permit(
+      :foundation_contact,
+      :prefix,
+      :first_name,
+      :middle_name,
+      :last_name,
+      :job_title,
+      :email,
+      :phone,
+      :address,
+      :address_more,
+      :city,
+      :state,
+      :postal_code,
+      :country_id,
+      :username,
+      :password,
+      :role_ids => []
+    )
+  end
+
+  def commitment_letter_params
+    organization_params = params.fetch(:organization, {}).permit(:commitment_letter)
+    non_business_params = params.fetch(:non_business_organization_registration, {})
+    organization_params.merge(non_business_params)
+  end
+
+  def participation_level_params
+    params.require(:organization).permit(
+      :level_of_participation,
+      :invoice_date
+    )
+  end
 end

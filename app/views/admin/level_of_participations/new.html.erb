@@ -1,0 +1,178 @@
+<section class="level-of-participation-page">
+  <section>
+    <p class="blurb">
+      Starting in January 2018, the UN Global Compact will offer two distinct engagement tiers to suit your company’s needs: Participant or Signatory. In order to engage in either tier, and remain an active Participant or Signatory of the UN Global Compact, we ask larger companies to make a required annual financial contribution, based on their company’s annual gross revenue/sales.
+    </p>
+    <p>Please complete this brief form to confirm your company’s continued participation in the world’s largest corporate sustainability initiative:</p>
+    <ul>
+      <li>Select your <%= @form.engagement_year %> engagement tier (<a href="/participation/tiers" target="_blank">Learn more</a>)</li>
+      <li>Confirm or update your company and contact information</li>
+      <li>Confirm your <%= @form.engagement_year %> participation in the UN Global Compact</li>
+    </ul>
+
+  </section>
+
+  <%= form_for(@form,
+               url: admin_choose_level_of_participation_path,
+               as: :level_of_participation,
+               class: "lop-form",
+               html: { class: "lop-form" }
+  )  do |form|  %>
+
+<%= form.error_messages header_message: false %>
+
+    <section class="lop-section">
+      <h3 style="text-align: center; width: 100%; background: #e8e8e8; padding: 1em 0;">
+        1. Select Participant or Signatory
+      </h3>
+
+      <%= render partial: "/shared/participation_level_selector", locals: { form: form } %>
+
+      <p class="small"><a href="/engage-locally" target="_blank">**Please contact your Local Network for more details</a></p>
+    </section>
+
+    <div class="clear break"></div>
+
+    <section class="lop-section">
+      <h3 style="text-align: center; width: 100%; background: #e8e8e8; padding: 1em 0;">
+        2. Company information
+      </h3>
+
+      <div class="field">
+        <%= form.label(:contact_point_id, t("level_of_participation.confirm_primary_contact_point")) %><br />
+        <%= form.select(:contact_point_id, @form.organization_contacts, prompt: "Confirm primary contact") %>
+        <p>
+          If you do not see your company’s primary contact point on this list, please add them
+          <%= link_to 'here', dashboard_path(tab: "contacts") %>.
+        </p>
+      </div>
+
+      <div class="field leftcheck">
+        <p class="bold">
+        <span><%= t("level_of_participation.is_subsidiary_question") %></span>
+        <%= form.radio_button(:is_subsidiary, true) %>
+        <%= form.label(:is_subsidiary_true, "Yes") %>
+
+        <%= form.radio_button(:is_subsidiary, false) %>
+        <%= form.label(:is_subsidiary_false, "No") %> <br />
+        <%= form.hidden_field :parent_company_id %>
+      </div>
+
+      <div class="field" id="select-parent-company">
+        Please select your parent company:
+        <%= form.text_field(:parent_company_name, length: 20, placeholder: "Organization name",
+                         data: { autocomplete: "participants" }) %>
+        For more details, please read our subsidiary engagement policy <a href="https://www.unglobalcompact.org/docs/about_the_gc/policy/UNGlobalCompact_SubsidiaryPolicy.pdf" target="_blank">here</a>
+      </div>
+
+      <div class="clear"></div>
+
+      <div class="field">
+        <%= form.label :annual_revenue, I18n.t("level_of_participation.confirm_annual_revenue") %>
+        <%= form.text_field :annual_revenue %>
+      </div>
+
+      <section class="lop-form">
+        <h4>Please confirm your company’s billing information:</h4>
+
+        <%= form.fields_for :financial_contact, @form.financial_contact do |fields|  %>
+        <div class="field one-6">
+          <%= fields.label :prefix %>
+          <%= fields.text_field :prefix %>
+        </div>
+        <div class="field two-6">
+          <%= fields.label :first_name %>
+          <%= fields.text_field :first_name %>
+        </div>
+        <div class="field one-6">
+          <%= fields.label :middle_name %>
+          <%= fields.text_field :middle_name %>
+        </div>
+        <div class="field two-6 last">
+          <%= fields.label :last_name %>
+          <%= fields.text_field :last_name %>
+        </div>
+        <div class="clear"></div>
+        <div class="field one-6">
+          <%= fields.label :job_title %>
+          <%= fields.text_field :job_title %>
+        </div>
+        <div class="field two-6">
+          <%= fields.label :email %>
+          <%= fields.text_field :email %>
+        </div>
+        <div class="field one-6">
+          <%= fields.label :phone %>
+          <%= fields.text_field :phone %>
+        </div>
+        <div class="field last one-6">
+          <%= fields.label :fax %>
+          <%= fields.text_field :fax %>
+        </div>
+        <div class="clear"></div>
+        <div class="field two-6">
+          <%= fields.label :address %>
+          <%= fields.text_field :address %>
+        </div>
+        <div class="field last one-6">
+          <%= fields.label :address_more, "Address 2" %>
+          <%= fields.text_field :address_more %>
+        </div>
+        <div class="clear"></div>
+        <div class="field two-6">
+          <%= fields.label :city %>
+          <%= fields.text_field :city %>
+        </div>
+        <div class="field one-6">
+          <%= fields.label :state %>
+          <%= fields.text_field :state %>
+        </div>
+        <div class="field one-6">
+          <%= fields.label :postal_code %>
+          <%= fields.text_field :postal_code %>
+        </div>
+        <div class="field two-6 last">
+          <%= fields.label :country %>
+          <%= fields.select :country_id, @form.countries %>
+        </div>
+        <%= fields.hidden_field :id %>
+        <% end %>
+        <div class="clear"></div>
+      </section>
+
+      <div class="field leftcheck">
+        <%= form.check_box :confirm_financial_contact_info %>
+        <%= form.label(:confirm_financial_contact_info,
+                    t("level_of_participation.confirm_financial_contact_info")) %>
+      </div>
+
+      <% if @form.invoicing_required? %>
+        <%= render(partial: "/shared/invoice_date_selector", locals: {
+          form: form, options: @form.invoice_date_options
+        }) %>
+      <% end %>
+
+    </section>
+
+    <div class="clear"></div>
+
+    <p class="leftindent">In order to remain an active Participant or Signatory of the UN Global Compact, payment due by 31 December 2018.</p>
+
+    <div class="clear break"></div>
+
+    <section class="lop-section">
+      <h3 style="text-align: center; width: 100%; background: #e8e8e8; padding: 1em 0;">
+        3. Confirm your participation
+      </h3>
+
+      <div class="field leftcheck">
+        <%= form.check_box :confirm_submission %>
+        <%= form.label :confirm_submission, t("level_of_participation.confirm_submission") %>
+      </div>
+    </section>
+    <div class="button">
+    <%= form.submit 'Confirm' %>
+  </div>
+  <% end %>
+
+</section>

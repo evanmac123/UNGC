@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170911171150) do
+ActiveRecord::Schema.define(version: 20171004211717) do
 
   create_table "action_platform_orders", force: :cascade do |t|
     t.integer  "organization_id",      limit: 4,                   null: false
@@ -711,6 +711,10 @@ ActiveRecord::Schema.define(version: 20170911171150) do
     t.string   "image_content_type",                                  limit: 255
     t.integer  "image_file_size",                                     limit: 4
     t.datetime "image_updated_at"
+    t.integer  "business_model",                                      limit: 4
+    t.integer  "invoice_managed_by",                                  limit: 4
+    t.integer  "invoice_options_available",                           limit: 4
+    t.string   "invoice_currency",                                    limit: 255
   end
 
   create_table "logo_comments", force: :cascade do |t|
@@ -901,6 +905,8 @@ ActiveRecord::Schema.define(version: 20170911171150) do
     t.string   "precise_revenue_currency",       limit: 255, default: "USD", null: false
     t.boolean  "is_biological_weapons"
     t.integer  "level_of_participation",         limit: 4
+    t.date     "invoice_date"
+    t.integer  "parent_company_id",              limit: 4
   end
 
   add_index "organizations", ["country_id"], name: "index_organizations_on_country_id", using: :btree

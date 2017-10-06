@@ -301,6 +301,11 @@ class ActiveSupport::TestCase
     fixture_file_upload('files/untitled.pdf', 'application/pdf')
   end
 
+  def assert_includes_error(model, message)
+    refute model.valid?, "expected #{model} to not be valid"
+    assert_includes model.errors.full_messages, message
+  end
+
 end
 
 class ActionController::TestCase

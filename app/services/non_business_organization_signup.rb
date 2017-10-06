@@ -3,7 +3,6 @@ class NonBusinessOrganizationSignup < OrganizationSignup
 
   def post_initialize
     @org_type = 'non_business'
-    @organization = Organization.new
     @legal_status_id = nil
     @registration = @organization.build_non_business_organization_registration
   end

@@ -6,3 +6,93 @@ form.signup
     list-style: none
     padding-left: 0
     margin-bottom: 2em
+
+//engagement tiers forms page
+
+.engagement-tier
+  form.signup li
+    list-style: disc
+    margin-bottom: inherit
+    margin-left: 1.5em
+  thead
+    th
+      background: #fff
+      font-size: 1em
+      text-align: left
+      padding: 0.8em
+      //border: 5px solid white
+      &.participant
+        background: rgb(30,50,80)
+        border-right: 2px solid rgb(30,50,80)
+        color: white
+        cursor: pointer
+      &.signatory
+        background: #699cc6
+        border-right: 2px solid #699cc6
+        color: white
+        cursor: pointer
+  td
+    line-height: 1.25em
+    background: #e6e6e6
+    border-top: 2px solid white
+    border-bottom: 2px solid white
+    padding: 0.25em 1.5em
+  tr:nth-of-type(1)
+    td
+      border-top: none
+      padding-top: 1em
+    td:nth-of-type(1)
+      background: white
+  tr:nth-of-type(2)
+    td
+      font-weight: bold
+  tr td:nth-of-type(1)
+    font-weight: bold
+    min-width: 185px
+  tr td:nth-of-type(2)
+    border-right: 2px solid rgb(30,50,80)
+    border-left: 2px solid white
+    background: #d9d9d9
+    vertical-align: top
+  tr td:nth-of-type(3)
+    border-right: 2px solid #699cc6
+    vertical-align: top
+    ol
+      list-style-type: disc
+    //border-left: 5px solid white
+
+#select-subsidary
+  margin-bottom: 0
+  span
+    display: block
+    clear: both
+
+#select-country
+  margin-top: 1.5em
+
+.signup-step5
+  #select-invoice-date
+    span
+      width: 100%
+      display: block
+      clear: both
+    input
+      display: block
+      float: left
+      width: 20px !important
+      width: 100%
+      display: block
+      clear: both
+    input#organization_invoice_date
+      width: 275px !important
+      margin-top: 10px
+    label
+      display: block
+      clear: both
+      float: left
+      margin-top: 0.3em
+      max-width: 800px
+      width: 100% !important
+      font-weight: bold
+  input[type='submit']
+    margin: 1.5em 0 0 0

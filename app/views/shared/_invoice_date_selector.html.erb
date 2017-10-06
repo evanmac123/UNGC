@@ -1,0 +1,10 @@
+<div class="field" id="select-invoice-date">
+  Please select your company’s preferred invoice date:
+  <% options.each do |text, date| %>
+    <label>
+      <%= radio_button_tag(:preset_invoice_dates, date) %>
+      <%= text %>
+    </label>
+  <% end %>
+  <%= form.date_field(:invoice_date, min: Time.zone.now.to_date) %>
+</div>

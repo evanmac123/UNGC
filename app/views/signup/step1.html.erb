@@ -64,31 +64,43 @@
           </div>
         </fieldset>
 
-
         <div class='field field-required'>
           <%= form.label :sector_id %>
-          <%= form.select :sector_id, @sectors, {include_blank: true}, {} %>
+          <%= form.select :sector_id, @sectors, { include_blank: true }, {} %>
         </div>
 
         <div class='field field-required'>
-          <%= form.label :revenue, "Annual Sales / Revenues" %>
-          <%= form.select :revenue, Organization::REVENUE_LEVELS.collect{|key,value| [value,key]}, {include_blank: true}, {} %>
+          <%= form.label :precise_revenue, t("level_of_participation.confirm_annual_revenue") %>
+          <%= form.text_field :precise_revenue, placeholder: "$000,000.00" %>
         </div>
+
+        <div class="field" id="select-subsidary">
+          <%= form.label(:is_subsidiary) do %>
+            <span><%= t("level_of_participation.is_subsidiary_question") %></span>
+            <%= form.radio_button(:is_subsidiary, true) %>
+            <%= form.label(:is_subsidiary_true, "Yes") %>
+            <br />
+            <%= form.radio_button(:is_subsidiary, false) %>
+            <%= form.label(:is_subsidiary_false, "No") %> <br />
+            <%= form.hidden_field :parent_company_id %>
+          <% end %>
+        </div>
+
+        <div class="field" id="select-parent-company">
+          Please select your parent company:
+          <%= form.text_field(:parent_company_name, length: 20, placeholder: "Organization name",
+                           data: { autocomplete: "participants" }) %>
+        For more details, please read our subsidiary engagement policy <a href="https://www.unglobalcompact.org/docs/about_the_gc/policy/UNGlobalCompact_SubsidiaryPolicy.pdf">here</a>
+        </div>
+
       <%- end -%>
 
-      <div class='field field-required'>
+      <div class='field field-required' id="select-country">
         <%= form.label :country_id %>
         <%= form.collection_select :country_id, Country.all, :id, :name, {include_blank: true}, {} %>
       </div>
 
       <%- if @signup.business? -%>
-        <% if Feature.level_of_participation_required? %>
-          <div class='field field-required'>
-            <%= form.label :level_of_participation, t("signup.level_of_participation")  %>
-            <%= form.select :level_of_participation, @signup.levels_of_participation, prompt: t("signup.level_of_participation") %>
-          </div>
-        <% end %>
-
         <div class='field'>
           <h3>Does your company derive any revenue from the:</h3>
           <ul>

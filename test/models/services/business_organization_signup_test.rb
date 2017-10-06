@@ -10,7 +10,7 @@ class OrganizationSignupTest < ActiveSupport::TestCase
 
   test "have an organization" do
     signup = BusinessOrganizationSignup.new
-    assert_equal Organization, signup.organization.class
+    assert_not_nil signup.organization
   end
 
   test "have a primary_contact" do
@@ -110,13 +110,6 @@ class OrganizationSignupTest < ActiveSupport::TestCase
     assert signup.organization.commitment_letter.present?
   end
 
-  test "require participation level" do
-    signup = BusinessOrganizationSignup.new
-
-    refute signup.valid?, "expected signup not to be valid"
-    assert_contains signup.error_messages, "Level of participation must be selected"
-  end
-
   test "persist participation level" do
     signup = build_signup(organization: { level_of_participation: "signatory_level" })
     assert signup.save, signup.error_messages
@@ -130,6 +123,14 @@ class OrganizationSignupTest < ActiveSupport::TestCase
     assert_contains signup.error_messages, "Revenue from tobacco must be selected"
     assert_contains signup.error_messages, "Revenue from landmines must be selected"
     assert_contains signup.error_messages, "Revenue from weapons must be selected"
+  end
+
+  test "validates invoice_date according to a policy" do
+    signup = build_signup()
+    signup.invoicing_policy = stub(invoicing_required?: true)
+
+    refute signup.valid_invoice_date?, "expected signup not to be valid"
+    assert_contains signup.error_messages, "Invoice date can't be blank"
   end
 
   test "persist revenue questions" do
@@ -146,87 +147,39 @@ class OrganizationSignupTest < ActiveSupport::TestCase
     assert_equal false, organization.is_biological_weapons
   end
 
-  test "a pledge must not be 0 without a reason" do
-    signup = build_signup(pledge: {
-      pledge_amount: "0", no_pledge_reason: "",
-    })
-    refute signup.pledge_complete?, "should not be complete"
-    assert_contains signup.error_messages, "A reason for not making a contribution must be selected"
-  end
-
-  test "a pledge must not be less than 0 without a reason" do
-    signup = build_signup(pledge: {
-      pledge_amount: "-1", no_pledge_reason: "",
-    })
-    refute signup.pledge_complete?, "should not be complete"
-    assert_contains signup.error_messages, "A reason for not making a contribution must be selected"
-  end
-
-  test "a pledge must be greater than 0 without a reason" do
-    signup = build_signup(pledge: {
-      pledge_amount: "1", no_pledge_reason: "",
-    })
-    assert signup.pledge_complete?, signup.error_messages
-    assert_empty signup.error_messages
-  end
-
-  test "if no pledge is given, then a reason must be" do
-    signup = build_signup(pledge: {
-      pledge_amount: "0",
-      no_pledge_reason: "Times are tough",
-    })
-    assert signup.pledge_complete?, signup.error_messages
-    assert_empty signup.error_messages
-  end
-
-  test "assign default for pledge amount" do
-    signup = BusinessOrganizationSignup.new
-    assert signup.organization.pledge_amount.blank?
-
-    signup.set_organization_attributes(revenue: "2")
-    assert_equal 5000, signup.organization.pledge_amount
-  end
-
   private
 
   def new_contact_attributes
     attributes_for(:contact).merge(password: "Passw0rd")
   end
 
-  def create_signup(params = {})
-    signup = build_signup(params)
-
-    assert signup.pledge_complete?, signup.error_messages
-    assert signup.complete_valid?, signup.error_messages
-    assert signup.valid?, signup.error_messages
-    assert signup.save, signup.error_messages
-
-    signup
-  end
-
   def build_signup(params = {})
     signup = BusinessOrganizationSignup.new
 
+    # step1
     org_params = new_business_attributes(params.fetch(:organization, {}))
     signup.set_organization_attributes(org_params)
 
+    # step2
     signup.set_primary_contact_attributes(new_contact_attributes)
 
+    # step3
     signup.set_ceo_attributes(new_contact_attributes)
     signup.prepare_ceo
 
+    # step4
+    signup.select_participation_level(
+      level_of_participation: "signatory_level",
+    )
+
+    # step5
     signup.set_financial_contact_attributes(new_contact_attributes)
     signup.prepare_financial_contact
 
+    # step6
     signup.set_commitment_letter_attributes(
       commitment_letter: fixture_pdf_file
     )
-
-    pledge_params = params.fetch(:pledge, {}).reverse_merge(
-      pledge_amount: "",
-      no_pledge_reason: "Times are tough"
-    )
-    signup.set_pledge_attributes(pledge_params)
 
     signup
   end

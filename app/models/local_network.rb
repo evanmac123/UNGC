@@ -131,6 +131,22 @@ class LocalNetwork < ActiveRecord::Base
     :stakeholder_government           => 'Government Entities'
   }
 
+  enum business_model: {
+    revenue_sharing: 1,
+    global_local:  2,
+    not_yet_decided: 3,
+  }
+
+  enum invoice_managed_by: {
+    gco: 1,
+    local_network: 2,
+  }
+
+  enum invoice_options_available: {
+    no: 0,
+    yes: 1,
+  }
+
   def latest_participant
     participants.order(joined_on: :desc).first
   end

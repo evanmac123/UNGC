@@ -1,9 +1,11 @@
 class BusinessOrganizationSignup < OrganizationSignup
   attr_reader :financial_contact
+  attr_writer :invoicing_policy
 
   def post_initialize
     @org_type = 'business'
-    @organization = Organization.new organization_type: OrganizationType.sme
+    org = Organization.new(organization_type: OrganizationType.sme)
+    @organization = Organization::SignupForm.new(org)
     @financial_contact = Contact.new_financial_contact
   end
 
@@ -27,20 +29,7 @@ class BusinessOrganizationSignup < OrganizationSignup
     financial_contact.postal_code = primary_contact.postal_code
     financial_contact.country_id = primary_contact.country_id
   end
-
-  def require_pledge?
-    organization.pledge_amount.to_i > 0
-  end
-
-  def pledge_complete?
-    organization.errors.clear # needed but could lead to unexpected behaviour
-    if organization.pledge_amount.to_i <= 0 && organization.no_pledge_reason.blank?
-      organization.errors.add :no_pledge_reason, "must be selected"
-      return false
-    else
-      return true
-    end
-  end
+  alias_method :prefill_financial_contact_address, :prepare_financial_contact
 
   # checks the organization's country and Local Network to display correct pledge form
   def pledge_form_type
@@ -58,7 +47,7 @@ class BusinessOrganizationSignup < OrganizationSignup
 
   def after_save
     # add financial contact if a pledge was made and the existing contact has not been assigned that role
-    if require_pledge? && !primary_contact.is?(Role.financial_contact)
+    unless primary_contact.is?(Role.financial_contact)
       # fixes bug caused by storing signup and related objects in session (in rails4)
       financial_contact.roles.reload
 
@@ -76,7 +65,6 @@ class BusinessOrganizationSignup < OrganizationSignup
     validate_sector
     validate_listing_status
     validate_revenue
-    validate_level_of_participation
     validate_revenue_from_sources
   end
 
@@ -98,8 +86,34 @@ class BusinessOrganizationSignup < OrganizationSignup
     end
   end
 
+  def invoice_date_options
+    invoicing_policy.options
+  end
+
+  def select_participation_level(params)
+    organization.level_of_participation = params.fetch(:level_of_participation)
+    organization.invoice_date = params[:invoice_date]
+  end
+
+  def valid_participant_level?
+    validate_level_of_participation
+    organization.errors.empty?
+  end
+
+  def invoicing_required?
+    invoicing_policy.invoicing_required?
+  end
+
+  def valid_invoice_date?
+    validate_invoice_date
+    organization.errors.empty?
+  end
 
   private
+
+  def invoicing_policy
+    @invoicing_policy ||= Organization::InvoicingPolicy.new(organization)
+  end
 
   def validate_sector
     return if organization.sector.present?
@@ -117,8 +131,14 @@ class BusinessOrganizationSignup < OrganizationSignup
   end
 
   def validate_level_of_participation
-    if Feature.level_of_participation_required? && organization.level_of_participation.nil?
-      organization.errors.add :level_of_participation, "must be selected"
+    if organization.level_of_participation.blank?
+      organization.errors.add :level_of_participation, "can't be blank"
+    end
+  end
+
+  def validate_invoice_date
+    if invoicing_required? && organization.invoice_date.blank?
+      organization.errors.add :invoice_date, "can't be blank"
     end
   end
 

@@ -202,6 +202,10 @@ UNGC::Application.routes.draw do
     namespace :crm do
       resources :owners, except: [:show]
     end
+
+    get("choose-level-of-participation" => "level_of_participations#new",
+      as: :choose_level_of_participation)
+    post("choose-level-of-participation" => "level_of_participations#create")
   end
 
   # public api
@@ -259,11 +263,11 @@ UNGC::Application.routes.draw do
     get '/(*path)' => 'index#frontend', as: :root, format: :html
   end
 
-	controller :donations, path: 'contributions' do
-		get '' => :new, as: :new_donation
-		post '' => :create, as: :donations
+  controller :donations, path: 'contributions' do
+    get '' => :new, as: :new_donation
+    post '' => :create, as: :donations
     get 'confirmation' => :confirmation, as: :donation_confirmation
-	end
+  end
 
   get '/about/foundation' => 'donations#index'
 

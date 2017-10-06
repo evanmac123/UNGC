@@ -3,7 +3,8 @@ class OrganizationSignup
   attr_reader :primary_contact, :ceo, :org_type
 
   def initialize
-    @organization = Organization.new
+    organization = Organization.new
+    @organization = Organization::SignupForm.new(organization)
     @primary_contact = Contact.new_contact_point
     @ceo = Contact.new_ceo
     post_initialize
@@ -20,7 +21,13 @@ class OrganizationSignup
   def non_business?; !business? end
 
   def set_organization_attributes(params)
-    organization.attributes = params
+    org_params = params.dup
+
+    # remove transient attributes
+    org_params.delete(:is_subsidiary)
+    org_params.delete(:parent_company_name)
+
+    organization.attributes = org_params
     primary_contact.country_id = organization.country_id
   end
 
@@ -34,14 +41,6 @@ class OrganizationSignup
 
   def set_commitment_letter_attributes(params)
     organization.commitment_letter = params.fetch(:commitment_letter)
-  end
-
-  def pledge_complete?
-    raise NotImplementedError
-  end
-
-  def pledge_incomplete?
-    !pledge_complete?
   end
 
   def valid?
@@ -88,6 +87,7 @@ class OrganizationSignup
     ceo.postal_code = primary_contact.postal_code unless ceo.postal_code
     ceo.country_id = primary_contact.country_id unless ceo.country
   end
+  alias_method :prefill_ceo_contact_info, :prepare_ceo
 
   def set_ceo_attributes(par)
     ceo.attributes = par
@@ -95,10 +95,6 @@ class OrganizationSignup
 
   def valid_ceo?
     ceo.valid? && unique_emails?
-  end
-
-  def require_pledge?
-    false
   end
 
   def save

@@ -12,3 +12,7 @@
     = default_form.text_field :url, label: 'Website'
     = default_form.select :state, options_for_select(LocalNetwork::STATES.invert, @local_network.state_for_select_field), label: 'Development Stage'
     = default_form.select :funding_model, options_for_select(LocalNetwork::FUNDING_MODELS.invert, @local_network.funding_model_for_select_field), label: 'Funding Model'
+    - staff_only do
+      = default_form.select :business_model, options_for_enum(LocalNetwork.business_models), label: "Business model"
+      = default_form.select :invoice_managed_by, options_for_enum(LocalNetwork.invoice_managed_bies), label: "Invoice managed by"
+      = default_form.select :invoice_options_available, options_for_enum(LocalNetwork.invoice_options_availables), label: "Invoice options available"
