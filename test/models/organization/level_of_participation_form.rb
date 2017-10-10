@@ -79,15 +79,9 @@ class Organization::LevelOfParticipationFormTest < ActiveSupport::TestCase
     assert_includes_error form, "Invoice date can't be blank"
   end
 
-  test "invoice_date is not required when the local network doesn't require it" do
-    local_network = create(:local_network, invoice_options_available: "no")
-    country = create(:country, local_network: local_network)
-    organization = create(:organization, country: country)
-
-    form = build_form(
-      organization: organization,
-      level_of_participation: "participant_level",
-      invoice_date: nil)
+  test "invoice_date is not required when the invoicing policy doesn't require it" do
+    form = build_form(invoice_date: nil)
+    form.invoicing_policy = stub(invoicing_required?: false)
     assert form.valid?, form.errors.full_messages
   end
 
@@ -174,6 +168,21 @@ class Organization::LevelOfParticipationFormTest < ActiveSupport::TestCase
     assert_equal "Changed", financial_contact.middle_name
   end
 
+  test "duplicate email" do
+    # Given a contact
+    email = "alice@example.com"
+    create(:contact, email: email)
+
+    # When we try to create a new financial contact with the same email
+    # we get a validation error
+    c = build(:contact, email: email)
+    financial_contact = Organization::LevelOfParticipationForm::FinancialContact.from(c)
+    assert_equal email, financial_contact.email
+
+    form = build_form(financial_contact: financial_contact)
+    assert_includes_error form, "Email has already been taken"
+  end
+
   private
 
   def build_form(params = {})
@@ -187,7 +196,7 @@ class Organization::LevelOfParticipationFormTest < ActiveSupport::TestCase
     end
 
     financial_contact = params.fetch :financial_contact do
-      c = create(:contact, organization: organization,
+      c = build(:contact, organization: organization,
         roles: [Role.financial_contact])
       Organization::LevelOfParticipationForm::FinancialContact.from(c)
     end
@@ -200,7 +209,8 @@ class Organization::LevelOfParticipationFormTest < ActiveSupport::TestCase
       confirm_submission: true,
       contact_point_id: contact_point_id,
       organization: organization,
-      financial_contact: financial_contact
+      financial_contact: financial_contact,
+      invoice_date: 3.months.from_now,
     ))
   end
 

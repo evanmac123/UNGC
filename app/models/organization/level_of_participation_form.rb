@@ -1,6 +1,7 @@
 class Organization::LevelOfParticipationForm
   include Virtus.model
   include ActiveModel::Model
+  attr_writer :invoicing_policy
 
   class FinancialContact
     include Virtus.model
@@ -34,11 +35,22 @@ class Organization::LevelOfParticipationForm
       :country_id
     )
 
+    validate :validate_unique_email
+
     def self.from(contact)
       fields = self.attribute_set.map { |a| a.name.to_s }
       attrs = contact.attributes.slice(*fields)
       new(attrs)
     end
+
+    private
+
+    def validate_unique_email
+      if Contact.where(email: email).where.not(id: id).any?
+        errors.add :email, "has already been taken"
+      end
+    end
+
   end
 
   attribute :organization, Organization
@@ -155,7 +167,7 @@ class Organization::LevelOfParticipationForm
   private
 
   def invoicing_policy
-    @_invoicing_policy ||= Organization::InvoicingPolicy.new(organization)
+    @invoicing_policy ||= Organization::InvoicingPolicy.new(organization)
   end
 
   def selected_level_of_participation
