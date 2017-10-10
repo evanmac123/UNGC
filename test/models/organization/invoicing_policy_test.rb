@@ -76,6 +76,11 @@ class Organization::InvoicingPolicyTest < ActiveSupport::TestCase
     refute policy.invoicing_required?
   end
 
+  test "when no revenue is available" do
+    policy = create_policy(model: "global_local", revenue: nil)
+    refute policy.invoicing_required?
+  end
+
   private
 
   def create_policy(model:, managed_by: nil, required: nil, revenue: nil)

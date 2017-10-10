@@ -3,7 +3,7 @@ class Organization::InvoicingPolicy
   def initialize(organization, now: -> { Time.zone.now.to_date })
     @organization = organization
     @today = now.call()
-    @cop_due_on = organization.cop_due_on
+    @cop_due_on = organization.try!(:cop_due_on)
     @include_cop_due_date = @cop_due_on.present?
   end
 
@@ -32,7 +32,7 @@ class Organization::InvoicingPolicy
   end
 
   def invoicing_required?
-    ln = @organization.country.local_network
+    ln = @organization.try!(:country).try!(:local_network)
 
     case
     when ln.nil?, ln.business_model.nil?
@@ -40,7 +40,8 @@ class Organization::InvoicingPolicy
     when ln.revenue_sharing?
       ln.gco? || ln.invoice_options_available == "yes"
     when ln.global_local?
-      @organization.precise_revenue >= THRESHOLD || ln.invoice_options_available == "yes"
+      rev = @organization.precise_revenue || 0
+      rev >= THRESHOLD || ln.invoice_options_available == "yes"
     when "not_yet_decided"
       ln.invoice_options_available == "yes"
     end
