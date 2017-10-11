@@ -66,6 +66,21 @@ class Admin::LevelOfParticipationsControllerTest < ActionController::TestCase
     assert_select contact_field("country_id"), contact.country_id
   end
 
+  test "must be from an organization" do
+    # Given a contact that is not from an organization is signed in
+    contact = create(:contact)
+    assert_not contact.from_organization?, "should not be from an organization"
+    sign_in contact
+
+    # when we try to visit the form
+    get :new
+
+    # Then we are redirect away with an error
+    assert_redirected_to dashboard_url
+    msg = I18n.t("notice.must_be_from_participation_to_choose_level_of_participation")
+    assert_equal msg, flash[:error]
+  end
+
   private
 
   def contact_field(field)
