@@ -183,6 +183,35 @@ class Organization::LevelOfParticipationFormTest < ActiveSupport::TestCase
     assert_includes_error form, "Email has already been taken"
   end
 
+  test "only show contacts that are able to login as candidates for contact points" do
+    # Given a contact from an organization that can't login
+    organization = create(:organization)
+    ceo = create(:contact,
+      first_name: "Ceo",
+      username: nil,
+      password: nil,
+      organization: organization,
+      roles: [Role.ceo])
+
+    # And a contact point who can login
+    cp = create(:contact,
+      first_name: "Cp",
+      username: "alice123",
+      password: "Passw0rd",
+      organization: organization,
+      roles: [Role.contact_point])
+
+    # When we ask for the list of contacts
+    form = Organization::LevelOfParticipationForm.new(organization: organization)
+    contact_names = form.organization_contacts.map(&:first)
+
+    # Then we see that the contact with a valid login is there
+    assert_includes contact_names, cp.name
+
+    # And we see that the contact without is not
+    assert_not_includes contact_names, ceo.name
+  end
+
   private
 
   def build_form(params = {})

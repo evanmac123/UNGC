@@ -122,6 +122,7 @@ class Organization::LevelOfParticipationForm
           primary_contact_point.roles << Role.contact_point
         end
 
+        # create or update the financial contact
         if financial_contact.id.present?
           c = organization.contacts.find(financial_contact.id)
           c.update!(financial_contact.attributes)
@@ -129,7 +130,8 @@ class Organization::LevelOfParticipationForm
           attrs = financial_contact.attributes.merge(
             roles: [Role.financial_contact])
           organization.contacts.
-            financial_contacts.create!(attrs)
+            financial_contacts.
+            create!(attrs)
         end
 
         stream_name = "organization_#{organization.id}"
@@ -151,7 +153,7 @@ class Organization::LevelOfParticipationForm
   end
 
   def organization_contacts
-    organization.contacts.map do |contact|
+    organization.contacts.with_login.map do |contact|
       [contact.name, contact.id]
     end
   end
