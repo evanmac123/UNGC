@@ -132,7 +132,7 @@ class Organization::LevelOfParticipationFormTest < ActiveSupport::TestCase
     assert_empty organization.contacts
 
     c = build(:contact)
-    contact_attributes = Organization::LevelOfParticipationForm::FinancialContact.from(c)
+    contact_attributes = contact_attrs(c)
 
     form = build_form(organization: organization, financial_contact: contact_attributes)
 
@@ -153,8 +153,8 @@ class Organization::LevelOfParticipationFormTest < ActiveSupport::TestCase
       roles: [Role.financial_contact]
     )
 
-    financial_contact = Organization::LevelOfParticipationForm::FinancialContact.from(c)
-    financial_contact.middle_name = "Changed"
+    c.middle_name = "Changed"
+    financial_contact = contact_attrs(c)
 
     form = build_form(
       organization: organization,
@@ -176,10 +176,11 @@ class Organization::LevelOfParticipationFormTest < ActiveSupport::TestCase
     # When we try to create a new financial contact with the same email
     # we get a validation error
     c = build(:contact, email: email)
-    financial_contact = Organization::LevelOfParticipationForm::FinancialContact.from(c)
-    assert_equal email, financial_contact.email
+    financial_contact = contact_attrs(c)
+    assert_equal email, financial_contact.fetch(:email)
 
     form = build_form(financial_contact: financial_contact)
+    form.save
     assert_includes_error form, "Email has already been taken"
   end
 
@@ -227,7 +228,7 @@ class Organization::LevelOfParticipationFormTest < ActiveSupport::TestCase
     financial_contact = params.fetch :financial_contact do
       c = build(:contact, organization: organization,
         roles: [Role.financial_contact])
-      Organization::LevelOfParticipationForm::FinancialContact.from(c)
+      contact_attrs(c)
     end
 
     Organization::LevelOfParticipationForm.new(params.reverse_merge(
@@ -241,6 +242,17 @@ class Organization::LevelOfParticipationFormTest < ActiveSupport::TestCase
       financial_contact: financial_contact,
       invoice_date: 3.months.from_now,
     ))
+  end
+
+  def contact_attrs(contact)
+    financial_contact = Organization::LevelOfParticipationForm::FinancialContact.from(contact)
+    financial_contact.to_h.transform_values do |v|
+      if v.nil?
+        ""
+      else
+        v
+      end
+    end
   end
 
 end

@@ -46,7 +46,16 @@ class Organization::LevelOfParticipationForm
     private
 
     def validate_unique_email
-      if Contact.where(email: email).where.not(id: id).any?
+      # Manually look for duplicate emails since ActiveRecord
+      # can't do it for us here.
+      query = Contact.where(email: email)
+
+      # It's not a duplicate if it belongs to the contact already
+      if id.present?
+        query = query.where.not(id: id)
+      end
+
+      if query.any?
         errors.add :email, "has already been taken"
       end
     end
