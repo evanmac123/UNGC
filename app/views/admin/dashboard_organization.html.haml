@@ -10,6 +10,7 @@
     %li= link_to "Draft #{@organization.cop_acronym.pluralize}", '#cop_drafts'
     - if @organization.business?
       %li= link_to t("action_platform.labels.dashboard_tab"), "#action_platforms"
+    %li= link_to 'Level of Engagement', '#level_of_engagement'
 
   #overview.tab_content
     %ul#contacts_tools{:class => "tools inline"}
@@ -144,3 +145,6 @@
 
     #action_platforms.tab_content
       = render partial: "/admin/action_platform/landing"
+
+    #level_of_engagement.tab_content
+      = render partial: "/admin/level_of_participations/landing"
