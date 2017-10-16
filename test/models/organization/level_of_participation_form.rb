@@ -85,6 +85,29 @@ class Organization::LevelOfParticipationFormTest < ActiveSupport::TestCase
     assert form.valid?, form.errors.full_messages
   end
 
+  test "invoice_date is required when the incoming annual revenue is over the threshold" do
+    # from an actual bug
+    low_revenue = Organization::InvoicingPolicy::THRESHOLD - Money.from_amount(1)
+    high_revenue = Organization::InvoicingPolicy::THRESHOLD + Money.from_amount(1)
+
+    # Given an organization without revenue under the threshold
+    organization = create(:organization, precise_revenue: low_revenue)
+
+    # When the create a form for the organization
+    initial_form = Organization::LevelOfParticipationForm.from(organization)
+    initial_form = build_form(invoice_date: nil,
+      organization: organization,
+      annual_revenue: nil)
+
+    # When they submit a form with annual revenue that crosses the threshold
+    form = build_form(invoice_date: nil,
+      organization: organization,
+      annual_revenue: high_revenue)
+
+    # Then the form is invalid
+    assert_includes_error form, "Invoice date can't be blank"
+  end
+
   test "sets organization level_of_participation" do
     form = build_form(level_of_participation: "participant_level")
     organization = form.organization

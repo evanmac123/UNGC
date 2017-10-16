@@ -105,6 +105,31 @@ class Organization::LevelOfParticipationForm
     end
   end
 
+  def self.from(organization)
+    parent_company = organization.parent_company
+
+    params = {
+      organization: organization,
+      level_of_participation: organization.level_of_participation,
+      contact_point_id: organization.contacts.contact_points.first.try!(:id),
+      is_subsidiary: parent_company.present?,
+      parent_company_name: parent_company.try!(:name),
+      parent_company_id: parent_company.try!(:id),
+      annual_revenue: organization.precise_revenue,
+      invoice_date: organization.invoice_date,
+    }
+
+    # defaults the
+    contact = organization.contacts.financial_contacts.first
+    if contact.present?
+      params.merge!(
+        financial_contact: Organization::LevelOfParticipationForm::FinancialContact.from(contact)
+      )
+    end
+
+    self.new(params)
+  end
+
   def engagement_year
     Time.zone.now.year + 1
   end
@@ -178,7 +203,7 @@ class Organization::LevelOfParticipationForm
   private
 
   def invoicing_policy
-    @invoicing_policy ||= Organization::InvoicingPolicy.new(organization)
+    Organization::InvoicingPolicy.new(organization, annual_revenue)
   end
 
   def selected_level_of_participation

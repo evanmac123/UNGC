@@ -112,7 +112,7 @@ class BusinessOrganizationSignup < OrganizationSignup
   private
 
   def invoicing_policy
-    @invoicing_policy ||= Organization::InvoicingPolicy.new(organization)
+    Organization::InvoicingPolicy.new(organization, organization.precise_revenue)
   end
 
   def validate_sector

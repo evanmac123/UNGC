@@ -76,10 +76,84 @@ class Admin::ChooseParticipationLevelTest < ActionDispatch::IntegrationTest
     page.has_content? I18n.t("level_of_participation.success")
   end
 
+  test "an actual bug" do
+    # Given a network with the global-local revenue sharing model
+    network = create(:local_network,
+      invoice_options_available: "no",
+      business_model: "global_local")
+
+    # And an organization from that network
+    organization = create(:business,
+      level_of_participation: nil,
+      sector: create(:sector),
+      listing_status: create(:listing_status),
+      country: create(:country, local_network: network),
+      precise_revenue: nil,
+      cop_due_on: 3.months.from_now)
+
+    # And a contact point from that organization that we're logged in as
+    contact = create(:contact,
+      organization: organization,
+      password: "Passw0rd",
+      roles: [Role.contact_point])
+    login_as contact
+
+    # And a financial contact from that organization
+    create(:contact,
+      organization: organization,
+      roles: [Role.financial_contact])
+
+    # When an user visits the link provided in their email
+    visit admin_choose_level_of_participation_path
+
+    # And they select a level of participation
+    choose "SIGNATORY"
+
+    # And confirm the primary contact point
+    select contact.name, from: I18n.t("level_of_participation.confirm_primary_contact_point")
+
+    # And indicate that the organization is a subsidiary
+    choose("level_of_participation[is_subsidiary]", option: false)
+
+    # Enter the annual revenue amount
+    fill_in I18n.t("level_of_participation.confirm_annual_revenue"), with: "9,123,456,567"
+
+    # Confirm the financial contact info is correct
+    check I18n.t("level_of_participation.confirm_financial_contact_info")
+
+    # Confirm the submission
+    check I18n.t("level_of_participation.confirm_submission")
+
+    # When we submit
+    click_on "Confirm"
+
+    # Then we expect that it will NOT be successful
+    assert_equal admin_choose_level_of_participation_path, current_path
+
+    # Because the invoice date is missing
+    page.has_content? "Invoice date can't be blank"
+
+    # And they should be able to fill it in now
+    choose "Invoice me now"
+    fill_in "level_of_participation[invoice_date]", with: "14-12-2018"
+
+    # When we submit
+    click_on "Confirm"
+
+    # Then we expect that it will be successful
+    assert_equal dashboard_path, current_path, validation_errors
+
+    page.has_content? I18n.t("level_of_participation.success")
+  end
+
   private
 
   def find_level_of_participation
     find(:xpath, '//dt[text()="Level of Participation"]/following-sibling::dd[1]').text
+  end
+
+  def validation_errors
+    all("#errorExplanation li").map(&:text)
   end
 
 end

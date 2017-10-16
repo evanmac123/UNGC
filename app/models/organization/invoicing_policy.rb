@@ -1,7 +1,10 @@
 class Organization::InvoicingPolicy
 
-  def initialize(organization, now: -> { Time.zone.now.to_date })
+  THRESHOLD = Money.from_amount(1_000_000_000)
+
+  def initialize(organization, revenue, now: -> { Time.zone.now.to_date })
     @organization = organization
+    @revenue = revenue
     @today = now.call()
     @cop_due_on = organization.try!(:cop_due_on)
     @include_cop_due_date = @cop_due_on.present?
@@ -40,7 +43,7 @@ class Organization::InvoicingPolicy
     when ln.revenue_sharing?
       ln.gco? || ln.invoice_options_available == "yes"
     when ln.global_local?
-      rev = @organization.precise_revenue || 0
+      rev = @revenue || Money.from_amount(0)
       rev >= THRESHOLD || ln.invoice_options_available == "yes"
     when "not_yet_decided"
       ln.invoice_options_available == "yes"
@@ -48,8 +51,6 @@ class Organization::InvoicingPolicy
   end
 
   private
-
-  THRESHOLD = Money.from_amount(1_000_000_000)
 
   def next_date(month:, day:)
     today = Time.zone.now.to_date

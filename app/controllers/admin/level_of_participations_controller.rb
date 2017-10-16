@@ -4,24 +4,11 @@ class Admin::LevelOfParticipationsController < AdminController
   before_action :must_be_from_organization
 
   def new
-    organization = find_organization
-
-    default_form_params = {
-      organization: organization,
-    }
-
-    contact = organization.contacts.financial_contacts.first
-    if contact.present?
-      default_form_params.merge!(
-        financial_contact: Organization::LevelOfParticipationForm::FinancialContact.from(contact)
-      )
-    end
-
-    @form = Organization::LevelOfParticipationForm.new(default_form_params)
+    @form = Organization::LevelOfParticipationForm.from(find_organization)
   end
 
   def create
-    @form = Organization::LevelOfParticipationForm.new(organization: find_organization)
+    @form = Organization::LevelOfParticipationForm.from(find_organization)
     @form.attributes = form_params
     if @form.save
       redirect_to dashboard_url, notice: I18n.t("level_of_participation.success")

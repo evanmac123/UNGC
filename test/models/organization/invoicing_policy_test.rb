@@ -92,7 +92,7 @@ class Organization::InvoicingPolicyTest < ActiveSupport::TestCase
     organization = create(:organization, precise_revenue: revenue,
       country: create(:country, local_network: network))
 
-    Organization::InvoicingPolicy.new(organization)
+    Organization::InvoicingPolicy.new(organization, revenue)
   end
 
 end
