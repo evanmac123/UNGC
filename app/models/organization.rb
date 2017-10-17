@@ -906,6 +906,12 @@ class Organization < ActiveRecord::Base
     end
   end
 
+  def level_of_participation_view
+    org = self
+    form = Organization::LevelOfParticipationForm.new(:level_of_participation => org.level_of_participation)
+    form.level_of_participation ? level_of_participation : 'Level of engagement is not selected'
+  end
+
   def mission_statement?
     if non_business?
       non_business_organization_registration && non_business_organization_registration.mission_statement.present?
