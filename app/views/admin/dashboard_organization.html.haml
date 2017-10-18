@@ -42,9 +42,9 @@
       %dt Country
       %dd= @organization.country_name
       %dt Exact Revenue
-      %dd= @organization.percise_revenue_view
+      %dd= number_to_currency(@organization_presenter.percise_revenue_view)
       %dt Level of Engagement
-      %dd= t(@organization.level_of_participation_view)
+      %dd= t(@organization_presenter.level_of_participation_view)
       - unless @organization.url.blank?
         %dt Website
         %dd= link_to truncate(@organization.url, :length => 30), @organization.url

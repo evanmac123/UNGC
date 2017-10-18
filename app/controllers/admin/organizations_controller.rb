@@ -15,6 +15,11 @@ class Admin::OrganizationsController < AdminController
     @organization = Organization.new(:employees => 10)
   end
 
+  def show
+    @organization = Organization.find(params[:id])
+    @organization_presenter = OrganizationPresenter.new(@organization)
+  end
+
   def create
     org_updater = OrganizationUpdater.new(organization_params, registration_params)
 
