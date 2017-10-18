@@ -16,8 +16,7 @@ class Admin::OrganizationsController < AdminController
   end
 
   def show
-    @organization = Organization.find(params[:id])
-    @organization_presenter = OrganizationPresenter.new(@organization)
+    @organization = OrganizationPresenter.new(@organization)
   end
 
   def create

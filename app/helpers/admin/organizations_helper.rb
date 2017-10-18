@@ -179,6 +179,8 @@ module Admin::OrganizationsHelper
     response.html_safe
   end
 
+
+
   private
 
   def countries_list

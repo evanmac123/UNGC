@@ -667,6 +667,12 @@ class Organization < ActiveRecord::Base
     end
   end
 
+  def level_of_participation_view
+    org = self
+    level_of_participation = org.level_of_participation
+    level_of_participation ? level_of_participation : 'Level of engagement is not selected'
+  end
+
   def financial_contact_or_contact_point
     contacts.financial_contacts.any? ? contacts.financial_contacts.first : contacts.contact_points.first
   end
