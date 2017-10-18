@@ -48,7 +48,7 @@
         %dd
           = @organization.is_ft_500 ? 'FT 500' : nil
           = @organization.listing_status_name
-        %dt Annual Revenue
+        %dt Revenue Bracket
         %dd= @organization.revenue_description
       %dt Sector
       %dd= @organization.sector_name
@@ -56,6 +56,11 @@
       %dd{:style => "color: #{alert_if_micro_enterprise(@organization, current_contact)};"}= @organization.employees
       %dt Country
       %dd= @organization.country_name
+      %dt Exact Revenue
+      - if @organization.percise_revenue_view.is_a? Integer
+        %dd= number_to_currency(@organization.percise_revenue_view)
+      -else
+        %dd= @organization.percise_revenue_view
       %dt Level of Engagement
       %dd= t(@organization.level_of_participation_view)
       - unless @organization.url.blank?

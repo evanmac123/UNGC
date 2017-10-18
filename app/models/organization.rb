@@ -912,6 +912,15 @@ class Organization < ActiveRecord::Base
     form.level_of_participation ? level_of_participation : 'Level of engagement is not selected'
   end
 
+  def percise_revenue_view
+    amount_in_cents = self.precise_revenue_cents
+    if amount_in_cents.present?
+      amount_in_dollars = amount_in_cents / 100
+    else
+      'Organization has not provided exact revenue'
+    end
+  end
+
   def mission_statement?
     if non_business?
       non_business_organization_registration && non_business_organization_registration.mission_statement.present?
