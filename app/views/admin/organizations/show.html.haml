@@ -60,8 +60,6 @@
       %dd{:style => "color: #{alert_if_micro_enterprise(@organization, current_contact)};"}= @organization.employees
       %dt Country
       %dd= @organization.country_name
-      %dt Revenue
-      %dd= @organization.precise_revenue_view
       %dt Level of Engagement
       %dd= t(@organization.level_of_participation_view)
       - unless @organization.url.blank?
