@@ -2,6 +2,7 @@ class OrganizationPresenter < SimpleDelegator
   attr_reader :organization
 
   def initialize(organization)
+    super(organization)
     @organization = organization
   end
 

@@ -41,6 +41,8 @@
       %dd= @organization.employees
       %dt Country
       %dd= @organization.country_name
+      %dt Revenue
+      %dd= @organization.precise_revenue_view
       %dt Level of Engagement
       %dd= t(@organization.level_of_participation_view)
       - unless @organization.url.blank?
