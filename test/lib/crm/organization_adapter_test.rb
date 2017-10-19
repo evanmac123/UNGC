@@ -64,6 +64,11 @@ module Crm
       assert_equal 5342, converted.fetch("NumberOfEmployees")
     end
 
+    test "caps employees" do
+      converted = convert_organization(employees: 376359317)
+      assert_equal 99999999, converted.fetch("NumberOfEmployees")
+    end
+
     test "converts revenue" do
       converted = convert_organization(revenue: 3)
       assert_equal "between USD 250 million and USD 1 billion",
@@ -77,8 +82,39 @@ module Crm
     end
 
     test "converts revenue to a dollar amount when precise_revenue is not available" do
-      converted = convert_organization(precise_revenue: nil, revenue: 5)
-      assert_equal 10_000_000_000, converted.fetch("AnnualRevenue")
+      converted = convert_organization(
+        precise_revenue: nil,
+        revenue: 5,
+        organization_type: OrganizationType.sme)
+      assert_equal 5_000_000_000, converted.fetch("AnnualRevenue")
+    end
+
+    test "converts revenue to an empty string when neither are availble" do
+      converted = convert_organization(
+        precise_revenue: nil,
+        revenue: nil,
+        organization_type: OrganizationType.sme)
+      assert_equal "", converted.fetch("AnnualRevenue")
+    end
+
+    test "revenue is 0 for organizations other than SMEs and Companies" do
+      converted = convert_organization(
+        revenue: 4,
+        organization_type: OrganizationType.academic)
+
+      assert_equal 0, converted.fetch("AnnualRevenue")
+    end
+
+    test "Revenue is Calculated when there is only bracketed revenue" do
+      converted = convert_organization(precise_revenue: nil, revenue: 4)
+      assert_equal true, converted.fetch("Revenue_is_Calculated__c")
+    end
+
+    test "Revenue is not Calculated when there is precise revenue" do
+      converted = convert_organization(
+        precise_revenue: Money.from_amount(1_000_000),
+        revenue: 4)
+      assert_equal false, converted.fetch("Revenue_is_Calculated__c")
     end
 
     test "converts is_ft_500" do
@@ -311,6 +347,23 @@ module Crm
     test "converts participant when there is no value" do
       converted = convert_organization(participant: nil)
       assert_equal false, converted.fetch("Participant__c")
+    end
+
+    test "converts level of participation" do
+      converted = convert_organization(
+        level_of_participation: :signatory_level)
+
+      assert_equal "Signatory", converted.fetch("Participant_Tier_at_Joining__c")
+
+      converted = convert_organization(
+        level_of_participation: :participant_level)
+
+      assert_equal "Participant", converted.fetch("Participant_Tier_at_Joining__c")
+    end
+
+    test "converts invoice date" do
+      converted = convert_organization(invoice_date: Date.new(2020, 2, 3))
+      assert_equal "2020-02-03", converted.fetch("Invoice_Date__c")
     end
 
     private

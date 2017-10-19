@@ -16,11 +16,12 @@ module Crm
         "Country__c" => organization.country_name, # Picklist
         "Name" => organization.name, # Name
         "Industry" => organization.sector_name, # Picklist
-        "NumberOfEmployees" => organization.employees, # Number(8, 0)
+        "NumberOfEmployees" => employees(organization), # Number(8, 0)
         "Pledge_at_Joining__c" => organization.pledge_amount, # Currency(10, 2)
         "Reason_for_no_pledge_at_joining__c" => organization.no_pledge_reason_value, # Text(250)
         "Revenue__c" => organization.revenue_range, # Picklist
         "AnnualRevenue" => revenue(organization), # Number(18, 0)
+        "Revenue_is_Calculated__c" => organization.precise_revenue.nil? && organization.revenue.present?, # Checkbox
         "FT500__c" => organization.is_ft_500.present?, # Checkbox
         "Region__c" => organization.region_name, # Picklist
         "COP_Status__c" => organization.cop_state, # Picklist
@@ -58,6 +59,8 @@ module Crm
         "Participant_Tier__c" => "Unselected", # Picklist
         "Participant__c" => organization.participant == true, # Checkbox
         "TickerSymbol" => organization.stock_symbol.try!(:truncate, 20, omission: ""), # Content(20)
+        "Participant_Tier_at_Joining__c" => participant_tier(organization), # Picklist
+        "Invoice_Date__c" => organization.invoice_date,
       }.transform_values do |value|
         Crm::Salesforce.coerce(value)
       end
@@ -86,10 +89,42 @@ module Crm
     end
 
     def revenue(organization)
-      if organization.precise_revenue.present?
-        organization.precise_revenue.dollars.to_i
+      case
+      when organization.precise_revenue.present?
+        organization.precise_revenue.dollars
+      when !organization.sme? && !organization.company?
+        0
       else
-        organization.revenue_upper_value
+        convert_bracketed_revenue(organization.revenue)
+      end
+    end
+
+    def convert_bracketed_revenue(revenue)
+      case revenue
+      when nil then ""
+      when 1 then 49999999
+      when 2 then 249999999
+      when 3 then 999999999
+      when 4 then 4999999999
+      when 5 then 5000000000
+      end
+    end
+
+    def participant_tier(organization)
+      case organization.level_of_participation
+      when nil then nil
+      when "signatory_level" then "Signatory"
+      when "participant_level" then "Participant"
+      else
+        raise "Unexpected level of participation value: #{organization.level_of_participation}"
+      end
+    end
+
+    def employees(organization)
+      if organization.employees > 99999999
+        99999999
+      else
+        organization.employees
       end
     end
 
