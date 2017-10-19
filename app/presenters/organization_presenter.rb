@@ -12,16 +12,12 @@ class OrganizationPresenter < SimpleDelegator
   end
 
   def precise_revenue_view
-    amount = @organization.precise_revenue_cents
+    amount = @organization.precise_revenue
     if amount.nil?
       'Organization has not provided a revenue'
     else
-      dollar_amount(amount)
+      amount.format
     end
   end
-
-  def dollar_amount(amount)
-    amount / 100
-  end
-
+  
 end

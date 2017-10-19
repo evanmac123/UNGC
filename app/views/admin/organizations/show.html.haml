@@ -48,8 +48,12 @@
         %dd
           = @organization.is_ft_500 ? 'FT 500' : nil
           = @organization.listing_status_name
-        %dt Annual Revenue
+        %dt Revenue Bracket
         %dd= @organization.revenue_description
+      %dt Revenue
+      %dd= @organization.precise_revenue_view
+      %dt Level of Engagement
+      %dd= t(@organization.level_of_participation_view)
       %dt Sector
       %dd= @organization.sector_name
       %dt Employees
