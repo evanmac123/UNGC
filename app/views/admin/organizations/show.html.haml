@@ -43,6 +43,8 @@
       %dd= @organization.cop_due_on || 'n/a'
       %dt Organization Type
       %dd= @organization.organization_type_name
+      %dt Invoice Date
+      %dd= @organization.invoice_date_view
       - if @organization.company?
         %dt Ownership
         %dd
@@ -60,8 +62,6 @@
       %dd{:style => "color: #{alert_if_micro_enterprise(@organization, current_contact)};"}= @organization.employees
       %dt Country
       %dd= @organization.country_name
-      %dt Level of Engagement
-      %dd= t(@organization.level_of_participation_view)
       - unless @organization.url.blank?
         %dt Website
         %dd= link_to truncate(@organization.url, :length => 30), @organization.url
