@@ -2,20 +2,22 @@ class OrganizationPresenter < SimpleDelegator
   attr_reader :organization
 
   def initialize(organization)
+    super(organization)
     @organization = organization
   end
 
   def level_of_participation_view
-    @organization.level_of_participation
+    level_of_participation = @organization.level_of_participation
+    level_of_participation ? level_of_participation : 'Level of engagement is not selected'
   end
 
   def precise_revenue_view
-    amount_in_cents = @organization.precise_revenue_cents
-    if amount_in_cents.present?
-       amount_in_cents / 100
+    amount = @organization.precise_revenue
+    if amount.nil?
+      'Organization has not provided a revenue'
     else
-      'Organization has not provided exact revenue'
+      amount.format
     end
   end
-
+  
 end

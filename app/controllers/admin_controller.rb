@@ -23,7 +23,9 @@ class AdminController < ApplicationController
       @announcements = Announcement.upcoming
 
     elsif current_contact.from_organization?
-      @organization = current_contact.organization
+      @organization = OrganizationPresenter.new(current_contact.organization)
+      # @organization = current_contact.organization
+      # @org_revenue_and_engagement_view = OrganizationPresenter.new(@organization)
       @action_platforms = ActionPlatform::Subscription.for(organization: @organization)
     end
 
