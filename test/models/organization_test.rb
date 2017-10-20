@@ -438,4 +438,13 @@ class OrganizationTest < ActiveSupport::TestCase
     assert_not_includes subs, expired.id
   end
 
+  test "not overflow precise_revenue" do
+    # TODO: find out why 92,000,000,000,000,008.00 doesn't trigger the validation
+    organization = build(:organization, precise_revenue: "92,000,000,000,000,008.01")
+
+    assert_not organization.valid?, "should be invalid"
+    assert_includes organization.errors.full_messages,
+      "Precise revenue must be less than or equal to $92,000,000,000,000,000.00"
+  end
+
 end
