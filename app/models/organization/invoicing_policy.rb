@@ -1,4 +1,5 @@
 class Organization::InvoicingPolicy
+  attr_reader :organization
 
   THRESHOLD = Money.from_amount(1_000_000_000)
 
@@ -45,8 +46,22 @@ class Organization::InvoicingPolicy
     when ln.global_local?
       rev = @revenue || Money.from_amount(0)
       rev >= THRESHOLD || ln.invoice_options_available == "yes"
-    when "not_yet_decided"
+    when ln.not_yet_decided?
       ln.invoice_options_available == "yes"
+    end
+  end
+
+  def validate(record)
+    return unless invoicing_required?
+
+    invoice_date = record.invoice_date
+    case
+    when invoice_date.blank?
+      record.errors.add :invoice_date, "can't be blank"
+    when invoice_date < Time.zone.now.to_date
+      record.errors.add :invoice_date, "can't be in the past"
+    when invoice_date > 1.year.from_now
+      record.errors.add :invoice_date, "can't be more than a year from now"
     end
   end
 

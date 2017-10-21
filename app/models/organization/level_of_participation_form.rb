@@ -95,9 +95,7 @@ class Organization::LevelOfParticipationForm
   validates :confirm_submission, presence: { message: "must be accepted" }
 
   validate :invoice_date do
-    if invoicing_policy.invoicing_required? && invoice_date.blank?
-      errors.add :invoice_date, "can't be blank"
-    end
+    invoicing_policy.validate(self)
   end
 
   validates :financial_contact, presence: true

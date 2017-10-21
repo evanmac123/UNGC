@@ -63,7 +63,7 @@ class Admin::ChooseParticipationLevelTest < ActionDispatch::IntegrationTest
     # Set the invoice date
     choose I18n.t("level_of_participation.invoice_on_next_cop_due_date",
       cop_due_on: organization.cop_due_on)
-    fill_in "level_of_participation[invoice_date]", with: "14-12-2018"
+    fill_in "level_of_participation[invoice_date]", with: today
 
     # Confirm the submission
     check I18n.t("level_of_participation.confirm_submission")
@@ -135,7 +135,7 @@ class Admin::ChooseParticipationLevelTest < ActionDispatch::IntegrationTest
 
     # And they should be able to fill it in now
     choose "Invoice me now"
-    fill_in "level_of_participation[invoice_date]", with: "14-12-2018"
+    fill_in "level_of_participation[invoice_date]", with: today
 
     # When we submit
     click_on "Confirm"
@@ -154,6 +154,10 @@ class Admin::ChooseParticipationLevelTest < ActionDispatch::IntegrationTest
 
   def validation_errors
     all("#errorExplanation li").map(&:text)
+  end
+
+  def today
+    Time.zone.now.to_date.strftime("%d-%m-%Y")
   end
 
 end

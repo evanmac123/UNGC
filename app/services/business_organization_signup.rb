@@ -137,9 +137,7 @@ class BusinessOrganizationSignup < OrganizationSignup
   end
 
   def validate_invoice_date
-    if invoicing_required? && organization.invoice_date.blank?
-      organization.errors.add :invoice_date, "can't be blank"
-    end
+    invoicing_policy.validate(organization)
   end
 
   def validate_revenue_from_sources
