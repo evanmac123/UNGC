@@ -93,6 +93,7 @@ class Contact < ActiveRecord::Base
   has_and_belongs_to_many :roles, :join_table => "contacts_roles"
   has_many :cop_log_entries, dependent: :nullify
   has_one :crm_owner, class_name: "Crm::Owner"
+  has_one :igloo_user, dependent: :destroy
 
   default_scope { order('contacts.first_name') }
 
