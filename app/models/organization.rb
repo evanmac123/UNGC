@@ -141,7 +141,12 @@ class Organization < ActiveRecord::Base
     :url => "/system/:attachment/:id/:style/:filename"
   do_not_validate_attachment_file_type :commitment_letter
 
-  monetize :precise_revenue_cents, allow_nil: true
+  monetize :precise_revenue_cents, allow_nil: true,
+    numericality: {
+      greater_than_or_equal_to: 0,
+      less_than_or_equal_to: 92_000_000_000_000_000,
+      message: "must be less than or equal to $92,000,000,000,000,000.00",
+  }
 
   cattr_reader :per_page
   @@per_page = 100

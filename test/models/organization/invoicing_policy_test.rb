@@ -81,15 +81,48 @@ class Organization::InvoicingPolicyTest < ActiveSupport::TestCase
     refute policy.invoicing_required?
   end
 
+  test "dates in the past are not valid" do
+    travel_to Date.new(2017, 1, 2) do
+      policy = create_policy(invoice_date: 1.day.ago)
+
+      policy.validate(policy.organization)
+      assert_includes policy.organization.errors.full_messages,
+        "Invoice date can't be in the past"
+    end
+  end
+
+  test "dates more than a year out are not valid" do
+    travel_to Date.new(2017, 1, 2) do
+      more_than_a_year_from_now = Time.zone.now.to_date + 1.year + 1.day
+      policy = create_policy(invoice_date: more_than_a_year_from_now)
+
+      policy.validate(policy.organization)
+      assert_includes policy.organization.errors.full_messages,
+        "Invoice date can't be more than a year from now"
+    end
+  end
+
+  test "valid dates are allowed" do
+    travel_to Date.new(2017, 1, 2) do
+      policy = create_policy(invoice_date: Date.new(2018, 1, 1))
+
+      policy.validate(policy.organization)
+      assert_empty policy.organization.errors.full_messages
+    end
+  end
+
   private
 
-  def create_policy(model:, managed_by: nil, required: nil, revenue: nil)
+  def create_policy(model: nil, managed_by: nil, required: nil, revenue: nil,
+                    invoice_date: nil)
     network = create(:local_network,
       business_model: model,
       invoice_managed_by: managed_by,
       invoice_options_available: required)
 
-    organization = create(:organization, precise_revenue: revenue,
+    organization = create(:organization,
+      precise_revenue: revenue,
+      invoice_date: invoice_date,
       country: create(:country, local_network: network))
 
     Organization::InvoicingPolicy.new(organization, revenue)

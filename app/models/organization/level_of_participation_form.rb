@@ -83,17 +83,19 @@ class Organization::LevelOfParticipationForm
   }
   validates :parent_company_id, presence: true,
     if: :is_subsidiary
+
   validates :annual_revenue, presence: true,
     numericality: {
     greater_than: 0,
+    less_than_or_equal_to: 92_000_000_000_000_000,
+    message: "must be less than $US 92,000,000,000,000,000"
   }
+
   validates :confirm_financial_contact_info, presence: { message: "must be accepted" }
   validates :confirm_submission, presence: { message: "must be accepted" }
 
   validate :invoice_date do
-    if invoicing_policy.invoicing_required? && invoice_date.blank?
-      errors.add :invoice_date, "can't be blank"
-    end
+    invoicing_policy.validate(self)
   end
 
   validates :financial_contact, presence: true
