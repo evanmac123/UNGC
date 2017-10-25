@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :organization do
     organization_type
     country
-    name { Faker::Company.name }
+    sequence(:name) { |n| "#{Faker::Company.name}-#{n}" }
     employees { Faker::Number.number(4) }
     pledge_amount { Faker::Number.number(4) }
     url { Faker::Internet.url }
