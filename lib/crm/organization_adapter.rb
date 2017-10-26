@@ -95,18 +95,7 @@ module Crm
       when !organization.sme? && !organization.company?
         0
       else
-        convert_bracketed_revenue(organization.revenue)
-      end
-    end
-
-    def convert_bracketed_revenue(revenue)
-      case revenue
-      when nil then ""
-      when 1 then 49999999
-      when 2 then 249999999
-      when 3 then 999999999
-      when 4 then 4999999999
-      when 5 then 5000000000
+        organization.bracketed_revenue_amount.try!(:dollars) || ""
       end
     end
 
