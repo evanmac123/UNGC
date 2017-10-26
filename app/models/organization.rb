@@ -174,14 +174,6 @@ class Organization < ActiveRecord::Base
     5 => 'USD 5 billion or more'
   }.freeze
 
-  REVENUE_AMOUNTS = {
-    1 => 50_000_000,
-    2 => 250_000_000,
-    3 => 1_000_000_000,
-    4 => 5_000_000_000,
-    5 => 10_000_000_000,
-  }.freeze
-
   # Suggested pledge levels for funding models correspond to the revenue level
   # These are hard coded into the pledge form and are included here for reference
   # They may not need to be part of the model and we may be able to remove them
@@ -623,16 +615,16 @@ class Organization < ActiveRecord::Base
   end
   alias_method :revenue_range, :revenue_description
 
-  def revenue_upper_value
-    REVENUE_AMOUNTS[revenue]
-  end
-
   def suggested_pledge
     if collaborative_funding_model?
       revenue ? COLLABORATIVE_PLEDGE_LEVELS[revenue] : ''
     else
       revenue ? INDEPENDENT_PLEDGE_LEVELS[revenue] : ''
     end
+  end
+
+  def bracketed_revenue_amount
+    RevenueCalculator.calculate_precise_revenue(revenue)
   end
 
   def no_pledge_reason_value
@@ -1024,12 +1016,7 @@ class Organization < ActiveRecord::Base
 
     def set_bracketed_revenue
       if revenue.nil? && precise_revenue.present?
-        REVENUE_AMOUNTS.each do |key, amount|
-          if key < 5 && precise_revenue < Money.new(amount)
-            self.revenue = key
-          end
-        end
-        self.revenue ||= 5 # 5 billion or more
+        self.revenue = RevenueCalculator.calculate_bracketed_revenue(precise_revenue)
       end
     end
 
