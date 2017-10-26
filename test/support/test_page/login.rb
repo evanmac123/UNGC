@@ -22,12 +22,16 @@ module TestPage
       click_on 'Login'
       contact = Contact.find_by(username: @username)
 
-      if current_path == '/edit'
+      case current_path
+      when "/edit"
         transition_to ChangePassword.new(contact)
-      else
+      when dashboard_path
         transition_to Dashboard.new(contact)
+      else
+        nil
       end
     end
+    alias_method :submit, :click_login
 
   end
 end
