@@ -71,7 +71,7 @@ module Igloo
       "Business for Inclusion" => "Business for Inclusion &amp; Gender Equality",
       "Business Action for Humanitarian Needs" => "Business for Humanitarian Action and Peace",
       "Decent Work in Global Supply Chains" => "Decent Work in Global Supply Chains",
-      "Water Stewardess for the SDGs" => "Water Stewardess for the SDGs",
+      "Water Stewardship for the SDGs" => "Water Stewardship for the SDGs",
     }.freeze
 
   end
