@@ -60,16 +60,18 @@ gem 'faraday-cookie_jar'
 gem 'awesome_print', require: 'ap'
 
 group :development do
-  gem 'rerun'
   gem 'thin'
   gem 'bullet'
   gem 'brakeman', '~> 3.4', '>= 3.4.1'
   gem 'bundler-audit', '~> 0.5.0'
   gem 'web-console', '~> 2.1.3'
+  gem 'guard'
+  gem 'guard-minitest'
 end
 
 group :test do
   gem 'minitest'
+  gem 'minitest-reporters'
   gem 'shoulda'
   gem 'capybara'
   gem 'simplecov', require: false
