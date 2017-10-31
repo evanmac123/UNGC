@@ -8,14 +8,14 @@ module ActionPlatform
     end
 
     test "the form is valid with valid inputs" do
-      form = OrderForm.new(validate_attributes)
+      form = OrderForm.new(valid_attributes)
       assert form.valid?, -> {
         form.errors.full_messages
       }
     end
 
     test "creates an order with valid inputs" do
-      form = OrderForm.new(validate_attributes)
+      form = OrderForm.new(valid_attributes)
       form.order_service = mock("order_service")
 
       expected_args = has_entries(
@@ -41,10 +41,22 @@ module ActionPlatform
       assert_equal 123, form.id
     end
 
+    test "removes discontinued action platform from order form" do
+      valid_action_platform = create(:action_platform_platform, name: "Valid")
+      discontinued_action_platform = create(:action_platform_platform, name: "Discontinued", discontinued: true)
+
+      form = OrderForm.new
+
+      platform_names = form.platforms_with_subscriptions.map(&:first).map(&:name)
+
+      assert_includes platform_names, "Valid"
+      refute_includes platform_names, "Discontinued"
+    end
+
     private
 
-    def validate_attributes
-      platforms = Platform.all
+    def valid_attributes
+      platforms = Platform.available_for_signup
 
       subscriptions = platforms.each_with_object({}) do |platform, subs|
         subs[platform.id] = {

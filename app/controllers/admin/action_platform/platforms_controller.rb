@@ -61,7 +61,8 @@ class Admin::ActionPlatform::PlatformsController < AdminController
     params.require(:action_platform_platform).permit(
       :name,
       :description,
-      :slug
+      :slug,
+      :discontinued
     )
   end
 end

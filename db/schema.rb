@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171004211717) do
+ActiveRecord::Schema.define(version: 20171030205721) do
 
   create_table "action_platform_orders", force: :cascade do |t|
     t.integer  "organization_id",      limit: 4,                   null: false
@@ -26,11 +26,12 @@ ActiveRecord::Schema.define(version: 20171004211717) do
   add_index "action_platform_orders", ["financial_contact_id"], name: "index_action_platform_orders_on_financial_contact_id", using: :btree
 
   create_table "action_platform_platforms", force: :cascade do |t|
-    t.string   "name",        limit: 255,   null: false
-    t.text     "description", limit: 65535, null: false
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
-    t.string   "slug",        limit: 32,    null: false
+    t.string   "name",         limit: 255,                   null: false
+    t.text     "description",  limit: 65535,                 null: false
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
+    t.string   "slug",         limit: 32,                    null: false
+    t.boolean  "discontinued",               default: false, null: false
   end
 
   create_table "action_platform_subscriptions", force: :cascade do |t|
