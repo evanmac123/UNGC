@@ -45,18 +45,18 @@ module ActionPlatform
 
     def initialize(params = {})
       super(params)
-      @platforms = Platform.all
+      @platforms = Platform.available_for_signup
       @order_service = OrderService
     end
 
     def platforms_with_subscriptions
       @platforms.map do |platform|
-        [
-          platform,
-          subscriptions.fetch(platform.id) {
-            SubscriptionForm.new(platform_id: platform.id)
-          }
-        ]
+          [
+            platform,
+              subscriptions.fetch(platform.id) {
+                SubscriptionForm.new(platform_id: platform.id)
+            }
+          ]
       end
     end
 
