@@ -8,6 +8,7 @@ class ParticipantBreakdownReport < SimpleReport
     self.render_xls_in_batches
   end
 
+
   def headers
     [ 'Participant ID',
       'Old ID',
@@ -33,7 +34,11 @@ class ParticipantBreakdownReport < SimpleReport
       'Exchange',
       'Expelled on',
       'Readmitted on',
-      'Member of Local Network'
+      'Member of Local Network',
+      'Engagement Level',
+      'Revenue',
+      'Invoice Date',
+      'Parent Company'
     ]
   end
 
@@ -62,7 +67,43 @@ class ParticipantBreakdownReport < SimpleReport
     record.exchange.try(:name),
     record.delisted_on.try(:to_date),
     record.rejoined_on.try(:to_date),
-    record.is_local_network_member
+    record.is_local_network_member,
+    organization_participation_level(record),
+    organization_revenue(record),
+    organization_invoice_date(record),
+    parent_company_name(record)
   ]
   end
+
+  private
+
+  def parent_company_name(organization)
+    parent_company = organization.parent_company_id
+    if parent_company.nil?
+      "None"
+    else
+      Organization.find(parent_company).name
+    end
+  end
+
+  def organization_revenue(organization)
+    amount = organization.precise_revenue
+    if amount.nil?
+      'Organization has not provided a revenue'
+    else
+      amount.format
+    end
+  end
+
+  def organization_participation_level(organization)
+    level_of_participation = organization.level_of_participation
+    level_of_participation ? level_of_participation : 'Level of engagement is not selected'
+  end
+
+  def organization_invoice_date(organization)
+    invoice_date = organization.invoice_date
+    invoice_date ? invoice_date : 'Organization currently has no invoice date'
+  end
+
+
 end
