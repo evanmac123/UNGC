@@ -38,6 +38,7 @@ bower_components/
 .ruby-gemset
 .ruby-version
 provisioning/roles/
+/dump.rdb
 
 # RubyMine
 .idea/**
