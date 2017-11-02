@@ -2,7 +2,11 @@ class LocalNetworkParticipantBreakdown < SimpleReport
 
   def records
     user = Contact.find(@options[:contact_id])
-    Organization.visible_to(user).participants.with_cop_info
+    Organization.
+      visible_to(user).
+      participants.
+      with_cop_info.
+      includes(:parent_company)
   end
 
   def render_output
@@ -10,14 +14,20 @@ class LocalNetworkParticipantBreakdown < SimpleReport
   end
 
   def headers
-    [ 'Participant ID',
+    [
+      'Participant ID',
       'Join Date',
       'Participant Name',
       'Organization Type',
       'Country',
       'Sector',
       'Number of Employees',
-      'Revenue',
+      'Engagement Tier',
+      'Bracketed Revenue',
+      'Annual Revenue',
+      'Invoice Date',
+      'Parent Company Name',
+      'Parent Company ID',
       'FT500',
       'COP Status',
       'Join Year',
@@ -42,7 +52,12 @@ class LocalNetworkParticipantBreakdown < SimpleReport
     record.country_name,
     record.sector_name,
     record.employees,
+    record.level_of_participation,
     record.revenue_description,
+    record.precise_revenue.try!(:format),
+    record.invoice_date,
+    record.parent_company.try!(:name),
+    record.parent_company_id,
     record.is_ft_500,
     record.cop_state.titleize,
     record.joined_on.try(:year),
