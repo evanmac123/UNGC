@@ -97,13 +97,12 @@ class ParticipantBreakdownReport < SimpleReport
 
   def organization_participation_level(organization)
     level_of_participation = organization.level_of_participation
-    level_of_participation ? level_of_participation : 'Level of engagement is not selected'
+    level_of_participation ? t(level_of_participation) : 'Level of engagement is not selected'
   end
 
   def organization_invoice_date(organization)
     invoice_date = organization.invoice_date
     invoice_date ? invoice_date : 'Organization currently has no invoice date'
   end
-
 
 end
