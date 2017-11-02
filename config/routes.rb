@@ -3,7 +3,7 @@ require 'sidekiq/web'
 
 UNGC::Application.routes.draw do
   authenticate :contact, lambda { |c| c.from_ungc? } do
-    mount Sidekiq::Web => '/back-the-web'
+    mount Sidekiq::Web => '/sidekiq'
   end
 
   use_doorkeeper
