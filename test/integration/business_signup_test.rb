@@ -40,7 +40,6 @@ class BusinessSignupTest < ActionDispatch::IntegrationTest
     simulate_parent_company_selection(parent_company)
     within("label[for='organization_is_tobacco']") { choose "Yes" }
     within("label[for='organization_is_landmine']") { choose "Yes" }
-    within("label[for='organization_is_biological_weapons']") { choose "Yes" }
 
     click_on "Next"
     assert_equal organization_step2_path, current_path, validation_errors
