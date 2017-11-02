@@ -32,7 +32,7 @@ test:
 production:
   path_to_cop_xml: '../../shared/data/cop_xml/*'
   salesforce:
-    :host: 'na18.salesforce.com'
+    :host: 'unglobalcompact.my.salesforce.com'
     :username: 'salesforce@unglobalcompact.org'
     :password: 'UNGC2017!'
     :token: 'zMhu9bdAj9BbTioxOnx1GYou'
