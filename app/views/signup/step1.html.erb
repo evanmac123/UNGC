@@ -102,7 +102,7 @@
 
       <%- if @signup.business? -%>
         <div class='field'>
-          <h3>Does your company derive any revenue from the:</h3>
+          <h3>Does your company derive any revenue from:</h3>
           <ul>
             <li>
               <%= form.label :is_tobacco do %>
@@ -124,17 +124,6 @@
                 <br />
                 <%= form.radio_button(:is_landmine, false) %>
                 <%= form.label(:is_landmine_false, "No") %>
-              <% end %>
-            </li>
-            <li>
-              <%= form.label :is_biological_weapons  do %>
-                <%= t "signup.biological_weapons?" %>*
-                <br />
-                <%= form.radio_button(:is_biological_weapons, true) %>
-                <%= form.label(:is_biological_weapons_true, "Yes") %>
-                <br />
-                <%= form.radio_button(:is_biological_weapons, false) %>
-                <%= form.label(:is_biological_weapons_falsk, "No") %>
               <% end %>
             </li>
           </ul>
