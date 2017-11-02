@@ -191,6 +191,9 @@ class BusinessSignupTest < ActionDispatch::IntegrationTest
 
   def validation_errors
     errors = all(".error-list .error")
+    if errors.empty?
+      errors = all(".errors-container .error")
+    end
     errors.map(&:text).join("\n")
   end
 
