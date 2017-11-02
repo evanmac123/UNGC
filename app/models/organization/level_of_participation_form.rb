@@ -143,12 +143,18 @@ class Organization::LevelOfParticipationForm
   def save
     if valid?
       Organization.transaction do
-        organization.update!(
+        attrs = {
           precise_revenue: annual_revenue,
           level_of_participation: level_of_participation,
           invoice_date: invoice_date,
-          parent_company_id: parent_company_id
-        )
+        }
+
+        # Ignore companies who mark themselves as their own parents
+        unless parent_company_id == organization.id
+          attrs[:parent_company_id] = parent_company_id
+        end
+
+        organization.update!(attrs)
 
         # ensure the contact specified is a contact point
         primary_contact_point = organization.contacts.
