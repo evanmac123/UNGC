@@ -236,6 +236,15 @@ class Organization::LevelOfParticipationFormTest < ActiveSupport::TestCase
     assert_not_includes contact_names, ceo.name
   end
 
+  test "When a company marks itself as it's own parent company, it is silently ignored" do
+    organization = create(:organization)
+    form = build_form(organization: organization, parent_company_id: organization.id)
+
+    assert form.save, form.errors.full_messages
+
+    assert_nil organization.reload.parent_company_id
+  end
+
   private
 
   def build_form(params = {})

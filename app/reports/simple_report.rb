@@ -38,6 +38,12 @@ class SimpleReport
     path
   end
 
+  def to_h
+    records.map do |record|
+      Hash[headers.zip(row(record))]
+    end
+  end
+
   def render_xls_in_batches
     path = fetch_scratch_file
     CSV.open(path, 'w+', :col_sep => "\t") do |line|
