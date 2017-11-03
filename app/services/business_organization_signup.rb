@@ -147,9 +147,6 @@ class BusinessOrganizationSignup < OrganizationSignup
     if organization.is_landmine.nil?
       organization.errors.add :is_landmine, :is_landmine
     end
-    if organization.is_biological_weapons.nil?
-      organization.errors.add :is_biological_weapons, :is_biological_weapons
-    end
   end
 
 end

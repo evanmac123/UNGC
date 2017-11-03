@@ -123,7 +123,6 @@ class BusinessSignupTest < ActionDispatch::IntegrationTest
     assert_not_nil organization.parent_company
     assert organization.is_tobacco?
     assert organization.is_landmine?
-    assert organization.is_biological_weapons?
     assert_nil organization.legal_status
     assert_equal Date.new(2019, 1, 1), organization.invoice_date
     assert_equal "participant_level", organization.level_of_participation

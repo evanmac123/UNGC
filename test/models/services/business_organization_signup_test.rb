@@ -122,7 +122,6 @@ class OrganizationSignupTest < ActiveSupport::TestCase
     refute signup.valid?, "expected signup not to be valid"
     assert_contains signup.error_messages, "Revenue from tobacco must be selected"
     assert_contains signup.error_messages, "Revenue from landmines must be selected"
-    assert_contains signup.error_messages, "Revenue from weapons must be selected"
   end
 
   test "validates invoice_date according to a policy" do
@@ -137,14 +136,12 @@ class OrganizationSignupTest < ActiveSupport::TestCase
     signup = build_signup(organization: {
       is_tobacco: "false",
       is_landmine: "true",
-      is_biological_weapons: "false"
     })
     assert signup.save, signup.error_messages
 
     organization = signup.organization.reload
     assert_equal false, organization.is_tobacco
     assert_equal true, organization.is_landmine
-    assert_equal false, organization.is_biological_weapons
   end
 
   private
