@@ -207,7 +207,7 @@ class Contact < ActiveRecord::Base
   end
 
   def full_address
-    if address_more.present?
+    if address_more.present? && address_more != address
       "#{address}\n#{address_more}"
     else
       address
