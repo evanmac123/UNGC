@@ -30,8 +30,22 @@ module TestPage
       fill_in I18n.t("level_of_participation.confirm_annual_revenue"), with: value
     end
 
-    def contact_middle_name=(value)
-      fill_in "Middle name", with: value
+    def create_financial_contact(params)
+      choose "Create new financial contact"
+      # Quick and dirty way of mapping contact attributes to text labels.
+      # If we hit an exception, we'll have to do it manually
+      params.each do |key, value|
+        fill_in key.to_s.humanize, with: value
+      end
+    end
+
+    def choose_from_existing_contacts
+      choose "Choose from existing contacts"
+    end
+
+    def assign_financial_contact_role_to(contact)
+      choose_from_existing_contacts
+      select contact.name, from: "Please choose or confirm your financial contact"
     end
 
     def confirm_financial_contact_info
@@ -59,6 +73,10 @@ module TestPage
 
     def has_validation_error?(message)
       page.has_content? message
+    end
+
+    def validation_errors
+      all(:css, "#errorExplanation li").map(&:text).to_sentence
     end
 
     private

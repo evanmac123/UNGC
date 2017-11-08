@@ -47,9 +47,6 @@ class Admin::ChooseParticipationLevelTest < ActionDispatch::IntegrationTest
     # Enter the annual revenue amount
     form.annual_revenue = "123,456,567"
 
-    # Update the financial contact's info
-    form.contact_middle_name = "Changed"
-
     # Confirm the financial contact info is correct
     form.confirm_financial_contact_info
 
@@ -107,6 +104,108 @@ class Admin::ChooseParticipationLevelTest < ActionDispatch::IntegrationTest
     form.has_content? I18n.t("level_of_participation.success")
   end
 
+  # No financial contact ->
+  #   Dropdown to choose a contact to add the role to
+  #   Or
+  #   Fields to create a new one from:
+  # Has financial contact ->
+  #   Pre-filled fields to edit
+
+  test "When there is no financial contact, an existing contact can be selected" do
+    organization = create_organization
+    contact_point = create_contact_point(organization)
+    assert_not_includes roles(contact_point), "Financial Contact"
+    login_as contact_point
+
+    form = TestPage::ChooseLevelOfParticipation.new
+    form.visit
+
+    # When the form is filled out
+    form.select_level_of_participation("participant")
+    form.annual_revenue = "$123,456.78"
+    form.confirm_contact_point(contact_point)
+    form.confirm_financial_contact_info
+    form.invoice_me_now
+    form.confirm_submission
+
+    # And the contact point is given the financial contact role
+    form.assign_financial_contact_role_to(contact_point)
+    form.submit
+
+    # Then the submission should be valid
+    assert_empty form.validation_errors
+
+    # And the contact should have the financial contact role
+    assert_includes roles(contact_point), "Financial Contact"
+  end
+
+  test "When there is no financial contact, one can be created" do
+    organization = create_organization
+    contact_point = create_contact_point(organization)
+    assert_not_includes roles(contact_point), "Financial Contact"
+    login_as contact_point
+
+    form = TestPage::ChooseLevelOfParticipation.new
+    form.visit
+
+    # When the form is filled out
+    form.select_level_of_participation("participant")
+    form.annual_revenue = "$123,456.78"
+    form.confirm_contact_point(contact_point)
+    form.confirm_financial_contact_info
+    form.invoice_me_now
+    form.confirm_submission
+
+    # And the contact point is given the financial contact role
+    attributes = {
+      prefix: "Mr.",
+      first_name: "Bob",
+      middle_name: "Norman",
+      last_name: "Ross",
+      job_title: "Painter",
+      email: "bob@example.com",
+      phone: "123-456-7890",
+      address: "123 Happy Little Tree Lane",
+      address_2: "Suite 123",
+      city: "Daytona Beach",
+      state: "California",
+    }
+
+    form.create_financial_contact(attributes)
+    form.submit
+
+    # Then the submission should be valid
+    assert_empty form.validation_errors
+
+    # And there should be a new financial contact
+    financial_contact = organization.contacts.financial_contacts.first
+    assert_not_nil financial_contact, "Financial contact was not created"
+    assert_equal "Bob Ross", financial_contact.name
+  end
+
+  test "When there is a financial contact, it is selected by default" do
+    organization = create_organization
+    contact_point = create_contact_point(organization)
+    create_financial_contact(organization)
+    login_as contact_point
+
+    form = TestPage::ChooseLevelOfParticipation.new
+    form.visit
+
+    # When the form is filled out
+    form.select_level_of_participation("participant")
+    form.annual_revenue = "$123,456.78"
+    form.confirm_contact_point(contact_point)
+    form.confirm_financial_contact_info
+    form.invoice_me_now
+    form.confirm_submission
+
+    # We are able to submit successfully as the existing
+    # financial contact has been chosen and re-confirmed
+    form.submit
+    assert_empty form.validation_errors
+  end
+
   private
 
   def create_invoicing_network
@@ -121,12 +220,12 @@ class Admin::ChooseParticipationLevelTest < ActionDispatch::IntegrationTest
       business_model: "global_local")
   end
 
-  def create_organization(local_network)
+  def create_organization(local_network = nil)
     create(:business,
       level_of_participation: nil,
       sector: create(:sector),
       listing_status: create(:listing_status),
-      country: create(:country, local_network: local_network),
+      country: create(:country, local_network: local_network || create(:local_network)),
       cop_due_on: 3.months.from_now
     )
   end
@@ -150,6 +249,10 @@ class Admin::ChooseParticipationLevelTest < ActionDispatch::IntegrationTest
 
   def validation_errors
     all("#errorExplanation li").map(&:text)
+  end
+
+  def roles(contact)
+    contact.reload.roles.map(&:name)
   end
 
 end

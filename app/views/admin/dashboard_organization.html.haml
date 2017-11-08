@@ -155,4 +155,9 @@
       = render partial: "/admin/action_platform/landing"
 
     #level_of_engagement.tab_content
-      = render partial: "/admin/level_of_participations/landing"
+      %h2 Level of Engagement
+      - if @organization.level_of_participation.present?
+        You have selected the
+        = t(@organization.level_of_participation)
+      - else
+        = link_to "Select a Level of Engagement", admin_choose_level_of_participation_path

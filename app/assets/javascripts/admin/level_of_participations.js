@@ -46,4 +46,22 @@ $(function() {
     }
   });
 
+  // Show either the contact dropdown or the new fields for
+  // organizations without a financial contact
+  var modeSelector = $("input[name='level_of_participation[financial_contact_action]']");
+  if(modeSelector.length > 0) {
+    var toggleInputField = function() {
+      var dropdown = $("#financial-contact-selector"),
+          fields = $("#financial-contact-fields"),
+          choice;
+
+      var choice = $("input[name='level_of_participation[financial_contact_action]']:checked").val();
+      dropdown.toggle(choice === "choose");
+      fields.toggle(choice === "create");
+    };
+    modeSelector.change(toggleInputField);
+    toggleInputField();
+  }
+
+
 });

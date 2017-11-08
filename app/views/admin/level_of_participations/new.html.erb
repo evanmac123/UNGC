@@ -19,7 +19,7 @@
                html: { class: "lop-form" }
   )  do |form|  %>
 
-<%= form.error_messages header_message: false %>
+    <%= form.error_messages header_message: false %>
 
     <section class="lop-section">
       <h3 style="text-align: center; width: 100%; background: #e8e8e8; padding: 1em 0;">
@@ -49,19 +49,19 @@
 
       <div class="field leftcheck">
         <p class="bold">
-        <span><%= t("level_of_participation.is_subsidiary_question") %></span>
-        <%= form.radio_button(:is_subsidiary, true) %>
-        <%= form.label(:is_subsidiary_true, "Yes") %>
+          <span><%= t("level_of_participation.is_subsidiary_question") %></span>
+          <%= form.radio_button(:is_subsidiary, true) %>
+          <%= form.label(:is_subsidiary_true, "Yes") %>
 
-        <%= form.radio_button(:is_subsidiary, false) %>
-        <%= form.label(:is_subsidiary_false, "No") %> <br />
-        <%= form.hidden_field :parent_company_id %>
+          <%= form.radio_button(:is_subsidiary, false) %>
+          <%= form.label(:is_subsidiary_false, "No") %> <br />
+          <%= form.hidden_field :parent_company_id %>
       </div>
 
       <div class="field" id="select-parent-company">
         Please select your parent company:
         <%= form.text_field(:parent_company_name, length: 20, placeholder: "Organization name",
-                         data: { autocomplete: "participants" }) %>
+                            data: { autocomplete: "participants" }) %>
         For more details, please read our subsidiary engagement policy <a href="https://www.unglobalcompact.org/docs/about_the_gc/policy/UNGlobalCompact_SubsidiaryPolicy.pdf" target="_blank">here</a>
       </div>
 
@@ -75,75 +75,93 @@
       <section class="lop-form">
         <h4>Please confirm your company’s billing information:</h4>
 
-        <%= form.fields_for :financial_contact, @form.financial_contact do |fields|  %>
-        <div class="field one-6">
-          <%= fields.label :prefix %>
-          <%= fields.text_field :prefix %>
+        <div class="field leftcheck">
+          <p class="bold">
+            <%= form.radio_button(:financial_contact_action, "choose") %>
+            <%= form.label(:financial_contact_action_choose, "Choose from existing contacts") %>
+
+            <%= form.radio_button(:financial_contact_action, "create") %>
+            <%= form.label(:financial_contact_action_create, "Create new financial contact") %>
+          </p>
         </div>
-        <div class="field two-6">
-          <%= fields.label :first_name %>
-          <%= fields.text_field :first_name %>
+        <div class="clear" />
+
+        <div id="financial-contact-selector">
+          <%= form.label :financial_contact_id, "Please choose or confirm your financial contact" %>
+          <%= form.select :financial_contact_id, @form.organization_contacts, prompt: "Choose an existing contact" %>
         </div>
-        <div class="field one-6">
-          <%= fields.label :middle_name %>
-          <%= fields.text_field :middle_name %>
+
+        <div id="financial-contact-fields">
+          <%= form.fields_for :financial_contact, @form.financial_contact do |fields| %>
+            <div class="field one-6">
+              <%= fields.label :prefix %>
+              <%= fields.text_field :prefix %>
+            </div>
+            <div class="field two-6">
+              <%= fields.label :first_name %>
+              <%= fields.text_field :first_name %>
+            </div>
+            <div class="field one-6">
+              <%= fields.label :middle_name %>
+              <%= fields.text_field :middle_name %>
+            </div>
+            <div class="field two-6 last">
+              <%= fields.label :last_name %>
+              <%= fields.text_field :last_name %>
+            </div>
+            <div class="clear"></div>
+            <div class="field one-6">
+              <%= fields.label :job_title %>
+              <%= fields.text_field :job_title %>
+            </div>
+            <div class="field two-6">
+              <%= fields.label :email %>
+              <%= fields.text_field :email %>
+            </div>
+            <div class="field one-6">
+              <%= fields.label :phone %>
+              <%= fields.text_field :phone %>
+            </div>
+            <div class="field last one-6">
+              <%= fields.label :fax %>
+              <%= fields.text_field :fax %>
+            </div>
+            <div class="clear"></div>
+            <div class="field two-6">
+              <%= fields.label :address %>
+              <%= fields.text_field :address %>
+            </div>
+            <div class="field last one-6">
+              <%= fields.label :address_more, "Address 2" %>
+              <%= fields.text_field :address_more %>
+            </div>
+            <div class="clear"></div>
+            <div class="field two-6">
+              <%= fields.label :city %>
+              <%= fields.text_field :city %>
+            </div>
+            <div class="field one-6">
+              <%= fields.label :state %>
+              <%= fields.text_field :state %>
+            </div>
+            <div class="field one-6">
+              <%= fields.label :postal_code %>
+              <%= fields.text_field :postal_code %>
+            </div>
+            <div class="field two-6 last">
+              <%= fields.label :country %>
+              <%= fields.select :country_id, @form.countries %>
+            </div>
+            <%= fields.hidden_field :id %>
+          <% end %>
         </div>
-        <div class="field two-6 last">
-          <%= fields.label :last_name %>
-          <%= fields.text_field :last_name %>
-        </div>
-        <div class="clear"></div>
-        <div class="field one-6">
-          <%= fields.label :job_title %>
-          <%= fields.text_field :job_title %>
-        </div>
-        <div class="field two-6">
-          <%= fields.label :email %>
-          <%= fields.text_field :email %>
-        </div>
-        <div class="field one-6">
-          <%= fields.label :phone %>
-          <%= fields.text_field :phone %>
-        </div>
-        <div class="field last one-6">
-          <%= fields.label :fax %>
-          <%= fields.text_field :fax %>
-        </div>
-        <div class="clear"></div>
-        <div class="field two-6">
-          <%= fields.label :address %>
-          <%= fields.text_field :address %>
-        </div>
-        <div class="field last one-6">
-          <%= fields.label :address_more, "Address 2" %>
-          <%= fields.text_field :address_more %>
-        </div>
-        <div class="clear"></div>
-        <div class="field two-6">
-          <%= fields.label :city %>
-          <%= fields.text_field :city %>
-        </div>
-        <div class="field one-6">
-          <%= fields.label :state %>
-          <%= fields.text_field :state %>
-        </div>
-        <div class="field one-6">
-          <%= fields.label :postal_code %>
-          <%= fields.text_field :postal_code %>
-        </div>
-        <div class="field two-6 last">
-          <%= fields.label :country %>
-          <%= fields.select :country_id, @form.countries %>
-        </div>
-        <%= fields.hidden_field :id %>
-        <% end %>
         <div class="clear"></div>
       </section>
 
       <div class="field leftcheck">
         <%= form.check_box :confirm_financial_contact_info %>
         <%= form.label(:confirm_financial_contact_info,
-                    t("level_of_participation.confirm_financial_contact_info")) %>
+                       t("level_of_participation.confirm_financial_contact_info")) %>
       </div>
 
       <% if @form.invoicing_required? %>
@@ -171,8 +189,8 @@
       </div>
     </section>
     <div class="button">
-    <%= form.submit 'Confirm' %>
-  </div>
+      <%= form.submit 'Confirm' %>
+    </div>
   <% end %>
 
 </section>

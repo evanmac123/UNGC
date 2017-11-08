@@ -45,27 +45,6 @@ class Admin::LevelOfParticipationsControllerTest < ActionController::TestCase
     assert_not_nil form
   end
 
-  test "financial contact params are pre-filled" do
-    organization, contact = create_and_sign_in_to_organization
-
-    get :new, organization_id: organization
-
-    assert_select contact_field("prefix"), contact.prefix
-    assert_select contact_field("first_name"), contact.first_name
-    assert_select contact_field("middle_name"), contact.middle_name
-    assert_select contact_field("last_name"), contact.last_name
-    assert_select contact_field("job_title"), contact.job_title
-    assert_select contact_field("email"), contact.email
-    assert_select contact_field("phone"), contact.phone
-    assert_select contact_field("fax"), contact.fax
-    assert_select contact_field("address"), contact.address
-    assert_select contact_field("address_more"), contact.address_more
-    assert_select contact_field("city"), contact.city
-    assert_select contact_field("state"), contact.state
-    assert_select contact_field("postal_code"), contact.postal_code
-    assert_select contact_field("country_id"), contact.country_id
-  end
-
   test "must be from an organization" do
     # Given a contact that is not from an organization is signed in
     contact = create(:contact)

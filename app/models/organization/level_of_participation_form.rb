@@ -38,9 +38,12 @@ class Organization::LevelOfParticipationForm
     validate :validate_unique_email
 
     def self.from(contact)
-      fields = self.attribute_set.map { |a| a.name.to_s }
-      attrs = contact.attributes.slice(*fields)
+      attrs = contact.attributes.slice(*keys)
       new(attrs)
+    end
+
+    def self.keys
+      attribute_set.map { |a| a.name.to_s }
     end
 
     private
@@ -74,6 +77,8 @@ class Organization::LevelOfParticipationForm
   attribute :invoice_date, Date
 
   attribute :financial_contact, FinancialContact
+  attribute :financial_contact_action, String
+  attribute :financial_contact_id, Integer
 
   validates :organization, presence: true
   validates :level_of_participation, presence: true
@@ -98,13 +103,18 @@ class Organization::LevelOfParticipationForm
     invoicing_policy.validate(self)
   end
 
-  validates :financial_contact, presence: true
+  validates :financial_contact, presence: true, if: :financial_contact_required?
+
   validate :financial_contact do
-    unless financial_contact.valid?
+    if financial_contact_required? && financial_contact.invalid?
       financial_contact.errors.each do |key, message|
         errors.add key, message
       end
     end
+  end
+
+  def financial_contact_required?
+    financial_contact_action == "create"
   end
 
   def self.from(organization)
@@ -121,11 +131,11 @@ class Organization::LevelOfParticipationForm
       invoice_date: organization.invoice_date,
     }
 
-    # defaults the
-    contact = organization.contacts.financial_contacts.first
-    if contact.present?
+    financial_contact_id = organization.contacts.financial_contacts.pluck(:id).first
+    if financial_contact_id.present?
       params.merge!(
-        financial_contact: Organization::LevelOfParticipationForm::FinancialContact.from(contact)
+        financial_contact_id: financial_contact_id,
+        financial_contact_action: "choose"
       )
     end
 
@@ -157,23 +167,21 @@ class Organization::LevelOfParticipationForm
         organization.update!(attrs)
 
         # ensure the contact specified is a contact point
-        primary_contact_point = organization.contacts.
-          includes(:roles).
-          find(contact_point_id)
-        unless primary_contact_point.is?(Role.contact_point)
-          primary_contact_point.roles << Role.contact_point
-        end
+        ensure_in_role(contact_point_id, Role.contact_point)
 
-        # create or update the financial contact
-        if financial_contact.id.present?
-          c = organization.contacts.find(financial_contact.id)
-          c.update!(financial_contact.attributes)
-        else
+        case financial_contact_action
+        when "choose"
+          # load the selected contact and ensure they have the financial contact role
+          ensure_in_role(financial_contact_id, Role.financial_contact)
+        when "create"
+          # create a new financial contact with the attribute given
           attrs = financial_contact.attributes.merge(
             roles: [Role.financial_contact])
           organization.contacts.
             financial_contacts.
             create!(attrs)
+        else
+          raise "Unexpected financial_contact_action: >>#{financial_contact_action}<<"
         end
 
         stream_name = "organization_#{organization.id}"
@@ -212,6 +220,15 @@ class Organization::LevelOfParticipationForm
 
   def invoicing_policy
     Organization::InvoicingPolicy.new(organization, annual_revenue)
+  end
+
+  def ensure_in_role(contact_id, role)
+    contact = organization.contacts.
+      includes(:roles).
+      find(contact_id)
+    unless contact.is?(role)
+      contact.roles << role
+    end
   end
 
   def selected_level_of_participation

@@ -37,6 +37,8 @@ class Admin::LevelOfParticipationsController < AdminController
       :confirm_financial_contact_info,
       :confirm_submission,
       :invoice_date,
+      :financial_contact_id,
+      :financial_contact_action,
       financial_contact: [
         :id,
         :prefix,
