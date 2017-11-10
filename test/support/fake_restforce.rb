@@ -27,7 +27,7 @@ class FakeRestforce
   def create!(type, params)
     models = @records.fetch(type)
 
-    id = "crm#{models.count + 1}"
+    id = "crm_#{type.downcase}_#{models.count + 1}"
     record = ::Restforce::SObject.new(params.merge(Id: id))
 
     models[id] = record
