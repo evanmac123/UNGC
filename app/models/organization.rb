@@ -1018,6 +1018,7 @@ class Organization < ActiveRecord::Base
 
     def set_bracketed_revenue
       needs_precise_revenue = revenue.nil? ||
+        updated_at.nil? ||
         updated_at >= INTRODUCTION_OF_PRECISE_REVENUE
 
       if needs_precise_revenue && precise_revenue.present?
