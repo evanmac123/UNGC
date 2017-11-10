@@ -45,7 +45,7 @@ class FakeRestforce
 
     id = params.fetch(:Id)
     record = model.fetch(id)
-    updated_record = ::Restforce::SObject.new(params.merge(Id: record.Id))
+    updated_record = ::Restforce::SObject.new(record.attrs.merge(params))
     model[id] = updated_record
     updated_record
   end
