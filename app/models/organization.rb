@@ -48,6 +48,10 @@
 #  isin                           :string(255)
 #  precise_revenue_cents          :integer
 #  precise_revenue_currency       :string(255)      default("USD"), not null
+#  is_biological_weapons          :boolean
+#  level_of_participation         :integer
+#  invoice_date                   :date
+#  parent_company_id              :integer
 #
 
 class Organization < ActiveRecord::Base

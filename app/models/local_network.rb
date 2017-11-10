@@ -53,6 +53,10 @@
 #  image_content_type                                  :string(255)
 #  image_file_size                                     :integer
 #  image_updated_at                                    :datetime
+#  business_model                                      :integer
+#  invoice_managed_by                                  :integer
+#  invoice_options_available                           :integer
+#  invoice_currency                                    :string(255)
 #
 
 class LocalNetwork < ActiveRecord::Base

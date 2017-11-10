@@ -4,7 +4,7 @@
 #
 #  id             :integer          not null, primary key
 #  container_id   :integer          not null
-#  json_data      :text(65535)      not null
+#  json_data      :text(4294967295) not null
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  created_by_id  :integer
