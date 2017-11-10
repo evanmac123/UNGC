@@ -166,6 +166,8 @@ class Organization < ActiveRecord::Base
   NEXT_NON_BUSINESS_COP_YEAR = 2.freeze
   EXPULSION_THRESHOLD = 1.year.freeze
 
+  INTRODUCTION_OF_PRECISE_REVENUE = Date.new(2017, 10, 1)
+
   REVENUE_LEVELS = {
     1 => 'less than USD 50 million',
     2 => 'between USD 50 million and USD 250 million',
@@ -1015,7 +1017,10 @@ class Organization < ActiveRecord::Base
     end
 
     def set_bracketed_revenue
-      if revenue.nil? && precise_revenue.present?
+      needs_precise_revenue = revenue.nil? ||
+        updated_at >= INTRODUCTION_OF_PRECISE_REVENUE
+
+      if needs_precise_revenue && precise_revenue.present?
         self.revenue = RevenueCalculator.calculate_bracketed_revenue(precise_revenue)
       end
     end

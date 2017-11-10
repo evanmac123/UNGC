@@ -447,4 +447,20 @@ class OrganizationTest < ActiveSupport::TestCase
       "Precise revenue must be less than or equal to $92,000,000,000,000,000.00"
   end
 
+  test "bracketed revenue is set on creation" do
+    organization = create(:organization,
+      precise_revenue: Money.from_amount(2_000_000_000),
+      revenue: nil)
+    assert_equal "between USD 1 billion and USD 5 billion", organization.revenue_description
+  end
+
+  test "bracketed revenue is set on update" do
+    organization = create(:organization,
+      precise_revenue: Money.from_amount(2_000_000_000),
+      revenue: 4)
+
+    organization.update(precise_revenue: Money.from_amount(1))
+    assert_equal "less than USD 50 million", organization.revenue_description
+  end
+
 end
