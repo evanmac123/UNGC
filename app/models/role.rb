@@ -38,7 +38,7 @@ class Role < ActiveRecord::Base
   def self.visible_to(user, current_contact=nil)
     case user.user_type
     when Contact::TYPE_ORGANIZATION
-      roles_ids = [Role.contact_point].collect(&:id)
+      roles_ids = [Role.contact_point].freeze.collect(&:id)
 
       # give option to check Highlest Level Executive if no CEO has been assigned
       if user.is?(Role.ceo) || user.organization.contacts.ceos.count <= 0
@@ -62,16 +62,16 @@ class Role < ActiveRecord::Base
                    Role.contact_point,
                    Role.network_regional_manager,
                    Role.website_editor,
-                   Role.participant_manager].collect(&:id)
+                   Role.participant_manager].freeze.collect(&:id)
       where('id in (?)', roles_ids.flatten)
     when Contact::TYPE_NETWORK
-      roles_ids = [Role.network_focal_point, Role.network_representative, Role.network_report_recipient, Role.general_contact].collect(&:id)
+      roles_ids = [Role.network_focal_point, Role.network_representative, Role.network_report_recipient, Role.general_contact].freeze.collect(&:id)
       where('id in (?)', roles_ids.flatten)
     when Contact::TYPE_NETWORK_GUEST
-      roles_ids = [Role.network_guest_user].collect(&:id)
+      roles_ids = [Role.network_guest_user].freeze.collect(&:id)
       where('id in (?)', roles_ids.flatten)
     when Contact::TYPE_REGIONAL
-      roles_ids = [Role.network_focal_point, Role.network_representative, Role.network_report_recipient, Role.general_contact].collect(&:id)
+      roles_ids = [Role.network_focal_point, Role.network_representative, Role.network_report_recipient, Role.general_contact].freeze.collect(&:id)
       where('id in (?)', roles_ids.flatten)
     else
       none
@@ -150,7 +150,14 @@ class Role < ActiveRecord::Base
   end
 
   def self.login_roles
-    [Role.contact_point, Role.network_report_recipient, Role.network_focal_point, Role.network_guest_user]
+    [
+        Role.contact_point,
+        Role.network_report_recipient,
+        Role.network_focal_point,
+        Role.network_guest_user,
+        Role.network_representative,
+        Role.general_contact,
+    ].freeze
   end
 
   scope :filtered, ->(*keys) {

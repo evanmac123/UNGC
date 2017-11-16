@@ -13,6 +13,17 @@ class RoleTest < ActiveSupport::TestCase
     @business_type = create(:organization_type, :name => 'Company', :type_property => 2)
   end
 
+  test "self.login_roles should be expected" do
+    assert_equal [
+          Role.contact_point,
+          Role.network_report_recipient,
+          Role.network_focal_point,
+          Role.network_guest_user,
+          Role.network_representative,
+          Role.general_contact,
+      ].select(&:id).sort, ::Role.login_roles.select(&:id).sort, "Loging roles don't match"
+  end
+
   context "given two Roles" do
     setup do
       @role = create(:role, :name => "New Role")
