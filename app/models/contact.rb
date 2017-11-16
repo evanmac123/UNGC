@@ -215,7 +215,7 @@ class Contact < ActiveRecord::Base
   end
 
   def from_ungc?
-    (organization_id? || organization.present?) && organization.try(:name) == DEFAULTS[:ungc_organization_name]
+    organization&.name == DEFAULTS[:ungc_organization_name]
   end
 
   def from_organization?
@@ -235,11 +235,11 @@ class Contact < ActiveRecord::Base
   end
 
   def from_network_guest?
-    organization_id? && organization.try(:name) == DEFAULTS[:local_network_guest_name]
+    organization&.name == DEFAULTS[:local_network_guest_name]
   end
 
   def from_rejected_organization?
-    organization.try(:rejected?)
+    organization&.rejected?
   end
 
   def submit_grace_letter?
@@ -259,14 +259,14 @@ class Contact < ActiveRecord::Base
   def organization_name(args = {})
     # args are used to skip queries in the reports
     if from_network?
-      args.fetch(:local_network_name) { local_network.try(:name) }
+      args.fetch(:local_network_name) { local_network&.name }
     else
-      args.fetch(:organization_name) { organization.try(:name) }
+      args.fetch(:organization_name) { organization&.name }
     end
   end
 
   def country_name
-    country.try(:name)
+    country&.name
   end
 
   def user_type

@@ -109,7 +109,7 @@ class OrganizationType < ActiveRecord::Base
   end
 
   def type_description
-    type_property ? TYPE_PROPERTIES[type_property] : ''
+    TYPE_PROPERTIES[type_property] || ''
   end
 
 end

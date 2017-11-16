@@ -164,20 +164,19 @@ class LocalNetwork < ActiveRecord::Base
   end
 
   def humanize_state
-    STATES[state.try(:to_sym)] || ''
+    STATES[state&.to_sym] || ''
   end
 
   def state_for_select_field
-    state.try(:to_sym)
+    state&.to_sym
   end
 
   def funding_model_for_select_field
-    funding_model.try(:to_sym)
+    funding_model&.to_sym
   end
 
   def region
-    country = Country.find_by_code(country_code)
-    country.try(:region)
+    Country.find_by_code(country_code)&.region
   end
 
   def regional_center_countries
@@ -189,11 +188,11 @@ class LocalNetwork < ActiveRecord::Base
   end
 
   def region_name
-    Country::REGIONS[country.region.to_sym] if country.present?
+    Country::REGIONS[country&.region&.to_sym]
   end
 
   def country_code
-    country.try(:code) || ''
+    country&.code || ''
   end
 
   def country
@@ -209,16 +208,16 @@ class LocalNetwork < ActiveRecord::Base
   end
 
   def country_id
-    country.try(:id)
+    country&.id
   end
 
   def country_name
-    country.try(:name)
+    country&.name
   end
 
   def stakeholders_involved_in_governance
     selected = []
-    STAKEHOLDERS.each do |key, value|
+    STAKEHOLDERS.each do |key, _value|
       selected << key if self.send(key.to_s)
     end
     selected

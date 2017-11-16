@@ -442,45 +442,31 @@ class Organization < ActiveRecord::Base
   end
 
   def local_network
-    country.try(:local_network)
+    country&.local_network
   end
 
   def local_network_country_code
-    if country.try(:local_network)
-      country.local_network.country_code
-    end
+    country&.local_network&.country_code
   end
 
   def local_network_name
-    if country.try(:local_network)
-      country.local_network.name
-    end
+    country&.local_network&.name
   end
 
   def local_network_url
-    if country.try(:local_network)
-      country.local_network.url
-    end
+    country&.local_network&.url
   end
 
   def network_report_recipients
-    if self.country.try(:local_network)
-      self.country.local_network.contacts.network_report_recipients
-    else
-      Contact.none
-    end
+    self.country&.local_network&.contacts&.network_report_recipients || Contact.none
   end
 
   def network_contact_person
-    if self.country.try(:local_network)
-      self.country.local_network.contacts.network_contacts.first
-    else
-      [] # TODO none in rails4
-    end
+    self.country&.local_network&.contacts&.network_contacts&.first || []
   end
 
   def network_report_recipient_name
-    network_report_recipients.first.full_name_with_title
+    network_report_recipients&.first&.full_name_with_title
   end
 
   def self.find_by_param(param)
@@ -491,22 +477,22 @@ class Organization < ActiveRecord::Base
   end
 
   def self.visible_in_local_network
-    statuses = [:noncommunicating, :active, :delisted]
+    statuses = [:noncommunicating, :active, :delisted].freeze
     participants.active.with_cop_status(statuses)
   end
 
   def company?
-    organization_type_name == 'Company' || organization_type_name == 'SME'
+    %w[Company SME].freeze.include?(organization_type_name)
   end
 
   def non_business?
     # oddly enough there are cases when type is not set
-    organization_type.try(:non_business?)
+    organization_type&.non_business?
   end
 
   def business?
     # oddly enough there are cases when type is not set
-    organization_type.try(:business?)
+    organization_type&.business?
   end
 
   def academic?
@@ -564,23 +550,19 @@ class Organization < ActiveRecord::Base
   end
 
   def is_deleted
-    if state == "approved"
-      false
-    else
-      true
-    end
+    state != "approved"
   end
 
   def listing_status_name
-    listing_status.try(:name)
+    listing_status&.name
   end
 
   def public_company?
-    listing_status.try(:name) == 'Publicly Listed'
+    listing_status&.name == 'Publicly Listed'
   end
 
   def micro_enterprise?
-    organization_type_id == OrganizationType.micro_enterprise.try(:id)
+    organization_type_id == OrganizationType.micro_enterprise&.id
   end
 
   def signatory_of?(initiative_sym)
@@ -589,31 +571,31 @@ class Organization < ActiveRecord::Base
   end
 
   def country_name
-    country.try(:name)
+    country&.name
   end
 
   def region_name
-    country.try(:region_name)
+    country&.region_name
   end
 
   def sector_name
-    sector.try(:name)
+    sector&.name
   end
 
   def organization_type_name
-    organization_type.try(:name)
+    organization_type&.name
   end
 
   def participant_manager_name
-    participant_manager.try(:full_name_with_title) || ''
+    participant_manager&.full_name_with_title || ''
   end
 
   def participant_manager_email
-    participant_manager.try(:email) || ''
+    participant_manager&.email || ''
   end
 
   def participant_manager_phone
-    participant_manager.try(:phone) || ''
+    participant_manager&.phone || ''
   end
 
   def revenue_description
@@ -638,7 +620,7 @@ class Organization < ActiveRecord::Base
   end
 
   def collaborative_funding_model?
-    country.try(:local_network).try(:funding_model) == 'collaborative'
+    country&.local_network&.funding_model == 'collaborative'
   end
 
   def business_for_search
@@ -646,12 +628,12 @@ class Organization < ActiveRecord::Base
   end
 
   def business_entity?
-    organization_type.try(:business?) || micro_enterprise?
+    organization_type&.business? || micro_enterprise?
   end
 
   # to identify non-participants that were added as signatories
   def initiative_signatory?
-    organization_type_id == OrganizationType.signatory.try(:id)
+    organization_type_id == OrganizationType.signatory&.id
   end
 
   # NOTE: Convenient alias
@@ -664,7 +646,7 @@ class Organization < ActiveRecord::Base
   def last_modified_by_full_name
     contact_id = last_modified_by_id || reviewer_id
     if contact_id
-      Contact.exists?(contact_id) ? Contact.find(contact_id).try(:name) : "Contact ID: #{contact_id} (deleted)"
+      Contact.find_by(id: contact_id)&.name || "Contact ID: #{contact_id} (deleted)"
     else
       'unknown'
     end
@@ -682,8 +664,7 @@ class Organization < ActiveRecord::Base
 
   # if the contact person is also the financial contact, just return the one contact
   def financial_contact_and_contact_point
-    return_contacts = []
-    return_contacts << contacts.contact_points.first
+    return_contacts = *contacts.contact_points.first
     if contacts.financial_contacts.any?
       unless return_contacts.include?(contacts.financial_contacts.first)
         return_contacts << contacts.financial_contacts.first
@@ -693,19 +674,19 @@ class Organization < ActiveRecord::Base
   end
 
   def last_comment_date
-    comments.first.updated_at if comments.any?
+    comments.first&.updated_at
   end
 
   def last_comment_author
-    comments.first.contact.name if comments.any?
+    comments.first&.contact&.name
   end
 
   def review_reason_value
-    REVIEW_REASONS[review_reason.to_sym] if review_reason.present?
+    REVIEW_REASONS[review_reason&.to_sym]
   end
 
   def review_reason_to_sym
-    review_reason.try(:to_sym)
+    review_reason&.to_sym
   end
 
   def to_param
@@ -713,7 +694,7 @@ class Organization < ActiveRecord::Base
     string = string.gsub(/\W+/, '-')
     string = "#{id}-#{string}"
     string = string.gsub(/-+/, '-')
-    string = CGI.escape(string)
+    CGI.escape(string)
   end
 
   def cop_name
@@ -729,15 +710,15 @@ class Organization < ActiveRecord::Base
   end
 
   def last_approved_cop_id
-    last_approved_cop.id if last_approved_cop
+    last_approved_cop&.id
   end
 
   def last_approved_cop_year
-    last_approved_cop.published_on.year if last_approved_cop
+    last_approved_cop&.published_on&.year
   end
 
   def last_cop_is_learner?
-    last_approved_cop && last_approved_cop.learner?
+    last_approved_cop&.learner?
   end
 
     # last two COPs were Learner
@@ -824,14 +805,10 @@ class Organization < ActiveRecord::Base
   end
 
   def can_submit_cop?
-    if active? || noncommunicating? || delisted_on.blank?
-      return true
-    end
+    return true if active? || noncommunicating? || delisted_on.blank?
 
-    if was_expelled? || voluntarily_withdrawn?
-      # if a new Letter of Commitment was uploaded, then they can submit a COP
-      return recommitted?
-    end
+    # if a new Letter of Commitment was uploaded, then they can submit a COP
+    return recommitted? if was_expelled? || voluntarily_withdrawn?
 
     false
   end
@@ -908,11 +885,8 @@ class Organization < ActiveRecord::Base
   end
 
   def differentiation_level
-    if communication_on_progresses.approved.count > 0
-      if last_approved_cop.evaluated_for_differentiation?
-        'GC ' + last_approved_cop.differentiation_level_public.titleize
-      end
-    end
+    "GC #{last_approved_cop.differentiation_level_public.titleize}" \
+        if communication_on_progresses.approved.count > 0 && last_approved_cop.evaluated_for_differentiation?
   end
 
   def mission_statement?
@@ -938,7 +912,7 @@ class Organization < ActiveRecord::Base
        'http://www.jci.cc/media/en/presidentscorner/unglobalcompact',
        'http://www.jci.cc/media/es/presidentscorner/unglobalcompact',
        'http://www.jci.cc/media/fr/presidentscorner/unglobalcompact'
-      ]
+      ].freeze
       valid_urls.include?(url)
   end
 
@@ -947,7 +921,7 @@ class Organization < ActiveRecord::Base
   end
 
   def welcome_package?
-    contacts.ceos.first.try(:welcome_package)
+    contacts.ceos.first&.welcome_package
   end
 
   # create methods linke :legal_status_file and :legal_status_file=
@@ -981,7 +955,7 @@ class Organization < ActiveRecord::Base
   private
 
     def set_participant_manager
-      if country && country.participant_manager
+      if country&.participant_manager
         self.participant_manager_id = country.participant_manager.id
       end
     end
@@ -1001,14 +975,13 @@ class Organization < ActiveRecord::Base
 
     def check_micro_enterprise_or_sme
       # we don't make assumptions if there is no employee information
-      return if employees.nil?
-      if business_entity?
+      if business_entity? && employees.present?
         self.organization_type_id = if employees < 10 && !approved?
-          OrganizationType.try(:micro_enterprise).try(:id)
+          OrganizationType&.micro_enterprise&.id
         elsif employees < 250
-          OrganizationType.try(:sme).try(:id)
+          OrganizationType&.sme&.id
         elsif employees >= 250
-          OrganizationType.try(:company).try(:id)
+          OrganizationType&.company&.id
         end
       end
     end
