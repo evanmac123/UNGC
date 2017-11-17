@@ -21,6 +21,9 @@
     = default_form.text_field :stock_symbol, :li_class => 'public_company_only'
     = default_form.text_field :isin, :li_class => 'public_company_only'
     = default_form.check_box :is_ft_500, :label => 'FT 500', :li_class => 'public_company_only'
+    - if current_contact.is?(Role.website_editor) || current_contact.is?(Role.participant_manager)
+      - participation_levels = Organization.level_of_participations.map { |slug, _id| [I18n.t(slug), slug] }
+      = default_form.select :level_of_participation, participation_levels, li_class: 'company_only'
     = default_form.select :sector_id, @sectors.tree, {disabled: @disabled_sectors}, li_class: 'company_only'
     = default_form.select :revenue, Organization::REVENUE_LEVELS.collect{|key,value| [value,key]}, {:include_blank => @organization.revenue.blank?}, :li_class => 'company_only', :label => 'Revenue Bracket'
     = default_form.text_field :precise_revenue, :label =>'Precise Revenue'
