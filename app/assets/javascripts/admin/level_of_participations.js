@@ -30,7 +30,7 @@ $(function() {
   var $revenue = $("#level_of_participation_annual_revenue");
   $revenue.priceFormat({
     prefix: "$",
-    centsLimit: 0,
+    centsLimit: 2,
     clearOnEmpty: true
   });
 
