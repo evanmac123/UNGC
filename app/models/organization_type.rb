@@ -24,10 +24,10 @@ class OrganizationType < ActiveRecord::Base
     2 => 'Business'
   }
 
-  scope :non_business, -> { where('type_property=?', NON_BUSINESS) }
-  scope :business, -> { where('type_property=?', BUSINESS) }
-  scope :participants, -> { where('type_property in (?)', PARTICIPANT) }
-  scope :staff_types, -> { where("type_property in (?)", ALL_ORGANIZATIONS) }
+  scope :non_business, -> { where(type_property: NON_BUSINESS) }
+  scope :business, -> { where(type_property: BUSINESS) }
+  scope :participants, -> { where(type_property: PARTICIPANT) }
+  scope :staff_types, -> { where(type_property: ALL_ORGANIZATIONS) }
 
   FILTERS = {
     :academia         => 'Academic',
@@ -52,7 +52,7 @@ class OrganizationType < ActiveRecord::Base
 
   def self.for_filter(*filter_types)
     names = Array(filter_types).map { |f| FILTERS[f] }
-    where("organization_types.name IN (?)", names)
+    where(name: names)
   end
 
   def business?

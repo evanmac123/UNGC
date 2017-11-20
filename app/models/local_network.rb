@@ -103,11 +103,11 @@ class LocalNetwork < ActiveRecord::Base
   end
 
   default_scope { order('local_networks.name') }
-  scope :where_region, lambda { |region| where('countries.region' => region.to_s).includes(:countries) }
-  scope :where_state, lambda { |state| where(:state => state.to_s) }
+  scope :where_region, lambda { |region| joins(:countries).where(countries: {region: region }).includes(:countries) }
+  scope :where_state, lambda { |state| where(state: state) }
   scope :regional_centers, lambda { where(state: :regional_center) }
-  scope :no_regional_centers, lambda { where.not(state: 'regional_center') }
-  scope :active_networks, lambda { where.not(state: 'inactive') }
+  scope :no_regional_centers, lambda { where(state: NO_REGIONAL_CENTER_STATES) }
+  scope :active_networks, lambda { where(state: LN_ACTIVE_STATES) }
 
   STATES = {
     :emerging        => 'Emerging',
@@ -116,6 +116,8 @@ class LocalNetwork < ActiveRecord::Base
     :inactive        => 'Inactive',
     :regional_center => 'Regional Center'
   }
+  NO_REGIONAL_CENTER_STATES = STATES.keys.reject { |key| key == :regional_center }
+  LN_ACTIVE_STATES = STATES.keys.reject { |key| key == :inactive }
 
   FUNDING_MODELS = { :collaborative => 'Collaborative', :independent => 'Independant' }
 

@@ -19,6 +19,40 @@ class OrganizationTest < ActiveSupport::TestCase
   should have_one  :recommitment_letter
   should have_one  :withdrawal_letter
 
+  context 'scopes' do
+    should "correctly filter out rejected Organizations" do
+      pending = create(:organization, state: ApprovalWorkflow::STATE_PENDING_REVIEW)
+      in_review = create(:organization, state: ApprovalWorkflow::STATE_IN_REVIEW)
+      in_network_review = create(:organization, state: ApprovalWorkflow::STATE_NETWORK_REVIEW)
+      delay_review = create(:organization, state: ApprovalWorkflow::STATE_DELAY_REVIEW)
+      rejected = create(:organization, state: ApprovalWorkflow::STATE_REJECTED)
+      approved = create(:organization, :active_participant)
+
+      non_rejected_organizations = Organization.not_rejected.order(:id).pluck(:id)
+
+      assert_includes non_rejected_organizations, pending.id
+      assert_includes non_rejected_organizations, in_review.id
+      assert_includes non_rejected_organizations, in_network_review.id
+      assert_includes non_rejected_organizations, delay_review.id
+      assert_includes non_rejected_organizations, approved.id
+
+      assert_not_includes non_rejected_organizations, rejected
+    end
+
+    should "correctly filter on organizations with no contacts" do
+      with_contacts = create(:organization, :with_contact)
+      without_contacts = create(:organization)
+
+      no_contact_organizations = Organization.without_contacts.order(:id).pluck(:id)
+
+      assert_not with_contacts.contacts.empty?, 'Expected contacts'
+      assert without_contacts.contacts.empty?, 'Expected no contacts'
+
+      assert_includes no_contact_organizations, without_contacts.id
+      assert_not_includes no_contact_organizations, with_contacts
+    end
+  end
+
   context "given an existing organization with a contact and ceo" do
     setup do
       create_organization_and_ceo

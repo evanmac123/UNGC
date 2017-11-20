@@ -265,14 +265,14 @@ class Organization < ActiveRecord::Base
     participant_level: 2,
   }
 
-  scope :active, lambda { where("organizations.active = ?", true) }
-  scope :participants, lambda { where("organizations.participant = ?", true) }
+  scope :active, lambda { where(active: true) }
+  scope :participants, lambda { where(participant: true) }
   scope :companies_and_smes, lambda { joins(:organization_type).merge(OrganizationType.for_filter(:sme, :companies)).includes(:organization_type) }
-  scope :companies, lambda { where("organization_type_id IN (?)", OrganizationType.for_filter(:companies)).includes(:organization_type) }
-  scope :smes, lambda { where("organization_type_id IN (?)", OrganizationType.for_filter(:sme).pluck(:id)).includes(:organization_type) }
+  scope :companies, lambda { where(organization_type_id: OrganizationType.for_filter(:companies)).includes(:organization_type) }
+  scope :smes, lambda { where(organization_type_id: OrganizationType.for_filter(:sme).pluck(:id)).includes(:organization_type) }
   scope :businesses, lambda { joins(:organization_type).merge(OrganizationType.business) }
   scope :non_businesses, lambda { joins(:organization_type).merge(OrganizationType.non_business) }
-  scope :by_type, lambda { |filter_type| where("organization_type_id IN (?)", OrganizationType.for_filter(filter_type).map(&:id)).includes(:organization_type) }
+  scope :by_type, lambda { |filter_type| where(organization_type_id: OrganizationType.for_filter(filter_type).map(&:id)).includes(:organization_type) }
 
   scope :for_initiative, lambda { |symbol| joins(:initiatives).where("initiatives.id IN (?)", Initiative.for_filter(symbol).map(&:id)).includes(:initiatives).order("organizations.name ASC") }
   scope :last_joined, lambda { order("joined_on DESC, name DESC") }
@@ -283,10 +283,10 @@ class Organization < ActiveRecord::Base
   scope :with_cop_due_between, lambda { |start_date, end_date| where(cop_due_on: start_date..end_date) }
   scope :delisted_between, lambda { |start_date, end_date| where(delisted_on: start_date..end_date) }
 
-  scope :noncommunicating, lambda { where("cop_state = ? AND active = ?", COP_STATE_NONCOMMUNICATING, true).order('cop_due_on') }
+  scope :noncommunicating, lambda { where(cop_state: COP_STATE_NONCOMMUNICATING, active: true).order('cop_due_on') }
 
-  scope :listed, lambda { where("organizations.listing_status_id = ?", ListingStatus.publicly_listed).includes([:country, :exchange, :sector]) }
-  scope :without_contacts, lambda { where("not exists(select * from contacts c where c.organization_id = organizations.id)") }
+  scope :listed, lambda { where(listing_status_id: ListingStatus.publicly_listed).includes([:country, :exchange, :sector]) }
+  scope :without_contacts, lambda { includes(:contacts).where(contacts: {id: nil}) }
 
   scope :created_at, lambda { |month, year| where('created_at >= ? AND created_at <= ?', Date.new(year, month, 1), Date.new(year, month, 1).end_of_month) }
   scope :joined_on, lambda { |month, year| where('joined_on >= ? AND joined_on <= ?', Date.new(year, month, 1), Date.new(year, month, 1).end_of_month) }
@@ -296,7 +296,7 @@ class Organization < ActiveRecord::Base
   scope :about_to_become_delisted, lambda { where("cop_state=? AND cop_due_on<=?", COP_STATE_NONCOMMUNICATING, EXPULSION_THRESHOLD.ago.to_date) }
 
   scope :ready_for_invoice, lambda {where("joined_on >= ? AND joined_on <= ?", 2.days.ago.beginning_of_day, 2.days.ago.end_of_day)}
-  scope :not_rejected, lambda { where.not(state: STATE_REJECTED) }
+  scope :not_rejected, lambda { where(state: ::ApprovalWorkflow::NON_REJECTED_STATES) }
 
   scope :summary, lambda { includes(:country, :sector, :organization_type) }
 
@@ -306,12 +306,12 @@ class Organization < ActiveRecord::Base
   }
 
   def self.with_cop_status(filter_type)
-    if filter_type.is_a?(Array)
-      statuses = filter_type.map { |t| COP_STATES[t] }
-      where("cop_state IN (?)", statuses)
+    statuses = if filter_type.is_a?(Array)
+      filter_type.map { |t| COP_STATES[t] }
     else
-      where("cop_state = ?", COP_STATES[filter_type])
+      COP_STATES[filter_type]
     end
+    where(cop_state: statuses)
   end
 
   def self.with_cop_info
@@ -331,7 +331,7 @@ class Organization < ActiveRecord::Base
   end
 
   def self.withdrew
-    where(:cop_state => COP_STATE_DELISTED).where(removal_reason_id: RemovalReason.withdrew.id).includes(:removal_reason)
+    where(cop_state: COP_STATE_DELISTED).where(removal_reason_id: RemovalReason.withdrew.id).includes(:removal_reason)
   end
 
   # TODO find a way to express the ActiveRecord scope belong in sphinx terms
@@ -355,7 +355,7 @@ class Organization < ActiveRecord::Base
   def self.publicly_delisted
     where(active: false)
       .where(removal_reason: RemovalReason.publicly_delisted)
-      .where.not(cop_state: [COP_STATE_ACTIVE, COP_STATE_NONCOMMUNICATING])
+      .where.not(cop_state: [COP_STATE_ACTIVE, COP_STATE_NONCOMMUNICATING].freeze)
       .order('delisted_on DESC')
   end
 
@@ -369,10 +369,10 @@ class Organization < ActiveRecord::Base
     when Contact::TYPE_ORGANIZATION
       where(id: user.organization_id)
     when Contact::TYPE_NETWORK || Contact::TYPE_NETWORK_GUEST
-      where("organizations.country_id" => user.local_network.country_ids)
+      where(country_id: user.local_network.country_ids)
     when Contact::TYPE_REGIONAL
       countries_in_same_region = user.local_network.regional_center_countries.map(&:id)
-      where('organizations.country_id' => countries_in_same_region)
+      where(country_id: countries_in_same_region)
     when Contact::TYPE_UNGC
       all
     else
@@ -381,24 +381,26 @@ class Organization < ActiveRecord::Base
   end
 
   def self.where_country_id(id_or_array)
-    if id_or_array.is_a?(Array)
-      where('country_id IN (?)', id_or_array)
-    else
-      where(:country_id => id_or_array)
-    end
+    where(country_id: id_or_array)
   end
 
   def self.peer_organizations(organization)
-    conditions = ["country_id = ? AND sector_id = ? AND organizations.id != ?", organization.country_id, organization.sector_id, organization.id]
-    unless organization.company?
-      conditions = ["country_id = ? AND organization_type_id = ? AND organizations.id != ?", organization.country_id, organization.organization_type_id, organization.id]
+    conditions = where(country_id: organization.country_id)
+        .where.not('organizations.id = :excluded_org', excluded_org: organization.id)
+
+    conditions = if organization.company?
+      conditions.where(sector_id: organization.sector_id)
+    else
+      conditions.where(organization_type_id: organization.organization_type_id)
     end
-    where(conditions).includes([:country, :sector]).order("organizations.name ASC")
+
+    conditions.includes([:country, :sector]).order("organizations.name ASC")
   end
 
   def self.applications_under_review
-    where("organizations.state NOT IN (?)", [ApprovalWorkflow::STATE_APPROVED,
-                                             ApprovalWorkflow::STATE_REJECTED])
+    where
+        .not(state: [ApprovalWorkflow::STATE_APPROVED,
+                     ApprovalWorkflow::STATE_REJECTED].freeze)
   end
 
   # this object really doesn't need anymore responsibilities
@@ -567,8 +569,8 @@ class Organization < ActiveRecord::Base
   end
 
   def signatory_of?(initiative_sym)
-    initiative = Initiative.for_filter(initiative_sym).first
-    initiative ? initiative_ids.include?(initiative.id) : false
+    initiative_id = Initiative.for_filter(initiative_sym).pluck(:id).first
+    initiative_ids.include?(initiative_id)
   end
 
   def country_name
@@ -707,7 +709,7 @@ class Organization < ActiveRecord::Base
   end
 
   def last_approved_cop
-    communication_on_progresses.approved.first if communication_on_progresses.approved.any?
+    communication_on_progresses.approved.first
   end
 
   def last_approved_cop_id
@@ -851,9 +853,7 @@ class Organization < ActiveRecord::Base
   end
 
   def set_delisted_status
-    self.update_attribute :active, false
-    self.update_attribute :removal_reason, RemovalReason.delisted
-    self.update_attribute :delisted_on, Date.today
+    self.update_columns(active: false, removal_reason_id: RemovalReason.delisted.id, delisted_on: Date.today)
   end
 
   def set_manual_delisted_status
