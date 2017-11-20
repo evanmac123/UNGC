@@ -83,22 +83,22 @@ class Role < ActiveRecord::Base
 
   scope :network_focal_points, -> { where(name: FILTERS[:network_focal_point]) }
   def self.network_focal_point
-    network_focal_points.first
+    @_network_focal_point ||= find_by(name: FILTERS[:network_focal_point])
   end
 
   scope :network_representatives, -> { where(name: FILTERS[:network_representative]) }
   def self.network_representative
-    network_representatives.first
+    @_network_representative ||= find_by(name: FILTERS[:network_representative])
   end
 
   scope :network_report_recipients, -> { where(name: FILTERS[:network_report_recipient]) }
   def self.network_report_recipient
-    network_report_recipients.first
+    @_network_report_recipient ||= find_by(name: FILTERS[:network_report_recipient])
   end
 
   scope :network_guest_users, -> { where(name: FILTERS[:network_guest_user]) }
   def self.network_guest_user
-    network_guest_users.first
+    @_network_guest_user ||= find_by(name: FILTERS[:network_guest_user])
   end
 
   def self.network_contacts
@@ -109,44 +109,44 @@ class Role < ActiveRecord::Base
 
   scope :ceos, -> { where(name: FILTERS[:ceo]) }
   def self.ceo
-    ceos.first
+    @_ceo ||= find_by(name: FILTERS[:ceo])
   end
 
   scope :contact_points, -> { where(name: FILTERS[:contact_point]) }
   def self.contact_point
-    contact_points.first
+    @_contact_point ||= find_by(name: FILTERS[:contact_point])
   end
 
   scope :general_contacts, -> { where(name: FILTERS[:general_contact]) }
   def self.general_contact
-    general_contacts.first
+    @_general_contact ||= find_by(name: FILTERS[:general_contact])
   end
 
   scope :financial_contacts, -> { where(name: FILTERS[:financial_contact]) }
   def self.financial_contact
-    financial_contacts.first
+    @_financial_contact ||= find_by(name: FILTERS[:financial_contact])
   end
 
   scope :survey_contacts, -> { where(name: FILTERS[:survey_contact]) }
   def self.survey_contact
-    survey_contacts.first
+    @_survey_contact ||= find_by(name: FILTERS[:survey_contact])
   end
 
   # Global Compact staff roles
 
   scope :website_editors, -> { where(name: FILTERS[:website_editor]) }
   def self.website_editor
-    website_editors.first
+    @_website_editor ||= find_by(name: FILTERS[:website_editor])
   end
 
   scope :network_regional_managers, -> { where(name: FILTERS[:network_regional_manager]) }
   def self.network_regional_manager
-    network_regional_managers.first
+    @_network_regional_manager ||= find_by(name: FILTERS[:network_regional_manager])
   end
 
   scope :participant_managers, -> { where(name: FILTERS[:participant_manager]) }
   def self.participant_manager
-    participant_managers.first
+    @_participant_manager ||= find_by(name: FILTERS[:participant_manager])
   end
 
   def self.login_roles

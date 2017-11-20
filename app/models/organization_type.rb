@@ -64,48 +64,47 @@ class OrganizationType < ActiveRecord::Base
   end
 
   def self.micro_enterprise
-    where(name: FILTERS[:micro_enterprise]).first
+    @_micro_enterprise ||= where(name: FILTERS[:micro_enterprise]).first
   end
 
   def self.sme
-    where(name: FILTERS[:sme]).first
+    @_sme ||= where(name: FILTERS[:sme]).first
   end
 
   def self.city
-    where(name: FILTERS[:city]).first
+    @_city ||= where(name: FILTERS[:city]).first
   end
 
   def self.foundation
-    where(name: FILTERS[:foundation]).first
+    @_foundation ||= where(name: FILTERS[:foundation]).first
   end
 
   def self.company
-    where(name: FILTERS[:companies]).first
+    @_foundation_type ||= where(name: FILTERS[:companies]).first
   end
 
   def self.academic
-    where(name: FILTERS[:academia]).first
+    @_academic ||= where(name: FILTERS[:academia]).first
   end
 
   def self.signatory
-    where(name: FILTERS[:signatory]).first
+    @_signatory ||= where(name: FILTERS[:signatory]).first
   end
 
   def self.business_association
-    for_filter(:business_global, :business_local)
+    @_business_association ||= for_filter(:business_global, :business_local)
   end
 
   def self.labour
-    for_filter(:labour_global, :labour_local)
+    @_labor ||= for_filter(:labour_global, :labour_local)
   end
 
   def self.ngo
-    for_filter(:civil_global, :civil_local)
-    for_filter(:civil_global, :civil_local, :foundation)
+    @_ngo ||= for_filter(:civil_global, :civil_local, :foundation)
   end
 
   def self.public_sector
-    where(name: FILTERS[:public]).first
+    @_public_sector ||= where(name: FILTERS[:public]).first
   end
 
   def type_description
