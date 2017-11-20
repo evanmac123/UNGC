@@ -132,7 +132,6 @@
 
           <table class='table-embedded'>
             <thead>
-              <th class='year'>Year</th>
               <th class='published-on'>Published On</th>
               <th class='title'>Title</th>
               <th class='level'>Level</th>
@@ -140,7 +139,6 @@
             <tbody>
               <% @page.cops.each do |cop| %>
                 <tr>
-                  <th class='year'><%= cop.start_year %></th>
                   <td class='published-on'><%= cop.published_on %></td>
                   <td class='title'><%= link_to cop.title, show_cops_path(cop.differentiation_level_with_default, cop.id) %></td>
                   <td class='level'><%= cop.level %></td>
