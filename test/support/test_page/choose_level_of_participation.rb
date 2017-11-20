@@ -32,6 +32,10 @@ module TestPage
 
     def create_financial_contact(params)
       choose "Create new financial contact"
+
+      country_name = params.delete(:country)
+      select country_name, from: "level_of_participation[financial_contact][country_id]"
+
       # Quick and dirty way of mapping contact attributes to text labels.
       # If we hit an exception, we'll have to do it manually
       params.each do |key, value|

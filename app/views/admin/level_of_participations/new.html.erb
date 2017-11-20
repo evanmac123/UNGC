@@ -150,7 +150,7 @@
             </div>
             <div class="field two-6 last">
               <%= fields.label :country %>
-              <%= fields.select :country_id, @form.countries %>
+              <%= fields.select :country_id, @form.countries, {prompt: 'Select your country'} %>
             </div>
             <%= fields.hidden_field :id %>
           <% end %>

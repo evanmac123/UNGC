@@ -169,6 +169,7 @@ class Admin::ChooseParticipationLevelTest < ActionDispatch::IntegrationTest
       address_2: "Suite 123",
       city: "Daytona Beach",
       state: "California",
+      country: organization.country.name,
     }
 
     form.create_financial_contact(attributes)
