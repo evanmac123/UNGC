@@ -5,13 +5,6 @@ machine:
     version:
       2.3.3
 
-general:
-  branches:
-    only:
-      - master
-      - production
-      # - staging
-
 dependencies:
   pre:
     - sudo apt-add-repository ppa:builds/sphinxsearch-rel22 -y; sudo apt-get update; sudo apt-get install sphinxsearch; sudo service sphinxsearch stop
