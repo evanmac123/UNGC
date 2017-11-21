@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171114185109) do
+ActiveRecord::Schema.define(version: 20171121102853) do
 
   create_table "action_platform_orders", force: :cascade do |t|
     t.integer  "organization_id",      limit: 4,                   null: false
@@ -948,6 +948,7 @@ ActiveRecord::Schema.define(version: 20171114185109) do
   end
 
   add_index "organizations", ["country_id"], name: "index_organizations_on_country_id", using: :btree
+  add_index "organizations", ["listing_status_id"], name: "index_organizations_on_listing_status_id", using: :btree
   add_index "organizations", ["name"], name: "index_organizations_on_name", unique: true, using: :btree
   add_index "organizations", ["participant", "id"], name: "index_organizations_on_participant_and_id", using: :btree
   add_index "organizations", ["participant"], name: "index_organizations_on_participant", using: :btree
@@ -1331,6 +1332,7 @@ ActiveRecord::Schema.define(version: 20171114185109) do
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "contacts", column: "resource_owner_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
+  add_foreign_key "organizations", "listing_statuses", on_delete: :nullify
   add_foreign_key "taggings", "authors"
   add_foreign_key "taggings", "case_examples"
   add_foreign_key "taggings", "communication_on_progresses"
