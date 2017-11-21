@@ -45,9 +45,8 @@
       %dd= @organization.cop_due_on || 'n/a'
       %dt Organization Type
       %dd= @organization.organization_type_name
-      - if @organization.parent_company_id
-        %dt Parent Organization
-        %dd= @organization.parent_company&.name || 'No parent UNGC Organization was identified'
+      %dt Parent Organization
+      %dd= @organization.parent_company_name || 'No parent UNGC Organization was identified'
       %dt Invoice Date
       %dd= @organization.invoice_date_view
       - if @organization.company?

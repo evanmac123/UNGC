@@ -25,4 +25,7 @@ class OrganizationPresenter < SimpleDelegator
     end
   end
 
+  def parent_company_name
+    @organization.parent_company&.name
+  end
 end
