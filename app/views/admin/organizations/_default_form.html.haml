@@ -13,6 +13,8 @@
 
     - staff_only do
       = default_form.select :organization_type_id, @organization_types.collect{|t| [t.name, t.id]}
+    - if current_contact.is?(Role.website_editor) || current_contact.is?(Role.participant_manager)
+      = default_form.text_field :invoice_date, {class: 'datepicker iso-date'}, {:label => 'Invoice Date'}
 
     - listing_statues = if current_contact.is?(Role.contact_point) then ListingStatus.applicable else ListingStatus.all end
     = default_form.select :listing_status_id, listing_statues.collect{|t| [t.name, t.id]}, :li_class => 'company_only', :label => 'Ownership'
