@@ -13,7 +13,7 @@
 
     - staff_only do
       = default_form.select :organization_type_id, @organization_types.collect{|t| [t.name, t.id]}
-    - if current_contact.is?(Role.website_editor) || current_contact.is?(Role.participant_manager)
+    - if @organization.company? && (current_contact.is?(Role.website_editor) || current_contact.is?(Role.participant_manager))
       = default_form.hidden_field :parent_company_id
       = label_tag(:parent_company_name, "Parent Company Name")
       = text_field_tag(:parent_company_name, @organization.parent_company_name,  placeholder: 'Choose Parent Organization...', 'data-autocomplete': "participants")

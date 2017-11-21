@@ -33,6 +33,8 @@
       %dt Invoice Date
       %dd= @organization.invoice_date_view
       - if @organization.company?
+        %dt Parent Organization
+        %dd= @organization.parent_company_name || 'No parent UNGC Organization was identified'
         %dt Ownership
         %dd
           = @organization.is_ft_500 ? 'FT 500' : nil
