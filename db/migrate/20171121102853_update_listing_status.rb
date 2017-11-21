@@ -19,7 +19,6 @@ class UpdateListingStatus < ActiveRecord::Migration
 
     remove_foreign_key :organizations, :listing_statuses
     remove_index :organizations, :listing_status_id
-    # remove_index :organizations, name: 'fk_rails_4b801c4369'
   end
 
 end
