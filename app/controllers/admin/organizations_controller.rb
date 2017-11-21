@@ -34,6 +34,7 @@ class Admin::OrganizationsController < AdminController
   end
 
   def edit
+    @organization = OrganizationPresenter.new(@organization)
     @organization_types = OrganizationType.staff_types
     @sectors, @disabled_sectors = load_sectors
   end
