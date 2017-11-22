@@ -3,7 +3,7 @@ class OrganizationUpdater
   attr_reader :organization, :organization_params, :registration_params, :contact
 
   def initialize(organization_params, registration_params)
-    @organization_params = organization_params
+    @organization_params = organization_params.except('parent_company_name')
     @registration_params = registration_params
   end
 
