@@ -1,2 +1,0 @@
-module DueDiligence::Legal
-end

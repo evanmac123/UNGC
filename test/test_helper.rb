@@ -15,7 +15,6 @@ require "#{Rails.root}/db/seeds.rb"
 
 # include helpers, modules etc
 require_relative "support/test_page/base.rb"
-require_relative "support/test_page/due_diligence/review/index.rb"
 Dir[Rails.root.join("test/support/**/*.rb")].each { |f| require f }
 
 class ActiveSupport::TestCase
