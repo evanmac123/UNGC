@@ -44,7 +44,7 @@
       %dl.left_column
         %h3 Contacts
         %dt.first Representative
-        %dd.first= render :partial => 'contact_overview', :collection => @local_network.contacts.network_representatives
+        %dd.first= render :partial => 'contact_overview', collection: @local_network.contacts.for_roles(Role.network_representative)
         %dt Contact Person
         %dd= render :partial => 'contact_overview', :collection => @local_network.contacts.network_contacts
 

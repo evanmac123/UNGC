@@ -14,7 +14,8 @@
 
 class Role < ActiveRecord::Base
   validates_presence_of :name, :description
-  has_and_belongs_to_many :contacts, :join_table => "contacts_roles"
+  has_many :contacts_roles, inverse_of: :role
+  has_many :contacts, through: :contacts_roles
   belongs_to :initiative
   default_scope { order('roles.position, roles.initiative_id, roles.name') }
 
@@ -39,66 +40,77 @@ class Role < ActiveRecord::Base
 
   def self.visible_to(user, current_contact=nil)
     case user.user_type
-    when Contact::TYPE_ORGANIZATION
-      roles_ids = [Role.contact_point].freeze.collect(&:id)
+      when Contact::TYPE_ORGANIZATION
+        role_ids = *Role.contact_point.id
 
-      # give option to check Highlest Level Executive if no CEO has been assigned
-      if user.is?(Role.ceo) || user.organization.contacts.ceos.count <= 0
-        roles_ids << Role.ceo.id
-      end
+        # give option to check Highlest Level Executive if no CEO has been assigned
+        role_ids = [*role_ids, Role.ceo] if user.is?(Role.ceo) || !user.organization.contacts.ceos.exists?
 
-      # only editable by Global Compact staff
-      if current_contact && current_contact.from_ungc?
-        roles_ids << Role.ceo.id
-        roles_ids << Role.survey_contact.id
-      end
+        # only editable by Global Compact staff
+        role_ids = [*role_ids, *[Role.ceo, Role.survey_contact]] if current_contact&.from_ungc?
 
-      # only business organizations have a financial contact
-      roles_ids << Role.financial_contact.id if user.organization.business_entity?
+        # only business organizations have a financial contact
+        role_ids = [*role_ids, Role.financial_contact.id] if user.organization.business_entity?
 
-      # if the organization signed an initiative, then add the initiative's role, if available
-      roles_ids << Role.where("initiative_id in (?)", user.organization.initiative_ids).all.collect(&:id)
-      where('id in (?)', roles_ids.flatten)
-    when Contact::TYPE_UNGC
-      roles_ids = [Role.ceo,
-                   Role.contact_point,
-                   Role.network_regional_manager,
-                   Role.website_editor,
-                   Role.participant_manager].freeze.collect(&:id)
-      where('id in (?)', roles_ids.flatten)
-    when Contact::TYPE_NETWORK
-      roles_ids = [Role.network_focal_point, Role.network_representative, Role.network_report_recipient, Role.general_contact].freeze.collect(&:id)
-      where('id in (?)', roles_ids.flatten)
-    when Contact::TYPE_NETWORK_GUEST
-      roles_ids = [Role.network_guest_user].freeze.collect(&:id)
-      where('id in (?)', roles_ids.flatten)
-    when Contact::TYPE_REGIONAL
-      roles_ids = [Role.network_focal_point, Role.network_representative, Role.network_report_recipient, Role.general_contact].freeze.collect(&:id)
-      where('id in (?)', roles_ids.flatten)
-    else
-      none
+        # if the organization signed an initiative, then add the initiative's role, if available
+        role_ids << Role.where(initiative_id: user.organization.initiative_ids).pluck(:id)
+
+        where(id: role_ids)
+      when Contact::TYPE_UNGC
+        where(id: type_contact_ungc_roles)
+      when Contact::TYPE_NETWORK
+        where(id: type_contact_network_roles)
+      when Contact::TYPE_NETWORK_GUEST
+        where(id: Role.network_guest_user)
+      when Contact::TYPE_REGIONAL
+        where(id: type_contact_network_roles)
+      else
+        none
     end
   end
 
-  # Local Network roles
-  scope :contact_points, lambda { where(name: FILTERS[:contact_point]) }
+  def self.network_roles_public
+    @_network_roles_public ||= [
+        Role.network_focal_point,
+        Role.network_representative,
+    ]
+  end
 
-  scope :network_focal_points, -> { where(name: FILTERS[:network_focal_point]) }
+  def self.type_contact_ungc_roles
+    @_type_contact_ungc_roles ||= [
+        ceo,
+        contact_point,
+        network_regional_manager,
+        website_editor,
+        integrity_team_member,
+        integrity_manager,
+        participant_manager,
+    ]
+  end
+
+  def self.type_contact_network_roles
+    @_type_contact_network_roles ||= [
+        network_focal_point,
+        network_representative,
+        network_report_recipient,
+        general_contact,
+    ]
+  end
+
+  # Local Network roles
+
   def self.network_focal_point
     @_network_focal_point ||= find_by(name: FILTERS[:network_focal_point])
   end
 
-  scope :network_representatives, -> { where(name: FILTERS[:network_representative]) }
   def self.network_representative
     @_network_representative ||= find_by(name: FILTERS[:network_representative])
   end
 
-  scope :network_report_recipients, -> { where(name: FILTERS[:network_report_recipient]) }
   def self.network_report_recipient
     @_network_report_recipient ||= find_by(name: FILTERS[:network_report_recipient])
   end
 
-  scope :network_guest_users, -> { where(name: FILTERS[:network_guest_user]) }
   def self.network_guest_user
     @_network_guest_user ||= find_by(name: FILTERS[:network_guest_user])
   end
@@ -109,34 +121,28 @@ class Role < ActiveRecord::Base
 
   # Participant organization roles
 
-  scope :ceos, -> { where(name: FILTERS[:ceo]) }
   def self.ceo
     @_ceo ||= find_by(name: FILTERS[:ceo])
   end
 
-  scope :contact_points, -> { where(name: FILTERS[:contact_point]) }
   def self.contact_point
     @_contact_point ||= find_by(name: FILTERS[:contact_point])
   end
 
-  scope :general_contacts, -> { where(name: FILTERS[:general_contact]) }
   def self.general_contact
     @_general_contact ||= find_by(name: FILTERS[:general_contact])
   end
 
-  scope :financial_contacts, -> { where(name: FILTERS[:financial_contact]) }
   def self.financial_contact
     @_financial_contact ||= find_by(name: FILTERS[:financial_contact])
   end
 
-  scope :survey_contacts, -> { where(name: FILTERS[:survey_contact]) }
   def self.survey_contact
     @_survey_contact ||= find_by(name: FILTERS[:survey_contact])
   end
 
   # Global Compact staff roles
 
-  scope :website_editors, -> { where(name: FILTERS[:website_editor]) }
   def self.website_editor
     @_website_editor ||= find_by(name: FILTERS[:website_editor])
   end
@@ -149,12 +155,10 @@ class Role < ActiveRecord::Base
     @_integrity_manager ||= find_by(name: FILTERS[:integrity_manager])
   end
 
-  scope :network_regional_managers, -> { where(name: FILTERS[:network_regional_manager]) }
   def self.network_regional_manager
     @_network_regional_manager ||= find_by(name: FILTERS[:network_regional_manager])
   end
 
-  scope :participant_managers, -> { where(name: FILTERS[:participant_manager]) }
   def self.participant_manager
     @_participant_manager ||= find_by(name: FILTERS[:participant_manager])
   end

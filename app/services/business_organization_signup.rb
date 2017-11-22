@@ -15,7 +15,7 @@ class BusinessOrganizationSignup < OrganizationSignup
 
   def set_financial_contact_attributes(par)
     if par[:foundation_contact].to_i == 1
-      primary_contact.roles << Role.financial_contact
+      primary_contact.roles << Role.financial_contact unless primary_contact.is? Role.financial_contact
     else
       financial_contact.attributes = par
     end

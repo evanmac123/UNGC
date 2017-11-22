@@ -90,7 +90,8 @@ class Contact < ActiveRecord::Base
   belongs_to :country
   belongs_to :organization
   belongs_to :local_network
-  has_and_belongs_to_many :roles, :join_table => "contacts_roles"
+  has_many :contacts_roles, inverse_of: :contact
+  has_many :roles, through: :contacts_roles
   has_many :cop_log_entries, dependent: :nullify
   has_one :crm_owner, class_name: "Crm::Owner"
   has_one :igloo_user, dependent: :destroy
@@ -113,9 +114,9 @@ class Contact < ActiveRecord::Base
   # /app/views/signup/step5.html.haml
   attr_accessor :foundation_contact
 
-  scope :participants_only, lambda { where(["organizations.participant = ?", true]) }
-  scope :ungc_staff, lambda { joins(:organization).where(:'organizations.name' => DEFAULTS[:ungc_organization_name]) }
-  scope :contact_points, lambda { joins(:roles).merge(Role.contact_points).includes(:roles) }
+  scope :participants_only, -> { joins(:organization).where(organizations: { participant: true }) }
+  scope :ungc_staff, -> { joins(:organization).where(organizations: { name: DEFAULTS[:ungc_organization_name] }) }
+  scope :contact_points, -> { for_roles(Role.contact_point) }
 
   # Attempt to find a user by its email. If a record is found, send new
   # password instructions to it. If user is not found, returns a new user
@@ -127,58 +128,45 @@ class Contact < ActiveRecord::Base
     recoverable
   end
 
-  def self.for_local_network
-    includes([:roles, {:organization => [:sector, :country, :organization_type]}, :country])
-      .where("contacts_roles.role_id IN (?)", [Role.ceo, Role.contact_point])
-      .order("organizations.name")
+  def self.for_roles(*roles)
+    joins(contacts_roles: :role)
+        .where(contacts_roles: { role_id: roles })
+        .order("roles.name DESC, contacts.id")
   end
 
   def self.financial_contacts
-    joins(:roles).merge(Role.financial_contacts).includes(:roles)
+    for_roles(Role.financial_contact)
   end
 
   def self.ceos
-    joins(:roles).merge(Role.ceos).includes(:roles)
+    for_roles(Role.ceo)
   end
+
 
   def self.network_roles
-    roles = []
-    roles << Role.network_focal_point
-    roles << Role.network_representative
-    roles << Role.network_report_recipient
+    roles = [
+        Role.network_focal_point,
+        Role.network_representative,
+        Role.network_report_recipient,
+    ].freeze
 
-    joins(:roles).where("contacts_roles.role_id IN (?)", roles).includes(:roles).order("roles.name DESC")
-  end
-
-  def self.network_roles_public
-    roles = []
-    roles << Role.network_focal_point
-    roles << Role.network_representative
-    joins(:roles).where("contacts_roles.role_id IN (?)", roles).includes(:roles).order("roles.name DESC")
+    for_roles(roles)
   end
 
   def self.network_contacts
-    joins(:roles).merge(Role.network_focal_points).includes(:roles).order("roles.name DESC")
-  end
-
-  def self.network_representatives
-    joins(:roles).merge(Role.network_representatives).includes(:roles).order("roles.name DESC")
-  end
-
-  def self.network_report_recipients
-    joins(:roles).merge(Role.network_report_recipients).includes(:roles)
+    for_roles(Role.network_focal_point)
   end
 
   def self.network_regional_managers
-    joins(:roles).merge(Role.network_regional_managers).includes(:roles)
+    for_roles(Role.network_regional_manager)
   end
 
   def self.participant_managers
-    joins(:roles).merge(Role.participant_managers).includes(:roles)
+    for_roles(Role.participant_manager)
   end
 
-  scope :for_country, lambda { |country| where(:country_id => country.id) }
-  scope :with_login, lambda { where("username IS NOT NULL and username != ''") }
+  scope :for_country, lambda { |country| where(country_id: country.id) }
+  scope :with_login, lambda { where("COALESCE(username, '') != ''") }
 
   def name
     [first_name, last_name].join(' ')
@@ -279,7 +267,7 @@ class Contact < ActiveRecord::Base
   end
 
   def is?(role)
-    roles.include? role
+    ContactsRole.where(contact_id: self.id, role_id: role).exists?
   end
 
   def can_login?
@@ -380,7 +368,7 @@ class Contact < ActiveRecord::Base
 
     def do_not_allow_last_contact_point_to_uncheck_role
       if self.from_organization? && self.organization.participant && self.organization.contacts.contact_points.count < 1
-        self.roles << Role.contact_point
+        self.roles << Role.contact_point unless self.is?(Role.contact_point)
       end
     end
 

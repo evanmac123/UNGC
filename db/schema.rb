@@ -251,11 +251,11 @@ ActiveRecord::Schema.define(version: 20171121102853) do
   add_index "contacts", ["organization_id"], name: "index_contacts_on_organization_id", using: :btree
 
   create_table "contacts_roles", id: false, force: :cascade do |t|
-    t.integer "contact_id", limit: 4
-    t.integer "role_id",    limit: 4
+    t.integer "contact_id", limit: 4, null: false
+    t.integer "role_id",    limit: 4, null: false
   end
 
-  add_index "contacts_roles", ["contact_id"], name: "index_contacts_roles_on_contact_id", using: :btree
+  add_index "contacts_roles", ["contact_id", "role_id"], name: "contacts_roles_idx_pk", unique: true, using: :btree
   add_index "contacts_roles", ["role_id"], name: "index_contacts_roles_on_role_id", using: :btree
 
   create_table "containers", force: :cascade do |t|
@@ -1319,6 +1319,8 @@ ActiveRecord::Schema.define(version: 20171121102853) do
   add_foreign_key "action_platform_subscriptions", "action_platform_platforms", column: "platform_id"
   add_foreign_key "action_platform_subscriptions", "contacts"
   add_foreign_key "action_platform_subscriptions", "organizations"
+  add_foreign_key "contacts_roles", "contacts", on_delete: :cascade
+  add_foreign_key "contacts_roles", "roles", on_delete: :cascade
   add_foreign_key "crm_owners", "contacts"
   add_foreign_key "due_diligence_reviews", "contacts", column: "requester_id"
   add_foreign_key "due_diligence_reviews", "organizations"

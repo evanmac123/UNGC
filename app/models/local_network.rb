@@ -156,7 +156,7 @@ class LocalNetwork < ActiveRecord::Base
   end
 
   def public_network_contacts
-    contacts.network_roles_public
+    contacts.for_roles(Role.network_roles_public)
   end
 
   def participants

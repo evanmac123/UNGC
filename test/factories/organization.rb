@@ -56,5 +56,10 @@ FactoryGirl.define do
 
     factory :organization_with_participant_manager, traits: [:has_participant_manager]
 
+    trait :with_contact do
+      after(:build) do |org|
+        create(:contact, organization: org)
+      end
+    end
   end
 end
