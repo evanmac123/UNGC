@@ -7,7 +7,7 @@ $(function(){
         });
 
     var $parentCompanyId = $('#organization_parent_company_id');
-    var $parentCompanyName = $("input[data-autocomplete]");
+    var $parentCompanyName = $("#organization_parent_company_name");
     var $autocompleteField = $parentCompanyName.data('autocomplete');
     var autocompleteUrl = "/api/v1/autocomplete/" + $autocompleteField + ".json";
 

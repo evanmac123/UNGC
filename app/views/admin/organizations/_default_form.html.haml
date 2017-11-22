@@ -13,11 +13,10 @@
 
     - staff_only do
       = default_form.select :organization_type_id, @organization_types.collect{|t| [t.name, t.id]}
-    - if @organization.company? && (current_contact.is?(Role.website_editor) || current_contact.is?(Role.participant_manager))
-      = default_form.hidden_field :parent_company_id
-      = label_tag(:parent_company_name, "Parent Company Name")
-      = text_field_tag(:parent_company_name, @organization.parent_company_name,  placeholder: 'Choose Parent Organization...', 'data-autocomplete': "participants")
-
+    - if current_contact.is?(Role.website_editor) || current_contact.is?(Role.participant_manager)
+      - if @organization.company?
+        = default_form.hidden_field :parent_company_id
+        = default_form.text_field(:parent_company_name, {data: { autocomplete: "participants" }}, label: 'Parent Company Name')
       = default_form.text_field :invoice_date, {class: 'datepicker iso-date'}, {:label => 'Invoice Date'}
 
     - listing_statues = if current_contact.is?(Role.contact_point) then ListingStatus.applicable else ListingStatus.all end
