@@ -47,6 +47,7 @@ class Admin::OrganizationsController < AdminController
     else
       @organization_types = OrganizationType.staff_types
       @sectors, @disabled_sectors = load_sectors
+      @organization = OrganizationPresenter.new(@organization)
       render :action => "edit"
     end
   end
