@@ -4,6 +4,8 @@ machine:
   ruby:
     version:
       2.3.3
+  services:
+    - redis
 
 dependencies:
   pre:
