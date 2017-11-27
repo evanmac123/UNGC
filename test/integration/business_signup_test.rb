@@ -18,6 +18,7 @@ class BusinessSignupTest < ActionDispatch::IntegrationTest
     # Given a parent company
     parent_company = create(:business)
 
+
     # and a country from a network that requires invoicing
     create(:country,
       name: "France",
@@ -201,7 +202,7 @@ class BusinessSignupTest < ActionDispatch::IntegrationTest
   end
 
   def simulate_parent_company_selection(parent_company)
-    find(:xpath, "//input[@id='organization_parent_company_id']").set(parent_company.id)
+    find(:xpath, "//input[@id='organization_parent_company_id']", visible: :all).set(parent_company.id)
   end
 
 end

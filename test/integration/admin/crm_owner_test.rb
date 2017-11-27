@@ -19,7 +19,7 @@ class Admin::CrmOwnerTest < ActionDispatch::IntegrationTest
     fill_in "Participant Manager", with: "Bob Ross"
 
     # Cheat with autocomplete
-    find(:xpath, "//input[@id='crm_owner_contact_id']").set(contact.id)
+    find(:xpath, "//input[@id='crm_owner_contact_id']", visible: :all).set(contact.id)
 
     fill_in "Salesforce ID", with: "ABC123"
     click_on "Save"

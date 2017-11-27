@@ -4,16 +4,16 @@ ruby "2.3.3"
 
 gem 'rails', '4.2.7.1'
 
-gem 'mysql2',               '~> 0.3.17'
-gem 'facets',               '~> 3.0.0', require: false
+gem 'mysql2'
+gem 'facets',               '~> 3.1.0', require: false
 gem 'hpricot',              '0.8.6'
-gem 'will_paginate',        '~> 3.0.7'
+gem 'will_paginate'
 gem 'paperclip',            '~> 4.3.6'
 gem 'haml',                 '~> 4.0.6'
 gem 'acts_as_commentable',  '~> 4.0.2'
-gem 'money-rails',          '~> 1.8'
+gem 'money-rails',          '~> 1.9'
 gem 'spreadsheet',          '0.6.5.9'
-gem 'thinking-sphinx',      '~> 3.2.0'
+gem 'thinking-sphinx'
 gem 'state_machine',                    git: 'https://github.com/seuros/state_machine.git', branch: 'master'
 gem 'acts_as_tree',         '~> 2.0.0'
 gem 'annotate',             '~> 2.7.1'
@@ -25,8 +25,8 @@ gem 'honeybadger', '~> 2.0'
 gem 'restforce'
 gem 'faye'
 
-gem 'sass-rails',           '~> 5.0.6'
-gem 'coffee-rails',         '~> 4.1.0'
+gem 'sass-rails'
+gem 'coffee-rails',         '~> 4.2.0'
 gem 'jquery-rjs',                       git: 'https://github.com/amatsuda/jquery-rjs.git', branch: 'master'
 gem 'jquery-rails',         '~> 4.0.4'
 gem 'jquery-ui-rails'
@@ -35,19 +35,19 @@ gem 'ckeditor',             '4.1.1'
 gem 'sidekiq',              '~> 3.4.2'
 gem 'foreman'
 gem 'bourbon',              '~> 4.2.1'
-gem 'font-awesome-sass',    '~> 4.3.1'
+gem 'font-awesome-sass'
 gem 'virtus',               '~> 1.0.5'
 
 gem 'capistrano',           '~> 2.15.5'
 gem 'plugger' # supports moonshine plugin on rails4
 gem 'databasedotcom'
-gem 'net-ssh', '~> 4.0'
+gem 'net-ssh', '~> 4.2'
 
 # for upgrading to rails 4+, need to be removed eventually.
 gem 'rails-observers'
 
 gem 'ranked-model',         '~> 0.4.0'
-gem 'fog',                  '~> 1.38'
+gem 'fog-aws'
 gem "non-stupid-digest-assets"
 gem 'htmlentities', '~> 4.3', '>= 4.3.4'
 gem 'sinatra', '>= 1.3.0', :require => nil
@@ -75,11 +75,11 @@ group :test do
   gem 'shoulda'
   gem 'capybara'
   gem 'simplecov', require: false
-  gem 'mocha', '~> 1.1.0'
+  gem 'mocha'
   gem 'database_cleaner'
   gem 'webmock'
   gem 'test_after_commit', '~> 1.1'
-  gem 'poltergeist', '~> 1.10'
+  gem 'poltergeist'
   gem 'fake_stripe', '~> 0.0.10.6', require: false
   gem 'ruby-saml'
 end
@@ -97,6 +97,6 @@ group :development, :test do
 end
 
 group :production do
-  gem 'scout',            '5.9.8'
+  gem 'scout'
   gem 'passenger',        '~> 4.0.60'
 end

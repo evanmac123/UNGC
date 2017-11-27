@@ -14,7 +14,7 @@ module Moonshine
         set :scm, :git
         set :git_enable_submodules, 1
         set :keep_releases, 5
-        ssh_options[:paranoid] = false
+        ssh_options[:verify_host_key] = false
         ssh_options[:forward_agent] = true
         default_run_options[:pty] = true
         set :noop, false

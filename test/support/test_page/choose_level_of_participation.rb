@@ -23,7 +23,7 @@ module TestPage
 
     def subsidiary_of(parent_organization)
       fill_in "level_of_participation_parent_company_name", with: parent_organization.name
-      find(:xpath, "//input[@id='level_of_participation_parent_company_id']").set(parent_organization.id)
+      find(:xpath, "//input[@id='level_of_participation_parent_company_id']", visible: :all).set(parent_organization.id)
     end
 
     def annual_revenue=(value)
