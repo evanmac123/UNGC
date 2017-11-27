@@ -23,6 +23,7 @@ class OrganizationUpdater
 
   def update(organization, contact)
     @organization = organization
+    @organization.attributes = organization_params
     @contact = contact
 
     return false unless valid?
@@ -31,7 +32,6 @@ class OrganizationUpdater
     update_contact
 
     registration = organization.registration
-    organization.attributes = organization_params
     registration.attributes = registration_params
 
     organization.last_modified_by_id = contact.id
