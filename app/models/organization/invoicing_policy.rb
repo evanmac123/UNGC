@@ -58,6 +58,8 @@ class Organization::InvoicingPolicy
     case
     when invoice_date.blank?
       record.errors.add :invoice_date, "can't be blank"
+    when !invoice_date.is_a?(Date)
+      record.errors.add :invoice_date, "must be a valid date"
     when invoice_date < Time.zone.now.to_date
       record.errors.add :invoice_date, "can't be in the past"
     when invoice_date > 1.year.from_now

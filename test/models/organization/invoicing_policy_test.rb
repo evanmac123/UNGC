@@ -111,6 +111,11 @@ class Organization::InvoicingPolicyTest < ActiveSupport::TestCase
     end
   end
 
+  test "valid incorrect invoice_date type" do
+    form = Organization::LevelOfParticipationForm.new(invoice_date: "no invoice")
+    assert_includes_error form, "Invoice date must be a valid date"
+  end
+
   private
 
   def create_policy(model: nil, managed_by: nil, required: nil, revenue: nil,
