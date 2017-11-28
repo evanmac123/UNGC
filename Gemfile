@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby "2.3.3"
 
-gem 'rails', '4.2.7.1'
+gem 'rails', '4.2.10'
 
 gem 'mysql2'
 gem 'facets',               '~> 3.1.0', require: false
