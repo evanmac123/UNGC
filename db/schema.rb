@@ -486,6 +486,7 @@ ActiveRecord::Schema.define(version: 20171121102853) do
     t.integer  "rep_risk_current",                   limit: 4
     t.integer  "rep_risk_severity_of_news",          limit: 4
     t.string   "local_network_input",                limit: 2000
+    t.boolean  "requires_local_network_input"
     t.text     "analysis_comments",                  limit: 65535
     t.text     "additional_research",                limit: 65535
     t.string   "integrity_explanation",              limit: 1000
@@ -497,7 +498,6 @@ ActiveRecord::Schema.define(version: 20171121102853) do
     t.integer  "reason_for_decline",                 limit: 4
     t.boolean  "subject_to_dialog_facilitation"
     t.integer  "with_reservation",                   limit: 4
-    t.boolean  "requires_local_network_input"
     t.integer  "event_id",                           limit: 4
     t.string   "individual_subject",                 limit: 100
   end
