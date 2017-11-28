@@ -1,10 +1,11 @@
+# -*- coding: utf-8 -*-
 require 'test_helper'
 
 module COP
   class AdvancedFormTest < ActionDispatch::IntegrationTest
 
     setup do
-      travel_to Date.new(2016, 7, 6)
+      travel_to Time.zone.parse("2016-07-06 14:00")
     end
 
     teardown do
