@@ -32,6 +32,7 @@ class DueDiligence::Review < ActiveRecord::Base
   validates :level_of_engagement,  inclusion: { in: self.level_of_engagements }
 
   enum rep_risk_severity_of_news: {
+      severity_of_news_na: 5,
       risk_severity_aaaa: 10,
       risk_severity_aa: 20,
       risk_severity_a: 30,
@@ -46,9 +47,11 @@ class DueDiligence::Review < ActiveRecord::Base
   validates_inclusion_of :rep_risk_severity_of_news,  in: self.rep_risk_severity_of_news, if: :integrity_review?
 
   enum reason_for_decline: {
-      integrity: 0,
-      not_available_but_interested: 1,
-      other_reason: 2,
+      integrity: 10,
+      not_available_but_interested: 20,
+      ungc_priorities: 30,
+      organization_financials: 40,
+      other_reason: 100,
   }
   validates_inclusion_of :reason_for_decline,  in: self.reason_for_declines, if: :declined?
 
@@ -63,6 +66,7 @@ class DueDiligence::Review < ActiveRecord::Base
   validates_inclusion_of :esg_score,  in: self.esg_scores, if: :integrity_review?
 
   enum highest_controversy_level: {
+      controversy_na: 5,
       low_controversy: 10,
       moderate_controversy: 20,
       significant_controversy: 30,
@@ -102,7 +106,7 @@ class DueDiligence::Review < ActiveRecord::Base
       validates :rep_risk_peak,
                                 :rep_risk_current,
                                 numericality: { only_integer: true },
-                                inclusion: 0..100
+                                inclusion: -1..100
     end
 
     state :rejected do

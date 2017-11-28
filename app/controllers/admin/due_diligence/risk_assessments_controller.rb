@@ -1,5 +1,7 @@
 class Admin::DueDiligence::RiskAssessmentsController < Admin::DueDiligence::ReviewsController
 
+  helper_method :rep_risk_rri_values
+
   def edit
     @review = load_risk_assessment
     @review_policy = DueDiligence::ReviewPolicy.new(@review)
@@ -72,6 +74,12 @@ class Admin::DueDiligence::RiskAssessmentsController < Admin::DueDiligence::Revi
     )
 
     apply_attributes_with_nils(required)
+  end
+
+  def rep_risk_rri_values
+    # Translate the NA value with value -1
+    v = [t(:na, scope: [:due_diligence, :values, :rep_risk, :score].freeze), -1]
+    [v, *(0..100)]
   end
 
 end

@@ -41,6 +41,119 @@ class Admin::DueDiligence::ReviewsControllerTest < ActionController::TestCase
     assert_equal contact.id, info_added.data[:requester_id]
     assert_equal review.level_of_engagement.to_s, info_added.data[:changes]['level_of_engagement']
     assert_equal review.additional_information, info_added.data[:changes]['additional_information']
+
+    get :destroy, id: review
+
+    assert_raise ActiveRecord::RecordNotFound do
+      review.reload
+    end
+  end
+
+  context 'Disallowed deletes' do
+    should 'fail if user has no privileges' do
+      # Given we're signed in as staff
+      staff = create(:staff_contact)
+
+      create(:staff_contact, :integrity_manager)
+
+      sign_in staff
+
+      review = create(:due_diligence_review, state: :in_review)
+
+      assert_raise ActionController::MethodNotAllowed do
+        get :destroy, id: review
+      end
+    end
+
+    should 'fail if state is :local_network_review' do
+      # Given we're signed in as staff
+      staff = create(:staff_contact)
+
+      manager = create(:staff_contact, :integrity_manager)
+
+      sign_in manager
+
+      review = create(:due_diligence_review, state: :local_network_review, requires_local_network_input: true)
+
+      assert_raise ActionController::MethodNotAllowed do
+        get :destroy, id: review
+      end
+    end
+
+    should 'fail if state is :integrity_review' do
+      # Given we're signed in as staff
+      staff = create(:staff_contact)
+
+      manager = create(:staff_contact, :integrity_manager)
+
+      sign_in manager
+
+      review = create(:due_diligence_review, :with_research, state: :integrity_review)
+
+      assert_raise ActionController::MethodNotAllowed do
+        get :destroy, id: review
+      end
+    end
+
+    should 'fail if state is :engagement_review' do
+      # Given we're signed in as staff
+      staff = create(:staff_contact)
+
+      manager = create(:staff_contact, :integrity_manager)
+
+      sign_in manager
+
+      review = create(:due_diligence_review, :engagement_review)
+
+      assert_raise ActionController::MethodNotAllowed do
+        get :destroy, id: review
+      end
+    end
+
+    should 'fail if state is :rejected' do
+      # Given we're signed in as staff
+      staff = create(:staff_contact)
+
+      manager = create(:staff_contact, :integrity_manager)
+
+      sign_in manager
+
+      review = create(:due_diligence_review, :engagement_review, state: :rejected)
+
+      assert_raise ActionController::MethodNotAllowed do
+        get :destroy, id: review
+      end
+    end
+
+    should 'fail if state is :engaged' do
+      # Given we're signed in as staff
+      staff = create(:staff_contact)
+
+      manager = create(:staff_contact, :integrity_manager)
+
+      sign_in manager
+
+      review = create(:due_diligence_review, :engagement_review, state: :engaged)
+
+      assert_raise ActionController::MethodNotAllowed do
+        get :destroy, id: review
+      end
+    end
+
+    should 'fail if state is :declined' do
+      # Given we're signed in as staff
+      staff = create(:staff_contact)
+
+      manager = create(:staff_contact, :integrity_manager)
+
+      sign_in manager
+
+      review = create(:due_diligence_review, :engagement_review, :with_declination, state: :declined)
+
+      assert_raise ActionController::MethodNotAllowed do
+        get :destroy, id: review
+      end
+    end
   end
 
   private

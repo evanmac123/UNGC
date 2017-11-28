@@ -49,7 +49,7 @@
             - if params[:state] == ['engagement_review'] || params[:state]&.include?('all')
               %td=review.integrity_reservation? ? 'Reservation' : 'Approved'
             %td.name{:title => review.organization_name}
-              = "#{truncate(review.organization_name, :length => 40)} (#{review.organization.country.name})"
+              = "#{truncate(review.organization_name, :length => 40)} (#{review.organization.country.name})".html_safe
               = # duplicate_application(review)
             %td=review.level_of_engagement&.humanize&.titleize
             %td=truncate(review.event_title, :length => 40)

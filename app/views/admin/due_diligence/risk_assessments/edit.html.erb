@@ -72,10 +72,16 @@
 
     <div class="field">
       <%= f.label :esg_score, "Overall ESG Score" %>
-      <%= f.select :esg_score, DueDiligence::Review.esg_scores.keys, prompt: "Add review......" %>
+      <%= f.select :esg_score,
+                   DueDiligence::Review.esg_scores.keys.map { |k|
+                     [t(k, scope: [:due_diligence, :values, :sustainalytics, :esg_scores].freeze), k]},
+                   prompt: "Add review......" %>
 
       <%= f.label :highest_controversy_level, "Highest Controversy Level:" %>
-      <%= f.select :highest_controversy_level, DueDiligence::Review.highest_controversy_levels.keys, prompt: "Add review......" %>
+      <%= f.select :highest_controversy_level,
+                   DueDiligence::Review.highest_controversy_levels.keys.map { |k|
+                     [t(k, scope: [:due_diligence, :values, :sustainalytics, :controversies].freeze), k]},
+                   prompt: "Add review......" %>
     </div>
 
   </section>
@@ -86,17 +92,20 @@
     <div class="field">
       <%= f.label :rep_risk_peak do %>
         Peak RRI:
-          <%= f.select :rep_risk_peak, 0..100, prompt: "Add review......" %>
+          <%= f.select :rep_risk_peak, rep_risk_rri_values, prompt: "Add review......" %>
       <% end %>
 
       <%= f.label :rep_risk_current do %>
         Current RRI:
-        <%= f.select :rep_risk_current, 0..100, prompt: "Add review......" %>
+        <%= f.select :rep_risk_current, rep_risk_rri_values, prompt: "Add review......" %>
       <% end %>
 
       <%= f.label :rep_risk_severity_of_news do %>
         Rep Risk Severity of News:
-        <%= f.select :rep_risk_severity_of_news, DueDiligence::Review.rep_risk_severity.keys, prompt: "Add review......" %>
+        <%= f.select :rep_risk_severity_of_news,
+                     DueDiligence::Review.rep_risk_severity.keys.map { |k|
+                       [t(k, scope: [:due_diligence, :values, :rep_risk, :severity_of_news].freeze), k]},
+                     prompt: "Add review......" %>
       <% end %>
     </div>
 

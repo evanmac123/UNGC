@@ -83,6 +83,12 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
           review.reason_for_decline = :not_available_but_interested
           assert review.valid?, 'reason_for_decline :not_available_but_interested was invalid'
 
+          review.reason_for_decline = :ungc_priorities
+          assert review.valid?, 'reason_for_decline :ungc_priorities was invalid'
+
+          review.reason_for_decline = :organization_financials
+          assert review.valid?, 'reason_for_decline :organization_financials was invalid'
+
           review.reason_for_decline = :other_reason
           assert review.valid?, 'reason_for_decline :other_reason was invalid'
         end
@@ -98,6 +104,9 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
       context 'rep_risk_severity_of_news' do
         should 'accept valid values' do
           review = FactoryGirl.build_stubbed(:due_diligence_review)
+
+          review.rep_risk_severity_of_news = :severity_of_news_na
+          assert review.valid?, 'rep_risk_severity_of_news :severity_of_news_na was invalid'
 
           review.rep_risk_severity_of_news = :risk_severity_aaaa
           assert review.valid?, 'rep_risk_severity_of_news :risk_severity_aaa was invalid'
@@ -161,6 +170,9 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
         should 'accept valid values' do
           review = FactoryGirl.build_stubbed(:due_diligence_review, :with_research, :integrity_review)
 
+          review.highest_controversy_level = :controversy_na
+          assert review.valid?, 'highest_controversy_level :controversy_na was invalid'
+
           review.highest_controversy_level = :low_controversy
           assert review.valid?, 'highest_controversy_level :low_controversy was invalid'
 
@@ -175,6 +187,37 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
 
           review.highest_controversy_level = :severe_controversy
           assert review.valid?, 'highest_controversy_level :severe_controversy was invalid'
+        end
+
+        should 'disallow an invalid value' do
+          review = FactoryGirl.build(:due_diligence_review, :with_research, :integrity_review)
+
+          exception = assert_raises( ::ArgumentError) { review.highest_controversy_level = :invalid }
+          assert_equal("'invalid' is not a valid highest_controversy_level", exception.message)
+        end
+      end
+
+      context 'rep_risk_scores' do
+        should 'accept valid values' do
+          review = FactoryGirl.build_stubbed(:due_diligence_review, :with_research, :integrity_review)
+
+          review.rep_risk_peak = -1
+          assert review.valid?, 'rep_risk_peak -1 was invalid'
+
+          review.rep_risk_peak = 0
+          assert review.valid?, 'rep_risk_peak 0 was invalid'
+
+          review.rep_risk_peak = 100
+          assert review.valid?, 'rep_risk_peak 100 was invalid'
+
+          review.rep_risk_current = -1
+          assert review.valid?, 'rep_risk_current -1 was invalid'
+
+          review.rep_risk_current = 0
+          assert review.valid?, 'rep_risk_current 0 was invalid'
+
+          review.rep_risk_current = 100
+          assert review.valid?, 'rep_risk_current 100 was invalid'
         end
 
         should 'disallow an invalid value' do
@@ -432,8 +475,8 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
 
         review = FactoryGirl.build_stubbed(:due_diligence_review,
                                            :integrity_review,
-                                           rep_risk_current: -1,
-                                           rep_risk_peak: -20,
+                                           rep_risk_current: -2,
+                                           rep_risk_peak: -101,
         )
 
         assert_not review.valid?

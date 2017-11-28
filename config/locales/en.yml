@@ -250,3 +250,37 @@ en:
       engaged: Engaged
       declined: Declined
       rejected: Rejected
+    values:
+      sustainalytics:
+        esg_scores:
+          esg_na: Organization Not found
+          industry_laggard: Industry Laggard
+          underperformer: Underperformer
+          average_performer: Average Performer
+          outperformer: Outperformer
+          industry_leader: Indusry Leader
+        controversies:
+          controversy_na: Organization Not found
+          low_controversy: Low
+          moderate_controversy: Moderate
+          significant_controversy: Significant
+          high_controversy: High
+          severe_controversy: Severe
+      rep_risk:
+        severity_of_news:
+          severity_of_news_na: Organization Not found
+          risk_severity_aaaa: AAAA
+          risk_severity_aa: AA
+          risk_severity_a: A
+          risk_severity_bbb: BBB
+          risk_severity_bb: BB
+          risk_severity_b: B
+          risk_severity_ccc: CCC
+          risk_severity_cc: CC
+          risk_severity_c: C
+          risk_severity_d: D
+        score:
+          na: Organization Not found
+
+
+

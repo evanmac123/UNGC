@@ -10,6 +10,18 @@ class Admin::DueDiligence::ReviewsController < AdminController
     @review_policy = DueDiligence::ReviewPolicy.new(@review)
   end
 
+  def destroy
+    @review = ::DueDiligence::Review::Presenter.new(load_review)
+
+    review_policy = ::DueDiligence::ReviewPolicy.new(@review)
+    unless review_policy.can_destroy?(current_contact)
+      raise ActionController::MethodNotAllowed
+    end
+    @review.destroy!
+
+    redirect_to for_state_admin_due_diligence_reviews_path
+  end
+
   def new
     @review = ::DueDiligence::ReviewRequest.new
   end
