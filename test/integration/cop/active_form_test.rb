@@ -1,10 +1,11 @@
+# -*- coding: utf-8 -*-
 require 'test_helper'
 
 module COP
   class ActiveFormTest < ActionDispatch::IntegrationTest
 
     setup do
-      travel_to Date.new(2016, 7, 6)
+      travel_to DateTime.new(2016, 7, 6, 14, 0, 0)
       # needed to show the public cop detail page
       create(:container, path: '/participation/report')
     end
