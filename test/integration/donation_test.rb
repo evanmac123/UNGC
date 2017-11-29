@@ -35,8 +35,8 @@ class DonationIntegrationTest < JavascriptIntegrationTest
 
   test "after a business is approved, they follow the donation link in their welcome email" do
     # Given a business has been approved and they have been sent their
-    contact = create(:contact, roles: [Role.contact_point])
-    business = create(:business, contacts: [contact])
+    contact = create(:contact_point)
+    business = contact.organization
     email = OrganizationMailer.approved_business(business)
 
     # And a page exists

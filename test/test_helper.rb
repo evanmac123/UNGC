@@ -65,28 +65,22 @@ class ActiveSupport::TestCase
   end
 
   def create_non_business_organization_and_user(state=nil)
-    create(:country)
-    @organization = create(:organization, employees: 50,
-                                        country: Country.first,
+    @organization = create(:organization, :with_contact, employees: 50,
                                         organization_type: OrganizationType.academic)
     @organization.approve! if state == 'approved'
-    @organization_user = create(:contact, organization_id: @organization.id,
-                                        role_ids: [Role.contact_point.id])
+    @organization_user = @organization.contacts.contact_points.first
   end
 
   def create_organization_and_user(state=nil)
-    create(:country)
     sector = create(:sector)
     listing_status = create(:listing_status)
-    @organization = create(:organization, employees: 50,
+    @organization = create(:organization, :with_contact, employees: 50,
                                         organization_type: OrganizationType.sme,
-                                        country: Country.first,
                                         sector: sector,
                                         listing_status: listing_status,
                                         cop_due_on: Date.today + 1.year)
     @organization.approve! if state == 'approved'
-    @organization_user = create(:contact, organization_id: @organization.id,
-                                        role_ids: [Role.contact_point.id])
+    @organization_user = @organization.contacts.contact_points.first
   end
 
   def create_organization_and_ceo

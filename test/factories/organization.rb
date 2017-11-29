@@ -58,7 +58,7 @@ FactoryGirl.define do
 
     trait :with_contact do
       after(:build) do |org|
-        create(:contact, organization: org)
+        create(:contact_point, organization: org)
       end
     end
   end
