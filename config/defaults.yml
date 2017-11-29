@@ -7,11 +7,11 @@ development:
   path_to_cop_xml: '../shared/data/cop_xml/*'
   salesforce:
     :host: 'test.salesforce.com'
-    :username: 'ben@bitfield.co.fgcfull'
-    :password: 'Bitfield1'
-    :token: 'Znn0hp3X3D7tnTOrHrV29bCNB'
-    :client_id: '3MVG9ifmAKCHISbaTzCrnAlwIXcBD0lDl.yqCOzQFJhNQCyAr_0B6PoOoc98ix.u4kEMe0zM83E3o304wkvTc'
-    :client_secret: '4582587186223235381'
+    :username: 'salesforce@unglobalcompact.org.fgcfull'
+    :password: 'UNGC2017!'
+    :token: 'DCH36fjZz3W6f5xr4sEl5EwCG'
+    :client_id: '3MVG9Yb5IgqnkB4qIBUG7lt8Fq3edwKujcgHRMVLhiefQqDUsIHYkf_MFSzEKHJwdOr6IfI98PGantWvDmN9T'
+    :client_secret: '4640851639819575954'
     # The only way to push scripts to production are to push to this Sandbox environment first, and publish from there
     # So we set the callback_url to the real one that production will use. Be careful.
     :callback_url: 'https://www.unglobalcompact.org/salesforce/sync'
@@ -44,11 +44,11 @@ production:
 staging:
   salesforce:
     :host: 'test.salesforce.com'
-    :username: 'ben@bitfield.co.fgcfull'
-    :password: 'Bitfield1'
-    :token: 'Znn0hp3X3D7tnTOrHrV29bCNB'
-    :client_id: '3MVG9ifmAKCHISbaTzCrnAlwIXcBD0lDl.yqCOzQFJhNQCyAr_0B6PoOoc98ix.u4kEMe0zM83E3o304wkvTc'
-    :client_secret: '4582587186223235381'
+    :username: 'salesforce@unglobalcompact.org.fgcfull'
+    :password: 'UNGC2017!'
+    :token: 'DCH36fjZz3W6f5xr4sEl5EwCG'
+    :client_id: '3MVG9Yb5IgqnkB4qIBUG7lt8Fq3edwKujcgHRMVLhiefQqDUsIHYkf_MFSzEKHJwdOr6IfI98PGantWvDmN9T'
+    :client_secret: '4640851639819575954'
     :callback_url: 'https://staging.unglobalcompact.org/salesforce/sync'
   <<: *universal
 
