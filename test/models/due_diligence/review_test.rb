@@ -549,7 +549,7 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
       context 'on approve' do
         should "succeed" do
           contact = FactoryGirl.create(:contact)
-          review = FactoryGirl.create(:due_diligence_review, :integrity_review, :with_research)
+          review = FactoryGirl.create(:due_diligence_review, :integrity_review, :with_research, with_reservation: nil)
 
           assert review.approve(contact), review.reload.errors.full_messages
           assert review.engagement_review?, 'state not engagement_review'

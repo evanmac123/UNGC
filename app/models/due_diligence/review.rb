@@ -198,11 +198,11 @@ class DueDiligence::Review < ActiveRecord::Base
   end
 
   def approve(contact)
+    self.with_reservation = :no_reservation
+    self.reason_for_decline = nil
+
     if super
       DueDiligenceReviewMailer.integrity_decision_rendered(self.id, contact).deliver_later
-
-      self.with_reservation = :no_reservation
-      self.reason_for_decline = nil
 
       publish_transition_event(requester, with_reservation: self.with_reservation)
     end
