@@ -7,8 +7,6 @@ class DueDiligenceReviewMailer < ActionMailer::Base
     @review = DueDiligence::Review.find(review_id)
     @requester = requester
 
-    raise "Review state must be :in_review but is #{@review.state}" unless @review.in_review?
-
     mail \
       to:      integrity_team_emails,
       subject: common_subject("New Due Diligence Request fors")
@@ -17,8 +15,6 @@ class DueDiligenceReviewMailer < ActionMailer::Base
   def new_review_for_integrity_decision(review_id, contact)
     @review = DueDiligence::Review.find(review_id)
     @contact = contact
-
-    raise "Review state must be :integrity_review but is #{@review.state}" unless @review.integrity_review?
 
     mail \
       to:      integrity_manager_emails,
@@ -29,9 +25,6 @@ class DueDiligenceReviewMailer < ActionMailer::Base
     @review = DueDiligence::Review.find(review_id)
     @contact = contact
 
-    raise "Review state must be :engagement_review or :rejected but is #{@review.state}" \
-        unless %w[engagement_review rejected].include?(@review.state)
-
     mail \
       to:      @review.requester.email,
       subject: common_subject("Integrity Decision Rendered")
@@ -40,9 +33,6 @@ class DueDiligenceReviewMailer < ActionMailer::Base
   def engagement_decision_rendered(review_id, contact)
     @review = DueDiligence::Review.find(review_id)
     @contact = contact
-
-    raise "Review state must be :engaged or :declined but is #{@review.state}" \
-        unless %w[engaged declined].include?(@review.state)
 
     mail \
       to:      integrity_team_emails,
@@ -75,6 +65,7 @@ class DueDiligenceReviewMailer < ActionMailer::Base
         .pluck(:email) ||
         'integrityteam@unglobalcompact.org'
   end
+
 
   def common_subject(prefix)
     individual = " (#{@review.individual_subject})" if @review.individual_subject.present?

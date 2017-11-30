@@ -16,16 +16,6 @@ class DueDiligenceReviewMailerTest < ActionMailer::TestCase
     assert_equal [UNGC::Application::EMAIL_SENDER], mail.from
   end
 
-  test 'new_review_for_research (invalid state)' do
-    review = create(:due_diligence_review)
-
-    exception = assert_raises(RuntimeError) do
-      DueDiligenceReviewMailer.new_review_for_research(review.id, review.requester).deliver
-    end
-
-    assert_equal('Review state must be :in_review but is new_review', exception.message)
-  end
-
   test 'new_review_for_integrity_decision' do
     integrity_manager = create(:staff_contact, :integrity_manager)
 
@@ -37,16 +27,6 @@ class DueDiligenceReviewMailerTest < ActionMailer::TestCase
     assert_includes mail.subject, review.organization.name
     assert_includes mail.to, integrity_manager.email, 'Email not send to an  Integrity Manager'
     assert_equal [UNGC::Application::EMAIL_SENDER], mail.from
-  end
-
-  test 'new_review_for_integrity_decision (invalid state)' do
-    review = create(:due_diligence_review)
-
-    exception = assert_raises(RuntimeError) do
-      DueDiligenceReviewMailer.new_review_for_integrity_decision(review.id, review.requester).deliver
-    end
-
-    assert_equal('Review state must be :integrity_review but is new_review', exception.message)
   end
 
   test 'integrity_decision_rendered' do
@@ -73,16 +53,6 @@ class DueDiligenceReviewMailerTest < ActionMailer::TestCase
     assert_equal [UNGC::Application::EMAIL_SENDER], mail.from
   end
 
-  test 'integrity_decision_rendered (invalid state)' do
-    review = create(:due_diligence_review)
-
-    exception = assert_raises(RuntimeError) do
-      DueDiligenceReviewMailer.integrity_decision_rendered(review.id, review.requester).deliver
-    end
-
-    assert_equal('Review state must be :engagement_review or :rejected but is new_review', exception.message)
-  end
-
   test 'engagement_decision_rendered' do
     integrity_team_member = create(:staff_contact, :integrity_team_member)
     integrity_manager = create(:staff_contact, :integrity_manager)
@@ -96,16 +66,6 @@ class DueDiligenceReviewMailerTest < ActionMailer::TestCase
     assert_includes mail.to, integrity_team_member.email, 'Email not send to an Integrity Team Member'
     assert_includes mail.to, integrity_manager.email, 'Email not send to an Integrity Manager'
     assert_equal [UNGC::Application::EMAIL_SENDER], mail.from
-  end
-
-  test 'engagement_decision_rendered (invalid state)' do
-    review = create(:due_diligence_review)
-
-    exception = assert_raises(RuntimeError) do
-      DueDiligenceReviewMailer.engagement_decision_rendered(review.id, review.requester).deliver
-    end
-
-    assert_equal('Review state must be :engaged or :declined but is new_review', exception.message)
   end
 
   test "comment_notifier" do
