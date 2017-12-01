@@ -44,10 +44,10 @@ class Organization::InvoicingPolicy
     when ln.revenue_sharing?
       ln.gco? || ln.invoice_options_available == "yes"
     when ln.global_local?
-      rev = @revenue || Money.from_amount(0)
-      rev >= THRESHOLD || ln.invoice_options_available == "yes"
+      revenue = @revenue || Money.from_amount(0)
+      revenue >= THRESHOLD || ln.invoice_options_available == "yes"
     when ln.not_yet_decided?
-      ln.invoice_options_available == "yes"
+      false
     end
   end
 

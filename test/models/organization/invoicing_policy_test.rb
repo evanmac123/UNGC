@@ -62,12 +62,12 @@ class Organization::InvoicingPolicyTest < ActiveSupport::TestCase
     assert_not policy.invoicing_required?
   end
 
-  test "When the network has not yet selected a business model, then invoicing is up to the network" do
+  test "When the network has not yet selected a business model, then invoicing options are not shown" do
     policy = create_policy(
       model: "not_yet_decided",
       required: "yes",
     )
-    assert policy.invoicing_required?
+    refute policy.invoicing_required?
 
     policy = create_policy(
       model: "not_yet_decided",

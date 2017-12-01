@@ -57,6 +57,11 @@ module Crm
       find('Contact', contact_id.to_s, 'UNGC_Contact_ID__c')
     end
 
+    def find_local_network(local_network_id)
+      id = LocalNetworkAdapter.convert_id(local_network_id)
+      find(LocalNetworkSync.crm_field_name, id, "External_ID__c")
+    end
+
     def self.coerce(value)
       case value
       when Numeric, String, NilClass

@@ -9,27 +9,29 @@ namespace :local_network do
     problems = []
 
     country_column = 1
-    business_model_column = 21
-    invoice_managed_by_column = 22
-    invoice_options_available_column = 23
-    invoicing_curreny_column = 24
+    business_model_column = 13
+    invoice_managed_by_column = 14
+    invoice_options_available_column = 15
+    invoicing_curreny_column = 16
 
     line = 0
     CSV.foreach("lib/tasks/local_network/ln-data.csv") do |row|
       line += 1
-      next if line < 3
-
-      # 1h9fA97l_wWi-fVTIWKSjP1YiobaVScSCxx-jhtL8MxM,Denmark,Revenue Sharing,Link,Europe,Ole,Emerging,
-      # 11OhilYKijXsDAzWFBWcWturpEvXDFK5w16nn4iOHwNo,Finland,Not yet decided,Link,Europe,Ole,Emerging,
+      next if line < 2
 
       fixes = {
         # "Denmark" => "Nordic Counties",
         # "Finland" => "Nordic Counties",
         "Macedonia, The Former Yugoslav Republic of" => "Macedonia, The FYR",
         "Russian Federation" => "Russia",
+        "Belguim" => "Belgium",
+        "Democratc Republic of Congo" => "Congo, Democratic Republic of",
+        "UAE" => "United Arab Emirates",
         "United Kingdom" => "UK",
         "United States of America" => "USA",
+        "United States" => "USA",
       }
+
       country = row[country_column]
       ln_name = fixes.fetch(country, country)
       business_model = row[business_model_column]
@@ -46,27 +48,32 @@ namespace :local_network do
       if local_network.present?
         params = {}
 
-        params[:business_model] = case business_model
-                                  when "Not yet decided" then "not_yet_decided"
-                                  when "Revenue Sharing" then "revenue_sharing"
-                                  when "Global Local" then "global_local"
-                                  when "#REF!", nil then nil
-                                  else raise "Unexpected business model #{business_model}"
-                                  end
+        mod = case business_model
+              when "Not yet decided" then "not_yet_decided"
+              when "Revenue Sharing" then "revenue_sharing"
+              when "Global Local" then "global_local"
+              when nil then nil
+              else raise "Unexpected business model #{business_model}"
+              end
+        params[:business_model] = mod
 
-        params[:invoice_managed_by] = case invoice_managed_by
-                                      when "GCO" then "gco"
-                                      when "Local Network" then "local_network"
-                                      when "N/A (global-local)", "#REF!", nil then nil
-                                      else raise "Unexpected business model #{business_model}"
-                                      end
+        mgb = case invoice_managed_by
+              when "GCO" then "gco"
+              when "Local Network" then "local_network"
+              when "Global-Local" then "global_or_local"
+              when "Not yet decided" then "on_hold"
+              when nil then nil
+              else raise "Unexpected value for invoice_managed_by: #{invoice_managed_by}"
+              end
+        params[:invoice_managed_by] = mgb
 
-        params[:invoice_options_available] = case invoice_options_available
-                                             when "Yes" then "yes"
-                                             when "No" then "no"
-                                             when "N/A (global-local)", "#REF!", nil then nil
-                                             else raise "Unexpected business model #{business_model}"
-                                             end
+        opt = case invoice_options_available
+              when "Yes" then "yes"
+              when "No" then "no"
+              when nil then nil
+              else raise "Unexpected value for invoice_options_available: #{invoice_options_available}"
+              end
+        params[:invoice_options_available] = opt
 
         params[:invoice_currency] = invoice_currency unless invoice_currency == "#REF!"
 

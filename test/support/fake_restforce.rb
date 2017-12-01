@@ -4,6 +4,7 @@ class FakeRestforce
     @records = {
       'Account' => {},
       'Contact' => {},
+      Crm::LocalNetworkSync.crm_field_name => {},
       Crm::DonationSync::SObjectName => {},
     }
   end

@@ -7,6 +7,7 @@ module Crm
       clazz = case
       when model.is_a?(Contact) then Crm::ContactSyncWorker
       when model.is_a?(Organization) then Crm::OrganizationSyncWorker
+      when model.is_a?(LocalNetwork) then Crm::LocalNetworkSyncWorker
       else
         raise "No CRM Sync registered for #{model.class}"
       end
