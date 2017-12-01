@@ -91,7 +91,15 @@ class Contact < ActiveRecord::Base
   belongs_to :organization
   belongs_to :local_network
   has_many :contacts_roles, inverse_of: :contact
-  has_many :roles, through: :contacts_roles
+  has_many :roles, through: :contacts_roles do
+    def << (role)
+      # Prevent duplicate role assignments
+      super(role) unless include?(role)
+    end
+  end
+
+
+
   has_many :cop_log_entries, dependent: :nullify
   has_one :crm_owner, class_name: "Crm::Owner"
   has_one :igloo_user, dependent: :destroy
@@ -368,7 +376,7 @@ class Contact < ActiveRecord::Base
 
     def do_not_allow_last_contact_point_to_uncheck_role
       if self.from_organization? && self.organization.participant && self.organization.contacts.contact_points.count < 1
-        self.roles << Role.contact_point unless self.is?(Role.contact_point)
+        self.roles << Role.contact_point
       end
     end
 

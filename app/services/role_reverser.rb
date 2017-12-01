@@ -4,7 +4,7 @@ class RoleReverser
     contact = roles.fetch(:contact_point)
 
     ceo.username = contact.username
-    ceo.roles << Role.contact_point unless ceo.is? Role.contact_point
+    ceo.roles << Role.contact_point
     ceo.encrypted_password = contact.encrypted_password
 
     # remove login/password from former contact
@@ -17,7 +17,7 @@ class RoleReverser
     ceo.save
 
     # the contact person should now be CEO
-    contact.roles << Role.ceo unless contact.is? Role.ceo
+    contact.roles << Role.ceo
 
     # remove CEO role from contact point
     ceo.roles.delete(Role.ceo)
