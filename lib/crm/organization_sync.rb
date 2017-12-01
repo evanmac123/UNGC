@@ -10,14 +10,14 @@ module Crm
       @crm.log "creating organization #{organization.name} (#{organization.id})"
       account_id = upsert_org(organization)
       upsert_contacts(organization, account_id)
-      true
+      account_id
     end
 
     def update(organization, changed)
       @crm.log "updating organization #{organization.name} (#{organization.id})"
       account_id = upsert_org(organization, changed)
       upsert_contacts(organization, account_id)
-      true
+      account_id
     end
 
     def destroy(organization_id)

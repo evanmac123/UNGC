@@ -8,6 +8,8 @@ module Crm
       when model.is_a?(Contact) then Crm::ContactSyncWorker
       when model.is_a?(Organization) then Crm::OrganizationSyncWorker
       when model.is_a?(LocalNetwork) then Crm::LocalNetworkSyncWorker
+      when model.is_a?(ActionPlatform::Platform) then Crm::ActionPlatformSyncWorker
+      when model.is_a?(ActionPlatform::Subscription) then Crm::ActionPlatformSubscriptionSyncWorker
       else
         raise "No CRM Sync registered for #{model.class}"
       end
@@ -27,8 +29,7 @@ module Crm
 
     def self.update(model)
       if sync_class.should_sync?(model)
-        fields = model.previous_changes.keys.dup
-        fields.delete("updated_at")
+        fields = model.previous_changes.except("updated_at")
         perform_async("update", model.id, fields)
       end
     end
@@ -55,11 +56,11 @@ module Crm
     protected
 
     def self.sync_class
-      raise "#{self} must provide a sync class"
+      raise "#{self} must provide an implementation of self.sync_class"
     end
 
     def model_class
-      raise "#{self} must provide a model"
+      raise "#{self} must provide an implementation of model_class"
     end
 
     def sync_class
@@ -67,13 +68,13 @@ module Crm
     end
 
     def create(id)
-      contact = model_class.find(id)
-      sync.create(contact)
+      model = model_class.find(id)
+      sync.create(model)
     end
 
     def update(id, fields)
-      contact = model_class.find(id)
-      sync.update(contact, fields)
+      model = model_class.find(id)
+      sync.update(model, fields)
     end
 
     def destroy(id)

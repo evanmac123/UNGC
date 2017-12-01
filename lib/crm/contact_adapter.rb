@@ -14,7 +14,7 @@ module Crm
         'MobilePhone' => phone(contact.mobile),
         'npe01__PreferredPhone__c' => picklist("Work"),
         'Fax' => fax(contact.fax),
-        'Role__c' => picklist(contact.roles.map(&:name)),
+        'Role__c' => picklist(contact.roles.pluck(:name)),
         'MailingStreet' => text(contact.full_address),
         'MailingCity' => text(contact.city, 40),
         'MailingState' => text(contact.state),

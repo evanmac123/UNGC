@@ -30,8 +30,7 @@ namespace :salesforce do
   desc "seed the salesforce contact => sf mapping"
   task seed_owners: :environment do
     {
-      "filipic@unglobalcompact.org"          => '005A00000039Eu7', # Gordana
-      "africa@unglobalcompact.org"           => '005A00000039Eu7', # Gordana
+      "africa@unglobalcompact.org"           => '005A0000003aYu4', # Ben
       "kimura@unglobalcompact.org"           => '005A0000003Ypfb', # Naoko
       "liu@unglobalcompact.org"              => '005A0000003Ypfb', # Naoko
       "chin@unglobalcompact.org"             => '005A0000003aYu4', # Ben

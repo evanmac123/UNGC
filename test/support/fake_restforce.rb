@@ -6,6 +6,8 @@ class FakeRestforce
       'Contact' => {},
       Crm::LocalNetworkSync.crm_field_name => {},
       Crm::DonationSync::SObjectName => {},
+      Crm::ActionPlatformSync::SObjectName => {},
+      Crm::ActionPlatformSubscriptionSync::SObjectName => {},
     }
   end
 

@@ -66,7 +66,7 @@ module Crm
 
     def lookup_account_id(ungc_contact)
       if ungc_contact.organization_id.present?
-        @crm.find_account(ungc_contact.organization_id).try!(:Id)
+        @crm.find_account(ungc_contact.organization_id)&.Id
       end
     end
 

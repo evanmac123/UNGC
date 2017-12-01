@@ -5,13 +5,13 @@ module Crm
       # TODO Only send fields that have changed. If fields is non-empty, it indicates
       # which fields need to be sent.
       ceo = organization.contacts.ceos.first
-      signings = organization.signings.map(&:initiative_id)
+      signings = organization.signings.pluck(:initiative_id)
       {
         "UNGC_ID__c" => organization.id, # Number(18, 0)
         "AccountNumber" => organization.id.to_s, # AccountNumber must be a string Name
         "Sector__c" => convert_sector(organization), # Picklist
         "Join_Date__c" => organization.joined_on, # Date
-        "JoinYear__c" => organization.joined_on.try!(:year), # Number(4, 0)
+        "JoinYear__c" => organization.joined_on&.year, # Number(4, 0)
         "Type" => organization.organization_type.name, # Picklist
         "Country__c" => organization.country_name, # Picklist
         "Name" => organization.name, # Name
@@ -26,23 +26,23 @@ module Crm
         "Region__c" => organization.region_name, # Picklist
         "COP_Status__c" => organization.cop_state, # Picklist
         "COP_Due_On__c" => organization.cop_due_on, # Date
-        "Last_COP_Date__c" => organization.last_approved_cop.try!(:published_on), # Date
-        "Last_COP_Differentiation__c" => organization.last_approved_cop.try!(:differentiation), # Text(30)
+        "Last_COP_Date__c" => organization.last_approved_cop&.published_on, # Date
+        "Last_COP_Differentiation__c" => organization.last_approved_cop&.differentiation, # Text(30)
         "Active_c__c" => active?(organization), # Checkbox
         "Ownership" => organization.listing_status_name, # Picklist
         "Delisted_ON__c" => organization.delisted_on, # Date
         "Rejoined_On__c" => organization.rejoined_on, # Date
         "Local_Network__c" => organization.local_network.present?, # Checkbox
         "State__c" => I18n.t(organization.state), # Picklist
-        "OwnerId" => organization.participant_manager.try!(:crm_owner).try!(:crm_id) || Crm::Owner::DEFAULT_OWNER_ID,
-        "Removal_Reason__c" => organization.removal_reason.try!(:description), # Picklist
+        "OwnerId" => organization.participant_manager&.crm_owner&.crm_id || Crm::Owner::DEFAULT_OWNER_ID,
+        "Removal_Reason__c" => organization.removal_reason&.description, # Picklist
         "ISIN__c" => organization.isin, # Text(40)
         # Billing Address
-        "BillingStreet" => ceo.try!(:full_address),
-        "BillingCity" => ceo.try!(:city),
-        "BillingState" => ceo.try!(:state),
-        "BillingPostalCode" => ceo.try!(:postal_code).try!(:truncate, 20),
-        "BillingCountry" => ceo.try!(:country).try!(:name),
+        "BillingStreet" => ceo&.full_address,
+        "BillingCity" => ceo&.city,
+        "BillingState" => ceo&.state,
+        "BillingPostalCode" => ceo&.postal_code&.truncate(20),
+        "BillingCountry" => ceo&.country&.name,
 
         "Anti_corruption__c" => signed?(signings, :anti_corruption), # Checkbox
         "Board__c" => signed?(signings, :board_members), # Checkbox
@@ -58,7 +58,7 @@ module Crm
         "WEPs__c" => signed?(signings, :weps), # Checkbox
         "Participant_Tier__c" => "Unselected", # Picklist
         "Participant__c" => organization.participant == true, # Checkbox
-        "TickerSymbol" => organization.stock_symbol.try!(:truncate, 20, omission: ""), # Content(20)
+        "TickerSymbol" => organization.stock_symbol&.truncate(20, omission: ""), # Content(20)
         "Participant_Tier_at_Joining__c" => participant_tier(organization), # Picklist
         "Invoice_Date__c" => organization.invoice_date,
       }.transform_values do |value|
@@ -95,7 +95,7 @@ module Crm
       when !organization.sme? && !organization.company?
         0
       else
-        organization.bracketed_revenue_amount.try!(:dollars) || ""
+        organization.bracketed_revenue_amount&.dollars || ""
       end
     end
 

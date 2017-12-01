@@ -20,4 +20,8 @@ class ActionPlatform::Platform < ActiveRecord::Base
 
   scope :available_for_signup, -> { where(discontinued: false) }
 
+  after_commit Crm::CommitHooks.new(:create), on: :create
+  after_commit Crm::CommitHooks.new(:update), on: :update
+  after_commit Crm::CommitHooks.new(:destroy), on: :destroy
+
 end

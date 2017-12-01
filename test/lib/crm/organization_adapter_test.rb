@@ -76,9 +76,9 @@ module Crm
     end
 
     test "converts precise_revenue to annual revenue" do
-      revenue = Monetize.parse("$123,456,789,123,456,789")
+      revenue = Monetize.parse("$123,456,789,123,456")
       converted = convert_organization(precise_revenue: revenue)
-      assert_equal 123456789123456789, converted.fetch("AnnualRevenue")
+      assert_equal 123456789123456, converted.fetch("AnnualRevenue")
     end
 
     test "converts revenue to a dollar amount when precise_revenue is not available" do
@@ -172,7 +172,7 @@ module Crm
     end
 
     test "converts listing statuses" do
-      listing_status = build_stubbed(:listing_status, name: "sample")
+      listing_status = create(:listing_status, name: "sample")
       converted = convert_organization(listing_status: listing_status)
       assert_equal "sample", converted.fetch("Ownership")
     end
@@ -376,7 +376,7 @@ module Crm
       organization = if params.respond_to?(:id)
                        params # it is an organization
                      else
-                       build_stubbed(:organization, params)
+                       create(:organization, params)
                      end
       adapter = Crm::OrganizationAdapter.new
       adapter.to_crm_params(organization)

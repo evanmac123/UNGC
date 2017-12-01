@@ -25,6 +25,10 @@ class ActionPlatform::Subscription < ActiveRecord::Base
   validates :organization, presence: true
   validates :expires_on, presence: true
 
+  after_commit Crm::CommitHooks.new(:create), on: :create
+  after_commit Crm::CommitHooks.new(:update), on: :update
+  after_commit Crm::CommitHooks.new(:destroy), on: :destroy
+
   enum status: {
     pending: 0,
     approved: 1,

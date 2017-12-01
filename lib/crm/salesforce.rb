@@ -49,6 +49,11 @@ module Crm
       client.destroy!(type, id)
     end
 
+    def soft_delete(type, id)
+      attrs = { "IsDeleted" => true, Id: id }
+      update(type, id, attrs)
+    end
+
     def find_account(organization_id)
       find('Account', organization_id.to_s, 'UNGC_ID__c')
     end
@@ -60,6 +65,17 @@ module Crm
     def find_local_network(local_network_id)
       id = LocalNetworkAdapter.convert_id(local_network_id)
       find(LocalNetworkSync.crm_field_name, id, "External_ID__c")
+    end
+
+    def find_action_platform(platform_id)
+      find(ActionPlatformSync::SObjectName, platform_id.to_s, "UNGC_Action_Platform_ID__c")
+    end
+
+    def find_action_platform_subscription(subscription_id)
+      find(ActionPlatformSubscriptionSync::SObjectName,
+        subscription_id.to_s,
+        "UNGC_AP_Subscription_ID__c"
+      )
     end
 
     def self.coerce(value)

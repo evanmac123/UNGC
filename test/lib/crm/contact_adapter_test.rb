@@ -109,7 +109,7 @@ module Crm
       contact = if params.respond_to?(:id)
                   params # it is an contact
                 else
-                  build_stubbed(:contact, params)
+                  create(:contact, params)
                 end
       adapter = Crm::ContactAdapter.new
       adapter.to_crm_params(contact)

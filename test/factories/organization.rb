@@ -42,6 +42,10 @@ FactoryGirl.define do
       employees 11 # just big enough to be an SME
     end
 
+    trait :with_sector do
+      sector { create(:sector) }
+    end
+
     factory :non_business do
       active_participant
 

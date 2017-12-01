@@ -19,8 +19,7 @@ module Crm
     def destroy(local_network_id)
       crm_network = @crm.find_local_network(local_network_id)
       if crm_network.present?
-        attrs = { "IsDeleted" => true, Id: crm_network.Id }
-        @crm.update(crm_field_name, crm_network.Id, attrs)
+        @crm.soft_delete(crm_field_name, crm_network.Id)
       end
     end
 
