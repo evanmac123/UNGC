@@ -1,4 +1,4 @@
-class InitiativeContacts < SimpleReport
+class WaterMandateContacts < SimpleReport
 
   def records
     Contact.find_by_sql("
@@ -40,8 +40,8 @@ class InitiativeContacts < SimpleReport
     LEFT JOIN contacts_roles cr ON cr.contact_id = c.id
     LEFT JOIN roles r ON r.id = cr.role_id
     WHERE
-    i.initiative_id IN (1) AND
-    r.id IN (13) AND
+    i.initiative_id = #{Initiative::FILTER_TYPES[:water_mandate]} AND
+    r.id = #{Role.ceo_water_mandate.id} AND
     o.cop_state != 'delisted'
     GROUP BY contact_id
     ORDER BY o.id")

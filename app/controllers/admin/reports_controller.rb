@@ -189,8 +189,8 @@ class Admin::ReportsController < AdminController
     render_report(report, "action_platform_contacts_#{date_as_filename}.xls")
   end
 
-  def initiative_contacts
-    report = InitiativeContacts.new
+  def water_mandate_contacts
+    report = WaterMandateContacts.new
     render_report(report, "water_mandate_contacts_#{date_as_filename}.xls")
   end
 
