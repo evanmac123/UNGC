@@ -320,7 +320,7 @@ class Organization < ActiveRecord::Base
               SELECT
                 organization_id,
                 MAX(created_at) AS latest_cop,
-                COUNT(id) AS cop_count
+                COUNT(*) AS cop_count
               FROM
                 communication_on_progresses
               WHERE
