@@ -37,6 +37,7 @@ class Role < ActiveRecord::Base
     :integrity_team_member     => 'Integrity Team Member',
     :integrity_manager         => 'Integrity Manager',
     :ceo_water_mandate         => 'CEO Water Mandate',
+    :caring_for_climate        => 'Caring for Climate',
   }
 
   def self.visible_to(user, current_contact=nil)
@@ -166,6 +167,10 @@ class Role < ActiveRecord::Base
 
   def self.ceo_water_mandate
     @_ceo_water_mandate ||= find_by(name: FILTERS[:ceo_water_mandate])
+  end
+
+  def self.caring_for_climate
+    @_caring_for_climate ||= find_by(name: FILTERS[:caring_for_climate])
   end
 
   def self.login_roles
