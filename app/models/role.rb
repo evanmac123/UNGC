@@ -22,22 +22,22 @@ class Role < ActiveRecord::Base
   before_update :check_for_filtered_name_change
 
   FILTERS = {
-    :ceo                       => 'Highest Level Executive',
-    :contact_point             => 'Contact Point',
-    :financial_contact         => 'Financial Contact',
-    :general_contact           => 'General Contact',
-    :network_focal_point       => 'Network Contact Person',
-    :network_guest_user        => 'Local Network Guest',
-    :network_regional_manager  => 'Local Network Manager',
-    :network_report_recipient  => 'Network Report Recipient',
-    :network_representative    => 'Network Representative',
-    :survey_contact            => 'Annual Survey Contact',
-    :website_editor            => 'Website Editor',
-    :participant_manager       => 'Participant Relationship Manager',
-    :integrity_team_member     => 'Integrity Team Member',
-    :integrity_manager         => 'Integrity Manager',
-    :ceo_water_mandate         => 'CEO Water Mandate',
-    :caring_for_climate        => 'Caring for Climate',
+    ceo: 'Highest Level Executive',
+    contact_point: 'Contact Point',
+    financial_contact: 'Financial Contact',
+    general_contact: 'General Contact',
+    network_focal_point: 'Network Contact Person',
+    network_guest_user: 'Local Network Guest',
+    network_regional_manager: 'Local Network Manager',
+    network_report_recipient: 'Network Report Recipient',
+    network_representative: 'Network Representative',
+    survey_contact: 'Annual Survey Contact',
+    website_editor: 'Website Editor',
+    participant_manager: 'Participant Relationship Manager',
+    integrity_team_member: 'Integrity Team Member',
+    integrity_manager: 'Integrity Manager',
+    ceo_water_mandate: 'CEO Water Mandate',
+    caring_for_climate: 'Caring for Climate',
   }
 
   def self.visible_to(user, current_contact=nil)
