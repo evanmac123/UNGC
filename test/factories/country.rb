@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :country do
-    name { Faker::Address.country }
+    sequence(:name) { |n| "#{Faker::Address.country}-#{n}" }
+    sequence(:code) { |n| "#{Faker::Code.ean}-#{n}" }
     region "North America"
-    code { Faker::Code.ean }
   end
 end
