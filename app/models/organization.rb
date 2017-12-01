@@ -150,7 +150,7 @@ class Organization < ActiveRecord::Base
     numericality: {
       greater_than_or_equal_to: 0,
       less_than_or_equal_to: 92_000_000_000_000_000,
-      message: "must be less than or equal to $92,000,000,000,000,000.00",
+      message: "must be greater than 0 and less than $US 92,000,000,000,000,000"
   }
 
   cattr_reader :per_page

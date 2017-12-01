@@ -243,7 +243,12 @@ class SignupController < ApplicationController
   def participation_level_params
     params.require(:organization).permit(
       :level_of_participation,
-      :invoice_date
+      :invoice_date,
+      subscriptions: [
+        :selected,
+        :contact_id,
+        :platform_id
+      ]
     )
   end
 end

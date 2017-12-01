@@ -478,7 +478,7 @@ class OrganizationTest < ActiveSupport::TestCase
 
     assert_not organization.valid?, "should be invalid"
     assert_includes organization.errors.full_messages,
-      "Precise revenue must be less than or equal to $92,000,000,000,000,000.00"
+      "Precise revenue must be greater than 0 and less than $US 92,000,000,000,000,000"
   end
 
   test "bracketed revenue is set on creation" do

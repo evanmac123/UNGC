@@ -116,6 +116,47 @@ class Organization::InvoicingPolicyTest < ActiveSupport::TestCase
     assert_includes_error form, "Invoice date must be a valid date"
   end
 
+  test "default invoicing strategy" do
+    strategy = Organization::InvoicingPolicy::DefaultStrategy.new
+
+    expected = {type: :default, value: true}
+    assert_equal expected, strategy.to_h
+  end
+
+  test "revenue sharing invoicing strategy" do
+    network = build(:local_network,
+      business_model: :revenue_sharing,
+      invoice_managed_by: :gco)
+    strategy = Organization::InvoicingPolicy::RevenueSharing.new(network)
+
+    expected = {type: "revenue_sharing", value: true}
+    assert_equal expected, strategy.to_h
+  end
+
+  test "global-local invoicing strategy" do
+    network = build(:local_network,
+      business_model: :global_local,
+      invoice_options_available: :no)
+    strategy = Organization::InvoicingPolicy::GlobalLocal.new(network, nil)
+
+    expected = {
+      type: "global_local",
+      threshold_in_cents: 1_000_000_000_00,
+      local: false,
+      global: true
+    }
+
+    assert_equal expected, strategy.to_h
+  end
+
+  test "not yet decided invoicing strategy" do
+    network = build(:local_network, business_model: :not_yet_decided)
+    strategy = Organization::InvoicingPolicy::NotYetDecided.new(network)
+
+    expected = {type: "not_yet_decided", value: false}
+    assert_equal expected, strategy.to_h
+  end
+
   private
 
   def create_policy(model: nil, managed_by: nil, required: nil, revenue: nil,

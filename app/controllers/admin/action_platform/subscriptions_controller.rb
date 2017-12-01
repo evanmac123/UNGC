@@ -43,7 +43,8 @@ class Admin::ActionPlatform::SubscriptionsController < AdminController
     contact = organization.financial_contact_or_contact_point
     {
       organization: organization,
-      financial_contact_id: contact.id
+        financial_contact_id: contact.id,
+        revenue: organization.precise_revenue
     }.merge(contact.attributes)
   end
 

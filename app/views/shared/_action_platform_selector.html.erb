@@ -1,0 +1,33 @@
+<h3>Select the Action Platforms that you would like to sign up for</h3>
+
+<p>We are offering a portfolio of Action Platforms to advance business activities and outcomes in relation to the Ten Principles and the SDGs. Developed in consultation with companies, Local Networks, UN agencies and relevant partners, Action Platforms fill emerging gaps in advancing the SDGs. They are tailored for up to 40 companies and each Platform requires an annual fee in addition to the Participant Tier annual contribution.</p>
+
+<p>Companies that engage in two or more Action Platforms, pass an integrity screen and submit an Advanced COP are eligible to be recognized as LEAD.</p>
+
+<ul>
+  <li>Select the Action Platforms that you would like to sign up for</li>
+  <li>Confirm or update your financial contact information</li>
+  <li>Provide us with up to date revenue information</li>
+</ul>
+
+<% platforms.each do |platform, subscription| %>
+  <% platform_prefix = "#{prefix}[#{platform.id}]" %>
+  <div class="action-platform ap-boxes" role="<%= platform.slug %>">
+    <div class='field field-checkbox'>
+      <label>
+        <h2>
+          <%= check_box_tag "#{platform_prefix}[selected]", "1", subscription&.selects?(platform), class: "platform-selection" %>
+          <%= platform.name %>
+        </h2>
+      </label>
+
+      <p><%= platform.description %></p>
+      <p>Please identify the focal point within your company who will engage in this platform.</p>
+      <%= select_tag("#{platform_prefix}[contact_id]",
+                     options_for_select(contacts, subscription&.contact_id),
+                     prompt: "Select a contact...") %>
+      <%= hidden_field_tag "#{platform_prefix}[platform_id]", platform.id %>
+      <p>If you do not see the focal point on this list, please add them <%= link_to "here.", dashboard_path(tab: :contacts) %></p>
+    </div>
+  </div>
+<%- end -%>

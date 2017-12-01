@@ -11,7 +11,8 @@ class Admin::LevelOfParticipationsController < AdminController
     @form = Organization::LevelOfParticipationForm.from(find_organization)
     @form.attributes = form_params
     if @form.save
-      redirect_to dashboard_url, notice: I18n.t("level_of_participation.success")
+      notice = I18n.t("level_of_participation.success")
+      redirect_to dashboard_url, notice: notice
     else
       render :new
     end
@@ -39,6 +40,12 @@ class Admin::LevelOfParticipationsController < AdminController
       :invoice_date,
       :financial_contact_id,
       :financial_contact_action,
+      :accept_platform_removal,
+      subscriptions: [
+        :selected,
+        :contact_id,
+        :platform_id
+      ],
       financial_contact: [
         :id,
         :prefix,

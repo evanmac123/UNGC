@@ -130,6 +130,10 @@ class OrganizationSignup
     end
   end
 
+  def contacts
+    [@primary_contact, @ceo]
+  end
+
   # these are hook methods that can be implemented by the subclasses
   def before_save; end
   def after_save; end

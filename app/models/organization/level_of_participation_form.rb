@@ -1,6 +1,7 @@
 class Organization::LevelOfParticipationForm
   include Virtus.model
   include ActiveModel::Model
+
   attr_writer :invoicing_policy
 
   class FinancialContact
@@ -80,8 +81,18 @@ class Organization::LevelOfParticipationForm
   attribute :financial_contact_action, String
   attribute :financial_contact_id, Integer
 
+  attribute :subscriptions, Hash[Integer, ActionPlatform::SubscriptionForm], default: {}
+  attribute :accept_platform_removal, Boolean
+
   validates :organization, presence: true
-  validates :level_of_participation, presence: true
+  validates :level_of_participation, inclusion: {
+    message: "must be given",
+    in: [
+      "signatory_level",
+      "participant_level",
+      "lead_level"
+    ]
+  }
   validates :contact_point_id, presence: true
   validates :is_subsidiary, inclusion: {
     in: [true, false], message: "must be indicated"
@@ -93,17 +104,21 @@ class Organization::LevelOfParticipationForm
     numericality: {
     greater_than: 0,
     less_than_or_equal_to: 92_000_000_000_000_000,
-    message: "must be less than $US 92,000,000,000,000,000"
+    message: "must be greater than 0 and less than $US 92,000,000,000,000,000"
   }
 
   validates :confirm_financial_contact_info, presence: { message: "must be accepted" }
   validates :confirm_submission, presence: { message: "must be accepted" }
+  validates :accept_platform_removal,
+    presence: { message: "policy must be accepted" },
+    if: :lead_level?
+  validates :financial_contact, presence: true, if: :financial_contact_required?
 
   validate :invoice_date do
     invoicing_policy.validate(self)
   end
 
-  validates :financial_contact, presence: true, if: :financial_contact_required?
+  validate :validate_subscriptions, if: :lead_level?
 
   validate :financial_contact do
     if financial_contact_required? && financial_contact.invalid?
@@ -150,21 +165,46 @@ class Organization::LevelOfParticipationForm
     invoicing_policy.invoicing_required?
   end
 
+  def invoicing_options
+    invoicing_policy.to_h
+  end
+
+  def platforms_with_subscriptions
+    @_platforms ||= ActionPlatform::Platform.available_for_signup
+    @_platforms.map do |platform|
+      [
+        platform,
+        organization.action_platform_subscriptions.fetch(platform.id) {
+          ActionPlatform::SubscriptionForm.new(platform_id: platform.id)
+        }
+      ]
+    end
+  end
+
+  def contacts
+    organization.contacts.select(:id, :first_name, :last_name).map do |c|
+      [c.name, c.id]
+    end
+  end
+
   def save
     if valid?
       Organization.transaction do
-        attrs = {
-          precise_revenue: annual_revenue,
-          level_of_participation: level_of_participation,
-          invoice_date: invoice_date,
-        }
+        organization.precise_revenue = annual_revenue
+        organization.invoice_date = invoice_date
+
+        if level_of_participation == "lead_level"
+          organization.level_of_participation = "participant_level"
+        else
+          organization.level_of_participation = level_of_participation
+        end
 
         # Ignore companies who mark themselves as their own parents
         unless parent_company_id == organization.id
-          attrs[:parent_company_id] = parent_company_id
+          organization.parent_company_id = parent_company_id
         end
 
-        organization.update!(attrs)
+        organization.save!
 
         # ensure the contact specified is a contact point
         ensure_in_role(contact_point_id, Role.contact_point)
@@ -216,6 +256,10 @@ class Organization::LevelOfParticipationForm
     invoicing_policy.options
   end
 
+  def selected_subscriptions
+    subscriptions.values.select(&:selected)
+  end
+
   private
 
   def invoicing_policy
@@ -253,6 +297,18 @@ class Organization::LevelOfParticipationForm
     DomainEvents::OrganizationAnnualRevenueChanged.new(data: {
       annual_revenue: annual_revenue
     })
+  end
+
+  def validate_subscriptions
+    selected_subscriptions.each do |subscription|
+      if subscription.contact_id.blank?
+        errors.add(:subscriptions, "a contact must be provided for each Action Platform selected")
+      end
+    end
+  end
+
+  def lead_level?
+    level_of_participation.to_s == "lead_level"
   end
 
 end

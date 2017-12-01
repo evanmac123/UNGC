@@ -24,6 +24,9 @@ class BusinessSignupTest < ActionDispatch::IntegrationTest
       name: "France",
       local_network: create(:local_network, invoice_options_available: "yes"))
 
+    # and 3 Action Platforms
+    platform1, platform2, _ = create_list(:action_platform_platform, 3)
+
     # step 1
     visit "/participation/join/application/step1/business"
 
@@ -83,8 +86,10 @@ class BusinessSignupTest < ActionDispatch::IntegrationTest
     click_on "Next"
     assert_equal organization_step4_path, current_path, validation_errors
 
-    # step4 level of participation, invoice date
-    choose "PARTICIPANT"
+    # step4 level of participation, invoice date, action platforms
+    choose "ACTION PLATFORMS & LEAD ELIGIBILITY"
+    signup_for_action_platform(platform1, "Michael Henry")
+    signup_for_action_platform(platform2, "Michael Henry")
 
     click_on "Next"
     assert_equal organization_step5_path, current_path, validation_errors
@@ -185,6 +190,9 @@ class BusinessSignupTest < ActionDispatch::IntegrationTest
     assert_equal cp.state, financial_contact.state
     assert_equal cp.postal_code, financial_contact.postal_code
     assert_equal cp.country.name, financial_contact.country.name
+
+    # There should be 2 pending action platform subscriptions
+    assert_equal 2, ActionPlatform::Subscription.where(organization: organization).count
   end
 
   private
@@ -205,4 +213,10 @@ class BusinessSignupTest < ActionDispatch::IntegrationTest
     find(:xpath, "//input[@id='organization_parent_company_id']", visible: :all).set(parent_company.id)
   end
 
+  def signup_for_action_platform(platform, contact_name)
+    platform_selector = "organization_subscriptions_#{platform.id}_selected"
+    contact_selector = "organization_subscriptions_#{platform.id}_contact_id"
+    check(platform_selector)
+    select(contact_name, from: contact_selector)
+  end
 end

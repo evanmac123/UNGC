@@ -214,6 +214,7 @@ en:
     level_of_participation: Level of Participation
   signatory_level: Signatory Level
   participant_level: Participant Level
+  lead_level: Action Platform LEAD
 
   level_of_participation:
     confirm_primary_contact_point: "Please confirm your company’s primary contact point for managing your Global Compact participation:"
@@ -222,6 +223,7 @@ en:
     invoice_date: "Please select your company’s preferred invoice date:"
     invoice_on_next_cop_due_date: "Invoice me on the due date of my company’s next Communication on Progress (COP): %{cop_due_on}"
     confirm_submission: "I confirm the information I have entered is correct and I acknowledge that my company is required to produce an annual Communication on Progress (COP) in order to remain an active Participant or Signatory of the UN Global Compact."
+    accept_platform_removal: "I acknowledge that the UN Global Compact will remove my company's participation in the Action Platform if my company is de-listed from the UN Global Compact"
     success: "Thank you for your submission"
     is_subsidiary_question: "Is your company a subsidiary or country office of a Global Compact Participant or Signatory?"
   due_diligence:

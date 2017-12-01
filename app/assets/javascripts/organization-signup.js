@@ -187,5 +187,23 @@ $(function(){
     }
   });
 
+  // show/hide the action platform selection box
+  var levelSelector = $("input[name='organization[level_of_participation]']");
+  if(levelSelector.length > 0) {
+    var toggleApSelector = function() {
+      var selector = $("#action-platform-selector"),
+          choice = $("input[name='organization[level_of_participation]']:checked").val(),
+          ap_eula_label = $("label[for='level_of_participation_accept_platform_removal']"),
+          ap_eula_checkbox = $("#level_of_participation_accept_platform_removal"),
+          isLead = choice === "lead_level";
+
+      selector.toggle(isLead);
+      ap_eula_label.toggle(isLead);
+      ap_eula_checkbox.toggle(isLead);
+      ap_eula_checkbox.prop("disabled", !isLead);
+    };
+    levelSelector.change(toggleApSelector);
+    toggleApSelector();
+  }
 
 });

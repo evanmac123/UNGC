@@ -1,7 +1,7 @@
 <section class="level-of-participation-page">
   <section>
     <p class="blurb">
-      Starting in January 2018, the UN Global Compact will offer two distinct engagement tiers to suit your company’s needs: Participant or Signatory. In order to engage in either tier, and remain an active Participant or Signatory of the UN Global Compact, we ask larger companies to make a required annual financial contribution, based on their company’s annual gross revenue/sales.
+      Starting in January 2018, the UN Global Compact will offer two distinct engagement tiers to suit your company’s needs: Signatory and Participant. In order remain an active Signatory or Participant of the UN Global Compact, we ask larger companies to make a required annual financial contribution, based on their company’s annual gross revenue/sales. In addition, companies have the opportunity to engage in Action Platforms and thereby become eligible for LEAD recognition.
     </p>
     <p>Please complete this brief form to confirm your company’s continued participation in the world’s largest corporate sustainability initiative:</p>
     <ul>
@@ -30,6 +30,14 @@
 
       <p class="small"><a href="/engage-locally" target="_blank">**Please contact your Local Network for more details</a></p>
     </section>
+
+    <div id="action-platform-selector">
+      <%= render(partial: "shared/action_platform_selector", locals: {
+        prefix: "level_of_participation[subscriptions]",
+        platforms: @form.platforms_with_subscriptions,
+        contacts: @form.contacts
+      }) %>
+    </div>
 
     <div class="clear break"></div>
 
@@ -68,8 +76,8 @@
       <div class="clear"></div>
 
       <div class="field">
-        <%= form.label :annual_revenue, I18n.t("level_of_participation.confirm_annual_revenue") %>
-        <%= form.text_field :annual_revenue %>
+        <%= form.label :annual_revenue, t("level_of_participation.confirm_annual_revenue") %>
+        <%= form.text_field :annual_revenue, data: @form.invoicing_options %>
       </div>
 
       <section class="lop-form">
@@ -164,11 +172,9 @@
                        t("level_of_participation.confirm_financial_contact_info")) %>
       </div>
 
-      <% if @form.invoicing_required? %>
-        <%= render(partial: "/shared/invoice_date_selector", locals: {
-          form: form, options: @form.invoice_date_options
-        }) %>
-      <% end %>
+      <%= render(partial: "/shared/invoice_date_selector", locals: {
+        form: form, options: @form.invoice_date_options
+      }) %>
 
     </section>
 
@@ -186,6 +192,10 @@
       <div class="field leftcheck">
         <%= form.check_box :confirm_submission %>
         <%= form.label :confirm_submission, t("level_of_participation.confirm_submission") %>
+      </div>
+      <div class="field leftcheck">
+        <%= form.check_box :accept_platform_removal %>
+        <%= form.label :accept_platform_removal, t("level_of_participation.accept_platform_removal") %>
       </div>
     </section>
     <div class="button">

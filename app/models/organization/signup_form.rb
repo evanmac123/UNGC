@@ -8,4 +8,7 @@ class Organization::SignupForm < SimpleDelegator
     super.model_name
   end
 
+  def organization
+    __getobj__
+  end
 end

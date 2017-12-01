@@ -127,7 +127,7 @@ module ActionPlatform
 
       selected_subscriptions.each do |subscription|
         if subscription.contact_id.blank?
-          errors.add(:subscriptions, "A contact must be provided for each Action Platform")
+          errors.add(:subscriptions, "A contact must be provided for each Action Platform selected")
         end
       end
     end

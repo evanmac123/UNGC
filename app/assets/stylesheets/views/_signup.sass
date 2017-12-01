@@ -1,3 +1,7 @@
+$signatory-color: color('light-blue')
+$participant-color: color('blue')
+$lead-color: color('dark-blue')
+
 form.signup
   ul
     padding-left: 0
@@ -10,33 +14,43 @@ form.signup
 //engagement tiers forms page
 
 .engagement-tier
+  // HACK: cancel out the relative positioning coming from high in the document
+  *
+    position: static
+
+  padding: 0 2em
+  .wrapper
+    margin: 0 1%
   form.signup li
     list-style: disc
     margin-bottom: inherit
+    margin-bottom: 0
     margin-left: 1.5em
   thead
     th
       background: #fff
-      font-size: 1em
+      font-size: 0.9em
       text-align: left
       padding: 0.8em
-      //border: 5px solid white
-      &.participant
-        background: rgb(30,50,80)
-        border-right: 2px solid rgb(30,50,80)
-        color: white
-        cursor: pointer
+      color: white
+      cursor: pointer
       &.signatory
-        background: #699cc6
-        border-right: 2px solid #699cc6
-        color: white
-        cursor: pointer
+        background: $signatory-color
+        border-right: 2px solid $signatory-color
+      &.participant
+        background: $participant-color
+        border-right: 2px solid $participant-color
+      &.lead
+        background: $lead-color
+        border-right: 2px solid $lead-color
   td
     line-height: 1.25em
     background: #e6e6e6
     border-top: 2px solid white
     border-bottom: 2px solid white
-    padding: 0.25em 1.5em
+    padding: 0.5em 1.5em 0.25em 1.5em
+    vertical-align: top
+    font-size: 0.89em
   tr:nth-of-type(1)
     td
       border-top: none
@@ -50,16 +64,17 @@ form.signup
     font-weight: bold
     min-width: 185px
   tr td:nth-of-type(2)
-    border-right: 2px solid rgb(30,50,80)
+    border-right: 2px solid $signatory-color
     border-left: 2px solid white
-    background: #d9d9d9
+    background: #e6e6e6
     vertical-align: top
   tr td:nth-of-type(3)
-    border-right: 2px solid #699cc6
+    border-right: 2px solid $signatory-color
     vertical-align: top
     ol
       list-style-type: disc
-    //border-left: 5px solid white
+  tr td:nth-of-type(4)
+    border-right: 2px solid $lead-color
 
 #select-subsidary
   margin-bottom: 0
@@ -96,3 +111,33 @@ form.signup
       font-weight: bold
   input[type='submit']
     margin: 1.5em 0 0 0
+
+#action-platform-selector
+  margin-top: 2em
+
+  .ap-boxes
+    -webkit-box-sizing: border-box
+    -moz-box-sizing: border-box
+    box-sizing: border-box
+    //min-height: 600px
+    border-right: 20px solid white
+    border-left: 1px solid #1e3250
+    margin: 0 0 1.2em 0
+    p
+      font-size: 0.89em
+    select
+      margin-bottom: 1em
+    h2
+      font-size: 1.125em
+      input
+        margin-top: 6px
+        display: block
+        width: 20px
+        height: 20px
+        float: left
+
+@media only screen and (max-width: 881px)
+
+  #action-platform-selector
+    .ap-boxes
+      min-height: auto

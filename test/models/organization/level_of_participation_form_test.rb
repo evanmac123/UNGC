@@ -8,9 +8,8 @@ class Organization::LevelOfParticipationFormTest < ActiveSupport::TestCase
   end
 
   test "level_of_participation must be present" do
-    form = build_form(
-      level_of_participation: nil)
-    assert_includes_error form, "Level of participation can't be blank"
+    form = build_form(level_of_participation: nil)
+    assert_includes_error form, "Level of participation must be given"
   end
 
   test "primary contact point must be present" do
@@ -36,15 +35,13 @@ class Organization::LevelOfParticipationFormTest < ActiveSupport::TestCase
   end
 
   test "annual revenue must be given" do
-    form = build_form(
-      annual_revenue: nil)
-    assert_includes_error form, "Annual revenue must be greater than 0"
+    form = build_form(annual_revenue: nil)
+    assert_includes_error form, "Annual revenue must be greater than 0 and less than $US 92,000,000,000,000,000"
   end
 
   test "annual revenue must be a positive amount" do
-    form = build_form(
-      annual_revenue: -123)
-    assert_includes_error form, "Annual revenue must be greater than 0"
+    form = build_form(annual_revenue: -123)
+    assert_includes_error form, "Annual revenue must be greater than 0 and less than $US 92,000,000,000,000,000"
   end
 
   test "financial contact info must be confirmed" do
@@ -81,14 +78,19 @@ class Organization::LevelOfParticipationFormTest < ActiveSupport::TestCase
 
   test "invoice_date is not required when the invoicing policy doesn't require it" do
     form = build_form(invoice_date: nil)
-    form.invoicing_policy = stub(invoicing_required?: false)
+
+    policy = mock("invoicing_policy")
+    policy.expects(:validate).with(form).returns(:nil)
+    Organization::InvoicingPolicy.stubs(:new).returns(policy)
+
     assert form.valid?, form.errors.full_messages
   end
 
   test "invoice_date is required when the incoming annual revenue is over the threshold" do
     # from an actual bug
-    low_revenue = Organization::InvoicingPolicy::THRESHOLD - Money.from_amount(1)
-    high_revenue = Organization::InvoicingPolicy::THRESHOLD + Money.from_amount(1)
+    threshold = Organization::InvoicingPolicy::GlobalLocal::THRESHOLD
+    low_revenue = threshold - Money.from_amount(1)
+    high_revenue = threshold + Money.from_amount(1)
 
     # Given an organization without revenue under the threshold
     organization = create(:organization, precise_revenue: low_revenue)
@@ -106,6 +108,21 @@ class Organization::LevelOfParticipationFormTest < ActiveSupport::TestCase
 
     # Then the form is invalid
     assert_includes_error form, "Invoice date can't be blank"
+  end
+
+  test "lead submissions must accept the platform removal terms" do
+    form = build_form(level_of_participation: "lead_level", accept_platform_removal: nil)
+
+    assert_not form.save, "form should not be valid"
+    assert_includes_error form, "Accept platform removal policy must be accepted"
+  end
+
+  test "participant and signatory levels don't have to accept the platform removal terms" do
+    form = build_form(level_of_participation: "signatory_level", accept_platform_removal: nil)
+    assert form.save, form.errors.full_messages
+
+    form = build_form(level_of_participation: "participant_level", accept_platform_removal: nil)
+    assert form.save, form.errors.full_messages
   end
 
   test "sets organization level_of_participation" do
@@ -150,63 +167,6 @@ class Organization::LevelOfParticipationFormTest < ActiveSupport::TestCase
     assert form.persisted?
   end
 
-  test "a new financial contact is created when one doesn't exist" do
-    organization = create(:organization)
-    assert_empty organization.contacts
-
-    c = build(:contact)
-    contact_attributes = contact_attrs(c)
-
-    form = build_form(organization: organization, financial_contact: contact_attributes)
-
-    assert form.save, form.errors.full_messages
-    names = organization.reload.
-      contacts.
-      financial_contacts.
-      map(&:name)
-
-    assert_contains names, c.name
-  end
-
-  test "updates the financial contact if it already exists" do
-    organization = create(:organization)
-    c = create(:contact,
-      organization: organization,
-      middle_name: "Old",
-      roles: [Role.financial_contact]
-    )
-
-    c.middle_name = "Changed"
-    financial_contact = contact_attrs(c)
-
-    form = build_form(
-      organization: organization,
-      financial_contact: financial_contact
-    )
-
-    assert form.save, form.errors.full_messages
-    financial_contact = form.organization.contacts.financial_contacts.first
-
-    assert_not_nil financial_contact
-    assert_equal "Changed", financial_contact.middle_name
-  end
-
-  test "duplicate email" do
-    # Given a contact
-    email = "alice@example.com"
-    create(:contact, email: email)
-
-    # When we try to create a new financial contact with the same email
-    # we get a validation error
-    c = build(:contact, email: email)
-    financial_contact = contact_attrs(c)
-    assert_equal email, financial_contact.fetch(:email)
-
-    form = build_form(financial_contact: financial_contact)
-    form.save
-    assert_includes_error form, "Email has already been taken"
-  end
-
   test "only show contacts that are able to login as candidates for contact points" do
     # Given a contact from an organization that can't login
     organization = create(:organization)
@@ -245,6 +205,34 @@ class Organization::LevelOfParticipationFormTest < ActiveSupport::TestCase
     assert_nil organization.reload.parent_company_id
   end
 
+  test "action platforms selected must be valid" do
+    platform = create(:action_platform_platform)
+
+    form = build_form(
+      level_of_participation: "lead_level",
+      subscriptions: {
+        platform.id => {
+          selected: true,
+          platform_id: platform.id,
+          contact_id: nil
+        }
+      }
+    )
+
+    assert_includes_error form, "Subscriptions a contact must be provided for each Action Platform selected"
+  end
+
+  test "selecting lead puts the organization in the participant tier" do
+    form = build_form(
+      level_of_participation: "lead_level",
+      accept_platform_removal: true,
+    )
+
+    assert form.save, form.errors.full_messages
+    organization = form.organization.reload
+    assert_equal "participant_level", organization.level_of_participation
+  end
+
   private
 
   def build_form(params = {})
@@ -257,12 +245,6 @@ class Organization::LevelOfParticipationFormTest < ActiveSupport::TestCase
         roles: [Role.contact_point]).id
     end
 
-    financial_contact = params.fetch :financial_contact do
-      c = build(:contact, organization: organization,
-        roles: [Role.financial_contact])
-      contact_attrs(c)
-    end
-
     Organization::LevelOfParticipationForm.new(params.reverse_merge(
       level_of_participation: "participant_level",
       is_subsidiary: false,
@@ -271,8 +253,9 @@ class Organization::LevelOfParticipationFormTest < ActiveSupport::TestCase
       confirm_submission: true,
       contact_point_id: contact_point_id,
       organization: organization,
-      financial_contact: financial_contact,
-      invoice_date: 3.months.from_now,
+      financial_contact_id: contact_point_id,
+      financial_contact_action: "choose",
+      invoice_date: 3.months.from_now.to_date,
     ))
   end
 

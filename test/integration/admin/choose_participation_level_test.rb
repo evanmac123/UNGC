@@ -33,7 +33,7 @@ class Admin::ChooseParticipationLevelTest < ActionDispatch::IntegrationTest
     form.visit
 
     # And they select a level of participation
-    form.select_level_of_participation("signatory")
+    form.select_level_of_participation("SIGNATORY")
 
     # And confirm the primary contact point
     form.confirm_contact_point(contact)
@@ -81,7 +81,7 @@ class Admin::ChooseParticipationLevelTest < ActionDispatch::IntegrationTest
     # (which they cannot yet see on the form)
     form = TestPage::ChooseLevelOfParticipation.new
     form.visit
-    form.select_level_of_participation("signatory")
+    form.select_level_of_participation("SIGNATORY")
     form.confirm_contact_point(contact)
     form.is_subsidiary = false
     form.annual_revenue = "9,123,456,567"
@@ -104,13 +104,6 @@ class Admin::ChooseParticipationLevelTest < ActionDispatch::IntegrationTest
     form.has_content? I18n.t("level_of_participation.success")
   end
 
-  # No financial contact ->
-  #   Dropdown to choose a contact to add the role to
-  #   Or
-  #   Fields to create a new one from:
-  # Has financial contact ->
-  #   Pre-filled fields to edit
-
   test "When there is no financial contact, an existing contact can be selected" do
     organization = create_organization
     contact_point = create_contact_point(organization)
@@ -121,7 +114,7 @@ class Admin::ChooseParticipationLevelTest < ActionDispatch::IntegrationTest
     form.visit
 
     # When the form is filled out
-    form.select_level_of_participation("participant")
+    form.select_level_of_participation("PARTICIPANT")
     form.annual_revenue = "$123,456.78"
     form.confirm_contact_point(contact_point)
     form.confirm_financial_contact_info
@@ -149,7 +142,7 @@ class Admin::ChooseParticipationLevelTest < ActionDispatch::IntegrationTest
     form.visit
 
     # When the form is filled out
-    form.select_level_of_participation("participant")
+    form.select_level_of_participation("PARTICIPANT")
     form.annual_revenue = "$123,456.78"
     form.confirm_contact_point(contact_point)
     form.confirm_financial_contact_info
@@ -194,7 +187,7 @@ class Admin::ChooseParticipationLevelTest < ActionDispatch::IntegrationTest
     form.visit
 
     # When the form is filled out
-    form.select_level_of_participation("participant")
+    form.select_level_of_participation("PARTICIPANT")
     form.annual_revenue = "$123,456.78"
     form.confirm_contact_point(contact_point)
     form.confirm_financial_contact_info
@@ -205,6 +198,38 @@ class Admin::ChooseParticipationLevelTest < ActionDispatch::IntegrationTest
     # financial contact has been chosen and re-confirmed
     form.submit
     assert_empty form.validation_errors
+  end
+
+  test "ActionPlatform LEAD" do
+    platform1, platform2 = create_list(:action_platform_platform, 2)
+    organization = create_organization()
+    contact = create_contact_point(organization)
+    login_as(contact)
+
+    form = TestPage::ChooseLevelOfParticipation.new
+    visit form.path
+
+    form.select_level_of_participation("ACTION PLATFORMS & LEAD ELIGIBILITY")
+    form.confirm_contact_point(contact)
+    form.is_subsidiary = false
+    form.annual_revenue = "123,456,567"
+    form.assign_financial_contact_role_to(contact)
+    form.confirm_financial_contact_info
+    form.invoice_me_now
+    form.confirm_submission
+    form.accept_platform_removal
+
+    # Select 2 action platforms
+    form.signup_for_action_platform(platform1, contact)
+    form.signup_for_action_platform(platform2, contact)
+
+    # When we submit
+    form.submit
+
+    # Then we expect that it will be successful
+    assert_empty form.validation_errors
+    assert_equal dashboard_path, current_path
+    page.has_content? I18n.t("level_of_participation.success")
   end
 
   private

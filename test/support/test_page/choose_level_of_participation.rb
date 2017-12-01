@@ -10,7 +10,7 @@ module TestPage
     end
 
     def select_level_of_participation(level)
-      choose level.upcase
+      choose level
     end
 
     def confirm_contact_point(contact)
@@ -81,6 +81,17 @@ module TestPage
 
     def validation_errors
       all(:css, "#errorExplanation li").map(&:text).to_sentence
+    end
+
+    def signup_for_action_platform(platform, contact)
+      platform_selector = "level_of_participation_subscriptions_#{platform.id}_selected"
+      contact_selector = "level_of_participation_subscriptions_#{platform.id}_contact_id"
+      check(platform_selector)
+      select(contact.name, from: contact_selector)
+    end
+
+    def accept_platform_removal
+      check(I18n.t("level_of_participation.accept_platform_removal"))
     end
 
     private

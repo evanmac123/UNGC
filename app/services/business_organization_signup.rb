@@ -7,6 +7,7 @@ class BusinessOrganizationSignup < OrganizationSignup
     org = Organization.new(organization_type: OrganizationType.sme)
     @organization = Organization::SignupForm.new(org)
     @financial_contact = Contact.new_financial_contact
+    @ap_subscriptions = []
   end
 
   def types
@@ -58,6 +59,24 @@ class BusinessOrganizationSignup < OrganizationSignup
       end
     end
 
+    organization = @organization.organization # Sigh, unwrap the form object
+    order_service = ActionPlatform::OrderService.new(organization, financial_contact)
+
+    @ap_subscriptions.each do |subscription|
+      contact_index = subscription.contact_id
+      contact = contacts[contact_index]
+      order_service.subscribe(
+        contact_id: contact.id,
+        platform_id: subscription.platform_id,
+      )
+    end
+
+    order = order_service.create_order
+
+    if order.nil? && order.subscriptions.any?
+      raise "Failed to create action platform subscriptions order"
+    end
+
     true
   end
 
@@ -91,8 +110,24 @@ class BusinessOrganizationSignup < OrganizationSignup
   end
 
   def select_participation_level(params)
-    organization.level_of_participation = params.fetch(:level_of_participation)
+    level = params.fetch(:level_of_participation)
+    real_level = if level == "lead_level"
+                   "participant_level"
+                 else
+                   level
+                 end
+    organization.level_of_participation = real_level
     organization.invoice_date = params[:invoice_date]
+
+    @ap_subscriptions = params.fetch(:subscriptions, {})
+      .values
+      .select { |s| s[:selected] == "1" }
+      .map do |s|
+        ActionPlatform::Subscription.new(
+          contact_id: s[:contact_id],
+          platform_id: s[:platform_id]
+        )
+      end
   end
 
   def valid_participant_level?
@@ -107,6 +142,14 @@ class BusinessOrganizationSignup < OrganizationSignup
   def valid_invoice_date?
     validate_invoice_date
     organization.errors.empty?
+  end
+
+  def action_platforms
+    ActionPlatform::Platform.available_for_signup.select(:id, :name, :slug, :description)
+  end
+
+  def contacts
+    super + [@financial_contact]
   end
 
   private

@@ -1,5 +1,10 @@
+$signatory-color: color('light-blue')
+$participant-color: color('blue')
+$lead-color: color('dark-blue')
+
 .level-of-participation-page
-  padding: 0 2em
+  //padding: 0 2em
+  padding: 0
   font-size: 14px
   color: rgb(63,63,63)
   ul li
@@ -7,20 +12,23 @@
   p.blurb
     font-size: 1.25em
   a, a:visited, a:hover
-    color: #699cc6
+    color: color('light-blue')
     font-weight: bold
 
   input.radio-button-image + label
-    font-size: 1.25em
+    font-size: 1em
 
   .signatory .radio-button-image + label,
-  .participant .radio-button-image + label
+  .participant .radio-button-image + label,
+  .lead .radio-button-image + label
     margin: 0.3em 0 0 0
     display: block
+    line-height: 1.2em
 
 .lop-section
-  padding: 0 2em
+  //padding: 0 2em
   //margin-top: 2em
+  padding: 0
   .button input[type="submit"]
     width: 100% !important
   thead
@@ -29,17 +37,17 @@
       font-size: 1em
       text-align: left
       padding: 0.8em
-      //border: 5px solid white
-      &.participant
-        background: rgb(30,50,80)
-        border-right: 2px solid rgb(30,50,80)
-        color: white
-        cursor: pointer
+      color: white
+      cursor: pointer
       &.signatory
-        background: #699cc6
-        border-right: 2px solid #699cc6
-        color: white
-        cursor: pointer
+        background: $signatory-color
+        border-right: 2px solid $signatory-color
+      &.participant
+        background: $participant-color
+        border-right: 2px solid $participant-color
+      &.lead
+        background: $lead-color
+        border-right: 2px solid $lead-color
   td
     line-height: 1.25em
     background: #e6e6e6
@@ -59,20 +67,22 @@
     font-weight: bold
     min-width: 185px
   tr td:nth-of-type(2)
-    border-right: 2px solid rgb(30,50,80)
+    border-right: 2px solid $signatory-color
     border-left: 2px solid white
-    background: #d9d9d9
+    //background: #d9d9d9
   tr td:nth-of-type(3)
-    border-right: 2px solid #699cc6
+    border-right: 2px solid $participant-color
     ol
       list-style-type: disc
-    //border-left: 5px solid white
+  tr td:nth-of-type(4)
+    border-right: 2px solid $lead-color
   #select-parent-company
     margin-top: -0.5em
     margin-bottom: 1em
 
 .lop-form
-  width: 910px
+  //width: 910px
+  width: 100%
   clear: both
   box-sizing: content-box
   box-sizing: border-box
@@ -90,7 +100,8 @@
     width: 90% !important
     background: #fdfdfd
   select
-    height: 3.4em
+    height: 3em
+    padding: 0 0.7em
   .leftcheck,
   #select-invoice-date
     input
@@ -128,11 +139,12 @@ p.leftindent
 
 .lop-form
   #level_of_participation_level_of_participation_participant_level,
-  #level_of_participation_level_of_participation_signatory_level
+  #level_of_participation_level_of_participation_signatory_level,
+  #level_of_participation_level_of_participation_lead_level
     display: block
     float: left
     width: 25px !important
-    margin: 0.25em 0 0 0
+    margin: 0.25em 0 1em 0
 
 .lop-form
   .field
@@ -204,7 +216,7 @@ p.leftindent
     background: #fdfdfd
 
 .button input[type="submit"]
-  background: rgba(30,50,80,1)
+  background: $participant-color
   display: inline-block
   font-family: "Flama Bold", "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif
   font-weight: bold
@@ -232,7 +244,7 @@ p.leftindent
   float: left
   padding: 1em 1.5em
   height: 370px
-  border-left: 5px solid rgba(30,50,80,1)
+  border-left: 5px solid $participant-color
   h2
     font-size: 1.25em
     font-family: 'Roboto', 'Flama', Helvetica
@@ -253,7 +265,7 @@ table.lop-table
   display: block
   float: left
   th
-    border-bottom: 2px solid rgba(30,50,80,1)
+    border-bottom: 2px solid $participant-color
     text-align: left
   tr:nth-child(even)
     background: #e8e8e8
@@ -270,3 +282,9 @@ table.lop-table
 #financial-contact-selector, #finacial-contact-fields
   margin-top: 5em
   margin-bottom: 3em
+
+#action-platform-selector
+  .action-platform.ap-boxes
+    //margin: 1em 1em 1em 2em
+    //width: 358px
+    //height: 580px

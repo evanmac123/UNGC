@@ -1,19 +1,15 @@
 class Organization::InvoicingPolicy
   attr_reader :organization
 
-  THRESHOLD = Money.from_amount(1_000_000_000)
-
   def initialize(organization, revenue, now: -> { Time.zone.now.to_date })
     @organization = organization
     @revenue = revenue
     @today = now.call()
-    @cop_due_on = organization.try!(:cop_due_on)
+    @cop_due_on = organization&.cop_due_on
     @include_cop_due_date = @cop_due_on.present?
   end
 
   def options
-    return [] unless invoicing_required?
-
     jan1 = next_date month: 1, day: 1
     april1 = next_date month: 4, day: 1
 
@@ -35,22 +31,6 @@ class Organization::InvoicingPolicy
     options
   end
 
-  def invoicing_required?
-    ln = @organization.try!(:country).try!(:local_network)
-
-    case
-    when ln.nil?, ln.business_model.nil?
-      true
-    when ln.revenue_sharing?
-      ln.gco? || ln.invoice_options_available == "yes"
-    when ln.global_local?
-      revenue = @revenue || Money.from_amount(0)
-      revenue >= THRESHOLD || ln.invoice_options_available == "yes"
-    when ln.not_yet_decided?
-      false
-    end
-  end
-
   def validate(record)
     return unless invoicing_required?
 
@@ -67,6 +47,80 @@ class Organization::InvoicingPolicy
     end
   end
 
+  def to_h
+    invoicing_strategy.to_h
+  end
+
+  def invoicing_required?
+    invoicing_strategy.invoicing_required?
+  end
+
+  class DefaultStrategy
+    def invoicing_required?
+      true
+    end
+
+    def to_h
+      {type: :default, value: invoicing_required?}
+    end
+  end
+
+  class RevenueSharing
+    def initialize(local_network)
+      @local_network = local_network
+    end
+
+    def invoicing_required?
+      @local_network.gco? || @local_network.invoice_options_available == "yes"
+    end
+
+    def to_h
+      {
+        type: @local_network.business_model,
+        value: invoicing_required?
+      }
+    end
+  end
+
+  class GlobalLocal
+    THRESHOLD = Money.from_amount(1_000_000_000).freeze
+
+    def initialize(local_network, revenue)
+      @local_network = local_network
+      @revenue = revenue || Money.from_amount(0)
+    end
+
+    def invoicing_required?
+      (@revenue >= THRESHOLD) || @local_network.invoice_options_available == "yes"
+    end
+
+    def to_h
+      {
+        type: @local_network.business_model,
+        threshold_in_cents: THRESHOLD.cents,
+        local: @local_network.invoice_options_available == "yes",
+        global: true,
+      }
+    end
+  end
+
+  class NotYetDecided
+    def initialize(local_network)
+      @local_network = local_network
+    end
+
+    def invoicing_required?
+      false
+    end
+
+    def to_h
+      {
+        type: @local_network.business_model,
+        value: invoicing_required?
+      }
+    end
+  end
+
   private
 
   def next_date(month:, day:)
@@ -76,6 +130,21 @@ class Organization::InvoicingPolicy
       this_year
     else
       this_year + 1.year
+    end
+  end
+
+  def invoicing_strategy
+    ln = @organization&.local_network
+
+    case
+    when ln.nil?, ln.business_model.nil?
+      DefaultStrategy.new
+    when ln.revenue_sharing?
+      RevenueSharing.new(ln)
+    when ln.global_local?
+      GlobalLocal.new(ln, @revenue)
+    when ln.not_yet_decided?
+      NotYetDecided.new(ln)
     end
   end
 

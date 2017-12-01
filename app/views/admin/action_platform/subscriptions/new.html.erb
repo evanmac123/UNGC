@@ -25,27 +25,11 @@
     </div>
   <% end %>
 
-  <% @order.platforms_with_subscriptions.each do |platform, subscription| %>
-    <% prefix = "order[subscriptions][#{platform.id}]" %>
-    <div class="action-platform ap-boxes" role="<%= platform.slug %>">
-      <div class='field field-checkbox'>
-        <label>
-          <h2>
-            <%= check_box_tag "#{prefix}[selected]", "1", subscription.selects?(platform), class: "platform-selection" %>
-            <%= platform.name %>
-          </h2>
-        </label>
-
-        <p><%= platform.description %></p>
-        <p>Please identify the focal point within your company who will engage in this platform.</p>
-        <%= select_tag("#{prefix}[contact_id]",
-                       options_for_select(@order.contacts, subscription.contact_id),
-                       prompt: "Select a contact...") %>
-        <%= hidden_field_tag "#{prefix}[platform_id]", platform.id %>
-        <p>If you do not see the focal point on this list, please add them <%= link_to "here.", dashboard_path(tab: :contacts) %></p>
-      </div>
-    </div>
-  <%- end -%>
+  <%= render(partial: "shared/action_platform_selector", locals: {
+    prefix: "order[subscriptions]",
+    platforms: @order.platforms_with_subscriptions,
+    contacts: @order.contacts
+  }) %>
 
 <div class="clear break"><br></div>
 
