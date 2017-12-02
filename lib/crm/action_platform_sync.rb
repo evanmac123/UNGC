@@ -20,7 +20,7 @@ module Crm
       @crm.log("destroying Action Platform #{action_platform_id}")
       crm_platform = @crm.find_action_platform(action_platform_id)
       if crm_platform.present?
-        @crm.soft_delete(SObjectName, crm_platform.Id)
+        @crm.destroy(SObjectName, crm_platform.Id)
       end
     end
 
