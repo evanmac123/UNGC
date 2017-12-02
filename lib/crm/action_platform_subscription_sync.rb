@@ -27,7 +27,7 @@ module Crm
 
       sub = @crm.find_action_platform_subscription(subscription_id)
       if sub.present?
-        @crm.soft_delete(SObjectName, sub.Id)
+        @crm.destroy(SObjectName, sub.Id)
       end
     end
 

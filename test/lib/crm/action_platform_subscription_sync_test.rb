@@ -57,7 +57,7 @@ module Crm
       subscription.destroy!
 
       crm_subscription = crm.find_action_platform_subscription(subscription.id)
-      assert_equal true, crm_subscription.IsDeleted
+      assert_nil crm_subscription
     end
 
     test "only approved subscriptions are synced" do
