@@ -93,34 +93,6 @@ class SignupControllerTest < ActionController::TestCase
       assert_template 'step3'
     end
 
-    # TODO: delete the parts of the code that reference pledges
-    # TODO: add tests for the participant level parts
-
-    # # pledge form
-    # should "as a business should get the fourth step page after posting ceo contact details" do
-    #   @local_network = create(:local_network, funding_model: 'collaborative')
-    #   @country.local_network_id = @local_network.id
-
-    #   @signup = BusinessOrganizationSignup.new
-    #   @signup.set_organization_attributes({name: 'ACME inc',
-    #                                        organization_type_id: OrganizationType.first.id,
-    #                                        revenue: 2500})
-    #   store_pending(@signup)
-
-    #   post :step4, contact: @signup_ceo
-    #   assert_response :success
-    #   assert_template 'step4'
-    #   # FIXME: correct pledge form is not being assigned in test
-    #   # assert_equal 'pledge_form_collaborative', @signup.pledge_form_type
-    #   # assert_template partial: '_pledge_form_collaborative', count: 1
-    #   assert_select 'h2', 'Financial Commitment'
-    #   # five possible pledge amounts and one opt-out
-    #   assert_select 'table' do
-    #     assert_select "input[type=radio]", 6
-    #     assert_select 'label', 10
-    #   end
-    # end
-
     # upload letter of commitment
     should "as a non-business the next_step for the ceo form should be step6" do
       @signup = NonBusinessOrganizationSignup.new
@@ -132,39 +104,6 @@ class SignupControllerTest < ActionController::TestCase
       assert_template 'step3'
       assert_equal organization_step6_path, assigns(:next_step)
     end
-
-    # should "as a business should get the fifth step page after selecting a contribution amount" do
-    #   @signup = BusinessOrganizationSignup.new
-    #   @signup.set_organization_attributes({name: 'ACME inc',
-    #                                        organization_type_id: OrganizationType.sme.id,
-    #                                        revenue: 2500})
-    #   store_pending(@signup)
-
-    #   post :step5, organization: {pledge_amount: 2000}
-    #   assert_response :success
-    #   assert_template 'step5'
-    #   assert_select 'h2', 'Financial Contact'
-    # end
-
-    # should "as a business should get the sixth step page if they don't select a contribution amount" do
-    #   @signup = BusinessOrganizationSignup.new
-    #   @signup.set_organization_attributes({name: 'ACME inc',
-    #                                        organization_type_id: OrganizationType.sme.id})
-    #   store_pending(@signup)
-
-    #   post :step5, organization: {pledge_amount: 0, no_pledge_reason: 'budget'}
-    #   assert_redirected_to organization_step6_path
-    # end
-
-    # should "as a business should be redirected to 4 step page if they don't select a reason for not pledging" do
-    #   @signup = BusinessOrganizationSignup.new
-    #   @signup.set_organization_attributes({name: 'ACME inc',
-    #                                        organization_type_id: OrganizationType.sme.id})
-    #   store_pending(@signup)
-
-    #   post :step5, organization: {pledge_amount: 0}
-    #   assert_redirected_to organization_step4_path
-    # end
 
     should "get the sixth step page after posting financial contact details" do
       network = create(:local_network, invoice_options_available: "yes")

@@ -28,20 +28,6 @@ class BusinessOrganizationSignup < OrganizationSignup
   end
   alias_method :prefill_financial_contact_address, :prepare_financial_contact
 
-  # checks the organization's country and Local Network to display correct pledge form
-  def pledge_form_type
-    organization.collaborative_funding_model? ? 'pledge_form_collaborative' : 'pledge_form_independent'
-  end
-
-  def set_organization_attributes(params)
-    super
-    if organization.collaborative_funding_model?
-      organization.pledge_amount ||= Organization::COLLABORATIVE_PLEDGE_LEVELS[organization.revenue]
-    else
-      organization.pledge_amount ||= Organization::INDEPENDENT_PLEDGE_LEVELS[organization.revenue]
-    end
-  end
-
   def after_save
     # NB we're still in a transaction here
     # add financial contact

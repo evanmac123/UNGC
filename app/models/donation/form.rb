@@ -50,7 +50,6 @@ class Donation::Form < Donation
 
     if contact.from_organization?
       params[:company_name] = contact.organization.name
-      params[:amount] =  contact.organization.suggested_pledge
       params[:organization_id] ||= contact.organization_id
     end
 

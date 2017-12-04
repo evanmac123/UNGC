@@ -43,8 +43,6 @@ class DonationsControllerTest < ActionController::TestCase
 
     # My details are pre-filled for me
     assert_select "#new_donation" do
-      assert_select "input[name='donation[amount]'][value=?]", organization.suggested_pledge
-
       # Contact fields
       assert_select "input[name='donation[first_name]'][value=?]", contact.first_name
       assert_select "input[name='donation[last_name]'][value=?]", contact.last_name

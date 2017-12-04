@@ -101,9 +101,6 @@ class Donation::FormTest < ActiveSupport::TestCase
 
     assert contact.from_organization?
     assert_equal "Foo Corp", form.company_name
-
-    expected_amount = Monetize.parse("$15,000")
-    assert_equal expected_amount, form.amount
   end
 
   test "organization_id is required" do

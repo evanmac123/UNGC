@@ -185,22 +185,6 @@ class Organization < ActiveRecord::Base
   # These are hard coded into the pledge form and are included here for reference
   # They may not need to be part of the model and we may be able to remove them
 
-  INDEPENDENT_PLEDGE_LEVELS = {
-    1 => 250,
-    2 => 5000,
-    3 => 10000,
-    4 => 15000,
-    5 => 15000
-  }.freeze
-
-  COLLABORATIVE_PLEDGE_LEVELS = {
-    1 => 250,
-    2 => 2500,
-    3 => 5000,
-    4 => 10000,
-    5 => 15000
-  }.freeze
-
   INDEPENDENT_MINIMUM_PLEDGE_LEVELS = {
     250  => 'USD 250',
     500  => 'USD 500',
@@ -606,24 +590,12 @@ class Organization < ActiveRecord::Base
   end
   alias_method :revenue_range, :revenue_description
 
-  def suggested_pledge
-    if collaborative_funding_model?
-      revenue ? COLLABORATIVE_PLEDGE_LEVELS[revenue] : ''
-    else
-      revenue ? INDEPENDENT_PLEDGE_LEVELS[revenue] : ''
-    end
-  end
-
   def bracketed_revenue_amount
     RevenueCalculator.calculate_precise_revenue(revenue)
   end
 
   def no_pledge_reason_value
     NO_PLEDGE_REASONS[no_pledge_reason.to_sym] if no_pledge_reason.present?
-  end
-
-  def collaborative_funding_model?
-    country&.local_network&.funding_model == 'collaborative'
   end
 
   def business_for_search
