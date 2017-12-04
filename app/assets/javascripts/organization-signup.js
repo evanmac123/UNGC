@@ -137,12 +137,6 @@ $(function(){
     togglePledgeReason();
   });
 
-  // called from views/signup/step5.html.haml
-  $("body").on("click", "#contact_foundation_contact", function() {
-    $('#errorExplanation').toggle();
-    $('#contact_form').toggle();
-  });
-
   var $isSubsidiary = $('input[name="organization[is_subsidiary]"]');
   var $parentCompanyField = $('#select-parent-company');
   var $parentCompanyId = $('#organization_parent_company_id');

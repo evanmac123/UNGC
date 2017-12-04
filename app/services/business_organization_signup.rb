@@ -15,11 +15,7 @@ class BusinessOrganizationSignup < OrganizationSignup
   end
 
   def set_financial_contact_attributes(par)
-    if par[:foundation_contact].to_i == 1
-      primary_contact.roles << Role.financial_contact
-    else
-      financial_contact.attributes = par
-    end
+    financial_contact.attributes = par
   end
 
   def prepare_financial_contact
@@ -47,34 +43,32 @@ class BusinessOrganizationSignup < OrganizationSignup
   end
 
   def after_save
-    # add financial contact if a pledge was made and the existing contact has not been assigned that role
-    unless primary_contact.is?(Role.financial_contact)
-      # fixes bug caused by storing signup and related objects in session (in rails4)
-      financial_contact.roles.reload
+    # NB we're still in a transaction here
+    # add financial contact
+    # fixes bug caused by storing signup and related objects in session (in rails4)
+    financial_contact.roles.reload
 
-      # save the financial_contact, currently it's okay for this
-      # model to be empty/invalid
-      if financial_contact.save
-        organization.contacts << financial_contact
+    financial_contact.save!
+    organization.contacts << financial_contact
+
+    if @ap_subscriptions.any?
+      organization = @organization.organization # Sigh, unwrap the form object
+      order_service = ActionPlatform::OrderService.new(organization, financial_contact)
+
+      @ap_subscriptions.each do |subscription|
+        contact_index = subscription.contact_id
+        contact = contacts[contact_index]
+        order_service.subscribe(
+          contact_id: contact.id,
+          platform_id: subscription.platform_id,
+        )
       end
-    end
 
-    organization = @organization.organization # Sigh, unwrap the form object
-    order_service = ActionPlatform::OrderService.new(organization, financial_contact)
+      order = order_service.create_order
 
-    @ap_subscriptions.each do |subscription|
-      contact_index = subscription.contact_id
-      contact = contacts[contact_index]
-      order_service.subscribe(
-        contact_id: contact.id,
-        platform_id: subscription.platform_id,
-      )
-    end
-
-    order = order_service.create_order
-
-    if order.nil? && order.subscriptions.any?
-      raise "Failed to create action platform subscriptions order"
+      if order.nil?
+        raise "Failed to create action platform subscriptions order"
+      end
     end
 
     true
@@ -150,6 +144,19 @@ class BusinessOrganizationSignup < OrganizationSignup
 
   def contacts
     super + [@financial_contact]
+  end
+
+  def financial_contact_valid?
+    return false unless financial_contact.valid?
+
+    # financial contact is otherwise valid, check for duplicate emails
+    emails = [primary_contact.email, ceo.email]
+    if emails.include?(financial_contact.email)
+      financial_contact.errors.add(:email, "has already been taken")
+      false
+    else
+      true
+    end
   end
 
   private

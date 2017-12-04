@@ -98,7 +98,7 @@ class SignupController < ApplicationController
         store_organization_signup
       end
 
-      if !@signup.financial_contact.valid? || !@signup.valid_invoice_date?
+      if !@signup.financial_contact_valid? || !@signup.valid_invoice_date?
         flash[:error] = @signup.error_messages
         redirect_to organization_step5_path
       end
@@ -157,6 +157,8 @@ class SignupController < ApplicationController
   end
 
   def pending_signups
+    # HACK: ensure there is a session started
+    session[:signup_session_hack] = true
     PendingSignup.new(session.id)
   end
 
@@ -214,7 +216,6 @@ class SignupController < ApplicationController
 
   def contact_params
     params.require(:contact).permit(
-      :foundation_contact,
       :prefix,
       :first_name,
       :middle_name,

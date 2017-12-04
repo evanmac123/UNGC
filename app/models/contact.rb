@@ -118,10 +118,6 @@ class Contact < ActiveRecord::Base
   after_commit Crm::CommitHooks.new(:update), on: :update
   after_commit Crm::CommitHooks.new(:destroy), on: :destroy
 
-  # used for checkbox in sign up form
-  # /app/views/signup/step5.html.haml
-  attr_accessor :foundation_contact
-
   scope :participants_only, -> { joins(:organization).where(organizations: { participant: true }) }
   scope :ungc_staff, -> { joins(:organization).where(organizations: { name: DEFAULTS[:ungc_organization_name] }) }
   scope :contact_points, -> { for_roles(Role.contact_point) }

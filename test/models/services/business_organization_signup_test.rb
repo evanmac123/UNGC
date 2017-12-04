@@ -92,12 +92,6 @@ class OrganizationSignupTest < ActiveSupport::TestCase
     assert_equal "Alice Walker", financial_contact.name
   end
 
-  test "set primary contact as financial contact" do
-    signup = BusinessOrganizationSignup.new
-    signup.set_financial_contact_attributes(foundation_contact: "1")
-    assert_not_empty signup.primary_contact.roles.select {|r| r.name == Role.financial_contact.name}
-  end
-
   test "persist the organization and the contacts" do
     # Given a signup that requires a financial contact
     signup = build_signup(pledge: { pledge_amount: "100" })

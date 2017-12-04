@@ -420,12 +420,6 @@ $(document).ready(function() {
     $(this).toggleClass('selected');
   });
 
-  // called from views/signup/step5.html.haml
-  $("body").on("click", "#contact_foundation_contact", function() {
-    $('#errorExplanation').toggle();
-    $('#contact_form').toggle();
-  });
-
   $("body").on('click', 'a[data-popup]', function(e) {
       window.open(this.href, 'newWindow', 'left=50,top=50,height=600,width=1024,resizable=1,scrollbars=1');
       e.preventDefault();

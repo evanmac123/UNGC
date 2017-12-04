@@ -98,15 +98,6 @@ class OrganizationSignup
   end
 
   def save
-    # TODO fix this.
-    # No transaction and no exceptions mean that
-    # any failures here will not be detected and we may have invalid/partial data.
-    # see https://github.com/unglobalcompact/UNGC/issues/360
-    # Converting all the writes to raise on validation errors will make it clear
-    # that there is a problem, and send all the data to honeybadger.
-    # This is an interim fix until the application process is reworked in the new
-    # year
-
     Organization.transaction do
       before_save
 
@@ -121,7 +112,10 @@ class OrganizationSignup
       organization.contacts << ceo
 
       after_save
+      true
     end
+  rescue ActiveRecord::RecordInvalid => e
+    false
   end
 
   def error_messages
