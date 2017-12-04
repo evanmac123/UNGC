@@ -102,7 +102,7 @@ class BusinessSignupTest < ActionDispatch::IntegrationTest
     fill_in "Email", with: "limueller@block.name"
     fill_in "Phone", with: "(123) 123 1234"
 
-    today = Time.zone.now.strftime("%d/%m/%Y")
+    today = Time.current.strftime("%d/%m/%Y")
     fill_in "organization[invoice_date]", with: today
 
     click_on "Next"

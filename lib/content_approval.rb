@@ -33,7 +33,7 @@ module ContentApproval
   end
 
   def store_approved_data
-    self.approved_at = Time.now
+    self.approved_at = Time.current
     self.approved_by = @current_contact if @current_contact
   end
 

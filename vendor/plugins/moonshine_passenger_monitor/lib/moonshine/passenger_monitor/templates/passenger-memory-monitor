@@ -18,7 +18,7 @@ limit = (ARGV.first || 500).to_i
 stats = AdminTools::MemoryStats.new
 
 def kill_passenger_process(pid, cmd, reason)
-  time = Time.now.strftime('%m/%d/%Y - %I:%M%p')
+  time = Time.current.strftime('%m/%d/%Y - %I:%M%p')
   
   puts "#{time} - Passenger #{pid} #{reason}."
   
@@ -40,7 +40,7 @@ end
 rack_processes = stats.passenger_processes.select { |p| p.name =~ /<%= options[:pattern].gsub(/\//, '\/') %>/ }
 
 # kill abandoned passenger processes
-time = Time.now.strftime('%m/%d/%Y - %I:%M%p')
+time = Time.current.strftime('%m/%d/%Y - %I:%M%p')
 puts "#{time} Checking for stale passenger processes"
 
 good_pids = rack_processes.map { |p| p.pid }
@@ -56,7 +56,7 @@ lines.each_line do |line|
 end
 
 # kill passenger processes > #{limit} MB
-time = Time.now.strftime('%m/%d/%Y - %I:%M%p')
+time = Time.current.strftime('%m/%d/%Y - %I:%M%p')
 puts "#{time} Checking for passenger processes > #{limit} MB"
 
 rack_processes.each do |process|    
@@ -69,7 +69,7 @@ rack_processes.each do |process|
 end
 
 # kill passenger processes stuck shutting down
-time = Time.now.strftime('%m/%d/%Y - %I:%M%p')
+time = Time.current.strftime('%m/%d/%Y - %I:%M%p')
 puts "#{time} Checking for passenger processes stuck while shutting down"
 
 server = PhusionPassenger::AdminTools::ServerInstance.list.first

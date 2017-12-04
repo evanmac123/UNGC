@@ -60,10 +60,10 @@ class ExpressCop < CommunicationOnProgress
     # after_initialize
     super
     self.format ||= 'express'
-    self.title ||= "Communication on Progress #{Time.zone.now.year}"
-    self.starts_on ||= Date.today
-    self.ends_on ||= Date.today + Organization::NEXT_BUSINESS_COP_YEAR.years
-    self.published_on ||= Date.today
+    self.title ||= "Communication on Progress #{Time.current.year}"
+    self.starts_on ||= Date.current
+    self.ends_on ||= Date.current + Organization::NEXT_BUSINESS_COP_YEAR.years
+    self.published_on ||= Date.current
   end
 
   def organization_is_an_sme

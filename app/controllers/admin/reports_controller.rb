@@ -59,8 +59,8 @@ class Admin::ReportsController < AdminController
   end
 
   def approved_logo_requests
-    @month = params[:month] || Date.today.month
-    @year = params[:year] || Date.today.year
+    @month = params[:month] || Date.current.month
+    @year = params[:year] || Date.current.year
 
     report = ApprovedLogoRequestsReport.new(month: @month, year: @year)
     render_report(report, "approved_logo_requests_#{date_as_filename}.xls")
@@ -257,8 +257,8 @@ class Admin::ReportsController < AdminController
   end
 
   def foundation_pledges
-    @month = params[:month] || Date.today.month
-    @year = params[:year] || Date.today.year
+    @month = params[:month] || Date.current.month
+    @year = params[:year] || Date.current.year
 
     report = FoundationPledgeReport.new(:month => @month,
                                          :year  => @year)
@@ -282,7 +282,7 @@ class Admin::ReportsController < AdminController
   end
 
   def date_as_filename
-    Date.today.iso8601.gsub('-', '_')
+    Date.current.iso8601.gsub('-', '_')
   end
 
   def initiative_cop_params

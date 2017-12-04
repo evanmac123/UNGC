@@ -55,7 +55,7 @@ module AdminHelper
 
   # describes the number of days since last event
   def display_days_ago(date)
-    days_ago = (Date.today.to_date - date.to_date).to_i
+    days_ago = (Date.current - date.to_date).to_i
     case days_ago
       when 0
         'Today'

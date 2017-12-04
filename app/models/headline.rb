@@ -75,7 +75,7 @@ class Headline < ActiveRecord::Base
 
   def published_on_string=(date_or_string)
     if date_or_string.is_a?(String)
-      write_attribute(:published_on, Date.strptime(date_or_string, '%m/%d/%Y'))
+      write_attribute(:published_on, Time.strptime(date_or_string, '%m/%d/%Y').in_time_zone)
     elsif date_or_string.is_a?(Date)
       write_attribute(:published_on, date_or_string)
     end

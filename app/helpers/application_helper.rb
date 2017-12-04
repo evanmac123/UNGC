@@ -15,7 +15,7 @@ module ApplicationHelper
   end
 
   def current_year
-    Time.now.strftime('%Y').to_i
+    Time.current.strftime('%Y').to_i
   end
 
   def options_for_enum(active_record_enum, scope: nil)

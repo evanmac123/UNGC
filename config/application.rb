@@ -53,5 +53,8 @@ module UNGC
     config.action_controller.include_all_helpers = false
 
     config.active_job.queue_adapter = :sidekiq
+
+    # Explicitly set time_zone to UTC and let user's determine their own time zone
+    config.time_zone = "UTC"
   end
 end

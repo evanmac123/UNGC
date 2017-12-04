@@ -253,14 +253,14 @@ module Moonshine
           desc 'Show requests per second'
           task :rps, :roles => :app, :except => {:no_symlink => true} do
             count = 0
-            last = Time.now
+            last = Time.current
             run "tail -f #{rails_log}" do |ch, stream, out|
               break if stream == :err
               count += 1 if out =~ /^Completed in/
-                if Time.now - last >= 1
+                if Time.current - last >= 1
                   puts "#{ch[:host]}: %2d Requests / Second" % count
                   count = 0
-                  last = Time.now
+                  last = Time.current
                 end
             end
           end

@@ -6,7 +6,7 @@ require File.dirname(__FILE__) + '/../config/environment' unless defined?(Rails.
   puts "Exporting #{thing.to_s}..."
   yaml = thing.all.map { |t| t.attributes }.to_yaml
   puts " saving..."
-  File.open("#{Rails.root}/db/yaml/#{thing.to_s}.#{Time.now.to_i}.yml", 'w+') do |file|
+  File.open("#{Rails.root}/db/yaml/#{thing.to_s}.#{Time.current.to_i}.yml", 'w+') do |file|
     file.puts yaml
   end
   puts " done."

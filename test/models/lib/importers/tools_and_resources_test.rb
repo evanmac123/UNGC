@@ -59,7 +59,7 @@ class ToolsAndResourcesTest < ActiveSupport::TestCase
     end
 
     should "import 'ongoing' as the year of import" do
-      assert_equal Time.now.year, Resource.find(5).year.year
+      assert_equal Time.current.year, Resource.find(5).year.year
     end
 
   end

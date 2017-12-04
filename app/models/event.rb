@@ -125,7 +125,7 @@ class Event < ActiveRecord::Base
 
   def ends_at_string=(date_or_string)
     if date_or_string.is_a?(String)
-      write_attribute(:ends_at, Date.strptime(date_or_string, '%m/%d/%Y'))
+      write_attribute(:ends_at, Time.strptime(date_or_string, '%m/%d/%Y').in_time_zone)
     elsif date_or_string.is_a?(Date)
       write_attribute(:ends_at, date_or_string)
     end
@@ -137,7 +137,7 @@ class Event < ActiveRecord::Base
 
   def starts_at_string=(date_or_string)
     if date_or_string.is_a?(String)
-      write_attribute(:starts_at, Date.strptime(date_or_string, '%m/%d/%Y'))
+      write_attribute(:starts_at, Time.strptime(date_or_string, '%m/%d/%Y').in_time_zone)
     elsif date_or_string.is_a?(Date)
       write_attribute(:starts_at, date_or_string)
     end

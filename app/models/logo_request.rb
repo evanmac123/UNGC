@@ -81,7 +81,7 @@ class LogoRequest < ActiveRecord::Base
   end
 
   def can_download_files?
-    accepted? && Time.now <= accepted_on + 7.days
+    accepted? && Time.current <= accepted_on + 7.days
   end
 
   def days_to_process

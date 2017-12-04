@@ -15,7 +15,7 @@ class Admin::RegistrationsController < Devise::RegistrationsController
       if contact.previous_changes.key? :encrypted_password
         # update last_password_changed_at *without* causing a validation
         # See https://github.com/plataformatec/devise/issues/3499
-        contact.update_attribute(:last_password_changed_at, Time.now)
+        contact.update_attribute(:last_password_changed_at, Time.current)
       end
     end
   end

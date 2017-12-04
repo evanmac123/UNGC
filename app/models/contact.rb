@@ -384,7 +384,7 @@ class Contact < ActiveRecord::Base
 
     def mark_passwords_as_updated
       if self.changed.include?("encrypted_password")
-        self.last_password_changed_at = Time.now
+        self.last_password_changed_at = Time.current
       end
     end
 

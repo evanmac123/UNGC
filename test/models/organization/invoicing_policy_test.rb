@@ -93,7 +93,7 @@ class Organization::InvoicingPolicyTest < ActiveSupport::TestCase
 
   test "dates more than a year out are not valid" do
     travel_to Date.new(2017, 1, 2) do
-      more_than_a_year_from_now = Time.zone.now.to_date + 1.year + 1.day
+      more_than_a_year_from_now = Date.current + 1.year + 1.day
       policy = create_policy(invoice_date: more_than_a_year_from_now)
 
       policy.validate(policy.organization)

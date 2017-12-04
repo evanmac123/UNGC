@@ -7,10 +7,10 @@ class LogoRequestsPresenterTest < ActionController::TestCase
     create_organization_and_user
     lr2 = create(:logo_request, contact_id: @organization_user.id,
                                         organization_id: @organization.id)
-    @campaign_past_year = create(:campaign, name: "#{Date.today.year - 2} Annual Contributions")
-    @campaign_last_year = create(:campaign, name: "#{Date.today.year - 1} Annual Contributions")
-    @campaign_this_year = create(:campaign, name: "#{Date.today.year} Annual Contributions")
-    @campaign_next_year = create(:campaign, name: "#{Date.today.year + 1} Annual Contributions")
+    @campaign_past_year = create(:campaign, name: "#{Date.current.year - 2} Annual Contributions")
+    @campaign_last_year = create(:campaign, name: "#{Date.current.year - 1} Annual Contributions")
+    @campaign_this_year = create(:campaign, name: "#{Date.current.year} Annual Contributions")
+    @campaign_next_year = create(:campaign, name: "#{Date.current.year + 1} Annual Contributions")
     lr1.organization.contributions << create(:contribution, raw_amount: 5000, stage: 'Posted', campaign_id: @campaign_past_year.id)
     lr1.organization.update_attribute :joined_on, '2012-01-01'
     cs = ContributionStatusQuery.for_organizations([lr1.organization, lr2.organization])

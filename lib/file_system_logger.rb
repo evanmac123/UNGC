@@ -20,7 +20,7 @@ class FileSystemLogger
   private
 
   def timestamp(message)
-    stamp = Time.now.strftime("%Y-%m-%d %H:%M:%S")
+    stamp = Time.current.strftime("%Y-%m-%d %H:%M:%S")
     "#{stamp} : #{message}"
   end
 

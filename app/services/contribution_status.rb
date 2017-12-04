@@ -56,7 +56,7 @@ class ContributionStatus
   private
 
   def current_year
-    Date.today.year
+    Date.current.year
   end
 
 end

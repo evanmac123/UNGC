@@ -28,7 +28,7 @@ module Igloo
 
     def write_new_sync_time
       File.open(@file, "w") do |file|
-        time = {"last_sync_time" => Time.zone.now}
+        time = {"last_sync_time" => Time.current}
         file.write(time.to_json)
       end
     end
@@ -36,7 +36,7 @@ module Igloo
     def read_last_sync_time
       time = JSON.parse(File.read(@file))
       last_sync = time.fetch("last_sync_time")
-      DateTime.parse(last_sync)
+      Time.zone.parse(last_sync)
     rescue
       DateTime.new(2000, 1, 1)
     end

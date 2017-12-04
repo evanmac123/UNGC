@@ -104,7 +104,7 @@ class Searchable < ActiveRecord::Base
     def import(searchable)
       searchable_model = self.where(url: searchable.url).first_or_initialize
       searchable_model.assign_attributes(searchable.attributes)
-      searchable_model.last_indexed_at = Time.now
+      searchable_model.last_indexed_at = Time.current
       searchable_model.save
       searchable_model
     rescue ActiveRecord::StatementInvalid => e

@@ -16,7 +16,7 @@ class Feature
   end
 
   def self.level_of_participation_required?
-    Time.zone.now.to_date >= Date.new(2017, 10, 15) || !Rails.env.production?
+    Date.current >= Date.new(2017, 10, 15) || !Rails.env.production?
   end
 
 end

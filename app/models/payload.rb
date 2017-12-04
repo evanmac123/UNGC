@@ -54,7 +54,7 @@ class Payload < ActiveRecord::Base
   def approve!(contact)
     @current_contact = contact
     self.approved_by_id = contact.id
-    self.approved_at = Time.now
+    self.approved_at = Time.current
     self.save!
   end
 end

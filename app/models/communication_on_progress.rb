@@ -467,7 +467,7 @@ class CommunicationOnProgress < ActiveRecord::Base
 
   def publish
     transaction do
-      self.update!(published_on: Time.now.to_date)
+      self.update!(published_on: Time.current.to_date)
       adjust_organization_cop_date_and_status
     end
   end

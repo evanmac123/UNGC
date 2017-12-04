@@ -17,7 +17,7 @@ class SdgPioneerMailer < ApplicationMailer
       bcc:      'sdgpioneers@unglobalcompact.org',
       subject:  "SDG Pioneer Nomination from the United Nations Global Compact"
 
-    nomination.update!(emailed_at: Time.now)
+    nomination.update!(emailed_at: Time.current)
   end
 
   private

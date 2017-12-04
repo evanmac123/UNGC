@@ -17,7 +17,7 @@ class LogoRequestPresenter < SimpleDelegator
   private
 
   def current_year
-    Date.today.year
+    Date.current.year
   end
 
 end

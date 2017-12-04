@@ -25,7 +25,7 @@ class CopReminderTest < ActiveSupport::TestCase
                           :cop_state            => Organization::COP_STATE_ACTIVE,
                           :organization_type_id => @business_organization_type.id)
 
-      create_organization(:cop_due_on           => Date.today.to_date - 1.day,
+      create_organization(:cop_due_on           => Date.current - 1.day,
                           :participant          => true,
                           :cop_state            => Organization::COP_STATE_NONCOMMUNICATING,
                           :organization_type_id => @business_organization_type.id)

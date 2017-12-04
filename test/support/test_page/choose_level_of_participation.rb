@@ -101,7 +101,7 @@ module TestPage
     end
 
     def today
-      Time.zone.now.to_date
+      Date.current
     end
   end
 end

@@ -1,7 +1,7 @@
 class Organization::InvoicingPolicy
   attr_reader :organization
 
-  def initialize(organization, revenue, now: -> { Time.zone.now.to_date })
+  def initialize(organization, revenue, now: -> { Date.current })
     @organization = organization
     @revenue = revenue
     @today = now.call()
@@ -40,7 +40,7 @@ class Organization::InvoicingPolicy
       record.errors.add :invoice_date, "can't be blank"
     when !invoice_date.is_a?(Date)
       record.errors.add :invoice_date, "must be a valid date"
-    when invoice_date < Time.zone.now.to_date
+    when invoice_date < Date.current
       record.errors.add :invoice_date, "can't be in the past"
     when invoice_date > 1.year.from_now
       record.errors.add :invoice_date, "can't be more than a year from now"
@@ -124,7 +124,7 @@ class Organization::InvoicingPolicy
   private
 
   def next_date(month:, day:)
-    today = Time.zone.now.to_date
+    today = Date.current
     this_year = Date.new(today.year, month, day)
     if this_year >= today
       this_year

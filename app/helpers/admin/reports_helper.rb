@@ -23,7 +23,7 @@ module Admin::ReportsHelper
   end
 
   def select_year_tag(selected)
-    select_tag :year, options_for_select((Date.today.year-5..Date.today.year).collect {|y| y.to_s}, selected.to_s)
+    select_tag :year, options_for_select((Date.current.year-5..Date.current.year).collect {|y| y.to_s}, selected.to_s)
   end
 
   def boolean_reponse(response)

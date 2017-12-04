@@ -19,7 +19,7 @@ class S3Uploader
   end
 
   def url
-    @signed_url ||= $s3.put_object_url(bucket, key, Time.now.utc + UPLOAD_TTL, {
+    @signed_url ||= $s3.put_object_url(bucket, key, Time.current.utc + UPLOAD_TTL, {
       'x-amz-acl' => 'public-read',
       'Content-Type' => mime
     })

@@ -180,7 +180,7 @@ class SignupControllerTest < ActionController::TestCase
       post :step6, {
         contact: @financial_contact,
         organization: {
-          invoice_date: Time.zone.now.strftime("%d/%m/%Y"),
+          invoice_date: Time.current.strftime("%d/%m/%Y"),
         }
       }
 

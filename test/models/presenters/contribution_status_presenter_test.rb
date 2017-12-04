@@ -3,7 +3,7 @@ require 'test_helper'
 class ContributionStatusPresenterTest < ActionController::TestCase
 
   should "return the contribution years" do
-    @this_year = Date.today.year
+    @this_year = Date.current.year
     @next_year = @this_year + 1
     @last_year = @this_year - 1
     @two_years_ago = @this_year - 2

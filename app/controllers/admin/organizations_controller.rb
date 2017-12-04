@@ -225,7 +225,7 @@ class Admin::OrganizationsController < AdminController
     end
 
     def date_from_params(param_name)
-      Time.parse params[param_name]
+      Time.zone.parse params[param_name]
     end
 
     def fetch_registration

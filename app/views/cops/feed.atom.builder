@@ -1,6 +1,6 @@
 atom_feed(:url => "http://#{request.host}/feeds/cops/") do |feed|
   feed.title("United Nations Global Compact - Communication on Progress")
-  feed.updated(@cops_for_feed.first ? @cops_for_feed.first.published_on : Time.now.utc)
+  feed.updated(@cops_for_feed.first ? @cops_for_feed.first.published_on : Time.current.utc)
 
   @cops_for_feed.each do |cop|
     feed.entry(cop, :url => show_cops_path(differentiation: cop.differentiation_level_with_default, id: cop.id)) do |entry|

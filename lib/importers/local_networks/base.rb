@@ -63,7 +63,7 @@ module Importers
             format = {:little => "%d/%m/%Y", :middle => "%m/%d/%Y"}.fetch(order)
 
             begin
-              Date.strptime(value, format)
+              Time.strptime(value, format).in_time_zone
             rescue ArgumentError
               raise BadValue, "date"
             end

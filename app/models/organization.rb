@@ -759,7 +759,7 @@ class Organization < ActiveRecord::Base
   def withdraw
     self.cop_state = COP_STATE_DELISTED
     self.removal_reason = RemovalReason.withdrew
-    self.delisted_on = Time.now
+    self.delisted_on = Time.current
     self.active = false
   end
 
@@ -769,7 +769,7 @@ class Organization < ActiveRecord::Base
   end
 
   def participant_for_less_than_years(years)
-    joined_on.to_time.years_since(years) >= Time.now
+    joined_on.to_time.years_since(years) >= Time.current
   end
 
   def years_until_next_cop_due

@@ -93,7 +93,7 @@ class Admin::CopsController < AdminController
 
   def do_backdate
     # handle the backdate POST
-    published_on = Time.parse(params[:published_on]).to_date
+    published_on = Time.zone.parse(params[:published_on]).to_date
     if BackdateCommunicationOnProgress.backdate(@cop, published_on)
       flash[:notice] = 'The communication was backdated'
       redirect_to admin_organization_communication_on_progress_url(@organization.id, @cop, tab: :results)

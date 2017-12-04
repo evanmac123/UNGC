@@ -29,7 +29,7 @@ class ContributionStatusTest < ActionController::TestCase
     end
 
     should "have the proper latest_annual_contribution_year" do
-      assert_equal @p.latest_annual_contribution_year, Date.today.year
+      assert_equal @p.latest_annual_contribution_year, Date.current.year
     end
 
     should "have the proper initial_contribution_year" do
