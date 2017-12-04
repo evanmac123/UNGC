@@ -60,6 +60,18 @@ class Admin::LevelOfParticipationsControllerTest < ActionController::TestCase
     assert_equal msg, flash[:error]
   end
 
+  test "accepts Company, SME and Microenterprise" do
+    valid_types = [OrganizationType.company, OrganizationType.sme, OrganizationType.micro_enterprise]
+    valid_types.each do |org_type|
+      create_and_sign_in_to_organization(organization_type: org_type)
+
+      # when we try to visit the form
+      get :new
+
+      assert_equal @response.response_code, 200, "Expected org type #{org_type.name} to succeed"
+    end
+  end
+
   private
 
   def contact_field(field)

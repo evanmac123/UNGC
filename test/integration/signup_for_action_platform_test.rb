@@ -5,13 +5,13 @@ class SignupForActionPlatformTest < ActionDispatch::IntegrationTest
   test "participants can signup for action platforms" do
     # Given there are Platforms
     (1..9).map do |i|
-        create(:action_platform_platform,
-                            name: "Platform #{i}",
-                            slug: "platform-#{i}")
+      create(:action_platform_platform,
+             name: "Platform #{i}",
+             slug: "platform-#{i}")
     end
 
-    # Given I'm logged in as a contact from a business
-    organization = create(:business)
+    # Given I'm logged in as a contact from a Participant business
+    organization = create(:business, level_of_participation: :participant_level)
     contact = create(:contact,
                      state: "California",
                      postal_code: "90210",
@@ -69,6 +69,26 @@ class SignupForActionPlatformTest < ActionDispatch::IntegrationTest
     assert_equal organization.id, event.data.fetch(:organization_id)
     assert_not_nil event.data.fetch(:order_id)
     assert_equal 2, event.data.fetch(:platform_ids).length
+  end
+
+  test "non-participatns cannot signup for action platforms" do
+    # Given I'm logged in as a contact from a signatory business
+    organization = create(:business, level_of_participation: :signatory_level)
+    contact = create(:contact,
+                     state: "California",
+                     postal_code: "90210",
+                     organization: organization)
+    login_as(contact)
+
+    # When they visit the user's dashboard
+    visit dashboard_path
+
+    # And they click on the link
+    click_on t("action_platform.labels.dashboard_tab")
+    click_on t("action_platform.actions.signup")
+
+    # Then they see the action platform signup form
+    assert_equal dashboard_path, current_path
   end
 
 end

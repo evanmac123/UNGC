@@ -1,4 +1,5 @@
 class Admin::ActionPlatform::SubscriptionsController < AdminController
+  before_action :must_be_a_participant, except: :show
 
   def show
     @order = ::ActionPlatform::Order.find(params.fetch(:id))
@@ -37,6 +38,15 @@ class Admin::ActionPlatform::SubscriptionsController < AdminController
   end
 
   private
+
+  private
+
+  def must_be_a_participant
+    unless current_contact.organization&.participant_level?
+      flash[:error] = I18n.t("notice.must_be_a_participant_to_choose_action_platforms")
+      redirect_to dashboard_url
+    end
+  end
 
   def current_params
     organization = current_contact.organization
