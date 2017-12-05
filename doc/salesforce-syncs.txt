@@ -1,0 +1,119 @@
+Organization:
+  depends on:
+    Contact
+    Local Network
+
+  fields:
+    UNGC_ID__c
+    AccountNumber
+    Sector__c
+    Join_Date__c
+    JoinYear__c
+    Type
+    Country__c
+    Name
+    Industry
+    NumberOfEmployees
+    Pledge_at_Joining__c
+    Reason_for_no_pledge_at_joining__c
+    Revenue__c
+    AnnualRevenue
+    Revenue_is_Calculated__c
+    FT500__c
+    Region__c
+    COP_Status__c
+    COP_Due_On__c
+    Last_COP_Date__c
+    Last_COP_Differentiation__c
+    Active_c__c
+    Ownership
+    Delisted_ON__c
+    Rejoined_On__c
+    Local_Network__c
+    Local_Network_Name__c
+    State__c
+    OwnerId
+    Removal_Reason__c
+    ISIN__c
+
+    # Billing Address
+    BillingStreet
+    BillingCity
+    BillingState
+    BillingPostalCode
+    BillingCountry
+
+    Anti_corruption__c
+    Board__c
+    B4P__c
+    C4C__c
+    CEO_Water_Mandate__c
+    LEAD__c
+    GC100__c
+    Human_Rights_WG__c
+    Social_Enterprise__c
+    Supply_Chain_AG__c
+    WEPs__c
+    Participant_Tier__c
+    Participant__c
+    TickerSymbol
+    Participant_Tier_at_Joining__c
+    Invoice_Date__c
+
+Contact:
+  depends on:
+
+  fields:
+    UNGC_Contact_ID__c
+    Salutation
+    FirstName
+    LastName
+    Title
+    OwnerId
+    Email
+    Phone
+    MobilePhone
+    npe01__PreferredPhone__c
+    Fax
+    Role__c
+    MailingStreet
+    MailingCity
+    MailingState
+    MailingPostalCode
+    MailingCountry
+
+Local Network:
+  depends on:
+
+  fields:
+    External_ID__c
+    Name
+    Country__c
+    Business_Model__c
+    To_be_Invoiced_by__c
+
+Action Platform:
+  depends on:
+
+  fields:
+    Name
+    UNGC_Action_Platform_ID__c
+    Description__c
+    Status__c
+
+Action Platform Subscription:
+  depends on:
+    Organization
+    Action Platform
+    Contact
+
+  fields:
+    Name
+    Created_at__c
+    Expires_On__c
+    Status__c
+    UNGC_AP_Subscription_ID__c
+    Action_Platform__c
+    Contact_Point__c
+    Organization__c
+
