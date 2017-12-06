@@ -69,7 +69,7 @@ module Igloo
       "Pathways to Low-Carbon & Resilient Development" => "Pathways to Low-Carbon &amp; Resilient Development",
       "Health is Everyone's Business" => "Health is Everyone&#39;s Business",
       "Business for Inclusion" => "Business for Inclusion &amp; Gender Equality",
-      "Business Action for Humanitarian Needs" => "Business for Humanitarian Action and Peace",
+      "Business Action for Humanitarian Needs" => "Business for Humanitarian Action",
       "Decent Work in Global Supply Chains" => "Decent Work in Global Supply Chains",
       "Water Stewardship for the SDGs" => "Water Stewardship for the SDGs",
       "Justice and Strong Institutions" => "Justice and Strong Institutions",
