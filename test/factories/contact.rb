@@ -44,6 +44,12 @@ FactoryGirl.define do
           contact.roles << Role.integrity_manager
         end
       end
+
+      trait :action_platform_manager do
+        after(:build) do |contact, evaluator|
+          contact.roles << Role.action_platform_manager
+        end
+      end
     end
   end
 end
