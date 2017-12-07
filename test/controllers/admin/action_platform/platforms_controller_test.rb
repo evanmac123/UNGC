@@ -51,7 +51,7 @@ class Admin::ActionPlatform::PlatformsControllerTest < ActionController::TestCas
 
       assert_response :success
       assert_template :index
-      assert_equal platforms.count, assigns(:platforms).count
+      assert_equal platforms.count, assigns(:platforms).length
     end
 
     should "#show should respond and have the right platform set" do
@@ -128,7 +128,7 @@ class Admin::ActionPlatform::PlatformsControllerTest < ActionController::TestCas
 
         assert_response :success
         assert_template :index
-        assert_equal @platforms.count, assigns(:platforms).count
+        assert_equal @platforms.count, assigns(:platforms).length
       end
 
       should "#update updates the correct platform" do

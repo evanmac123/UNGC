@@ -24,4 +24,21 @@ class ActionPlatform::Platform < ActiveRecord::Base
   after_commit Crm::CommitHooks.new(:update), on: :update
   after_commit Crm::CommitHooks.new(:destroy), on: :destroy
 
+  def self.with_subscription_counts
+    joins('LEFT OUTER JOIN action_platform_subscriptions on platform_id = action_platform_platforms.id')
+        .group(:id)
+        .select('action_platform_platforms.*',
+                "cast(expires_on >= current_timestamp as unsigned integer) as active_subs",
+                'count(*) as all_subs')
+  end
+
+  def all_subs
+    # This will only return a value when using ActionPlatform::Platform.with_subscription_counts
+    attributes['all_subs']
+  end
+
+  def active_subs
+    # This will only return a value when using ActionPlatform::Platform.with_subscription_counts
+    attributes['active_subs']
+  end
 end

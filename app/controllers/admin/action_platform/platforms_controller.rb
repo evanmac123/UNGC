@@ -2,8 +2,9 @@ class Admin::ActionPlatform::PlatformsController < AdminController
   before_filter :no_organization_or_local_network_access
 
   def index
-    # TODO need to eager load relationships count. Currently the view triggers an 2(N+1)
-    @platforms = ::ActionPlatform::Platform.all.order("updated_at DESC")
+    @platforms = ::ActionPlatform::Platform
+                     .with_subscription_counts
+                     .order(updated_at: :desc)
   end
 
   def show
