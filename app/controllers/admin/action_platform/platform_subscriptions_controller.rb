@@ -1,8 +1,15 @@
 class Admin::ActionPlatform::PlatformSubscriptionsController < AdminController
 
+  attr_reader :policy
+
   before_filter :no_organization_or_local_network_access
+  before_filter :set_policy
 
   def destroy
+    unless policy.can_destroy?
+      raise ActionController::MethodNotAllowed
+    end
+
     subscription, platform = load_platform_and_subscription
     if(subscription.destroy)
       flash[:notice] = 'The subscription has been removed.'
@@ -13,6 +20,10 @@ class Admin::ActionPlatform::PlatformSubscriptionsController < AdminController
   end
 
   def approve
+    unless policy.can_edit?
+      raise ActionController::MethodNotAllowed
+    end
+
    subscription, platform = load_platform_and_subscription
    if(subscription.approved!)
      flash[:notice] = 'Subscription approved.'
@@ -23,6 +34,10 @@ class Admin::ActionPlatform::PlatformSubscriptionsController < AdminController
   end
 
   def revoke
+    unless policy.can_edit?
+      raise ActionController::MethodNotAllowed
+    end
+
     subscription, platform = load_platform_and_subscription
     if(subscription.pending!)
     flash[:notice] = 'Subscription has been set as pending'
@@ -38,4 +53,7 @@ class Admin::ActionPlatform::PlatformSubscriptionsController < AdminController
     return subscription, subscription.platform
   end
 
+  def set_policy
+    @policy = ActionPlatformPolicy.new(current_contact)
+  end
 end

@@ -4,15 +4,18 @@
   %li= render :partial => 'admin/action_platform/platforms/back_to_index'
 
 %p
-%table.dashboard_table
+%table.dashboard_table.action_platforms
+  - policy = ActionPlatformPolicy.new(current_contact)
   %tr
     %th.title Name
     %th.status Status
     %th.status Subscribed on
     %th.status Expires on
-    %th.status Organization Type
+    %th.status Type
     %th.status COP Status
-    %th.actions Actions
+    %th.status Participant Manager
+    - if policy.can_edit?
+      %th.actions Actions
   - @subscriptions.each do |subscription|
     %tr
       - name = "#{subscription.organization.name} (#{subscription.contact.name})"
@@ -22,8 +25,11 @@
       %td= subscription.expires_on
       %td= subscription.organization.organization_type_name
       %td= subscription.organization.cop_state.humanize
-      %td
-        %ul.actions
-          %li= link_to 'Delete', admin_action_platform_platform_subscription_path(subscription), :data => { :confirm => 'Are you sure?' }, :method => :delete, :class => 'delete'
-          %li= link_to 'Approve', approve_admin_action_platform_platform_subscription_path(subscription), class: 'approve', method: :post unless subscription.approved?
-          %li= link_to 'Revoke', revoke_admin_action_platform_platform_subscription_path(subscription), class: 'revoke', method: :post if subscription.approved?
+      %td= subscription.organization&.participant_manager_name
+      - if policy.can_edit?
+        %td
+          %ul.actions
+            %li= link_to 'Delete', admin_action_platform_platform_subscription_path(subscription), title: 'Delete',
+              data: { confirm: 'Are you sure?' }, method: :delete, class: 'delete'
+            %li= link_to 'Approve', approve_admin_action_platform_platform_subscription_path(subscription), title: 'Approve', class: 'approve', method: :post unless subscription.approved?
+            %li= link_to 'Revoke', revoke_admin_action_platform_platform_subscription_path(subscription), title: 'Revoke', class: 'revoke', method: :post if subscription.approved?

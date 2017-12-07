@@ -87,7 +87,7 @@ class BusinessSignupTest < ActionDispatch::IntegrationTest
     assert_equal organization_step4_path, current_path, validation_errors
 
     # step4 level of participation, invoice date, action platforms
-    choose "ACTION PLATFORMS & LEAD ELIGIBILITY"
+    choose "PARTICIPANT + ACTION PLATFORMS & LEAD ELIGIBILITY"
     signup_for_action_platform(platform1, "Michael Henry")
     signup_for_action_platform(platform2, "Michael Henry")
 

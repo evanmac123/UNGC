@@ -88,6 +88,7 @@ class Role < ActiveRecord::Base
         integrity_team_member,
         integrity_manager,
         participant_manager,
+        action_platform_manager,
     ]
   end
 

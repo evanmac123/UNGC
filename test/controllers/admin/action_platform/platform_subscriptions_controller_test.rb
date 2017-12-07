@@ -2,9 +2,9 @@ require "test_helper"
 
 class Admin::ActionPlatform::PlatformSubscriptionsControllerTest < ActionController::TestCase
 
-  context "given a staff user being signed in" do
+  context "given a action platform manager user being signed in" do
     setup do
-      @staff_user = create_staff_user
+      @staff_user = create(:staff_contact, :action_platform_manager)
       sign_in @staff_user
     end
 

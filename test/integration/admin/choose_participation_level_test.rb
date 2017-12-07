@@ -209,7 +209,7 @@ class Admin::ChooseParticipationLevelTest < ActionDispatch::IntegrationTest
     form = TestPage::ChooseLevelOfParticipation.new
     visit form.path
 
-    form.select_level_of_participation("ACTION PLATFORMS & LEAD ELIGIBILITY")
+    form.select_level_of_participation("PARTICIPANT + ACTION PLATFORMS & LEAD ELIGIBILITY")
     form.confirm_contact_point(contact)
     form.is_subsidiary = false
     form.annual_revenue = "123,456,567"

@@ -21,6 +21,7 @@
     <%= link_to_current 'Contacts Search', search_admin_contacts_path, controller.is_a?(Admin::ContactsController) && action_name == 'search' %>
     <%= link_to_current 'Reports', admin_reports_path, controller.is_a?(Admin::ReportsController) %>
     <%= link_to_current 'Due Diligence', for_state_admin_due_diligence_reviews_path(state: [:in_review]), controller.is_a?(Admin::DueDiligence::ReviewsController) %>
+    <%= link_to_current 'Action Platforms', admin_action_platform_platforms_path, controller.is_a?(Admin::ActionPlatform::PlatformsController) %>
   <% end %>
   <% if current_contact %>
     <%= link_to_current 'Logout', destroy_contact_session_path, action_name == 'logout', :method => :delete, title: current_contact.name %>

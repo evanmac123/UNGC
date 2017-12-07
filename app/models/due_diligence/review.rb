@@ -7,7 +7,7 @@ class DueDiligence::Review < ActiveRecord::Base
   validates_length_of :integrity_explanation, maximum: 1_000
   validates_length_of :engagement_rationale,
                       :world_check_allegations,
-                      :local_network_input ,maximum: 2_000
+                      :local_network_input , maximum: 2_000
   validates_length_of :additional_research,
                       :analysis_comments, maximum: 65_535
   validates_length_of :approving_chief,

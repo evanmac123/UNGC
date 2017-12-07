@@ -1,0 +1,17 @@
+= form.error_messages
+%br
+%fieldset
+  = form.label :name, 'Name:'
+  %br
+  = form.text_field :name,  maxlength: 255
+  %p
+  = form.label :name, 'Slug:'
+  %br
+  = form.text_field :slug,  maxlength: 32
+  %p
+  = form.label :name, 'Description:'
+  %br
+  = form.text_area :description,  maxlength: 2_000
+  %p
+  = form.label :discontinued, 'Discontinued:'
+  = form.check_box :discontinued
