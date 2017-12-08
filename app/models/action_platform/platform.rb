@@ -4,7 +4,7 @@
 #
 #  id           :integer          not null, primary key
 #  name         :string(255)      not null
-#  description  :string(2000)      not null
+#  description  :string(5000)      not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  slug         :string(32)       not null
@@ -15,7 +15,7 @@ class ActionPlatform::Platform < ActiveRecord::Base
   has_many :subscriptions, dependent: :restrict_with_error
 
   validates :name, presence: true, length: { maximum: 255 }
-  validates :description, presence: true, length: { maximum: 2_000 }
+  validates :description, presence: true, length: { maximum: 5_000 }
   validates :slug, presence: true, length: { maximum: 32 }
 
   scope :available_for_signup, -> { where(discontinued: false) }

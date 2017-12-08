@@ -24,13 +24,13 @@ module ActionPlatform
     end
 
     test "validate length of a description" do
-      too_long_2000 = Faker::Lorem.characters(2_001)
+      too_long_5000 = Faker::Lorem.characters(5_001)
 
-      platform = build(:action_platform_platform, :description => too_long_2000)
+      platform = build(:action_platform_platform, :description => too_long_5000)
 
       assert_not platform.valid?, 'platform is valid'
 
-      assert_equal platform.errors[:description], ['is too long (maximum is 2000 characters)']
+      assert_equal platform.errors[:description], ['is too long (maximum is 5000 characters)']
     end
 
     test "validate presence of a slug" do
