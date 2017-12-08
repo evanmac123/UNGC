@@ -70,6 +70,7 @@ class Admin::DueDiligence::RiskAssessmentsController < Admin::DueDiligence::Revi
       :rep_risk_current,
       :rep_risk_severity_of_news,
       :requires_local_network_input,
+      :additional_research,
       :analysis_comments,
     )
 
