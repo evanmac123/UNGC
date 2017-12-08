@@ -49,7 +49,7 @@ module Crm
       platform.destroy!
 
       crm_platform = crm.find_action_platform(platform.id)
-      assert_equal true, crm_platform.IsDeleted
+      assert_nil crm_platform
     end
 
     private
