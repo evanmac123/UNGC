@@ -115,8 +115,13 @@
     <h4>Analysis</h4>
 
     <div class="field">
+      <%= f.label :additional_research, "Additional research:" %>
+      <%= f.text_area :additional_research, maxlength: 65_535 %>
+    </div>
+
+    <div class="field">
       <%= f.label :analysis_comments, "Analysis comments:" %>
-      <%= f.text_area :analysis_comments, maxlength: 2_000 %>
+      <%= f.text_area :analysis_comments, maxlength: 65_535 %>
     </div>
   </section>
 
