@@ -107,6 +107,7 @@ class Organization::LevelOfParticipationForm
     message: "must be greater than 0 and less than $US 92,000,000,000,000,000"
   }
 
+  validates :financial_contact_action, presence: true
   validates :confirm_financial_contact_info, presence: { message: "must be accepted" }
   validates :confirm_submission, presence: { message: "must be accepted" }
   validates :accept_platform_removal,
