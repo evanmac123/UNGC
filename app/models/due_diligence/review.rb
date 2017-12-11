@@ -23,6 +23,7 @@ class DueDiligence::Review < ActiveRecord::Base
 
   enum level_of_engagement: {
       speaker: 10,
+      foundation: 15,
       sponsor: 20,
       award_recipient: 30,
       lead: 40,
@@ -84,7 +85,7 @@ class DueDiligence::Review < ActiveRecord::Base
   state_machine initial: :new_review do
     state :in_review do # in integrity data collection
       validates_presence_of :requester_id, :organization_id, :additional_information
-      validates_presence_of :individual_subject, if: :speaker?
+      validates_presence_of :individual_subject, if: :requires_individual_subject?
     end
 
     state :local_network_review do
@@ -246,6 +247,10 @@ class DueDiligence::Review < ActiveRecord::Base
         .where('(requester_id = :contact_id ' \
                 'OR organizations.participant_manager_id = :contact_id)', contact_id: contact.id)
   }
+
+  def requires_individual_subject?
+    speaker? || foundation?
+  end
 
   def self.review_steps
     [

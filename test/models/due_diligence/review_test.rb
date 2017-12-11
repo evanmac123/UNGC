@@ -43,6 +43,19 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
 
     context 'enums' do
       context 'level_of_engagement' do
+        should 'include the correct options' do
+          keys = %w[speaker
+                    foundation
+                    sponsor
+                    award_recipient
+                    lead
+                    partner
+                    other_engagement
+                  ].sort
+
+          assert_equal DueDiligence::Review.levels_of_engagement.keys.sort, keys
+        end
+
         should 'accept valid values' do
           review = FactoryGirl.build_stubbed(:due_diligence_review)
 
@@ -307,18 +320,21 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
         assert_includes review.reload.errors.full_messages, "Additional information can't be blank"
       end
 
-      should "require :individual_subject for a speaker" do
-        contact = FactoryGirl.create(:contact)
-        review = FactoryGirl.create(:due_diligence_review, :integrity_review, :with_research, level_of_engagement: :speaker)
+      should "require :individual_subject for a :speaker and :foundation" do
+        [:speaker, :foundation].each do |review_type|
+          contact = FactoryGirl.create(:contact)
+          review = FactoryGirl.create(:due_diligence_review)
 
+          review.level_of_engagement = review_type
+          review.individual_subject = ''
 
-        review.level_of_engagement = :speaker
-        review.individual_subject = ''
+          assert_not review.send_to_review(contact),
+                     review.reload.errors.full_messages.to_s
+          assert review.new_review?, "state not new_review (type=#{review_type} state: #{review.state}"
 
-        assert_not review.send_to_review(contact), review.reload.errors.full_messages
-        assert review.integrity_review?, 'state not integrity_review'
-
-        assert_includes review.reload.errors.full_messages, "Individual subject can't be blank"
+          assert_includes review.reload.errors.full_messages,
+                          "Individual subject can't be blank", "for review_type=#{review_type}"
+        end
       end
 
       should "fire a review_requested event" do
@@ -1000,5 +1016,4 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
   def event_store
     RailsEventStore::Client.new
   end
-
 end
