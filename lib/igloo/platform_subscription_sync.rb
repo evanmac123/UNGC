@@ -72,6 +72,7 @@ module Igloo
       "Business Action for Humanitarian Needs" => "Business for Humanitarian Action",
       "Decent Work in Global Supply Chains" => "Decent Work in Global Supply Chains",
       "Water Stewardship for the SDGs" => "Water Stewardship for the SDGs",
+      "Water Security through Stewardship" => "Water Stewardship for the SDGs",
       "Justice and Strong Institutions" => "Justice and Strong Institutions",
     }.freeze
 
