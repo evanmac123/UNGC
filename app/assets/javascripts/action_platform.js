@@ -1,7 +1,7 @@
 $(function() {
     $("#order_revenue").priceFormat({
         prefix: "$ ",
-        centsLimit: 0,
+        centsLimit: 2,
         clearOnEmpty: true
     });
 });
