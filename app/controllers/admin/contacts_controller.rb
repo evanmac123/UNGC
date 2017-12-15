@@ -48,16 +48,15 @@ class Admin::ContactsController < AdminController
   end
 
   def destroy
-    can_destroy = policy.can_destroy?(@contact)
-    unless can_destroy
-      @contact.errors.add(:base, "You are not authorized to delete that contact.")
-    end
-
-    if can_destroy && @contact.destroy
+    if policy.can_destroy?(@contact)
+      @contact.destroy!
       flash[:notice] = 'Contact was successfully deleted.'
     else
-      flash[:error] = @contact.errors.full_messages.to_sentence
+      @contact.errors.add(:base, "You are not authorized to delete that contact.")
     end
+  rescue ActiveRecord::RecordNotDestroyed
+    flash[:error] = @contact.errors.full_messages.to_sentence
+  ensure
     redirect_to return_path
   end
 

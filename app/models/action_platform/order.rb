@@ -13,7 +13,7 @@
 #
 
 class ActionPlatform::Order < ActiveRecord::Base
-  has_many :subscriptions, dependent: :destroy
+  has_many :subscriptions, dependent: :restrict_with_error
   belongs_to :organization
   belongs_to :financial_contact, class_name: "Contact"
 

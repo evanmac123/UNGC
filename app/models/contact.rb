@@ -104,6 +104,7 @@ class Contact < ActiveRecord::Base
   has_one :crm_owner, class_name: "Crm::Owner"
   has_one :igloo_user, dependent: :destroy
   has_many :due_diligence_reviews, class_name: DueDiligence::Review, foreign_key: :requester_id
+  has_many :action_platform_subscriptions, :class_name => 'ActionPlatform::Subscription', dependent: :restrict_with_error
 
   default_scope { order('contacts.first_name') }
 

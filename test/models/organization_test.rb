@@ -465,11 +465,21 @@ class OrganizationTest < ActiveSupport::TestCase
                      status: "approved",
                      expires_on: Time.zone.yesterday)
 
-    subs = organization.action_platform_subscriptions.pluck(:id)
+    subs = organization.action_platform_subscriptions.active.pluck(:id)
 
     assert_includes subs, approved.id
     assert_not_includes subs, pending.id
     assert_not_includes subs, expired.id
+  end
+
+  test "deleting an organization is prevented if action platform subscriptions exist" do
+    # Given an order with a subscription that belong to an organization
+    organization = create(:organization)
+    create(:action_platform_subscription, organization: organization)
+
+    assert_not organization.destroy, 'Organization was destroyed'
+
+    assert_equal organization.errors[:base], ['Cannot delete record because dependent action platform subscriptions exist']
   end
 
   test "not overflow precise_revenue" do

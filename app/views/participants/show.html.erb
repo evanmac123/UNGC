@@ -51,10 +51,10 @@
               <div class='company-information-cop-due'><strong><%= @page.next_communication_due_on %></strong> <time><%= @page.cop_due_on -%></time></div>
             <%- end -%>
 
-            <%- if @page.action_platform_subscriptions.any? %>
+            <%- if @page.action_platform_subscriptions.active.exists? %>
               <h3>Engagements</h3>
               <div>
-                <%- @page.action_platform_subscriptions.each do |subscription| %>
+                <%- @page.action_platform_subscriptions.active.each do |subscription| %>
                   <div><%= link_to subscription.platform.name, action_platform_platform_path(subscription.platform) %></div>
                 <%- end -%>
               </div>

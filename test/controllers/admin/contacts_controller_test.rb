@@ -149,6 +149,20 @@ class Admin::ContactsControllerTest < ActionController::TestCase
       assert_redirected_to admin_local_network_path(@local_network.id, :tab => :contacts)
     end
 
+    should 'respect referential integrity constraints on destroy' do
+      contact = create(:contact_point)
+      other_contact = build(:contact)
+      contact.organization.contacts << other_contact
+
+      create(:action_platform_subscription, :approved, contact: other_contact, organization: contact.organization)
+
+      delete :destroy, id: other_contact.to_param, organization_id: contact.organization_id
+
+      assert_equal flash[:error], 'Cannot delete record because dependent action platform subscriptions exist'
+
+      assert_redirected_to admin_organization_path(contact.organization_id, tab: :contacts)
+    end
+
     should "redirect to the organization's path after updating its contact" do
       put :update, :organization_id => @organization.id,
                    :id              => @organization_user.to_param,

@@ -175,7 +175,7 @@ class Organization::LevelOfParticipationForm
     @_platforms.map do |platform|
       [
         platform,
-        organization.action_platform_subscriptions.fetch(platform.id) {
+        organization.action_platform_subscriptions.active.fetch(platform.id) {
           ActionPlatform::SubscriptionForm.new(platform_id: platform.id)
         }
       ]

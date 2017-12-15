@@ -3,7 +3,7 @@ require "test_helper"
 module ActionPlatform
   class OrderTest < ActiveSupport::TestCase
 
-    test "deleting an organization cleans up orders and subscriptions" do
+    test "deleting an organization is prevented if action platform orders exist" do
       # Given an order with a subscription that belong to an organization
       organization = create(:organization)
       contact = create(:contact)
@@ -17,14 +17,9 @@ module ActionPlatform
 
       order_service.create_order
 
-      # When the organization is destroyed
-      # Then the order and it's subscriptions are destroyed also
-      assert_difference -> { Order.count }, -1 do
-        assert_difference -> { Subscription.count }, -1 do
-          organization.destroy
-        end
-      end
-    end
+      assert_not organization.destroy, 'Organization was destroyed'
 
+      assert_equal organization.errors[:base], ['Cannot delete record because dependent action platform orders exist']
+    end
   end
 end
