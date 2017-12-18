@@ -1,7 +1,5 @@
 module Crm
   class CommitHooks
-    cattr_accessor :run_in_tests
-
     attr_reader :action
 
     def initialize(action)
@@ -9,7 +7,7 @@ module Crm
     end
 
     def after_commit(model)
-      return if Rails.env.test? && !self.class.run_in_tests
+      return unless Rails.configuration.x_enable_crm_synchronization
 
       Crm::SyncWorker.sync(model, action)
     end

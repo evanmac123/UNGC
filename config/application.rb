@@ -56,5 +56,8 @@ module UNGC
 
     # Explicitly set time_zone to UTC and let user's determine their own time zone
     config.time_zone = "UTC"
+
+    # Salesforce Synchronization
+    config.x_enable_crm_synchronization = true
   end
 end

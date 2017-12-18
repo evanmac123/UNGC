@@ -54,4 +54,7 @@ Rails.application.configure do
   config.active_record.raise_in_transactional_callbacks = true
 
   Rails.application.routes.default_url_options[:host] = 'www.unglobalcompact.org'
+
+  # Salesforce Synchronization
+  config.x_enable_crm_synchronization = false
 end

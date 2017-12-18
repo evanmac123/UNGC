@@ -6,13 +6,13 @@ module Crm
 
     setup do
       Sidekiq::Testing.inline!
-      Crm::CommitHooks.run_in_tests = true
+      Rails.configuration.x_enable_crm_synchronization = true
       TestAfterCommit.enabled = true
     end
 
     teardown do
       Sidekiq::Testing.fake!
-      Crm::CommitHooks.run_in_tests = false
+      Rails.configuration.x_enable_crm_synchronization = false
       TestAfterCommit.enabled = false
     end
 
