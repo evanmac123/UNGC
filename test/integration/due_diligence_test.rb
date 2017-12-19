@@ -41,7 +41,7 @@ class DueDiligenceTest < ActionDispatch::IntegrationTest
     pending_review.fill_in_organization_name(organization.name)
     pending_review.select_level_of_engagement("speaker")
     pending_review.fill_in_additional_information("Leaders Summit")
-    ap current_path
+
     review_page = pending_review.submit
 
     # Then a review should be created with the name of the organization

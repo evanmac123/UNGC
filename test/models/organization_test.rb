@@ -458,14 +458,14 @@ class OrganizationTest < ActiveSupport::TestCase
   test "action platforms" do
     organization = create(:organization)
     approved = create(:action_platform_subscription, organization: organization,
-                      status: "approved")
+                      state: :approved)
     pending = create(:action_platform_subscription, organization: organization,
-                     status: "pending")
-    expired = create(:action_platform_subscription, organization: organization,
-                     status: "approved",
-                     expires_on: Time.zone.yesterday)
+                     state: :pending)
+    expired = create(:action_platform_subscription, :approved, organization: organization,
+                     starts_on: 3.years.ago,
+                     expires_on: 2.year.ago)
 
-    subs = organization.action_platform_subscriptions.active.pluck(:id)
+    subs = organization.action_platform_subscriptions.active_at.pluck(:id)
 
     assert_includes subs, approved.id
     assert_not_includes subs, pending.id

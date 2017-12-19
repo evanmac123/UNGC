@@ -1,18 +1,17 @@
-- policy = ActionPlatformPolicy.new(current_contact)
+- policy = ActionPlatform::PlatformPolicy.new(current_contact)
 %tr
-  %td= platform.updated_at
+  %td.iso-date= platform.updated_at
   %td= platform.name
   %td= platform.slug
-  %td{:style=>"text-align:right"}
-    = platform.active_subs
-    :plain
-      /
-    = platform.all_subs
+  %td.iso-date= platform.default_starts_at
+  %td.iso-date= platform.default_ends_at
+  %td.number= platform.active_subs
+  %td.number= platform.all_subs
   %td
     %ul.actions
       %li= link_to 'View details', admin_action_platform_platform_path(platform), class: 'preview', title: 'View details'
       - if policy.can_edit?
         %li= link_to 'Edit', edit_admin_action_platform_platform_path(platform), class: 'edit', title: 'Edit details'
-      - if policy.can_destroy?
+      - if policy.can_destroy?(platform)
         %li= link_to 'Delete', admin_action_platform_platform_path(platform), data: { confirm: 'Are you sure?' },
           method: :delete, class: 'delete', title: 'Delete action platform'

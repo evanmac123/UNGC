@@ -7,19 +7,21 @@
 
   %div.tab_content
     =form_tag({ controller: :reviews , action: :for_state }, { method: :get }) do
-      =label_tag :only_mine do
+      %label.normalized
         =check_box_tag(:only_mine, 1, params[:only_mine] == '1')
-        ='Only mine'
+        Only mine
       -if params[:state]&.include?('all')
         =text_field_tag('state[]', 'all', hidden: true)
         - DueDiligence::Review::ALL_STATES.each do |state|
-          =label_tag "#{state}_state" do
+          %label.normalized
+            &nbsp;
             =check_box_tag('state[]', state, params[:state].include?(state.to_s), id: "#{state}_state")
             =state.to_s.humanize
       -else
         =text_field_tag('state[]', params[:state]&.first || 'in_review', hidden: true)
 
-      =button_tag 'Search'
+      %button
+        Search
       %table.reviews_table.dashboard_table
         %tr
           %th= sort_header 'ID', field: 'id'
@@ -48,12 +50,12 @@
               %td= review.state.humanize.titleize
             - if params[:state] == ['engagement_review'] || params[:state]&.include?('all')
               %td='Reservation' if review.integrity_reservation?
-            %td.name{:title => review.organization_name}
-              = "#{truncate(review.organization_name, :length => 40)} (#{review.organization.country.name})".html_safe
+            %td.name{title: review.organization_name}
+              = "#{truncate(review.organization_name, length: 40)} (#{review.organization.country.name})".html_safe
               = # duplicate_application(review)
             %td=review.level_of_engagement&.humanize&.titleize
-            %td=truncate(review.event_title, :length => 40)
-            %td=truncate(review.individual_subject, :length => 40)
+            %td=truncate(review.event_title, length: 40)
+            %td=truncate(review.individual_subject, length: 40)
             - if params[:state] == ['local_network_review']
               %td="Contact: #{review.organization.network_contact_person.name}"
             %td
@@ -66,13 +68,14 @@
             %td
               %ul.actions
                 %li
-                  = link_to 'Show', admin_due_diligence_review_path(review.id), :class => "preview", :title => "Show"
+                  = link_to 'Show', admin_due_diligence_review_path(review.id), class: "preview", title: "Show"
                 - if policy.can_edit?(current_contact)
                   %li
-                    = link_to 'Edit', edit_path_for_review(review), :class => "edit", :title => "Edit"
+                    = link_to 'Edit', edit_path_for_review(review), class: "edit", title: "Edit"
                 - if policy.can_destroy?(current_contact)
                   %li
-                    = link_to 'Destroy', admin_due_diligence_review_path(review.id), :class => "delete", :title => "Delete", :data => { :confirm => 'Are you sure?' }, :method => :delete
+                    = link_to 'Destroy', admin_due_diligence_review_path(review.id), class: "delete",
+                      title: "Delete", data: { confirm: 'Are you sure?' }, method: :delete
 
       - unless params[:page] == 'all'
         = will_paginate @reviews

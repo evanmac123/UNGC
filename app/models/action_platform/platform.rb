@@ -4,7 +4,9 @@
 #
 #  id           :integer          not null, primary key
 #  name         :string(255)      not null
-#  description  :string(5000)      not null
+#  description  :string(5000)     not null
+#  default_starts_on   :datetime  not null
+#  default_ends_on     :datetime  not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  slug         :string(32)       not null
@@ -17,6 +19,7 @@ class ActionPlatform::Platform < ActiveRecord::Base
   validates :name, presence: true, length: { maximum: 255 }
   validates :description, presence: true, length: { maximum: 5_000 }
   validates :slug, presence: true, length: { maximum: 32 }
+  validate :end_date_after_start_date?
 
   scope :available_for_signup, -> { where(discontinued: false) }
 
@@ -28,7 +31,11 @@ class ActionPlatform::Platform < ActiveRecord::Base
     joins('LEFT OUTER JOIN action_platform_subscriptions on platform_id = action_platform_platforms.id')
         .group(:id)
         .select('action_platform_platforms.*',
-                "cast(expires_on >= current_timestamp as unsigned integer) as active_subs",
+                "coalesce(sum(cast(" \
+                    "(action_platform_subscriptions.state = 'approved'" \
+                    "   AND CURRENT_DATE() >= starts_on" \
+                    "   AND CURRENT_DATE() <= expires_on)" \
+                " as unsigned integer)), 0) as active_subs",
                 'count(*) as all_subs')
   end
 
@@ -41,4 +48,12 @@ class ActionPlatform::Platform < ActiveRecord::Base
     # This will only return a value when using ActionPlatform::Platform.with_subscription_counts
     attributes['active_subs']
   end
+
+  def end_date_after_start_date?
+    return if default_starts_at.blank? && default_ends_at.blank?
+
+    errors.add :default_ends_at, "must be after Platform subscription year default starts at" \
+        if (default_ends_at || default_starts_at) <= (default_starts_at || default_ends_at)
+  end
+
 end

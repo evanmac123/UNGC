@@ -35,8 +35,7 @@ class Admin::DueDiligence::RiskAssessmentsController < Admin::DueDiligence::Revi
           redirect_to for_state_admin_due_diligence_reviews_path(state: [:local_network_review])
         when "save"
           flash[:notice] = 'Saved'
-
-          render :edit
+          redirect_to edit_admin_due_diligence_risk_assessment_path(@review)
         else
           raise "Unexpected review finalizer event: #{action}"
       end
@@ -44,7 +43,6 @@ class Admin::DueDiligence::RiskAssessmentsController < Admin::DueDiligence::Revi
 
   rescue ActiveRecord::RecordInvalid, StateMachine::InvalidTransition, RuntimeError
     flash[:error] = @review.errors.full_messages.to_sentence
-
     render :edit
   end
 

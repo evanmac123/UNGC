@@ -1,35 +1,68 @@
-%h2== #{@platform.name} (#{@subscriptions.active.count} / #{@subscriptions.count})
+%h2== #{@platform.name} (#{@platform.active_subs} / #{@platform.all_subs})
 
-%ul.tools.inline
-  %li= render :partial => 'admin/action_platform/platforms/back_to_index'
+%p.actions.normalized
+  = render partial: 'admin/action_platform/platforms/back_to_index'
+  = link_to 'All Pages', admin_action_platform_platform_path(@platform, state: params[:state], page: 'all', only_mine: params[:only_mine])
+  = '/'
+  = link_to 'Paginate', admin_action_platform_platform_path(@platform, state: params[:state], only_mine: params[:only_mine])
 
-%p
-%table.dashboard_table.action_platforms
-  - policy = ActionPlatformPolicy.new(current_contact)
-  %tr
-    %th.title Name
-    %th.status Status
-    %th.status Subscribed on
-    %th.status Expires on
-    %th.status Type
-    %th.status COP Status
-    %th.status Participant Manager
-    - if policy.can_edit?
-      %th.actions Actions
-  - @subscriptions.each do |subscription|
-    %tr
-      - name = "#{subscription.organization.name} (#{subscription.contact.name})"
-      %td{:title => name}= link_to truncate(name, :length => 70), admin_organization_path(subscription.organization.id)
-      %td= subscription.status
-      %td= subscription.created_at
-      %td= subscription.expires_on
-      %td= subscription.organization.organization_type_name
-      %td= subscription.organization.cop_state.humanize
-      %td= subscription.organization&.participant_manager_name
-      - if policy.can_edit?
-        %td
-          %ul.actions
-            %li= link_to 'Delete', admin_action_platform_platform_subscription_path(subscription), title: 'Delete',
-              data: { confirm: 'Are you sure?' }, method: :delete, class: 'delete'
-            %li= link_to 'Approve', approve_admin_action_platform_platform_subscription_path(subscription), title: 'Approve', class: 'approve', method: :post unless subscription.approved?
-            %li= link_to 'Revoke', revoke_admin_action_platform_platform_subscription_path(subscription), title: 'Revoke', class: 'revoke', method: :post if subscription.approved?
+%form
+  %label.normalized
+    =check_box_tag(:only_mine, 1, params[:only_mine] == '1',)
+    Only mine
+  -if params[:state]&.include?('all')
+    =text_field_tag('state[]', 'all', hidden: true)
+    - ActionPlatform::Subscription::ALL_STATES.each do |state|
+      %label.normalized
+        =check_box_tag('state[]', state, params[:state].include?(state.to_s), id: "#{state}_state")
+        =t("action_platform.subscriptions.states.#{state}")
+  -else
+    =text_field_tag('state[]', params[:state]&.first || 'pending', hidden: true)
+
+  %button
+    Search
+  %div.tab_container
+    %ul.view_modes
+      %li= link_to 'Pending', admin_action_platform_platform_path(@platform, state: [:pending], only_mine: params[:only_mine]), id: "show_ipending", class: "restrictions #{ ' selected' if params[:state].blank? || params[:state] == ['pending'] }"
+      %li= link_to 'CE Review', admin_action_platform_platform_path(@platform, state: [:ce_engagement_review], only_mine: params[:only_mine]), id: "ce_review", class: "restrictions #{' selected' if params[:state] == ['ce_engagement_review'] }"
+      %li= link_to 'Active', admin_action_platform_platform_path(@platform, state: [:approved], only_mine: params[:only_mine]), id: "show_active", class: "restrictions #{' selected' if params[:state] == ['approved'] }"
+      %li
+        &nbsp&nbsp&nbsp&nbsp&nbsp
+      %li= link_to 'All Subscriptions', admin_action_platform_platform_path(@platform, state: ['all'], only_mine: params[:only_mine]), id: "show_all", class: "restrictions #{' selected' if params[:state]&.include?('all') }"
+    %div.tab_content
+      %table.dashboard_table.action_platforms
+        %tr
+          %th.title Name
+          - if params[:state]&.include?('all')
+            %th.status Status
+          %th.contact Contact
+          %th.starts_on Starts on
+          %th.expires_on Expires on
+          %th.type Type
+          %th.cop_status COP Status
+          %th.ce_manager CE Manager
+          %th.created_at Created At
+          %th.actions Actions
+        - @subscriptions.each do |subscription|
+          - policy = ActionPlatform::SubscriptionPolicy.new(subscription)
+          %tr
+            - name = subscription.organization.name
+            %td{title: name}= link_to name, admin_organization_path(subscription.organization.id)
+            - if params[:state]&.include?('all')
+              %td= subscription.state
+            %td.contact= subscription.contact.name
+            %td.iso-date= subscription.starts_on
+            %td.iso-date= subscription.expires_on
+            %td= subscription.organization.organization_type_name
+            %td= subscription.organization.cop_state.humanize
+            %td= subscription.organization&.participant_manager_name
+            %td.iso-date= subscription.created_at
+            %td
+              %ul.actions
+                - if policy.can_edit?(current_contact)
+                  %li= link_to 'Edit',    edit_admin_action_platform_platform_subscription_path(subscription), class: "edit", title: "Edit"
+                - if policy.can_destroy?(current_contact)
+                  %li= link_to 'Delete', admin_action_platform_platform_subscription_path(subscription), title: 'Delete',
+                  data: { confirm: 'Are you sure?' }, method: :delete, class: 'delete'
+      - unless params[:page] == 'all'
+        = will_paginate @subscriptions

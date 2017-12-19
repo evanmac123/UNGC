@@ -1,0 +1,66 @@
+- organization = @subscription.organization
+
+%h2
+  ="#{@subscription.platform.name} Action Platform Subscription for"
+  %br
+  %span.organization-name
+    =organization.name
+%p
+
+= form_for(@subscription,
+             url: admin_action_platform_platform_subscription_path(@subscription),
+             as: :subscription,
+             method: :patch) do |f|
+  %fieldset
+  %section#summary
+    %h4 Action Platform Subscription:
+    %ul
+      %li
+        %strong Action Platform:
+        =@subscription.platform.name
+      %li
+        %strong Organization:
+        =organization.name
+      %li
+        %strong Contact:
+        - contact_options = organization.contacts.select(:id, :first_name, :last_name).order(:last_name, :first_name, :id)
+        =f.select(:contact_id, contact_options.map { |c| ["#{c.name} (#{c.id})", c.id]})
+      %li
+        %strong Status:
+        =@subscription.state.humanize
+      %li
+        %strong COP Status:
+        =organization.cop_state.humanize
+      %li
+        %strong CE Manager:
+        =organization.participant_manager_name
+      %li
+        = f.label :starts_on
+        = f.text_field :starts_on, class: 'datepicker iso-date', value: @subscription.starts_on || @subscription.platform.default_starts_at
+
+        = f.label :expires_on
+        = f.text_field :expires_on, class: 'datepicker iso-date', value: @subscription.expires_on || @subscription.platform.default_ends_at
+      %li
+        %strong Created on:
+        = @subscription.created_at
+
+  %ul.tools.inline.buttons{style: 'float: right'}
+    %li
+      = link_to 'Cancel', admin_action_platform_platform_path(@subscription.platform), class: 'cancel_large'
+    %li
+      = f.submit 'Save', class: 'button', name: 'commit[save]'
+    - if @subscription.approved? || @subscription.declined?
+      %li
+        = f.submit t("action_platform.subscriptions.actions.back_to_pending"), class: 'button', name: 'commit[back_to_pending]'
+    - else
+      %li
+        = f.submit t("action_platform.subscriptions.actions.approve"), class: 'button', name: 'commit[approve]'
+      %li
+        = f.submit t("action_platform.subscriptions.actions.decline"), class: 'button', name: 'commit[decline]'
+      -if @subscription.pending?
+        %li
+          = f.submit t("action_platform.subscriptions.actions.to_ce_review"), class: 'button', name: 'commit[send_to_ce_review]'
+      -else
+        %li
+          = f.submit t("action_platform.subscriptions.actions.back_to_pending"), class: 'button', name: 'commit[back_to_pending]'
+

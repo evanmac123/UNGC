@@ -1,13 +1,32 @@
 %h2 Platforms
 
-%p
-  %ul.tools.inline
-    %li= render :partial => 'admin/action_platform/platforms/add_new'
-%table.dashboard_table#platforms_table
-  %tr
-    %th.last_updated Last updated on
-    %th.title Name
-    %th.slug Slug
-    %th.subscriptions_count{:style=>"text-align:right"} Subscriptions (active / total)
-    %th.actions Actions
-  = render :partial => 'admin/action_platform/platforms/platform', :collection => @platforms
+%form
+  %p
+    %ul.tools.inline
+      %li= render :partial => 'admin/action_platform/platforms/add_new'
+      %label.normalized{ for: :discontinued }<
+        =check_box_tag(:discontinued, 1, params[:discontinued] == '1', class: :checkbox, id: :discontinued)
+        Discontinued?
+      %button{ type: 'Submit', value: 'Search' }<
+        Search
+
+  %table.dashboard_table#platforms_table
+    %tr.normalized
+      %th.last_updated
+      %th.title
+      %th.slug
+      %th.starts_at
+      %th.ends_at
+      %th{colspan: 2} Subscriptions
+      %th.actions
+    %tr
+      %th.last_updated Last Update
+      %th.title Name
+      %th.slug Slug
+      %th.starts_at Starts
+      %th.ends_at Ends
+      %th.number Active
+      %th.number Total
+      %th.actions Actions
+    = render :partial => 'admin/action_platform/platforms/platform', :collection => @platforms
+  = will_paginate @platforms

@@ -50,6 +50,12 @@ FactoryGirl.define do
           contact.roles << Role.action_platform_manager
         end
       end
+
+      trait :website_editor do
+        after(:build) do |contact, evaluator|
+          contact.roles << Role.website_editor
+        end
+      end
     end
   end
 end

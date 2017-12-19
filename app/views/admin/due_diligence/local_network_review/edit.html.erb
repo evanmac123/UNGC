@@ -19,7 +19,7 @@
 
   </section>
 
-    <ul class="tools inline" style="float: right">
+    <ul class="tools inline buttons" style="float: right">
       <li><%= link_to 'Cancel', admin_due_diligence_review_path(@review), class: 'cancel_large' %></li>
 
     <% if @review.local_network_review? && @review_policy.can_do_due_diligence?(current_contact) %>

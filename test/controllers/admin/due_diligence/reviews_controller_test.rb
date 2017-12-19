@@ -42,7 +42,7 @@ class Admin::DueDiligence::ReviewsControllerTest < ActionController::TestCase
     assert_equal review.level_of_engagement.to_s, info_added.data[:changes]['level_of_engagement']
     assert_equal review.additional_information, info_added.data[:changes]['additional_information']
 
-    get :destroy, id: review
+    delete :destroy, id: review
 
     assert_raise ActiveRecord::RecordNotFound do
       review.reload
@@ -61,7 +61,7 @@ class Admin::DueDiligence::ReviewsControllerTest < ActionController::TestCase
       review = create(:due_diligence_review, state: :in_review)
 
       assert_raise ActionController::MethodNotAllowed do
-        get :destroy, id: review
+        delete :destroy, id: review
       end
     end
 
@@ -76,7 +76,7 @@ class Admin::DueDiligence::ReviewsControllerTest < ActionController::TestCase
       review = create(:due_diligence_review, state: :local_network_review, requires_local_network_input: true)
 
       assert_raise ActionController::MethodNotAllowed do
-        get :destroy, id: review
+        delete :destroy, id: review
       end
     end
 
@@ -91,7 +91,7 @@ class Admin::DueDiligence::ReviewsControllerTest < ActionController::TestCase
       review = create(:due_diligence_review, :with_research, state: :integrity_review)
 
       assert_raise ActionController::MethodNotAllowed do
-        get :destroy, id: review
+        delete :destroy, id: review
       end
     end
 
@@ -106,7 +106,7 @@ class Admin::DueDiligence::ReviewsControllerTest < ActionController::TestCase
       review = create(:due_diligence_review, :engagement_review)
 
       assert_raise ActionController::MethodNotAllowed do
-        get :destroy, id: review
+        delete :destroy, id: review
       end
     end
 
@@ -121,7 +121,7 @@ class Admin::DueDiligence::ReviewsControllerTest < ActionController::TestCase
       review = create(:due_diligence_review, :engagement_review, state: :rejected)
 
       assert_raise ActionController::MethodNotAllowed do
-        get :destroy, id: review
+        delete :destroy, id: review
       end
     end
 
@@ -136,7 +136,7 @@ class Admin::DueDiligence::ReviewsControllerTest < ActionController::TestCase
       review = create(:due_diligence_review, :engagement_review, state: :engaged)
 
       assert_raise ActionController::MethodNotAllowed do
-        get :destroy, id: review
+        delete :destroy, id: review
       end
     end
 
@@ -151,7 +151,7 @@ class Admin::DueDiligence::ReviewsControllerTest < ActionController::TestCase
       review = create(:due_diligence_review, :engagement_review, :with_declination, state: :declined)
 
       assert_raise ActionController::MethodNotAllowed do
-        get :destroy, id: review
+        delete :destroy, id: review
       end
     end
   end

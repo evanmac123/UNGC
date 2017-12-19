@@ -69,7 +69,8 @@ group :development do
 end
 
 group :test do
-  gem 'minitest'
+  gem "minitest-rails-capybara"
+  gem 'minitest-spec-rails'
   gem 'minitest-reporters'
   gem 'shoulda'
   gem 'capybara'
@@ -84,6 +85,7 @@ group :test do
 end
 
 group :development, :test do
+  gem 'minitest'
   gem 'pry-rails'
   gem 'pry-byebug'
   gem 'quiet_assets'

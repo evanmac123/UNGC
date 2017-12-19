@@ -15,7 +15,7 @@ module Igloo
         country: "Canada",
         organization: "Pepsi",
         platform: "Business for Inclusion",
-        status: "approved")
+        state: :approved)
 
       # And an subscriber with an expired subscription
       create_subscriber(
@@ -28,7 +28,7 @@ module Igloo
         country: "USA",
         organization: "Coke",
         platform: "Health is Everyone's Business",
-        status: "approved",
+        state: :approved,
         expires_on: 1.month.ago)
 
       last_sync = 1.week.ago
@@ -81,7 +81,7 @@ module Igloo
           country: "USA",
           organization: "Organization #{i}",
           platform: "Breakthrough Innovation",
-          status: "approved"
+          state: :approved
         )
       end
 
@@ -98,7 +98,7 @@ module Igloo
       sector_name = params.delete(:sector)
       country_name = params.delete(:country)
       organization_name = params.delete(:organization)
-      subscription_status = params.delete(:status)
+      subscription_state = params.delete(:state)
       expires_on = params.delete(:expires_on)
 
       sector = create(:sector, name: sector_name)
@@ -107,13 +107,13 @@ module Igloo
       contact = create(:contact, params.merge(organization: organization, country: country))
       platform = create(:action_platform_platform, name: platform_name)
       subscription = create(:action_platform_subscription,
-        contact: contact,
-        status: subscription_status,
-        platform: platform)
+                            contact: contact,
+                            organization: organization,
+                            state: subscription_state,
+                            platform: platform)
 
       subscription.update!(expires_on: expires_on) if expires_on.present?
       contact
     end
-
   end
 end

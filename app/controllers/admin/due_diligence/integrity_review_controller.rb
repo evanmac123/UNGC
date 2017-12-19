@@ -40,8 +40,7 @@ class Admin::DueDiligence::IntegrityReviewController < Admin::DueDiligence::Revi
           redirect_to for_state_admin_due_diligence_reviews_path(state: [:in_review])
         when "save"
           flash[:notice] = 'Saved'
-
-          render :edit
+          redirect_to edit_admin_due_diligence_integrity_review_path(@review)
         else
           raise "Unexpected review integrity_review event: #{action}"
       end

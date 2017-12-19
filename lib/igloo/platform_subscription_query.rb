@@ -2,7 +2,7 @@ module Igloo
   class PlatformSubscriptionQuery
 
     def include?(contact)
-      subscriptions.active.where(contact: contact).any?
+      subscriptions.active_at.where(contact: contact).any?
     end
 
     def recent(cutoff)

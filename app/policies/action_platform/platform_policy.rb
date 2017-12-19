@@ -1,4 +1,4 @@
-class ActionPlatformPolicy
+class ActionPlatform::PlatformPolicy
 
   attr_reader :contact
 
@@ -18,8 +18,8 @@ class ActionPlatformPolicy
     is_manager?
   end
 
-  def can_destroy?
-    is_manager?
+  def can_destroy?(platform)
+    is_manager? unless platform&.subscriptions&.exists?
   end
 
   private

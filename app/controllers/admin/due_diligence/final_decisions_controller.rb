@@ -39,8 +39,7 @@ class Admin::DueDiligence::FinalDecisionsController < Admin::DueDiligence::Revie
           redirect_to for_state_admin_due_diligence_reviews_path(state: [:engagement_decision])
         when "save"
           flash[:notice] = 'Saved'
-
-          render :edit
+          redirect_to edit_admin_due_diligence_final_decision_path(@review)
         else
           raise "Unexpected review finalizer event: #{action}"
       end

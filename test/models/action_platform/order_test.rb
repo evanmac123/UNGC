@@ -6,7 +6,7 @@ module ActionPlatform
     test "deleting an organization is prevented if action platform orders exist" do
       # Given an order with a subscription that belong to an organization
       organization = create(:organization)
-      contact = create(:contact)
+      contact = create(:contact_point, organization: organization)
 
       order_service = OrderService.new(organization, contact,
                                        crm: false, mailer: false)

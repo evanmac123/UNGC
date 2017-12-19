@@ -68,10 +68,10 @@ class Admin::ActionPlatform::PlatformsControllerTest < ActionController::TestCas
 
     should "#show lists the subscriptions for that platform " do
       platform = create(:action_platform_platform)
-      subscriptions = create_list(:action_platform_subscription, 5, :platform => platform)
+      subscriptions = create_list(:action_platform_subscription, 5, platform: platform)
 
       another_platform = create(:action_platform_platform)
-      other_subscriptions = create_list(:action_platform_subscription, 3, :platform => another_platform)
+      other_subscriptions = create_list(:action_platform_subscription, 3, platform: another_platform)
 
       get :show, id: platform.id
 
@@ -268,10 +268,7 @@ class Admin::ActionPlatform::PlatformsControllerTest < ActionController::TestCas
       should "#destroy prevents deleting a platform with subscriptions" do
         @platform = @platforms.first
         create_list(:action_platform_subscription, 5, platform: @platform)
-        assert_difference 'ActionPlatform::Platform.count', 0 do
-          delete :destroy, id: @platform
-        end
-        assert_redirected_to_index
+        assert_raises(ActionController::MethodNotAllowed) { delete :destroy, id: @platform }
       end
     end
   end

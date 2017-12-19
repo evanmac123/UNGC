@@ -243,7 +243,7 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
     end
   end
 
-  test "happy path to integrity_review approval" do
+  test "path to integrity_review approval" do
     review = FactoryGirl.create(:due_diligence_review)
 
     assert review.send_to_review(review.requester), review.reload.errors.full_messages

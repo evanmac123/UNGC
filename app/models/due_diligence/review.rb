@@ -252,19 +252,6 @@ class DueDiligence::Review < ActiveRecord::Base
     speaker? || foundation?
   end
 
-  def self.review_steps
-    [
-      :in_review,
-      :integrity_review,
-      :engagement_review,
-    ]
-  end
-
-  def review_step_index
-    steps = self.class.review_steps
-    steps.index(state) || steps.length - 1
-  end
-
   def self.rep_risk_severity
     rep_risk_severity_of_news
   end

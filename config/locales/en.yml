@@ -189,6 +189,18 @@ en:
     actions:
       submit: "Sign-up"
       signup: "Signup for Action Platforms"
+    subscriptions:
+      states:
+        pending: Pending
+        ce_engagement_review: CE Review
+        approved: Approved
+        declined: Declined
+      actions:
+        approve: Approve
+        decline: Decline
+        back_to_pending: Send Back to Pending
+        to_ce_review: Send to CE Review
+        save: Save
 
   pending_review: Pending Review
   in_review: In Review

@@ -71,6 +71,10 @@ ul.inline
   a
     display: block
 
+ul.inline.buttons
+  li
+    margin-left: 0.5em
+
 ul.nav_bar
   padding: 0
   margin: 0 0 2em
@@ -872,6 +876,11 @@ ul.nav_bar
       &.short
         width: 40px
 
+    textarea.normalized
+      margin: inherit
+      min-width: 250px
+      width: 100%
+
     img
       margin: 2px 4px 1px 25px
 
@@ -1031,6 +1040,36 @@ ul.nav_bar
         input[type="text"]
           width: 40px
           margin-top: 0
+
+
+  label.normalized
+    vertical-align: middle
+    cursor: pointer
+
+    input[type=checkbox]
+      padding: 0
+      margin: 0
+      vertical-align: bottom
+      position: relative
+      top: -.2em
+      *overflow: hidden
+
+  .normalized
+    a.go_back_large
+      display: inline-block
+      padding: .5em 0.8em 0 0.8em
+
+  td.normalized
+    border: none
+
+    th
+      border-bottom: none
+
+  .iso-date
+    white-space: nowrap
+
+  .number
+    text-align: right
 
   // page_manager styling
   .box

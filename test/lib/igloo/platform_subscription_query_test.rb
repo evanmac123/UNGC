@@ -4,8 +4,8 @@ module Igloo
   class PlatformSubscriptionQueryTest < ActiveSupport::TestCase
 
     test "includes active subscribers" do
-      subscriber = create(:contact)
-      create(:action_platform_subscription, contact: subscriber, status: :approved)
+      subscriber = create(:contact_point)
+      create(:action_platform_subscription, contact: subscriber, state: :approved, organization: subscriber.organization)
 
       query = Igloo::PlatformSubscriptionQuery.new
       assert query.include?(subscriber), "subscribers should be included"
@@ -19,8 +19,8 @@ module Igloo
     end
 
     test "does not include inactive subscribers" do
-      subscriber = create(:contact)
-      create(:action_platform_subscription, contact: subscriber, status: :pending)
+      subscriber = create(:contact_point)
+      create(:action_platform_subscription, contact: subscriber, state: :pending, organization: subscriber.organization)
 
       query = Igloo::PlatformSubscriptionQuery.new
       assert_not query.include?(subscriber), "should not include inactive subscribers"
@@ -79,7 +79,7 @@ module Igloo
       query = Igloo::PlatformSubscriptionQuery.new
       contact = create_subscriber(from: 1.year.ago)
 
-      subscription = ActionPlatform::Subscription.for_contact(contact)
+      subscription = ActionPlatform::Subscription.related_to_contact(contact)
       subscription.first.touch
 
       results = query.recent(1.month.ago)
@@ -104,7 +104,7 @@ module Igloo
         country = create(:country)
         organization = create(:organization, sector: sector)
         contact = create(:contact, organization: organization, country: country)
-        create(:action_platform_subscription, contact: contact)
+        create(:action_platform_subscription, contact: contact, organization: contact.organization)
         contact
       end
     end

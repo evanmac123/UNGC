@@ -41,7 +41,7 @@ module Igloo
     end
 
     def remove(subscription)
-      if subscription.inactive?
+      unless subscription.active?
         space_name(subscription.platform.name)
       end
     end

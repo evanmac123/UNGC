@@ -1,17 +1,24 @@
 = form.error_messages
 %br
+%fieldset.normalized
+  %legend Basic Fields
+  %p
+    = form.label :discontinued, 'Discontinued:'
+    = form.check_box :discontinued
+  %p
+    = form.label :name, 'Name:'
+    = form.text_field :name,  maxlength: 255
+  %p
+    = form.label :name, 'Slug:'
+    = form.text_field :slug,  maxlength: 32
+  %p
+    = form.label :name, 'Description:'
+    = form.text_area :description,  maxlength: 5_000, class: 'normalized'
 %fieldset
-  = form.label :name, 'Name:'
-  %br
-  = form.text_field :name,  maxlength: 255
+  %legend Default Subscription Start/End for Current Sales Period
   %p
-  = form.label :name, 'Slug:'
-  %br
-  = form.text_field :slug,  maxlength: 32
+    = form.label :default_starts_at, 'Start Date:'
+    = form.text_field :default_starts_at, class: 'datepicker iso-date'
   %p
-  = form.label :name, 'Description:'
-  %br
-  = form.text_area :description,  maxlength: 5_000
-  %p
-  = form.label :discontinued, 'Discontinued:'
-  = form.check_box :discontinued
+    = form.label :default_ends_at, 'End Date:'
+    = form.text_field :default_ends_at, class: 'datepicker iso-date'

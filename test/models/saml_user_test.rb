@@ -55,7 +55,7 @@ class SamlUserTest < ActiveSupport::TestCase
       contact: contact,
       organization: organization,
       platform: platform,
-      status: :approved)
+      state: :approved)
 
     # When we try to authenticate with the contact's username and password
     user = SamlUser.authenticate(contact.username, contact.password)

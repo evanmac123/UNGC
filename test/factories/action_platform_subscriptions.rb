@@ -1,13 +1,14 @@
 FactoryGirl.define do
   factory :action_platform_subscription, class: 'ActionPlatform::Subscription' do
-    contact
-    organization
+    contact {association :contact_point, organization: organization }
+    association :organization, :has_participant_manager
     association :platform, factory: :action_platform_platform
     association :order, factory: :action_platform_order
-    expires_on { 1.week.from_now }
+    starts_on Date.current.beginning_of_year
+    expires_on Date.current.end_of_year
 
     trait :approved do
-      status :approved
+      state :approved
     end
   end
 end

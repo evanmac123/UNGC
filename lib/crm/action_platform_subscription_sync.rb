@@ -55,8 +55,9 @@ module Crm
         {
           "Name" => name(subscription),
           "Created_at__c" => subscription.created_at,
+          "Starts_On__c" => subscription.starts_on,
           "Expires_On__c" => subscription.expires_on,
-          "Status__c" => text(subscription.status, 255),
+          "Status__c" => text(subscription.state, 255),
           "UNGC_AP_Subscription_ID__c" => subscription.id,
           "Action_Platform__c" => platform_id,
           "Contact_Point__c" => contact_id,

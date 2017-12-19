@@ -54,7 +54,7 @@ class Admin::DueDiligence::ReviewsController < AdminController
     query_states = states == ['all'] ? ::DueDiligence::Review::ALL_STATES : states - ['all']
 
     @reviews = ::DueDiligence::Review.for_state(query_states)
-                   .includes(:comments, :event, organization: [:country, :participant_manager], requester: :roles)
+                   .includes(:event, :requester, organization: [:country, :participant_manager])
                    .order(order_from_params)
 
     @reviews = @reviews.related_to_contact(current_contact) if params[:only_mine] == '1'

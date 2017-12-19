@@ -33,8 +33,7 @@ class Admin::DueDiligence::LocalNetworkReviewController < Admin::DueDiligence::R
           redirect_to for_state_admin_due_diligence_reviews_path(state: [:integrity_review])
         when "save"
           flash[:notice] = 'Saved'
-
-          render :edit
+          redirect_to edit_admin_due_diligence_local_network_review_path(@review)
         else
           raise "Unexpected review finalizer event: #{action}"
       end

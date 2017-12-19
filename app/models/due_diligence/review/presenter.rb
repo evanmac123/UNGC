@@ -18,10 +18,6 @@ class DueDiligence::Review::Presenter < SimpleDelegator
     end
   end
 
-  def state_o_meter
-    StateOMeter.new(self)
-  end
-
   def new_comment
     comments.build
   end
@@ -59,34 +55,5 @@ class DueDiligence::Review::Presenter < SimpleDelegator
     def timestamp
       @event.metadata[:timestamp]
     end
-
   end
-
-  class StateOMeter
-
-    def initialize(review)
-      @review = review
-    end
-
-    def each
-      if block_given?
-        current_step = @review.review_step_index
-        DueDiligence::Review.review_steps.each_with_index do |step, index|
-          yield(step, css_class_name(current_step, index))
-        end
-      end
-    end
-
-    private
-
-    def css_class_name(current_step, step)
-      if current_step >= step
-        "active"
-      else
-        "inactive"
-      end
-    end
-
-  end
-
 end

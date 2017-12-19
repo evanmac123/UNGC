@@ -28,6 +28,8 @@ ActiveRecord::Schema.define(version: 20171208211142) do
   create_table "action_platform_platforms", force: :cascade do |t|
     t.string   "name",         limit: 255,                  null: false
     t.string   "description",  limit: 5000,                 null: false
+    t.date     "default_starts_at"
+    t.date     "default_ends_at"
     t.datetime "created_at",                                null: false
     t.datetime "updated_at",                                null: false
     t.string   "slug",         limit: 32,                   null: false
@@ -41,8 +43,10 @@ ActiveRecord::Schema.define(version: 20171208211142) do
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
     t.integer  "organization_id", limit: 4, null: false
-    t.integer  "status",          limit: 4, null: false
+    t.integer  "status",          limit: 4
+    t.date     "starts_on"
     t.date     "expires_on"
+    t.string   "state",           limit: 20, default: "pending", null: false
   end
 
   add_index "action_platform_subscriptions", ["contact_id"], name: "index_action_platform_subscriptions_on_contact_id", using: :btree

@@ -191,11 +191,8 @@ UNGC::Application.routes.draw do
     namespace :action_platform do
       resources :subscriptions
       resources :platforms
-      resources :platform_subscriptions , only: [:destroy] do
-        member do
-          post :approve
-          post :revoke
-        end
+      resources :platform_subscriptions , only: [:edit, :update, :destroy] do
+        resources :comments, only: :create
       end
     end
 

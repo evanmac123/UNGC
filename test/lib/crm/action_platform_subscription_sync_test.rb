@@ -22,14 +22,16 @@ module Crm
       organization = create(:organization, :with_sector)
       subscription = create(:action_platform_subscription,
         created_at: DateTime.new(2017, 3, 4, 17, 45, 0),
+        starts_on: DateTime.new(2018, 1, 1),
         expires_on: Date.new(2018, 3, 4),
-        status: :approved,
+        state: :approved,
         organization: organization)
 
       crm_subscription = crm.find_action_platform_subscription(subscription.id)
       assert_not_nil crm_subscription
       assert_not_nil crm_subscription.Id
       assert_equal "2017-03-04T17:45:00.000Z", crm_subscription.Created_at__c
+      assert_equal "2018-01-01", crm_subscription.Starts_On__c
       assert_equal "2018-03-04", crm_subscription.Expires_On__c
       assert_equal "approved", crm_subscription.Status__c
       assert_equal subscription.id, crm_subscription.UNGC_AP_Subscription_ID__c
@@ -42,7 +44,7 @@ module Crm
       crm = mock_crm()
 
       subscription = create(:action_platform_subscription, :approved,
-        expires_on: "2018-03-04")
+        starts_on: "2018-01-01", expires_on: "2018-03-04")
       subscription.update!(expires_on: "2019-01-01")
 
       sub = crm.find_action_platform_subscription(subscription.id)
@@ -63,8 +65,8 @@ module Crm
     test "only approved subscriptions are synced" do
       _crm = mock_crm()
 
-      approved = create(:action_platform_subscription, status: :approved)
-      pending = create(:action_platform_subscription, status: :pending)
+      approved = create(:action_platform_subscription, state: :approved)
+      pending = create(:action_platform_subscription, state: :pending)
 
       assert Crm::ActionPlatformSubscriptionSync.should_sync?(approved)
       refute Crm::ActionPlatformSubscriptionSync.should_sync?(pending)
