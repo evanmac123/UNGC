@@ -67,4 +67,7 @@ Rails.application.configure do
   end
 
   Rails.application.routes.default_url_options[:host] = 'localhost:3000'
+
+  # Salesforce Synchronization
+  config.x_enable_crm_synchronization = false
 end
