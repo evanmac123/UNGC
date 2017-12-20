@@ -39,6 +39,7 @@ bower_components/
 .ruby-version
 provisioning/roles/
 /dump.rdb
+.byebug_history
 
 # RubyMine
 .idea/**
