@@ -52,19 +52,20 @@ class CommentCreatorTest < ActiveSupport::TestCase
     end
 
     should 'not create event if comment is not created' do
-      assert_raises StandardError do
-        @creator.create_comment({})
-      end
+      refute @creator.create_comment({})
       event = event_store.read_all_streams_forward.last
       assert_not event.is_a? DueDiligence::Events::CommentCreated
     end
 
     should 'not send notifications if comment is not created' do
       assert_no_difference 'ActionMailer::Base.deliveries.count' do
-        assert_raises StandardError do
-          @creator.create_comment({})
-        end
+        refute @creator.create_comment({})
       end
     end
+
+    should 'not accept invalid comments' do
+      refute @creator.create_comment(body: "")
+    end
+
   end
 end

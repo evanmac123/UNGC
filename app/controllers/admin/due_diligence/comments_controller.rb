@@ -3,9 +3,13 @@ class Admin::DueDiligence::CommentsController < AdminController
   def create
     review = load_review
     commenter = DueDiligence::CommentCreator.new(review, current_contact)
-    commenter.create_comment(comment_params)
-    redirect_to admin_due_diligence_review_url(review),
-      notice: t('notice.comment_created')
+    if commenter.create_comment(comment_params)
+      redirect_to admin_due_diligence_review_url(review),
+        notice: t('notice.comment_created')
+    else
+      redirect_to admin_due_diligence_review_url(review),
+        notice: commenter.comment.errors.full_messages.to_sentence
+    end
   end
 
   private

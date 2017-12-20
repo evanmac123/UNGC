@@ -1,5 +1,6 @@
 module DueDiligence
   class CommentCreator
+    attr_reader :comment
 
     def initialize(review, commenter)
       @review = review
@@ -10,11 +11,12 @@ module DueDiligence
     def create_comment(comment_params)
       body = comment_params[:body]
       notify_participant_manager = comment_params[:notify_participant_manager] == "1"
+
+      @comment = @review.comments.build(body: body, contact: @commenter)
+      return false unless @comment.valid?
+
       Comment.transaction do
-        @comment = @review.comments.create!(
-          body: body,
-          contact: @commenter
-          )
+        @comment.save!
 
         event = DueDiligence::Events::CommentCreated.new(data: {
           contact_id: @commenter.id,
@@ -23,7 +25,10 @@ module DueDiligence
 
         stream_name = "due_diligence_review_#{@review.id}"
         event_store_client.publish_event(event, stream_name: stream_name)
-        send_notifications(notify_participant_manager)
+      end
+
+      @comment.persisted?.tap do |success|
+        send_notifications(notify_participant_manager) if success
       end
     end
 
