@@ -80,16 +80,13 @@ class LocalNetworkPage < SimpleDelegator
     end
 
     def participants_by_sector
-      sectors = local_network
-        .participants
-        .joins(:sector)
-        .group('sectors.id')
-        .select(
-          'sectors.id',
-          'sectors.parent_id',
-          'sectors.name',
-          'count(sectors.id) as participants_count')
-        .where.not('sectors.name' => Sector::NOT_APPLICABLE)
+      sectors = Sector
+        .applicable
+        .joins(organizations: { country: :regional_center })
+        .where(countries: { regional_center_id: local_network.id })
+        .merge(Organization.visible_in_local_network)
+        .group(:id, :parent_id, :name)
+        .select(:id, :parent_id, :name, 'count(*) as participants_count')
         .order('participants_count desc')
         .limit(5)
 
