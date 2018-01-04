@@ -3,6 +3,7 @@ require "test_helper"
 module Igloo
   class PlatformSubscriptionPlatformSubscriptionTest < ActiveSupport::TestCase
 
+
     test "uploads recent action platform subscribers to Igloo" do
       # Given a subscriber
       create_subscriber(
@@ -29,6 +30,7 @@ module Igloo
         organization: "Coke",
         platform: "Health is Everyone's Business",
         state: :approved,
+        starts_on: 1.year.ago,
         expires_on: 1.month.ago)
 
       last_sync = 1.week.ago
@@ -100,17 +102,21 @@ module Igloo
       organization_name = params.delete(:organization)
       subscription_state = params.delete(:state)
       expires_on = params.delete(:expires_on)
+      starts_on = params.delete(:starts_on)
 
       sector = create(:sector, name: sector_name)
       country = create(:country, name: country_name)
       organization = create(:organization, sector: sector, name: organization_name)
       contact = create(:contact, params.merge(organization: organization, country: country))
       platform = create(:action_platform_platform, name: platform_name)
-      subscription = create(:action_platform_subscription,
-                            contact: contact,
-                            organization: organization,
-                            state: subscription_state,
-                            platform: platform)
+      subs_params = {
+          contact: contact,
+          organization: organization,
+          state: subscription_state,
+          platform: platform
+      }
+      subs_params.merge!(starts_on: starts_on) if starts_on
+      subscription = create(:action_platform_subscription, subs_params)
 
       subscription.update!(expires_on: expires_on) if expires_on.present?
       contact
