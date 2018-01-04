@@ -144,7 +144,7 @@ class Organization::LevelOfParticipationFormTest < ActiveSupport::TestCase
   end
 
   test "sets invoice date" do
-    date = Date.new(2018, 1, 1)
+    date = Time.current.to_date
     form = build_form(invoice_date: date)
 
     assert form.save, form.errors.full_messages
