@@ -27,21 +27,21 @@ class DataVisualization::SectorDataQueries
   end
 
   def joined_on_by_year
-    joined_on = data.group(:sector_id, 'year(joined_on)').pluck('sectors.name, year(organizations.joined_on), count(organizations.id) as organization_count')
+    joined_on = data.group(:sector_id, 'EXTRACT(YEAR FROM joined_on)').pluck('sectors.name, EXTRACT(YEAR FROM organizations.joined_on), count(organizations.id) as organization_count')
     joined_on.map do |sector_name, year, count|
       { sector_name: sector_name, year: year, count: count }
     end
   end
 
   def rejoined_on_by_year
-    rejoined_on = data.group(:sector_id, 'year(rejoined_on)').where.not(rejoined_on: nil).pluck('sectors.name, year(organizations.rejoined_on), count(organizations.id) as organization_count')
+    rejoined_on = data.group(:sector_id, 'EXTRACT(YEAR FROM rejoined_on)').where.not(rejoined_on: nil).pluck('sectors.name, EXTRACT(YEAR FROM organizations.rejoined_on), count(organizations.id) as organization_count')
     rejoined_on.map do |sector_name, year, count|
       { sector_name: sector_name, year: year, count: count }
     end
   end
 
   def expulsion_by_year
-    delisted_on = data.group(:sector_id, 'year(delisted_on)').where.not(delisted_on: nil).pluck('sectors.name, year(organizations.delisted_on), count(organizations.id) as organization_count')
+    delisted_on = data.group(:sector_id, 'EXTRACT(YEAR FROM delisted_on)').where.not(delisted_on: nil).pluck('sectors.name, EXTRACT(YEAR FROM organizations.delisted_on), count(organizations.id) as organization_count')
     delisted_on.map do |sector_name, year, count|
       { sector_name: sector_name, year: year, count: count, country_name: @country_name }
     end
