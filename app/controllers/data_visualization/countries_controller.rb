@@ -12,12 +12,13 @@ class DataVisualization::CountriesController < ApplicationController
   class Top5Sectors
 
     def self.for_country(country_id)
-      result = Organization.where(country_id: country_id)
-        .joins(:sector)
-        .merge(Sector.applicable)
-        .group('sectors.name')
-        .unscope(:order)
-        .order('count(sectors.name) desc')
+      result = Sector
+        .applicable
+        .joins(organizations: :country)
+        .includes(organization: :country)
+        .where(organizations: { country_id: country_id })
+        .group(:name, :id)
+        .reorder('count(sectors.name) desc')
         .limit(5)
         .count
 

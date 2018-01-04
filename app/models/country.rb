@@ -23,7 +23,7 @@ class Country < ActiveRecord::Base
 
   validates_presence_of :name, :code, :region
 
-  default_scope { order('countries.name') }
+  default_scope { order(:name) }
 
   REGIONS = { :africa           => 'Africa',
               :asia             => 'Asia',

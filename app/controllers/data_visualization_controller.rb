@@ -1,10 +1,11 @@
 class DataVisualizationController < ApplicationController
 
   def index
-    @countries = Organization.joins(:country)
-     .where(active: true)
-     .group('countries.name')
-     .select('countries.name', 'count(organizations.id) as organization_count')
+    @countries = Country
+      .joins(:organizations)
+      .where(organizations: { active: true })
+      .group(:name, :id)
+      .select('countries.name', 'count(*) as organization_count')
      .flat_map do |country|
        [name: country.name, count: country.organization_count]
      end
