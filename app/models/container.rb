@@ -86,8 +86,11 @@ class Container < ActiveRecord::Base
 
   scope :by_path, -> (paths) {
     normalized_paths = Array(paths).map {|p| Container.normalize_slug(p)}
-    sanitized_order = self.sanitize_sql "field(path, '#{normalized_paths.join('\',\'')}')"
-    where('path in (?)',  normalized_paths).order(sanitized_order)
+
+    query = where(path:  normalized_paths)
+    order_by_fields = AnsiSqlHelper.fields_as_case(:path, normalized_paths, "#{normalized_paths.max}_Z")
+    query = query.order(order_by_fields) if order_by_fields
+    query
   }
 
   scope :by_ids_with_descendants, ->(ids) {

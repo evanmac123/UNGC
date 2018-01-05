@@ -2,7 +2,10 @@ class ExploreOurLibraryPage < ContainerPage
   def featured
     resource_ids = Array(@data[:featured]).map { |r| r[:resource_id] }
     return [] if resource_ids.blank?
-    Resource.where('id IN (?)', resource_ids).order("field(id, #{resource_ids.join(',')})")
+
+    Resource
+        .where(id: resource_ids)
+        .order(AnsiSqlHelper.fields_as_case(:id, resource_ids, resource_ids.max + 1))
   end
 
   def [](key)
