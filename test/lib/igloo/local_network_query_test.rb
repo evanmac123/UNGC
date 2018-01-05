@@ -22,10 +22,10 @@ module Igloo
 
     test "Contacts from active local networks" do
       active = create_contact(last_name: "Network",
-        network: create(:local_network,  state: "Active"))
+        network: create(:local_network,  state: :active))
 
       inactive  = create_contact(last_name: "Inactive",
-        network: create(:local_network, state: "Inactive"))
+        network: create(:local_network, state: :inactive))
 
       non_network = create_contact(last_name: "Non-Network",
         network: nil)
@@ -77,7 +77,7 @@ module Igloo
       local_network = if params.key?(:network)
                         params.delete(:network)
                       else
-                        create(:local_network, state: "Active")
+                        create(:local_network, state: :active)
                       end
 
       create(:contact, params.reverse_merge(
