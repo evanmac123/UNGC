@@ -6,7 +6,7 @@ class ReportSweeper
   end
 
   def perform(status_id)
-    status = ReportStatus.find_by(status_id)
+    status = ReportStatus.find_by_id(status_id)
     if status.present?
       status.cleanup
       status.destroy
