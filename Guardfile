@@ -33,3 +33,7 @@ guard 'spring', bundler: true do
   watch(%r{^spec/(support|factories)/})
   watch(%r{^spec/factory.rb})
 end
+
+guard :rake, task: 'factory_girl:lint' do
+  watch(%r{^test/factories/(.+)s.rb$}) { |m| "#{m[1]}" }
+end

@@ -20,13 +20,6 @@ Dir[Rails.root.join("test/support/**/*.rb")].each { |f| require f }
 class ActiveSupport::TestCase
   include FactoryGirl::Syntax::Methods
 
-  begin
-    DatabaseCleaner.start
-    FactoryGirl.lint
-  ensure
-    DatabaseCleaner.clean
-  end
-
   # Add more helper methods to be used by all tests here...
   include ActionDispatch::TestProcess
 
