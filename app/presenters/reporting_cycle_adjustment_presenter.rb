@@ -46,7 +46,7 @@ class ReportingCycleAdjustmentPresenter < CommunicationPresenter
   end
 
   def language_id
-    @language_id ||= Language.for(:english).try(:id)
+    Language.default_language_id
   end
 
   def cop_type

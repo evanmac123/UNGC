@@ -178,12 +178,12 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
 
     setup do
       @form = LibrarySearchForm.new 1, @search_params
-      @form.search_scope = FakeFacetResponse.with(:language_ids, Language.pluck(:id))
+      @form.search_scope = FakeFacetResponse.with(:language_ids, Language.ids)
       @options = @form.language_filter.options
     end
 
     should "have all the languages" do
-      expected = Language.pluck(:id)
+      expected = Language.ids
       actual = @options.map(&:id)
       assert_equal expected, actual
     end

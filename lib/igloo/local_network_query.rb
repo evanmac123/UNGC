@@ -7,9 +7,9 @@ module Igloo
 
     def recent(cutoff = nil)
       contacts.
-        includes(:country).
-        references(:country).
-        where("contacts.updated_at >= ? or local_networks.updated_at >= ? or countries.updated_at > ?", cutoff, cutoff, cutoff)
+        includes(:country)
+        .joins(:country)
+        .where("contacts.updated_at >= :cutoff OR local_networks.updated_at >= :cutoff OR countries.updated_at > :cutoff", cutoff: cutoff)
     end
 
     def contacts

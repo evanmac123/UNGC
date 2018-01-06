@@ -92,7 +92,7 @@ class GraceLetterPresenter < CommunicationPresenter
     end
 
     def default_language_id
-      Language.for(:english).try(:id)
+      Language.default_language_id
     end
 
 end

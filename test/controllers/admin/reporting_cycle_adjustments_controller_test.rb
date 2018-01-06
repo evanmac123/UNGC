@@ -13,7 +13,7 @@ class Admin::ReportingCycleAdjustmentsControllerTest < ActionController::TestCas
 
   def reporting_cycle_adjustment_attributes(organization = @organization)
     {
-      language_id: Language.first,
+      language_id: Language.english,
       attachment: fixture_file_upload('files/untitled.pdf', 'application/pdf')
     }.merge(to_date_params(organization.cop_due_on + 10.months))
   end

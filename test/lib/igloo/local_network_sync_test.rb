@@ -135,7 +135,7 @@ module Igloo
 
     def build_network_contact(params = {})
       build(:contact, params.reverse_merge(
-        local_network: build(:local_network, state: "Active")
+        local_network: build(:local_network, state: :active)
       ))
     end
 

@@ -21,7 +21,7 @@
         %ol
           %li
             = form.label :language
-            = form.select :language_id, options_from_collection_for_select(Language.all, :id, :name, @form.language_id)
+            = form.select :language_id, language_options(@form.language_id)
             = form.file_field :attachment
             - if @form.has_file?
               %br

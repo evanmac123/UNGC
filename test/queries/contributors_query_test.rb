@@ -67,14 +67,14 @@ class ContributorsQueryTest < ActiveSupport::TestCase
       campaign: campaign,
       organization: participant,
       raw_amount: 66_000.00,
-      stage: 'posted'
+      stage: Contribution::STAGE_POSTED
     )
     participant2 = create(:organization, name: 'my not org', participant: true)
     c2 = create(:contribution,
       campaign: campaign,
       organization: participant2,
       raw_amount: 66_000.00,
-      stage: 'posted'
+      stage: Contribution::STAGE_POSTED
     )
 
     contributions = ContributorsQuery.search('my org')
@@ -90,7 +90,7 @@ class ContributorsQueryTest < ActiveSupport::TestCase
       campaign: campaign,
       organization: participant,
       raw_amount: 66_000.00,
-      stage: 'posted'
+      stage: Contribution::STAGE_POSTED
     )
     assert ContributorsQuery.search('my').empty?
     assert ContributorsQuery.search(' my').empty?
@@ -104,7 +104,7 @@ class ContributorsQueryTest < ActiveSupport::TestCase
       campaign: campaign,
       organization: participant,
       raw_amount: 66_000.00,
-      stage: 'posted'
+      stage: Contribution::STAGE_POSTED
     )
     contributions = ContributorsQuery.search('fundacion')
 

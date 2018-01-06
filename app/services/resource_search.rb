@@ -62,7 +62,7 @@ class ResourceSearch < OpenStruct
     end
 
     if language_ids.present?
-      languages = Language.find(language_ids).map(&:name)
+      languages = Language.find(language_ids).pluck(:name)
       languages = ' available in ' + languages.to_sentence(:last_word_connector => ' or ')
     else
       languages = ''
