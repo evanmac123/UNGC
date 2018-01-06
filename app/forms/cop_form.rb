@@ -310,7 +310,7 @@ class CopForm
     end
 
     def default_language_id
-      Language.for(:english).try(:id)
+      Language.default_language_id
     end
 
     def first_or_new_file

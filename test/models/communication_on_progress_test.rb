@@ -32,7 +32,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
           :cop_files_attributes => {
             "new_cop"=> {
               :attachment_type => "cop",
-              :language_id     => Language.first.id}
+              :language_id     => Language.default_language_id}
             }
           )
       end
@@ -55,7 +55,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
           "new_cop"=> {
             :attachment_type => "cop",
             :attachment      => fixture_file_upload('files/untitled.pdf', 'application/pdf'),
-            :language_id     => Language.first.id}
+            :language_id     => Language.default_language_id}
           }
         )
       end
@@ -150,7 +150,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
                                               :cop_files_attributes => {
                                                  "new_cop"=> {:attachment_type => "cop",
                                                               :attachment      => fixture_file_upload('files/untitled.pdf', 'application/pdf'),
-                                                              :language_id     => Language.first.id} },
+                                                              :language_id     => Language.default_language_id} },
                                               :state => ApprovalWorkflow::STATE_APPROVED)
     end
 

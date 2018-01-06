@@ -222,4 +222,8 @@ module AdminHelper
       admin_organization_communication_on_progress_path(cop.organization.id, cop)
     end
   end
+
+  def language_options(language_id)
+    options_from_collection_for_select(Language.all, :id, :name, language_id)
+  end
 end

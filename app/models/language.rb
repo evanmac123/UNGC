@@ -21,7 +21,7 @@ class Language < ActiveRecord::Base
   }
 
   def self.for(name)
-    find_by_name(name)
+    find_by(name: name&.titleize)
   end
 
   def self.method_missing(m, *args, &block)
@@ -30,5 +30,9 @@ class Language < ActiveRecord::Base
     else
       super(m, *args, &block)
     end
+  end
+
+  def self.default_language_id
+    @_default_language_id ||= english&.id
   end
 end

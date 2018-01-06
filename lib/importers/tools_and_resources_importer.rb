@@ -119,12 +119,9 @@ module Importers
     ResourceLinkAttrs = Struct.new(:resource_id, :resource_title, :url, :title, :language_s, :type) do
 
       def language_id
-        language = Language.where(name: language_s).first
-        if language.nil?
-          raise InvalidLanguage.new(language_s)
-        else
-          language.id
-        end
+        language = Language.for(language_s)
+        raise InvalidLanguage.new(language_s) if language.nil?
+        language.id
       end
 
       def to_h

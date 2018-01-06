@@ -72,7 +72,7 @@ class ReportingCycleAdjustmentFormTest < ActiveSupport::TestCase
       end
 
       should "be invalid without a cop file" do
-        params = {language_id: Language.first.id}.merge(to_date_params(Date.today + 1.month))
+        params = {language_id: Language.default_language_id}.merge(to_date_params(1.month.from_now))
         refute @form.submit(params)
       end
 

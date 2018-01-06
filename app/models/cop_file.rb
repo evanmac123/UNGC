@@ -55,7 +55,7 @@ class CopFile < ActiveRecord::Base
   end
 
   def initialize_defaults
-    self.language_id ||= Language.for(:english).try(:id)
+    self.language_id ||= Language.default_language_id
   end
 
   def language_name
