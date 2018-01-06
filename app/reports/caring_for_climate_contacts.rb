@@ -36,7 +36,7 @@ class CaringForClimateContacts < SimpleReport
     LEFT JOIN organization_types t ON o.organization_type_id = t.id
     LEFT JOIN sectors s ON o.sector_id = s.id
     LEFT JOIN signings i ON i.organization_id = o.id
-    LEFT JOIN `initiatives` init ON i.initiative_id = init.id
+    LEFT JOIN initiatives init ON i.initiative_id = init.id
     LEFT JOIN contacts_roles cr ON cr.contact_id = c.id
     LEFT JOIN roles r ON r.id = cr.role_id
     WHERE
