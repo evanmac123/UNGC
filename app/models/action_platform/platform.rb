@@ -33,9 +33,9 @@ class ActionPlatform::Platform < ActiveRecord::Base
         .select('action_platform_platforms.*',
                 "coalesce(sum(cast(" \
                     "(action_platform_subscriptions.state = 'approved'" \
-                    "   AND CURRENT_DATE() >= starts_on" \
-                    "   AND CURRENT_DATE() <= expires_on)" \
-                " as unsigned integer)), 0) as active_subs",
+                    "   AND starts_on <= CURRENT_DATE" \
+                    "   AND expires_on >= CURRENT_DATE)" \
+                " as DECIMAL)), 0) as active_subs",
                 'count(*) as all_subs')
   end
 

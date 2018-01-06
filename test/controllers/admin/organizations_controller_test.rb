@@ -44,9 +44,9 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
   end
 
   test "should not show other organizations to user" do
-    @organization = Organization.create(name: 'SME',
-                                        employees: 50,
-                                        organization_type_id: OrganizationType.first.id)
+    @organization = create(:organization, name: 'SME',
+                           employees: 50,
+                           organization_type: OrganizationType.first)
     sign_in @user
     get :show, {id: @organization.to_param}
     assert_redirected_to dashboard_path

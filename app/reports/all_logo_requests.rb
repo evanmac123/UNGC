@@ -31,7 +31,7 @@ class AllLogoRequests < SimpleReport
         ON o.country_id = c.id
     JOIN logo_publications p
         ON p.id = l.publication_id
-    ORDER BY l.`created_at` DESC")
+    ORDER BY l.created_at DESC")
   end
 
   def headers

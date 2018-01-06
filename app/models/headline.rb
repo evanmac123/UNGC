@@ -66,7 +66,7 @@ class Headline < ActiveRecord::Base
 
   # Used to make a list of years, for the News Archive page - see pages_helper
   def self.years
-    select("distinct(year(published_on)) as year").order('year desc').map {|y| y.year.to_s}
+    select("distinct(EXTRACT(YEAR FROM published_on)) as year").order('year desc').map {|y| y.year.to_s}
   end
 
   def before_approve!

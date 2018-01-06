@@ -34,15 +34,15 @@ class DataVisualization::CountryCopQueries
     end
 
     def cop_count_by_year
-      results = data.group("year(communication_on_progresses.created_at)").count
+      results = data.group("EXTRACT(YEAR FROM communication_on_progresses.created_at)").count
       results.map do |year, count|
         { year: year, count: count, country: @country_name }
       end
     end
 
     def cop_count_by_month_in_year
-      results = data.group("month(communication_on_progresses.created_at)",
-                 "year(communication_on_progresses.created_at)").count
+      results = data.group("EXTRACT(MONTH FROM communication_on_progresses.created_at)",
+                 "EXTRACT(YEAR FROM communication_on_progresses.created_at)").count
 
       results.map do |(month, year), count|
           { month: month, year: year, count: count, country: @country_name}
@@ -50,14 +50,14 @@ class DataVisualization::CountryCopQueries
     end
 
     def cop_type_count_by_year
-      results = data.group(:cop_type, "year(communication_on_progresses.created_at)").count
+      results = data.group(:cop_type, "EXTRACT(YEAR FROM communication_on_progresses.created_at)").count
       results.map do |year, cop_type, count|
         { year: year, cop_type: cop_type, count: count, country: @country_name }
       end
     end
 
     def differentation_count_by_year
-      results = data.group(:differentiation, "year(communication_on_progresses.created_at)").count
+      results = data.group(:differentiation, "EXTRACT(YEAR FROM communication_on_progresses.created_at)").count
 
       results.map do |(differentiation, year), count|
         { differentiation: differentiation, year: year, count: count, country: @country_name }
@@ -65,8 +65,8 @@ class DataVisualization::CountryCopQueries
     end
 
     def cop_type_by_month_in_year
-      results = data.group(:cop_type, "month(communication_on_progresses.created_at)",
-                 "year(communication_on_progresses.created_at)").count
+      results = data.group(:cop_type, "EXTRACT(MONTH FROM communication_on_progresses.created_at)",
+                 "EXTRACT(YEAR FROM communication_on_progresses.created_at)").count
 
      results.map do |(month, year), cop_type, count|
        { month: month, year: year, cop_type: cop_type, count: count, country: @country_name }
@@ -74,8 +74,8 @@ class DataVisualization::CountryCopQueries
     end
 
     def differentation_by_month_in_year
-      results = data.group(:differentation, "month(communication_on_progresses.created_at)",
-                 "year(communication_on_progresses.created_at)").count
+      results = data.group(:differentation, "EXTRACT(MONTH FROM communication_on_progresses.created_at)",
+                 "EXTRACT(YEAR FROM communication_on_progresses.created_at)").count
 
       results.map do |(month, year), differentation, count|
         { month: month, year: year, differentation: differentation, count: count, country: @country_name }
@@ -94,7 +94,7 @@ class DataVisualization::CountryCopQueries
 
     def differentiation_by_organization_size
       results = data.group(:organization_id, ('differentiation'))
-      .pluck('organizations.employees, COUNT(communication_on_progresses.id) as communication_on_progresses_count', 'communication_on_progresses.differentiation', 'year(communication_on_progresses.created_at)')
+      .pluck('organizations.employees, COUNT(communication_on_progresses.id) as communication_on_progresses_count', 'communication_on_progresses.differentiation', 'EXTRACT(YEAR FROM communication_on_progresses.created_at)')
 
       results.map do |size, count, differentiation, year|
         {  size: size, count: count, differentiation: differentiation, year: year, country: @country_name }

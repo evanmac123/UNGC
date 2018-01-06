@@ -9,7 +9,7 @@ class SectorTree < Tree
     sectors = Sector.where.not(parent_id: nil)
       .includes(:parent)
       .select([:id, :parent_id, :name, :preserved])
-      .group(:parent_id, :id)
+      .group(:parent_id, :id, :name, :preserved)
     @preserved = sectors.find_all(&:preserved)
     super(sectors.group_by(&:parent))
   end

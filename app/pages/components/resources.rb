@@ -7,8 +7,9 @@ class Components::Resources
     resources = @data[:resources] || []
     resource_ids = resources.map{|r| r[:resource_id] }.reject(&:nil?)
     return [] if resource_ids.empty?
-    # the ordering is maintained even with the IN query
-    # this works only in MySQL
-    Resource.where('id IN (?)', resource_ids).order("field(id, #{resource_ids.join(',')})")
+    Resource
+        .where(id: resource_ids)
+        .order(AnsiSqlHelper.fields_as_case(:id, resource_ids, resource_ids.max + 1))
+
   end
 end

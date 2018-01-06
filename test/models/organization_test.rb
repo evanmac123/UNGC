@@ -67,55 +67,55 @@ class OrganizationTest < ActiveSupport::TestCase
   context "given a new organization" do
 
     should "set the organization type to SME when it has less than 10 employees" do
-      @organization = Organization.create(:name                 => 'Approved small Company',
-                                          :employees            => 2,
-                                          :organization_type    => OrganizationType.company,
-                                          :state                => ApprovalWorkflow::STATE_APPROVED)
+      @organization = create(:organization, name: 'Approved small Company',
+                                          employees: 2,
+                                          organization_type: OrganizationType.company,
+                                          state: ApprovalWorkflow::STATE_APPROVED)
       assert_equal OrganizationType.sme, @organization.organization_type
       assert !@organization.micro_enterprise?
     end
 
     should "set the organization type to Micro Enterprise when it has less than 10 employees
             unless the organization is approved" do
-      @organization = Organization.create(:name                 => 'Small Company',
-                                          :employees            => 2,
-                                          :organization_type    => OrganizationType.company,
-                                          :state                => ApprovalWorkflow::STATE_PENDING_REVIEW)
+      @organization = create(:organization, name: 'Small Company',
+                             employees: 2,
+                             organization_type: OrganizationType.company,
+                             state: ApprovalWorkflow::STATE_PENDING_REVIEW)
       assert @organization.micro_enterprise?
 
     end
 
     should "set the organization type to SME when it has between 10 and 250 employees" do
-      @organization = Organization.create(:name                 => 'SME',
-                                          :employees            => 50,
-                                          :organization_type    => OrganizationType.company)
+      @organization = create(:organization, name: 'SME',
+                             employees: 50,
+                             organization_type: OrganizationType.company)
       assert_equal OrganizationType.sme, @organization.organization_type
     end
 
     should "set the organization type to Company when it has more than 250 employees" do
-      @organization = Organization.create(:name                 => 'SME should be a Company',
-                                          :employees            => 500,
-                                          :organization_type    => OrganizationType.sme)
+      @organization = create(:organization, name: 'SME should be a Company',
+                             employees: 500,
+                             organization_type: OrganizationType.sme)
       assert_equal OrganizationType.company, @organization.organization_type
     end
 
     should "set sector and listing_status to 'not applicable' when it is a non-business" do
       @listing_status = create(:listing_status, :name => "Private Company")
       @listing_not_applicable = create(:listing_status, :name => "Not Applicable")
-      @organization = Organization.create(:name => "Foundation",
-                                          :employees => 5,
-                                          :organization_type => OrganizationType.foundation,
-                                          :sector => @sector,
-                                          :listing_status => @listing_status)
+      @organization = create(:organization, name: 'Foundation',
+                             employees: 5,
+                             organization_type: OrganizationType.foundation,
+                             sector: @sector,
+                             listing_status: @listing_status)
       assert_equal Sector.not_applicable, @organization.sector
       assert_equal @listing_not_applicable, @organization.listing_status
     end
 
     context "that is a non-business participant" do
       setup do
-        @organization = Organization.create(:name => "University",
-                                            :employees => 5,
-                                            :organization_type => OrganizationType.academic)
+        @organization = create(:organization, name: 'University',
+                               employees: 5,
+                               organization_type: OrganizationType.academic)
         @organization.approve
       end
 
@@ -126,25 +126,25 @@ class OrganizationTest < ActiveSupport::TestCase
 
     should "set sector when it is a signatory" do
       media_sector = Sector.find_by(name: 'Media')
-      @organization = Organization.create(:name => "Signatory",
-                                          :employees => 10,
-                                          :organization_type => OrganizationType.signatory,
-                                          :sector => media_sector)
+      @organization = create(:organization, name: 'Signatory',
+                             employees: 10,
+                             organization_type: OrganizationType.signatory,
+                             sector: media_sector)
       assert_equal media_sector, @organization.sector
     end
 
     should "identify Academic organizations" do
-      @organization = Organization.create(:name => "University",
-                                          :employees => 5,
-                                          :organization_type => OrganizationType.academic)
+      @organization = create(:organization, name: 'University',
+                             employees: 5,
+                             organization_type: OrganizationType.academic)
       assert @organization.academic?
     end
 
     context "approving its participation" do
       setup do
-        @organization = Organization.create(:name => 'Company',
-                                            :employees => 100,
-                                            :organization_type => OrganizationType.company)
+        @organization = create(:organization, name: 'Company',
+                               employees: 100,
+                               organization_type: OrganizationType.company)
       end
 
       should "update approval related fields" do

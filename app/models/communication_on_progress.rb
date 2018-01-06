@@ -353,8 +353,8 @@ class CommunicationOnProgress < ActiveRecord::Base
       .joins(cop_attribute: [:cop_question])
       .where('cop_questions.initiative_id is null')
       .where('cop_questions.grouping not in (?)', CopQuestion.exempted_groupings)
-      .group('cop_questions.id')
-      .having('total = 0')
+      .group('cop_attribute_id, cop_questions.id')
+      .having('sum(cop_answers.value) = 0')
   end
 
   def is_blueprint_level?

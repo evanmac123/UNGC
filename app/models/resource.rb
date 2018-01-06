@@ -69,7 +69,7 @@ class Resource < ActiveRecord::Base
     select("resources.*, count(principles_resources.principle_id) as principles_count")
       .includes(:authors)
       .includes(:approved_by)
-      .joins("LEFT OUTER JOIN `principles_resources` ON resources.id=principles_resources.resource_id")
+      .joins("LEFT OUTER JOIN principles_resources ON resources.id=principles_resources.resource_id")
       .group('resources.id')
   end
 
