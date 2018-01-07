@@ -3,8 +3,6 @@ common: &common
   64bit_timestamps: true
 
 development:
-
-development:
   <<: *common
 test:
   <<: *common
