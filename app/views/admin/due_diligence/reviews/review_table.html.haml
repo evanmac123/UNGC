@@ -29,16 +29,16 @@
             %th= sort_header 'Status', field: 'state'
           - if params[:state] == ['engagement_review'] || params[:state]&.include?('all')
             %th= sort_header 'Integrity', field: 'with_reservation'
-          %th= sort_header 'Organization', field: 'name'
+          %th= sort_header 'Organization', field: 'organizations.name'
           %th= sort_header 'LOE', field: 'level_of_engagement'
-          %th= sort_header 'Event', field: 'event.title'
+          %th= sort_header 'Event', field: 'events.title'
           %th= sort_header 'Individual', field: 'individual_subject'
           - if params[:state] == ['local_network_review']
             %th='Local Network'
-          %th= sort_header 'Date Created', field: 'created_at'
+          %th= sort_header 'Date Created', field: 'due_diligence_reviews.created_at'
           - unless params[:state] == ['integrity_review'] || params[:state]&.include?('all')
-            %th= sort_header 'Relationship Mgr', field: 'organization.contacts.first_name', direction: 'ASC'
-          %th= sort_header 'Requester', field: 'requester'
+            %th= sort_header 'Relationship Mgr', field: 'participant_managers_organizations.first_name', direction: 'ASC'
+          %th= sort_header 'Requester', field: 'contacts.first_name'
           %th Actions
 
         - @reviews.each do |review|
@@ -80,4 +80,3 @@
       - unless params[:page] == 'all'
         = will_paginate @reviews
 = render partial: 'control_actions', locals: { for_state: for_state }
-

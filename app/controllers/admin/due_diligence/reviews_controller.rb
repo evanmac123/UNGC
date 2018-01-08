@@ -54,8 +54,9 @@ class Admin::DueDiligence::ReviewsController < AdminController
     query_states = states == ['all'] ? ::DueDiligence::Review::ALL_STATES : states - ['all']
 
     @reviews = ::DueDiligence::Review.for_state(query_states)
-                   .includes(:event, :requester, organization: [:country, :participant_manager])
-                   .order(order_from_params)
+                      .includes(:event, :requester, organization: [:country, :participant_manager])
+                      .references(:event, :requester, :organization)
+                      .order(order_from_params)
 
     @reviews = @reviews.related_to_contact(current_contact) if params[:only_mine] == '1'
     @reviews = @reviews.paginate(page: page, per_page: ::DueDiligence::Review.per_page) unless page == 'all'
@@ -94,7 +95,6 @@ class Admin::DueDiligence::ReviewsController < AdminController
 
   def can_view?
     unless ::DueDiligence::ReviewPolicy.can_view?(current_contact)
-      'RAISE'
       raise ActionController::MethodNotAllowed
     end
   end
@@ -128,7 +128,7 @@ class Admin::DueDiligence::ReviewsController < AdminController
     if params[:sort_field] == 'comment'
       @order = ['comments.contact_id', params[:sort_direction] || 'DESC'].join(' ')
     else
-      @order = [params[:sort_field] || 'updated_at', params[:sort_direction] || 'DESC'].join(' ')
+      @order = [params[:sort_field] || 'due_diligence_reviews.updated_at', params[:sort_direction] || 'DESC'].join(' ')
     end
   end
 
