@@ -5,7 +5,7 @@ module Crm
       # TODO Only send fields that have changed. If fields is non-empty, it indicates
       # which fields need to be sent.
       ceo = organization.contacts.ceos.first
-      signings = organization.signings.pluck(:initiative_id)
+      signings = organization.signings.joins(:initiative).pluck('initiatives.name')
       {
         "UNGC_ID__c" => organization.id, # Number(18, 0)
         "AccountNumber" => organization.id.to_s, # AccountNumber must be a string Name

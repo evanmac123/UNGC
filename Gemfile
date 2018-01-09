@@ -66,6 +66,7 @@ group :development do
   gem 'web-console', '~> 2.1.3'
   gem 'guard'
   gem 'guard-minitest'
+  gem 'guard-rake'
 end
 
 group :test do

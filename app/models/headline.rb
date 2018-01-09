@@ -46,6 +46,7 @@ class Headline < ActiveRecord::Base
     announcement: 2,
     executive_update: 3,
   }
+  default_scope { order(published_on: :desc, id: :asc) }
 
   scope :published, -> { where('approval = ?', 'approved') }
   scope :descending, -> { order('published_on DESC, approved_at DESC') }
@@ -53,7 +54,7 @@ class Headline < ActiveRecord::Base
   def self.all_for_year(year)
     starts = Time.mktime(year, 1, 1).to_date
     finish = (starts >> 12) - 1
-    where('published_on BETWEEN ? AND ?', starts, finish)
+    where(published_on: starts..finish)
   end
 
   def self.recent
@@ -66,7 +67,7 @@ class Headline < ActiveRecord::Base
 
   # Used to make a list of years, for the News Archive page - see pages_helper
   def self.years
-    select("distinct(EXTRACT(YEAR FROM published_on)) as year").order('year desc').map {|y| y.year.to_s}
+    select("distinct(EXTRACT(YEAR FROM published_on)) as year").reorder('year desc').map {|y| y.year.to_s}
   end
 
   def before_approve!

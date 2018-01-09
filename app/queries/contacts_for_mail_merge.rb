@@ -44,10 +44,10 @@ class ContactsForMailMerge < SimpleDelegator
                LEFT JOIN local_networks l ON contacts.local_network_id = l.id
                LEFT OUTER JOIN contacts_roles ON contacts_roles.contact_id = contacts.id
                RIGHT OUTER JOIN roles r ON r.id = contacts_roles.role_id")
-      .where("o.cop_state IN (?) AND
-                     o.participant = 1 AND
+      .where("o.cop_state IN (:cop_states) AND
+                     o.participant = :participant AND
                      t.name NOT IN ('Media Organization', 'GC Networks', 'Mailing List') AND
-                     contacts_roles.role_id IN (?)", cop_states, [Role.ceo, Role.contact_point])
+                     contacts_roles.role_id IN (:roles)", cop_states: cop_states, participant: true, roles: [Role.ceo, Role.contact_point])
   end
 
 end

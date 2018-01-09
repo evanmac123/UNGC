@@ -57,8 +57,16 @@ class LogoRequest < ActiveRecord::Base
   scope :accepted, -> { where(:state => "accepted") }
   scope :approved_or_accepted, -> { where("logo_requests.state in ('approved','accepted')") }
 
-  scope :in_review, -> { where(:state => "in_review", :replied_to => true).joins(:logo_comments).group(:logo_request_id).order('logo_comments.created_at DESC') }
-  scope :unreplied, -> { where(:state => "in_review", :replied_to => false).joins(:logo_comments).group(:logo_request_id).order('logo_comments.created_at DESC') }
+  scope :replied_to, -> (bool) { distinct
+                                     .select('logo_requests.*', 'MAX(logo_comments.created_at)')
+                                     .where(state: :in_review,
+                                            replied_to: bool)
+                                     .joins(:logo_comments)
+                                     .group('logo_requests.id')
+                                     .order('MAX(logo_comments.created_at) DESC') }
+
+  scope :in_review, -> { replied_to(true) }
+  scope :unreplied, -> { replied_to(false) }
 
   def self.approved_between(start_date, end_date)
     where("logo_requests.state in ('approved', 'accepted') AND approved_on >= ? AND approved_on <= ?", start_date, end_date).order("approved_on DESC")

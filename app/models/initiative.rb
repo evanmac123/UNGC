@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: initiatives
@@ -18,32 +20,32 @@ class Initiative < ActiveRecord::Base
   default_scope { order('name') }
 
   FILTER_TYPES = {
-    :water_mandate                => 1,   # CEO Water Mandate
-    :water_mandate_non_endorsing  => 7, # CEO Water Mandate (Non-Endorsing)
-    :climate                      => 2,   # Caring For Climate
-    :human_rights                 => 4,   # CEO Statement on Human Rights
-    :lead                         => 19,  # Global Compact Lead
-    :business_peace               => 22,  # Business for Peace - Expert group
-    :business4peace               => 51,  # Business for Peace - Signatories
-    :weps                         => 25,  # Women's Empowerment Principles
-    :anti_corruption              => 21,  # Anti Corruption
-    :board_members                => 131, # Board Members
-    :gc100                        => 121, # GC 100
-    :human_rights_wg              => 11,  # Human Rights Working Group
-    :social_enterprise            => 71,  # Social Enterprise
-    :supply_chain                 => 24,  # Supply Chain Advisory Group
+    water_mandate:                 "CEO Water Mandate",
+    water_mandate_non_endorsing:   "CEO Water Mandate (Non-Endorsing)",
+    climate:                       "Caring For Climate",
+    human_rights:                  "CEO Statement on Human Rights",
+    lead:                          "Global Compact LEAD",
+    business_peace:                "Business for Peace Expert Group",
+    business4peace:                "Business for Peace Signatories",
+    weps:                          "Women's Empowerment Principles",
+    anti_corruption:               "Anti-Corruption Working Group",
+    board_members:                 "Board Members",
+    gc100:                         "GC 100",
+    human_rights_wg:               "Human Rights and Labour Working Group",
+    social_enterprise:             "Social Enterprise and Impact Investing Engagement",
+    supply_chain:                  "Supply Chain Advisory Group",
   }.with_indifferent_access.freeze
 
-  scope :for_filter, lambda { |filter| where("initiatives.id = ?", FILTER_TYPES[filter]) }
+  scope :for_filter, lambda { |filter| where(name: FILTER_TYPES[filter]) }
 
   scope :active, lambda { where(active: true) }
 
   def self.id_by_filter(filter)
-    FILTER_TYPES[filter]
+    for_filter(filter).first&.id
   end
 
   def self.find_by_filter(filter)
-    find(id_by_filter(filter))
+    for_filter(filter).first
   end
 
 end

@@ -28,6 +28,8 @@ class CopQuestion < ActiveRecord::Base
   accepts_nested_attributes_for :cop_attributes, :allow_destroy => true,
                                                  :reject_if     => proc { |a| a['text'].blank? }
 
+  default_scope { order('COALESCE(cop_questions.year, 0) ASC', id: :asc) }
+
   # optionally group questions so they can be displayed together
   # basic is used for Basic COP where the responses are in text format
   GROUPING_AREAS = {

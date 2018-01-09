@@ -10,7 +10,7 @@ class Admin::LocalNetworksController < AdminController
     @networks_by_region = Country.unscoped
                                   .joins('left join local_networks on countries.local_network_id = local_networks.id')
                                   .order(order_from_params)
-                                  .group('local_networks.name, countries.region')
+                                  .group('local_networks.name, countries.region, countries.id')
                                   .includes(:local_network)
                                   .reject{|country| country.local_network_id.nil?}
                                   .group_by(&:region)

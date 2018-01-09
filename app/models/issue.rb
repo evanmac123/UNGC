@@ -16,6 +16,7 @@ class Issue < ActiveRecord::Base
   belongs_to :parent, class_name: 'Issue'
   has_many :children, class_name: 'Issue', foreign_key: :parent_id
 
+  default_scope { order(:id) }
   scope :children, -> { where(type: nil) }
 
   def is_parent?

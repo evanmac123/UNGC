@@ -57,7 +57,7 @@ class Admin::CopQuestionsControllerTest < ActionController::TestCase
     should "show all when no year param is given" do
       get :index
       questions = assigns(:cop_questions)
-      assert_equal [@cop_question, @question_2010, @question_2014], questions
+      assert_equal [@cop_question, @question_2010, @question_2014], questions.to_a
     end
 
     should "show question without a value for year when 'no_year' is given" do

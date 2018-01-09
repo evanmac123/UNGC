@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171208211142) do
+ActiveRecord::Schema.define(version: 20180103103932) do
 
   create_table "action_platform_orders", force: :cascade do |t|
     t.integer  "organization_id",      limit: 4,                   null: false
@@ -84,8 +84,8 @@ ActiveRecord::Schema.define(version: 20171208211142) do
   create_table "authors_resources", id: false, force: :cascade do |t|
     t.integer  "author_id",   limit: 4
     t.integer  "resource_id", limit: 4
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "awards", force: :cascade do |t|
@@ -635,6 +635,8 @@ ActiveRecord::Schema.define(version: 20171208211142) do
     t.boolean  "active",                 default: true
   end
 
+  add_index "initiatives", ["name"], name: "unique_index_initiatives_on_name", unique: true, using: :btree
+
   create_table "integrity_measures", force: :cascade do |t|
     t.integer "local_network_id", limit: 4
     t.string  "title",            limit: 255
@@ -846,7 +848,7 @@ ActiveRecord::Schema.define(version: 20171208211142) do
     t.integer "organization_id",   limit: 4
   end
 
-  add_index "non_business_organization_registrations", ["organization_id"], name: "index_non_business_organization_registrations_on_organization_id", using: :btree
+  add_index "non_business_organization_registrations", ["organization_id"], name: "index_non_business_org_registrations_on_org_id", using: :btree
 
   create_table "oauth_access_grants", force: :cascade do |t|
     t.integer  "resource_owner_id", limit: 4,     null: false
@@ -1021,8 +1023,8 @@ ActiveRecord::Schema.define(version: 20171208211142) do
   create_table "principles_resources", id: false, force: :cascade do |t|
     t.integer  "principle_id", limit: 4
     t.integer  "resource_id",  limit: 4
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "removal_reasons", force: :cascade do |t|

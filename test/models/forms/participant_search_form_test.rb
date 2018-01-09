@@ -7,7 +7,7 @@ class ParticipantSearchFormTest < ActiveSupport::TestCase
     @types = @type_names.map { |name| create(:organization_type, name: name) }
 
     @intiiative_names = ['Water Mandate', 'Women\'s Empowerment Principles']
-    @initiatives = @intiiative_names.map { |name| create(:initiative, name: name) }
+    @initiatives = @intiiative_names.map { |name| Initiative.find_by_name(name) ||  create(:initiative, name: name) }
 
     @country_names = %w(Canada France Germany)
     @countries = @country_names.map { |name| create(:country, name: name) }

@@ -15,6 +15,7 @@ class Topic < ActiveRecord::Base
   belongs_to :parent, class_name: 'Topic'
   has_many :children, class_name: 'Topic', foreign_key: :parent_id
 
+  default_scope { order(:id) }
   scope :children, -> { where.not(parent_id: nil) }
 
   def is_parent?

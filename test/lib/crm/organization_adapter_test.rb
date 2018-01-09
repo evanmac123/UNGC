@@ -369,7 +369,7 @@ module Crm
     private
 
     def sign(initiative_symbol)
-      create(:signing, initiative_id: Initiative::FILTER_TYPES[initiative_symbol])
+      create(:signing, initiative: Initiative.find_by_filter(initiative_symbol))
     end
 
     def convert_organization(params = {})

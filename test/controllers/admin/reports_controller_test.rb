@@ -121,9 +121,8 @@ class Admin::ReportsControllerTest < ActionController::TestCase
       setup do
         @organization       = create(:organization)
         @organization2      = create(:organization)
-        @climate_initiative = create(:initiative, :name => 'Caring for Climate')
-        @water_initiative   = create(:initiative, :name => 'CEO Water Mandate')
-        @peace_initiative   = create(:initiative, :name => 'Business for Peace')
+        @climate_initiative = Initiative.find_by_filter(:climate) || create(:initiative, name: Initiative::FILTER_TYPES[:climate])
+        @water_initiative   = Initiative.find_by_filter(:water_mandate) || create(:initiative, name: Initiative::FILTER_TYPES[:water_mandate])
         @climate_initiative.signings.create [ { :signatory => @organization },
                                              { :signatory => @organization2 } ]
       end

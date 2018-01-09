@@ -236,6 +236,9 @@ GEM
     guard-minitest (2.4.6)
       guard-compat (~> 1.2)
       minitest (>= 3.0)
+    guard-rake (1.0.0)
+      guard
+      rake
     guard-spring (1.1.1)
       guard (~> 2.0)
       guard-compat (~> 1.1)
@@ -576,6 +579,7 @@ DEPENDENCIES
   foreman
   guard
   guard-minitest
+  guard-rake
   guard-spring
   haml (~> 4.0.6)
   honeybadger (~> 2.0)

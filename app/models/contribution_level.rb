@@ -17,4 +17,6 @@ class ContributionLevel < ActiveRecord::Base
   validates :amount, presence: true
   validates :description, presence: true
   validates :contribution_levels_info_id, presence: true
+
+  default_scope { order(order: :asc, id: :asc) }
 end
