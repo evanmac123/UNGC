@@ -9,7 +9,7 @@ class Components::Resources
     return [] if resource_ids.empty?
     Resource
         .where(id: resource_ids)
-        .order(AnsiSqlHelper.fields_as_case(:id, resource_ids, resource_ids.max + 1))
+        .order(AnsiSqlHelper.fields_as_case(:id, resource_ids))
 
   end
 end

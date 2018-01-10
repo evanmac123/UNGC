@@ -88,7 +88,7 @@ class Container < ActiveRecord::Base
     normalized_paths = Array(paths).map {|p| Container.normalize_slug(p)}
 
     query = where(path:  normalized_paths)
-    order_by_fields = AnsiSqlHelper.fields_as_case(:path, normalized_paths, "#{normalized_paths.max}_Z")
+    order_by_fields = AnsiSqlHelper.fields_as_case(:path, normalized_paths)
     query = query.order(order_by_fields) if order_by_fields
     query
   }
