@@ -363,7 +363,7 @@ module Crm
 
     test "converts invoice date" do
       converted = convert_organization(invoice_date: Date.new(2020, 2, 3))
-      assert_equal "2020-02-03", converted.fetch("Invoice_Date__c")
+      assert_equal "2020-02-03", converted.fetch("Desired_Contribution_Invoice_Date__c")
     end
 
     private

@@ -60,7 +60,7 @@ module Crm
         "Participant__c" => organization.participant == true, # Checkbox
         "TickerSymbol" => organization.stock_symbol&.truncate(20, omission: ""), # Content(20)
         "Participant_Tier_at_Joining__c" => participant_tier(organization), # Picklist
-        "Invoice_Date__c" => organization.invoice_date,
+        "Desired_Contribution_Invoice_Date__c" => organization.invoice_date,
       }.transform_values do |value|
         Crm::Salesforce.coerce(value)
       end
