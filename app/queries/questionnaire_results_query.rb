@@ -9,7 +9,7 @@ class QuestionnaireResultsQuery
   end
 
   def initiative(initiative_symbol)
-    @initiative_id = Initiative::FILTER_TYPES[initiative_symbol]
+    @initiative_id = Initiative.find_by_filter(initiative_symbol)&.id
   end
 
   def principle(id)

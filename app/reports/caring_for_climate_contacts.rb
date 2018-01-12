@@ -40,7 +40,7 @@ class CaringForClimateContacts < SimpleReport
     LEFT JOIN contacts_roles cr ON cr.contact_id = c.id
     LEFT JOIN roles r ON r.id = cr.role_id
     WHERE
-    i.initiative_id = #{Initiative::FILTER_TYPES[:climate]} AND
+    init.name = #{ActiveRecord::Base.sanitize(Initiative::FILTER_TYPES[:climate])} AND
     r.id = #{Role.caring_for_climate.id} AND
     o.cop_state != 'delisted'
     GROUP BY contact_id
