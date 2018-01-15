@@ -10,7 +10,7 @@ class DataVisualization::SdgsController < ApplicationController
   end
 
   def regions
-    @regions = Country.distinct.pluck(:region)
+    @regions = Country.group(:region).select(:region).reorder(:region).pluck(:region)
   end
 
   def region
@@ -21,7 +21,12 @@ class DataVisualization::SdgsController < ApplicationController
   end
 
   def countries
-    @countries = Country.joins(organizations: [communication_on_progresses: [cop_answers: [cop_attribute: [:cop_question]]]]).where(organizations: {active: true, participant: true}).where("value = 1 or cop_answers.text <> ''").where("grouping = 'sdgs'").distinct
+    @countries = Country
+        .joins(organizations: [communication_on_progresses: [cop_answers: [cop_attribute: [:cop_question]]]])
+        .where(organizations: {active: true, participant: true})
+        .where("value = :val or cop_answers.text > ''", val: true)
+        .where(cop_questions: { grouping: :sdgs })
+        .distinct
   end
 
   def country
