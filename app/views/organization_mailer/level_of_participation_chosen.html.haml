@@ -1,0 +1,13 @@
+%p
+  =link_to @organization.name, admin_organization_url(@organization)
+  has selected the
+  %strong
+    = "#{@organization&.level_of_participation&.humanize.titleize}"
+  Engagement Tier.
+
+%p
+  For the entire list of companies that have already selected Participant or Signatory, please check the
+  "Participant Breakdown" report under "Reports" section of the KSS.
+
+%p
+  =admin_organization_url(@organization)

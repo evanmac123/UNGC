@@ -156,10 +156,4 @@ class Admin::DueDiligence::ReviewsControllerTest < ActionController::TestCase
     end
   end
 
-  private
-
-  def event_store
-    RailsEventStore::Client.new
-  end
-
 end

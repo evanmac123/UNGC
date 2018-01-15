@@ -1012,8 +1012,4 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
     assert_equal 1, approved_events.length
     approved_events.first
   end
-
-  def event_store
-    RailsEventStore::Client.new
-  end
 end

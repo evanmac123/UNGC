@@ -60,7 +60,6 @@ class DueDiligenceTest < ActionDispatch::IntegrationTest
     assert review_page.email_sent_to_participant_manager?, "Expected email to be sent to Participant Manager"
 
     # CommentCreated event was fired
-    event_store = RailsEventStore::Client.new
     event = event_store.read_all_streams_forward.last
     assert_not_nil event
     assert event.is_a? DueDiligence::Events::CommentCreated

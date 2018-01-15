@@ -67,10 +67,4 @@ class Admin::DueDiligence::FinalDecisionsControllerTest < ActionController::Test
     assert_empty event_store.read_events_forward("due_diligence_review_#{review.id}")
   end
 
-  private
-
-  def event_store
-    RailsEventStore::Client.new
-  end
-
 end

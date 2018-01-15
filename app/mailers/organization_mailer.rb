@@ -130,4 +130,13 @@ class OrganizationMailer < ActionMailer::Base
       :subject => "A message from The Foundation for the Global Compact"
   end
 
+  def level_of_participation_chosen(organization)
+    @organization = organization
+    @contact = organization.financial_contact_or_contact_point
+    mail \
+      to: organization.local_network.contacts.network_contacts.collect(&:email_recipient),
+      bcc: ['archive@unglobalcompact.org'],
+      from: 'localnetworks@unglobalcompact.org',
+      subject: "Engagement Tier '#{@organization&.level_of_participation&.humanize.titleize}' Chosen By: #{organization.name}"
+  end
 end

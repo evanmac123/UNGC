@@ -88,6 +88,13 @@ class OrganizationMailerPreview < ActionMailer::Preview
     OrganizationMailer.foundation_reminder(organization)
   end
 
+  def level_of_participation_chosen
+    create_contact_point
+
+    OrganizationMailer.level_of_participation_chosen(organization)
+  end
+
+
   private
 
   def create_ceo
@@ -96,6 +103,8 @@ class OrganizationMailerPreview < ActionMailer::Preview
   end
 
   def create_contact_point
+    organization
+        .update_columns(level_of_participation: Organization.level_of_participations[:participant_level])
     FactoryGirl.create(:contact, organization: organization,
                        roles: [Role.contact_point])
   end

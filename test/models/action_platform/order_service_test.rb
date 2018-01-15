@@ -38,7 +38,6 @@ module ActionPlatform
 
       assert_equal "pending", order.status
 
-      event_store = RailsEventStore::Client.new
       assert_not_nil event = event_store.read_all_streams_forward.first
       assert event.is_a?(DomainEvents::ActionPlatformOrderCreated)
     end

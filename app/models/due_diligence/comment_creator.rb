@@ -24,7 +24,7 @@ module DueDiligence
           })
 
         stream_name = "due_diligence_review_#{@review.id}"
-        event_store_client.publish_event(event, stream_name: stream_name)
+        Rails.configuration.x_event_store.publish_event(event, stream_name: stream_name)
       end
 
       @comment.persisted?.tap do |success|
@@ -41,8 +41,5 @@ module DueDiligence
       DueDiligenceReviewMailer.delay.comment_notifier(@comment.id, true) if notify_participant_manager
     end
 
-    def event_store_client
-      @event_store_client ||= RailsEventStore::Client.new
-    end
   end
 end

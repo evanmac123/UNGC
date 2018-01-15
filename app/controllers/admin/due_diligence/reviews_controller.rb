@@ -132,10 +132,6 @@ class Admin::DueDiligence::ReviewsController < AdminController
     end
   end
 
-  def event_store
-    @_client ||= RailsEventStore::Client.new
-  end
-
   def page
     params[:page]
   end

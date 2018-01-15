@@ -197,7 +197,7 @@ class Organization::LevelOfParticipationFormTest < ActiveSupport::TestCase
   end
 
   test "When a company marks itself as it's own parent company, it is silently ignored" do
-    organization = create(:organization)
+    organization = create(:organization, :participant_level, :has_participant_manager, country: create(:country, :with_local_network))
     form = build_form(organization: organization, parent_company_id: organization.id)
 
     assert form.save, form.errors.full_messages
@@ -233,11 +233,32 @@ class Organization::LevelOfParticipationFormTest < ActiveSupport::TestCase
     assert_equal "participant_level", organization.level_of_participation
   end
 
+  test "selecting a level of participation sends an email" do
+    # Given an organization and a network contact from the same network
+    network = create(:local_network)
+    country = create(:country, local_network: network)
+    create(:staff_contact, :network_focal_point, local_network: network)
+    organization = create(:organization,
+      level_of_participation: nil,
+      country: country)
+
+    assert_difference 'ActionMailer::Base.deliveries.size', 1 do
+      # When they choose a level of participation
+      form = build_form(organization: organization, level_of_participation: :signatory_level)
+      assert form.save, form.errors.full_messages
+    end
+
+    # Then the engagement tier email is sent
+    email = OrganizationMailer.deliveries.last
+    assert_not_nil email
+    assert_match(/Engagement Tier 'Signatory Level' Chosen/, email.subject)
+  end
+
   private
 
   def build_form(params = {})
     organization = params.fetch :organization do
-      create(:organization)
+      create(:organization, :participant_level, :has_participant_manager, country: create(:country, :with_local_network))
     end
 
     contact_point_id = params.fetch :contact_point_id do

@@ -83,6 +83,7 @@ group :test do
   gem 'poltergeist'
   gem 'fake_stripe', require: false
   gem 'ruby-saml'
+  gem 'spy'
 end
 
 group :development, :test do

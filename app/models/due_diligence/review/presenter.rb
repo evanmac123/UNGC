@@ -11,9 +11,8 @@ class DueDiligence::Review::Presenter < SimpleDelegator
   end
 
   def events
-    event_store = RailsEventStore::Client.new
     stream_name = "due_diligence_review_#{self.id}"
-    event_store.read_stream_events_forward(stream_name).map do |event|
+    Rails.configuration.x_event_store.read_stream_events_forward(stream_name).map do |event|
       AuditLog.new(event)
     end
   end

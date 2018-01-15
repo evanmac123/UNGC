@@ -287,7 +287,6 @@ class DueDiligence::Review < ActiveRecord::Base
   end
 
   def publish_transition_event(requester, context_data={})
-    event_store = RailsEventStore::Client.new
     stream_name = "due_diligence_review_#{id}"
 
     payload = {
@@ -313,6 +312,6 @@ class DueDiligence::Review < ActiveRecord::Base
       when 'declined'
         DueDiligence::Events::Declined.new(data: payload)
     end
-    event_store.publish_event(event, stream_name: stream_name)
+    Rails.configuration.x_event_store.publish_event(event, stream_name: stream_name)
   end
 end

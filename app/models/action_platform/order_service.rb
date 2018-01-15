@@ -82,7 +82,7 @@ module ActionPlatform
     end
 
     def event_store
-      RailsEventStore::Client.new
+      Rails.configuration.x_event_store
     end
   end
 end

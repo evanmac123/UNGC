@@ -62,7 +62,6 @@ class SignupForActionPlatformTest < ActionDispatch::IntegrationTest
     assert page.has_content?(t("action_platform.you_will_be_invoiced")), "missing invoice notice"
 
     # And an event was fired
-    event_store = RailsEventStore::Client.new
     event = event_store.read_all_streams_forward.first
 
     assert_not_nil event

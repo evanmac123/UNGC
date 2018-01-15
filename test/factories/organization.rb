@@ -24,6 +24,10 @@ FactoryGirl.define do
       active true
     end
 
+    trait :participant_level do
+      level_of_participation Organization.level_of_participations[:participant_level]
+    end
+
     trait :inactive do
       active false
     end

@@ -190,21 +190,26 @@ class Organization::LevelOfParticipationForm
 
   def save
     if valid?
+      organization.precise_revenue = annual_revenue
+      organization.invoice_date = invoice_date
+
+      if level_of_participation == "lead_level"
+        organization.level_of_participation = "participant_level"
+      else
+        organization.level_of_participation = level_of_participation
+      end
+
+      # Ignore companies who mark themselves as their own parents
+      unless parent_company_id == organization.id
+        organization.parent_company_id = parent_company_id
+      end
+
+      level_of_participation_chosen = organization.level_of_participation.present? && organization.level_of_participation_changed?
+      invoice_date_chosen = organization.invoice_date.present? && organization.invoice_date_changed?
+      parent_company_identified = organization.parent_company_id.present? && organization.parent_company_id_changed?
+      annual_revenue_changed = organization.precise_revenue_cents_changed?
+
       Organization.transaction do
-        organization.precise_revenue = annual_revenue
-        organization.invoice_date = invoice_date
-
-        if level_of_participation == "lead_level"
-          organization.level_of_participation = "participant_level"
-        else
-          organization.level_of_participation = level_of_participation
-        end
-
-        # Ignore companies who mark themselves as their own parents
-        unless parent_company_id == organization.id
-          organization.parent_company_id = parent_company_id
-        end
-
         organization.save!
 
         # ensure the contact specified is a contact point
@@ -216,25 +221,25 @@ class Organization::LevelOfParticipationForm
           ensure_in_role(financial_contact_id, Role.financial_contact)
         when "create"
           # create a new financial contact with the attribute given
-          attrs = financial_contact.attributes.merge(
-            roles: [Role.financial_contact])
-          organization.contacts.
-            financial_contacts.
-            create!(attrs)
+          attrs = financial_contact.attributes.merge(roles: [Role.financial_contact])
+          organization.contacts.financial_contacts.create!(attrs)
         else
           raise "Unexpected financial_contact_action: >>#{financial_contact_action}<<"
         end
 
         stream_name = "organization_#{organization.id}"
-        EventPublisher.publish selected_level_of_participation, to: stream_name
-        EventPublisher.publish invoice_date_chosen, to: stream_name
-        EventPublisher.publish parent_company_identified, to: stream_name if parent_company_id.present?
-        EventPublisher.publish annual_revenue_changed, to: stream_name
-
-        @is_persisted = true
-
-        true
+        EventPublisher.publish(level_of_participation_event, to: stream_name) if level_of_participation_chosen
+        EventPublisher.publish(invoice_date_chosen_event, to: stream_name) if invoice_date_chosen
+        EventPublisher.publish(parent_company_identified_event, to: stream_name) if parent_company_identified
+        EventPublisher.publish(annual_revenue_changed_event, to: stream_name) if annual_revenue_changed
       end
+
+      if level_of_participation_chosen
+        OrganizationMailer.level_of_participation_chosen(organization).deliver_later
+      end
+
+      @is_persisted = true
+      true
     end
   end
   alias_method :save!, :save
@@ -276,25 +281,26 @@ class Organization::LevelOfParticipationForm
     end
   end
 
-  def selected_level_of_participation
+  def level_of_participation_event
     DomainEvents::OrganizationSelectedLevelOfParticipation.new(data: {
+      id: organization.id,
       level_of_participation: level_of_participation
     })
   end
 
-  def invoice_date_chosen
+  def invoice_date_chosen_event
     DomainEvents::OrganizationInvoiceDateChosen.new(data: {
       invoice_date: invoice_date
     })
   end
 
-  def parent_company_identified
+  def parent_company_identified_event
     DomainEvents::OrganizationParentCompanyIdentified.new(data: {
       parent_company_id: parent_company_id
     })
   end
 
-  def annual_revenue_changed
+  def annual_revenue_changed_event
     DomainEvents::OrganizationAnnualRevenueChanged.new(data: {
       annual_revenue: annual_revenue
     })

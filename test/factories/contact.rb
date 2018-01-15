@@ -45,6 +45,12 @@ FactoryGirl.define do
         end
       end
 
+      trait :network_focal_point do
+        after(:build) do |contact, evaluator|
+          contact.roles << Role.network_focal_point
+        end
+      end
+
       trait :action_platform_manager do
         after(:build) do |contact, evaluator|
           contact.roles << Role.action_platform_manager

@@ -489,6 +489,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    spy (0.4.5)
     stripe (1.58.0)
       rest-client (>= 1.4, < 4.0)
     systemu (2.6.5)
@@ -619,6 +620,7 @@ DEPENDENCIES
   sinatra
   spreadsheet
   spring
+  spy
   state_machine!
   stripe (~> 1.58)
   test_after_commit (~> 1.1)

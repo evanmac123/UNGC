@@ -294,7 +294,7 @@ class ActiveSupport::TestCase
   end
   
   def event_store
-    @event_store ||= RailsEventStore::Client.new
+    Rails.configuration.x_event_store
   end
 
 end

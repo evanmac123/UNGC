@@ -124,7 +124,7 @@ class ApplicationController < ActionController::Base
   end
 
   def event_store
-    RailsEventStore::Client.new
+    Rails.configuration.x_event_store
   end
 
   private

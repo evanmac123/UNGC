@@ -157,8 +157,4 @@ class Donation::ChargeDonorTest < ActiveSupport::TestCase
     event_store.read_all_streams_forward
   end
 
-  def event_store
-    @_client ||= RailsEventStore::Client.new
-  end
-
 end
