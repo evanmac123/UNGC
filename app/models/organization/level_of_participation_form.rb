@@ -204,7 +204,7 @@ class Organization::LevelOfParticipationForm
         organization.parent_company_id = parent_company_id
       end
 
-      level_of_participation_chosen = organization.level_of_participation.present? && organization.level_of_participation_changed?
+      level_of_participation_chosen = organization.level_of_participation.present?
       invoice_date_chosen = organization.invoice_date.present? && organization.invoice_date_changed?
       parent_company_identified = organization.parent_company_id.present? && organization.parent_company_id_changed?
       annual_revenue_changed = organization.precise_revenue_cents_changed?
