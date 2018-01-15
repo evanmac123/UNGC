@@ -87,7 +87,6 @@ end
 
 group :development, :test do
   gem 'minitest'
-  gem 'minitest-rails'
   gem 'pry-rails'
   gem 'pry-byebug'
   gem 'quiet_assets'

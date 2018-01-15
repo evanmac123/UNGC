@@ -10,7 +10,6 @@ require 'capybara/rails'
 require "capybara/poltergeist"
 require 'mocha/setup'
 require 'webmock/minitest'
-require "minitest/rails/capybara"
 require 'test_helpers/integration_test_helper'
 require "#{Rails.root}/db/seeds.rb"
 
@@ -293,7 +292,7 @@ class ActiveSupport::TestCase
     refute model.valid?, "expected #{model} to not be valid"
     assert_includes model.errors.full_messages, message
   end
-
+  
   def event_store
     @event_store ||= RailsEventStore::Client.new
   end
@@ -317,16 +316,6 @@ class ActionDispatch::IntegrationTest
     I18n.t(*args)
   end
 
-end
-
-class Capybara::Rails::TestCase
-  include Warden::Test::Helpers
-
-  Warden.test_mode!
-
-  teardown do
-    Warden.test_reset!
-  end
 end
 
 class JavascriptIntegrationTest < ActionDispatch::IntegrationTest
