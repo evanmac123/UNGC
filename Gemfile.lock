@@ -589,6 +589,7 @@ DEPENDENCIES
   jquery-rjs!
   jquery-ui-rails
   minitest
+  minitest-rails
   minitest-rails-capybara
   minitest-reporters
   minitest-spec-rails
