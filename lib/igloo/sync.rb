@@ -38,7 +38,7 @@ module Igloo
       last_sync = time.fetch("last_sync_time")
       Time.zone.parse(last_sync)
     rescue
-      DateTime.new(2000, 1, 1)
+      Time.utc(2000, 1, 1)
     end
 
   end

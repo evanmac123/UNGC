@@ -19,7 +19,7 @@ class InitiativeCopsTest < ActiveSupport::TestCase
                           name: "Super Org",
                           sector: Sector.find_by(name: "Beverages"))
     cop = create(:communication_on_progress,
-                 published_on: Date.today,
+                 published_on: Date.current,
                  organization: organization)
 
     # And a weps answer
@@ -53,7 +53,7 @@ class InitiativeCopsTest < ActiveSupport::TestCase
                             name: "Super Org",
                             sector: Sector.find_by(name: "Beverages"))
       cop = create(:communication_on_progress,
-                   published_on: Date.today,
+                   published_on: Date.current,
                    organization: organization)
 
       # And a weps answer

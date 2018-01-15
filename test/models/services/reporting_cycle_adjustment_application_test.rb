@@ -11,7 +11,7 @@ class ReportingCycleAdjustmentApplicationTest < ActiveSupport::TestCase
 
       setup do
         @reporting_cycle_adjustment = build(:reporting_cycle_adjustment, organization: @organization)
-        @ends_on = Date.today + 1.month
+        @ends_on = Date.current + 1.month
         @application = ReportingCycleAdjustmentApplication.new(@organization)
         @old_cop_due_on_date = @organization.cop_due_on.to_date
         @application.submit(@reporting_cycle_adjustment, @ends_on)
@@ -36,7 +36,7 @@ class ReportingCycleAdjustmentApplicationTest < ActiveSupport::TestCase
       end
 
       should "have a starts_on date set to Today" do
-        assert_equal Date.today, @reporting_cycle_adjustment.starts_on.to_date
+        assert_equal Date.current, @reporting_cycle_adjustment.starts_on.to_date
       end
 
       should "have an ends_on date set to the organization's new due date" do
@@ -80,7 +80,7 @@ class ReportingCycleAdjustmentApplicationTest < ActiveSupport::TestCase
 
     context "already submitted a reporting_cycle_adjustment" do
       setup do
-        due_date = Date.today + 1.month
+        due_date = Date.current + 1.month
         adjustment = build(:reporting_cycle_adjustment, organization: @organization)
         assert ReportingCycleAdjustmentApplication.submit_for(@organization, adjustment, due_date)
         @application = ReportingCycleAdjustmentApplication.new(@organization)

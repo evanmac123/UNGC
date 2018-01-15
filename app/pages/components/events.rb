@@ -15,7 +15,7 @@ class Components::Events
   end
 
   def future
-    future = scoped.where("starts_at >= ?", Date.today)
+    future = scoped.where("starts_at >= ?", Date.current)
     if featured_id
       future = future.where.not('id = ?', featured_id)
     end
@@ -26,7 +26,7 @@ class Components::Events
   end
 
   def past
-    scoped.where("starts_at < ?", Date.today).order('starts_at desc')
+    scoped.where("starts_at < ?", Date.current).order('starts_at desc')
   end
 
   def each(&block)

@@ -5,7 +5,7 @@ class LocalNetworkRecentCops < SimpleReport
     CommunicationOnProgress.visible_to(user)
       .all_cops
       .approved
-      .published_between(30.days.ago, Date.today)
+      .published_between(30.days.ago, Date.current)
       .order('communication_on_progresses.published_on DESC')
   end
 

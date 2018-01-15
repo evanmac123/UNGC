@@ -31,8 +31,8 @@ FactoryGirl.define do
     factory :delisted_participant do
       inactive
       participant true
-      delisted_on Date.today
-      inactive_on Date.today
+      delisted_on Date.current
+      inactive_on Date.current
       cop_state Organization::COP_STATE_DELISTED
       removal_reason { RemovalReason.for_filter(:delisted).first }
     end

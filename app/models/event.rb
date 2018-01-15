@@ -93,7 +93,7 @@ class Event < ActiveRecord::Base
 
 
   def self.for_month_year(month=nil, year=nil)
-    today = Date.today
+    today = Date.current
     start = Time.mktime( year || today.year, month || today.month, 1).to_date
     finish = (start.to_date >> 1) - 1
 
@@ -120,7 +120,7 @@ class Event < ActiveRecord::Base
   end
 
   def ends_at_string
-    (ends_at || (Date.today + 1)).strftime('%m/%d/%Y')
+    (ends_at || (Date.current + 1)).strftime('%m/%d/%Y')
   end
 
   def ends_at_string=(date_or_string)
@@ -132,7 +132,7 @@ class Event < ActiveRecord::Base
   end
 
   def starts_at_string
-    (starts_at || Date.today).strftime('%m/%d/%Y')
+    (starts_at || Date.current).strftime('%m/%d/%Y')
   end
 
   def starts_at_string=(date_or_string)

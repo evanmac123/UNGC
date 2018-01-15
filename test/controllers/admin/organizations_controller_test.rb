@@ -195,7 +195,7 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
       end
 
       should "succeed and require delisted on date when being manually delisted" do
-        put :update, {id: @organization.to_param, organization: { active: "0", delisted_on: Date.today }}
+        put :update, {id: @organization.to_param, organization: { active: "0", delisted_on: Date.current }}
         assert_redirected_to admin_organization_path(@organization.id)
       end
 

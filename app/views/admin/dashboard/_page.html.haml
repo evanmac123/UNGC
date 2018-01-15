@@ -2,7 +2,7 @@
   %td= page.updated_at
   %td= page.title
   %td= page.approval.humanize
-  %td.age= (Date.today - page.updated_at.to_date).to_i
+  %td.age= (Date.current - page.updated_at.to_date).to_i
   %td
     %ul.actions
       - staff_only do

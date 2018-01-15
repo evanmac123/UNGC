@@ -4,7 +4,7 @@ class LocalNetworkRecentlyNoncommunicating < SimpleReport
     user = Contact.find(@options[:contact_id])
     Organization.visible_to(user)
       .with_cop_status(:noncommunicating)
-      .with_cop_due_between(Date.today - 30.days, Date.today)
+      .with_cop_due_between(Date.current - 30.days, Date.current)
       .order(:cop_due_on)
   end
 

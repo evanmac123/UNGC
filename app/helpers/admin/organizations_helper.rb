@@ -41,13 +41,13 @@ module Admin::OrganizationsHelper
   end
 
   def network_review_period(organization)
-    if organization.network_review_on + 7.days == Date.today
+    if organization.network_review_on + 7.days == Date.current
       content_tag :span, "Ends today", :style => 'color: green;'
-    elsif Date.today - 7.days < organization.network_review_on
-      "#{distance_of_time_in_words(Date.today - 7.days, organization.network_review_on)} remaining"
+    elsif Date.current - 7.days < organization.network_review_on
+      "#{distance_of_time_in_words(Date.current - 7.days, organization.network_review_on)} remaining"
     else
       content_tag :span,
-                  "#{distance_of_time_in_words(Date.today, organization.network_review_on + 7.days)} overdue",
+                  "#{distance_of_time_in_words(Date.current, organization.network_review_on + 7.days)} overdue",
                   :style => 'color: red;'
     end
   end

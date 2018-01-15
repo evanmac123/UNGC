@@ -11,7 +11,7 @@
 
   %ol
     = default_form.select     :policy_type, options_for_select(IntegrityMeasure::TYPES.invert, @submodel.policy_type_for_select_field), :label => 'Type'
-    = default_form.text_field :date, {class: 'datepicker iso-date', value: @submodel.date || Date.today}, {:label => 'Date'}
+    = default_form.text_field :date, {class: 'datepicker iso-date', value: @submodel.date || Date.current}, {:label => 'Date'}
     = default_form.text_field :title
     = default_form.text_area  :description
     = default_form.file_field :file, {:label => 'Supporting Document'}

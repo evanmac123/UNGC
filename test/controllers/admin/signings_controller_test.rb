@@ -12,7 +12,7 @@ class Admin::SigningsControllerTest < ActionController::TestCase
       assert_difference '@initiative.signings.count' do
         post :create, :initiative_id => @initiative.id,
                       :signing       => {:organization_id => @organization.id,
-                                         :added_on        => Date.today}
+                                         :added_on        => Date.current}
         assert_response :redirect
       end
     end
@@ -39,7 +39,7 @@ class Admin::SigningsControllerTest < ActionController::TestCase
       assert_difference '@initiative.signings.count', 0 do
         post :create, :initiative_id => @initiative.id,
                       :signing       => {:organization_id => @organization.id,
-                                         :added_on        => Date.today}
+                                         :added_on        => Date.current}
       end
     end
   end

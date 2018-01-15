@@ -2,7 +2,7 @@
   %td= organization.updated_at
   %td{:title => organization.name}= truncate(organization.name)
   %td= organization.state.humanize
-  %td.age= (Date.today - organization.updated_at.to_date).to_i
+  %td.age= (Date.current - organization.updated_at.to_date).to_i
   %td
     %ul.actions
       %li= link_to 'View details', admin_organization_path(organization.id), :class => 'edit', :title => 'View/Edit details'

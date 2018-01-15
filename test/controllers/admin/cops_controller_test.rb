@@ -35,7 +35,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
 
     context "with an Active status and within 90 day grace letter period" do
       setup do
-        @organization.update_attribute :cop_due_on, Date.today - 75.days
+        @organization.update_attribute :cop_due_on, Date.current - 75.days
         @organization.reload
       end
       should "see Grace Letter tab" do
@@ -48,7 +48,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
 
     context "who has already submitted a grace letter" do
       setup do
-        @organization.update_attribute :cop_due_on, Date.today - 75.days
+        @organization.update_attribute :cop_due_on, Date.current - 75.days
         @cop = create(:communication_on_progress, organization: @organization, format: 'grace_letter')
         @cop.cop_type = 'grace'
         @cop.save
@@ -192,8 +192,8 @@ class Admin::CopsControllerTest < ActionController::TestCase
                       :references_environment       => true,
                       :references_anti_corruption   => true,
                       :include_measurement          => true,
-                      :starts_on                    => Date.today,
-                      :ends_on                      => Date.today,
+                      :starts_on                    => Date.current,
+                      :ends_on                      => Date.current,
                       :differentiation              => 'learner'
                     }
     end
@@ -445,8 +445,8 @@ class Admin::CopsControllerTest < ActionController::TestCase
     #                     :references_environment       => true,
     #                     :references_anti_corruption   => true,
     #                     :include_measurement          => true,
-    #                     :starts_on                    => Date.today,
-    #                     :ends_on                      => Date.today,
+    #                     :starts_on                    => Date.current,
+    #                     :ends_on                      => Date.current,
     #                     :differentiation              => 'active'
     #                   }
     #   end

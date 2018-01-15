@@ -130,7 +130,7 @@ class DummyAccounts
 
   def register(organization)
     organization.registration.update_attributes!(
-      date: Date.today - 1.year,
+      date: Date.current - 1.year,
       place: 'Registration place',
       authority: 'Some authority',
       mission_statement: 'We will support the UNGC',

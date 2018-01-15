@@ -156,7 +156,7 @@ class OrganizationTest < ActiveSupport::TestCase
         # set the paticipant flag to true
         assert @organization.participant
         # set the join date today
-        assert_equal Date.today, @organization.joined_on
+        assert_equal Date.current, @organization.joined_on
       end
 
       should "find a financial contact or default to a contact point" do
@@ -202,7 +202,7 @@ class OrganizationTest < ActiveSupport::TestCase
 
       should "set rejection date" do
         @organization.reject
-        assert_equal Date.today, @organization.rejected_on
+        assert_equal Date.current, @organization.rejected_on
       end
 
    end

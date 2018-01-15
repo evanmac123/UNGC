@@ -101,7 +101,7 @@
     <ol class="event-log">
       <% @review.events.each do |event| %>
         <li>
-          <%= t event.name %> by <%= event.author %> (<%= event.timestamp.to_s(:datetime) %>)
+          <%= t event.name %> by <%= event.author %> (<%= event.timestamp.in_time_zone(current_contact.time_zone).to_s(:datetime) %>)
         </li>
       <% end %>
     </ol>

@@ -71,7 +71,7 @@ class ActiveSupport::TestCase
                                         organization_type: OrganizationType.sme,
                                         sector: sector,
                                         listing_status: listing_status,
-                                        cop_due_on: Date.today + 1.year)
+                                        cop_due_on: Date.current + 1.year)
     @organization.approve! if state == 'approved'
     @organization_user = @organization.contacts.contact_points.first
   end
@@ -138,7 +138,7 @@ class ActiveSupport::TestCase
 
   def create_expelled_organization
     create_organization_and_user
-    @organization.update_attribute :delisted_on, Date.today - 1.month
+    @organization.update_attribute :delisted_on, Date.current - 1.month
     @organization.update_attribute :cop_state, Organization::COP_STATE_DELISTED
     @organization.update_attribute :active, false
     @organization.update_attribute :removal_reason, RemovalReason.delisted

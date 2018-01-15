@@ -71,7 +71,7 @@ class Headline < ActiveRecord::Base
   end
 
   def before_approve!
-    write_attribute(:published_on, Date.today) if self.published_on.blank?
+    write_attribute(:published_on, Date.current) if self.published_on.blank?
   end
 
   def published_on_string=(date_or_string)
@@ -83,7 +83,7 @@ class Headline < ActiveRecord::Base
   end
 
   def published_on_string
-    (published_on || Date.today).strftime('%m/%d/%Y')
+    (published_on || Date.current).strftime('%m/%d/%Y')
   end
 
   def formatted_date

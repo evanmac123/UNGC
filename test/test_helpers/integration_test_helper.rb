@@ -160,7 +160,7 @@ module IntegrationTestHelper
 
   def create_event_news_component_data
     events = Array.new(3) do
-      event = create(:event, starts_at: Date.today + 1.month)
+      event = create(:event, starts_at: Date.current + 1.month)
       event.approve!
       event
     end

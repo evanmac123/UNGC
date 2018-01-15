@@ -273,7 +273,7 @@ class Organization < ActiveRecord::Base
   scope :joined_on, lambda { |month, year| where('joined_on >= ? AND joined_on <= ?', Date.new(year, month, 1), Date.new(year, month, 1).end_of_month) }
 
   scope :with_pledge, lambda { where('pledge_amount > 0') }
-  scope :about_to_become_noncommunicating, lambda { where("cop_state=? AND cop_due_on<=?", COP_STATE_ACTIVE, Date.today) }
+  scope :about_to_become_noncommunicating, lambda { where("cop_state=? AND cop_due_on<=?", COP_STATE_ACTIVE, Date.current) }
   scope :about_to_become_delisted, lambda { where("cop_state=? AND cop_due_on<=?", COP_STATE_NONCOMMUNICATING, EXPULSION_THRESHOLD.ago.to_date) }
 
   scope :ready_for_invoice, lambda {where("joined_on >= ? AND joined_on <= ?", 2.days.ago.beginning_of_day, 2.days.ago.end_of_day)}
@@ -768,7 +768,7 @@ class Organization < ActiveRecord::Base
       cop_due_on: next_cop_due_date,
       cop_state: next_cop_state,
     }
-    attrs[:rejoined_on] = Date.today if delisted?
+    attrs[:rejoined_on] = Date.current if delisted?
 
     transaction do
       self.communication_received! if can_communication_received?
@@ -798,7 +798,7 @@ class Organization < ActiveRecord::Base
   end
 
   def set_rejected_fields
-    self.rejected_on = Date.today
+    self.rejected_on = Date.current
     self.save
   end
 
@@ -809,7 +809,7 @@ class Organization < ActiveRecord::Base
   end
 
   def set_network_review
-    self.network_review_on = Date.today
+    self.network_review_on = Date.current
     self.review_reason = nil
     self.save
   end
@@ -817,12 +817,12 @@ class Organization < ActiveRecord::Base
   def set_approved_on
     self.active = true
     self.participant = true
-    self.joined_on = Date.today
+    self.joined_on = Date.current
     self.save
   end
 
   def set_delisted_status
-    self.update_columns(active: false, removal_reason_id: RemovalReason.delisted.id, delisted_on: Date.today)
+    self.update_columns(active: false, removal_reason_id: RemovalReason.delisted.id, delisted_on: Date.current)
   end
 
   def set_manual_delisted_status

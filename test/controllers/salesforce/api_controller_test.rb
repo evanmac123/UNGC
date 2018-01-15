@@ -46,7 +46,7 @@ class Salesforce::ApiControllerTest < ActionController::TestCase
     defaults = {
       'id' => SecureRandom.uuid,
       'type' => 'contribution',
-      'date' => Date.today - rand(999).days,
+      'date' => Date.current - rand(999).days,
       'stage' => 'posted',
       'organization_id' => @organization.id
     }
@@ -95,13 +95,13 @@ class Salesforce::ApiControllerTest < ActionController::TestCase
       end
 
       should 'update start_date' do
-        today = Date.today
+        today = Date.current
         updated = send_update_campaign(start_date: today)
         assert_equal today, updated.start_date
       end
 
       should 'update end_date' do
-        today = Date.today
+        today = Date.current
         updated = send_update_campaign(end_date: today)
         assert_equal today, updated.end_date
       end
@@ -166,7 +166,7 @@ class Salesforce::ApiControllerTest < ActionController::TestCase
       end
 
       should 'have the given date' do
-        today = Date.today
+        today = Date.current
         contribution = send_create_contribution(date: today)
         assert_equal today, contribution.date
       end

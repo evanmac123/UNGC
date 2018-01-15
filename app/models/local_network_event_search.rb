@@ -18,7 +18,7 @@ class LocalNetworkEventSearch < OpenStruct
       end_date_d = if end_date.present?
                      Date.parse(end_date)
                    else
-                     Date.today
+                     Date.current
                    end
 
       filters[:date] = (start_date_d.to_time .. end_date_d.to_time)

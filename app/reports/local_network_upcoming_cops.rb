@@ -3,7 +3,7 @@ class LocalNetworkUpcomingCops < SimpleReport
   def records
     user = Contact.find(@options[:contact_id])
     Organization.visible_to(user)
-      .with_cop_due_between(Date.today, Date.today + 30.days)
+      .with_cop_due_between(Date.current, Date.current + 30.days)
       .order(:cop_due_on)
   end
 

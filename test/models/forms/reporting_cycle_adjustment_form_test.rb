@@ -38,7 +38,7 @@ class ReportingCycleAdjustmentFormTest < ActiveSupport::TestCase
 
       should "set reporting cycle adjustment start_on" do
         assert_submits @form, with: @params
-        assert_equal Date.today, @form.reporting_cycle_adjustment.starts_on.to_date
+        assert_equal Date.current, @form.reporting_cycle_adjustment.starts_on.to_date
       end
 
       should "set reporting cycle adjustment ends_on" do
@@ -68,7 +68,7 @@ class ReportingCycleAdjustmentFormTest < ActiveSupport::TestCase
     context "validations" do
       setup do
         @form = ReportingCycleAdjustmentForm.new(@organization)
-        @params = cop_file_attributes.merge(to_date_params(Date.today + 1.month))
+        @params = cop_file_attributes.merge(to_date_params(Date.current + 1.month))
       end
 
       should "be invalid without a cop file" do
@@ -86,12 +86,12 @@ class ReportingCycleAdjustmentFormTest < ActiveSupport::TestCase
       end
 
       should "be invalid with an end date before today" do
-        refute @form.submit(cop_file_attributes.merge(to_date_params(Date.today - 1.month)))
+        refute @form.submit(cop_file_attributes.merge(to_date_params(Date.current - 1.month)))
       end
 
       should "be invalid with an end date before the original cop due on date." do
         slightly_in_the_future = @organization.cop_due_on - 1.day
-        assert slightly_in_the_future > Date.today
+        assert slightly_in_the_future > Date.current
         assert_equal false, @form.submit(cop_file_attributes.merge(to_date_params(slightly_in_the_future)))
       end
     end

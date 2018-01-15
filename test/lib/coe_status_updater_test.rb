@@ -5,11 +5,11 @@ class CoeStatusUpdaterTest < ActiveSupport::TestCase
   setup do
     @status_updater = CoeStatusUpdater.new(logger, mailer)
     @active = {
-      cop_due_on: Date.today - 2.days,
+      cop_due_on: Date.current - 2.days,
       cop_state: Organization::COP_STATE_ACTIVE
     }
     @noncommunicating = {
-      cop_due_on: Date.today - 3.years,
+      cop_due_on: Date.current - 3.years,
       cop_state: Organization::COP_STATE_NONCOMMUNICATING
     }
   end

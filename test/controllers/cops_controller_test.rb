@@ -89,7 +89,7 @@ class CopsControllerTest < ActionController::TestCase
    should "display the atom feed" do
      # Given some COPs published today
      create_list(:communication_on_progress, 2,
-                 published_on: Date.today,
+                 published_on: Date.current,
                  state: 'approved',
                  format: CommunicationOnProgress::FORMAT[:standalone]
                 )

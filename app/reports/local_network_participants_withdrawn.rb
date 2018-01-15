@@ -4,7 +4,7 @@ class LocalNetworkParticipantsWithdrawn < SimpleReport
     user = Contact.find(@options[:contact_id])
     Organization.visible_to(user)
       .withdrew
-      .delisted_between(Date.new(Date.current.year,1,1), Date.today)
+      .delisted_between(Date.new(Date.current.year,1,1), Date.current)
       .order('delisted_on DESC')
   end
 

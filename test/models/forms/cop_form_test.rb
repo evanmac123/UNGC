@@ -192,8 +192,8 @@ class CopFormTest < ActiveSupport::TestCase
         references_environment: true,
         meets_advanced_criteria: true,
         references_business_peace: true,
-        starts_on: Date.today - 1.year + 1.day,
-        ends_on: Date.today + 1.day,
+        starts_on: Date.current - 1.year + 1.day,
+        ends_on: Date.current + 1.day,
       })
       @attrs.delete(:created_at)
       @attrs.delete(:updated_at)
@@ -333,7 +333,7 @@ class CopFormTest < ActiveSupport::TestCase
     # date should be adjusted
 
     # Given an non-communicating organization
-    original_due_date = Date.today - 1.month
+    original_due_date = Date.current - 1.month
     non_communicating = Organization::COP_STATE_NONCOMMUNICATING
     @organization.update(
       cop_due_on: original_due_date,
@@ -357,7 +357,7 @@ class CopFormTest < ActiveSupport::TestCase
 
     # Then the organization should be active with the adjusted cop_due_on
     assert_equal 'active', @organization.cop_state
-    assert @organization.cop_due_on > Date.today, 'cop_due_on was not adjusted'
+    assert @organization.cop_due_on > Date.current, 'cop_due_on was not adjusted'
   end
 
   def valid_cop_attrs(organization, params={})

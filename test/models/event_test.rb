@@ -22,7 +22,7 @@ class EventTest < ActiveSupport::TestCase
 
   context "given a bunch of events" do
     setup do
-      @today = Date.today
+      @today = Date.current
       starts = []
       5.times do
         starts_at = Time.mktime(@today.year, @today.month, rand(22)+1).to_date

@@ -44,19 +44,19 @@ class CoeReminder
   def coe_due_today
     log "Running coe_due_today"
     notify :communication_on_engagement_due_today,
-      active.with_cop_due_on(Date.today + 1.day)
+      active.with_cop_due_on(Date.current + 1.day)
   end
 
   def coe_due_yesterday
     log "Running coe_due_yesterday"
     notify :communication_on_engagement_nc_day_notification,
-      active.with_cop_due_on(Date.today - 1.day)
+      active.with_cop_due_on(Date.current - 1.day)
   end
 
   def coe_due_1_month_ago
     log "Running coe_due_1_month_ago"
     notify :communication_on_engagement_1_month_after_nc,
-      active.with_cop_due_on(Date.today - 1.month)
+      active.with_cop_due_on(Date.current - 1.month)
   end
 
   # expulsion of non-communicating participants

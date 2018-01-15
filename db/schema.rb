@@ -250,6 +250,7 @@ ActiveRecord::Schema.define(version: 20180103103932) do
     t.datetime "image_updated_at"
     t.string   "encrypted_password",        limit: 255
     t.datetime "last_password_changed_at"
+    t.string   "time_zone",                 limit: 32,  default: "UTC", null: false
   end
 
   add_index "contacts", ["organization_id"], name: "index_contacts_on_organization_id", using: :btree

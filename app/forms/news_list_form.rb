@@ -60,7 +60,7 @@ class NewsListForm < FilterableForm
     date = if end_date.present?
       end_date
     else
-      Date.today
+      Date.current
     end
     date.to_datetime.end_of_day.to_i
   end

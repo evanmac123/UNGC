@@ -38,7 +38,7 @@ module Importers
               title:        IntegrityMeasure::TYPES[type],
               policy_type:  type.to_s,
               description:  "Not specified",
-              date:         Date.today
+              date:         Date.current
             }
           end
         end

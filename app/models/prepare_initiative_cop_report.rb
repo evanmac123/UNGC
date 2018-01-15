@@ -30,7 +30,7 @@ class PrepareInitiativeCopReport
   def end_date
     Date.new(end_year.to_i, end_month.to_i, end_day.to_i)
   rescue ArgumentError
-    Date.today
+    Date.current
   end
 
   private

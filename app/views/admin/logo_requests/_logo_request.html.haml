@@ -2,7 +2,7 @@
   %td= logo_request.updated_at
   %td= logo_request.purpose
   %td= logo_request.state.humanize
-  %td.age= (Date.today - logo_request.updated_at.to_date).to_i
+  %td.age= (Date.current - logo_request.updated_at.to_date).to_i
   %td
     %ul.actions
       %li= link_to 'View Details', admin_organization_logo_request_path(logo_request.organization.id, logo_request), :title => "View/Edit details", :class => "preview"

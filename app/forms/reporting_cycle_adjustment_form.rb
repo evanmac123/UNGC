@@ -25,7 +25,7 @@ class ReportingCycleAdjustmentForm
   end
 
   def starts_on
-    Date.today
+    Date.current
   end
 
   def cop_file
@@ -88,7 +88,7 @@ class ReportingCycleAdjustmentForm
         errors.add ERROR_KEY, "can be extended up to #{ReportingCycleAdjustmentApplication::MAX_MONTHS} months"
       elsif @ends_on <= organization.cop_due_on
         errors.add ERROR_KEY, 'must be after your current deadline'
-      elsif @ends_on <= Date.today
+      elsif @ends_on <= Date.current
         errors.add ERROR_KEY, 'must be a future date'
       end
     end

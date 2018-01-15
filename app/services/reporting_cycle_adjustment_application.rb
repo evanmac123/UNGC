@@ -47,7 +47,7 @@ class ReportingCycleAdjustmentApplication
     end
 
     def save(reporting_cycle_adjustment, due_date)
-      reporting_cycle_adjustment.starts_on = Date.today
+      reporting_cycle_adjustment.starts_on = Date.current
       reporting_cycle_adjustment.ends_on = due_date
       reporting_cycle_adjustment.save!
     end

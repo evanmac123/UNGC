@@ -43,21 +43,21 @@ class HeadlineTest < ActiveSupport::TestCase
       end
 
       should "set published_on" do
-        assert_equal Date.today, @headline.published_on
+        assert_equal Date.current, @headline.published_on
       end
     end
   end
 
   context "given a headline with a fixed published date" do
     setup do
-      fixed_date = (Date.today << 1).strftime('%m/%d/%Y')
+      fixed_date = (Date.current << 1).strftime('%m/%d/%Y')
       @headline = Headline.new :title => Faker::Book.title, :published_on_string => fixed_date
       assert @headline.save
       @headline.reload
     end
 
     should "use fixed date for published_on" do
-      expected = (Date.today << 1)
+      expected = (Date.current << 1)
       actual   = @headline.published_on
       assert_equal [expected.month, expected.day], [actual.month, actual.day], 'Published date should match'
     end
@@ -73,7 +73,7 @@ class HeadlineTest < ActiveSupport::TestCase
       end
 
       should "still use fixed date for published_on" do
-        expected = (Date.today << 1)
+        expected = (Date.current << 1)
         actual   = @headline.published_on
         assert_equal [expected.month, expected.day], [actual.month, actual.day], 'Published date should match'
       end
@@ -101,7 +101,7 @@ class HeadlineTest < ActiveSupport::TestCase
 
   context "given a bunch of headlines, in different years" do
     setup do
-      @today = Date.today
+      @today = Date.current
       5.times { |i| create(:headline, :published_on => Time.mktime(@today.year, i+1, rand(22)+1).to_date) }
       3.times { |i| create(:headline, :published_on => Time.mktime(@today.year - 1, i+1, rand(22)+1).to_date) }
       2.times { |i| create(:headline, :published_on => Time.mktime(@today.year - 2, i+1, rand(22)+1).to_date) }

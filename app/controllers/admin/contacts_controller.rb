@@ -149,6 +149,7 @@ class Admin::ContactsController < AdminController
         :country_id,
         :username,
         :password,
+        :time_zone,
         :image,
         role_ids: []
       )

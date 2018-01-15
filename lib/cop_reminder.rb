@@ -48,13 +48,13 @@ class CopReminder
   def notify_cop_due_today
     log "Running notify_cop_due_today"
     notify :cop_due_today,
-      active.with_cop_due_on(Date.today + 1.day)
+      active.with_cop_due_on(Date.current + 1.day)
   end
 
   def notify_cop_due_yesterday
     log "Running notify_cop_due_yesterday"
     notify :cop_due_yesterday,
-      non_communicating.with_cop_due_on(Date.today - 1.day)
+      non_communicating.with_cop_due_on(Date.current - 1.day)
   end
 
   private

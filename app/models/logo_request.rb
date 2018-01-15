@@ -102,10 +102,10 @@ class LogoRequest < ActiveRecord::Base
 
   private
     def set_approved_on
-      update_attribute :approved_on, Date.today
+      update_attribute :approved_on, Date.current
     end
 
     def set_accepted_on
-      update_attribute :accepted_on, Date.today
+      update_attribute :accepted_on, Date.current
     end
 end

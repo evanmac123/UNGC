@@ -9,7 +9,7 @@ class EventsListForm < FilterableForm
   attribute :countries,                     Array[Integer], default: []
   attribute :types,                         Array[String],  default: []
   attribute :sustainable_development_goals, Array[Integer], default: []
-  attribute :start_date,                    Date,           default: -> (page, attribute) { Date.today }
+  attribute :start_date,                    Date,           default: -> (page, attribute) { Date.current }
   attribute :end_date,                      Date
 
   filter :issue

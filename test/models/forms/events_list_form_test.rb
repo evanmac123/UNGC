@@ -23,7 +23,7 @@ class EventsListFormTest < ActiveSupport::TestCase
     end
   end
 
-  def self.should_search_event(should_msg, starts_offset: 0, ends_offset: 0, today: Date.today, start_date: nil, end_date: nil)
+  def self.should_search_event(should_msg, starts_offset: 0, ends_offset: 0, today: Date.current, start_date: nil, end_date: nil)
     should should_msg do
       event = create_approved_event(
         starts_at: today + starts_offset.days,
@@ -38,15 +38,15 @@ class EventsListFormTest < ActiveSupport::TestCase
   end
 
   def self.should_search_event_start(should_msg, starts_offset = 0, ends_offset = 0)
-    should_search_event(should_msg, starts_offset: starts_offset, ends_offset: ends_offset, start_date: Date.today)
+    should_search_event(should_msg, starts_offset: starts_offset, ends_offset: ends_offset, start_date: Date.current)
   end
 
   def self.should_search_event_end(should_msg, starts_offset = 0, ends_offset = 0)
-    should_search_event(should_msg, starts_offset: starts_offset, ends_offset: ends_offset, end_date: Date.today)
+    should_search_event(should_msg, starts_offset: starts_offset, ends_offset: ends_offset, end_date: Date.current)
   end
 
   def self.should_search_event_start_end(should_msg, starts_offset = 0, ends_offset = 0)
-    should_search_event(should_msg, starts_offset: starts_offset, ends_offset: ends_offset, start_date: Date.today, end_date: Date.today + 7.days)
+    should_search_event(should_msg, starts_offset: starts_offset, ends_offset: ends_offset, start_date: Date.current, end_date: Date.current + 7.days)
   end
 
   context "search starts_at today" do
@@ -56,8 +56,8 @@ class EventsListFormTest < ActiveSupport::TestCase
     should_search_event_start "show an event that starts in the future", +1, +3
 
     should "not show an event that ended yesterday" do
-      event = create_approved_event(starts_at: Date.today - 2.days, ends_at: Date.today - 1.day)
-      results = search(start_date: Date.today)
+      event = create_approved_event(starts_at: Date.current - 2.days, ends_at: Date.current - 1.day)
+      results = search(start_date: Date.current)
       assert_not_includes results, event
     end
   end
@@ -69,8 +69,8 @@ class EventsListFormTest < ActiveSupport::TestCase
     should_search_event_end "show an event that starts and ends in the past", -10, -5
 
     should "not show an event that starts tomorrow" do
-      event = create_approved_event(starts_at: Date.today + 1.day, ends_at: Date.today + 3.days)
-      results = search(end_date: Date.today)
+      event = create_approved_event(starts_at: Date.current + 1.day, ends_at: Date.current + 3.days)
+      results = search(end_date: Date.current)
       assert_not_includes results, event
     end
   end
@@ -83,14 +83,14 @@ class EventsListFormTest < ActiveSupport::TestCase
     should_search_event_start_end "show an event that starts in 10 days ago and ends in 10", -10, 10
 
     should "not show an event that starts in 8 days" do
-      event = create_approved_event(starts_at: Date.today + 8.days, ends_at: Date.today + 10.days)
-      results = search(start_date: Date.today, end_date: Date.today + 7.days)
+      event = create_approved_event(starts_at: Date.current + 8.days, ends_at: Date.current + 10.days)
+      results = search(start_date: Date.current, end_date: Date.current + 7.days)
       assert_not_includes results, event
     end
 
     should "not show an event that ended 3 days ago" do
-      event = create_approved_event(starts_at: Date.today - 8.days, ends_at: Date.today - 3.days)
-      results = search(start_date: Date.today, end_date: Date.today + 7.days)
+      event = create_approved_event(starts_at: Date.current - 8.days, ends_at: Date.current - 3.days)
+      results = search(start_date: Date.current, end_date: Date.current + 7.days)
       assert_not_includes results, event
     end
   end
@@ -106,7 +106,7 @@ class EventsListFormTest < ActiveSupport::TestCase
   end
 
   def create_approved_event(params = {})
-    params.reverse_merge! starts_at: Date.today
+    params.reverse_merge! starts_at: Date.current
     create(:event, params).tap(&:approve!)
   end
 

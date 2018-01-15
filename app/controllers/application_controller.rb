@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
 
   before_filter :mailer_set_url_options
 
+  around_action :set_time_zone, if: :current_contact
+
   helper DatetimeHelper
 
   helper_method \
@@ -161,6 +163,10 @@ class ApplicationController < ActionController::Base
   def redirect_to_change_password(return_to_path)
     session['contact_return_to'] = return_to_path
     edit_contact_registration_path
+  end
+
+  def set_time_zone(&block)
+    Time.use_zone(current_contact.time_zone, &block)
   end
 
 end

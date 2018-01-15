@@ -1,5 +1,5 @@
 %li.item{:id => dom_id(comment)}
   .meta
     %p.name= comment.contact_name
-    %p.datetime= comment.created_at.to_s(:datetime)
+    %p.datetime= comment.created_at.in_time_zone(current_contact.time_zone).to_s(:datetime)
   .body= simple_format(comment.body)

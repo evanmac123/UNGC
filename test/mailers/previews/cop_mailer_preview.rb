@@ -69,7 +69,7 @@ class CopMailerPreview < ActionMailer::Preview
   def organization
     @organization ||= FactoryGirl.create(:organization,
       country: country,
-      cop_due_on: Date.today - 5.years
+      cop_due_on: Date.current - 5.years
     ).tap do |org|
       create_contact_point(org)
     end

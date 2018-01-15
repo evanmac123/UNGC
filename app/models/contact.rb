@@ -285,7 +285,7 @@ class Contact < ActiveRecord::Base
 
   def needs_to_update_contact_info?
     if from_organization?
-      last_update < (Date.today - Contact::MONTHS_SINCE_LOGIN.months)
+      last_update < (Date.current - Contact::MONTHS_SINCE_LOGIN.months)
     end
   end
 

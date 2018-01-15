@@ -28,7 +28,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
           :references_environment              => true,
           :references_anti_corruption          => true,
           :include_measurement                 => true,
-          :ends_on                             => Date.today,
+          :ends_on                             => Date.current,
           :cop_files_attributes => {
             "new_cop"=> {
               :attachment_type => "cop",
@@ -50,7 +50,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
           :references_environment              => true,
           :references_anti_corruption          => true,
           :include_measurement                 => true,
-          :ends_on                             => Date.today,
+          :ends_on                             => Date.current,
           :cop_files_attributes => {
           "new_cop"=> {
             :attachment_type => "cop",
@@ -127,14 +127,14 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
     end
 
     should "keep the company Non-communicating if passed grace period" do
-      @organization.update_attribute :cop_due_on, Date.today - 91.days
+      @organization.update_attribute :cop_due_on, Date.current - 91.days
       @cop = generate_cop(@organization, format: 'grace_letter')
       @organization.reload
       assert_equal Organization::COP_STATE_NONCOMMUNICATING, @organization.cop_state
     end
 
     should "keep the company Non-communicating even if within grace period" do
-      @organization.update_attribute :cop_due_on, Date.today - 89.days
+      @organization.update_attribute :cop_due_on, Date.current - 89.days
       @cop = generate_cop(@organization, format: 'grace_letter')
       @organization.reload
       assert_equal Organization::COP_STATE_NONCOMMUNICATING, @organization.cop_state
@@ -199,7 +199,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       create(:principle_area)
       @cop_question = create(:cop_question)
       create_organization_and_user
-      @cop = @organization.communication_on_progresses.new(:title => 'Our COP', :ends_on => Date.today)
+      @cop = @organization.communication_on_progresses.new(:title => 'Our COP', :ends_on => Date.current)
       @cop.cop_type = 'basic'
       @cop.save
     end
@@ -215,7 +215,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
     setup do
       create_organization_and_user
       @cop = @organization.communication_on_progresses.new( :title => 'Our COP',
-                                                            :ends_on => Date.today)
+                                                            :ends_on => Date.current)
       @cop.cop_type = 'advanced'
 
       # 6 required criteria to be considered Active
@@ -250,7 +250,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       @organization.reload
       assert_equal true, @organization.active
       assert_equal Organization::COP_STATE_ACTIVE, @organization.cop_state
-      assert_equal Date.today, @organization.rejoined_on
+      assert_equal Date.current, @organization.rejoined_on
     end
   end
 
