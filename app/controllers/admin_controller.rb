@@ -51,7 +51,7 @@ class AdminController < ApplicationController
 
   # Denies access if the user belongs to a rejected organization
   def no_rejected_organizations_access
-    if current_contact.organization.rejected? and !current_contact.from_ungc?
+    if current_contact.organization&.rejected? and !current_contact.from_ungc?
       flash[:error] = "We're sorry, your organization's application was not approved. No edits or comments can be made."
       redirect_to admin_organization_path current_contact.organization.id
     end
