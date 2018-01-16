@@ -251,7 +251,7 @@ class Organization::LevelOfParticipationFormTest < ActiveSupport::TestCase
     # Then the engagement tier email is sent
     email = OrganizationMailer.deliveries.last
     assert_not_nil email
-    assert_match(/Engagement Tier 'Signatory Level' Chosen/, email.subject)
+    assert_match(/Engagement Tier 'Signatory Level' Selected/, email.subject)
   end
 
   private
