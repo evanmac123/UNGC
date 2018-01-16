@@ -46,7 +46,7 @@ module Crm
     end
 
     def destroy(type, id)
-      client.destroy!(type, id)
+      client.destroy!(type, id) if id
     end
 
     def soft_delete(type, id)

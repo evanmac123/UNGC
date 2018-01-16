@@ -8,7 +8,6 @@ module Crm
       when model.is_a?(Contact) then Crm::ContactSyncWorker
       when model.is_a?(Organization) then Crm::OrganizationSyncWorker
       when model.is_a?(LocalNetwork) then Crm::LocalNetworkSyncWorker
-      when model.is_a?(ActionPlatform::Platform) then Crm::ActionPlatformSyncWorker
       when model.is_a?(ActionPlatform::Subscription) then Crm::ActionPlatformSubscriptionSyncWorker
       else
         raise "No CRM Sync registered for #{model.class}"

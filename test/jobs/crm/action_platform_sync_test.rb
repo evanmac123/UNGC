@@ -1,17 +1,15 @@
 require "test_helper"
-require "sidekiq/testing"
 
 module Crm
   class ActionPlatformSyncTest < ActiveSupport::TestCase
 
+    
     setup do
-      Sidekiq::Testing.inline!
       Rails.configuration.x_enable_crm_synchronization = true
       TestAfterCommit.enabled = true
     end
 
     teardown do
-      Sidekiq::Testing.fake!
       Rails.configuration.x_enable_crm_synchronization = false
       TestAfterCommit.enabled = false
     end

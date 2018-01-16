@@ -5,7 +5,6 @@ module Crm
     def initialize(crm = Salesforce.new)
       @crm = crm
       @adapter = Adapter.new(@crm)
-      @platform_sync = ActionPlatformSync.new(@crm)
       @contact_sync = ContactSync.new(@crm)
       @organization_sync = OrganizationSync.new(@crm)
     end
@@ -103,7 +102,7 @@ module Crm
     end
 
     def sync_platform(subscription)
-      @platform_sync.create(subscription.platform)
+      ActionPlatformSync.new(subscription.platform, {}, @crm).create
     end
 
     def sync_contact(subscription)

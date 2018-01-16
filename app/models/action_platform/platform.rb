@@ -23,9 +23,9 @@ class ActionPlatform::Platform < ActiveRecord::Base
 
   scope :available_for_signup, -> { where(discontinued: false) }
 
-  after_commit Crm::CommitHooks.new(:create), on: :create
-  after_commit Crm::CommitHooks.new(:update), on: :update
-  after_commit Crm::CommitHooks.new(:destroy), on: :destroy
+  after_commit Crm::ActionPlatformSyncJob::CommitHook.new(:create), on: :create
+  after_commit Crm::ActionPlatformSyncJob::CommitHook.new(:update), on: :update
+  after_commit Crm::ActionPlatformSyncJob::CommitHook.new(:destroy), on: :destroy
 
   def self.with_subscription_counts
     joins('LEFT OUTER JOIN action_platform_subscriptions on platform_id = action_platform_platforms.id')
