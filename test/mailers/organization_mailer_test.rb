@@ -8,7 +8,7 @@ class OrganizationMailerTest < ActionMailer::TestCase
 
     mail = OrganizationMailer.level_of_participation_chosen(organization)
 
-    assert_includes mail.subject, "Engagement Tier 'Participant Level' Chosen By:"
+    assert_includes mail.subject, "Engagement Tier 'Participant Level' Selected By:"
     assert_includes mail.subject, organization.name
     assert_includes mail.to, organization.local_network.contacts.network_contacts.first.email,
                     'Email not send to Network Focal Point contact'
