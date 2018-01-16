@@ -36,11 +36,20 @@ module Crm
     def upsert_org(organization, changed = [])
       account = @crm.find_account(organization.id)
 
+      params = {}
+
+      if organization.local_network.present?
+        ln = @crm.find_local_network(organization.local_network.id)
+        if ln.present?
+          params["Local_Network_Name__c"] = ln.Id
+        end
+      end
+
       account_id = if account.nil?
-        params = @organization_adapter.to_crm_params(organization)
+        params.merge!(@organization_adapter.to_crm_params(organization))
         @crm.create('Account', params)
       else
-        params = @organization_adapter.to_crm_params(organization, changed)
+        params.merge!(@organization_adapter.to_crm_params(organization, changed))
         @crm.update('Account', account.Id, params)
         account.Id
       end

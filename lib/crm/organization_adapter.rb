@@ -1,5 +1,5 @@
 module Crm
-  class OrganizationAdapter
+  class OrganizationAdapter < AdapterBase
 
     def to_crm_params(organization, fields = [])
       # TODO Only send fields that have changed. If fields is non-empty, it indicates
