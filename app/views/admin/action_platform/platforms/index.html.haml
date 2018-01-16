@@ -10,23 +10,20 @@
       %button{ type: 'Submit', value: 'Search' }<
         Search
 
-  %table.dashboard_table#platforms_table
+  %table.dashboard_table.liquid#platforms_table
     %tr.normalized
       %th.last_updated
       %th.title
-      %th.slug
-      %th.starts_at
-      %th.ends_at
-      %th{colspan: 2} Subscriptions
+      %th.center{colspan: 2} Current Subscription Period
+      %th.center{colspan: 2} Subscriptions
       %th.actions
     %tr
       %th.last_updated Last Update
       %th.title Name
-      %th.slug Slug
       %th.starts_at Starts
       %th.ends_at Ends
       %th.number Active
-      %th.number Total
+      %th.number Pending
       %th.actions Actions
     = render :partial => 'admin/action_platform/platforms/platform', :collection => @platforms
   = will_paginate @platforms

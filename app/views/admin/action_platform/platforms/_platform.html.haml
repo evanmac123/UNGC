@@ -2,11 +2,10 @@
 %tr
   %td.iso-date= platform.updated_at
   %td= platform.name
-  %td= platform.slug
   %td.iso-date= platform.default_starts_at
   %td.iso-date= platform.default_ends_at
   %td.number= platform.active_subs
-  %td.number= platform.all_subs
+  %td.number= platform.pending_subs
   %td
     %ul.actions
       %li= link_to 'View details', admin_action_platform_platform_path(platform), class: 'preview', title: 'View details'

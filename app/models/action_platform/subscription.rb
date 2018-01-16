@@ -35,7 +35,6 @@ class ActionPlatform::Subscription < ActiveRecord::Base
     # "expires_on between '2018-01-01' and '2028-01-01'" -- far future end date allows efficent BETWEEN
     where(state: :approved, expires_on: on_date.strftime('%F')..(on_date + 10.years).strftime('%F'))
   }
-  scope :for_state, -> (state) { where(state: state) }
   scope :related_to_contact, -> (contact, only_mine=false) {
     return where(contact: contact) if only_mine
 
@@ -46,6 +45,11 @@ class ActionPlatform::Subscription < ActiveRecord::Base
   }
 
   validate :contact_is_from_organization
+
+  def self.for_state(state)
+    query = where(state: state)
+    state == 'approved' ? query.active_at : query
+  end
 
   state_machine initial: :pending do
     state :ce_engagement_review
@@ -94,6 +98,10 @@ class ActionPlatform::Subscription < ActiveRecord::Base
 
   def expired?
     Date.current > expires_on
+  end
+
+  def in_review?
+    %w[pending ce_engagement_review].include?(state)
   end
 
   def self.has_active_subscription?(contact)

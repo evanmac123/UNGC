@@ -36,6 +36,9 @@ class ActionPlatform::Platform < ActiveRecord::Base
                     "   AND starts_on <= CURRENT_DATE" \
                     "   AND expires_on >= CURRENT_DATE)" \
                 " as DECIMAL)), 0) as active_subs",
+                "coalesce(sum(cast(" \
+                    "action_platform_subscriptions.state IN ('pending', 'ce_engagement_review')" \
+                " as DECIMAL)), 0) as pending_subs",
                 'count(*) as all_subs')
   end
 

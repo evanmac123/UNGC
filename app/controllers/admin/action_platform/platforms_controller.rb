@@ -21,7 +21,11 @@ class Admin::ActionPlatform::PlatformsController < AdminController
 
     states = *(params[:state].blank? ? 'pending' : params[:state])
 
-    query_states = states == ['all'] ? ::ActionPlatform::Subscription::ALL_STATES : states - ['all']
+    query_states = if states == %w[approved]
+                     'approved'
+                   else
+                     states == %w[all] ? ::ActionPlatform::Subscription::ALL_STATES : states - %w[all]
+                   end
 
     subs_query = ::ActionPlatform::Subscription
                      .for_state(query_states)

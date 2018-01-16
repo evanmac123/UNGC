@@ -35,11 +35,12 @@
         %strong CE Manager:
         =organization.participant_manager_name
       %li
+        - starts_on = @subscription.in_review? ? @subscription.platform.default_starts_at : @subscription.starts_on
         = f.label :starts_on
-        = f.text_field :starts_on, class: 'datepicker iso-date', value: @subscription.starts_on || @subscription.platform.default_starts_at
-
+        = f.text_field :starts_on, class: 'datepicker iso-date', value: starts_on
+        - ends_on = @subscription.in_review? ? @subscription.platform.default_ends_at : @subscription.expires_on
         = f.label :expires_on
-        = f.text_field :expires_on, class: 'datepicker iso-date', value: @subscription.expires_on || @subscription.platform.default_ends_at
+        = f.text_field :expires_on, class: 'datepicker iso-date', value: ends_on
       %li
         %strong Created on:
         = @subscription.created_at
