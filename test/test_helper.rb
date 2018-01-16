@@ -82,8 +82,7 @@ class ActiveSupport::TestCase
 
   def create_organization_and_ceo
     create_organization_and_user
-    @organization_ceo = create(:contact, organization_id: @organization.id,
-                                       role_ids: [Role.ceo.id])
+    @organization_ceo = create(:ceo_contact, organization_id: @organization.id)
   end
 
   def create_approved_organization_and_user
@@ -109,8 +108,7 @@ class ActiveSupport::TestCase
   end
 
   def create_financial_contact
-    @financial_contact = create(:contact, organization_id: @organization.id,
-                                        role_ids: [Role.financial_contact.id])
+    @financial_contact = create(:contact, :financial_contact, organization_id: @organization.id)
   end
 
   def create_ungc_organization_and_user
@@ -127,9 +125,7 @@ class ActiveSupport::TestCase
   end
 
   def create_participant_manager
-    @participant_manager = create(:contact)
-    @participant_manager.roles << Role.participant_manager
-    @participant_manager
+    @participant_manager = create(:contact, :participant_manager)
   end
 
   def create_local_network_guest_organization
@@ -149,10 +145,9 @@ class ActiveSupport::TestCase
   end
 
   def create_local_network_with_report_recipient
-    @local_network = create(:local_network, name: "Canadian Local Network")
+    @local_network = create(:local_network, :with_report_recipient, name: "Canadian Local Network")
     @country = create(:country, name: "Canada", local_network: @local_network)
-    @network_contact = create(:contact, local_network_id: @local_network.id,
-                                      role_ids: [Role.network_report_recipient.id])
+    @network_contact = @local_network.contacts.first
   end
 
   def find_or_create_role(args={})

@@ -45,7 +45,11 @@ class SignInPolicy < SimpleDelegator
 
     def can_sign_in_as_others?
       # must be a network focal point or report recipient to sign in as others
-      @current.roles.filtered(:network_focal_point, :network_report_recipient).any?
+      @current.roles.filtered(:network_focal_point,
+                              :network_report_recipient,
+                              :network_executive_director,
+                              :network_board_chair,
+                              ).any?
     end
 
     private

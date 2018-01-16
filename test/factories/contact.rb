@@ -26,13 +26,7 @@ FactoryGirl.define do
       organization
 
       after(:build) do |contact, evaluator|
-        contact.roles << Role.contact_point
-      end
-    end
-
-    trait :network_representative do
-      after(:build) do |contact, evaluator|
-        contact.roles << Role.network_representative
+        contact.roles << (Role.contact_point || create(:role, :contact_point))
       end
     end
 
@@ -41,32 +35,74 @@ FactoryGirl.define do
 
       trait :integrity_team_member do
         after(:build) do |contact, evaluator|
-          contact.roles << Role.integrity_team_member
+          contact.roles << (Role.integrity_team_member || create(:role, :integrity_team_member))
         end
       end
 
       trait :integrity_manager do
         after(:build) do |contact, evaluator|
-          contact.roles << Role.integrity_manager
-        end
-      end
-
-      trait :network_focal_point do
-        after(:build) do |contact, evaluator|
-          contact.roles << Role.network_focal_point
+          contact.roles << (Role.integrity_manager || create(:role, :integrity_manager))
         end
       end
 
       trait :action_platform_manager do
         after(:build) do |contact, evaluator|
-          contact.roles << Role.action_platform_manager
+          contact.roles << (Role.action_platform_manager || create(:role, :action_platform_manager))
         end
       end
 
       trait :website_editor do
         after(:build) do |contact, evaluator|
-          contact.roles << Role.website_editor
+          contact.roles << (Role.website_editor || create(:role, :website_editor))
         end
+      end
+    end
+
+    factory :ceo_contact do
+      after(:build) do |contact, evaluator|
+        contact.roles << (Role.ceo || create(:role, :ceo))
+      end
+    end
+
+    trait :financial_contact do
+      after(:build) do |contact, evaluator|
+        contact.roles << (Role.financial_contact || create(:role, :financial_contact))
+      end
+    end
+
+    trait :participant_manager do
+      after(:build) do |contact, evaluator|
+        contact.roles << (Role.participant_manager || create(:role, :participant_manager))
+      end
+    end
+
+    trait :network_focal_point do
+      after(:build) do |contact, evaluator|
+        contact.roles << (Role.network_focal_point || create(:role, :network_focal_point))
+      end
+    end
+
+    trait :network_report_recipient do
+      after(:build) do |contact, evaluator|
+        contact.roles << (Role.network_report_recipient || create(:role, :network_report_recipient))
+      end
+    end
+
+    trait :network_executive_director do
+      after(:build) do |contact, evaluator|
+        contact.roles << (Role.network_executive_director || create(:role, :network_executive_director))
+      end
+    end
+
+    trait :network_board_chair do
+      after(:build) do |contact, evaluator|
+        contact.roles << (Role.network_board_chair || create(:role, :network_board_chair))
+      end
+    end
+
+    trait :network_guest_user do
+      after(:build) do |contact, evaluator|
+        contact.roles << (Role.network_guest_user || create(:role, :network_guest_user))
       end
     end
   end

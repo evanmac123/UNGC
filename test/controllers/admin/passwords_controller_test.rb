@@ -31,9 +31,8 @@ class Admin::PasswordsControllerTest < ActionController::TestCase
   context "given a user with no login information" do
     setup do
       create_organization_and_ceo
-      @financial_contact = create(:contact, :organization_id => @organization.id,
-                                          :email           => 'finance@example.com',
-                                          :role_ids        => [Role.financial_contact.id])
+      @financial_contact = create(:contact, :financial_contact, organization_id: @organization.id,
+                                  email: 'finance@example.com')
       @financial_contact.roles.delete(Role.contact_point)
       @financial_contact.username, @financial_contact.password = nil
       @financial_contact.save

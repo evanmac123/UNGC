@@ -36,7 +36,7 @@ class Admin::LocalNetworksTest < ActionDispatch::IntegrationTest
   test "another network contact does not see MOUs" do
     network1 = create(:local_network)
 
-    network2 = create(:local_network, :with_network_representative)
+    network2 = create(:local_network, :with_executive_director)
     other_network_contact = network2.contacts.first
 
     login_as(other_network_contact)

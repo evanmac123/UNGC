@@ -211,7 +211,7 @@ module Crm
     end
 
     test "converts billing street" do
-      ceo = create(:contact, roles: [Role.ceo],
+      ceo = create(:ceo_contact,
         address: "57517 Hills Spurs",
         address_more: "Suite 123")
       organization = create(:organization, contacts: [ceo])
@@ -221,29 +221,28 @@ module Crm
     end
 
     test "converts billing city" do
-      ceo = create(:contact, roles: [Role.ceo], city: "Toronto")
+      ceo = create(:ceo_contact, city: "Toronto")
       organization = create(:organization, contacts: [ceo])
       converted = convert_organization(organization)
       assert_equal "Toronto", converted.fetch("BillingCity")
     end
 
     test "converts billing state" do
-      ceo = create(:contact, roles: [Role.ceo], state: "OH")
+      ceo = create(:ceo_contact, state: "OH")
       organization = create(:organization, contacts: [ceo])
       converted = convert_organization(organization)
       assert_equal "OH", converted.fetch("BillingState")
     end
 
     test "converts billing postal code" do
-      ceo = create(:contact, roles: [Role.ceo], postal_code: "12345")
+      ceo = create(:ceo_contact, postal_code: "12345")
       organization = create(:organization, contacts: [ceo])
       converted = convert_organization(organization)
       assert_equal "12345", converted.fetch("BillingPostalCode")
     end
 
     test "truncates billing postal code" do
-      ceo = create(:contact, roles: [Role.ceo],
-        postal_code: "1234567890123456789012345")
+      ceo = create(:ceo_contact, postal_code: "1234567890123456789012345")
       organization = create(:organization, contacts: [ceo])
       converted = convert_organization(organization)
       assert_equal "12345678901234567...", converted.fetch("BillingPostalCode")
@@ -251,7 +250,7 @@ module Crm
 
     test "converts billing country" do
       country = create(:country, name: "Canada")
-      ceo = create(:contact, roles: [Role.ceo], country: country)
+      ceo = create(:ceo_contact, country: country)
       organization = create(:organization, contacts: [ceo])
       converted = convert_organization(organization)
       assert_equal "Canada", converted.fetch("BillingCountry")

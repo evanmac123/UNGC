@@ -8,11 +8,22 @@ FactoryGirl.define do
       end
     end
 
-    trait :with_network_representative do
+    trait :with_executive_director do
       after(:build) do |local_network, evaluator|
-        local_network.contacts << create(:contact, :network_representative)
+        local_network.contacts << create(:contact, :network_executive_director)
       end
     end
 
+    trait :with_board_chair do
+      after(:build) do |local_network, evaluator|
+        local_network.contacts << create(:contact, :network_board_chair)
+      end
+    end
+
+    trait :with_report_recipient do
+      after(:build) do |local_network, evaluator|
+        local_network.contacts << create(:contact, :network_report_recipient)
+      end
+    end
   end
 end

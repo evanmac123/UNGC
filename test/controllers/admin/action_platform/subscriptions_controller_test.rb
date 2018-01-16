@@ -42,9 +42,7 @@ class Admin::ActionPlatform::SubscriptionsControllerTest < ActionController::Tes
       country: country,
       cop_due_on: 3.months.from_now
     ))
-    contact = create(:contact,
-      organization: organization,
-      roles: [Role.financial_contact])
+    contact = create(:contact, :financial_contact, organization: organization)
     sign_in contact
     [organization, contact]
   end

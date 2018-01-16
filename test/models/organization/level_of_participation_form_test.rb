@@ -170,20 +170,18 @@ class Organization::LevelOfParticipationFormTest < ActiveSupport::TestCase
   test "only show contacts that are able to login as candidates for contact points" do
     # Given a contact from an organization that can't login
     organization = create(:organization)
-    ceo = create(:contact,
+    ceo = create(:ceo_contact,
       first_name: "Ceo",
       username: nil,
       password: nil,
-      organization: organization,
-      roles: [Role.ceo])
+      organization: organization)
 
     # And a contact point who can login
-    cp = create(:contact,
+    cp = create(:contact_point,
       first_name: "Cp",
       username: "alice123",
       password: "Passw0rd",
-      organization: organization,
-      roles: [Role.contact_point])
+      organization: organization)
 
     # When we ask for the list of contacts
     form = Organization::LevelOfParticipationForm.new(organization: organization)

@@ -51,8 +51,7 @@ module ActionPlatform
     private
 
     def create_financial_contact(organization)
-      create(:contact, organization: organization,
-             roles: [Role.financial_contact])
+      create(:contact, :financial_contact, organization: organization)
     end
 
     # it publishes an event

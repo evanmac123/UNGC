@@ -151,7 +151,6 @@ class Contact < ActiveRecord::Base
   def self.network_roles
     roles = [
         Role.network_focal_point,
-        Role.network_representative,
         Role.network_report_recipient,
     ].freeze
 
@@ -159,7 +158,14 @@ class Contact < ActiveRecord::Base
   end
 
   def self.network_contacts
-    for_roles(Role.network_focal_point)
+    contacts = for_roles(Role.network_focal_point)
+    contacts.any? ? contacts : for_roles(Role.network_executive_director)
+  end
+
+  def self.network_report_recipients
+    recipients = for_roles(Role.network_report_recipient)
+    recipients = for_roles(Role.network_executive_director) unless recipients.exists?
+    recipients.exists? ? recipients : none
   end
 
   def self.network_regional_managers

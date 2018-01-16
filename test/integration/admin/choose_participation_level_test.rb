@@ -298,9 +298,7 @@ class Admin::ChooseParticipationLevelTest < ActionDispatch::IntegrationTest
   end
 
   def create_financial_contact(organization)
-    create(:contact,
-      organization: organization,
-      roles: [Role.financial_contact])
+    create(:contact, :financial_contact, organization: organization)
   end
 
   def find_level_of_participation

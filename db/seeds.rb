@@ -7,6 +7,8 @@ roles = [
   "Network Contact Person",
   "Local Network Guest",
   "Local Network Manager",
+  "Local Network Executive Director",
+  "Local Network Board Chair",
   "Network Report Recipient",
   "Network Representative",
   "Annual Survey Contact",

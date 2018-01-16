@@ -98,20 +98,18 @@ class OrganizationMailerPreview < ActionMailer::Preview
   private
 
   def create_ceo
-    FactoryGirl.create(:contact, organization: organization,
-                       roles: [Role.ceo])
+    FactoryGirl.create(:ceo_contact, organization: organization)
   end
 
   def create_contact_point
     organization
         .update_columns(level_of_participation: Organization.level_of_participations[:participant_level])
-    FactoryGirl.create(:contact, organization: organization,
+    FactoryGirl.create(:contact_point, organization: organization,
                        roles: [Role.contact_point])
   end
 
   def create_network_report_recipient
-    FactoryGirl.create(:contact, local_network: local_network,
-                       roles: [Role.network_report_recipient])
+    FactoryGirl.create(:contact_point, local_network: local_network)
   end
 
   def create_staff

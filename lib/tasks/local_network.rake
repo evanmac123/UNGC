@@ -90,4 +90,14 @@ namespace :local_network do
     ap problems: problems
   end
 
+  task migrate_network_representatives: :environment do
+    ActiveRecord::Base.transaction do
+      r = Role.find_by(name: 'Network Representative')
+      representatives = Contact.for_roles(r)
+      representatives.each do |c|
+        c.roles.destroy(r)
+        c.roles.create(id: Role.general_contact.id)
+      end
+    end
+  end
 end

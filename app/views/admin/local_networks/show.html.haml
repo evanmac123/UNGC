@@ -44,10 +44,10 @@
 
       %dl.left_column
         %h3 Contacts
-        %dt.first Representative
-        %dd.first= render :partial => 'contact_overview', collection: @local_network.contacts.for_roles(Role.network_representative)
+        %dt.first Executive Director
+        %dd.first= render partial: 'contact_overview', collection: @local_network.contacts.for_roles(Role.network_executive_director)
         %dt Contact Person
-        %dd= render :partial => 'contact_overview', :collection => @local_network.contacts.network_contacts
+        %dd= render partial: 'contact_overview', collection: @local_network.contacts.network_contacts
 
     %dl.left_column
       %h3 Online
@@ -86,7 +86,6 @@
     %dl.left_column{:style => 'width: 165px; margin-right: 150px;'}
       %dt.title Annual Meeting Appointments
       %dd.title &nbsp;
-      %dt{:class => "first #{show_check(@local_network.sg_selected_appointees_local_network_representative)}"} Network Representative
       %dt{:class => show_check(@local_network.sg_selected_appointees_steering_committee)} Steering Committee
       %dt{:class => show_check(@local_network.sg_selected_appointees_contact_point)} Contact Person
 

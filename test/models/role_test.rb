@@ -3,6 +3,7 @@ require 'test_helper'
 class RoleTest < ActiveSupport::TestCase
   should validate_presence_of :name
   should validate_presence_of :description
+  should validate_length_of(:description).is_at_most(255)
   should belong_to :initiative
 
   def setup_organizations_and_users
@@ -14,14 +15,15 @@ class RoleTest < ActiveSupport::TestCase
   end
 
   test "self.login_roles should be expected" do
-    assert_equal [
+    assert_same_elements [
           Role.contact_point,
           Role.network_report_recipient,
           Role.network_focal_point,
+          Role.network_executive_director,
+          Role.network_board_chair,
           Role.network_guest_user,
-          Role.network_representative,
           Role.general_contact,
-      ].select(&:id).sort, ::Role.login_roles.select(&:id).sort, "Loging roles don't match"
+      ], ::Role.login_roles, "Login roles don't match"
   end
 
   context "given two Roles" do
@@ -92,15 +94,17 @@ class RoleTest < ActiveSupport::TestCase
 
   context "given a Local Network" do
     setup do
-      create_local_network_with_report_recipient
-      @roles = Role.visible_to(@network_contact)
+      local_network = create(:local_network, :with_executive_director)
+      @roles = Role.visible_to(local_network.contacts.first)
     end
 
-    should "have focal, rep, report, monthly report and general role options" do
+    should "have focal, report, monthly report and general role options" do
       assert_same_elements [ Role.network_focal_point,
-                             Role.network_representative,
+                             Role.network_executive_director,
+                             Role.network_board_chair,
                              Role.network_report_recipient,
-                             Role.general_contact ], @roles
+                             Role.general_contact,
+                           ].map(&:name), @roles.pluck(:name)
 
     end
   end

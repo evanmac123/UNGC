@@ -33,15 +33,13 @@ class LocalNetworkPage < SimpleDelegator
 
   def sidebar_widgets
     OpenStruct.new({
-      contact: network_contact,
-      network_representative: network_representative,
       calls_to_action: [
         {
           label: 'Share your Story',
           url: '/take-action/action/share-story'
         }
       ]
-    })
+    }.merge(public_contacts))
   end
 
   def participants
@@ -62,22 +60,36 @@ class LocalNetworkPage < SimpleDelegator
 
   private
 
-    def network_contact
-      contact = local_network.contacts.joins(:roles).where("roles.name = ?", Role::FILTERS[:network_focal_point]).first
-      return nil unless contact
+    def public_contacts
+      executive_director = local_network.contacts.for_roles(Role.network_executive_director).first
+      contact = local_network.contacts.network_contacts.order(:last_name, :first_name, :id).first
+
+      executive_director = nil if executive_director&.id == contact&.id
+
+      if executive_director && contact.nil?
+        contact = executive_director
+        executive_director = nil
+      end
+
+      executive_director_data = {
+          name: executive_director.full_name_with_title,
+          title: executive_director.job_title,
+      } if executive_director
+
       {
+          executive_director: executive_director_data,
+          contact: as_sidebar_contact(contact)
+      }
+    end
+
+  def as_sidebar_contact(contact)
+    {
         name: contact.full_name_with_title,
         title: contact.job_title,
         email: contact.email,
         phone: contact.phone
-      }
-    end
-
-    def network_representative
-      contact = local_network.contacts.joins(:roles).where("roles.name = ?", Role::FILTERS[:network_representative]).first
-      return nil unless contact
-      contact.try(:full_name_with_title)
-    end
+    } unless contact.nil?
+  end
 
     def participants_by_sector
       sectors = Sector

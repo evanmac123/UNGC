@@ -1,0 +1,15 @@
+- if contact ||= nil
+  - has_photo = contact[:photo].present?
+  %article{class: "widget widget-contact#{" widget-contact-has-photo" if has_photo}"}
+    %h1 Contact
+    = image_tag(contact[:photo].url, class: 'photo') if has_photo
+    %address
+      = content_tag(:h2, contact[:name], class: 'name') if contact[:name]
+      = content_tag(:p, contact[:title], class: 'title') if contact[:title]
+      = content_tag(:p, mail_to(contact[:email]), class: 'email', title: "Email #{contact[:email]}" ) if contact[:email]
+      - if phone = contact[:phone]
+        %p.phone= link_to phone, "tel:#{phone.gsub(/[^0-9]/, '')}"
+    - if network_representative ||= nil
+      .representative
+        %h2 Representative
+        %p= network_representative

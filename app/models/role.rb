@@ -21,16 +21,19 @@ class Role < ActiveRecord::Base
 
   before_update :check_for_filtered_name_change
 
+  validates_length_of :description, maximum: 255
+
   FILTERS = {
     ceo: 'Highest Level Executive',
     contact_point: 'Contact Point',
     financial_contact: 'Financial Contact',
     general_contact: 'General Contact',
     network_focal_point: 'Network Contact Person',
+    network_executive_director: 'Network Executive Director',
+    network_board_chair: 'Local Network Board Chair',
     network_guest_user: 'Local Network Guest',
     network_regional_manager: 'Local Network Manager',
     network_report_recipient: 'Network Report Recipient',
-    network_representative: 'Network Representative',
     survey_contact: 'Annual Survey Contact',
     website_editor: 'Website Editor',
     participant_manager: 'Participant Relationship Manager',
@@ -44,19 +47,19 @@ class Role < ActiveRecord::Base
   def self.visible_to(user, current_contact=nil)
     case user.user_type
       when Contact::TYPE_ORGANIZATION
-        role_ids = *Role.contact_point.id
+        role_ids = *contact_point.id
 
         # give option to check Highlest Level Executive if no CEO has been assigned
-        role_ids = [*role_ids, Role.ceo] if user.is?(Role.ceo) || !user.organization.contacts.ceos.exists?
+        role_ids = [*role_ids, ceo] if user.is?(ceo) || !user.organization.contacts.ceos.exists?
 
         # only editable by Global Compact staff
-        role_ids = [*role_ids, *[Role.ceo, Role.survey_contact]] if current_contact&.from_ungc?
+        role_ids = [*role_ids, *[ceo, survey_contact]] if current_contact&.from_ungc?
 
         # only business organizations have a financial contact
-        role_ids = [*role_ids, Role.financial_contact.id] if user.organization.business_entity?
+        role_ids = [*role_ids, financial_contact.id] if user.organization.business_entity?
 
         # if the organization signed an initiative, then add the initiative's role, if available
-        role_ids << Role.where(initiative_id: user.organization.initiative_ids).pluck(:id)
+        role_ids << where(initiative_id: user.organization.initiative_ids).pluck(:id)
 
         where(id: role_ids)
       when Contact::TYPE_UNGC
@@ -64,7 +67,7 @@ class Role < ActiveRecord::Base
       when Contact::TYPE_NETWORK
         where(id: type_contact_network_roles)
       when Contact::TYPE_NETWORK_GUEST
-        where(id: Role.network_guest_user)
+        where(id: network_guest_user)
       when Contact::TYPE_REGIONAL
         where(id: type_contact_network_roles)
       else
@@ -74,8 +77,8 @@ class Role < ActiveRecord::Base
 
   def self.network_roles_public
     @_network_roles_public ||= [
-        Role.network_focal_point,
-        Role.network_representative,
+        network_focal_point,
+        network_executive_director,
     ]
   end
 
@@ -94,8 +97,9 @@ class Role < ActiveRecord::Base
 
   def self.type_contact_network_roles
     @_type_contact_network_roles ||= [
+        network_executive_director,
+        network_board_chair,
         network_focal_point,
-        network_representative,
         network_report_recipient,
         general_contact,
     ]
@@ -103,12 +107,16 @@ class Role < ActiveRecord::Base
 
   # Local Network roles
 
-  def self.network_focal_point
-    @_network_focal_point ||= find_by(name: FILTERS[:network_focal_point])
+  def self.network_executive_director
+    find_by(name: FILTERS[:network_executive_director])
   end
 
-  def self.network_representative
-    @_network_representative ||= find_by(name: FILTERS[:network_representative])
+  def self.network_board_chair
+    @_network_board_chair ||= find_by(name: FILTERS[:network_board_chair])
+  end
+
+  def self.network_focal_point
+    @_network_focal_point ||= find_by(name: FILTERS[:network_focal_point])
   end
 
   def self.network_report_recipient
@@ -120,7 +128,12 @@ class Role < ActiveRecord::Base
   end
 
   def self.network_contacts
-    [Role.network_representative, Role.network_focal_point, Role.network_report_recipient]
+    [
+        network_focal_point,
+        network_report_recipient,
+        network_executive_director,
+        network_board_chair,
+    ]
   end
 
   # Participant organization roles
@@ -181,12 +194,13 @@ class Role < ActiveRecord::Base
 
   def self.login_roles
     [
-        Role.contact_point,
-        Role.network_report_recipient,
-        Role.network_focal_point,
-        Role.network_guest_user,
-        Role.network_representative,
-        Role.general_contact,
+        contact_point,
+        network_report_recipient,
+        network_executive_director,
+        network_board_chair,
+        network_focal_point,
+        network_guest_user,
+        general_contact,
     ].freeze
   end
 

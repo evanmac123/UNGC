@@ -442,7 +442,7 @@ class Organization < ActiveRecord::Base
   end
 
   def network_report_recipients
-    self.country&.local_network&.contacts&.for_roles(Role.network_report_recipient) || Contact.none
+    country&.local_network&.contacts&.network_report_recipients || Contact.none
   end
 
   def network_contact_person

@@ -187,7 +187,7 @@ module AdminHelper
   end
 
   def local_network_and_contact_exists?
-    @organization.local_network_name.present? && @organization.network_contact_person.present?
+    @organization.network_contact_person.present?
   end
 
   def link_to_getting_started

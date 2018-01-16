@@ -11,7 +11,6 @@ class LocalNetworkTest < ActiveSupport::TestCase
     assert_not local_network.valid?
   end
 
-
   context 'state lists' do
     should 'be complete' do
       states = [
@@ -51,6 +50,50 @@ class LocalNetworkTest < ActiveSupport::TestCase
       assert_includes result, advanced.id
       assert_includes result, regional.id
       assert_not_includes result, inactive.id
+    end
+  end
+
+  context 'contact person' do
+    should "default to executive director" do
+      network = create(:local_network, :with_executive_director)
+
+      director = network.contacts
+
+      assert_equal network.contacts.count, 1
+      assert director.first.is?(Role.network_executive_director)
+      assert_equal network.contacts.network_contacts, director
+    end
+
+    should "should be a contact person" do
+      network = create(:local_network, :with_executive_director, :with_network_contact)
+
+      network_contact = network.contacts.for_roles(Role.network_focal_point)
+
+      assert_equal network.contacts.count, 2
+      assert network_contact.first.is?(Role.network_focal_point)
+      assert_equal network.contacts.network_contacts, network_contact
+    end
+  end
+
+  context 'report recipient' do
+    should "default to executive director" do
+      network = create(:local_network, :with_executive_director)
+
+      director = network.contacts
+
+      assert_equal network.contacts.count, 1
+      assert director.first.is?(Role.network_executive_director)
+      assert_equal network.contacts.network_report_recipients, director
+    end
+
+    should "should be a report recipient" do
+      network = create(:local_network, :with_executive_director, :with_network_contact, :with_report_recipient)
+
+      recipient = network.contacts.for_roles(Role.network_report_recipient)
+
+      assert_equal network.contacts.count, 3
+      assert recipient.first.is?(Role.network_report_recipient)
+      assert_equal network.contacts.network_report_recipients, recipient
     end
   end
 end
