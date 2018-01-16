@@ -137,6 +137,6 @@ class OrganizationMailer < ActionMailer::Base
       to: organization.local_network.contacts.network_contacts.collect(&:email_recipient),
       bcc: ['archive@unglobalcompact.org'],
       from: 'localnetworks@unglobalcompact.org',
-      subject: "Engagement Tier '#{@organization&.level_of_participation&.humanize.titleize}' Chosen By: #{organization.name}"
+      subject: "Engagement Tier '#{@organization&.level_of_participation&.humanize.titleize}' Selected By: #{organization.name}"
   end
 end
