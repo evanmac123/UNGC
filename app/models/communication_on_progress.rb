@@ -334,8 +334,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
 
   def questions_missing_answers
-    CopQuestion.joins(:cop_attributes)
-      .where('cop_attributes.id in (?)', empty_answers.map(&:cop_attribute_id))
+    CopQuestion.where(id: empty_answers.map(&:question_id))
   end
 
   def questions_missing_answers?
@@ -349,11 +348,11 @@ class CommunicationOnProgress < ActiveRecord::Base
   def empty_answers
     # find all questions where all the answered values add up to 0
     cop_answers
-      .select('cop_attribute_id, sum(cop_answers.value) as total')
+      .select('cop_questions.id as question_id, sum(cop_answers.value) as total')
       .joins(cop_attribute: [:cop_question])
       .where('cop_questions.initiative_id is null')
       .where('cop_questions.grouping not in (?)', CopQuestion.exempted_groupings)
-      .group('cop_attribute_id, cop_questions.id')
+      .group('cop_questions.id')
       .having('sum(cop_answers.value) = 0')
   end
 
