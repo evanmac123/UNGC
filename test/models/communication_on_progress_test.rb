@@ -3,6 +3,8 @@ require 'test_helper'
 class CommunicationOnProgressTest < ActiveSupport::TestCase
   should validate_presence_of :organization_id
   should validate_presence_of :title
+  should validate_length_of(:title).is_at_most(255)
+  should validate_length_of(:contact_info).is_at_most(255)
   should belong_to :organization
   should have_and_belong_to_many :languages
   should have_and_belong_to_many :countries

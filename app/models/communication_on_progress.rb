@@ -48,6 +48,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   validates_presence_of :organization_id, :title
   validates_associated :cop_links
   validates_associated :cop_files
+  validates_length_of :title, :contact_info, maximum: 255
 
   belongs_to :organization
   belongs_to :score, :class_name => 'CopScore', :foreign_key => :cop_score_id
