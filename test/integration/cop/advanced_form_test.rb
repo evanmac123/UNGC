@@ -41,9 +41,11 @@ module COP
       form.format = 'Stand alone document'
       form.start_date 'June', '2016'
       form.end_date 'June', '2017'
-      form.include_continued_support_statement = false
+      form.include_continued_support_statement = true
       form.references :human_rights, true
-      form.references :labour, false
+      form.references :labour, true
+      form.references :environment, true
+      form.references :anti_corruption, true
       form.include_measurement = true
       form.method_shared_with_stakeholders = 'COP is easily accessible to all interested parties (e.g. via its website)'
 
@@ -60,13 +62,23 @@ module COP
       assert_equal 'standalone', form.format
       assert_equal Date.new(2016, 6, 1), form.starts_on
       assert_equal Date.new(2017, 6, 1), form.ends_on
-      assert form.include_continued_support_statement? false
+      assert form.include_continued_support_statement? true
       assert_equal true, form.references?(:human_rights)
-      assert_equal false, form.references?(:labour)
-      assert_nil form.references?(:environment)
-      assert_nil form.references?(:anti_corruption)
+      assert_equal true, form.references?(:labour)
+      assert_equal true, form.references?(:environment)
+      assert_equal true, form.references?(:anti_corruption)
       assert form.include_measurement?
       assert_equal 'all_access', form.method_shared_with_stakeholders
+
+      # Finish answering at least one option from each question in the questionnaire
+      form.check 'verification option'
+      form.check 'strategy option'
+      form.check 'un_goals option'
+      form.check 'governance option'
+      form.check "labour additional option"
+      form.check "human rights additional option"
+      form.check "environment additional option"
+      form.check "anti-corruption additional option"
 
       # validations are run on Submit
       form.submit
@@ -82,13 +94,16 @@ module COP
       detail_page = form.submit
       assert detail_page.has_published_notice?
 
+      missing_questions = all(:css, ".unselected_question").map(&:text)
+      assert_empty missing_questions
+
       # Differentiation level tab
-      assert_equal 'GC Learner Platform', detail_page.platform
-      refute detail_page.include_continued_support_statement?
+      assert_equal 'GC Advanced', detail_page.platform
+      assert detail_page.include_continued_support_statement?
       assert detail_page.references? :human_rights
-      refute detail_page.references? :labour
-      refute detail_page.references? :environment
-      refute detail_page.references? :anti_corruption
+      assert detail_page.references? :labour
+      assert detail_page.references? :environment
+      assert detail_page.references? :anti_corruption
       assert detail_page.include_measurement?
 
       # Detailed results tab
@@ -109,6 +124,7 @@ module COP
 
       # check the dashboard index for a new entry
       dashboard.visit
+
       # The organization's status is now active
       assert_equal dashboard.organization_status, 'Active'
 

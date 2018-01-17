@@ -89,7 +89,7 @@ module TestPage
     end
 
     def free_text(id, text)
-      fill_in id, with: text, visible: false
+      fill_in id, with: text, visible: :all
     end
 
     def submit

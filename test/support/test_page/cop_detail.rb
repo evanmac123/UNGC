@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 module TestPage
   class CopDetail < Base
 
@@ -19,7 +20,7 @@ module TestPage
     end
 
     def platform
-      find('#differentiation h3 span[style=""]').text.gsub('►', '').chop
+      find('#differentiation h3 span[style=""]').text.gsub('►', '').strip
     end
 
     def positive_assessment_items

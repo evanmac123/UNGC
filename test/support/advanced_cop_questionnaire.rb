@@ -17,15 +17,16 @@ class AdvancedCopQuestionnaire
 
   # these questions are hard coded to 2013 for some reason.
   def create_question_group(grouping, area = nil)
+    area_prefix = area.nil? ? "" : "#{area.name.downcase} "
     question = create(:cop_question,
                       grouping: grouping,
                       year: 2013,
                       principle_area: area,
-                      text: "#{grouping} question")
+                      text: "#{area_prefix}#{grouping} question")
     create(:cop_attribute, cop_question: question,
-           open: true, text: "#{grouping} open")
+           open: true, text: "#{area_prefix}#{grouping} open")
     create(:cop_attribute, cop_question: question,
-           open: false, text: "#{grouping} option")
+           open: false, text: "#{area_prefix}#{grouping} option")
   end
 
   def question_count
