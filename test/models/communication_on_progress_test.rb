@@ -305,6 +305,49 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
     assert cop.answered_all_questions?, unanswered_questions(cop.empty_answers)
   end
 
+  test "A fully answered COP" do
+    cop = create(:communication_on_progress)
+
+    create_list(:cop_question, 2).map do |question|
+      create_list(:cop_attribute, 2).map do |attribute|
+        create(:cop_answer, communication_on_progress: cop, value: true)
+      end
+    end
+
+    assert_empty cop.questions_missing_answers.map(&:id)
+    assert cop.answered_all_questions?, "Expected all questions to have been answered"
+  end
+
+  test "A COP missing answers" do
+    organization = create(:business)
+
+    cop = CommunicationOnProgress.create!(
+      title: "COP",
+      organization: organization,
+    )
+
+    # A question where all answers are given
+    fully_answered = create(:cop_question, text: "fully answered")
+    a, b = create_list(:cop_attribute, 2, cop_question: fully_answered)
+    create(:cop_answer, communication_on_progress: cop, cop_attribute: a, value: true)
+    create(:cop_answer, communication_on_progress: cop, cop_attribute: b, text: "an answer")
+
+    # A question with 1 answer given
+    partially_answered = create(:cop_question, text: "partially answered")
+    c, d = create_list(:cop_attribute, 2, cop_question: partially_answered)
+    create(:cop_answer, communication_on_progress: cop, cop_attribute: c, text: "an answer")
+    create(:cop_answer, communication_on_progress: cop, cop_attribute: d, value: false)
+
+    # A question with no answers given
+    unanswered = create(:cop_question, text: "unanswered")
+    e, f = create_list(:cop_attribute, 2, cop_question: unanswered)
+    create(:cop_answer, communication_on_progress: cop, cop_attribute: e, value: false)
+    create(:cop_answer, communication_on_progress: cop, cop_attribute: f, value: false)
+
+    assert_equal ["partially answered", "unanswered"], cop.questions_missing_answers.map(&:text)
+    refute cop.answered_all_questions?, "Expected some answers to be missing"
+  end
+
   private
 
   def unanswered_questions(empty_answers)
