@@ -30,6 +30,12 @@ FactoryGirl.define do
       end
     end
 
+    trait :network_representative do
+      after(:build) do |contact, evaluator|
+        contact.roles << Role.network_representative
+      end
+    end
+
     factory :staff_contact do
       organization { Organization.find_by!(name: DEFAULTS[:ungc_organization_name]) }
 

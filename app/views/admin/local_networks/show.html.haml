@@ -19,7 +19,8 @@
     %li <a href="#fees_contributions">Fees</a>
     %li <a href="#contribution_descriptions">Pledges and Invoices</a>
     %li <a href="#integrity_measures">Integrity Measures</a>
-    %li <a href="#mous">MOUs</a>
+    - if current_contact_can_edit_network?
+      %li <a href="#mous">MOUs</a>
     %li <a href="#annual_reports">Annual Reports</a>
 
   - if current_contact_can_edit_network?
