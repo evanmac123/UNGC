@@ -124,6 +124,19 @@ class BusinessOrganizationSignup < OrganizationSignup
     organization.errors.empty?
   end
 
+  def valid_action_platform_subscriptions?
+    errors = Array(@ap_subscriptions).map do |subscription|
+      if subscription.contact_id.blank?
+        organization.errors.add "Action Platform contact", "must be selected"
+      end
+
+      if subscription.platform_id.blank?
+        organization.errors.add "Action Platform", "must be chosen"
+      end
+    end
+    errors.empty?
+  end
+
   def action_platforms
     ActionPlatform::Platform.available_for_signup.select(:id, :name, :slug, :description)
   end

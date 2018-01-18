@@ -81,7 +81,7 @@ class SignupController < ApplicationController
       store_organization_signup
     end
 
-    unless @signup.valid_participant_level?
+    if !@signup.valid_participant_level? || !@signup.valid_action_platform_subscriptions?
       flash[:error] = @signup.error_messages
       redirect_to organization_step4_path
     end
