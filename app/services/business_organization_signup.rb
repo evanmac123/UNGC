@@ -125,7 +125,7 @@ class BusinessOrganizationSignup < OrganizationSignup
   end
 
   def valid_action_platform_subscriptions?
-    errors = Array(@ap_subscriptions).map do |subscription|
+    Array(@ap_subscriptions).each do |subscription|
       if subscription.contact_id.blank?
         organization.errors.add "Action Platform contact", "must be selected"
       end
@@ -134,7 +134,7 @@ class BusinessOrganizationSignup < OrganizationSignup
         organization.errors.add "Action Platform", "must be chosen"
       end
     end
-    errors.empty?
+    organization.errors.empty?
   end
 
   def action_platforms
