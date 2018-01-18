@@ -23,4 +23,36 @@ class NewsListFormTest < ActiveSupport::TestCase
     end
   end
 
+  [
+    [nil, nil],
+    ["", nil],
+    [" ", nil],
+    ["]", nil],
+    ["junk", nil],
+    [Date.current, Date.current],
+    ["2017-01-01", Date.new(2017, 1, 1)]
+  ].each do |(input, expected)|
+
+    test "start_date with #{input}" do
+      form = NewsListForm.new(start_date: input)
+      assert_parses input, expected, form.start_date
+    end
+
+    test "end_date with #{input}" do
+      form = NewsListForm.new(end_date: input)
+      assert_parses input, expected, form.end_date
+    end
+
+  end
+
+  private
+
+  def assert_parses(input, expected, actual)
+    if expected.nil?
+      assert_nil actual, "Expected #{input.inspect} to convert to nil, but was #{actual.inspect}"
+    else
+      assert_equal expected, actual, "Expected #{input.inspect} to convert to #{expected.inspect} but was #{actual.inspect}"
+    end
+  end
+
 end

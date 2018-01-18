@@ -24,7 +24,25 @@ class NewsListForm < FilterableForm
     search_scope.search '', options
   end
 
+  def start_date=(value)
+    sanitized = sanitize(value)
+    super(sanitized) unless sanitized.blank?
+  end
+
+  def end_date=(value)
+    sanitized = sanitize(value)
+    super(sanitized) unless sanitized.blank?
+  end
+
   private
+
+  def sanitize(input)
+    if input.respond_to?(:gsub)
+      input.gsub(/[^\d-]/, "")
+    else
+      input
+    end
+  end
 
   def options
     {
