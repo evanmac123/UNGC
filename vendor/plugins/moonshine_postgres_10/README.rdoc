@@ -1,0 +1,21 @@
+= Moonshine Postgres10
+
+=== A plugin for Moonshine[http://github.com/railsmachine/moonshine]
+
+A plugin for installing and managing postgres_10.
+
+=== Instructions
+
+* <tt>script/plugin install git://github.com/railsmachine/moonshine_postgres_10.git</tt>
+* Configure settings if needed
+    configure(:postgresql => {:version => '10.2'})
+* Add the following line near the top of your manifest:
+    include Moonshine::Postgres10
+    
+As long as you're using one of the standard moonshine stacks, like <code>:default_stack</code>, then the postgres 10 recipes will override the default Postgres recipes and install version 10.x instead.
+
+Moonshine Postgres10 enables SSL connections between the client and server. The
+server requires an SSL certificate and key to be placed at
+<code>$PGDATA/server.crt</cody> and <code>$PGDATA/server.key</code> respectively.
+The {PostgreSQL docs}(http://www.postgresql.org/docs/10.1/static/ssl-tcp.html)
+describe the steps to create a self-signed certificate.

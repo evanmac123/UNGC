@@ -99,6 +99,30 @@
     net_read_timeout = 1000
     net_write_timeout = 1000
 
+:postgresql:
+  :version: '10'
+  :hot_standby: 'on'
+  :wal_level: hot_standby
+  :max_wal_senders: 5
+  :max_wal_segments: 32
+  :archive_mode: 'on'
+  :archive_command: /var/lib/postgresql/wal_archive.sh "%p" "%f"
+  :checkpoint_timeout: 15min
+  :checkpoint_completion_target: 0.9
+  :log_destination: syslog
+  :logging_collector: 'on'
+  :log_lock_waits: 'on'
+  :log_temp_files: 100kB
+  :log_checkpoints: 'on'
+  :log_connections: 'on'
+  :log_disconnections: 'on'
+  :replication_username: ungc_replication
+  :track_counts: 'on' # needed for scout monitoring
+  :track_activities: 'on' # needed for scout monitoring
+  :work_mem: '256MB'
+  :shared_preload_libraries: auto_explain
+  :auto_explain_log_min_duration: 1s
+
 :sphinx:
   :version: 2.2.11
   :sphinx_yml: sphinx.yml

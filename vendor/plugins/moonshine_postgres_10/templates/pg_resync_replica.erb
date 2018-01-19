@@ -1,0 +1,131 @@
+#!/usr/bin/env bash
+
+# Simple script to re-sync a PITR replica
+# Version 1.6.  Last updated 2011-02-17.
+
+# Copyright (c) 2010-2011, PostgreSQL, Experts, Inc.
+# Licensed under The PostgreSQL License; see
+# http://www.postgresql.org/about/licence
+# or the end of this file for details.
+
+# grab the config variables                                                                                                                       
+. /var/lib/postgresql/scripts/pitr-replication.conf
+
+# SSH and SSH_OPT are defined in the config file above                                                                                            
+export PGDATA PGUSER PGOPTIONS
+
+if [ ${USE_SSH_SYNC} == yes ]; then
+  export RSYNC_RSH="${SSH} ${SSH_OPT}"
+  DB_LOCATION="${MASTER}:${PGDATA}/"
+else
+  DB_LOCATION="${MASTER}::${RSYNC_SERVER}"
+  export RSYNC_PASSWORD="${RSYNC_PASS}"
+fi
+
+echo "Rsync opts"
+echo $RSYNC_RSH
+
+function catch_trap
+{
+  echo "Killed! Stopping backup mode on master"
+  ${PSQL} -c "SELECT pg_stop_backup();" -h ${MASTER} -U ${PGUSER} postgres
+  trap - INT TERM EXIT
+  exit 1
+}
+
+trap catch_trap INT TERM EXIT
+
+if [ -f ${RECOVERYCONFDIR}/recovery.conf -o -f ${RECOVERYCONFDIR}/recovery.done ]; then
+  echo 'Looks like this is the replica, continuing.'
+else
+  echo 'No recovery.conf or recovery.done file.'
+  echo 'This might not be the replica.'
+  echo 'You should only run this script on the replica!'
+  exit 1
+fi
+
+# Remove the trigger file if it exists                                                                                                            
+if [ -f ${BRINGUP} ]; then
+  rm -f ${BRINGUP}
+fi
+
+# Stop postgres if running 
+if [ $OS = 'Joyent' ] && [ $USE_SVCADM ]; then
+  /usr/sbin/svcadm disable postgresql:pg90
+else
+  ${PGCTL} -m immediate ${PGCTLOPTIONS} stop 2> /dev/null
+fi
+
+# Did we stop postgres successfully?
+if ps -ef | grep [p]ostgres: > /dev/null 2>&1; then
+  echo "Shutdown failed.  Aborting."
+  exit 1
+fi
+
+echo 'Starting backup'
+${PSQL} -c "SELECT pg_start_backup('`/bin/date +%Y%m%d`');" -h ${MASTER} -U ${PGUSER} postgres
+
+echo 'Fetching filesystem image'
+echo "${RSYNC} -avP ${RSYNC_OPT} --exclude postmaster.pid --exclude recovery.conf --exclude recovery.done --exclude postgresql.conf --exclude pg_log --exclude pg_x\
+log ${DB_LOCATION} ${PGDATA}/ --rsync-path=${RSYNC} --delete"
+${RSYNC} -avP ${RSYNC_OPT} --exclude postmaster.pid --exclude recovery.conf --exclude recovery.done --exclude postgresql.conf --exclude pg_log --exclude pg_x\
+log ${DB_LOCATION} ${PGDATA}/ --rsync-path=${RSYNC} --delete
+
+# Run through the rest of the tablespaces and rsync them, too.
+# disabled because it doesn't work with current rsync code
+# and we don't have tablespaces anyway                                                                                    
+#echo 'Fetching tablespaces'
+#GET_TB="SELECT spclocation FROM pg_catalog.pg_tablespace WHERE length(spclocation) > 0"
+#for tablespace in $(${PSQL} -h ${MASTER} -U ${PGUSER} -Atc "${GET_TB}" postgres)
+#do
+#  [ -d $(dirname ${tablespace}) ] || mkdir -p $(dirname ${tablespace})
+#  ${RSYNC} -avPz ${MASTER}:${tablespace} $(dirname ${tablespace}) --rsync-path=${RSYNC} --delete
+#done
+
+${PSQL} -c "SELECT pg_stop_backup();" -h ${MASTER} -U ${PGUSER} postgres
+
+# clean out xlog files                                                                                                                            
+find ${PGDATA}/pg_xlog/ -type f | xargs rm -f
+
+# rename recovery.done to recovery.conf if it exists                                                                                              
+if [ -f ${RECOVERYCONFDIR}/recovery.done ]; then
+  mv ${RECOVERYCONFDIR}/recovery.done ${RECOVERYCONFDIR}/recovery.conf
+fi
+
+# remove BRINGUP file if it exists                                                                                                                
+if [ -f ${BRINGUP} ]; then
+  rm -f ${BRINGUP}
+fi
+
+# Start postgres                                                               
+
+if [ $OS = 'Joyent' ] && [ $USE_SVCADM ]; then
+  /usr/sbin/svcadm enable postgresql:pg90    
+else
+  ${PGCTL} -D $(dirname ${PGCONFFILE})  start
+fi
+
+# reset the traps so we can exit cleanly                                                                                                          
+trap - INT TERM EXIT
+
+# -----------------------------------------------------------------------------
+# The replication-tools package is licensed under the PostgreSQL License:
+# 
+# Copyright (c) 2010-2011, PostgreSQL, Experts, Inc.
+# 
+# Permission to use, copy, modify, and distribute this software and its
+# documentation for any purpose, without fee, and without a written agreement is
+# hereby granted, provided that the above copyright notice and this paragraph
+# and the following two paragraphs appear in all copies.
+# 
+# IN NO EVENT SHALL POSTGRESQL EXPERTS, INC. BE LIABLE TO ANY PARTY FOR DIRECT,
+# INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, INCLUDING LOST
+# PROFITS, ARISING OUT OF THE USE OF THIS SOFTWARE AND ITS DOCUMENTATION, EVEN
+# IF POSTGRESQL EXPERTS, INC. HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH
+# DAMAGE.
+# 
+# POSTGRESQL EXPERTS, INC. SPECIFICALLY DISCLAIMS ANY WARRANTIES, INCLUDING, BUT
+# NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+# PARTICULAR PURPOSE. THE SOFTWARE PROVIDED HEREUNDER IS ON AN "AS IS" BASIS,
+# AND POSTGRESQL EXPERTS, INC. HAS NO OBLIGATIONS TO PROVIDE MAINTENANCE,
+# SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.

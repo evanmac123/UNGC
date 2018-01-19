@@ -1,6 +1,7 @@
 require "#{File.dirname(__FILE__)}/../../vendor/plugins/moonshine/lib/moonshine.rb"
 class ApplicationManifest < Moonshine::Manifest::Rails
   include Moonshine::Dnsmasq
+  include Moonshine::Postgres10
   # The majority of your configuration should be in <tt>config/moonshine.yml</tt>
   # If necessary, you may provide extra configuration directly in this class
   # using the configure method. The hash passed to the configure method is deep
@@ -37,6 +38,10 @@ class ApplicationManifest < Moonshine::Manifest::Rails
   recipe :sidekiq
   recipe :pdfminer
   recipe :xsendfile
+
+  if rails_env == "staging"
+  recipe :postgresql_server, :postgresql_gem, :postgresql_user, :postgresql_database
+  end
 
   on_stage(:production) do
     recipe :cron_tasks

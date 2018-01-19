@@ -35,15 +35,15 @@
 # The default values of these variables are driven from the -D command-line
 # option or PGDATA environment variable, represented here as ConfigDir.
 
-data_directory = '/var/lib/postgresql/<%= postgresql_version %>/main'		# use data in another directory
+data_directory = '/var/lib/postgresql/<%= version %>/main'		# use data in another directory
 					# (change requires restart)
-hba_file = '/etc/postgresql/<%= postgresql_version %>/main/pg_hba.conf'	# host-based authentication file
+hba_file = '/etc/postgresql/<%= version %>/main/pg_hba.conf'	# host-based authentication file
 					# (change requires restart)
-ident_file = '/etc/postgresql/<%= postgresql_version %>/main/pg_ident.conf'	# ident configuration file
+ident_file = '/etc/postgresql/<%= version %>/main/pg_ident.conf'	# ident configuration file
 					# (change requires restart)
 
 # If external_pid_file is not explicitly set, no extra PID file is written.
-external_pid_file = '/var/run/postgresql/<%= postgresql_version %>-main.pid'		# write an extra PID file
+external_pid_file = '/var/run/postgresql/<%= version %>-main.pid'		# write an extra PID file
 					# (change requires restart)
 
 
@@ -53,12 +53,16 @@ external_pid_file = '/var/run/postgresql/<%= postgresql_version %>-main.pid'		# 
 
 # - Connection Settings -
 
-#listen_addresses = 'localhost'		# what IP address(es) to listen on;
+<% if configuration[:postgresql][:listen_addresses] %>
+listen_addresses = '<%= configuration[:postgresql][:listen_addresses].join(',') %>'		# what IP address(es) to listen on;
+<% else %>
+listen_addresses = 'localhost'		# what IP address(es) to listen on;
+<% end %>
 					# comma-separated list of addresses;
 					# defaults to 'localhost', '*' = all
 					# (change requires restart)
 port = 5432				# (change requires restart)
-max_connections = 100			# (change requires restart)
+max_connections = <%= configuration[:postgresql][:max_connections] || 100 %>			# (change requires restart)
 # Note:  Increasing max_connections costs ~400 bytes of shared memory per 
 # connection slot, plus lock space (see max_locks_per_transaction).  You might
 # also need to raise shared_buffers to support more connections.
@@ -74,6 +78,9 @@ unix_socket_directories = '/var/run/postgresql'		# (change requires restart)
 
 #authentication_timeout = 1min		# 1s-600s
 ssl = true				# (change requires restart)
+ssl_cert_file = '/etc/ssl/certs/ssl-cert-snakeoil.pem'		# (change requires restart)
+ssl_key_file = '/etc/ssl/private/ssl-cert-snakeoil.key'		# (change requires restart)
+
 #ssl_ciphers = 'ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH'	# allowed SSL ciphers
 					# (change requires restart)
 #password_encryption = on
@@ -104,23 +111,15 @@ ssl = true				# (change requires restart)
 
 # - Memory -
 
-shared_buffers = 24MB			# min 128kB or max_connections*16kB
-					# (change requires restart)
-#temp_buffers = 8MB			# min 800kB
-#max_prepared_transactions = 5		# can be 0 or more
-					# (change requires restart)
-# Note:  Increasing max_prepared_transactions costs ~600 bytes of shared memory
-# per transaction slot, plus lock space (see max_locks_per_transaction).
-#work_mem = 1MB				# min 64kB
-#maintenance_work_mem = 16MB		# min 1MB
-#max_stack_depth = 2MB			# min 100kB
+# see http://www.postgresql.org/docs/<%= version %>/static/runtime-config-resource.html
 
-# - Free Space Map -
+shared_buffers            = <%= configuration[:postgresql][:shared_buffers] || '24MB' %>          # min 128kB or max_connections*16kB
+temp_buffers              = <%= configuration[:postgresql][:temp_buffers] || '8MB' %>             # min 800kB
+max_prepared_transactions = <%= configuration[:postgresql][:max_prepared_transactions] || '5' %>  # can be 0 or more
+work_mem                  = <%= configuration[:postgresql][:work_mem] || '1MB' %>                 # min 64kB
+maintenance_work_mem      = <%= configuration[:postgresql][:maintenance_work_mem] || '16MB' %>    # min 1MB
+max_stack_depth           = <%= configuration[:postgresql][:max_stack_depth] || '2MB' %>          # min 1MB
 
-<% if postgresql_version < '8.4' %>max_fsm_pages = 153600			# min max_fsm_relations*16, 6 bytes each
-					# (change requires restart)<% end %>
-#max_fsm_relations = 1000		# min 100, ~70 bytes each
-					# (change requires restart)
 
 # - Kernel Resource Usage -
 
@@ -148,9 +147,12 @@ shared_buffers = 24MB			# min 128kB or max_connections*16kB
 #------------------------------------------------------------------------------
 
 # - Settings -
-
+hot_standby = <%= configuration[:postgresql][:hot_standby] || 'on' %>
 #fsync = on				# turns forced synchronization on or off
 #synchronous_commit = on		# immediate fsync at commit
+wal_level = <%= configuration[:postgresql][:wal_level] || 'hot_standby' %>
+max_wal_senders = <%= configuration[:postgresql][:max_wal_senders] || '5' %>
+wal_keep_segments = <%= configuration[:postgresql][:wal_keep_segments] || '32' %>
 #wal_sync_method = fsync		# the default is the first option 
 					# supported by the operating system:
 					#   open_datasync
@@ -159,7 +161,11 @@ shared_buffers = 24MB			# min 128kB or max_connections*16kB
 					#   fsync_writethrough
 					#   open_sync
 #full_page_writes = on			# recover from partial page writes
+<% if configuration[:postgresql][:wal_buffers] %>
+wal_buffers = <%= configuration[:postgresql][:wal_buffers] %>
+<% else %>
 #wal_buffers = 64kB			# min 32kB
+<% end %>
 					# (change requires restart)
 #wal_writer_delay = 200ms		# 1-10000 milliseconds
 
@@ -168,18 +174,26 @@ shared_buffers = 24MB			# min 128kB or max_connections*16kB
 
 # - Checkpoints -
 
-#checkpoint_timeout = 5min		# range 30s-1h
-#checkpoint_completion_target = 0.5	# checkpoint target duration, 0.0 - 1.0
+min_wal_size = <%= configuration[:postgresql][:min_wal_size]  || '80MB ' %>
+max_wal_size = <%= configuration[:postgresql][:max_wal_size]  || '1024MB' %>
+checkpoint_timeout = <%= configuration[:postgresql][:checkpoint_timeout] || '5min' %>		# range 30s-1h
+checkpoint_completion_target = <%= configuration[:postgresql][:checkpoint_completion_target] || 0.5 %>	# checkpoint target duration, 0.0 - 1.0
 #checkpoint_warning = 30s		# 0 is off
 
 # - Archiving -
 
-#archive_mode = off		# allows archiving to be done
+archive_mode = <%= configuration[:postgresql][:archive_mode] || 'off' %> # allows archiving to be done
 				# (change requires restart)
-#archive_command = ''		# command to use to archive a logfile segment
-#archive_timeout = 0		# force a logfile segment switch after this
+archive_command = '<%= configuration[:postgresql][:archive_command] || '/bin/true' %>' # command to use to archive a logfile segment
+archive_timeout = <%= configuration[:postgresql][:archive_timeout]	|| '0' %>	# force a logfile segment switch after this
 				# time; 0 is off
 
+
+# Timeouts
+
+max_standby_archive_delay = '<%= configuration[:postgresql][:max_standby_archive_delay] || "15min" %>'
+max_standby_streaming_delay = '<%= configuration[:postgresql][:max_standby_streaming_delay] || "15min" %>'
+hot_standby_feedback = <%= configuration[:postgresql][:hot_standby_feedback] || "on" %>
 
 #------------------------------------------------------------------------------
 # QUERY TUNING
@@ -197,14 +211,14 @@ shared_buffers = 24MB			# min 128kB or max_connections*16kB
 #enable_sort = on
 #enable_tidscan = on
 
-# - Planner Cost Constants -
+#_ - Planner Cost Constants -
 
 #seq_page_cost = 1.0			# measured on an arbitrary scale
 #random_page_cost = 4.0			# same scale as above
 #cpu_tuple_cost = 0.01			# same scale as above
 #cpu_index_tuple_cost = 0.005		# same scale as above
 #cpu_operator_cost = 0.0025		# same scale as above
-#effective_cache_size = 128MB
+effective_cache_size = <%= configuration[:postgresql][:effective_cache_size] || '128MB' %>
 
 # - Genetic Query Optimizer -
 
@@ -217,7 +231,11 @@ shared_buffers = 24MB			# min 128kB or max_connections*16kB
 
 # - Other Planner Options -
 
+<% if configuration[:postgresql][:default_statistics_target] %>
+default_statistics_target = <%= configuration[:postgresql][:default_statistics_target] %>
+<% else %>
 #default_statistics_target = 10		# range 1-1000
+<% end %>
 #constraint_exclusion = off
 #from_collapse_limit = 8
 #join_collapse_limit = 8		# 1 disables collapsing of explicit 
@@ -230,21 +248,21 @@ shared_buffers = 24MB			# min 128kB or max_connections*16kB
 
 # - Where to Log -
 
-#log_destination = 'stderr'		# Valid values are combinations of
+log_destination = '<%= configuration[:postgresql][:log_destination] || 'stderr' %>'		# Valid values are combinations of
 					# stderr, csvlog, syslog and eventlog,
 					# depending on platform.  csvlog
 					# requires logging_collector to be on.
 
 # This is used when logging to stderr:
-#logging_collector = off		# Enable capturing of stderr and csvlog
+logging_collector = <%= configuration[:postgresql][:logging_collector] || 'off' %>		# Enable capturing of stderr and csvlog
 					# into log files. Required to be on for
 					# csvlogs.
 					# (change requires restart)
 
 # These are only used if logging_collector is on:
-#log_directory = 'pg_log'		# directory where log files are written,
+log_directory = '<%= configuration[:postgresql][:log_directory] || 'pg_log' %>'		# directory where log files are written,
 					# can be absolute or relative to PGDATA
-#log_filename = 'postgresql-%Y-%m-%d_%H%M%S.log'	# log file name pattern,
+log_filename = '<%= configuration[:postgresql][:log_filename] || 'postgresql-%Y-%m-%d_%H%M%S.log' %>'	# log file name pattern,
 					# can include strftime() escapes
 #log_truncate_on_rotation = off		# If on, an existing log file of the
 					# same name as the new log file will be
@@ -308,7 +326,7 @@ shared_buffers = 24MB			# min 128kB or max_connections*16kB
 					#   fatal
 					#   panic (effectively off)
 
-#log_min_duration_statement = -1	# -1 is disabled, 0 logs all statements
+log_min_duration_statement = <%= configuration[:postgresql][:log_min_duration_statement] || -1 %>	# -1 is disabled, 0 logs all statements
 					# and their durations, > 0 logs only
 					# statements running at least this time.
 
@@ -322,9 +340,9 @@ shared_buffers = 24MB			# min 128kB or max_connections*16kB
 #debug_print_rewritten = off
 #debug_print_plan = off
 #debug_pretty_print = off
-#log_checkpoints = off
-#log_connections = off
-#log_disconnections = off
+log_checkpoints = <%= configuration[:postgresql][:log_checkpoints] || 'off' %>
+log_connections = <%= configuration[:postgresql][:log_connections] || 'off' %>
+log_disconnections = <%= configuration[:postgresql][:log_disconnections] || 'off' %>
 #log_duration = off
 #log_hostname = off
 log_line_prefix = '%t '			# special values:
@@ -344,10 +362,10 @@ log_line_prefix = '%t '			# special values:
 					#   %q = stop here in non-session
 					#        processes
 					#   %% = '%'
-					# e.g. '<%u%%%d> '
-#log_lock_waits = off			# log lock waits >= deadlock_timeout
+					# e.g. '%u%%%d '
+log_lock_waits = <%= configuration[:postgresql][:log_lock_waits] || 'off' %>			# log lock waits >= deadlock_timeout
 #log_statement = 'none'			# none, ddl, mod, all
-#log_temp_files = -1			# log temporary files equal or larger
+log_temp_files = <%= configuration[:postgresql][:log_temp_files] || -1 %>			# log temporary files equal or larger
 					# than specified size;
 					# -1 disables, 0 logs all temp files
 #log_timezone = unknown			# actually, defaults to TZ environment
@@ -360,8 +378,8 @@ log_line_prefix = '%t '			# special values:
 
 # - Query/Index Statistics Collector -
 
-#track_activities = on
-#track_counts = on
+track_activities = <%= configuration[:postgresql][:track_activities] || 'on' %>
+track_counts = <%= configuration[:postgresql][:track_counts] || 'on' %>
 #update_process_title = on
 
 
@@ -489,3 +507,18 @@ default_text_search_config = 'pg_catalog.english'
 # CUSTOMIZED OPTIONS
 #------------------------------------------------------------------------------
 
+
+<% if configuration[:postgresql][:shared_preload_libraries] %>shared_preload_libraries = '<%= configuration[:postgresql][:shared_preload_libraries] %>'<% end %>
+<% if configuration[:postgresql][:auto_explain_log_min_duration] %>auto_explain.log_min_duration = '<%= configuration[:postgresql][:auto_explain_log_min_duration] %>'<% end %>
+
+<% if configuration[:postgresql][:pg_stat_statements_max] %>
+pg_stat_statements.max = '<%= configuration[:postgresql][:pg_stat_statements_max] %>'
+<% else %>
+#pg_stat_statements.max = 
+<% end %>
+
+<% if configuration[:postgresql][:pg_stat_statements_track] %>
+pg_stat_statements.track = '<%= configuration[:postgresql][:pg_stat_statements_track] %>'
+<% else %>
+#pg_stat_statements.track = 
+<% end %>

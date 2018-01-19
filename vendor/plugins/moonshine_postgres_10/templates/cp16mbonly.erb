@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# script to ensure a copied file is exactly 16MB before copying it
+
+SOURCE=$1
+DEST=$2
+
+if [ "$(stat --format=%s ${SOURCE})" -ne "16777216" ]; then
+  echo "${SOURCE} not 16MB in size!"
+  exit 2
+fi
+
+cp ${SOURCE} ${DEST}
