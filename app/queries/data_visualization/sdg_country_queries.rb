@@ -39,7 +39,7 @@ class DataVisualization::SdgCountryQueries
   def country_sdg_count_with_id
     base_query
         .group("cop_attributes.id")
-        .select("cop_attributes.id cop_attributes.text, count(cop_answers.id) as answer_count")
+        .select("cop_attributes.id, cop_attributes.text, count(cop_answers.id) as answer_count")
         .map { |attr| [attr.id, attr.text, attr.answer_count] }
   end
 
