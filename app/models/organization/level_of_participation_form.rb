@@ -159,7 +159,7 @@ class Organization::LevelOfParticipationForm
   end
 
   def engagement_year
-    Time.current.year + 1
+    Time.current.year
   end
 
   def invoicing_required?
