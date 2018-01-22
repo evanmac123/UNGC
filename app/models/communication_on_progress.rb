@@ -334,27 +334,23 @@ class CommunicationOnProgress < ActiveRecord::Base
     is_advanced_programme? && is_intermediate_level? && self.meets_advanced_criteria
   end
 
-  def questions_missing_answers
-    CopQuestion.where(id: empty_answers.map(&:question_id))
-  end
-
   def questions_missing_answers?
     answered_all_questions? == false
   end
 
   def answered_all_questions?
-    empty_answers.to_a.length == 0 # we can't use .count as it will break the query
+    questions_missing_answers.pluck(:id).empty? # we can't use .count as it will break the query
   end
 
-  def empty_answers
-    # find all questions where all the answered values add up to 0
-    cop_answers
-      .select('cop_questions.id as question_id, sum(cop_answers.value) as total')
-      .joins(cop_attribute: [:cop_question])
-      .where('cop_questions.initiative_id is null')
-      .where('cop_questions.grouping not in (?)', CopQuestion.exempted_groupings)
-      .group('cop_questions.id')
-      .having('sum(cop_answers.value) = 0')
+  def questions_missing_answers
+    CopQuestion
+        .select(:id, :text, 'SUM(CAST(cop_answers.value AS DECIMAL)) as total')
+        .joins(cop_attributes: :cop_answers)
+        .where(cop_answers: {cop_id: self.id}, cop_questions: { initiative_id: nil})
+        .where.not(cop_questions: { grouping: CopQuestion.exempted_groupings})
+        .group(:id)
+        .having('SUM(CAST(cop_answers.value AS DECIMAL)) = 0')
+        .reorder(:id)
   end
 
   def is_blueprint_level?

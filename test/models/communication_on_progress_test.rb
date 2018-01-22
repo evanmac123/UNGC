@@ -304,7 +304,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
     end
 
     # Then they should still be have answered_all_questions
-    assert cop.answered_all_questions?, unanswered_questions(cop.empty_answers)
+    assert cop.answered_all_questions?, cop.questions_missing_answers
   end
 
   test "A fully answered COP" do
@@ -316,7 +316,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       end
     end
 
-    assert_empty cop.questions_missing_answers.map(&:id)
+    assert_empty cop.questions_missing_answers
     assert cop.answered_all_questions?, "Expected all questions to have been answered"
   end
 
@@ -346,15 +346,11 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
     create(:cop_answer, communication_on_progress: cop, cop_attribute: e, value: false)
     create(:cop_answer, communication_on_progress: cop, cop_attribute: f, value: false)
 
-    assert_equal ["partially answered", "unanswered"], cop.questions_missing_answers.map(&:text)
+    assert_equal ["partially answered", "unanswered"], cop.questions_missing_answers.pluck(:text)
     refute cop.answered_all_questions?, "Expected some answers to be missing"
   end
 
   private
-
-  def unanswered_questions(empty_answers)
-    empty_answers.flat_map(&:cop_attribute).flat_map(&:cop_question)
-  end
 
   def generate_cop(organization, options={})
     defaults = {
