@@ -179,6 +179,14 @@ module Admin::OrganizationsHelper
     response.html_safe
   end
 
+  def link_to_add_social_network_fields(name, form)
+    social_network = OrganizationSocialNetwork.new
+    id = social_network.object_id
+    fields = form.fields_for(:social_network_handles, social_network, child_index: id) do |f|
+      render("social_network_handle_fields", f: f)
+    end
+    link_to(name, '', class: "add_fields", data: { id: id, fields: fields.gsub("\n", "")})
+  end
 
 
   private

@@ -1,0 +1,113 @@
+%header.main-content-header
+  %h1= participant.name
+  = link_to(participant.website, participant.website_url, class: 'participant-website-link', target: '_blank') if participant.has_website?
+%section.tabbed-component.participant-detail-body{"data-has-navigation": "true"}
+  %menu.tabs
+    %li.tab
+      %button.active.tab-company-information{"data-tab-content": "company-information", type: "button"} Company Information
+    - if participant.cops.any?
+      %li.tab
+        %button.tab-cop{"data-tab-content": "cop", type: "button"}
+          = participant.communication_type
+    - if participant.contributions.any?
+      %li.tab
+        %button.tab-contributions{"data-tab-content": "contributions", type: "button"} Contributions
+  %article.tab-content.company-information.active
+    %header.tab-content-header
+      %h1 Company Information
+    - if participant.joined_on.present? || participant.cop_due_on.present?
+      .column.company-information-dates
+        - if participant.joined_on.present?
+          .company-information-since
+            %h3 Participant Since
+            %time= participant.joined_on
+        - if participant.expelled?
+          .company-information-cop-due
+            %strong Expelled on:
+            %time= participant.expelled_on
+        - elsif participant.delisted?
+          .company-information-cop-due
+            %strong Delisted on:
+            %time= participant.delisted_on
+        - elsif participant.cop_due_on?
+          .company-information-cop-due
+            %strong= participant.next_communication_due_on
+            %time= participant.cop_due_on
+        - if participant.action_platform_subscriptions.any?
+          %h3 Engagements
+          %div
+            - participant.action_platform_subscriptions.each do |subscription|
+              %div= link_to subscription.platform.name, action_platform_platform_path(subscription.platform)
+    .column.company-information-overview
+      %h2 Overview
+      %dl
+        - if participant.country.present?
+          %dt Country:
+          %dd= participant.country
+        - if participant.type.present?
+          %dt Org. Type:
+          %dd= participant.type
+        - if participant.sector.present?
+          %dt Sector:
+          %dd= participant.sector
+        %dt Engagement Tier:
+        %dd= participant&.level_of_participation&.humanize&.chomp(' level') || 'Not Selected'
+        %dt Global Compact Status:
+        %dd= participant.global_compact_status
+        - if participant.delisted?
+          %dt Reason for Delisting:
+          %dd= participant.reason_for_delisting
+        - if participant.employees.present?
+          %dt Employees:
+          %dd= participant.employees
+        - if participant.ownership.present?
+          %dt Ownership:
+          %dd= participant.ownership
+      = link_to('Letter of Commitment', participant.commitment_letter.url, target: '_blank') if participant.commitment_letter.present?
+      %br/
+      = link_to('Letter of Re-commitment', participant.recommitment_letter.url, target: '_blank') if participant.recommitment_letter.present?
+    .column.company-information-financial-information
+      - if participant.has_extra_information?
+        - if participant.has_financial_information?
+          %h2 Financial Information
+          = render('components/widget_links_lists', links_lists: participant.financial_information)
+        %hr/
+        - if participant.has_non_financial_information?
+          %h2 Non-Financial Information
+          = render('components/widget_links_lists', links_lists: participant.non_financial_information)
+  - if participant.cops.any?
+    %article.tab-content.cop
+      %header.tab-content-header
+        %h1= participant.communication_type
+      %h2= participant.cop_label
+      %table.table-embedded
+        %thead
+          %th.published-on Published On
+          %th.title Title
+          %th.level Level
+        %tbody
+          - participant.cops.each do |cop|
+            %tr
+              %td.published-on= cop.published_on
+              %td.title= link_to cop.title, show_cops_path(cop.differentiation_level_with_default, cop.id)
+              %td.level= cop.level
+      %p
+        %strong Note:
+        Responsibility for the content of participants' public communication related to the Global Compact principles and their implementation lies with participants themselves and not with the UN Global Compact.
+  - if participant.contributions.any?
+    %article.tab-content.contributions
+      %header.tab-content-header
+        %h1 Contributions
+      %h2 Voluntary Contributions to the Foundation for the Global Compact
+      %table.table-embedded
+        %thead
+          %th Year
+          %th Contribution Received
+        %tbody
+          - participant.contributions.each do |year, campaigns|
+            %tr
+              %th= year
+              %td
+                %ul
+                  - campaigns.each do |campaign|
+                    %li= campaign.name

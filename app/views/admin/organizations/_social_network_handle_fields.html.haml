@@ -1,0 +1,4 @@
+.social-network{ style: "margin-bottom: 3em;" }
+  - options = OrganizationSocialNetwork::NETWORKS.map { |name| [name.humanize, name] }
+  = f.select :network_code, options, { include_blank: true }, { label: "Social Network" }
+  = f.text_field :handle, label: "Account/Handle"

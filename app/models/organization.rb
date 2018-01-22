@@ -85,6 +85,7 @@ class Organization < ActiveRecord::Base
   validates :isin, length: { is: 12 }, :unless => Proc.new { |organization| organization.isin.blank? }
   validates :url, length: { maximum: 255, too_long: "has a %{count} character limit" }
   validates :government_registry_url, length: { maximum: 2_000 }
+  validates :video_embed, length: { maximum: 500 }
 
   has_many :signings, dependent: :destroy
   has_many :initiatives, :through => :signings
@@ -95,6 +96,7 @@ class Organization < ActiveRecord::Base
   has_many :due_diligence_reviews, dependent: :destroy, class_name: 'DueDiligence::Review'
   has_many :action_platform_orders, dependent: :restrict_with_error, class_name: "ActionPlatform::Order"
   has_many :action_platform_subscriptions, class_name: "ActionPlatform::Subscription", dependent: :restrict_with_error
+  has_many :social_network_handles, class_name: 'OrganizationSocialNetwork', inverse_of: :organization
 
   belongs_to :sector
   belongs_to :organization_type
@@ -120,6 +122,10 @@ class Organization < ActiveRecord::Base
 
   has_one :withdrawal_letter, -> { where(attachable_key: ORGANIZATION_FILE_TYPES[:withdrawal_letter]) },
     class_name: 'UploadedFile', as: 'attachable', dependent: :destroy
+
+  accepts_nested_attributes_for :social_network_handles,
+                                reject_if: proc { |attrs| attrs['network_code'].blank? && attrs['handle'] },
+                                allow_destroy: true
 
   attr_accessor :delisting_on
 
@@ -920,6 +926,8 @@ class Organization < ActiveRecord::Base
   def error_message
     errors.full_messages.to_sentence
   end
+
+  alias_method :engagement_tier, :level_of_participation
 
   private
 

@@ -6,20 +6,32 @@ class ParticipantsControllerTest < ActionController::TestCase
     create(:container, path: '/what-is-gc/participants')
   end
 
-  test 'should get show' do
-    create_organization_and_user
-    @organization.update(participant: true)
-
-    get :show, id: @organization
+  test "signatory level profile" do
+    get :show, id: create(:business,
+      level_of_participation: :signatory_level)
 
     assert_response :success
-    assert_not_nil assigns(:page)
+    assert_template "_signatory_tier"
   end
 
-  should 'not show non-participants' do
-    create_organization_and_user
+  test "participant level profile" do
+    get :show, id: create(:business,
+      level_of_participation: :participant_level)
 
-    get :show, id: @organization
+    assert_response :success
+    assert_template "_participant_tier"
+  end
+
+  test "signatory level profile is the default" do
+    get :show, id: create(:business,
+      level_of_participation: nil)
+
+    assert_response :success
+    assert_template "_signatory_tier"
+  end
+
+  test "not show non-participants" do
+    get :show, id: create(:business, participant: false)
 
     assert_response :not_found
   end

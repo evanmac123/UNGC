@@ -43,7 +43,8 @@ class Admin::InitiativesController < AdminController
     def initiative_params
       params.require(:initiative).permit(
         :name,
-        :active
+        :active,
+        :sitemap_path
       )
     end
 end

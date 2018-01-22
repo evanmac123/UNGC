@@ -55,7 +55,7 @@ class ParticipantPage < SimpleDelegator
   end
 
   def sector
-    participant.sector.name
+    participant.sector&.name
   end
 
   def ownership

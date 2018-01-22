@@ -1,11 +1,14 @@
 # frozen_string_literal: true
 
 class OrganizationPresenter < SimpleDelegator
-  attr_reader :organization
+  attr_reader :organization, :policy
 
-  def initialize(organization)
+  delegate :can_edit_video?, to: :policy
+
+  def initialize(organization, contact)
     super(organization)
     @organization = organization
+    @policy = Organization::Policy.new(organization, contact)
   end
 
   def level_of_participation_view

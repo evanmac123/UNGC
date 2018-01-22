@@ -22,6 +22,7 @@ class CopQuestion < ActiveRecord::Base
 
   validates_presence_of :text, :grouping
   has_many :cop_attributes, :dependent => :destroy
+  has_many :cop_answers, through: :cop_attributes
   belongs_to :principle_area
   belongs_to :initiative
 

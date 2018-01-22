@@ -903,6 +903,17 @@ ActiveRecord::Schema.define(version: 20180212161106) do
 
   add_index "oauth_applications", ["uid"], name: "index_oauth_applications_on_uid", unique: true, using: :btree
 
+  create_table "organization_social_networks", force: :cascade do |t|
+    t.integer  "organization_id", limit: 4,  null: false
+    t.string   "network_code",    limit: 30, null: false
+    t.string   "handle",          limit: 50, null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "organization_social_networks", ["network_code", "handle"], name: "index_organization_social_networks_handles", unique: true, using: :btree
+  add_index "organization_social_networks", ["organization_id", "network_code"], name: "organization_social_networks_pk", unique: true, using: :btree
+
   create_table "organization_types", force: :cascade do |t|
     t.string   "name",          limit: 255
     t.integer  "type_property"
@@ -961,6 +972,7 @@ ActiveRecord::Schema.define(version: 20180212161106) do
     t.date     "invoice_date"
     t.integer  "parent_company_id"
     t.string   "government_registry_url",        limit: 2000
+    t.string   "video_embed",                    limit: 500
   end
 
   add_index "organizations", ["country_id"], name: "index_organizations_on_country_id", using: :btree
@@ -1361,6 +1373,7 @@ ActiveRecord::Schema.define(version: 20180212161106) do
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "contacts", column: "resource_owner_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
+  add_foreign_key "organization_social_networks", "organizations", on_delete: :cascade
   add_foreign_key "organizations", "listing_statuses", on_delete: :nullify
   add_foreign_key "taggings", "authors"
   add_foreign_key "taggings", "case_examples"

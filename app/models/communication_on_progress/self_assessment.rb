@@ -20,6 +20,15 @@ class CommunicationOnProgress::SelfAssessment
     end
   end
 
+  def addressed_principle_area_ids
+    principle_areas = []
+    PrincipleArea::FILTERS.each_pair do |key, value|
+      is_addressed = @cop.public_send("references_#{key}?")
+      principle_areas << PrincipleArea.area_for(value).id if is_addressed
+    end
+    principle_areas
+  end
+
   protected
 
   def add_assessments

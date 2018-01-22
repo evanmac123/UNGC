@@ -1,0 +1,4 @@
+- twitter = participant.social_network_handles.for_network('twitter')
+- if twitter
+  = render partial: 'participants/social/twitter_card', locals: { participant: participant, twitter: twitter }
+= render partial: 'participants/social/facebook_og', locals: { participant: participant }

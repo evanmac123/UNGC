@@ -50,6 +50,7 @@ FactoryBot.define do
 
     factory :business do
       active_participant
+      sector
       employees 11 # just big enough to be an SME
     end
 

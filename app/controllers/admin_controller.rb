@@ -23,7 +23,7 @@ class AdminController < ApplicationController
       @announcements = Announcement.upcoming
 
     elsif current_contact.from_organization?
-      @organization = OrganizationPresenter.new(current_contact.organization)
+      @organization = OrganizationPresenter.new(current_contact.organization, current_contact)
     end
 
     policy = SignInPolicy.new(current_contact)

@@ -371,6 +371,17 @@ class CommunicationOnProgress < ActiveRecord::Base
     end
   end
 
+  def addressed_sdg_attributes
+    CopAnswer
+        .includes(cop_attribute: :cop_question)
+        .where(cop_id: self.id)
+        .where(value: true)
+        .merge(CopAttribute.sdgs)
+        .merge(CopQuestion.sdgs)
+        .distinct
+        .reorder('cop_attributes.position')
+  end
+
   # XXX used in routing helpers
   def differentiation_level_with_default
     differentiation_level_name.blank? ? :detail : differentiation_level_name.downcase

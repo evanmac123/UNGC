@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: principles
@@ -13,7 +15,15 @@
 #
 
 class PrincipleArea < Principle
-  has_many :cop_attributes
+  has_many :cop_questions
+  has_many :cop_attributes, through: :cop_questions
+
+  default_scope {
+    order(ORDERED_FIELDS)
+  }
+
+  ORDERED_AREA_NAMES = ['Human Rights', 'Labour', 'Environment', 'Anti-Corruption']
+  ORDERED_FIELDS = AnsiSqlHelper.fields_as_case('principles.name', ORDERED_AREA_NAMES)
 
   FILTERS = {
     :human_rights    => "Human Rights",

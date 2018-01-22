@@ -27,6 +27,7 @@ class ParticipantSearchController < ApplicationController
       initiatives: [],
       countries: [],
       sectors: [],
+      engagement_tiers: [],
       reporting_status: [],
     )
   end

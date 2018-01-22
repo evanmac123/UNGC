@@ -23,5 +23,8 @@ class CopAttribute < ActiveRecord::Base
   scope :sdg_question_with_answer, ->  {
     joins(:cop_answers)
     .where(cop_answers: { value: true } )
-    .where("cop_attributes.text like 'SDG%'") }
+    .sdgs
+  }
+
+  scope :sdgs, -> { where(text: 'SDG'..'SDGz') }
 end

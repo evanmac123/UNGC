@@ -50,6 +50,10 @@ class FilterableForm
     materialized_filters[:organization_type]
   end
 
+  def engagement_tier_filter
+    materialized_filters[:engagement_tier]
+  end
+
   def initiative_filter
     materialized_filters[:initiative]
   end
@@ -128,6 +132,13 @@ class FilterableForm
     facet = options.fetch(:facet, :organization_type_id)
 
     facet_filter facet, Filters::OrganizationTypeFilter.new(selected)
+  end
+
+  def create_engagement_tier_filter(options)
+    selected = public_send(options.fetch(:selected, :engagement_tiers))
+    facet = options.fetch(:facet, :engagement_tiers)
+
+    facet_filter facet, Filters::EngagementTierFilter.new(selected)
   end
 
   def create_initiative_filter(options)

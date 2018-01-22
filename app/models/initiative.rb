@@ -4,12 +4,13 @@
 #
 # Table name: initiatives
 #
-#  id         :integer          not null, primary key
-#  name       :string(255)
-#  old_id     :integer
-#  created_at :datetime
-#  updated_at :datetime
-#  active     :boolean          default(TRUE)
+#  id           :integer          not null, primary key
+#  name         :string(255)
+#  sitemap_path :string(255)
+#  old_id       :integer
+#  created_at   :datetime
+#  updated_at   :datetime
+#  active       :boolean          default(TRUE)
 #
 
 class Initiative < ActiveRecord::Base
@@ -18,6 +19,8 @@ class Initiative < ActiveRecord::Base
   has_many :cop_questions
   has_many :roles
   default_scope { order('name') }
+
+  validates_length_of :sitemap_path, maximum: 255
 
   FILTER_TYPES = {
     water_mandate:                 "CEO Water Mandate",

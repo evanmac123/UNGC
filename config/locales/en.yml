@@ -229,7 +229,14 @@ en:
   signatory_level: Signatory Level
   participant_level: Participant Level
   lead_level: Action Platform LEAD
-
+  engagement_tiers:
+    '1': Signatory Level
+    '2': Participant Level
+    participant_level: Participant Level
+    lead_level: Action Platform LEAD
+    filter_labels:
+      participant_level: Participant
+      signatory_level: Signatory
   level_of_participation:
     confirm_primary_contact_point: "Please confirm your company’s primary contact point for managing your Global Compact participation:"
     confirm_annual_revenue: "Please confirm your company’s annual sales/revenue in USD:"

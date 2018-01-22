@@ -52,7 +52,11 @@ ThinkingSphinx::Index.define :organization,
   has joined_on,
     facet: true
 
-  has removal_reason(:id),
+  has level_of_participation,
+    as: :engagement_tiers,
+    facet: true
+
+ has removal_reason(:id),
     as: :removal_reason_id
 
   has organization_type(:name),

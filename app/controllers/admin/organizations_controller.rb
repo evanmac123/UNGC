@@ -17,10 +17,11 @@ class Admin::OrganizationsController < AdminController
 
   def new
     @organization = Organization.new(:employees => 10)
+    @organization.social_network_handles.build
   end
 
   def show
-    @organization = OrganizationPresenter.new(@organization)
+    @organization = present(@organization)
   end
 
   def create
@@ -36,8 +37,9 @@ class Admin::OrganizationsController < AdminController
   end
 
   def edit
-    @organization = OrganizationPresenter.new(@organization)
+    @organization = present(@organization)
     @organization_types = OrganizationType.staff_types
+    @organization.social_network_handles.build unless @organization.social_network_handles.exists?
     @sectors, @disabled_sectors = load_sectors
   end
 
@@ -49,7 +51,7 @@ class Admin::OrganizationsController < AdminController
     else
       @organization_types = OrganizationType.staff_types
       @sectors, @disabled_sectors = load_sectors
-      @organization = OrganizationPresenter.new(@organization)
+      @organization = present(@organization)
       render :action => "edit"
     end
   end
@@ -272,6 +274,10 @@ class Admin::OrganizationsController < AdminController
         sectors.preserved.map(&:id)
       end
       [sectors, disabled]
+    end
+
+    def present(organization)
+      OrganizationPresenter.new(organization, current_contact)
     end
 
 end

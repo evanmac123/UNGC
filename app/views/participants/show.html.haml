@@ -1,0 +1,8 @@
+= render partial: 'components/meta_tags'
+= render partial: 'components/hero'
+%section.main-content-section.main-content-section-wide.participants-show-main-content
+  .wrapper
+    - if @page.participant_level?
+      = render partial: 'participant_tier', locals: { participant: @page }
+    - else
+      = render partial: 'signatory_tier', locals: { participant: @page }

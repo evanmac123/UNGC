@@ -7,6 +7,7 @@ class ParticipantSearchForm < FilterableForm
   attribute :countries,           Array[Integer], default: []
   attribute :sectors,             Array[Integer], default: []
   attribute :reporting_status,    Array[String],  default: []
+  attribute :engagement_tiers,    Array[Integer],  default: []
   attribute :keywords,            String,         default: ''
   attribute :page,                Integer,        default: 1
   attribute :per_page,            Integer,        default: 12
@@ -20,6 +21,7 @@ class ParticipantSearchForm < FilterableForm
   end
 
   filter :organization_type
+  filter :engagement_tier
   filter :initiative
   filter :country
   filter :sector
@@ -92,6 +94,7 @@ class ParticipantSearchForm < FilterableForm
         country_id: countries,
         sector_ids: sector_filter.effective_selection_set,
         cop_state: reporting_status.map {|state| Zlib.crc32(state)},
+        engagement_tiers: engagement_tiers,
       }),
       sql: {
         include: [
@@ -114,6 +117,7 @@ class ParticipantSearchForm < FilterableForm
         :country_id,
         :sector_ids,
         :cop_state,
+        :engagement_tiers,
       ],
     }
   end

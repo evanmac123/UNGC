@@ -1,0 +1,157 @@
+- content_for :social_graph do
+  = render partial: 'participants/social/graph_tags', locals: { participant: participant }
+
+%section#participant-prof
+  %h2.section-header Company Information
+  %section.column.four-12s.org-intro
+    .tile
+      .tile-bg{style: "background: url(https://d306pr3pise04h.cloudfront.net/uploads/e6/e65b5257269ecb657cf30dba2184dfd44aebae74---earth-tile-02.jpg);"}
+      .tile-info
+        %span.tile-label Company
+        %span.title= participant.name
+        %br/
+        %span.tile-label
+          = link_to(participant.website, participant.website_url, class: 'participant-website-link', target: '_participant-website') if participant.has_website?
+
+    %ul.social
+      %h2
+        Share Profile
+      %li
+        - share_title = "UN Global Compact profile: #{participant.name}"
+        - share_url = u(request.original_url)
+        %a.twitter{href: "https://twitter.com/home?status=#{u("#{share_title} #{request.original_url} —@globalcompact")}", target: "twitter"}
+          %span Twitter
+        %a.facebook{href: "https://www.facebook.com/sharer/sharer.php?u=#{share_url}", target: "facebook"}
+          %span Facebook
+        %a.linkedin{href: "https://www.linkedin.com/shareArticle?mini=true&url=#{share_url}&title=#{share_title}&source=UN%20Global%20Compact", target: "linkedin"}
+          %span LinkedIn
+        %a.google-plus{href: "https://plus.google.com/share?url=#{share_url}&title=#{share_title}", target: "google-plus"}
+          %span Google+
+
+  %section.column.two-12s.org-info
+    %dl
+      - if participant.type.present?
+        %dt Type:
+        %dd= participant.type
+      - if participant.country.present?
+        %dt Country:
+        %dd= participant.country
+      - if participant.employees.present?
+        %dt Employees:
+        %dd= number_with_delimiter(participant.employees)
+      - if participant.sector.present?
+        %dt Sector:
+        %dd= participant.sector
+      - if participant.ownership.present?
+        %dt Ownership:
+        %dd= participant.ownership
+      %dt Engagement Tier:
+      %dd Participant
+      %dt Global Compact Status:
+      %dd= participant.global_compact_status
+      %dt Participant Since
+      %dd= participant.joined_on
+  .break
+  %section.column.three-12s.financial
+    - if participant.has_extra_information?
+      - if participant.has_financial_information?
+        %h2 Financial Information
+        = render('components/widget_links_lists', links_lists: participant.financial_information)
+      %hr/
+      - if participant.has_non_financial_information?
+        %h2 Non-Financial Information
+        = render('components/widget_links_lists', links_lists: participant.non_financial_information)
+  - social_feed = participant.social_network_handles.for_network(:twitter)
+  - if social_feed
+    %section.column.three-12s.twitterembed
+      %h2
+        Twitter Feed from #{participant.name}
+        %a.twitter-timeline{"data-height": "390", href: "https://twitter.com/#{social_feed.handle}"}
+          Tweets by #{social_feed.handle}
+        %script{async: "", charset: "utf-8", src: "https://platform.twitter.com/widgets.js"}
+  - if participant.video_embed.present?
+    %h2
+      Video Shared by #{participant.name}
+    %section.videoWrapper= participant.video_embed.html_safe
+  %section.engagements-aps
+    - initiatives = participant.initiatives.active
+    - if initiatives.exists?
+      .column.engagements.four-eighths
+        %h2 Engagements
+        %ul
+          - initiatives.each do |initiative|
+            %li
+              %a{href: initiative.sitemap_path || actionplatforms_url}
+                %span= initiative.name
+    - action_platforms = participant.action_platform_subscriptions.joins(:platform).for_state(:approved).active_at
+    - if action_platforms.exists?
+      .column.aps.four-eighths
+        %h2 Action Platforms
+        %ul
+          - action_platforms.each do |ap|
+            %li
+              %a{href: "/take-action/action/#{ap.platform.slug}"}
+                %span= ap.platform.name
+  %section.principles-goals
+    .column.eight-eighths
+      %h2 Principles and Global Goals Addressed in Their Most Recent COP
+      - if participant.cop_due_on?
+        .cop-due
+          %p
+            Next COP due on:
+            %br/
+            %time= participant.cop_due_on
+      .principles
+        -# DISABLE the principles not addressed
+        - last_cop = participant.last_approved_cop
+        - last_assessment = CommunicationOnProgress::SelfAssessment.for(last_cop).addressed_principle_area_ids if last_cop
+        - principle_areas = last_assessment ? last_assessment : []
+        - PrincipleArea.all.each do |area|
+          - slug = area.reference&.gsub('_', '-')
+          - addressed = ' active' if principle_areas.include?(area.id)
+          %a{class: "#{slug}#{addressed}", href: "https://www.unglobalcompact.org/what-is-gc/mission/principles##{slug}"}
+            %span= area.name
+      .sdg-icons
+        - addressed_sdg_numbers =  *participant.last_approved_cop&.addressed_sdg_attributes&.pluck('cop_attributes.position')
+        - 17.times do |idx|
+          - sdg_no = idx + 1
+          - slug = "sdg#{sdg_no}"
+          - addressed = ' active' if addressed_sdg_numbers.include?(sdg_no)
+          %a{class: "#{slug}#{addressed}", href: "/sdgs/17-global-goals##{slug}"}
+            %span
+              Goal #{sdg_no}
+        %br.clear/
+  - if participant.cops.any?
+    %article.tab-content.cop
+      %h2.section-header= participant.cop_label
+      %table.table-embedded
+        %thead
+          %th.published-on Published On
+          %th.title Title
+          %th.level Level
+        %tbody
+          - participant.cops.each do |cop|
+            %tr
+              %td.published-on= cop.published_on
+              %td.title= link_to cop.title, show_cops_path(cop.differentiation_level_with_default, cop.id)
+              %td.level= cop.level
+      %p
+        %strong Note:
+        Responsibility for the content of participants' public communication related to the Global Compact principles
+        and their implementation lies with participants themselves and not with the UN Global Compact.
+  - if participant.contributions.any?
+    %article.tab-content.contributions
+      %h2.section-header Contributions
+      %h3 Voluntary Contributions to the Foundation for the Global Compact
+      %table.table-embedded
+        %thead
+          %th Year
+          %th Contribution Received
+        %tbody
+          - participant.contributions.each do |year, campaigns|
+            %tr
+              %th= year
+              %td
+                %ul
+                  - campaigns.each do |campaign|
+                    %li= campaign.name
