@@ -60,7 +60,6 @@ principle_areas.each do |name|
 end
 
 # Sectors
-Sector.destroy_all
 # Sector.all.pluck(:name, :icb_number, :id, :parent_id, :preserved)
 sectors = [["Not Applicable", nil, nil, false],
  ["Other", nil, nil, true],
