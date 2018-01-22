@@ -224,7 +224,9 @@ class DueDiligence::Review < ActiveRecord::Base
     if super
       DueDiligenceReviewMailer.engagement_decision_rendered(self.id, contact).deliver_later
 
-      publish_transition_event(requester, reason_for_decline: self.reason_for_decline)
+      publish_transition_event(requester,
+                               reason_for_decline: self.reason_for_decline,
+                               contact_id: contact.id)
     end
   end
 

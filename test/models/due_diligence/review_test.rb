@@ -907,19 +907,20 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
         end
 
         should "fire an engagement declined event" do
-          contact = create(:staff_contact)
+          requester = create(:staff_contact)
+          integrity_manager = create(:staff_contact, :integrity_manager)
           engagement_rationale = 'No, thank you.'
           approving_chief = 'Chuck E. Cheese'
           reason_for_decline = :not_available_but_interested
 
           review = FactoryGirl.create(:due_diligence_review, :engagement_review,
-                                      requester: contact,
+                                      requester: requester,
                                       engagement_rationale: engagement_rationale,
                                       approving_chief: approving_chief,
                                       reason_for_decline: reason_for_decline,
           )
 
-          review.decline(contact)
+          review.decline(integrity_manager)
 
           # it should not set validation errors
           assert_empty review.errors.full_messages
@@ -928,7 +929,8 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
           event = first_event("due_diligence_review_#{review.id}",
                               DueDiligence::Events::Declined)
 
-          assert_equal contact.id, event.data.fetch(:requester_id)
+          assert_equal requester.id, event.data.fetch(:requester_id)
+          assert_equal integrity_manager.id, event.data.fetch(:contact_id)
           assert_equal review.id, event.data.fetch(:review_id)
           assert_equal review.reason_for_decline, event.data.fetch(:reason_for_decline)
         end

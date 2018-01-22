@@ -67,4 +67,39 @@ class Admin::DueDiligence::FinalDecisionsControllerTest < ActionController::Test
     assert_empty event_store.read_events_forward("due_diligence_review_#{review.id}")
   end
 
+  test "a declined review" do
+    # Given we're signed in as staff
+    contact = create(:staff_contact)
+    manager = create(:staff_contact, :integrity_manager)
+    sign_in manager
+
+    # And there is an existing review
+    review = create(:due_diligence_review, :engagement_review, requester: contact)
+
+    # When we declined the subject of the review
+    patch :update, id: review,
+          commit: { decline: "" },
+          final_decision: {
+              reason_for_decline: :not_available_but_interested,
+          }
+
+    # And we're redirected to the review show page
+    assert_redirected_to for_state_admin_due_diligence_reviews_path(state: [:declined])
+
+    fired_events = event_store.read_events_forward("due_diligence_review_#{review.id}")
+
+    # And our review is now declined
+    review.reload
+    assert review.declined?, "review was not declined"
+
+    # With the decision text and it's maker
+    assert_equal "not_available_but_interested", review.reason_for_decline
+
+    info_added = fired_events.select do |evt|
+      evt.is_a? DueDiligence::Events::InfoAdded
+    end.first
+
+    assert_equal manager.id, info_added.data[:requester_id]
+    assert_equal review.reason_for_decline, info_added.data[:changes]['reason_for_decline']
+  end
 end
