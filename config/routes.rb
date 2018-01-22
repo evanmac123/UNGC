@@ -204,7 +204,7 @@ UNGC::Application.routes.draw do
       as: :choose_level_of_participation)
     post("choose-level-of-participation" => "level_of_participations#create")
     namespace :due_diligence do
-      resources :reviews, only: [:show, :new, :create, :update, :destroy] do
+      resources :reviews, only: [:show, :new, :create, :update, :destroy, :edit] do
         collection do
           get :for_state
         end

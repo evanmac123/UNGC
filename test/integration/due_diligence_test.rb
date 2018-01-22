@@ -4,169 +4,228 @@ require "sidekiq/testing"
 class DueDiligenceTest < ActionDispatch::IntegrationTest
   setup do
     Sidekiq::Testing.inline!
+    travel_to Time.zone.parse("2015-01-02 12:00:00")
+  end
+
+  teardown do
+    travel_back
   end
 
   test "A full due diligence review" do
-    skip 'to be completed'
+    # Given an organization with a participant manager
+    organization = create(:business, :has_participant_manager, joined_on: Date.current)
 
-    # Given an organization
-    organization = create(:business, :has_participant_manager)
+    # And some contacts
+    relationship_manager = organization.participant_manager
+    requester = create(:staff_contact)
+    integrity_team_member = create(:staff_contact, :integrity_team_member)
+    integrity_manager = create(:staff_contact, :integrity_manager)
 
-    # And I am logged in as a staff member
-    staff = create_staff_user
-    login_as(staff)
+    # And an event
+    event = create(:event)
 
-    # When the requester visits the due diligience index page
-    index_page = DueDiligence::Review::Index.new
-    pending_review_page = DueDiligence::Review::InReview.new
+    # And that a UNGC staff member is logged in
+    login_as(requester)
+    visit dashboard_path
 
-    index_page.visit(index_page.path)
-    page.assert_selector("h2", text: pending_review_page.title)
+    # When the Due Diligence menu button is clicked
+    click_on "Due Diligence"
+    all("a", text: "New due diligence review").first.click
 
-    pages = [["In Review", DueDiligence::Review::InReview.new],
-             ["Local Network", DueDiligence::Review::LocalNetworkReview.new],
-             ["Integrity Decision", DueDiligence::Review::IntegrityReview.new],
-             ["Engagement Decision", DueDiligence::Review::EngagementDecision.new],
-             ["All Reviews", DueDiligence::Review::AllReviews.new]]
-    pages.each do |link, page_object|
-      pending_review_page.click_on link
-      pending_review_page.transition_to page_object
-      page.assert_selector("h2", text: page_object.title)
+    fill_in "Organization name", with: organization.name
+    fill_in "Event title", with: event.title
+    select "lead", from: "Level of engagement"
+    fill_in "Individual subject", with: "Barack Obama"
+    fill_in "review_additional_information", with: "..."
+    click_on "Submit for Review"
+
+    # Edit as requester
+    within("tr", text: organization.name) do
+      all(".preview").first.click
     end
 
-    # And clicks on New Review
-    pending_review = pending_review_page.new_review
+    click_on "Process Review"
 
-    # And supplies the organization's name and level of engagement
-    pending_review.fill_in_organization_name(organization.name)
-    pending_review.select_level_of_engagement("speaker")
-    pending_review.fill_in_additional_information("Leaders Summit")
+    fill_in "Organization name", with: organization.name
+    fill_in "Event title", with: event.title
+    select "sponsor", from: "Level of engagement"
+    fill_in "Individual subject", with: "Individual McGee"
+    fill_in "review_additional_information", with: "More info"
+    click_on "Save"
 
-    review_page = pending_review.submit
+    # Integrity reivew
+    login_as(integrity_team_member)
+    visit admin_due_diligence_reviews_path
 
-    # Then a review should be created with the name of the organization
-    assert_equal organization.name, review_page.organization_name
+    within("tr", text: organization.name) do
+      all(".preview").first.click
+    end
 
-    # And it should be pending
-    assert_in_state(review_page, "in_review")
+    # add a comment
+    fill_in "Comment", with: "A new comment"
+    check "Notify Participant Manager"
+    click_on "Add comment"
 
-    # And have the reviewer"s name
-    assert page.has_content? Regexp.new(staff.name)
+    click_on "Process Review"
 
-    # When the reviewer adds a comment
-    comment_body = "This review needs a integrity recommendation."
-    review_page.add_comment(comment_body)
-    assert review_page.email_sent_to_legal?, "Expected email to be sent to integrity Team"
-    assert review_page.email_sent_to_participant_manager?, "Expected email to be sent to Participant Manager"
+    fill_in "review_world_check_allegations", with: "World-Check", disabled: :all
+    select "Yes", from: "Found on the UN Global Marketplace Ineligible Vendor Lists?"
+    select "No", from: "Subject to UN or other government sanctions?"
+    select "Yes", from: "Subject to dialog facilitation?"
+    select "No", from: "Excluded by the Norwegian Government Pension Fund Global?"
+    select "Yes", from: "Involved in the sale, manufacture or distribution of anti-personnel landmines or cluster bombs?"
+    select "No", from: "Involved in production or sale of tobacco?"
+    select "Yes", from: "Requires Local network input?"
 
-    # CommentCreated event was fired
-    event = event_store.read_all_streams_forward.last
-    assert_not_nil event
-    assert event.is_a? DueDiligence::Events::CommentCreated
-    assert_equal comment_body, event.data.fetch(:body)
-    assert_not_nil event.data.fetch(:contact_id)
-    assert_equal staff.id, event.data.fetch(:contact_id)
+    click_on "Save"
 
-    # Then they should see it in the timeline
-    assert review_page.has_comment?(comment_body), "comment body not found"
+    select "Underperformer", from: "Overall ESG Score"
+    select "Moderate", from: "Highest Controversy Level"
+    select "71", from: "Peak RRI"
+    select "20", from: "Current RRI"
+    select "AAAA", from: "Rep Risk Severity of News"
+    fill_in "Additional research", with: "Research'd"
+    fill_in "Analysis comments", with: "These are my comments"
 
-    # TODO
-    # When the reviewer adds a document
-    # review_page.add_document("untitled.pdf")
-    # Then they should see a link to it in the timeline
+    click_on "Request local network input"
 
-    # When a member of the RM team logs in
-    # And visits the Due Diligence reviews
-    pending_review_page.visit
+    within("tr", text: organization.name) do
+      all(".preview").first.click
+    end
+    click_on "Process Review"
 
-    # Then they should see the review in the list
-    # When they click the review
-    review_page = pending_review_page.click_on_organization(organization.name)
+    fill_in "Local network input", with: "This is the network input"
+    click_on "Save"
+    click_on "Request Integrity Decision"
 
-    # When the reviewer adds info to the risk assessment
-    risk_assessment_page = review_page.click_risk_assessment
-    risk_assessment_page.select("4", from: "Overall ESG Score")
-    risk_assessment_page.check("Involved in production or sale of tobacco")
-    risk_assessment_page.click_on("Update")
+    login_as integrity_manager
+    visit for_state_admin_due_diligence_reviews_path(state: :integrity_review)
 
-    # Then the Review is now "in review"
-    assert_in_state(review_page, "in_review")
+    within("tr", text: organization.name) do
+      all(".preview").first.click
+    end
 
-    # # Then they should see the changes
-    assert_equal "4", review_page.overall_esg_score
-    assert_equal "true", review_page.involved_in_tobacco?
+    click_on "Process Review"
+    fill_in "Explanation", with: "My explanation..."
 
-    # When the reviewer adds Highest Controversy Level
-    # And checks "excluded from norewgian pension fund"
-    # And clicks "Update"
-    risk_assessment_page = review_page.click_risk_assessment
-    risk_assessment_page.choose("3")
-    risk_assessment_page.check("Excluded by the Norwegian Government Pension Fund")
-    risk_assessment_page.click_on("Update")
+    click_on "With Reservation"
 
-    # Then they should see the changes
-    assert_equal "3", review_page.highest_controversy_level
-    assert_equal "true", review_page.excluded_by_the_norwegian_fund?
+    within("tr", text: organization.name) do
+      all(".preview").first.click
+    end
+    click_on "Process Review"
 
-    # When the reviewer requests integrity recommendations
-    # Then the review moves to "integrity review"
-    risk_assessment_page = review_page.click_risk_assessment
-    risk_assessment_page.click_on("Request integrity recommendations")
-    assert_in_state(review_page, "integrity_review")
+    fill_in "Engagement rationale", with: "My Rationale"
+    fill_in "Approving Chief's name", with: "Approver McGee"
+    select "not_available_but_interested", from: "Reason to Decline"
+    click_on "Decline"
 
-    # When the review adds a peak rep risk and a World-Check allegation
-    risk_assessment_page = review_page.click_risk_assessment
-    risk_assessment_page.select("2", from: "Peak RRI")
-    risk_assessment_page.fill_in_world_check_allegations(with: world_check_text)
-    risk_assessment_page.click_on("Update")
+    within("tr", text: organization.name) do
+      all(".preview").first.click
+    end
 
-    assert_match(/man bun/, review_page.world_check_allegations)
-    assert_equal "2", review_page.peak_rri
+    # Basic facts:
+    assert_equal requester.name, basic_fact("Name of Requester")
+    assert_equal "Sponsor", basic_fact("Level of Engagement")
+    assert_equal "Individual McGee", basic_fact("Individual")
+    assert_equal event.title, basic_fact("Event")
+    assert_equal "More info", basic_fact("Additional Information")
+    assert_equal relationship_manager.full_name_with_title, basic_fact("Relationship Manager")
+    assert_equal organization.id.to_s, basic_fact("UNGC ID")
+    assert_equal "2015-01-02", basic_fact("UNGC join date")
+    assert_equal "None", basic_fact("Date of last submitted COP/ COE")
+    assert_equal "Active", basic_fact("COP/ COE Status")
+    assert_equal organization.name, basic_fact("Organization Name")
+    assert_equal organization.country.name, basic_fact("Country")
 
-    # And clicks the "Request integrity Recommendations" button
-    # Then the Review moves back to "integrity review"
-    risk_assessment_page = review_page.click_risk_assessment
-    risk_assessment_page.click_on("Request integrity recommendations")
-    assert_in_state(review_page, "integrity_review")
+    # Risk Assessment
+    assert_equal "World-Check", find("#world_check_allegations").text
+    assert_equal "Yes", risk_assessment("Found on the UN Global Marketplace Ineligible Vendor Lists")
+    assert_equal "No", risk_assessment("Subject to UN or other government sanctions")
+    assert_equal "Yes", risk_assessment("Subject to dialog facilitation")
+    assert_equal "No", risk_assessment("Excluded by the Norwegian Government Pension Fund Global")
+    assert_equal "Yes", risk_assessment("Involved in the sale, manufacture or distribution of anti-personnel landmines or cluster bombs")
+    assert_equal "No", risk_assessment("Involved in production or sale of tobacco")
+    assert_equal "Yes", risk_assessment("Requires Local Network Input?")
+    assert_equal "No", risk_assessment("Delisted from the UNGC?")
+    assert_equal "This is the network input", risk_assessment("Local Network input:")
 
-    # When the integrity Team is satisfied
-    # And enters their recommendations
-    # And checks "Final decision"
-    # Then the review enters the "Final decision"
-    integrity_page = review_page.click_integrity_recommendations
-    integrity_page.fill_in("Recommendation", with: "integrity recommendation")
-    integrity_page.fill_in("Explanation", with: "")
-    integrity_page.click_on("Final decision")
-    assert_in_state(review_page, "engagement_decision")
+    # Results from Sustainalytics
+    assert_equal "underperformer", risk_assessment("ESG Score:", "span")
+    assert_equal "moderate_controversy", risk_assessment("Highest Controversy:", "span")
 
-    # When the reviewer receives a final decision out of band,
-    # And the reviewer enters any notes given
-    # And the approving Chief's name
-    # And click "Approve"
-    # Then the Review moves to "Engaged"
-    decision_page = review_page.click_final_decision
-    decision_page.fill_in("Final decision", with: "LGTM ++")
-    decision_page.fill_in("Approving Chief's name", with: "Alice Munroe")
-    decision_page.click_on("Approve")
-    assert_in_state(review_page, "engaged")
+    # Results from RepRisk
+    assert_equal "20", risk_assessment("Current RRI", "span")
+    assert_equal "71", risk_assessment("Peak RRI", "span")
+    assert_equal "risk_severity_aaaa", risk_assessment("Severity of news", "span")
+
+    analysis = find("#analysis").all("text()").last.text
+    assert_equal "These are my comments", analysis
+
+    # Integrity Decision
+    assert_equal "Approved with integrity_reservation", integrity_decision("Decision:")
+    assert_equal "My explanation...", integrity_decision("Explanation:")
+
+    # Engagement Decision
+    decision, approved_by, rationale, final_decision = all("#final-decision p").map(&:text)
+    assert_equal "Decision: declined not_available_but_interested", decision
+    assert_equal "Made by: Approver McGee", approved_by
+    assert_equal "Decision: My Rationale", rationale
+    assert_equal "Decision: Approved with integrity_reservation", final_decision
+
+    assert page.has_content?("A new comment")
+
+    # History
+    events = all(".event-log li").map { |node| node.text.gsub(/ \(2015.+\)/, "") }
+    expected_events = [
+      "Review Requested by #{requester.name}",
+      "Info Added by #{requester.name}",
+      "Info Added by #{requester.name}",
+      "Comment Created by #{integrity_team_member.name}",
+      "Info Added by #{integrity_team_member.name}",
+      "Info Added by #{integrity_team_member.name}",
+      "Local Network Input Requested by #{integrity_team_member.name}",
+      "Info Added by #{integrity_team_member.name}",
+      "Info Added by #{integrity_team_member.name}",
+      "Integrity Review Requested by #{integrity_team_member.name}",
+      "Info Added by #{integrity_manager.name}",
+      "Integrity Approval by #{integrity_manager.name}",
+      "Info Added by #{integrity_manager.name}",
+
+      # TODO: This should be integrity_manager see https://github.com/unglobalcompact/UNGC/issues/677
+      "Declined by #{requester.name}",
+    ]
+
+    assert_equal expected_events, events, -> {
+      diff = []
+      expected_events.each_with_index do |expected, index|
+        actual = events[index]
+        if expected != actual
+          diff << "Expected #{expected} to match #{actual}"
+        end
+      end
+      diff.to_sentence
+    }
   end
 
   private
 
-  def assert_in_state(page, state)
-    assert_equal state, page.state
+  def basic_fact(text)
+    within("#basic-facts") do
+      find("li", text: text).all("text()", count: 2).last.text
+    end
   end
 
-  def world_check_text
-    <<-LONG
-    Master cleanse hell of godard cold-pressed, snackwave selfies thundercats coloring book franzen. Jianbing meh pork belly chillwave direct trade, pinterest chia cronut hella yr jean shorts next level. Lomo chambray slow-carb skateboard twee fixie, pabst cred pok pok. Disrupt fam vaporware viral. Etsy lyft prism kombucha celiac. Cronut kogi health goth vape, pour-over air plant kickstarter echo park tofu cornhole leggings roof party skateboard ennui. Messenger bag activated charcoal pug locavore, jianbing umami blog hammock coloring book.
+  def risk_assessment(text, parent = "p")
+    within("#risk-assessment") do
+      find(parent, text: text).all("*", count: 2).last.text
+    end
+  end
 
-    Tattooed meditation shoreditch tumblr dreamcatcher synth. Kitsch vaporware wolf, bespoke edison bulb forage XOXO. Retro tbh raw denim cray everyday carry squid bespoke vexillologist. Pug lumbersexual waistcoat, try-hard venmo polaroid cardigan everyday carry taxidermy hella put a bird on it vape deep v shoreditch marfa. Thundercats fam wayfarers four dollar toast. 90's hammock whatever williamsburg four dollar toast flannel. Austin coloring book occupy taxidermy farm-to-table, chartreuse pickled put a bird on it waistcoat kogi truffaut four dollar toast retro poke.
-
-    Meditation lyft blog artisan, chambray next level umami cray edison bulb four loko etsy 90's irony photo booth fam. Ennui hammock dreamcatcher sartorial. Tattooed normcore hammock small batch. Cornhole vegan four dollar toast, keffiyeh fashion axe bespoke kale chips umami woke selvage poutine. Shabby chic enamel pin YOLO raw denim. Ethical migas 8-bit, chicharrones quinoa tbh normcore kale chips meggings meh. Chillwave skateboard hammock affogato.
-
-    Knausgaard gastropub sartorial echo park. Gluten-free man bun PBR&B, yuccie listicle marfa vegan crucifix chia scenester green juice echo park chambray. Mlkshk waistcoat fap normcore flexitarian, dreamcatcher twee vice roof party coloring book 90's echo park gastropub. Mustache slow-carb prism etsy, vaporware +1 hot chicken bushwick. Neutra mustache wayfarers, gochujang pinterest skateboard copper mug. Mlkshk irony snackwave, seitan shoreditch vape meh. Lo-fi deep v pug, hell of ennui slow-carb gochujang kitsch vegan.
-    LONG
+  def integrity_decision(text)
+    within("#engagement-recommendations") do
+      find("p", text: text).all("text()", count: 2).last.text
+    end
   end
 
 end

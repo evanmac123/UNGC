@@ -10,7 +10,7 @@
               url: admin_due_diligence_integrity_review_path(@review.id)) do |f| %>
 
   <div class="field">
-    <%= f.label :explanation %>
+    <%= f.label :integrity_explanation, "Explanation" %>
     <%= f.text_area :integrity_explanation, maxlength: 1_000 %>
   </div>
 

@@ -446,7 +446,7 @@ class Organization < ActiveRecord::Base
   end
 
   def network_contact_person
-    self.country&.local_network&.contacts&.network_contacts&.first || []
+    self.country&.local_network&.contacts&.network_contacts&.first
   end
 
   def network_report_recipient_name

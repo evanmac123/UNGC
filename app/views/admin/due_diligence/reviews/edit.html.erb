@@ -1,0 +1,8 @@
+<h2>Edit Due Diligence Review Request</h2>
+
+<%= render(partial: "form", locals: {
+  review: @review,
+  url: admin_due_diligence_review_path(@review.review),
+  form_method: :put,
+  submit_label: "Save"
+}) %>

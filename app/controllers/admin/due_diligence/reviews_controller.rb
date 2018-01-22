@@ -2,19 +2,18 @@ class Admin::DueDiligence::ReviewsController < AdminController
 
   helper Admin::CommentsHelper, Admin::DueDiligence::Helper
 
-  before_filter :no_organization_or_local_network_access
-  before_filter :can_view?, only: [:show, :create, :edit, :udpate, :for_state]
+  before_action :no_organization_or_local_network_access
+  before_action :can_view?, only: [:show, :create, :edit, :udpate, :for_state]
+  before_action :load_review, only: [:show, :edit, :update, :destroy]
 
   def show
-    @review = ::DueDiligence::Review::Presenter.new(load_review)
-    @review_policy = DueDiligence::ReviewPolicy.new(@review)
+    @review = ::DueDiligence::Review::Presenter.new(@review)
   end
 
   def destroy
-    @review = ::DueDiligence::Review::Presenter.new(load_review)
+    @review = ::DueDiligence::Review::Presenter.new(@review)
 
-    review_policy = ::DueDiligence::ReviewPolicy.new(@review)
-    unless review_policy.can_destroy?(current_contact)
+    unless @review_policy.can_destroy?(current_contact)
       raise ActionController::MethodNotAllowed
     end
     @review.destroy!
@@ -26,26 +25,34 @@ class Admin::DueDiligence::ReviewsController < AdminController
     @review = ::DueDiligence::ReviewRequest.new
   end
 
+  def edit
+    @review = ::DueDiligence::ReviewRequest.from(@review)
+  end
+
+  def update
+    @review = ::DueDiligence::ReviewRequest.from(@review)
+
+    if @review.update(review_params)
+      flash[:notice] = 'Saved'
+      redirect_to for_state_admin_due_diligence_reviews_path
+    else
+      flash[:error] = @review.error_messages.to_sentence
+      render :edit
+    end
+  end
+
   def create
     flash[:notice] = nil
     flash[:error] = nil
 
-    ::DueDiligence::Review.transaction do
-      review_request = ::DueDiligence::ReviewRequest.new(review_params)
-      @review = review_request.create
+    @review = ::DueDiligence::ReviewRequest.new(review_params)
 
-      changes = @review.changes # must be called before persisting!
-
-      @review.send_to_review!(current_contact)
-
-      publish_change_event(changes)
+    if @review.create(as: current_contact)
       redirect_to for_state_admin_due_diligence_reviews_path(state: [:in_review])
+    else
+      flash[:error] = @review.error_messages.to_sentence
+      render :new
     end
-
-  rescue ActiveRecord::RecordInvalid, StateMachine::InvalidTransition
-    flash[:error] = @review.errors.full_messages.to_sentence
-
-    render :new
   end
 
   def for_state
@@ -99,7 +106,6 @@ class Admin::DueDiligence::ReviewsController < AdminController
     end
   end
 
-
   private
 
   def nilify_hash_deep(h)
@@ -115,7 +121,8 @@ class Admin::DueDiligence::ReviewsController < AdminController
   end
 
   def load_review
-    ::DueDiligence::Review.find(params.fetch(:id))
+    @review = ::DueDiligence::Review.find(params.fetch(:id))
+    @review_policy = ::DueDiligence::ReviewPolicy.new(@review)
   end
 
   def review_params

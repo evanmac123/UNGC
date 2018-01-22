@@ -3,7 +3,6 @@ class Admin::DueDiligence::IntegrityReviewController < Admin::DueDiligence::Revi
   def edit
     @review = load_review
     @review_policy = DueDiligence::ReviewPolicy.new(@review)
-
   end
 
   def update
@@ -46,7 +45,8 @@ class Admin::DueDiligence::IntegrityReviewController < Admin::DueDiligence::Revi
       end
     end
 
-  rescue ActiveRecord::RecordInvalid, StateMachine::InvalidTransition, RuntimeError
+  rescue ActiveRecord::RecordInvalid, StateMachine::InvalidTransition, RuntimeError => e
+    Rails.logger.error(e)
     flash[:error] = @review.errors.full_messages.to_sentence
 
     render :edit

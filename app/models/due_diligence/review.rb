@@ -185,9 +185,9 @@ class DueDiligence::Review < ActiveRecord::Base
   end
 
   def approve_with_reservation(requester)
-    if super
-      self.with_reservation = :integrity_reservation
+    self.with_reservation = :integrity_reservation
 
+    if super
       DueDiligenceReviewMailer.integrity_decision_rendered(self.id, requester).deliver_later
 
       publish_transition_event(requester, with_reservation: :integrity_reservation)
@@ -240,7 +240,7 @@ class DueDiligence::Review < ActiveRecord::Base
 
   scope :for_state, -> (state) { where(state: state) }
   scope :related_to_contact, -> (contact, only_requested=false) {
-    return all if DueDiligence::ReviewPolicy.from_integrity?(contact)
+    return all if contact.from_integrity_team?
 
     return where(requester_id: contact.id) if only_requested
 

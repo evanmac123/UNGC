@@ -236,6 +236,14 @@ class Contact < ActiveRecord::Base
     organization&.rejected?
   end
 
+  def from_integrity_team?
+    is?(Role.integrity_team_member) || from_integrity_managers?
+  end
+
+  def from_integrity_managers?
+    is?(Role.integrity_manager)
+  end
+
   def submit_grace_letter?
     # TODO move this to a presenter for views that depend on it.
     GraceLetterApplication.eligible?(self.organization)

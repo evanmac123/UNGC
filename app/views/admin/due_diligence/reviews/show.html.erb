@@ -14,7 +14,7 @@
 <p/>
 
 <% if @review_policy.can_edit?(current_contact) %>
-  <%= link_to("Process Review", edit_path_for_review(@review), class: "cancel_large") %>
+  <%= link_to("Process Review", edit_path_for_review(@review, @review_policy), class: "cancel_large") %>
 <% end %>
 
 <section id="summary">

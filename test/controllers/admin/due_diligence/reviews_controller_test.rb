@@ -10,6 +10,7 @@ class Admin::DueDiligence::ReviewsControllerTest < ActionController::TestCase
     sign_in contact
 
     organization = create(:organization)
+    event = create(:event)
 
     # When we engaged the subject of the review
     post :create,
@@ -18,6 +19,7 @@ class Admin::DueDiligence::ReviewsControllerTest < ActionController::TestCase
               organization_name: organization.name,
               level_of_engagement: DueDiligence::Review.levels_of_engagement[:sponsor],
               additional_information: 'I hope we can engage them.',
+              event_title: event.title,
           }
 
     # And we're redirected to the review show page

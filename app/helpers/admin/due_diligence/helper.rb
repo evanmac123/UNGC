@@ -36,9 +36,13 @@ module Admin::DueDiligence::Helper
     v.blank? ? 'Not Researched' : v
   end
 
-  def edit_path_for_review(review)
+  def edit_path_for_review(review, policy, contact=current_contact)
     if review.in_review?
-      edit_admin_due_diligence_risk_assessment_path(review)
+      if policy.can_do_due_diligence?(contact)
+        edit_admin_due_diligence_risk_assessment_path(review)
+      else
+        edit_admin_due_diligence_review_path(review)
+      end
     elsif review.local_network_review?
       edit_admin_due_diligence_local_network_review_path(review)
     elsif review.integrity_review?
