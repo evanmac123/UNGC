@@ -1,10 +1,9 @@
 require 'test_helper'
 class OrganizationMailerTest < ActionMailer::TestCase
 
-  test 'new_review_for_research' do
+  test 'Engagement Tier chosen notifies network' do
     country = create(:country, :with_local_network)
     organization = create(:organization, :participant_level, :has_participant_manager, country: country)
-
 
     mail = OrganizationMailer.level_of_participation_chosen(organization)
 

@@ -234,7 +234,7 @@ class Organization::LevelOfParticipationForm
         EventPublisher.publish(annual_revenue_changed_event, to: stream_name) if annual_revenue_changed
       end
 
-      if level_of_participation_chosen
+      if level_of_participation_chosen && organization&.local_network&.contacts&.network_contacts&.exists?
         OrganizationMailer.level_of_participation_chosen(organization).deliver_later
       end
 

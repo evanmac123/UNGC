@@ -254,6 +254,17 @@ class Organization::LevelOfParticipationFormTest < ActiveSupport::TestCase
     assert_match(/Engagement Tier 'Signatory Level' Selected/, email.subject)
   end
 
+  test "selecting a level of participation send no email without a Local Network" do
+    # Given an organization not in a local network
+    organization = create(:organization, level_of_participation: nil)
+
+    assert_difference 'ActionMailer::Base.deliveries.size', 0 do
+      # When they choose a level of participation
+      form = build_form(organization: organization, level_of_participation: :signatory_level)
+      assert form.save, form.errors.full_messages
+    end
+  end
+
   private
 
   def build_form(params = {})
