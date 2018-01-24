@@ -15,7 +15,7 @@
 #
 # and, you'll have to watch "config/Guardfile" instead of "Guardfile"
 
-guard :minitest, spring: true, all_on_start: false do
+guard :minitest, spring: true, all_on_start: false, cli: "--color --fast_fail" do
 
   # Rails 4
   watch(%r{^app/(.+)\.rb$})                               { |m| "test/#{m[1]}_test.rb" }
@@ -34,6 +34,6 @@ guard 'spring', bundler: true do
   watch(%r{^spec/factory.rb})
 end
 
-guard :rake, task: 'factory_girl:lint' do
+guard :rake, task: 'factory_girl:lint', all_on_start: false do
   watch(%r{^test/factories/(.+)s.rb$}) { |m| "#{m[1]}" }
 end

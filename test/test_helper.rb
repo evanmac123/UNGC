@@ -17,6 +17,10 @@ require "#{Rails.root}/db/seeds.rb"
 require_relative "support/test_page/base.rb"
 Dir[Rails.root.join("test/support/**/*.rb")].each { |f| require f }
 
+Minitest::Reporters.use! [
+                             Minitest::Reporters::ProgressReporter.new,
+                         ] unless ENV["RM_INFO"] || ENV["TEAMCITY_VERSION"]
+
 class ActiveSupport::TestCase
   include FactoryGirl::Syntax::Methods
 
