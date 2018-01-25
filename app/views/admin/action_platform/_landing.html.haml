@@ -1,0 +1,20 @@
+%h2 Action Platforms
+%table.dashboard_table#action_platform_subscriptions_dashboard_table
+  %thead
+    %tr
+      %th.title Platform
+      %th.status Status
+      %th.date Starts On
+      %th.date Expires On
+      %th.order Order
+      %th.contact Contact
+  %tbody
+    - subscriptions.each do |subscription|
+      - platform = subscription.platform
+      %tr
+        %th.title= platform.name
+        %th.status= subscription.expires_on < Time.current ? 'expired' : subscription.state
+        %th.date= subscription.starts_on
+        %th.date= subscription.expires_on
+        %th.order= subscription.order_id
+        %th.contact= subscription.contact.full_name_with_title

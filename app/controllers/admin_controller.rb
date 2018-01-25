@@ -24,15 +24,12 @@ class AdminController < ApplicationController
 
     elsif current_contact.from_organization?
       @organization = OrganizationPresenter.new(current_contact.organization)
-      # @organization = current_contact.organization
-      # @org_revenue_and_engagement_view = OrganizationPresenter.new(@organization)
-      @action_platforms = ActionPlatform::Subscription.for(organization: @organization)
     end
 
     policy = SignInPolicy.new(current_contact)
     @can_sign_in_as_others = policy.can_sign_in_as_others?
 
-    render :template => "admin/dashboard_#{current_contact.user_type}"
+    render template: "admin/dashboard_#{current_contact.user_type}"
   end
 
   def no_access_to_other_organizations

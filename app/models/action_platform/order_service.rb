@@ -34,14 +34,15 @@ module ActionPlatform
           financial_contact: @financial_contact,
         )
 
-        # TODO don't n+1 the platform lookup
         @subscriptions.each do |s|
           platform_id = s.fetch(:platform_id)
+          platform = ActionPlatform::Platform.find(platform_id)
           order.subscriptions.create!(
             contact_id: s.fetch(:contact_id),
             platform_id: platform_id,
             organization_id: @organization.id,
-            expires_on: 1.year.from_now # TODO flesh out expiry rules.
+            starts_on: platform.default_starts_at,
+            expires_on: platform.default_ends_at
           )
         end
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module AdminHelper
   def link_to_attached_file(object, file='attachment')
     options = {}

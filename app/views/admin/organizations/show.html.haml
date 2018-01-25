@@ -18,6 +18,8 @@
         %li <a href="#contributions">Contributions</a>
         - if @organization.due_diligence_reviews.any?
           %li <a href="#due_diligence_reviews">Due Diligence</a>
+      - if @organization.action_platform_subscriptions.exists?
+        %li= link_to t("action_platform.labels.dashboard_tab"), "#action_platforms"
     - if @organization.initiatives.any? and current_contact.from_ungc?
       %li <a href="#initiatives">Engagement</a>
 
@@ -134,7 +136,7 @@
   #contacts.tab_content
     %ul#contacts_tools{:class => "tools inline"}
       %li= link_to 'New contact', new_admin_organization_contact_path(@organization.id), :class => 'new_user_large', :title => 'New Contact'
-    %ul.items= render :partial => "admin/contacts/tabbed_contact", :collection => @organization.contacts
+    %ul.items= render partial: "admin/contacts/tabbed_contact", collection: @organization.contacts.includes(:country, :roles)
 
   #comments.tab_content
     %ul#contacts_tools{:class => "tools inline"}
@@ -180,7 +182,7 @@
           %th.actions Actions
         = render :partial => 'admin/logo_requests/logo_request', :collection => @organization.logo_requests.order("created_at DESC")
 
-  - if @organization.initiatives.any?
+  - if @organization.initiatives.exists?
     #initiatives.tab_content
       %h2 Engagement
       %table.dashboard_table#initiatives_dashboard_table
@@ -188,10 +190,16 @@
           %th.title Initiative / Activity
           %th.title Since
           %th.actions Actions
-        = render :partial => 'admin/initiatives/signing', :collection => @organization.signings.order("added_on DESC").load
+        = render partial: 'admin/initiatives/signing',
+            collection: @organization.signings.joins(:initiative).includes(:initiative).order(added_on: :desc)
+
+  - if @organization.action_platform_subscriptions.exists?
+    #action_platforms.tab_content
+      = render partial: "/admin/action_platform/landing", locals: { subscriptions: @organization.action_platform_subscriptions }
 
   - staff_only do
-    - if @organization.contributions.any?
+    - contributions = @organization.contributions.includes(:campaign).joins(:campaign).visible_in_dashboard
+    - if contributions.exists?
       #contributions.tab_content
         %h2 Contributions
         %table.dashboard_table#contributions_dashboard_table
@@ -202,7 +210,7 @@
             %th.title Amount
             %th.title Payment Type
             %th.title Status
-          = render :partial => 'admin/organizations/contribution', :collection => @organization.contributions.visible_in_dashboard
+          = render partial: 'admin/organizations/contribution', collection: contributions
 
     - if @organization.due_diligence_reviews.any?
       #due_diligence_reviews.tab_content

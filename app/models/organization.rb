@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: organizations
@@ -375,7 +377,7 @@ class Organization < ActiveRecord::Base
       conditions.where(organization_type_id: organization.organization_type_id)
     end
 
-    conditions.includes([:country, :sector]).order("organizations.name ASC")
+    conditions.order(:name)
   end
 
   def self.applications_under_review

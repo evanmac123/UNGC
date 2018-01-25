@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class OrganizationPresenter < SimpleDelegator
   attr_reader :organization
 
@@ -27,5 +29,13 @@ class OrganizationPresenter < SimpleDelegator
 
   def parent_company_name
     @organization.parent_company&.name
+  end
+
+  def action_platform_subscriptions
+    @organization
+        .action_platform_subscriptions
+        .joins(:platform, :order, :contact)
+        .includes(:platform, :order, :contact)
+        .order(:starts_on, :platform_id)
   end
 end

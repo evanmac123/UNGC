@@ -8,7 +8,7 @@
     %li= link_to 'Logo Requests', '#logos'
     %li= link_to @organization.cop_acronym.pluralize, '#cops'
     %li= link_to "Draft #{@organization.cop_acronym.pluralize}", '#cop_drafts'
-    - if @organization.business?
+    - if @organization.business? || current_user&.from_ungc?
       %li= link_to t("action_platform.labels.dashboard_tab"), "#action_platforms"
     %li= link_to 'Level of Engagement', '#level_of_engagement'
 
@@ -154,7 +154,8 @@
       = render :partial => 'admin/cops/drafts', locals: { drafts: current_contact.organization.communication_on_progresses.in_progress }
 
     #action_platforms.tab_content
-      = render partial: "/admin/action_platform/landing"
+      = render partial: "/admin/action_platform/landing", locals: { subscriptions: @organization.action_platform_subscriptions }
+      = link_to "Signup for Action Platforms", new_admin_action_platform_subscription_path
 
     #level_of_engagement.tab_content
       %h2 Level of Engagement
