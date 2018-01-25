@@ -36,6 +36,6 @@ class OrganizationPresenter < SimpleDelegator
         .action_platform_subscriptions
         .joins(:platform, :order, :contact)
         .includes(:platform, :order, :contact)
-        .order(:starts_on, :platform_id)
+        .order(starts_on: :desc, platform_id: :asc)
   end
 end
