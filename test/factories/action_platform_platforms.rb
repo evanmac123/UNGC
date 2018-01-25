@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :action_platform_platform, class: 'ActionPlatform::Platform' do
+  factory :action_platform_platform, class: ActionPlatform::Platform do
     name { Faker::Hipster.words(2).map(&:titlecase).join(" ") }
     description { Faker::Hipster.sentence }
     slug { Faker::Hipster.word.downcase }
@@ -8,16 +8,9 @@ FactoryGirl.define do
     default_ends_at Date.current.end_of_year
 
     trait :with_subscriptions do
-      # association :subscriptions, factory: :action_platform_subscription
       after(:build) do |platform|
         platform.subscriptions << create(:action_platform_subscription)
       end
     end
-  end
-
-  factory :action_platform, class: 'ActionPlatform::Platform' do
-    name { Faker::Hipster.words(2).map(&:titlecase).join(" ") }
-    description { Faker::Hipster.sentence }
-    slug { Faker::Hipster.word.downcase }
   end
 end

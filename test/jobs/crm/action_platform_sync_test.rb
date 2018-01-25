@@ -3,7 +3,6 @@ require "test_helper"
 module Crm
   class ActionPlatformSyncTest < ActiveSupport::TestCase
 
-    
     setup do
       Rails.configuration.x_enable_crm_synchronization = true
       TestAfterCommit.enabled = true
@@ -17,7 +16,7 @@ module Crm
     test "creating an Action Platform also creates it in the CRM" do
       crm = mock_crm()
 
-      platform = create(:action_platform,
+      platform = create(:action_platform_platform,
         name: "One",
         description: "description",
         discontinued: true)
@@ -32,7 +31,7 @@ module Crm
     test "updating a Action Platform also updates it in the CRM" do
       crm = mock_crm()
 
-      platform = create(:action_platform, name: "One")
+      platform = create(:action_platform_platform, name: "One")
       platform.update!(name: "Two")
 
       crm_platform = crm.find_action_platform(platform.id)
@@ -43,7 +42,7 @@ module Crm
     test "deleting an Action Platform marks it as deleted in the CRM" do
       crm = mock_crm()
 
-      platform = create(:action_platform)
+      platform = create(:action_platform_platform)
       platform.destroy!
 
       crm_platform = crm.find_action_platform(platform.id)
