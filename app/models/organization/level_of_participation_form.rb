@@ -209,22 +209,29 @@ class Organization::LevelOfParticipationForm
       parent_company_identified = organization.parent_company_id.present? && organization.parent_company_id_changed?
       annual_revenue_changed = organization.precise_revenue_cents_changed?
 
+      order_service = nil
       Organization.transaction do
         organization.save!
 
         # ensure the contact specified is a contact point
         ensure_in_role(contact_point_id, Role.contact_point)
 
-        case financial_contact_action
-        when "choose"
-          # load the selected contact and ensure they have the financial contact role
-          ensure_in_role(financial_contact_id, Role.financial_contact)
-        when "create"
-          # create a new financial contact with the attribute given
-          attrs = financial_contact.attributes.merge(roles: [Role.financial_contact])
-          organization.contacts.financial_contacts.create!(attrs)
-        else
-          raise "Unexpected financial_contact_action: >>#{financial_contact_action}<<"
+        # create or update the finanicial contact
+        financial_contact_record = create_financial_contact(organization)
+
+        # Create any Action Platform Subscriptions
+        order_service = ActionPlatform::OrderService.new(organization, financial_contact_record)
+        if subscriptions.any?
+          subscriptions.values.each do |params|
+            next unless params.selected
+
+            order_service.subscribe(
+              contact_id: params.contact_id,
+              platform_id: params.platform_id
+            )
+          end
+
+          order_service.create_order_without_notifications
         end
 
         stream_name = "organization_#{organization.id}"
@@ -237,6 +244,8 @@ class Organization::LevelOfParticipationForm
       if level_of_participation_chosen && organization&.local_network&.contacts&.network_contacts&.exists?
         OrganizationMailer.level_of_participation_chosen(organization).deliver_later
       end
+
+      order_service.send_notifications_for_successful_order
 
       @is_persisted = true
       true
@@ -268,6 +277,20 @@ class Organization::LevelOfParticipationForm
 
   private
 
+  def create_financial_contact(organization)
+    case financial_contact_action
+    when "choose"
+      # load the selected contact and ensure they have the financial contact role
+      ensure_in_role(financial_contact_id, Role.financial_contact)
+    when "create"
+      # create a new financial contact with the attribute given
+      attrs = financial_contact.attributes.merge(roles: [Role.financial_contact])
+      organization.contacts.financial_contacts.create!(attrs)
+    else
+      raise "Unexpected financial_contact_action: >>#{financial_contact_action}<<"
+    end
+  end
+
   def invoicing_policy
     Organization::InvoicingPolicy.new(organization, annual_revenue)
   end
@@ -279,6 +302,7 @@ class Organization::LevelOfParticipationForm
     unless contact.is?(role)
       contact.roles << role
     end
+    contact
   end
 
   def level_of_participation_event
@@ -318,4 +342,6 @@ class Organization::LevelOfParticipationForm
     level_of_participation.to_s == "lead_level"
   end
 
+  def create_action_platform_subscriptions(organization, financial_contact)
+  end
 end

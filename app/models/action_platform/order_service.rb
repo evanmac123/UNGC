@@ -18,11 +18,27 @@ module ActionPlatform
       }
     end
 
+    # Creates an order for any subscriptions created by calls to #subscribe.
+    # Sends notification emails and fires events after commit. See #create_order_and_subscriptions and #send_notifications if you need to separate the two operations.
     def create_order
       create_order_and_subscriptions.tap do |order|
-        publish_subscription_created_event(order)
-        notify_rm_team(order)
+        send_notifications_for_successful_order if order.present?
       end
+    end
+
+    # Create the order and subscriptions as part of a transaction
+    # N.B. Does not send any notifcations. See #create_order for default behaviour. See #send_notifications_for_successful_order to send the notifications after the fact.
+    def create_order_without_notifications
+      create_order_and_subscriptions
+    end
+
+    # Send notifications that should go out on the successful completion of creating an order.
+    # See #create_order for default behaviour
+    def send_notifications_for_successful_order
+      return if @order.nil?
+
+      publish_subscription_created_event(@order)
+      notify_rm_team(@order)
     end
 
     private
@@ -46,13 +62,13 @@ module ActionPlatform
           )
         end
 
-        order
+        @order = order
       end
     end
 
     def notify_rm_team(order)
       # For now we will simply email the RM Team about the order
-      @mailer.delay.order_received(order.id) if @mailer.present?
+      @mailer.order_received(order.id).deliver_later if @mailer.present?
 
       # TODO notify Salesforce
       order.subscriptions.each do |subscription|
