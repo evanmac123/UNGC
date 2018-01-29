@@ -32,8 +32,7 @@ class DataVisualization::SdgCountryQueries
     CopAttribute
         .joins(cop_answers: [communication_on_progress: [organization: [:country, :sector]]])
         .where(organizations: { country_id: @country_id })
-        .where("cop_answers.value": true)
-        .where("cop_attributes.text like 'SDG%'")
+        .sdg_question_with_answer
   end
 
   def country_sdg_count_with_id
@@ -52,9 +51,10 @@ class DataVisualization::SdgCountryQueries
 
   def sdg_country_sector_count
     base_query
-        .where("sectors.name != :v", v: 'Not Applicable')
+        .merge(Sector.applicable)
         .group("sectors.name, cop_attributes.id")
         .select("cop_attributes.text, count(cop_answers.id) as answer_count, sectors.name as sector_name")
         .flat_map { |attr| [ sdg: attr.text, count: attr.answer_count, sector: attr.sector_name, country: @country_name ] }
   end
+
 end

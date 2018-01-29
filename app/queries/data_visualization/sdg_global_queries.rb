@@ -1,9 +1,7 @@
 class DataVisualization::SdgGlobalQueries
 
   def base_query
-    CopAttribute
-        .where("cop_answers.value": true)
-        .where("cop_attributes.text like 'SDG%'")
+    CopAttribute.sdg_question_with_answer
   end
 
   def overall_sdg_breakdown
@@ -18,7 +16,7 @@ class DataVisualization::SdgGlobalQueries
   def overall_sdg_sector_count
     base_query
         .joins(cop_answers: { communication_on_progress: { organization: [:sector] } })
-        .where("sectors.name != :v", v: 'Not Applicable')
+        .merge(Sector.applicable)
         .group("cop_attribute_id, cop_attributes.text, sectors.name")
         .unscope(:order)
         .select("cop_attributes.text, count(cop_answers.id) as answer_count, sectors.name as sector_name")
@@ -28,7 +26,7 @@ class DataVisualization::SdgGlobalQueries
   def overall_org_type_sdg_breakdown(org_type)
     base_query
         .joins(cop_answers: { communication_on_progress: { organization: [:organization_type] } })
-        .group("organization_types.name, cop_attribute_id, copy_attributes.text")
+        .group("organization_types.name, cop_attribute_id, cop_attributes.text")
         .where(organization_types: { name: org_type })
         .select("cop_attributes.text, count(cop_answers.id) as answer_count, organization_types.name as organization_type_name")
         .flat_map { |attr| [ sdg: attr.text, count: attr.answer_count, organization_type: attr.organization_type_name ] }

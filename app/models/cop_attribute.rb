@@ -19,4 +19,9 @@ class CopAttribute < ActiveRecord::Base
   has_many :cop_answers
 
   default_scope { order('cop_attributes.position') }
+
+  scope :sdg_question_with_answer, ->  {
+    joins(:cop_answers)
+    .where(cop_answers: { value: true } )
+    .where("cop_attributes.text like 'SDG%'") }
 end
