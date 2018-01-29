@@ -238,11 +238,6 @@ class Admin::EventsControllerTest < ActionController::TestCase
           assert_equal @params[:country_id], @event.country_id
         end
 
-        should 'set is_invitation_only' do
-          skip
-          assert_equal @params[:is_invitation_only], @event.is_invitation_only
-        end
-
         should 'set priority' do
           assert_equal @params[:priority], @event.priority
         end

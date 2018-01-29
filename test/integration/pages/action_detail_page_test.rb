@@ -69,16 +69,6 @@ class ActionDetailPageTest < ActionDispatch::IntegrationTest
     assert_render_resources_content_block_component @resources
   end
 
-  should 'render events/news component' do
-    skip
-    assert_render_events_news_component events: @events, news: @news
-  end
-
-  should 'render embedded participants table component' do
-    skip # this test is racey, skipping until it's fixed.
-    assert_render_embedded_participants_table_component @participants
-  end
-
   should 'render partners component' do
     assert_render_partners_component @data[:partners]
   end
