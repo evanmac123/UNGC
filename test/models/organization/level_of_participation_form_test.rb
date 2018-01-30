@@ -265,6 +265,57 @@ class Organization::LevelOfParticipationFormTest < ActiveSupport::TestCase
     end
   end
 
+  test "notifications are sent when action platforms are subscribbed to" do
+    platform = create(:action_platform_platform)
+    organization = create(:organization)
+    contact = create(:contact, organization: organization)
+
+    form = build_form(
+      organization: organization,
+      level_of_participation: "lead_level",
+      accept_platform_removal: true,
+      subscriptions: {
+        platform.id => {
+          selected: true,
+          platform_id: platform.id,
+          contact_id: contact.id,
+        },
+      }
+    )
+
+    assert form.save, form.errors.full_messages
+
+    mail = ActionMailer::Base.deliveries.detect do |m|
+      m.subject == "Action Platform Order Received from #{organization.name}"
+    end
+    assert_not_nil mail
+  end
+
+  test "no notifcations are sent when there are no action platform subscriptions" do
+    platform = create(:action_platform_platform)
+    organization = create(:organization)
+
+    form = build_form(
+      organization: organization,
+      level_of_participation: "lead_level",
+      accept_platform_removal: true,
+      subscriptions: {
+        platform.id => {
+          selected: false,
+          platform_id: platform.id,
+          contact_id: nil,
+        },
+      }
+    )
+
+    assert form.save, form.errors.full_messages
+
+    mail = ActionMailer::Base.deliveries.detect do |m|
+      m.subject == "Action Platform Order Received from #{organization.name}"
+    end
+    assert_nil mail
+  end
+
   private
 
   def build_form(params = {})
