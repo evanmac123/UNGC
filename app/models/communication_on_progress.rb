@@ -343,14 +343,14 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
 
   def questions_missing_answers
+    cast_type = DbConnectionHelper.backend == :mysql ? 'DECIMAL' : 'INTEGER'
     CopQuestion
-        .select(:id, :text, 'SUM(CAST(cop_answers.value AS DECIMAL)) as total')
+        .select(:id, :text, "SUM(CAST(cop_answers.value AS #{cast_type})) as total")
         .joins(cop_attributes: :cop_answers)
         .where(cop_answers: {cop_id: self.id}, cop_questions: { initiative_id: nil})
         .where.not(cop_questions: { grouping: CopQuestion.exempted_groupings})
         .group(:id)
-        .having('SUM(CAST(cop_answers.value AS DECIMAL)) = 0')
-        .reorder(:id)
+        .having("SUM(CAST(cop_answers.value AS #{cast_type})) = 0")
   end
 
   def is_blueprint_level?

@@ -64,9 +64,7 @@ class Organization < ActiveRecord::Base
   self.include_root_in_json = false
 
   validates_presence_of :name
-  validates_uniqueness_of :name,
-    case_sensitive: false,
-    message: "has already been used by another organization"
+  validates :name, organization_uniqueness: true
 
   validates :employees, numericality: {
     only_integer: true,

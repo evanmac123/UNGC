@@ -3,8 +3,11 @@ class ContributorsQuery
 
   def self.search(query)
     if query.strip.length >= MIN_SEARCH_LENGTH
+      ci_search_clause = DbConnectionHelper.backend == :mysql ?
+          "organizations.name like :query" :
+          "fold_ascii(organizations.name) like fold_ascii(:query)"
       lead_and_annual_contributions
-        .where("organizations.name like ?", "%#{query}%")
+        .where(ci_search_clause, query: "%#{query}%")
     else
       Contribution.none
     end

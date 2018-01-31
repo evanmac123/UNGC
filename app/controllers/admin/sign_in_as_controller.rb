@@ -39,9 +39,12 @@ class Admin::SignInAsController < AdminController
 
   def search_contacts(terms)
     pattern = "%#{terms}%"
+    ci_search_clause = DbConnectionHelper.backend == :mysql ?
+        "organizations.name like :pattern or concat_ws(' ', contacts.first_name, contacts.last_name) like :pattern" :
+        "fold_ascii(organizations.name) like fold_ascii(:pattern) or fold_ascii(concat_ws(' ', contacts.first_name, contacts.last_name)) like fold_ascii(:pattern)"
     sign_in_policy.sign_in_targets
       .includes(:organization)
-      .where("organizations.name like ? or concat_ws(' ', contacts.first_name, contacts.last_name) like ?", pattern, pattern)
+      .where(ci_search_clause, pattern: pattern)
       .order('organizations.name, contacts.first_name, contacts.last_name')
       .select('contacts.id', 'organizations.name', 'contacts.first_name', 'contacts.last_name')
       .limit(100)

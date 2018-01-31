@@ -35,18 +35,10 @@ class DataVisualization::SdgCountryQueries
         .sdg_question_with_answer
   end
 
-  def country_sdg_count_with_id
-    base_query
-        .group("cop_attributes.id")
-        .select("cop_attributes.id, cop_attributes.text, count(cop_answers.id) as answer_count")
-        .map { |attr| [attr.id, attr.text, attr.answer_count] }
-  end
-
   def country_sdg_count
     base_query
         .group("cop_attributes.id")
         .select("cop_attributes.text, count(cop_answers.id) as answer_count")
-        .map { |attr| { sdg: attr.text, count: attr.answer_count, country: @country_name } }
   end
 
   def sdg_country_sector_count
@@ -54,7 +46,6 @@ class DataVisualization::SdgCountryQueries
         .merge(Sector.applicable)
         .group("sectors.name, cop_attributes.id")
         .select("cop_attributes.text, count(cop_answers.id) as answer_count, sectors.name as sector_name")
-        .flat_map { |attr| [ sdg: attr.text, count: attr.answer_count, sector: attr.sector_name, country: @country_name ] }
   end
 
 end

@@ -32,8 +32,13 @@ class DataVisualization::SdgsController < ApplicationController
   def country
     @country = Country.find(params.fetch(:id))
     sdg_country_data = DataVisualization::SdgCountryQueries.new(@country.id)
-    @sdg_count = sdg_country_data.country_sdg_count
-    @sdg_sector_breakdown = sdg_country_data.sdg_country_sector_count
+    @sdg_count = sdg_country_data
+                     .country_sdg_count
+
+    @sdg_sector_breakdown = sdg_country_data
+                                .sdg_country_sector_count
+                                .reorder('cop_attributes.position')
+
   end
 
 end

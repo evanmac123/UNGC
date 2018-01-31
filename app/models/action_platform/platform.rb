@@ -28,6 +28,7 @@ class ActionPlatform::Platform < ActiveRecord::Base
   after_commit Crm::ActionPlatformSyncJob::CommitHook.new(:destroy), on: :destroy
 
   def self.with_subscription_counts
+    cast_type = DbConnectionHelper.backend == :mysql ? 'DECIMAL' : 'INTEGER'
     joins('LEFT OUTER JOIN action_platform_subscriptions on platform_id = action_platform_platforms.id')
         .group(:id)
         .select('action_platform_platforms.*',
@@ -35,10 +36,10 @@ class ActionPlatform::Platform < ActiveRecord::Base
                     "(action_platform_subscriptions.state = 'approved'" \
                     "   AND starts_on <= CURRENT_DATE" \
                     "   AND expires_on >= CURRENT_DATE)" \
-                " as DECIMAL)), 0) as active_subs",
+                " as #{cast_type})), 0) as active_subs",
                 "coalesce(sum(cast(" \
                     "action_platform_subscriptions.state IN ('pending', 'ce_engagement_review')" \
-                " as DECIMAL)), 0) as pending_subs",
+                " as #{cast_type})), 0) as pending_subs",
                 'count(*) as all_subs')
   end
 
