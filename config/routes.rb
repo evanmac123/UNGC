@@ -570,6 +570,7 @@ UNGC::Application.routes.draw do
   get '/2015commitments', to: redirect('/docs/news_events/PSF2017/2015-Check-In-Full-Reports.pdf')
   get '/tiers', to: redirect('/participation/tiers')
   get '/mgglb', to: redirect('/take-action/events/1611-making-global-goals-local-business-argentina')
+  get '/MGGLB', to: redirect('/take-action/events/1611-making-global-goals-local-business-argentina')
 
   #redirect for delisted company
   get '/system/attachments/cop_2016/322211/original/ToddandClare.com_United_Nations_GC_Member_Report_COP_1042016.pdf', to: redirect('/what-is-gc/participants/83761-T-C-Network-Solutions')
