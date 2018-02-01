@@ -3,6 +3,7 @@ ThinkingSphinx::Index.define :event, :with => :active_record do
 
   has :is_online,           facet: true
   has :is_invitation_only,  facet: true
+  has :is_academy,          facet: true
   has :starts_at,           facet: true
   has :ends_at,             facet: true
 

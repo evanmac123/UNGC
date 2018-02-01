@@ -126,6 +126,7 @@ en:
     online: 'Online'
     in_person: 'In Person'
     invite_only: 'Invite Only'
+    academy: 'Academy'
 
   headline:
     press_release: 'Press Release'

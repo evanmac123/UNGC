@@ -76,6 +76,8 @@ class EventDetailPage < SimpleDelegator
       'Online'
     elsif event.is_invitation_only?
       'Invitation'
+    elsif event.is_academy?
+      'Academy'
     else
       'Open'
     end

@@ -30,6 +30,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
       'ends_at(5i)' => @ends_at.strftime('%M'),
       is_all_day: false,
       is_online: false,
+      is_academy: false,
       location: 'New York, NY',
       country_id: @country.id,
       is_invitation_only: false,
@@ -87,6 +88,10 @@ class Admin::EventsControllerTest < ActionController::TestCase
 
         should 'set is_online' do
           assert_equal @params[:is_online], @event.is_online
+        end
+
+        should 'set is_academy' do
+          assert_equal @params[:is_academy], @event.is_academy
         end
 
         should 'set location' do
@@ -228,6 +233,10 @@ class Admin::EventsControllerTest < ActionController::TestCase
 
         should 'set is_online' do
           assert_equal @params[:is_online], @event.is_online
+        end
+
+        should 'set is_academy' do
+          assert_equal @params[:is_academy], @event.is_academy
         end
 
         should 'set location' do

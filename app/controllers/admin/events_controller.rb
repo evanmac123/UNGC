@@ -73,6 +73,7 @@ class Admin::EventsController < AdminController
         :ends_at,
         :is_all_day,
         :is_online,
+        :is_academy,
         :location,
         :country_id,
         :is_invitation_only,

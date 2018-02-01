@@ -3,7 +3,8 @@ class Filters::EventTypeFilter < Filters::SearchFilter
   OPTIONS = [
     'online',
     'in_person',
-    'invite_only'
+    'invite_only',
+    'academy',
   ]
 
   def initialize(types)

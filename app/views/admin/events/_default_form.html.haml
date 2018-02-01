@@ -38,6 +38,7 @@
         = default_form.datetime_select :ends_at, {}, {class: 'datetime-select'}, {}
         = default_form.check_box :is_all_day, {}, 'true', 'false'
         = default_form.check_box :is_online, {}, 'true', 'false'
+        = default_form.check_box :is_academy, {}, 'true', 'false'
         = default_form.text_field :location
         = default_form.select :country_id, @event.country_options, {include_blank: 'Select a Country'}, {}
         = default_form.check_box :is_invitation_only, {}, 'true', 'false'

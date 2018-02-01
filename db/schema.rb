@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180103103932) do
+ActiveRecord::Schema.define(version: 20180130215848) do
 
   create_table "action_platform_orders", force: :cascade do |t|
     t.integer  "organization_id",      limit: 4,                   null: false
@@ -577,6 +577,7 @@ ActiveRecord::Schema.define(version: 20180103103932) do
     t.text     "tab_4_description",            limit: 65535
     t.string   "tab_5_title",                  limit: 255
     t.text     "tab_5_description",            limit: 65535
+    t.boolean  "is_academy"
   end
 
   add_index "events", ["contact_id"], name: "index_events_on_contact_id", using: :btree

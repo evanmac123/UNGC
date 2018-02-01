@@ -53,6 +53,7 @@ class EventsListForm < FilterableForm
         in_date_range: true,
         is_online: online?,
         is_invitation_only: invite_only?,
+        is_academy: academy?
       )
     }
   end
@@ -71,6 +72,12 @@ class EventsListForm < FilterableForm
   def invite_only?
     types.map do |v|
       true if v == 'invite_only'
+    end.compact
+  end
+
+  def academy?
+    types.map do |v|
+      true if v == 'academy'
     end.compact
   end
 
@@ -116,6 +123,8 @@ class EventsListForm < FilterableForm
         online_facets.has_key? 0
       when 'invite_only'
         invite_facets.has_key? 1
+      when 'academy'
+        academy_facets.has_key? 1
       else
         raise "unexpected option.id: #{option.id}"
       end
@@ -129,6 +138,10 @@ class EventsListForm < FilterableForm
 
     def invite_facets
       @invite_facets ||= facets.fetch(:is_invitation_only, {})
+    end
+
+    def academy_facets
+      @academy_facets ||= facets.fetch(:is_academy, {})
     end
 
   end

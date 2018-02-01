@@ -18,6 +18,7 @@
 #  approval                     :string(255)
 #  is_all_day                   :boolean
 #  is_online                    :boolean
+#  is_academy                   :boolean
 #  is_invitation_only           :boolean
 #  priority                     :integer          default(1)
 #  contact_id                   :integer
