@@ -15,18 +15,16 @@ class Components::Events
   end
 
   def future
-    future = scoped.where("starts_at >= ?", Date.current)
-    if featured_id
-      future = future.where.not('id = ?', featured_id)
-    end
-    future = future.order('starts_at asc')
+    future = scoped.where(starts_at: Date.current..20.years.from_now)
+    future = future.where.not(id: featured_id) if featured_id
+    future = future.order(:starts_at, :id)
     future = featured ? future[0..5] : future[0..8]
 
     future.each_slice(3).to_a
   end
 
   def past
-    scoped.where("starts_at < ?", Date.current).order('starts_at desc')
+    scoped.where(starts_at: 20.years_ago..1.day.ago).order(starts_at: :desc, id: :asc)
   end
 
   def each(&block)

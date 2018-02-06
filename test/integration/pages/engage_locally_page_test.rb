@@ -18,7 +18,7 @@ class EngageLocallyPageTest < ActionDispatch::IntegrationTest
     payload['widget_contact']['contact_id'] = update_contact_with_image(@staff_user).id
     @related_contents = create_related_contents_component_data
     @resources,payload['resources'] = create_resource_content_block_data_and_payload
-    @events,@news = create_event_news_component_data
+    @events, @news = create_event_news_component_data
 
     container.create_public_payload(
       container_id: container.id,
