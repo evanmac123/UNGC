@@ -73,6 +73,7 @@ module Igloo
       "Water Stewardship for the SDGs" => "Water Security through Stewardship",
       "Water Security through Stewardship" => "Water Security through Stewardship",
       "Peace, Justice and Strong Institutions" => "Justice and Strong Institutions",
+      "Business for Humanitarian Action" => "Business for Humanitarian Action",
     }.freeze
 
   end

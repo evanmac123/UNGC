@@ -104,8 +104,8 @@ module Igloo
         File.open(path, "w") do |f|
           f.write(csv)
         end
-        raise response.body.to_s
         puts "the failed csv can be found here: #{path}"
+        raise response.body.to_s
       end
     end
 
