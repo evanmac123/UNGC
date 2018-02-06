@@ -10,12 +10,10 @@ class Organization::InvoicingPolicy
   end
 
   def options
-    jan1 = next_date month: 1, day: 1
     april1 = next_date month: 4, day: 1
 
     options = [
       ["Invoice me now", @today],
-      ["Invoice me on 1 January #{jan1.year}", jan1],
       ["Invoice me on 1 April #{april1.year}", april1],
     ]
 
