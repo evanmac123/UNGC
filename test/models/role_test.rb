@@ -94,8 +94,10 @@ class RoleTest < ActiveSupport::TestCase
 
   context "given a Local Network" do
     setup do
-      local_network = create(:local_network, :with_executive_director)
-      @roles = Role.visible_to(local_network.contacts.first)
+      contact = create(:contact, :network_executive_director)
+      local_network = create(:local_network)
+      local_network.contacts << contact
+      @roles = Role.visible_to(contact)
     end
 
     should "have focal, report, monthly report and general role options" do
