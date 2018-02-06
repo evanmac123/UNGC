@@ -39,9 +39,7 @@ class ApplicationManifest < Moonshine::Manifest::Rails
   recipe :pdfminer
   recipe :xsendfile
 
-  if rails_env == "staging"
   recipe :postgresql_server, :postgresql_gem, :postgresql_user, :postgresql_database
-  end
 
   on_stage(:production) do
     recipe :cron_tasks
