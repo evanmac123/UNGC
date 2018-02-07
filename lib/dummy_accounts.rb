@@ -113,10 +113,11 @@ class DummyAccounts
       country: canada,
       city: 'Toronto',
       job_title: 'Dummy Account',
-      phone: '1234567890'
+      phone: '1234567890',
+      last_password_changed_at: Time.current,
     )
     username = params.fetch(:username)
-    Contact.where(username: username).first_or_create!(params)
+    Contact.create_with(params).find_or_create_by!(username: username)
   end
 
   def create_approved_organization(params)
@@ -140,7 +141,7 @@ class DummyAccounts
   end
 
   def canada
-    @canada ||= Country.find_by(code: 'ca')
+    @canada ||= Country.find_by(code: 'CA')
   end
 
 end
