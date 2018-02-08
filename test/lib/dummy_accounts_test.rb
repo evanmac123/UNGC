@@ -6,7 +6,7 @@ class DummyAccountsTest < ActiveSupport::TestCase
   setup do
     create_listing_statuses
     create_staff_user
-    create(:country, code: 'ca', local_network: create(:local_network))
+    create(:country, code: 'CA', local_network: create(:local_network))
     subject = DummyAccounts.new
   end
 
