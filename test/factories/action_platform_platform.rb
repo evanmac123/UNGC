@@ -12,5 +12,11 @@ FactoryGirl.define do
         platform.subscriptions << create(:action_platform_subscription)
       end
     end
+
+    trait :with_record_id do
+      sequence(:record_id) { |n| "6050D#{n.to_s.rjust(10, '0')}MVK" }
+    end
+
+    factory :crm_action_platform, traits: [:with_record_id]
   end
 end

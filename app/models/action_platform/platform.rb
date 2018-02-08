@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: action_platform_platforms
@@ -14,6 +16,8 @@
 #
 
 class ActionPlatform::Platform < ActiveRecord::Base
+  include SalesforceRecordConcern
+
   has_many :subscriptions, dependent: :restrict_with_error
 
   validates :name, presence: true, length: { maximum: 255 }
@@ -22,10 +26,6 @@ class ActionPlatform::Platform < ActiveRecord::Base
   validate :end_date_after_start_date?
 
   scope :available_for_signup, -> { where(discontinued: false) }
-
-  after_commit Crm::ActionPlatformSyncJob::CommitHook.new(:create), on: :create
-  after_commit Crm::ActionPlatformSyncJob::CommitHook.new(:update), on: :update
-  after_commit Crm::ActionPlatformSyncJob::CommitHook.new(:destroy), on: :destroy
 
   def self.with_subscription_counts
     cast_type = DbConnectionHelper.backend == :mysql ? 'DECIMAL' : 'INTEGER'

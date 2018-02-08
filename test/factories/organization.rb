@@ -24,6 +24,12 @@ FactoryGirl.define do
       active true
     end
 
+    trait :with_record_id do
+      sequence(:record_id) { |n| "00D0D#{n.to_s.rjust(10, '0')}MVK" }
+    end
+
+    factory :crm_organization, traits: [:with_record_id, :with_sector]
+
     trait :participant_level do
       level_of_participation Organization.level_of_participations[:participant_level]
     end
@@ -47,7 +53,7 @@ FactoryGirl.define do
     end
 
     trait :with_sector do
-      sector { create(:sector) }
+      sector { build(:sector) }
     end
 
     factory :non_business do

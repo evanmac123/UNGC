@@ -1,9 +1,7 @@
 require "test_helper"
-require "sidekiq/testing"
 
 class DueDiligenceTest < ActionDispatch::IntegrationTest
   setup do
-    Sidekiq::Testing.inline!
     travel_to Time.zone.parse("2015-01-02 12:00:00")
   end
 

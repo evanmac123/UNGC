@@ -1097,6 +1097,17 @@ ActiveRecord::Schema.define(version: 20180130215848) do
     t.integer  "position",      limit: 4
   end
 
+  create_table "salesforce_records", force: :cascade do |t|
+    t.string   "record_id",  limit: 18,  null: false
+    t.integer  "rails_id",   limit: 4
+    t.string   "rails_type", limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "salesforce_records", ["rails_type", "rails_id"], name: "salesforce_rails_type_idx", using: :btree
+  add_index "salesforce_records", ["record_id"], name: "salesforce_record_id_uidx", unique: true, using: :btree
+
   create_table "sdg_pioneer_businesses", force: :cascade do |t|
     t.string   "organization_name",         limit: 255
     t.boolean  "is_participant"

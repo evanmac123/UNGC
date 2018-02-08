@@ -25,5 +25,11 @@ FactoryGirl.define do
         local_network.contacts << create(:contact, :network_report_recipient)
       end
     end
+
+    trait :with_record_id do
+      sequence(:record_id) { |n| "01I0D#{n.to_s.rjust(10, '0')}MVK" }
+    end
+
+    factory :crm_local_network, traits: [:with_record_id, :with_network_contact]
   end
 end

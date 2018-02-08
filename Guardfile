@@ -15,9 +15,15 @@
 #
 # and, you'll have to watch "config/Guardfile" instead of "Guardfile"
 
-guard :minitest, spring: true, all_on_start: false, cli: "--color --fast_fail" do
+guard :minitest, first_match: true, spring: true, all_on_start: false, cli: "--color --fast_fail" do
 
+  functional_crm_test = Dir[File.join('test/jobs/crm/functional*_test.rb')]
   # Rails 4
+  watch(%r{^app/jobs/crm/adapters/base.rb$})              { [*Dir[File.join("test/jobs/crm/adapters")], *functional_crm_test] }
+  watch(%r{^app/jobs/crm/salesforce_sync_job.rb$})        { [*Dir[File.join("test/jobs/crm/**/*sync_job*_test.rb")], *functional_crm_test] }
+  watch(%r{^app/jobs/crm/adapters/(.+)\.rb$})             { |m| ["test/jobs/crm/adapters/#{m[1]}_test.rb", *functional_crm_test] }
+  watch(%r{^app/jobs/(.+)_job\.rb$})                      { |m| ["test/jobs/#{m[1]}_job_test.rb", *functional_crm_test] }
+
   watch(%r{^app/(.+)\.rb$})                               { |m| "test/#{m[1]}_test.rb" }
   watch(%r{^app/controllers/application_controller\.rb$}) { 'test/controllers' }
   watch(%r{^app/controllers/(.+)_controller\.rb$})        { |m| "test/integration/#{m[1]}_test.rb" }
@@ -25,6 +31,9 @@ guard :minitest, spring: true, all_on_start: false, cli: "--color --fast_fail" d
   watch(%r{^lib/(.+)\.rb$})                               { |m| "test/lib/#{m[1]}_test.rb" }
   watch(%r{^test/.+_test\.rb$})
   watch(%r{^test/test_helper\.rb$}) { 'test' }
+
+  # Note the `nil` at the end to avoid passing file to plugin
+  # watch(/(.*)/) { |m| Guard::UI.info "Unknown file: #{m[1]}"; nil }
 end
 
 guard 'spring', bundler: true do

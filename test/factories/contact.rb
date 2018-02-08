@@ -22,6 +22,10 @@ FactoryGirl.define do
     }
     last_password_changed_at { Contact::STRONG_PASSWORD_POLICY_DATE }
 
+    trait :with_record_id do
+      sequence(:record_id) { |n| "0030D#{n.to_s.rjust(10, '0')}MVK" }
+    end
+
     factory :contact_point do
       organization
 

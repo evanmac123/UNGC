@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: contacts
@@ -48,6 +50,7 @@ require 'digest/sha1'
 
 class Contact < ActiveRecord::Base
   include VisibleTo
+  include SalesforceRecordConcern
 
   devise \
     :database_authenticatable,
@@ -114,10 +117,6 @@ class Contact < ActiveRecord::Base
   before_update  :do_not_allow_last_contact_point_to_uncheck_role
   before_update  :do_not_allow_last_ceo_to_uncheck_role
   before_update  :mark_passwords_as_updated
-
-  after_commit Crm::CommitHooks.new(:create), on: :create
-  after_commit Crm::CommitHooks.new(:update), on: :update
-  after_commit Crm::CommitHooks.new(:destroy), on: :destroy
 
   scope :participants_only, -> { joins(:organization).where(organizations: { participant: true }) }
   scope :ungc_staff, -> { joins(:organization).where(organizations: { name: DEFAULTS[:ungc_organization_name] }) }

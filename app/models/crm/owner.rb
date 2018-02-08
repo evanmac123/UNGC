@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: crm_owners
@@ -13,10 +15,10 @@ module Crm
   class Owner < ActiveRecord::Base
     belongs_to :contact
 
-    DEFAULT_OWNER_ID = '005A0000004KjLy'.freeze
+    DEFAULT_OWNER_ID = '005A0000004KjLy'
 
     def name
-      contact.try!(:name)
+      contact&.name
     end
 
   end

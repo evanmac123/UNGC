@@ -13,28 +13,13 @@ module Crm
 
       payment = @crm.find(SObjectName, donation.id.to_s, IdField)
 
-      params = to_crm(donation)
+      adapter = Crm::Adapters::Donation.new(donation)
+
+      params = adapter.transformed_crm_params(:create)
       if payment.present?
         @crm.update(SObjectName, payment.Id, params)
       else
         @crm.create(SObjectName, params)
-      end
-    end
-
-    private
-
-    def to_crm(donation)
-      # NB we need to parse the raw stripe response
-      # so that we can serialize it all back down as a single
-      # JSON field.
-      {
-        IdField => donation.id,
-        MetadataField => {
-          ungc: donation.metadata,
-          stripe_response: JSON.parse(donation.full_response),
-        }.to_json
-      }.transform_values do |value|
-        Crm::Salesforce.coerce(value)
       end
     end
 

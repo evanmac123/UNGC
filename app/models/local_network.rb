@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: local_networks
@@ -60,6 +62,8 @@
 #
 
 class LocalNetwork < ActiveRecord::Base
+  include SalesforceRecordConcern
+
   validates_presence_of :name
 
   has_attached_file :image,
@@ -82,10 +86,6 @@ class LocalNetwork < ActiveRecord::Base
 
   belongs_to :sg_annual_meeting_appointments_file, :class_name => 'UploadedFile'
   belongs_to :sg_established_as_a_legal_entity_file, :class_name => 'UploadedFile'
-
-  after_commit Crm::CommitHooks.new(:create), on: :create
-  after_commit Crm::CommitHooks.new(:update), on: :update
-  after_commit Crm::CommitHooks.new(:destroy), on: :destroy
 
   validates_format_of :url,
                       :with => /\A(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?\z/ix,

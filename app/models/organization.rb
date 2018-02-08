@@ -60,6 +60,7 @@ class Organization < ActiveRecord::Base
   include ApprovalWorkflow
   include Indexable
   include ThinkingSphinx::Scopes
+  include SalesforceRecordConcern
 
   self.include_root_in_json = false
 
@@ -133,10 +134,6 @@ class Organization < ActiveRecord::Base
   before_save :set_initiative_signatory_sector
   before_destroy :delete_contacts
   before_validation :set_bracketed_revenue
-
-  after_commit Crm::CommitHooks.new(:create), on: :create
-  after_commit Crm::CommitHooks.new(:update), on: :update
-  after_commit Crm::CommitHooks.new(:destroy), on: :destroy
 
   has_attached_file :commitment_letter,
     :path => ":rails_root/public/system/:attachment/:id/:style/:filename",

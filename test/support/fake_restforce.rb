@@ -4,10 +4,17 @@ class FakeRestforce
     @records = {
       'Account' => {},
       'Contact' => {},
-      Crm::LocalNetworkSync.crm_field_name => {},
+      Crm::LocalNetworkSyncJob::SObjectName => {},
       Crm::DonationSync::SObjectName => {},
-      Crm::ActionPlatformSync::SObjectName => {},
-      Crm::ActionPlatformSubscriptionSync::SObjectName => {},
+      Crm::ActionPlatform::PlatformSyncJob::SObjectName => {},
+      Crm::ActionPlatform::SubscriptionSyncJob::SObjectName => {},
+    }
+    @object_prefixes = {
+        Crm::OrganizationSyncJob::SObjectName => '001', # ACCOUNT
+        Crm::ContactSyncJob::SObjectName => '003', # CONTACT
+        Crm::ActionPlatform::PlatformSyncJob::SObjectName => '605', # PRODUCT
+        Crm::ActionPlatform::SubscriptionSyncJob::SObjectName => '00x', # BILLED_PRODUCT
+        Crm::LocalNetworkSyncJob::SObjectName => '01I', # CUSTOM_ENTITY_DEFINITION
     }
   end
 
@@ -30,10 +37,16 @@ class FakeRestforce
   def create!(type, params)
     models = @records.fetch(type)
 
-    id = "crm_#{type.downcase}_#{models.count + 1}"
-    record = ::Restforce::SObject.new(params.merge(Id: id))
+    model_count = models.count + 1
+    record_id = if @object_prefixes[type]
+      "#{@object_prefixes[type]}0D#{model_count.to_s.rjust(10, '0')}MVK"
+    else
+      "crm_#{type.downcase}_#{model_count}"
+    end
 
-    models[id] = record
+    record = ::Restforce::SObject.new(params.merge(Id: record_id))
+
+    models[record_id] = record
     record
   end
 

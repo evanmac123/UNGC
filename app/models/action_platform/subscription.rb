@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: action_platform_subscriptions
@@ -14,6 +16,8 @@
 #
 
 class ActionPlatform::Subscription < ActiveRecord::Base
+  include SalesforceRecordConcern
+
   belongs_to :contact
   belongs_to :platform
   belongs_to :order
@@ -23,10 +27,6 @@ class ActionPlatform::Subscription < ActiveRecord::Base
   validates :platform, presence: true
   validates :order, presence: true
   validates :organization, presence: true
-
-  after_commit Crm::CommitHooks.new(:create), on: :create
-  after_commit Crm::CommitHooks.new(:update), on: :update
-  after_commit Crm::CommitHooks.new(:destroy), on: :destroy
 
   ACTIVE_STATES = %w[approved].freeze
   ALL_STATES = [:pending, :ce_engagement_review, :declined, :approved]

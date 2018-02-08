@@ -8,7 +8,8 @@ module Crm
         id: 121481,
         first_name: "Thorin",
         last_name: "Schriber")
-      Crm::Owner.create!(contact: contact, crm_id: "00512000005yehm")
+
+      create(:crm_owner, contact: contact, crm_id: '00512000005yehm')
 
       assert_equal "00512000005yehm", contact.crm_owner.crm_id
     end
@@ -24,7 +25,7 @@ module Crm
         first_name: "GC",
         last_name: "Africa")
 
-      Crm::Owner.create!(contact: contact, crm_id: '005A00000039Eu7')
+      create(:crm_owner, contact: contact, crm_id: '005A00000039Eu7')
 
       assert_equal "005A00000039Eu7", contact.crm_owner.crm_id
     end
