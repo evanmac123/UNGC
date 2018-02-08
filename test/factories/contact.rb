@@ -84,8 +84,6 @@ FactoryGirl.define do
 
     trait :network_report_recipient do
       after(:build) do |contact, evaluator|
-        # Role needs to be created here to avoid a race condition in the tests
-        Role.network_executive_director || create(:role, :network_executive_director)
         contact.roles << (Role.network_report_recipient || create(:role, :network_report_recipient))
       end
     end

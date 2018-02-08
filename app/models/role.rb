@@ -76,64 +76,71 @@ class Role < ActiveRecord::Base
   end
 
   def self.network_roles_public
-    @_network_roles_public ||= [
-        network_focal_point,
-        network_executive_director,
-    ]
+    Rails.cache.fetch(role_cache_key(:network_roles_public)) do
+      [
+          network_focal_point,
+          network_executive_director,
+      ]
+    end
   end
 
   def self.type_contact_ungc_roles
-    @_type_contact_ungc_roles ||= [
-        ceo,
-        contact_point,
-        network_regional_manager,
-        website_editor,
-        integrity_team_member,
-        integrity_manager,
-        participant_manager,
-        action_platform_manager,
-    ]
+    Rails.cache.fetch(role_cache_key(:type_contact_ungc_roles)) do
+      [
+          ceo,
+          contact_point,
+          network_regional_manager,
+          website_editor,
+          integrity_team_member,
+          integrity_manager,
+          participant_manager,
+          action_platform_manager,
+      ]    end
   end
 
   def self.type_contact_network_roles
-    @_type_contact_network_roles ||= [
-        network_executive_director,
-        network_board_chair,
-        network_focal_point,
-        network_report_recipient,
-        general_contact,
-    ]
+    Rails.cache.fetch(role_cache_key(:type_contact_network_roles)) do
+      [
+          network_executive_director,
+          network_board_chair,
+          network_focal_point,
+          network_report_recipient,
+          general_contact,
+      ]
+    end
   end
 
   # Local Network roles
 
   def self.network_executive_director
-    find_by(name: FILTERS[:network_executive_director])
+    Rails.cache.fetch(role_cache_key(:network_executive_director)) { find_by(name: FILTERS[:network_executive_director]) }
   end
 
   def self.network_board_chair
-    @_network_board_chair ||= find_by(name: FILTERS[:network_board_chair])
+    Rails.cache.fetch(role_cache_key(:network_board_chair)) { find_by(name: FILTERS[:network_board_chair]) }
   end
 
   def self.network_focal_point
-    @_network_focal_point ||= find_by(name: FILTERS[:network_focal_point])
+    Rails.cache.fetch(role_cache_key(:network_focal_point)) { find_by(name: FILTERS[:network_focal_point]) }
   end
 
   def self.network_report_recipient
-    @_network_report_recipient ||= find_by(name: FILTERS[:network_report_recipient])
+    Rails.cache.fetch(role_cache_key(:network_report_recipient)) { find_by(name: FILTERS[:network_report_recipient]) }
   end
 
   def self.network_guest_user
-    @_network_guest_user ||= find_by(name: FILTERS[:network_guest_user])
+    Rails.cache.fetch(role_cache_key(:network_guest_user)) { find_by(name: FILTERS[:network_guest_user]) }
   end
 
   def self.network_contacts
-    [
-        network_focal_point,
-        network_report_recipient,
-        network_executive_director,
-        network_board_chair,
-    ]
+    Rails.cache.fetch(:network_contacts) do
+      [
+          network_focal_point,
+          network_report_recipient,
+          network_executive_director,
+          network_board_chair,
+      ]
+    end
   end
 
   # Participant organization roles
@@ -147,61 +154,62 @@ class Role < ActiveRecord::Base
   end
 
   def self.general_contact
-    @_general_contact ||= find_by(name: FILTERS[:general_contact])
+    Rails.cache.fetch(role_cache_key(:general_contact)) { find_by(name: FILTERS[:general_contact]) }
   end
 
   def self.financial_contact
-    @_financial_contact ||= find_by(name: FILTERS[:financial_contact])
+    Rails.cache.fetch(role_cache_key(:financial_contact)) { find_by(name: FILTERS[:financial_contact]) }
   end
 
   def self.survey_contact
-    @_survey_contact ||= find_by(name: FILTERS[:survey_contact])
+    Rails.cache.fetch(role_cache_key(:survey_contact)) { find_by(name: FILTERS[:survey_contact]) }
   end
 
   # Global Compact staff roles
 
   def self.website_editor
-    @_website_editor ||= find_by(name: FILTERS[:website_editor])
+    Rails.cache.fetch(role_cache_key(:website_editor)) { find_by(name: FILTERS[:website_editor]) }
   end
 
   def self.integrity_team_member
-    @_integrity_team_member ||= find_by(name: FILTERS[:integrity_team_member])
+    Rails.cache.fetch(role_cache_key(:integrity_team_member)) { find_by(name: FILTERS[:integrity_team_member]) }
   end
 
   def self.integrity_manager
-    @_integrity_manager ||= find_by(name: FILTERS[:integrity_manager])
+    Rails.cache.fetch(role_cache_key(:integrity_manager)) { find_by(name: FILTERS[:integrity_manager]) }
   end
 
   def self.network_regional_manager
-    @_network_regional_manager ||= find_by(name: FILTERS[:network_regional_manager])
+    Rails.cache.fetch(role_cache_key(:network_regional_manager)) { find_by(name: FILTERS[:network_regional_manager]) }
   end
 
   def self.participant_manager
-    @_participant_manager ||= find_by(name: FILTERS[:participant_manager])
+    Rails.cache.fetch(role_cache_key(:participant_manager)) { find_by(name: FILTERS[:participant_manager]) }
   end
 
   def self.ceo_water_mandate
-    @_ceo_water_mandate ||= find_by(name: FILTERS[:ceo_water_mandate])
+    Rails.cache.fetch(role_cache_key(:ceo_water_mandate)) { find_by(name: FILTERS[:ceo_water_mandate]) }
   end
 
   def self.caring_for_climate
-    @_caring_for_climate ||= find_by(name: FILTERS[:caring_for_climate])
+    Rails.cache.fetch(role_cache_key(:caring_for_climate)) { find_by(name: FILTERS[:caring_for_climate]) }
   end
 
   def self.action_platform_manager
-    @_action_platform_manager ||= find_by(name: FILTERS[:action_platform_manager])
+    Rails.cache.fetch(role_cache_key(:action_platform_manager)) { find_by(name: FILTERS[:action_platform_manager]) }
   end
 
   def self.login_roles
-    [
-        contact_point,
-        network_report_recipient,
-        network_executive_director,
-        network_board_chair,
-        network_focal_point,
-        network_guest_user,
-        general_contact,
-    ].freeze
+    Rails.cache.fetch(:login_roles) do
+      [
+          contact_point,
+          network_report_recipient,
+          network_executive_director,
+          network_board_chair,
+          network_focal_point,
+          network_guest_user,
+          general_contact,
+      ]    end
   end
 
   scope :filtered, ->(*keys) {
@@ -211,6 +219,10 @@ class Role < ActiveRecord::Base
     where(name: names)
   }
 
+  def self.role_cache_key(cache_key)
+    "role-model/#{cache_key}/"
+  end
+
   private
 
   def check_for_filtered_name_change
@@ -219,5 +231,4 @@ class Role < ActiveRecord::Base
       return false
     end
   end
-
 end

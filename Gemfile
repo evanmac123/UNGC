@@ -31,6 +31,7 @@ gem 'jquery-rjs',                       git: 'https://github.com/amatsuda/jquery
 gem 'jquery-rails',         '~> 4.0.4'
 gem 'jquery-ui-rails'
 gem 'ckeditor',             '4.1.1'
+gem 'redis-rails'
 gem 'sidekiq',              '~> 3.4.2'
 gem 'uglifier'
 gem 'foreman'
