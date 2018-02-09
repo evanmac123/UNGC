@@ -7,7 +7,7 @@ module Crm
     SUngcIdName = 'External_ID__c'
 
     def find_record_id(rails_id = model.id)
-      super(Crm::Adapters::LocalNetwork.convert_id(rails_id))
+      super(adapter.class.convert_id(rails_id))
     end
 
     def destroy

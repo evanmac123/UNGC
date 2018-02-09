@@ -28,6 +28,7 @@
 #
 
 class Donation < ActiveRecord::Base
+  include SalesforceRecordConcern
 
   enum status: {
     pending: 0,

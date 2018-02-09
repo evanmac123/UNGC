@@ -60,6 +60,7 @@ class Organization < ActiveRecord::Base
   include ApprovalWorkflow
   include Indexable
   include ThinkingSphinx::Scopes
+  include SalesforceCommitHooksConcern
   include SalesforceRecordConcern
 
   self.include_root_in_json = false

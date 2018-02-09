@@ -16,6 +16,7 @@
 #
 
 class ActionPlatform::Platform < ActiveRecord::Base
+  include SalesforceCommitHooksConcern
   include SalesforceRecordConcern
 
   has_many :subscriptions, dependent: :restrict_with_error

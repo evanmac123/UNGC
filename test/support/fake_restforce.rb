@@ -5,15 +5,16 @@ class FakeRestforce
       'Account' => {},
       'Contact' => {},
       Crm::LocalNetworkSyncJob::SObjectName => {},
-      Crm::DonationSync::SObjectName => {},
+      Crm::DonationSyncJob::SObjectName => {},
       Crm::ActionPlatform::PlatformSyncJob::SObjectName => {},
       Crm::ActionPlatform::SubscriptionSyncJob::SObjectName => {},
     }
     @object_prefixes = {
         Crm::OrganizationSyncJob::SObjectName => '001', # ACCOUNT
         Crm::ContactSyncJob::SObjectName => '003', # CONTACT
+        Crm::DonationSyncJob::SObjectName => Crm::DonationSyncJob::SObjectPrefix, # PAYMENT
         Crm::ActionPlatform::PlatformSyncJob::SObjectName => '605', # PRODUCT
-        Crm::ActionPlatform::SubscriptionSyncJob::SObjectName => '00x', # BILLED_PRODUCT
+        Crm::ActionPlatform::SubscriptionSyncJob::SObjectName => Crm::ActionPlatform::SubscriptionSyncJob::SObjectPrefix, # BILLED_PRODUCT
         Crm::LocalNetworkSyncJob::SObjectName => '01I', # CUSTOM_ENTITY_DEFINITION
     }
   end

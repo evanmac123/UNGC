@@ -1,11 +1,17 @@
 require "test_helper"
-require "sidekiq/testing"
 
 class Donation::ChargeDonorTest < ActiveSupport::TestCase
+  include ActiveJob::TestHelper
 
   setup do
-    Sidekiq::Testing.inline!
+    Rails.configuration.x_enable_crm_synchronization = true
+    TestAfterCommit.enabled = true
     ::Restforce.stubs(:new).returns(FakeRestforce.new)
+  end
+
+  teardown do
+    Rails.configuration.x_enable_crm_synchronization = false
+    TestAfterCommit.enabled = false
   end
 
   test "a successful donation" do
@@ -18,8 +24,11 @@ class Donation::ChargeDonorTest < ActiveSupport::TestCase
     # When the charge is submitted
     donor_charge = Donation::ChargeDonor.new(donation, payment_gateway: gateway)
 
-    # Then it is successful
-    assert donor_charge.charge
+    # A sync job will be Enqueued
+    assert_enqueued_with(job: Crm::DonationSyncJob) do
+      # When it is successful
+      assert donor_charge.charge
+    end
 
     # And the donation is written to the database
     assert donation.persisted?
@@ -39,9 +48,6 @@ class Donation::ChargeDonorTest < ActiveSupport::TestCase
     event = events.last
     assert_not_nil event
     assert event.is_a?(::Donation::CreatedEvent)
-
-    # And a job to sync with the CRM is enqueued
-    assert 1, ::Crm::DonationSyncWorker.jobs.size
   end
 
   test "no charge is made for an invalid donation" do

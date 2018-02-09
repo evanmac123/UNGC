@@ -15,5 +15,11 @@ FactoryGirl.define do
     contact
     organization
     status "succeeded"
+
+    full_response JSON.generate({response: "Hi"})
+
+    trait :with_record_id do
+      sequence(:record_id) { |n| "8050D#{n.to_s.rjust(10, '0')}MVK" }
+    end
   end
 end

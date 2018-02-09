@@ -62,6 +62,7 @@
 #
 
 class LocalNetwork < ActiveRecord::Base
+  include SalesforceCommitHooksConcern
   include SalesforceRecordConcern
 
   validates_presence_of :name

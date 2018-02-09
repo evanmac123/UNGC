@@ -16,6 +16,7 @@
 #
 
 class ActionPlatform::Subscription < ActiveRecord::Base
+  include SalesforceCommitHooksConcern
   include SalesforceRecordConcern
 
   belongs_to :contact

@@ -67,7 +67,6 @@ module Crm
       crm.expects(:log)
 
       record_id = network.record_id
-      salesforce_object = Restforce::SObject.new(Id: network.record_id)
 
       crm.expects(:soft_delete).with("Local_Network__c", record_id)
 

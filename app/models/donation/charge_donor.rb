@@ -57,8 +57,9 @@ class Donation::ChargeDonor
     @log.error("Failed to accept donation", e, donation.attributes)
   end
 
-  def enqueue_crm_sync(donation)
-    Crm::DonationSyncWorker.sync(donation)
+  def enqueue_crm_sync(donation_form)
+    donation = ::Donation.find(donation_form.id)
+    Crm::DonationSyncJob.perform_later('create', donation, {})
   end
 
   def create_stripe_charge
