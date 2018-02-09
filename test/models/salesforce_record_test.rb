@@ -2,7 +2,7 @@ require 'minitest/autorun'
 
 class SalesforceRecordTest < ActiveSupport::TestCase
   should validate_presence_of(:record_id)
-  should validate_length_of(:record_id).is_at_most(18).is_at_least(18)
+  should validate_length_of(:record_id).is_at_most(18).is_at_least(15)
   should validate_uniqueness_of(:record_id)
 
   describe 'salesforce record id component helpers' do

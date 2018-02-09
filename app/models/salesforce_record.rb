@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class SalesforceRecord < ActiveRecord::Base
-  validates :record_id, length: { minimum: 18, maximum: 18 }, presence: true, uniqueness: true
+  validates :record_id, length: { minimum: 15, maximum: 18 }, presence: true, uniqueness: true
 
   belongs_to :rails, polymorphic: true
 
