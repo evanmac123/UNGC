@@ -158,6 +158,16 @@ class BusinessOrganizationSignup < OrganizationSignup
     end
   end
 
+  def set_commitment_letter_attributes(params)
+    super(params)
+    organization.government_registry_url = params.fetch(:government_registry_url)
+  end
+
+  def complete_valid_organization?
+    organization.errors.add :government_registry_url, "must be provided" if organization.government_registry_url.blank?
+    organization.government_registry_url.present? && super
+  end
+
   private
 
   def invoicing_policy

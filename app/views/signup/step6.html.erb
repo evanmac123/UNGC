@@ -34,6 +34,16 @@
 
           <p>Please note that upon review and acceptance of your application, the Letter of Commitment and your Mission Statement will be made public on this website as adherence to accountability.</p>
         </fieldset>
+      <%- else -%>
+        <fieldset>
+          <h3>Proof of Registration</h3>
+
+          <p>Please show proof of registration by providing a link to an official Government site.</p>
+
+          <div class='field'>
+            <%= form.url_field :government_registry_url, { label: ' ', maxlength: 2_000, placeholder: "Registry Website" } %>
+          </div>
+        </fieldset>
       <%- end -%>
       <%= form.submit 'Submit', :class => 'button' %>
     <%- end -%>

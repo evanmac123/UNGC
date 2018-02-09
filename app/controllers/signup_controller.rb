@@ -236,7 +236,7 @@ class SignupController < ApplicationController
   end
 
   def commitment_letter_params
-    organization_params = params.fetch(:organization, {}).permit(:commitment_letter)
+    organization_params = params.fetch(:organization, {}).permit(:commitment_letter, :government_registry_url)
     non_business_params = params.fetch(:non_business_organization_registration, {})
     organization_params.merge(non_business_params)
   end

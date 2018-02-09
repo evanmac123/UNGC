@@ -80,6 +80,9 @@
       - if @organization.withdrawal_letter
         %dt Withdrawal Letter
         %dd{:title => @organization.withdrawal_letter.attachment_file_name}= link_to truncate(@organization.withdrawal_letter.attachment_file_name), @organization.withdrawal_letter.attachment.url
+      - if @organization.government_registry_url.present?
+        %dt Gov't Registration Url
+        %dd= link_to truncate(@organization.government_registry_url), @organization.government_registry_url
 
     %dl.left_column
       %h3 Contact Information

@@ -110,6 +110,7 @@ class BusinessSignupTest < ActionDispatch::IntegrationTest
 
     # step 6 Letter of Commitment
     attach_file "organization_commitment_letter", "test/fixtures/files/untitled.pdf"
+    fill_in "organization[government_registry_url]", with: 'http://myregistry.org'
     click_on "Submit"
     assert_equal organization_step7_path, current_path, validation_errors
 
@@ -132,6 +133,7 @@ class BusinessSignupTest < ActionDispatch::IntegrationTest
     assert_nil organization.legal_status
     assert_equal Date.new(2019, 1, 1), organization.invoice_date
     assert_equal "participant_level", organization.level_of_participation
+    assert_equal "http://myregistry.org", organization.government_registry_url
 
     # commitment letter
     commitment_letter_file_name = organization.commitment_letter_file_name

@@ -1,6 +1,7 @@
 require 'test_helper'
 
-class OrganizationSignupTest < ActiveSupport::TestCase
+class BusinessOrganizationSignupTest < ActiveSupport::TestCase
+
 
   test "have an organization type" do
     signup = BusinessOrganizationSignup.new
@@ -169,7 +170,8 @@ class OrganizationSignupTest < ActiveSupport::TestCase
 
     # step6
     signup.set_commitment_letter_attributes(
-      commitment_letter: fixture_pdf_file
+      commitment_letter: fixture_pdf_file,
+      government_registry_url: 'http://registry.com',
     )
 
     signup

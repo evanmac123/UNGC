@@ -6,6 +6,7 @@ FactoryGirl.define do
     employees { Faker::Number.number(4) }
     pledge_amount { Faker::Number.number(4) }
     url { Faker::Internet.url }
+    government_registry_url { Faker::Internet.url }
 
     # HACK
     # Builds a valid, approved, active, participant business organization

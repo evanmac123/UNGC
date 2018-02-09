@@ -953,6 +953,7 @@ ActiveRecord::Schema.define(version: 20180130215848) do
     t.integer  "level_of_participation",         limit: 4
     t.date     "invoice_date"
     t.integer  "parent_company_id",              limit: 4
+    t.string   "government_registry_url",        limit: 2000
   end
 
   add_index "organizations", ["country_id"], name: "index_organizations_on_country_id", using: :btree

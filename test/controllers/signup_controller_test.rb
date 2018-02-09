@@ -138,7 +138,34 @@ class SignupControllerTest < ActionController::TestCase
       assert_template 'step6'
     end
 
-    should "get the seventh step page after submitting letter of commitment" do
+    should "get the seventh step page after submitting letter of commitment for business" do
+      @signup = BusinessOrganizationSignup.new
+      @signup.set_organization_attributes(name: 'Acme Inc',
+                                          organization_type_id: OrganizationType.business,
+                                          employees: 50,
+                                          country_id: Country.first.id,
+                                          is_tobacco: "true",
+                                          is_landmine: "true",
+                                          precise_revenue: "$20,000",
+                                          sector_id: Sector.last.id,
+                                          listing_status_id: @listing_status.id,
+      )
+      @signup.set_primary_contact_attributes(@signup_contact)
+      @signup.set_ceo_attributes(@signup_ceo)
+      store_pending(@signup)
+
+      post :step7, organization: {commitment_letter: fixture_file_upload('files/untitled.pdf', 'application/pdf'),
+                                  government_registry_url: '   '}
+      assert_redirected_to organization_step6_path
+
+      post :step7, organization: {commitment_letter: fixture_file_upload('files/untitled.pdf', 'application/pdf'),
+                                  government_registry_url: 'http://www.google.com'}
+
+      assert_response :success
+      assert_template 'step7'
+    end
+
+    should "get the seventh step page after submitting letter of commitment for non-business" do
       @signup = NonBusinessOrganizationSignup.new
       @signup.set_organization_attributes(name: 'City University',
                                        organization_type_id: OrganizationType.academic.id,
