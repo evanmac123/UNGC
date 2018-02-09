@@ -12,8 +12,7 @@ module Crm
 
       record_id = '01I0D0000000001MVK'
 
-      salesforce_object = Restforce::SObject.new(Id: record_id)
-      crm.expects(:create).with("Local_Network__c", anything).returns(salesforce_object)
+      crm.expects(:create).with("Local_Network__c", anything).returns(record_id)
 
       network = network.reload
       assert_nil network.record_id
@@ -51,9 +50,8 @@ module Crm
 
       record_id = '01I0D0000000001MVK'
 
-      salesforce_object = Restforce::SObject.new(Id: record_id)
       crm.expects(:find).with('Local_Network__c', Crm::Adapters::LocalNetwork.convert_id(network.id), 'External_ID__c').returns(nil)
-      crm.expects(:create).with("Local_Network__c", anything).returns(salesforce_object)
+      crm.expects(:create).with("Local_Network__c", anything).returns(record_id)
 
       assert_nil network.record_id
 

@@ -11,8 +11,7 @@ module Crm
 
       record_id = '6050D0000000001MVK'
 
-      salesforce_object = Restforce::SObject.new(Id: record_id)
-      crm.expects(:create).with("Action_Platform__c", anything).returns(salesforce_object)
+      crm.expects(:create).with("Action_Platform__c", anything).returns(record_id)
 
       platform = platform.reload
       assert_nil platform.record_id
@@ -47,9 +46,8 @@ module Crm
 
       record_id = '6050D0000000001MVK'
 
-      salesforce_object = Restforce::SObject.new(Id: record_id)
       crm.expects(:find).with('Action_Platform__c', platform.id.to_s, 'UNGC_Action_Platform_ID__c').returns(nil)
-      crm.expects(:create).with("Action_Platform__c", anything).returns(salesforce_object)
+      crm.expects(:create).with("Action_Platform__c", anything).returns(record_id)
 
       Crm::ActionPlatform::PlatformSyncJob.perform_now(:update, platform, {}, crm)
 

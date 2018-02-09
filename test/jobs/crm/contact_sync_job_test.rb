@@ -49,19 +49,19 @@ module Crm
     test "create a contact and organization (unsynced)" do
       contact = create(:contact_point, organization: build(:organization, :with_sector))
 
-      org_record = Restforce::SObject.new(Id: '00D0D0000000001MVK')
-      contact_record = Restforce::SObject.new(Id: '0030D0000000001MVK')
+      org_record_id = '00D0D0000000001MVK'
+      contact_record_id = '0030D0000000001MVK'
 
       crm = mock("crm")
       crm.expects(:log).with("creating Account-(#{contact.organization.id})")
       crm.expects(:find).with("Account", contact.organization.id.to_s, "UNGC_ID__c")
-      crm.expects(:create).with("Account", anything).returns(org_record)
+      crm.expects(:create).with("Account", anything).returns(org_record_id)
       crm.expects(:log).with("creating Contact-(#{contact.id})")
       crm.expects(:create).with do |object_name, params|
         object_name == 'Contact' &&
             params["UNGC_Contact_ID__c"] == contact.id &&
-            params['AccountId'] == org_record.Id
-      end.returns(contact_record)
+            params['AccountId'] == org_record_id
+      end.returns(contact_record_id)
 
       assert_nil contact.record_id
       assert_nil contact.organization.record_id
@@ -70,14 +70,14 @@ module Crm
 
       contact.reload
 
-      assert_equal contact.organization.record_id, org_record.Id
-      assert_equal contact.record_id, contact_record.Id
+      assert_equal contact.organization.record_id, org_record_id
+      assert_equal contact.record_id, contact_record_id
     end
 
     test "create a contact with a synched organization" do
       contact = create(:contact_point, organization: build(:crm_organization))
 
-      contact_record = Restforce::SObject.new(Id: '0030D0000000001MVK')
+      contact_record_id = '0030D0000000001MVK'
 
       crm = mock("crm")
       crm.expects(:log).with("creating Contact-(#{contact.id})")
@@ -85,7 +85,7 @@ module Crm
         object_name == 'Contact' &&
             params["UNGC_Contact_ID__c"] == contact.id &&
             params['AccountId'] == contact.organization.record_id
-      end.returns(contact_record)
+      end.returns(contact_record_id)
 
       assert_nil contact.record_id
 
@@ -97,7 +97,7 @@ module Crm
       contact.reload
 
       assert_equal org_record_id, contact.organization.record_id
-      assert_equal contact.record_id, contact_record.Id
+      assert_equal contact.record_id, contact_record_id
     end
 
     test "update a contact without an organization" do
@@ -167,9 +167,9 @@ module Crm
       contact = create(:contact_point, :with_record_id, organization: build(:organization, :with_sector))
 
       record_id = contact.record_id
-      salesforce_contact = Restforce::SObject.new(Id: record_id)
+      salesforce_contact_id = record_id
 
-      org_record = Restforce::SObject.new(Id: '00D0D0000000001MVK')
+      org_record_id = '00D0D0000000001MVK'
 
       assert_nil contact.organization.record_id
       refute_nil contact.record_id
@@ -177,19 +177,19 @@ module Crm
       crm = mock("crm")
       crm.expects(:log).with("creating Account-(#{contact.organization.id})")
       crm.expects(:find).with("Account", contact.organization.id.to_s, "UNGC_ID__c")
-      crm.expects(:create).with("Account", anything).returns(org_record)
+      crm.expects(:create).with("Account", anything).returns(org_record_id)
       crm.expects(:log).with("updating Contact-(#{contact.id})")
       crm.expects(:update).with do |object_name, record_id, params|
         object_name == 'Contact' &&
             params["UNGC_Contact_ID__c"] == contact.id &&
-            params["AccountId"] == org_record.Id
-      end.returns(salesforce_contact)
+            params["AccountId"] == org_record_id
+      end.returns(org_record_id)
 
       Crm::ContactSyncJob.perform_now(:update, contact, {}, crm)
 
       contact.reload
 
-      assert_equal org_record.Id, contact.organization.record_id
+      assert_equal org_record_id, contact.organization.record_id
       assert_equal contact.record_id, record_id
     end
 
@@ -223,7 +223,7 @@ module Crm
     test "updating a contact that isn't synced, creates it" do
       contact = create(:contact_point, organization: build(:crm_organization))
 
-      contact_record = Restforce::SObject.new(Id: '0030D0000000001MVK')
+      contact_record_id = '0030D0000000001MVK'
 
       org_record_id = contact.organization.record_id
       refute_nil org_record_id
@@ -236,14 +236,14 @@ module Crm
         object_name == 'Contact' &&
             params["UNGC_Contact_ID__c"] == contact.id &&
             params["AccountId"] == org_record_id
-      end.returns(contact_record)
+      end.returns(contact_record_id)
 
       Crm::ContactSyncJob.perform_now(:update, contact, {}, crm)
 
       contact.reload
 
       assert_equal org_record_id, contact.organization.record_id
-      assert_equal contact.record_id, contact_record.Id
+      assert_equal contact.record_id, contact_record_id
     end
 
     test "destroy a contact" do

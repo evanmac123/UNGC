@@ -28,8 +28,7 @@ module Crm
 
       record_id = '00x0D0000000001MVK'
 
-      salesforce_object = Restforce::SObject.new(Id: record_id)
-      crm.expects(:create).with("Action_Platform_Subscription__c", anything).returns(salesforce_object)
+      crm.expects(:create).with("Action_Platform_Subscription__c", anything).returns(record_id)
 
       subscription = subscription.reload
       assert_nil subscription.record_id
@@ -61,16 +60,16 @@ module Crm
       contact_record_id = '0030D0000000001MVK'
 
       crm.expects(:find).with("Action_Platform__c", platform.id.to_s, 'UNGC_Action_Platform_ID__c').returns(nil)
-      crm.expects(:create).with("Action_Platform__c", anything).returns(Restforce::SObject.new(Id: platform_record_id))
+      crm.expects(:create).with("Action_Platform__c", anything).returns(platform_record_id)
       crm.expects(:find).with("Account", organization.id.to_s, "UNGC_ID__c").returns(nil, nil, nil, Restforce::SObject.new(Id: org_record_id))
-      crm.expects(:create).with("Account", anything).returns(Restforce::SObject.new(Id: org_record_id))
+      crm.expects(:create).with("Account", anything).returns(org_record_id)
       crm.expects(:find).with("Contact", contact.id.to_s, "UNGC_Contact_ID__c")
-      crm.expects(:create).with("Contact", anything).returns(Restforce::SObject.new(Id: contact_record_id))
+      crm.expects(:create).with("Contact", anything).returns(contact_record_id)
       crm.expects(:create).with do |object_name, params|
         object_name == 'Action_Platform_Subscription__c' &&
             params.has_key?('Created_at__c') &&
             params.has_key?('Action_Platform__c') # Organization got synced with the unsynced Contact
-      end.returns(Restforce::SObject.new(Id: record_id))
+      end.returns(record_id)
 
       assert_nil crm_subscription.organization.record_id
       assert_nil crm_subscription.contact.record_id
@@ -105,7 +104,7 @@ module Crm
             params['Contact_Point__c'] == contact.record_id &&
             params['Action_Platform__c'] == platform.record_id &&
             params['Organization__c'] = organization.record_id
-      end.returns(Restforce::SObject.new(Id: record_id))
+      end.returns(record_id)
 
       refute_nil organization.record_id
       refute_nil contact.record_id
@@ -167,11 +166,11 @@ module Crm
       contact_record_id = '0030D0000000001MVK'
 
       crm.expects(:find).with("Action_Platform__c", platform.id.to_s, 'UNGC_Action_Platform_ID__c').returns(nil)
-      crm.expects(:create).with("Action_Platform__c", anything).returns(Restforce::SObject.new(Id: platform_record_id))
+      crm.expects(:create).with("Action_Platform__c", anything).returns(platform_record_id)
       crm.expects(:find).with("Account", organization.id.to_s, "UNGC_ID__c").returns(nil, nil, nil, Restforce::SObject.new(Id: org_record_id))
-      crm.expects(:create).with("Account", anything).returns(Restforce::SObject.new(Id: org_record_id))
+      crm.expects(:create).with("Account", anything).returns(org_record_id)
       crm.expects(:find).with("Contact", contact.id.to_s, "UNGC_Contact_ID__c")
-      crm.expects(:create).with("Contact", anything).returns(Restforce::SObject.new(Id: contact_record_id))
+      crm.expects(:create).with("Contact", anything).returns(contact_record_id)
       crm.expects(:update).with do |object_name, record_id, params|
         object_name == 'Action_Platform_Subscription__c' &&
             !params.has_key?('Created_at__c') &&
@@ -213,7 +212,7 @@ module Crm
       platform_record_id = '0605D0000000001MVK'
 
       crm.expects(:find).with("Action_Platform__c", platform.id.to_s, 'UNGC_Action_Platform_ID__c').returns(nil)
-      crm.expects(:create).with("Action_Platform__c", anything).returns(Restforce::SObject.new(Id: platform_record_id))
+      crm.expects(:create).with("Action_Platform__c", anything).returns(platform_record_id)
       crm.expects(:update).with do |object_name, record_id, params|
         object_name == 'Action_Platform_Subscription__c' &&
             !params.has_key?('Created_at__c') &&
@@ -254,7 +253,7 @@ module Crm
       org_record_id = '0010D0000000001MVK'
 
       crm.expects(:find).with("Account", organization.id.to_s, "UNGC_ID__c").returns(nil, nil, nil, Restforce::SObject.new(Id: org_record_id))
-      crm.expects(:create).with("Account", anything).returns(Restforce::SObject.new(Id: org_record_id))
+      crm.expects(:create).with("Account", anything).returns(org_record_id)
       crm.expects(:update).with do |object_name, record_id, params|
         object_name == 'Action_Platform_Subscription__c' &&
             !params.has_key?('Created_at__c') &&
@@ -292,7 +291,7 @@ module Crm
       crm.expects(:log).with("creating Action_Platform_Subscription__c-(#{subscription.id})")
 
       crm.expects(:find).with("Action_Platform_Subscription__c", subscription.id.to_s, 'UNGC_AP_Subscription_ID__c').returns(nil)
-      crm.expects(:create).with("Action_Platform_Subscription__c", anything).returns(Restforce::SObject.new(Id: record_id))
+      crm.expects(:create).with("Action_Platform_Subscription__c", anything).returns(record_id)
 
       assert_nil subscription.record_id
 
@@ -312,8 +311,6 @@ module Crm
       crm.expects(:log)
 
       refute_nil record_id
-
-      salesforce_object = Restforce::SObject.new(Id: record_id)
 
       crm.expects(:destroy).returns(nil)
       assert_nil Crm::ActionPlatform::SubscriptionSyncJob.perform_now(:destroy, nil, { record_id: subscription.record_id}, crm)

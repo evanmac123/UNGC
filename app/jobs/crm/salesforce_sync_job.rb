@@ -35,8 +35,8 @@ module Crm
     def create
       return unless should_sync?
       log("creating")
-      salesforce = crm.create(object_name, adapter.transformed_crm_params(:create, foreign_keys(:create)))
-      save_record_id(salesforce&.Id)
+      salesforce_record_id = crm.create(object_name, adapter.transformed_crm_params(:create, foreign_keys(:create)))
+      save_record_id(salesforce_record_id)
     rescue Faraday::ClientError => e
       duplicate_pattern = /duplicate value found: .* on record with id: (\w+)/
       matches = duplicate_pattern.match(e.to_s)

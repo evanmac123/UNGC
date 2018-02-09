@@ -17,8 +17,7 @@ module Crm
       assert_nil organization.record_id
 
       record_id = '00D0D0000000001MVK'
-      account = Restforce::SObject.new(Id: record_id)
-      crm.expects(:create).with("Account", anything).returns(account)
+      crm.expects(:create).with("Account", anything).returns(record_id)
 
       Crm::OrganizationSyncJob.perform_now(:create, organization, {}, crm)
       assert_equal record_id, organization.reload.record_id
@@ -43,14 +42,11 @@ module Crm
       crm.expects(:log).with("creating Local_Network__c-(#{local_network.id})")
       crm.expects(:log).with("creating Account-(#{organization.id})")
 
-      salesforce_org = Restforce::SObject.new(Id: org_record_id)
-      salesforce_ln = Restforce::SObject.new(Id: ln_record_id)
-
       crm.expects(:find).with("Local_Network__c", "LN-#{sf_ln_id}", "External_ID__c")
-      crm.expects(:create).with("Local_Network__c", anything).returns(salesforce_ln)
+      crm.expects(:create).with("Local_Network__c", anything).returns(ln_record_id)
       crm.expects(:create).with do |object_name, params|
         object_name == 'Account' && params["Local_Network_Name__c"] == ln_record_id
-      end.returns(salesforce_org)
+      end.returns(org_record_id)
 
       Crm::OrganizationSyncJob.perform_now(:create, organization, {}, crm)
 
@@ -70,11 +66,9 @@ module Crm
 
       crm.expects(:log).with("creating Account-(#{organization.id})")
 
-      salesforce_org = Restforce::SObject.new(Id: org_record_id)
-
       crm.expects(:create).with do |object_name, params|
         object_name == 'Account' && params["Local_Network_Name__c"] == ln_record_id
-      end.returns(salesforce_org)
+      end.returns(org_record_id)
 
       Crm::OrganizationSyncJob.perform_now(:create, organization, {}, crm)
 
@@ -115,16 +109,13 @@ module Crm
       crm.expects(:log).with("creating Local_Network__c-(#{local_network.id})")
       crm.expects(:log).with("updating Account-(#{organization.id})")
 
-      salesforce_org = Restforce::SObject.new(Id: org_record_id)
-      salesforce_ln = Restforce::SObject.new(Id: ln_record_id)
-
       crm.expects(:find).with("Local_Network__c", "LN-#{sf_ln_id}", "External_ID__c").returns(nil)
-      crm.expects(:create).with("Local_Network__c", anything).returns(salesforce_ln)
+      crm.expects(:create).with("Local_Network__c", anything).returns(ln_record_id)
       crm.expects(:update).with do |object_name, sales_force_id, params|
         object_name == 'Account' &&
             sales_force_id == org_record_id &&
             params["Local_Network_Name__c"] == ln_record_id
-      end.returns(salesforce_org)
+      end.returns(org_record_id)
 
       Crm::OrganizationSyncJob.perform_now(:update, organization, {}, crm)
 

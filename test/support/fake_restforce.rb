@@ -47,7 +47,7 @@ class FakeRestforce
     record = ::Restforce::SObject.new(params.merge(Id: record_id))
 
     models[record_id] = record
-    record
+    record_id
   end
 
   def destroy!(type, id)
