@@ -470,12 +470,12 @@ GEM
     ruby_dep (1.5.0)
     ruby_event_store (0.14.0)
     safe_yaml (1.0.4)
-    saml_idp (0.4.0)
-      activesupport
-      builder
-      httparty
+    saml_idp (0.5.0)
+      activesupport (>= 3.2)
+      builder (~> 3.0)
+      httparty (~> 0.14)
       nokogiri (>= 1.6.2)
-      uuid
+      uuid (~> 2.3)
     sass (3.5.5)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -646,7 +646,7 @@ DEPENDENCIES
   redis-rails
   restforce
   ruby-saml
-  saml_idp
+  saml_idp (~> 0.5.0)
   sass-rails
   scout
   shoulda
