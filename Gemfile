@@ -64,7 +64,7 @@ group :development do
   gem 'bullet'
   gem 'brakeman'
   gem 'bundler-audit'
-  gem 'web-console', '~> 2.1.3'
+  gem 'web-console'
   gem 'guard'
   gem 'guard-minitest'
   gem 'guard-rake'
