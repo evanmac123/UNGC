@@ -450,7 +450,7 @@ GEM
       hashie (>= 1.2.0, < 4.0)
       json (>= 1.7.5)
     riddle (2.3.0)
-    ruby-ole (1.2.11.8)
+    ruby-ole (1.2.12.1)
     ruby-progressbar (1.9.0)
     ruby-saml (1.6.0)
       nokogiri (>= 1.5.10)
