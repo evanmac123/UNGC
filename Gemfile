@@ -53,7 +53,7 @@ gem "non-stupid-digest-assets"
 gem 'htmlentities', '~> 4.3', '>= 4.3.4'
 gem 'sinatra', :require => nil
 gem 'rails_event_store', '~> 0.14.5'
-gem 'stripe', '~> 1.58'
+gem 'stripe', '<2'
 gem 'saml_idp'
 gem 'faraday'
 gem 'faraday-cookie_jar'
