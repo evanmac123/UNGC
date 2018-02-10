@@ -477,7 +477,7 @@ GEM
     scout (5.9.11)
       elif
       server_metrics (>= 1.2.5)
-    server_metrics (1.2.9.1)
+    server_metrics (1.2.14)
     shellany (0.0.1)
     shoulda (3.5.0)
       shoulda-context (~> 1.0, >= 1.0.1)
