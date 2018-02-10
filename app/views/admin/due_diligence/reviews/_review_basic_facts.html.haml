@@ -1,0 +1,32 @@
+- if @review.event_title.present?
+  %h5
+    Event: #{@review.event_title}
+%h4 Basic facts:
+%section#basic-facts
+  %ul
+    %li
+      %strong Name of Requester:
+      = @review.requester.name
+      %br/
+    %li
+      %strong Level of Engagement:
+      = @review.level_of_engagement
+      %br/
+    %li
+      %strong Individual:
+      = @review.individual_subject
+      %br/
+    %li
+      %strong Additional Information:
+      = @review.additional_information
+      %br/
+    %li
+      %strong Relationship Manager:
+      = @review.organization.try(:participant_manager_name)
+      %br/
+    %li
+      %strong UNGC join date:
+      = @review.organization.joined_on
+      %br/
+    %li
+      %strong= link_to "More information", [:admin, @review.organization]

@@ -1,0 +1,34 @@
+%h2
+  Engagement Decision for (#{@review.state})
+  %span.organization-name= @review.organization_name
+= render 'admin/due_diligence/reviews/review_basic_facts'
+= form_for(@review, as: :final_decision, url: admin_due_diligence_final_decision_path(@review)) do |f|
+  .field
+    = f.label 'Integrity Decision:'
+    = @review.with_reservation
+  - if @review.integrity_reservation?
+    .field
+      = f.label 'Explanation:'
+      = @review.integrity_explanation
+  .field
+    = f.label :engagement_rationale
+    = f.text_area :engagement_rationale, disabled: !@review.engagement_review?, maxlength: 2_000
+  .field
+    = f.label :approving_chief, "Approving Chief's name"
+    = f.text_field :approving_chief, disabled: !@review.engagement_review?, maxlength: 100
+  - if @review.engagement_review? || @review.declined?
+    .field
+      = f.label :reason_for_decline do
+        Reason to Decline:
+        \#{f.select :reason_for_decline, DueDiligence::Review.reason_for_declines_for_reservations(@review.integrity_reservation?), include_blank: "Choose if declining...", disabled: !@review.engagement_review?}
+  %ul.tools.inline.buttons{:style => "float: right"}
+    %li= link_to 'Cancel', admin_due_diligence_review_path(@review), class: 'cancel_large'
+    - if @review_policy.can_make_engagement_decision?(current_contact)
+      - if @review.engaged? || @review.declined?
+        %li= f.submit 'Back to Engagement Decision', class: 'button', name: 'commit[engagement_decision]'
+      - elsif @review.engagement_review?
+        %li= f.submit 'Save', class: 'button', name: 'commit[save]'
+        %li= f.submit 'Engage', class: 'button', name: 'commit[engage]'
+        %li= f.submit 'Decline', class: 'button', name: 'commit[decline]'
+    - if @review_policy.can_make_integrity_decision?(current_contact) && (@review.rejected? || @review.engagement_review?)
+      %li= f.submit 'Back to Integrity', class: 'button', name: 'commit[integrity_review]'

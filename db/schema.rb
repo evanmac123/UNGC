@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180130215848) do
+ActiveRecord::Schema.define(version: 20180210114510) do
 
   create_table "action_platform_orders", force: :cascade do |t|
     t.integer  "organization_id",      limit: 4,                   null: false
@@ -499,7 +499,7 @@ ActiveRecord::Schema.define(version: 20180130215848) do
     t.string   "approving_chief",                    limit: 100
     t.datetime "created_at",                                       null: false
     t.datetime "updated_at",                                       null: false
-    t.string   "additional_information",             limit: 512
+    t.text     "additional_information",             limit: 65535
     t.integer  "reason_for_decline",                 limit: 4
     t.boolean  "subject_to_dialog_facilitation"
     t.integer  "with_reservation",                   limit: 4

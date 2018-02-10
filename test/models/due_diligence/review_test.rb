@@ -2,45 +2,17 @@ require 'test_helper'
 
 class DueDiligence::ReviewTest < ActiveSupport::TestCase
 
+  should validate_length_of(:analysis_comments).is_at_most(65_535)
+  should validate_length_of(:additional_research).is_at_most(65_535)
+  should validate_length_of(:additional_information).is_at_most(65_535)
+  should validate_length_of(:world_check_allegations).is_at_most(2_000)
+  should validate_length_of(:local_network_input).is_at_most(2_000)
+  should validate_length_of(:engagement_rationale).is_at_most(2_000)
+  should validate_length_of(:individual_subject).is_at_most(100)
+  should validate_length_of(:approving_chief).is_at_most(100)
+  should validate_length_of(:integrity_explanation).is_at_most(1_000)
+
   context 'validations' do
-    context 'limits' do
-      should 'validate length limits' do
-        too_long_65535 = Faker::Lorem.characters(65_536)
-        too_long_2000 = Faker::Lorem.characters(2_001)
-        too_long_100 = Faker::Lorem.characters(101)
-
-        review = FactoryGirl.build_stubbed(:due_diligence_review)
-
-        review.world_check_allegations = too_long_2000
-        review.local_network_input = too_long_2000
-        review.integrity_explanation = Faker::Lorem.characters(1_001)
-
-        review.analysis_comments = too_long_65535
-        review.engagement_rationale = too_long_2000
-
-        review.additional_research = too_long_65535
-
-        review.individual_subject = too_long_100
-        review.approving_chief = too_long_100
-        review.additional_information = Faker::Lorem.characters(513)
-
-        assert_not review.valid?, 'review is valid with max length violations'
-
-        assert_equal review.errors[:world_check_allegations], ['is too long (maximum is 2000 characters)']
-        assert_equal review.errors[:local_network_input], ['is too long (maximum is 2000 characters)']
-        assert_equal review.errors[:integrity_explanation], ['is too long (maximum is 1000 characters)']
-
-        assert_equal review.errors[:analysis_comments], ['is too long (maximum is 65535 characters)']
-        assert_equal review.errors[:engagement_rationale], ['is too long (maximum is 2000 characters)']
-
-        assert_equal review.errors[:additional_research], ['is too long (maximum is 65535 characters)']
-
-        assert_equal review.errors[:approving_chief], ['is too long (maximum is 100 characters)']
-        assert_equal review.errors[:individual_subject], ['is too long (maximum is 100 characters)']
-        assert_equal review.errors[:additional_information], ['is too long (maximum is 512 characters)']
-      end
-    end
-
     context 'enums' do
       context 'level_of_engagement' do
         should 'include the correct options' do

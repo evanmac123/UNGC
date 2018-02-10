@@ -1,0 +1,7 @@
+%h2 New Due Diligence Review Request
+= render(partial: "form", locals: {                        |
+    review: @review,                                       |
+    url: admin_due_diligence_reviews_path,                 |
+    form_method: :post,                                    |
+    submit_label: t('due_diligence.actions.submit_review') |
+  })                                                       |

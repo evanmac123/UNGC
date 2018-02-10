@@ -1,0 +1,62 @@
+%h4 Risk Assessment
+%section#risk-assessment
+  %p
+    %strong Allegations found on World-Check (past two years):
+  #world_check_allegations= blank_warn(@review.world_check_allegations)
+  %p
+    %strong Found on the UN Global Marketplace Ineligible Vendor Lists:
+    = bool_warn(@review.included_in_global_marketplace)
+  %p
+    %strong Subject to UN or other government sanctions:
+    = bool_warn(@review.subject_to_sanctions)
+  %p#excluded_by_norwegian_pension_fund
+    %strong Excluded by the Norwegian Government Pension Fund Global:
+    = bool_warn(@review.excluded_by_norwegian_pension_fund)
+  %p
+    %strong Involved in the sale, manufacture or distribution of anti-personnel landmines or cluster bombs:
+    = bool_warn(@review.involved_in_landmines)
+  %p#involved_in_tobacco
+    %strong Involved in production or sale of tobacco:
+    = bool_warn(@review.involved_in_tobacco)
+  %p#subject_to_dialog_facilitation
+    %strong Subject to dialog facilitation:
+    = bool_warn(@review.subject_to_dialog_facilitation)
+  %p
+    %strong Delisted from the UNGC?:
+    = bool_warn(@review.organization.delisted?)
+    - if @review.organization.delisted?
+      = @review.organization.removal_reason.try!(:description)
+  %p#requires_local_network_input
+    %strong Requires Local Network Input?
+    = as_bool(@review.requires_local_network_input, 'blue')
+  %p
+    %strong Local Network input:
+    = blank_warn(@review.local_network_input) if @review.requires_local_network_input
+  %h5 Results from Sustainalytics
+  %section#sustainalytics
+    %span#esg_score
+      %strong ESG Score:
+      = blank_warn(@review.esg_score)
+    %span#highest_controversy_level
+      %strong Highest Controversy:
+      = blank_warn(@review.highest_controversy_level)
+  %p
+  %h5 Results from RepRisk
+  %section#rep-risk
+    %span#rep_risk_current
+      %strong Current RRI:
+      = blank_warn(@review.rep_risk_current)
+    %span#rep_risk_peak
+      %strong Peak RRI:
+      = blank_warn(@review.rep_risk_peak)
+    %span#rep_risk_severity_of_news
+      %strong Severity of news:
+      = blank_warn(@review.rep_risk_severity_of_news)
+  %p
+  %h5 Additional Research
+  %section#additional_research
+    = @review.additional_research
+  %p
+  %h5 Analysis
+  %section#analysis
+    = @review.analysis_comments

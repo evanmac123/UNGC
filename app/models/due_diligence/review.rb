@@ -12,7 +12,7 @@ class DueDiligence::Review < ActiveRecord::Base
                       :analysis_comments, maximum: 65_535
   validates_length_of :approving_chief,
                       :individual_subject, maximum: 100
-  validates_length_of :additional_information, maximum: 512
+  validates_length_of :additional_information, maximum: 65_535
 
   enum with_reservation: {
       no_reservation: 10,

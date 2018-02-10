@@ -1,0 +1,16 @@
+%h2
+  Local Network Input for
+  %span.organization-name= @review.organization_name
+= render 'admin/due_diligence/reviews/review_basic_facts'
+= form_for(@review, url: admin_due_diligence_local_network_review_path(@review), as: :local_network_input, method: :patch) do |f|
+  %section
+    %h4 Local Network Input
+    .field
+      = f.label :local_network_input, "Local network input"
+      = f.text_area :local_network_input, maxlength: 2_000
+  %ul.tools.inline.buttons{:style => "float: right"}
+    %li= link_to 'Cancel', admin_due_diligence_review_path(@review), class: 'cancel_large'
+    - if @review.local_network_review? && @review_policy.can_do_due_diligence?(current_contact)
+      %li= f.submit 'Save', class: 'button', name: 'commit[save]'
+      %li= f.submit 'Back to Review', class: 'button', name: 'commit[send_to_review]'
+      %li= f.submit t("due_diligence.actions.request_integrity_review"), class: 'button', name: 'commit[request_integrity_review]'
