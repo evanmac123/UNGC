@@ -8,12 +8,11 @@ class Admin::LocalNetworksController < AdminController
     @local_networks = LocalNetwork.unscoped.order(order_from_params).includes(:countries)
     @local_network_guest = Organization.find_by_name(DEFAULTS[:local_network_guest_name])
     @networks_by_region = Country.unscoped
-                                  .joins('left join local_networks on countries.local_network_id = local_networks.id')
-                                  .order(order_from_params)
-                                  .group('local_networks.name, countries.region, countries.id')
-                                  .includes(:local_network)
-                                  .reject{|country| country.local_network_id.nil?}
-                                  .group_by(&:region)
+        .joins(:local_network)
+        .includes(:local_network)
+        .order(order_from_params)
+        .group('local_networks.name, countries.region, countries.id')
+        .group_by(&:region)
   end
 
   def new
