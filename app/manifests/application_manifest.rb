@@ -47,34 +47,47 @@ class ApplicationManifest < Moonshine::Manifest::Rails
     recipe :scout
   end
 
+  on_stage(:staging) do
+    recipe :staging_cron_tasks
+  end
+
+  def staging_cron_tasks
+    cron 'start_pgdump',
+      :command => '/srv/unglobalcompact/current/script/cron/start_pgdump',
+      :user => 'rails',
+      :hour => 5,
+      :minute => 0,
+      :ensure => :present
+  end
+
   def cron_tasks
-     cron 'cop_state',
-       :command => '/srv/unglobalcompact/current/script/cron/cop_state',
-       :user => 'rails',
-       :hour => 23,
-       :minute => 0,
-       :ensure => :present
+    cron 'cop_state',
+      :command => '/srv/unglobalcompact/current/script/cron/cop_state',
+      :user => 'rails',
+      :hour => 23,
+      :minute => 0,
+      :ensure => :present
 
-     cron 'cop_reminder',
-       :command => '/srv/unglobalcompact/current/script/cron/cop_reminder',
-       :user => 'rails',
-       :hour => 23,
-       :minute => 10,
-       :ensure => :present
+    cron 'cop_reminder',
+      :command => '/srv/unglobalcompact/current/script/cron/cop_reminder',
+      :user => 'rails',
+      :hour => 23,
+      :minute => 10,
+      :ensure => :present
 
-     cron 'invoice_reminder',
-       :command => '/srv/unglobalcompact/current/script/cron/invoice_reminder',
-       :user => 'rails',
-       :hour => 1,
-       :minute => 0,
-       :ensure => :absent
+    cron 'invoice_reminder',
+      :command => '/srv/unglobalcompact/current/script/cron/invoice_reminder',
+      :user => 'rails',
+      :hour => 1,
+      :minute => 0,
+      :ensure => :absent
 
-     cron 'start_mysqldump',
-       :command => '/srv/unglobalcompact/current/script/cron/start_mysqldump',
-       :user => 'rails',
-       :hour => 5,
-       :minute => 0,
-       :ensure => :present
+    cron 'start_mysqldump',
+      :command => '/srv/unglobalcompact/current/script/cron/start_mysqldump',
+      :user => 'rails',
+      :hour => 5,
+      :minute => 0,
+      :ensure => :present
 
     cron 'searchable',
       :command => '/srv/unglobalcompact/current/script/cron/searchable',
@@ -95,7 +108,6 @@ class ApplicationManifest < Moonshine::Manifest::Rails
       :user => 'rails',
       :minute => '*/5',
       :ensure => :present
-
   end
 
   def jungle_disk

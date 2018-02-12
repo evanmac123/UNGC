@@ -1,0 +1,31 @@
+-- See https://github.com/dimitri/pgloader/blob/master/pgloader.1.md for
+-- connection string options.
+
+-- $ brew install sphinx --with-postgresql --with-mysql
+-- REFER TO https://github.com/dimitri/pgloader/releases/tag/v3.4.1
+-- https://gist.github.com/tristanm/a2afa29ac6f37bf92b46
+
+-- instal pgloader
+-- config sphinx for mysql and postgres
+-- config database.yml for postgres
+-- rake db:create db:schema:load
+-- pgloader --verbose convert-database
+-- rake db:migrate
+-- rake test
+
+-- Upgrading from old postgres to 10.1: https://gist.github.com/giannisp/ebaca117ac9e44231421f04e7796d5ca
+
+LOAD DATABASE
+    FROM mysql://root@localhost/unglobalcompact_dev
+    INTO postgresql:///unglobalcompact_dev
+
+-- data-only: We don't need pgloader to touch the schema as Rails does a better
+--            job using rake db:schema:load.
+-- truncate:  Ensure all tables are empty first (especially schema_migrations).
+--            WARNING: THIS WILL SMOKE YOUR DATABASE!
+
+ALTER SCHEMA 'unglobalcompact_dev' RENAME TO 'public'
+
+EXCLUDING TABLE NAMES MATCHING 'schema_migrations'
+
+WITH CREATE NO TABLES, DISABLE TRIGGERS, PRESERVE INDEX NAMES;

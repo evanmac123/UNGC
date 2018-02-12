@@ -1,0 +1,10 @@
+# sphinx gotcha: it is very important that encoding: utf8 is specified in order for thinking sphinx to pass utf8 options.
+
+postgres: &pg
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+
+test:
+  <<: *pg
+  database: unglobalcompact_test

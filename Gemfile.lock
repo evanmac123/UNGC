@@ -368,6 +368,7 @@ GEM
       daemon_controller (>= 1.2.0)
       rack
       rake (>= 0.8.1)
+    pg (0.20.0)
     plugger (0.0.4)
     poltergeist (1.17.0)
       capybara (~> 2.1)
@@ -634,6 +635,7 @@ DEPENDENCIES
   non-stupid-digest-assets
   paperclip (~> 4.3.7)
   passenger (~> 4.0.60)
+  pg (~> 0.20.0)
   plugger
   poltergeist
   pry-byebug

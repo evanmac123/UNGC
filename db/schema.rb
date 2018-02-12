@@ -1004,7 +1004,7 @@ ActiveRecord::Schema.define(version: 20180210114510) do
 
   create_table "payloads", force: :cascade do |t|
     t.integer  "container_id",   limit: 4,          null: false
-    t.text     "json_data",      limit: 4294967295, null: false
+    t.text     "json_data",                         null: false
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
     t.integer  "created_by_id",  limit: 4

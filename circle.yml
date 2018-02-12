@@ -13,6 +13,10 @@ dependencies:
 
     - git clone https://github.com/euske/pdfminer.git && cd pdfminer && make cmap && sudo python setup.py install
     - cp config/secrets.yml.ci config/secrets.yml
+database:
+  override:
+    - cp config/database.yml.ci config/database.yml
+    - bundle exec rake db:create db:schema:load postgres:install_extentions search:rebuild
 
 ## Override /etc/hosts
 #  hosts:

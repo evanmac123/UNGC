@@ -1,0 +1,6 @@
+#!/bin/sh
+# dump table and data for everything but the searchables and sessions tables
+sudo sh -c 'sudo -u postgres pg_dump -F c -b --exclude-table=sessions --exclude-table=searchables --serializable-deferrable unglobalcompact | gzip > /home/rails/ungc/pg_dumps/production_unglobalcompact_`date "+20%y_%m_%d"`.sql.gz'
+
+# dump just the table definitions for searchables and sessions
+sudo sh -c 'sudo -u postgres pg_dump -F c -b --schema-only --table=sessions --table=searchables --serializable-deferrable unglobalcompact | gzip > /home/rails/ungc/pg_dumps/sessions_and_searchables_tables.sql.gz'
