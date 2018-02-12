@@ -25,11 +25,11 @@
         %th.actions Actions
       = render_local_network_list_for_user(current_contact)
 
-  - @networks_by_region.each_pair do |region, countries|
-    .tab_content{:id => region}
+  - Country::REGIONS.each_pair do |key, region|
+    .tab_content{id: key}
       %table.dashboard_table
         %tr
           %th= sort_header 'Name',  field: 'name',  tab: region
           %th= sort_header 'Stage', field: 'state', tab: region
           %th.actions Actions
-        = render countries.map(&:local_network)
+        = render LocalNetwork.for_region(key).select(:id, :name, :state)

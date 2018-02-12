@@ -7,12 +7,6 @@ class Admin::LocalNetworksController < AdminController
   def index
     @local_networks = LocalNetwork.unscoped.order(order_from_params).includes(:countries)
     @local_network_guest = Organization.find_by_name(DEFAULTS[:local_network_guest_name])
-    @networks_by_region = Country.unscoped
-        .joins(:local_network)
-        .includes(:local_network)
-        .order(order_from_params)
-        .group('local_networks.id, countries.region, countries.id')
-        .group_by(&:region)
   end
 
   def new

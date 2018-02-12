@@ -108,7 +108,7 @@ class LocalNetwork < ActiveRecord::Base
   end
 
   default_scope { order('local_networks.name') }
-  scope :where_region, lambda { |region| joins(:countries).where(countries: {region: region }).includes(:countries) }
+  scope :for_region, -> (region) { joins(:countries).where(countries: { region: region }).distinct }
   scope :where_state, lambda { |state| where(state: state) }
   scope :regional_centers, lambda { where(state: :regional_center) }
   scope :no_regional_centers, lambda { where(state: NO_REGIONAL_CENTER_STATES) }
