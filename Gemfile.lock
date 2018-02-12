@@ -652,7 +652,7 @@ DEPENDENCIES
   sass-rails
   scout
   shoulda
-  sidekiq (< 4)
+  sidekiq (< 6)
   simplecov
   sinatra
   spreadsheet
