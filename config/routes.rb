@@ -152,16 +152,9 @@ UNGC::Application.routes.draw do
           post :reset_password, as: :reset_password
         end
       end
-      resources :awards, except: [:index, :show]
       resources :mous, except: [:index, :show]
-      resources :meetings, except: [:index, :show]
-      resources :communications, except: [:index, :show]
       resources :integrity_measures
       resources :annual_reports, except: [:index, :show]
-      resources :announcements, except: [:index, :show]
-      resources :local_network_events, except: [:index] do
-        resources :attachments, :controller => 'local_network_event_attachments', except: [:show, :edit, :update]
-      end
       resources :annual_reports
       resources :contribution_descriptions
     end

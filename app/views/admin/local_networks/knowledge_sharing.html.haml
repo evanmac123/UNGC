@@ -1,9 +1,10 @@
 - @body_class = 'details'
+- partial_root = 'admin/local_networks/activity_archives'
 - unless current_contact.local_network == @local_network
   %div.tab_switcher
     %ul.tab_switch
       %li=link_to 'Network Management', admin_local_network_path(@local_network), :class => "restrictions #{action_name != 'knowledge_sharing' ? ' selected' : ''}"
-      %li=link_to 'Knowledge Sharing', knowledge_sharing_path(@local_network), :class => "restrictions #{action_name == 'knowledge_sharing' ? ' selected' : ''}"
+      %li=link_to 'Activity Archives', knowledge_sharing_path(@local_network), :class => "restrictions #{action_name == 'knowledge_sharing' ? ' selected' : ''}"
 %h3
   = link_to_region_list(@local_network)
   = @local_network.name
@@ -17,72 +18,44 @@
     %li <a href="#awards">Awards</a>
 
   #announcements.tab_content
-    - if current_contact_can_edit_network?
-      %ul{:class => "tools inline"}
-        %li= link_to 'New Announcement', new_admin_local_network_announcement_path(@local_network), :class => "new_large"
-
     %table.dashboard_table
       %tr
         %th Issue Area
         %th Title
         %th Description
         %th Date
-        - if current_contact_can_edit_network?
-          %th.actions Actions
-      = render @local_network.announcements
+      = render partial: "#{partial_root}/announcements/announcement", collection: @local_network.announcements
 
   #local_network_events.tab_content
-    - if current_contact_can_edit_network?
-      %ul{:class => "tools inline"}
-        %li= link_to 'New Event', new_admin_local_network_local_network_event_path(@local_network), :class => "new_large"
-
     %table.dashboard_table
       %tr
         %th Title
         %th Type of Event
         %th Date
-        %th.actions Actions
-      = render @local_network.events
+      = render partial: "#{partial_root}/local_network_events/local_network_event", collection: @local_network.events
 
   #meetings.tab_content
-    - if current_contact_can_edit_network?
-      %ul{:class => "tools inline"}
-        %li= link_to 'New Meeting', new_admin_local_network_meeting_path(@local_network), :class => "new_large"
-
     %table.dashboard_table
       %tr
         %th Type of Meeting
         %th Date
         %th Document
-        - if current_contact_can_edit_network?
-          %th.actions Actions
-      = render @local_network.meetings
+      = render partial: "#{partial_root}/meetings/meeting", collection: @local_network.meetings
 
   #communications.tab_content
-    - if current_contact_can_edit_network?
-      %ul#tools{:class => "tools inline"}
-        %li= link_to 'New Communication', new_admin_local_network_communication_path(@local_network), :class => "new_large"
-
     %table.dashboard_table
       %tr
         %th Format
         %th Title
         %th Published on
         %th Document
-        - if current_contact_can_edit_network?
-          %th.actions Actions
-      = render @local_network.communications
+      = render partial: "#{partial_root}/communications/communication", collection: @local_network.communications
 
   #awards.tab_content
-    - if current_contact_can_edit_network?
-      %ul{:class => "tools inline"}
-        %li= link_to 'New Award', new_admin_local_network_award_path(@local_network), :class => "new_large"
     %table.dashboard_table
       %tr
         %th Type
         %th Title
         %th Date
         %th Document
-        - if current_contact_can_edit_network?
-          %th.actions Actions
-      = render @local_network.awards
+      = render partial: "#{partial_root}/awards/award", collection: @local_network.awards

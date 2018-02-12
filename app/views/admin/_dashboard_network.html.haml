@@ -15,7 +15,7 @@
 
       %dt.first Network Management
       %dd.first Create and update your Local Network's profile
-      %dt Knowledge Sharing
+      %dt Activity Archives
       %dd Publish and share your events and activities
       %dt Browse Networks
       %dd View other Local Network profiles by Region
@@ -29,7 +29,7 @@
     %dl.left_column{:style => 'width: 40%;'}
       %h3 Getting Started
 
-      %p A step-by-step guide to using the Dashboard and Knowledge Sharing System.
+      %p A step-by-step guide to using the Dashboard and Activity Archives System.
 
       %ul.document_list.no_indent
         %li= link_to 'The KSS Manual Explanatory Note', '/docs/networks_around_world_doc/resources/dashboard/KSS_Manual.pdf', :class => 'pdf', :title => 'The KSS Manual Explanatory Note'
@@ -55,7 +55,7 @@
         %th Title
         %th Description
         %th Date
-      = render :partial => 'admin/announcements/announcement_view', :collection => @announcements
+      = render partial: 'admin/local_networks/activity_archives/announcements/announcement_view', collection: @announcements
 
   - if @can_sign_in_as_others
     #sign_in_as_contact_point_tab.tab_content
