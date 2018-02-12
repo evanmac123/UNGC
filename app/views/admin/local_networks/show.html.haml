@@ -25,7 +25,7 @@
       %ul#contacts_tools{:class => "tools inline"}
         %li= link_to 'New contact', new_admin_local_network_contact_path(@local_network.id), :class => 'new_user_large', :title => 'New Contact'
 
-      %ul.items= render :partial => "admin/contacts/tabbed_contact", :collection => @local_network.contacts
+      %ul.items= render :partial => "admin/contacts/tabbed_contact", :collection => @local_network.contacts.includes(:roles, :country)
 
   #profile.tab_content
     %ul#tools{:class => "tools inline"}
@@ -159,7 +159,7 @@
         %th Document
         - if current_contact_can_edit_network?
           %th.actions Actions
-      = render @local_network.mous
+      = render @local_network.mous.includes(:attachment)
 
   #annual_reports.tab_content
     - if current_contact_can_edit_network?
@@ -172,4 +172,4 @@
         %th Document
         - if current_contact_can_edit_network?
           %th.actions Actions
-      = render @local_network.annual_reports
+      = render @local_network.annual_reports.includes(:attachment)

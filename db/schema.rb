@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180210114510) do
+ActiveRecord::Schema.define(version: 20180212161106) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -255,6 +255,8 @@ ActiveRecord::Schema.define(version: 20180210114510) do
     t.string   "encrypted_password",        limit: 255
     t.datetime "last_password_changed_at"
     t.string   "time_zone",                 limit: 32,  default: "UTC", null: false
+    t.boolean  "full_time"
+    t.string   "employer",                  limit: 200
   end
 
   add_index "contacts", ["organization_id"], name: "index_contacts_on_organization_id", using: :btree

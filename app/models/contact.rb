@@ -91,6 +91,8 @@ class Contact < ActiveRecord::Base
                               :message => "is not a valid email address"
   validates_with PasswordStrengthValidator, :if => :password_required?
 
+  validates_length_of :employer, maximum: 200
+
   belongs_to :country
   belongs_to :organization
   belongs_to :local_network

@@ -8,6 +8,8 @@ class ContactTest < ActiveSupport::TestCase
   should belong_to :local_network
   should belong_to :country
 
+  should validate_length_of(:employer).is_at_most(200)
+
   context "given a ungc user" do
     setup do
       create_ungc_organization_and_user
