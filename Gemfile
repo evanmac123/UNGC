@@ -10,7 +10,7 @@ gem 'mysql2' # Required for Thinking Sphinx!!!
 gem 'facets',               '~> 3.1.0', require: false
 gem 'hpricot',              '0.8.6'
 gem 'will_paginate'
-gem 'paperclip',            '~> 4.3.7'
+gem 'paperclip',            '< 6'
 gem 'haml',                 '~> 4.0.6'
 gem 'acts_as_commentable',  '~> 4.0.2'
 gem 'money-rails',          '~> 1.9'

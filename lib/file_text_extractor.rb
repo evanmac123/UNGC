@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'timeout'
 require 'tempfile'
 
@@ -8,8 +10,7 @@ class FileTextExtractor
   end
 
   def self.extract(model)
-    type = model.attachment_content_type
-    path = model.attachment.path
+    type, path = mime_type_from_ole_storage(model)
 
     extractor = FileTextExtractor.new
     case
@@ -26,6 +27,24 @@ class FileTextExtractor
     else
       Rails.logger.error "Unknown content-type: #{type}"
     end
+  end
+
+  OLE_MIME_TYPES = %w[application/x-msword application/vnd.ms-powerpoint application/vnd.ms-excel]
+
+  def self.mime_type_from_ole_storage(model)
+    # Refer to:
+    # https://github.com/minad/mimemagic/issues/50
+    # https://github.com/thoughtbot/paperclip/issues/2414
+    # https://github.com/minad/mimemagic/pull/52 (as of 11-Feb-108 unmerged)
+    type = model.attachment_content_type
+    path = model.attachment.path
+
+    if type =~ /application\/x-ole-storage/
+      possible_types = MIME::Types.type_for(path).collect(&:content_type)
+      OLE_MIME_TYPES.each { |ole_mime_type| return ole_mime_type, path if possible_types.include?(ole_mime_type) }
+    end
+
+    return type, path
   end
 
   def get_text_from_pdf(path)

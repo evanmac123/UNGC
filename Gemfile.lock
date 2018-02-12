@@ -300,7 +300,7 @@ GEM
     mime-types (3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
-    mimemagic (0.3.0)
+    mimemagic (0.3.2)
     mini_mime (1.0.0)
     mini_portile2 (2.3.0)
     minitest (5.11.3)
@@ -358,12 +358,12 @@ GEM
       nenv (~> 0.1)
       shellany (~> 0.0)
     orm_adapter (0.5.0)
-    paperclip (4.3.7)
-      activemodel (>= 3.2.0)
-      activesupport (>= 3.2.0)
+    paperclip (5.2.1)
+      activemodel (>= 4.2.0)
+      activesupport (>= 4.2.0)
       cocaine (~> 0.5.5)
       mime-types
-      mimemagic (= 0.3.0)
+      mimemagic (~> 0.3.0)
     passenger (4.0.60)
       daemon_controller (>= 1.2.0)
       rack
@@ -633,7 +633,7 @@ DEPENDENCIES
   mysql2
   net-ssh (~> 4.2)
   non-stupid-digest-assets
-  paperclip (~> 4.3.7)
+  paperclip (< 6)
   passenger (~> 4.0.60)
   pg (< 2)
   plugger
