@@ -11,7 +11,7 @@ class Admin::LocalNetworksController < AdminController
         .joins(:local_network)
         .includes(:local_network)
         .order(order_from_params)
-        .group('local_networks.name, countries.region, countries.id')
+        .group('local_networks.id, countries.region, countries.id')
         .group_by(&:region)
   end
 
