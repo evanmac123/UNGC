@@ -48,10 +48,10 @@ module Crm
                             platform: platform, organization: organization, contact: contact)
 
       crm = mock("crm")
-      crm.expects(:log).with("creating Action_Platform__c-(#{platform.id})")
-      crm.expects(:log).with("creating Action_Platform_Subscription__c-(#{crm_subscription.id})")
-      crm.expects(:log).with("creating Contact-(#{contact.id})")
-      crm.expects(:log).with("creating Account-(#{organization.id})")
+      crm.expects(:log).with("creating Action_Platform__c-(#{platform.id}) ActionPlatform::Platform")
+      crm.expects(:log).with("creating Action_Platform_Subscription__c-(#{crm_subscription.id}) ActionPlatform::Subscription")
+      crm.expects(:log).with("creating Contact-(#{contact.id}) Contact")
+      crm.expects(:log).with("creating Account-(#{organization.id}) Organization")
 
 
       record_id = '00x0D0000000001MVK'
@@ -95,7 +95,7 @@ module Crm
                             platform: platform, organization: organization, contact: contact, record_id:  nil)
 
       crm = mock("crm")
-      crm.expects(:log).with("creating Action_Platform_Subscription__c-(#{subscription.id})")
+      crm.expects(:log).with("creating Action_Platform_Subscription__c-(#{subscription.id}) ActionPlatform::Subscription")
 
       record_id = '00x0D0000000001MVK'
       crm.expects(:create).with do |object_name, params|
@@ -131,7 +131,7 @@ module Crm
                             )
 
       crm = mock("crm")
-      crm.expects(:log).with("updating Action_Platform_Subscription__c-(#{subscription.id})")
+      crm.expects(:log).with("updating Action_Platform_Subscription__c-(#{subscription.id}) ActionPlatform::Subscription")
 
       record_id = subscription.record_id
       crm.expects(:update).with("Action_Platform_Subscription__c", record_id, anything)
@@ -154,10 +154,10 @@ module Crm
                             platform: platform, organization: organization, contact: contact)
 
       crm = mock("crm")
-      crm.expects(:log).with("creating Action_Platform__c-(#{platform.id})")
-      crm.expects(:log).with("updating Action_Platform_Subscription__c-(#{subscription.id})")
-      crm.expects(:log).with("creating Contact-(#{contact.id})")
-      crm.expects(:log).with("creating Account-(#{organization.id})")
+      crm.expects(:log).with("creating Action_Platform__c-(#{platform.id}) ActionPlatform::Platform")
+      crm.expects(:log).with("updating Action_Platform_Subscription__c-(#{subscription.id}) ActionPlatform::Subscription")
+      crm.expects(:log).with("creating Contact-(#{contact.id}) Contact")
+      crm.expects(:log).with("creating Account-(#{organization.id}) Organization")
 
 
       record_id = subscription.record_id
@@ -204,8 +204,8 @@ module Crm
                             platform: platform, organization: organization, contact: contact)
 
       crm = mock("crm")
-      crm.expects(:log).with("creating Action_Platform__c-(#{platform.id})")
-      crm.expects(:log).with("updating Action_Platform_Subscription__c-(#{subscription.id})")
+      crm.expects(:log).with("creating Action_Platform__c-(#{platform.id}) ActionPlatform::Platform")
+      crm.expects(:log).with("updating Action_Platform_Subscription__c-(#{subscription.id}) ActionPlatform::Subscription")
 
 
       record_id = subscription.record_id
@@ -245,8 +245,8 @@ module Crm
                             platform: platform, organization: organization, contact: contact)
 
       crm = mock("crm")
-      crm.expects(:log).with("updating Action_Platform_Subscription__c-(#{subscription.id})")
-      crm.expects(:log).with("creating Account-(#{organization.id})")
+      crm.expects(:log).with("updating Action_Platform_Subscription__c-(#{subscription.id}) ActionPlatform::Subscription")
+      crm.expects(:log).with("creating Account-(#{organization.id}) Organization")
 
 
       record_id = subscription.record_id
@@ -288,7 +288,7 @@ module Crm
       record_id = '00x0D0000000001MVK'
 
       crm = mock("crm")
-      crm.expects(:log).with("creating Action_Platform_Subscription__c-(#{subscription.id})")
+      crm.expects(:log).with("creating Action_Platform_Subscription__c-(#{subscription.id}) ActionPlatform::Subscription")
 
       crm.expects(:find).with("Action_Platform_Subscription__c", subscription.id.to_s, 'UNGC_AP_Subscription_ID__c').returns(nil)
       crm.expects(:create).with("Action_Platform_Subscription__c", anything).returns(record_id)

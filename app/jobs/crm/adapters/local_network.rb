@@ -5,45 +5,38 @@ module Crm
     class LocalNetwork < Crm::Adapters::Base
 
       def to_crm_params(transform_action)
-        {
-            "External_ID__c" => self.class.convert_id(model.id),
-            "Name" => text(model.name, 80),
-            "Country__c" => model.country.try!(:name),
-            "Business_Model__c" => business_model,
-            "To_be_Invoiced_by__c" => invoiced_by,
+        base = {
+            Crm::LocalNetworkSyncJob::SUngcIdName => self.class.convert_id(model.id),
+            "Type" => salesforce_type,
+            "Name" => model.name,
+            "State__c" => I18n.t("local_network.states.#{model.state}"),
+            "Join_Date__c" => model.sg_local_network_launch_date, # Date
+            "JoinYear__c" => model.sg_local_network_launch_date&.year, # Number(4, 0)
+            "Website" => model.url,
+            "Region__c" => model.countries.first&.region,
+            "OwnerId" => Crm::Owner::SALESFORCE_OWNER_ID,
+            "Business_Model_LN__c" => (model.business_model ? I18n.t("local_network.business_model.#{model.business_model}") : "N/A"),
+            "To_Be_Invoiced_By_LN__c" => (I18n.t("local_network.invoice_managed_by.#{model.invoice_managed_by}") if model.invoice_managed_by),
         }
+
+        if transform_action == :create
+          base['RecordTypeId'] = Crm::LocalNetworkSyncJob::SObjectRecordType
+          base['Sector__c'] = 'Local_Network'
+        end
+
+        # TODO: Add this back to transform_action == :create once all LN's with the new ID format without leading 0s
+        base['External_ID__c'] = self.class.convert_id(model.id)
+
+        base
       end
 
       def self.convert_id(rails_id)
-        id = rails_id.to_s.rjust(3, '0')
-        "LN-#{id}"
+        "LN-#{rails_id}"
       end
 
-      private
-
-      def business_model
-        case model.business_model
-          when "revenue_sharing" then "Revenue Sharing"
-          when "global_local" then "Global-Local"
-          when "not_yet_decided" then "Not yet decided"
-          when nil then "N/A"
-          else
-            raise "Unexpected business model \"#{model.business_model}\""
-        end
+      def salesforce_type
+        model.regional_center? ? 'UNGC Regional Center' : 'UNGC Local Network'
       end
-
-      def invoiced_by
-        case model.invoice_managed_by
-          when "gco" then "GCO"
-          when "local_network" then "Local Network"
-          when "on_hold" then "On hold"
-          when "global_or_local" then "1B+ by GCO & <1B by LN"
-          when nil then nil
-          else
-            raise "Unexpected value for invoiced_managed_by \"#{model.invoice_managed_by}\""
-        end
-      end
-
     end
   end
 end

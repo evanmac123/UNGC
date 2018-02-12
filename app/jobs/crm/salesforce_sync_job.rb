@@ -88,11 +88,11 @@ module Crm
       salesforce_record_id
     end
 
-    def parent_record_id(model, transform_action)
-      if model && (transform_action == :create || model.record_id.blank?)
-        job_class = "Crm::#{model.class.name}SyncJob".constantize
-        model_record_id = job_class.perform_now(:synced_record_id, model, {}, crm)
-        yield(model_record_id) if model_record_id.present?
+    def parent_record_id(parent_model, transform_action)
+      if parent_model && (transform_action == :create || parent_model.record_id.blank?)
+        job_class = "Crm::#{parent_model.class.name}SyncJob".constantize
+        parent_model_record_id = job_class.perform_now(:synced_record_id, parent_model, {}, crm)
+        yield(parent_model_record_id) if parent_model_record_id.present?
       end
     end
 
@@ -131,7 +131,7 @@ module Crm
     end
 
     def log(action)
-      crm.log("#{action} #{object_name}-(#{model&.id})")
+      crm.log("#{action} #{object_name}-(#{model&.id}) #{model.class.name}")
     end
 
   end

@@ -15,7 +15,6 @@ module Crm
             'Email' => email(model.email),
             'Phone' => phone(model.phone),
             'MobilePhone' => phone(model.mobile),
-            'npe01__PreferredPhone__c' => picklist("Work"),
             'Fax' => fax(model.fax),
             'Role__c' => picklist(model.roles.pluck(:name)),
             'MailingStreet' => text(model.full_address),
@@ -33,8 +32,12 @@ module Crm
       private
 
       def find_owner
-        owner_id = model.organization&.participant_manager&.crm_owner&.crm_id
-        owner_id || Crm::Owner::DEFAULT_OWNER_ID
+        if model.organization
+          owner_id = model.organization&.participant_manager&.crm_owner&.crm_id
+          owner_id || Crm::Owner::SALESFORCE_OWNER_ID
+        elsif model.local_network
+          Crm::Owner::SALESFORCE_OWNER_ID
+        end
       end
 
     end

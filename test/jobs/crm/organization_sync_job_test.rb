@@ -31,21 +31,26 @@ module Crm
       assert_nil organization.record_id
       assert_nil local_network.record_id
 
-      sf_ln_id = "%03d" % local_network.id
-
+      sf_ln_id = "LN-#{local_network.id}"
 
       org_record_id = '00D0D0000000001LNW'
       ln_record_id =  '01I0D0000000001LNW'
 
       crm = mock("crm")
 
-      crm.expects(:log).with("creating Local_Network__c-(#{local_network.id})")
-      crm.expects(:log).with("creating Account-(#{organization.id})")
+      crm.expects(:log).with("creating Account-(#{local_network.id}) LocalNetwork")
+      crm.expects(:log).with("creating Account-(#{organization.id}) Organization")
 
-      crm.expects(:find).with("Local_Network__c", "LN-#{sf_ln_id}", "External_ID__c")
-      crm.expects(:create).with("Local_Network__c", anything).returns(ln_record_id)
+      crm.expects(:find).with("Account", "LN-#{'%03d' % local_network.id}", "External_ID__c")
+      crm.expects(:find).with("Account", sf_ln_id, "External_ID__c")
       crm.expects(:create).with do |object_name, params|
-        object_name == 'Account' && params["Local_Network_Name__c"] == ln_record_id
+        object_name == 'Account' &&
+            params["External_ID__c"] == sf_ln_id &&
+            params["Type"] == 'UNGC Local Network'
+      end.returns(ln_record_id)
+
+      crm.expects(:create).with do |object_name, params|
+        object_name == 'Account' && params["Parent_LN_Account_Id"] == ln_record_id
       end.returns(org_record_id)
 
       Crm::OrganizationSyncJob.perform_now(:create, organization, {}, crm)
@@ -64,10 +69,10 @@ module Crm
 
       crm = mock("crm")
 
-      crm.expects(:log).with("creating Account-(#{organization.id})")
+      crm.expects(:log).with("creating Account-(#{organization.id}) Organization")
 
       crm.expects(:create).with do |object_name, params|
-        object_name == 'Account' && params["Local_Network_Name__c"] == ln_record_id
+        object_name == 'Account' && params["Parent_LN_Account_Id"] == ln_record_id
       end.returns(org_record_id)
 
       Crm::OrganizationSyncJob.perform_now(:create, organization, {}, crm)
@@ -99,22 +104,27 @@ module Crm
       refute_nil organization.record_id
       assert_nil local_network.record_id
 
-      sf_ln_id = "%03d" % local_network.id
+      sf_ln_id = "LN-#{local_network.id}"
 
       org_record_id = organization.record_id
       ln_record_id =  '01I0D0000000001LNW'
 
       crm = mock("crm")
 
-      crm.expects(:log).with("creating Local_Network__c-(#{local_network.id})")
-      crm.expects(:log).with("updating Account-(#{organization.id})")
+      crm.expects(:log).with("creating Account-(#{local_network.id}) LocalNetwork")
+      crm.expects(:log).with("updating Account-(#{organization.id}) Organization")
 
-      crm.expects(:find).with("Local_Network__c", "LN-#{sf_ln_id}", "External_ID__c").returns(nil)
-      crm.expects(:create).with("Local_Network__c", anything).returns(ln_record_id)
+      crm.expects(:find).with("Account", "LN-#{'%03d' % local_network.id}", "External_ID__c")
+      crm.expects(:find).with("Account", sf_ln_id, "External_ID__c").returns(nil)
+      crm.expects(:create).with do |object_name, params|
+        object_name == 'Account' &&
+            params["External_ID__c"] == sf_ln_id &&
+            params["Type"] == 'UNGC Local Network'
+      end.returns(ln_record_id)
       crm.expects(:update).with do |object_name, sales_force_id, params|
         object_name == 'Account' &&
             sales_force_id == org_record_id &&
-            params["Local_Network_Name__c"] == ln_record_id
+            params["Parent_LN_Account_Id"] == ln_record_id
       end.returns(org_record_id)
 
       Crm::OrganizationSyncJob.perform_now(:update, organization, {}, crm)
@@ -128,14 +138,14 @@ module Crm
       refute_nil organization.record_id
       refute_nil local_network.record_id
 
-      sf_ln_id = "%03d" % local_network.id
+      sf_ln_id = "LN-#{local_network.id}"
 
       org_record_id = organization.record_id
       ln_record_id =  local_network.record_id
 
       crm = mock("crm")
 
-      crm.expects(:log).with("updating Account-(#{organization.id})")
+      crm.expects(:log).with("updating Account-(#{organization.id}) Organization")
 
       salesforce_org = Restforce::SObject.new(Id: org_record_id)
 
@@ -180,7 +190,7 @@ module Crm
 
       crm = mock("crm")
 
-      crm.expects(:log).with("creating Account-(#{organization.id})")
+      crm.expects(:log).with("creating Account-(#{organization.id}) Organization")
 
       # when we try to create the contact in the CRM,
       # someone else has beat us to it and we get a duplicate value error
@@ -188,7 +198,7 @@ module Crm
           .with('Account', anything)
           .raises(Faraday::ClientError, "DUPLICATE_VALUE: duplicate value found: UNGC_ID__c duplicates value on record with id: #{salesforce_id}")
 
-      crm.expects(:log).with("updating Account-(#{organization.id})")
+      crm.expects(:log).with("updating Account-(#{organization.id}) Organization")
       # we then expect to retry as an update with the salesforce id
       crm.expects(:update).with("Account", salesforce_id, anything)
 

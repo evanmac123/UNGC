@@ -16,6 +16,7 @@ module Crm
             "Type" => model.organization_type.name, # Picklist
             "Country__c" => model.country_name, # Picklist
             "Name" => model.name, # Name
+            "Website" => model.url,
             "Industry" => model.sector_name, # Picklist
             "NumberOfEmployees" => employees, # Number(8, 0)
             "Pledge_at_Joining__c" => model.pledge_amount, # Currency(10, 2)
@@ -33,9 +34,8 @@ module Crm
             "Ownership" => model.listing_status_name, # Picklist
             "Delisted_ON__c" => model.delisted_on, # Date
             "Rejoined_On__c" => model.rejoined_on, # Date
-            "Local_Network__c" => model.local_network.present?, # Checkbox
             "State__c" => I18n.t(model.state), # Picklist
-            "OwnerId" => model.participant_manager&.crm_owner&.crm_id || Crm::Owner::DEFAULT_OWNER_ID,
+            "OwnerId" => model.participant_manager&.crm_owner&.crm_id || Crm::Owner::SALESFORCE_OWNER_ID,
             "Removal_Reason__c" => model.removal_reason&.description, # Picklist
             "ISIN__c" => model.isin, # Text(40)
             # Billing Address

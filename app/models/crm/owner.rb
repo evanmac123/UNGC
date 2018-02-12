@@ -15,7 +15,7 @@ module Crm
   class Owner < ActiveRecord::Base
     belongs_to :contact
 
-    DEFAULT_OWNER_ID = '005A0000004KjLy'
+    SALESFORCE_OWNER_ID = '005A0000004KjLy'
 
     def name
       contact&.name

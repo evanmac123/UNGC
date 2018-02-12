@@ -28,8 +28,13 @@ module Crm
       assert_equal "Writer", converted.fetch("Title")
     end
 
-    test "converts OwnerId" do
-      converted = convert_contact
+    test "converts organization OwnerId" do
+      converted = convert_contact(organization: create(:organization))
+      assert_equal "005A0000004KjLy", converted.fetch("OwnerId")
+    end
+
+    test "converts local_network OwnerId" do
+      converted = convert_contact(local_network: create(:local_network))
       assert_equal "005A0000004KjLy", converted.fetch("OwnerId")
     end
 

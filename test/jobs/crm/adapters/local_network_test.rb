@@ -4,72 +4,74 @@ module Crm
   class LocalNetworkAdapterTest < ActiveSupport::TestCase
 
     test "It converts local network id to the format that the CRM expects" do
-      assert_equal "LN-001", Crm::Adapters::LocalNetwork.convert_id(1)
-      assert_equal "LN-012", Crm::Adapters::LocalNetwork.convert_id(12)
+      assert_equal "LN-1", Crm::Adapters::LocalNetwork.convert_id(1)
+      assert_equal "LN-12", Crm::Adapters::LocalNetwork.convert_id(12)
       assert_equal "LN-123", Crm::Adapters::LocalNetwork.convert_id(123)
+      assert_equal "LN-123456", Crm::Adapters::LocalNetwork.convert_id(123_456)
     end
 
-    test "It converts External_ID__c" do
-      assert_converts "External_ID__c", "LN-123", id: 123
+    test "It converts RecordType" do
+      assert_converts "RecordTypeId", "0121H000000rHIIQA2"
+    end
+
+    test "It converts Type" do
+      assert_converts "Type", "UNGC Local Network"
+      assert_converts "Type", "UNGC Regional Center", { state: :regional_center }
+    end
+
+    test "It converts long External_ID__c" do
+      assert_converts "External_ID__c", "LN-123456", id: 123456
+    end
+
+    test "It converts Sector__c" do
+      assert_converts "Sector__c", "Local_Network"
+    end
+
+    test "It converts OwnerId" do
+      assert_converts "OwnerId", Crm::Owner::SALESFORCE_OWNER_ID
     end
 
     test "it converts Name" do
       assert_converts "Name", "France", name: "France"
     end
 
-    test "it truncates name to 80 chars" do
-      long_name = "A" * 90
-      truncated = ("A" * 77) + "..."
-      assert_converts "Name", truncated, name: long_name
+    test "It converts Launch Date" do
+      assert_converts "Join_Date__c", "2011-02-28", { sg_local_network_launch_date: '2011-02-28' }
+      assert_converts "JoinYear__c", 2011, { sg_local_network_launch_date: '2011-02-28' }
     end
 
-    test "it converts Country__c" do
-      france = create(:country, name: "France")
-      local_network = create(:local_network, countries: [france],
-        invoice_managed_by: :on_hold)
-
-      converted = Crm::Adapters::LocalNetwork.new(local_network).to_crm_params(:create)
-      assert_equal "France", converted.fetch("Country__c")
+    test "It converts Website" do
+      assert_converts "Website", 'https://www.example.com', { url: 'https://www.example.com' }
     end
 
-    test "it converts empty business models to N/A" do
-      assert_converts "Business_Model__c", "N/A",
-        business_model: nil
+    test "It converts Region" do
+      country = create(:country, :with_local_network, region: 'Narnia')
+      local_network = country.local_network
+      converted = Crm::Adapters::LocalNetwork.new(local_network).transformed_crm_params(:create)
+      assert_equal 'Narnia', converted.fetch("Region__c")
     end
 
-    test "it converts Revenue Sharing" do
-      assert_converts "Business_Model__c", "Revenue Sharing",
-        business_model: :revenue_sharing
+    test "it converts state" do
+      assert_converts "State__c", "Emerging", state: :emerging
+      assert_converts "State__c", "Active", state: :active
+      assert_converts "State__c", "Advanced", state: :advanced
+      assert_converts "State__c", "Inactive", state: :inactive
+      assert_converts "State__c", "Regional Center", state: :regional_center
     end
 
-    test "it converts Global-Local" do
-      assert_converts "Business_Model__c", "Global-Local",
-        business_model: :global_local
+    test "it converts business model" do
+      assert_converts "Business_Model_LN__c", "N/A", business_model: nil
+      assert_converts "Business_Model_LN__c", "Revenue Sharing", business_model: :revenue_sharing
+      assert_converts "Business_Model_LN__c", "Global-Local", business_model: :global_local
+      assert_converts "Business_Model_LN__c", "Not yet decided", business_model: :not_yet_decided
     end
 
-    test "it converts Not yet decided" do
-      assert_converts "Business_Model__c", "Not yet decided",
-        business_model: :not_yet_decided
-    end
-
-    test "it converts GCO Invoiced by" do
-      assert_converts "To_be_Invoiced_by__c", "GCO",
-        invoice_managed_by: :gco
-    end
-
-    test "it converts Local Network Invoiced by" do
-      assert_converts "To_be_Invoiced_by__c", "Local Network",
-        invoice_managed_by: :local_network
-    end
-
-    test "it converts On hold Invoiced by" do
-      assert_converts "To_be_Invoiced_by__c", "On hold",
-        invoice_managed_by: :on_hold
-    end
-
-    test "it converts 1B+ by GCO & <1B by LN Invoiced by" do
-      assert_converts "To_be_Invoiced_by__c", "1B+ by GCO & <1B by LN",
-        invoice_managed_by: :global_or_local
+    test "it converts Invoiced by" do
+      assert_converts "To_Be_Invoiced_By_LN__c", "GCO", invoice_managed_by: :gco
+      assert_converts "To_Be_Invoiced_By_LN__c", "Local Network", invoice_managed_by: :local_network
+      assert_converts "To_Be_Invoiced_By_LN__c", "On hold", invoice_managed_by: :on_hold
+      assert_converts "To_Be_Invoiced_By_LN__c", "1B+ by GCO & <1B by LN", invoice_managed_by: :global_or_local
+      assert_converts "To_Be_Invoiced_By_LN__c", nil, invoice_managed_by: nil
     end
 
     private
@@ -78,7 +80,11 @@ module Crm
       local_network = build_stubbed(:local_network, model_params)
 
       converted = Crm::Adapters::LocalNetwork.new(local_network).transformed_crm_params(:create)
-      assert_equal expected_value, converted.fetch(key)
+      if expected_value.nil?
+        assert_nil converted.fetch(key)
+      else
+        assert_equal expected_value, converted.fetch(key)
+      end
     end
 
   end

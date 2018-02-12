@@ -12,17 +12,23 @@ module Crm
       model = create(:contact, organization: create(:organization))
       refute Crm::ContactSyncJob.perform_now(:should_sync?, model)
 
-      # No organization sector
+      # With organization sector
       model = create(:contact, organization: build(:organization, :with_sector))
       assert Crm::ContactSyncJob.perform_now(:should_sync?, model)
+
+      # With local_network
+      model = create(:contact, local_network: build(:local_network))
+      assert Crm::ContactSyncJob.perform_now(:should_sync?, model)
+
     end
 
-    test "create a contact without an organization" do
+    test "create a contact without an organization or local_network" do
       contact = create(:contact)
 
       assert_nil contact.record_id
 
       crm = mock("crm")
+      crm.expects(:create).never
       Crm::ContactSyncJob.perform_now(:create, contact, {}, crm)
 
       contact.reload
@@ -53,10 +59,10 @@ module Crm
       contact_record_id = '0030D0000000001MVK'
 
       crm = mock("crm")
-      crm.expects(:log).with("creating Account-(#{contact.organization.id})")
+      crm.expects(:log).with("creating Account-(#{contact.organization.id}) Organization")
       crm.expects(:find).with("Account", contact.organization.id.to_s, "UNGC_ID__c")
       crm.expects(:create).with("Account", anything).returns(org_record_id)
-      crm.expects(:log).with("creating Contact-(#{contact.id})")
+      crm.expects(:log).with("creating Contact-(#{contact.id}) Contact")
       crm.expects(:create).with do |object_name, params|
         object_name == 'Contact' &&
             params["UNGC_Contact_ID__c"] == contact.id &&
@@ -80,7 +86,7 @@ module Crm
       contact_record_id = '0030D0000000001MVK'
 
       crm = mock("crm")
-      crm.expects(:log).with("creating Contact-(#{contact.id})")
+      crm.expects(:log).with("creating Contact-(#{contact.id}) Contact")
       crm.expects(:create).with do |object_name, params|
         object_name == 'Contact' &&
             params["UNGC_Contact_ID__c"] == contact.id &&
@@ -100,7 +106,7 @@ module Crm
       assert_equal contact.record_id, contact_record_id
     end
 
-    test "update a contact without an organization" do
+    test "update a contact without an organization or local_network" do
       contact = create(:contact, :with_record_id)
 
       assert_nil contact.organization
@@ -109,6 +115,7 @@ module Crm
       record_id = contact.record_id
 
       crm = mock("crm")
+      crm.expects(:update).never
       Crm::ContactSyncJob.perform_now(:update, contact, {}, crm)
 
       contact.reload
@@ -116,7 +123,6 @@ module Crm
       assert_nil contact.organization
       assert_equal record_id, contact.record_id
     end
-
 
     test "update a contact with an unsynchable organization" do
       contact = create(:contact, :with_record_id, organization: build(:organization, :with_record_id))
@@ -148,11 +154,11 @@ module Crm
       refute_nil org_record_id
 
       crm = mock("crm")
-      crm.expects(:log).with("updating Contact-(#{contact.id})")
+      crm.expects(:log).with("updating Contact-(#{contact.id}) Contact")
       crm.expects(:update).with do |object_name, record_id, params|
         object_name == 'Contact' &&
             params["UNGC_Contact_ID__c"] == contact.id &&
-            !params.has_key?('AccountId')
+            params.has_key?('AccountId')
       end.returns(salesforce_contact)
 
       Crm::ContactSyncJob.perform_now(:update, contact, {}, crm)
@@ -167,7 +173,6 @@ module Crm
       contact = create(:contact_point, :with_record_id, organization: build(:organization, :with_sector))
 
       record_id = contact.record_id
-      salesforce_contact_id = record_id
 
       org_record_id = '00D0D0000000001MVK'
 
@@ -175,15 +180,15 @@ module Crm
       refute_nil contact.record_id
 
       crm = mock("crm")
-      crm.expects(:log).with("creating Account-(#{contact.organization.id})")
+      crm.expects(:log).with("creating Account-(#{contact.organization.id}) Organization")
       crm.expects(:find).with("Account", contact.organization.id.to_s, "UNGC_ID__c")
       crm.expects(:create).with("Account", anything).returns(org_record_id)
-      crm.expects(:log).with("updating Contact-(#{contact.id})")
+      crm.expects(:log).with("updating Contact-(#{contact.id}) Contact")
       crm.expects(:update).with do |object_name, record_id, params|
         object_name == 'Contact' &&
             params["UNGC_Contact_ID__c"] == contact.id &&
             params["AccountId"] == org_record_id
-      end.returns(org_record_id)
+      end.returns(record_id)
 
       Crm::ContactSyncJob.perform_now(:update, contact, {}, crm)
 
@@ -203,13 +208,13 @@ module Crm
       assert_nil contact.record_id
 
       crm = mock("crm")
-      crm.expects(:log).with("updating Contact-(#{contact.id})")
+      crm.expects(:log).with("updating Contact-(#{contact.id}) Contact")
       crm.expects(:find).with("Contact", contact.id.to_s, "UNGC_Contact_ID__c").returns(contact_record)
       crm.expects(:update).with do |object_name, record_id, params|
         object_name == 'Contact' &&
             record_id == contact_record.Id
         params["UNGC_Contact_ID__c"] == contact.id &&
-            !params.has_key?('AccountId')
+            params.has_key?('AccountId')
       end.returns(contact_record)
 
       Crm::ContactSyncJob.perform_now(:update, contact, {}, crm)
@@ -230,7 +235,7 @@ module Crm
       assert_nil contact.record_id
 
       crm = mock("crm")
-      crm.expects(:log).with("creating Contact-(#{contact.id})")
+      crm.expects(:log).with("creating Contact-(#{contact.id}) Contact")
       crm.expects(:find).with("Contact", contact.id.to_s, "UNGC_Contact_ID__c")
       crm.expects(:create).with do |object_name, params|
         object_name == 'Contact' &&
@@ -274,7 +279,7 @@ module Crm
 
       crm = mock("crm")
 
-      crm.expects(:log).with("creating Contact-(#{contact.id})")
+      crm.expects(:log).with("creating Contact-(#{contact.id}) Contact")
 
       # when we try to create the contact in the CRM,
       # someone else has beat us to it and we get a duplicate value error
@@ -282,7 +287,7 @@ module Crm
           .with('Contact', has_entries(params))
           .raises(Faraday::ClientError, "DUPLICATE_VALUE: duplicate value found: UNGC_Contact_ID__c duplicates value on record with id: #{salesforce_id}")
 
-      crm.expects(:log).with("updating Contact-(#{contact.id})")
+      crm.expects(:log).with("updating Contact-(#{contact.id}) Contact")
       # we then expect to retry as an update with the salesforce id
       crm.expects(:update).with("Contact", salesforce_id, has_entries(params))
 
@@ -291,6 +296,119 @@ module Crm
       Crm::ContactSyncJob.perform_now(:create, contact, {}, crm)
 
       assert_equal contact.record_id, salesforce_id
+    end
+
+    # LOCAL NETWORK CONTACTS
+
+    test "create a contact and local_network (unsynced)" do
+      contact = create(:contact, local_network: build(:local_network))
+
+      ln_record_id = '0010D0000000001MVK'
+      contact_record_id = '0030D0000000001MVK'
+
+      crm = mock("crm")
+      crm.expects(:log).with("creating Account-(#{contact.local_network.id}) LocalNetwork")
+      crm.expects(:find).with("Account", "LN-#{contact.local_network.id}", "External_ID__c")
+      crm.expects(:find).with("Account", "LN-#{'%03d' % contact.local_network.id}", "External_ID__c")
+      crm.expects(:create).with("Account", anything).returns(ln_record_id)
+      crm.expects(:log).with("creating Contact-(#{contact.id}) Contact")
+      crm.expects(:create).with do |object_name, params|
+        object_name == 'Contact' &&
+            params["UNGC_Contact_ID__c"] == contact.id &&
+            params['AccountId'] == ln_record_id
+      end.returns(contact_record_id)
+
+      assert_nil contact.record_id
+      assert_nil contact.local_network.record_id
+
+      Crm::ContactSyncJob.perform_now(:create, contact, {}, crm)
+
+      contact.reload
+
+      assert_equal contact.local_network.record_id, ln_record_id
+      assert_equal contact.record_id, contact_record_id
+    end
+
+    test "create a contact with a synched local_network" do
+      contact = create(:contact, local_network: build(:local_network, :with_record_id))
+
+      contact_record_id = '0030D0000000001MVK'
+
+      crm = mock("crm")
+      crm.expects(:log).with("creating Contact-(#{contact.id}) Contact")
+      crm.expects(:create).with do |object_name, params|
+        object_name == 'Contact' &&
+            params["UNGC_Contact_ID__c"] == contact.id &&
+            params['AccountId'] == contact.local_network.record_id
+      end.returns(contact_record_id)
+
+      assert_nil contact.record_id
+
+      ln_record_id = contact.local_network.record_id
+      refute_nil ln_record_id
+
+      Crm::ContactSyncJob.perform_now(:create, contact, {}, crm)
+
+      contact.reload
+
+      assert_equal ln_record_id, contact.local_network.record_id
+      assert_equal contact.record_id, contact_record_id
+    end
+
+    test "update a contact and local network" do
+      contact = create(:contact, :with_record_id, local_network: build(:local_network, :with_record_id))
+
+      record_id = contact.record_id
+      salesforce_contact = Restforce::SObject.new(Id: record_id)
+
+      refute_nil contact.record_id
+      ln_record_id = contact.local_network.record_id
+      refute_nil ln_record_id
+
+      crm = mock("crm")
+      crm.expects(:log).with("updating Contact-(#{contact.id}) Contact")
+      crm.expects(:update).with do |object_name, record_id, params|
+        object_name == 'Contact' &&
+            params["UNGC_Contact_ID__c"] == contact.id &&
+            params.has_key?('AccountId')
+      end.returns(salesforce_contact)
+
+      Crm::ContactSyncJob.perform_now(:update, contact, {}, crm)
+
+      contact.reload
+
+      assert_equal ln_record_id, contact.local_network.record_id
+      assert_equal contact.record_id, record_id
+    end
+
+    test "update a contact and an unsynched local_network" do
+      contact = create(:contact, :with_record_id, local_network: build(:local_network))
+
+      record_id = contact.record_id
+
+      ln_record_id = '00D0D0000000001MVK'
+
+      assert_nil contact.local_network.record_id
+      refute_nil contact.record_id
+
+      crm = mock("crm")
+      crm.expects(:log).with("creating Account-(#{contact.local_network.id}) LocalNetwork")
+      crm.expects(:find).with("Account", "LN-#{'%03d' % contact.local_network.id}", "External_ID__c")
+      crm.expects(:find).with("Account", "LN-#{contact.local_network.id}", "External_ID__c")
+      crm.expects(:create).with("Account", anything).returns(ln_record_id)
+      crm.expects(:log).with("updating Contact-(#{contact.id}) Contact")
+      crm.expects(:update).with do |object_name, record_id, params|
+        object_name == 'Contact' &&
+            params["UNGC_Contact_ID__c"] == contact.id &&
+            params["AccountId"] == ln_record_id
+      end.returns(record_id)
+
+      Crm::ContactSyncJob.perform_now(:update, contact, {}, crm)
+
+      contact.reload
+
+      assert_equal ln_record_id, contact.local_network.record_id
+      assert_equal contact.record_id, record_id
     end
   end
 end

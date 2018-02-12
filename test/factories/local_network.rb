@@ -27,7 +27,7 @@ FactoryGirl.define do
     end
 
     trait :with_record_id do
-      sequence(:record_id) { |n| "01I0D#{n.to_s.rjust(10, '0')}MVK" }
+      sequence(:record_id) { |n| "0010D#{n.to_s.rjust(10, '0')}MVK" }
     end
 
     factory :crm_local_network, traits: [:with_record_id, :with_network_contact]

@@ -300,7 +300,7 @@ en:
 
   local_network:
     business_model:
-      revenue_sharing: "Revenue sharing"
+      revenue_sharing: "Revenue Sharing"
       global_local:  "Global-Local"
       not_yet_decided: "Not yet decided"
     invoice_managed_by:
@@ -308,3 +308,9 @@ en:
       local_network: "Local Network"
       on_hold: "On hold"
       global_or_local: "1B+ by GCO & <1B by LN"
+    states:
+      emerging: Emerging
+      active: Active
+      advanced: Advanced
+      inactive: Inactive
+      regional_center: Regional Center

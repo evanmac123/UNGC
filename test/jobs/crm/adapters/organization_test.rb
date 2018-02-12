@@ -187,13 +187,6 @@ module Crm
       assert_equal "2016-02-03", converted.fetch("Rejoined_On__c")
     end
 
-    test "converts is_local_network_member" do
-      network = create(:crm_local_network)
-      country = create(:country, local_network: network)
-      converted = convert_organization(country: country)
-      assert_equal true, converted.fetch("Local_Network__c")
-    end
-
     test "converts state" do
       converted = convert_organization(state: "pending_review")
       assert_equal "Pending Review", converted.fetch("State__c")

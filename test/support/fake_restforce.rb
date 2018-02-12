@@ -10,12 +10,12 @@ class FakeRestforce
       Crm::ActionPlatform::SubscriptionSyncJob::SObjectName => {},
     }
     @object_prefixes = {
-        Crm::OrganizationSyncJob::SObjectName => '001', # ACCOUNT
-        Crm::ContactSyncJob::SObjectName => '003', # CONTACT
-        Crm::DonationSyncJob::SObjectName => Crm::DonationSyncJob::SObjectPrefix, # PAYMENT
-        Crm::ActionPlatform::PlatformSyncJob::SObjectName => '605', # PRODUCT
-        Crm::ActionPlatform::SubscriptionSyncJob::SObjectName => Crm::ActionPlatform::SubscriptionSyncJob::SObjectPrefix, # BILLED_PRODUCT
-        Crm::LocalNetworkSyncJob::SObjectName => '01I', # CUSTOM_ENTITY_DEFINITION
+        Crm::OrganizationSyncJob::SObjectName => Crm::OrganizationSyncJob::SObjectPrefix,
+        Crm::ContactSyncJob::SObjectName => Crm::ContactSyncJob::SObjectPrefix,
+        Crm::DonationSyncJob::SObjectName => Crm::DonationSyncJob::SObjectPrefix,
+        Crm::ActionPlatform::PlatformSyncJob::SObjectName => Crm::ActionPlatform::PlatformSyncJob::SObjectPrefix,
+        Crm::ActionPlatform::SubscriptionSyncJob::SObjectName => Crm::ActionPlatform::SubscriptionSyncJob::SObjectPrefix,
+        Crm::LocalNetworkSyncJob::SObjectName => Crm::LocalNetworkSyncJob::SObjectPrefix,
     }
   end
 
