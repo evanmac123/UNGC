@@ -153,10 +153,8 @@ UNGC::Application.routes.draw do
         end
       end
       resources :mous, except: [:index, :show]
-      resources :integrity_measures
       resources :annual_reports, except: [:index, :show]
       resources :annual_reports
-      resources :contribution_descriptions
     end
 
     get '/uploaded_files/:id/:filename' => 'uploaded_files#show', :as => :uploaded_file, :constraints => { :filename => /.*/ }

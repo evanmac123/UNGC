@@ -74,7 +74,6 @@ class LocalNetwork < ActiveRecord::Base
 
   has_many :countries
   has_many :contacts
-  has_many :integrity_measures
   has_many :awards
   has_many :events, :class_name => 'LocalNetworkEvent'
   has_many :mous, :class_name => 'Mou'
@@ -83,7 +82,6 @@ class LocalNetwork < ActiveRecord::Base
   has_many :announcements
   has_many :annual_reports
   has_one  :contribution_levels_info
-  has_one  :contribution_description
 
   belongs_to :sg_annual_meeting_appointments_file, :class_name => 'UploadedFile'
   belongs_to :sg_established_as_a_legal_entity_file, :class_name => 'UploadedFile'
@@ -97,10 +95,7 @@ class LocalNetwork < ActiveRecord::Base
 
   accepts_nested_attributes_for :contribution_levels_info
 
-  NUMERIC =  [:membership_companies, :membership_sme, :membership_micro_enterprise,
-              :membership_business_organizations, :membership_csr_organizations, :membership_labour_organizations,
-              :membership_civil_societies, :membership_academic_institutions, :membership_government, :membership_other,
-              :fees_amount_company, :fees_amount_sme, :fees_amount_other_organization, :fees_amount_participant,
+  NUMERIC =  [:fees_amount_company, :fees_amount_sme, :fees_amount_other_organization, :fees_amount_participant,
               :fees_amount_voluntary_private, :fees_amount_voluntary_public]
 
   NUMERIC.each do |attribute|

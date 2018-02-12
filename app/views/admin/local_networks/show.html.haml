@@ -15,10 +15,7 @@
     %li <a href="#profile">Profile</a>
     %li <a href="#structure">Structure</a>
     %li <a href="#governance">Governance</a>
-    %li <a href="#membership">Membership</a>
     %li <a href="#fees_contributions">Fees</a>
-    %li <a href="#contribution_descriptions">Pledges and Invoices</a>
-    %li <a href="#integrity_measures">Integrity Measures</a>
     - if current_contact_can_edit_network?
       %li <a href="#mous">MOUs</a>
     %li <a href="#annual_reports">Annual Reports</a>
@@ -116,43 +113,6 @@
         %dd.title &nbsp;
       %p= link_to_uploaded_file(@local_network.sg_annual_meeting_appointments_file)
 
-  #membership.tab_content
-    - if current_contact_can_edit_network?
-      %ul#tools{:class => "tools inline"}
-        %li= link_to 'Edit', edit_admin_local_network_path(@local_network.id, :section => :membership), :class => 'edit_large'
-
-    %dl.left_column{:style => 'width: 275px; margin-right: 20px;'}
-      %dt.title Subsidiary Participation
-      %dd.title &nbsp;
-      %dt.first= subsidiary_participation(@local_network)
-      %dd.first &nbsp;
-
-    %dl.left_column.short{:style => 'width: 275px; margin-right: 20px;'}
-      %dt.title Business
-      %dd.title &nbsp;
-      %dt.first Companies
-      %dd.first= @local_network.membership_companies
-      %dt SMEs
-      %dd= @local_network.membership_sme
-      %dt Micro Enterprises
-      %dd= @local_network.membership_micro_enterprise
-      %dt Business Associations
-      %dd= @local_network.membership_business_organizations
-
-    %dl.left_column.short{:style => 'width: 275px;'}
-      %dt.title Non-Business
-      %dd.title &nbsp;
-      %dt.first Academic
-      %dd.first= @local_network.membership_academic_institutions
-      %dt Civil Society
-      %dd= @local_network.membership_civil_societies
-      %dt CSR Organizations
-      %dd= @local_network.membership_csr_organizations
-      %dt Government
-      %dd= @local_network.membership_government
-      %dt Labour
-      %dd= @local_network.membership_labour_organizations
-
   #fees_contributions.tab_content
     - if current_contact_can_edit_network?
       %ul#tools{:class => "tools inline"}
@@ -186,24 +146,6 @@
           - levels.each do |l|
             %dt= l.description
             %dd= l.amount
-
-  #contribution_descriptions.tab_content
-    = render @local_network.contribution_description || ContributionDescription.new
-
-  #integrity_measures.tab_content
-    - if current_contact_can_edit_network?
-      %ul{:class => "tools inline"}
-        %li= link_to 'New Policy', new_admin_local_network_integrity_measure_path(@local_network), :class => "new_large"
-
-    %table.dashboard_table
-      %tr
-        %th Type
-        %th Title
-        %th Date
-        %th Document
-        - if current_contact_can_edit_network?
-          %th.actions Actions
-      = render @local_network.integrity_measures
 
   #mous.tab_content
     - if current_contact_can_edit_network?

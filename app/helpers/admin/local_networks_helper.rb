@@ -23,17 +23,6 @@ module Admin::LocalNetworksHelper
     end
   end
 
-  def subsidiary_participation(local_network)
-    case local_network.membership_subsidiaries
-      when nil
-        "Not reported"
-       when true
-         "Yes, in Local Network activities"
-       when false
-         "None"
-    end
-  end
-
   def participant_fees(local_network)
     case local_network.fees_participant
       when nil

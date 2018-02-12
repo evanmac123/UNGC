@@ -196,14 +196,6 @@ class ActiveSupport::TestCase
     super(params).merge(valid_file_upload_attributes)
   end
 
-  def create_integrity_measure(params = {})
-    super(valid_file_upload_attributes.merge(params))
-  end
-
-  def valid_integrity_measure_attributes(params = {})
-    super(params).merge(valid_file_upload_attributes)
-  end
-
   def create_local_network_event(params = {})
     defaults = {
       attachments: [

@@ -99,13 +99,6 @@ $(document).ready(function() {
     }
   });
 
-  // called from /app/views/admin/contribution_descriptions/_default_form.html.haml
-  $('.contribution_descriptions.maxlength').change(function() {
-    if (this.value.length >= 500) {
-      alert("Sorry, this text must be less than 500 characters.");
-    }
-  });
-
   $('#add_pledge_continued').click(function(e) {
     e.preventDefault();
     $(this).next(".show_field_target").slideToggle();
