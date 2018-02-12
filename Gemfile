@@ -4,7 +4,7 @@ ruby "2.3.3"
 
 gem 'rails', '4.2.10'
 
-gem 'pg', '~> 0.20.0' # Locked to this version because of a deprecation message in 0.21
+gem 'pg', '< 2'
 gem 'mysql2' # Required for Thinking Sphinx!!!
 
 gem 'facets',               '~> 3.1.0', require: false

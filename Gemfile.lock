@@ -635,7 +635,7 @@ DEPENDENCIES
   non-stupid-digest-assets
   paperclip (~> 4.3.7)
   passenger (~> 4.0.60)
-  pg (~> 0.20.0)
+  pg (< 2)
   plugger
   poltergeist
   pry-byebug
