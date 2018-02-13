@@ -1,6 +1,7 @@
 class BusinessOrganizationSignup < OrganizationSignup
   attr_reader :financial_contact
   attr_writer :invoicing_policy
+  attr_accessor :primary_contact_is_financial_contact
 
   def post_initialize
     @org_type = 'business'
@@ -14,8 +15,10 @@ class BusinessOrganizationSignup < OrganizationSignup
     OrganizationType.business
   end
 
-  def set_financial_contact_attributes(par)
-    financial_contact.attributes = par
+  def set_financial_contact_attributes(contact_attributes)
+    unless primary_contact_is_financial_contact
+      financial_contact.attributes = contact_attributes
+    end
   end
 
   def prepare_financial_contact
@@ -31,11 +34,15 @@ class BusinessOrganizationSignup < OrganizationSignup
   def after_save
     # NB we're still in a transaction here
     # add financial contact
-    # fixes bug caused by storing signup and related objects in session (in rails4)
-    financial_contact.roles.reload
 
-    financial_contact.save!
-    organization.contacts << financial_contact
+    if primary_contact_is_financial_contact
+      primary_contact.roles << Role.financial_contact
+    else
+      # fixes bug caused by storing signup and related objects in session (in rails4)
+      financial_contact.roles.reload
+      financial_contact.save!
+      organization.contacts << financial_contact
+    end
 
     if @ap_subscriptions.any?
       organization = @organization.organization # Sigh, unwrap the form object
@@ -146,6 +153,7 @@ class BusinessOrganizationSignup < OrganizationSignup
   end
 
   def financial_contact_valid?
+    return true if primary_contact_is_financial_contact
     return false unless financial_contact.valid?
 
     # financial contact is otherwise valid, check for duplicate emails

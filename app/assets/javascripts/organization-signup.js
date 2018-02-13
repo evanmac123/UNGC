@@ -200,4 +200,17 @@ $(function(){
     toggleApSelector();
   }
 
+
+  var $primaryContactIsFinancialContact = $("input[name='organization[primary_contact_is_financial_contact]");
+  if($primaryContactIsFinancialContact.length > 0) {
+    var toggleFinancialFields = function() {
+      var choice = $("input[name='organization[primary_contact_is_financial_contact]']:checked").val(),
+          fieldsDisabled = choice === "1";
+      $("#contact_prefix, #contact_first_name, #contact_middle_name, #contact_last_name, #contact_job_title, #contact_email, #contact_phone")
+        .prop("disabled", fieldsDisabled);
+    };
+    $primaryContactIsFinancialContact.change(toggleFinancialFields);
+    toggleFinancialFields();
+  }
+
 });

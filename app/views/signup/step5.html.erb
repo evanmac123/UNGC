@@ -16,6 +16,11 @@
       <%= form.error_messages header_message: false %>
       <%= render 'flash_error_messages' %>
 
+      <div class="field" >
+        <%= form.label :primary_contact_is_financial_contact, "The primary contact is also the financial contact" %>
+        <%= form.check_box :primary_contact_is_financial_contact %>
+      </div>
+
       <%= fields_for :contact, @signup.financial_contact do |fields| %>
         <%= render partial: 'contact_form', locals: { form: fields, account_info: false, contact_type: 'Financial Contact', financial_contact: true } %>
       <% end %>

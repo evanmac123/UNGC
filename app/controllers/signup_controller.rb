@@ -93,8 +93,11 @@ class SignupController < ApplicationController
   def step6
     if @signup.business?
       if request.post?
-        @signup.organization.invoice_date = params.fetch(:organization, {}).fetch(:invoice_date, nil)
+        o = params.fetch(:organization, {})
+        @signup.organization.invoice_date = o[:invoice_date]
+        @signup.primary_contact_is_financial_contact = o[:primary_contact_is_financial_contact] == "1"
         @signup.set_financial_contact_attributes(contact_params)
+
         store_organization_signup
       end
 
@@ -215,7 +218,7 @@ class SignupController < ApplicationController
   end
 
   def contact_params
-    params.require(:contact).permit(
+    params.fetch(:contact, {}).permit(
       :prefix,
       :first_name,
       :middle_name,

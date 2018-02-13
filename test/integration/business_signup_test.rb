@@ -18,7 +18,6 @@ class BusinessSignupTest < ActionDispatch::IntegrationTest
     # Given a parent company
     parent_company = create(:business)
 
-
     # and a country from a network that requires invoicing
     create(:country,
       name: "France",
@@ -28,90 +27,88 @@ class BusinessSignupTest < ActionDispatch::IntegrationTest
     platform1, platform2, _ = create_list(:action_platform_platform, 3)
 
     # step 1
-    visit "/participation/join/application/step1/business"
+    step1 = TestPage::Signup::Step1.new
+    step1.visit
 
-    fill_in "Organization Name", with: "New Organization name"
-    fill_in "Website", with: "http://some-website.org"
-    fill_in "Employees", with: "123"
-    select "Publicly Listed", from: "Ownership"
-    select "ABC-Index", from: "Exchange", visible: false
-    fill_in "Stock symbol", with: "ABCD", visible: false
-    select "Mining", from: "Sector", visible: false
-    fill_in I18n.t("level_of_participation.confirm_annual_revenue"), with: "$250,000,000"
-    select "France", from: "Country"
-    within("label[for='organization_is_subsidiary']") { choose "Yes" }
-    fill_in "organization_parent_company_name", with: parent_company.name
-    simulate_parent_company_selection(parent_company)
-    within("label[for='organization_is_tobacco']") { choose "Yes" }
-    within("label[for='organization_is_landmine']") { choose "Yes" }
-
-    click_on "Next"
+    step2 = step1.submit(
+      organization_name: "New Organization name",
+      website: "http://some-website.org",
+      employees: "123",
+      ownership: "Publicly Listed",
+      exchange: "ABC-Index",
+      stock_symbol: "ABCD",
+      sector: "Mining",
+      revenue: "$250,000,000",
+      country: "France",
+      subsidiary?: true,
+      parent_company_id: parent_company.id,
+      parent_company_name: parent_company.name,
+      tobacco?: true,
+      landmines?: true,
+    )
     assert_equal organization_step2_path, current_path, validation_errors
 
-    # step2
-    fill_in "Prefix", with: "Mr."
-    fill_in "First name", with: "Michael"
-    fill_in "Middle name", with: "B."
-    fill_in "Last name", with: "Henry"
-    fill_in "Job title", with: "Contract specialist"
-    fill_in "Email", with: "MichaelBHenry@rhyta.com"
-    fill_in "Phone", with: "418-670-0163"
-    fill_in "Postal address", with: "4283 rue Garneau"
-    fill_in "Address cont.", with: "Suite B"
-    fill_in "City", with: "Quebec"
-    fill_in "State/Province", with: "QC"
-    fill_in "ZIP/Code", with: "G1V 3V5"
-    select "Canada", from: "Country"
-    fill_in "Username", with: "Runcest"
-    fill_in "Password", with: "xou5Eboh"
-
-    click_on "Next"
+    step3 = step2.submit(
+      prefix: "Mr.",
+      first_name: "Michael",
+      middle_name: "B.",
+      last_name: "Henry",
+      title: "Contract specialist",
+      email: "MichaelBHenry@rhyta.com",
+      phone: "418-670-0163",
+      street: "4283 rue Garneau",
+      street2: "Suite B",
+      city: "Quebec",
+      state: "QC",
+      postal_code: "G1V 3V5",
+      country: "Canada",
+      username: "Runcest",
+      password: "xou5Eboh",
+    )
     assert_equal organization_step3_path, current_path, validation_errors
 
-    # step3
-    fill_in "Prefix", with: "Ms."
-    fill_in "First name", with: "Doris"
-    fill_in "Middle name", with: "P"
-    fill_in "Last name", with: "Frafjord"
-    fill_in "Job title", with: "CEO"
-    fill_in "Email", with: "DorisFrafjord@teleworm.us"
-    fill_in "Phone", with: "985 78 958"
-    fill_in "Postal address", with: "Eirik Jarls gate 157"
-    fill_in "Address cont.", with: ""
-    fill_in "City", with: "TRONDHEIM"
-    fill_in "State/Province", with: "TRONDHEIM"
-    fill_in "ZIP/Code", with: "7030"
-    select "Norway", from: "Country"
-
-    click_on "Next"
+    step4 = step3.submit(
+      prefix: "Ms.",
+      first_name: "Doris",
+      middle_name: "P",
+      last_name: "Frafjord",
+      title: "CEO",
+      email: "DorisFrafjord@teleworm.us",
+      phone: "985 78 958",
+      street: "Eirik Jarls gate 157",
+      street2: "",
+      city: "TRONDHEIM",
+      state: "TRONDHEIM",
+      postal_code: "7030",
+      country: "Norway",
+    )
     assert_equal organization_step4_path, current_path, validation_errors
 
     # step4 level of participation, invoice date, action platforms
-    choose "PARTICIPANT + ACTION PLATFORMS & LEAD ELIGIBILITY"
-    signup_for_action_platform(platform1, "Michael Henry")
-    signup_for_action_platform(platform2, "Michael Henry")
-
-    click_on "Next"
+    step4.select_engagement_tier("PARTICIPANT + ACTION PLATFORMS & LEAD ELIGIBILITY")
+    step4.subscribe_to_action_platform(platform1, "Michael Henry")
+    step4.subscribe_to_action_platform(platform2, "Michael Henry")
+    step5 = step4.submit
     assert_equal organization_step5_path, current_path, validation_errors
 
     # step5 financial contact info
-    fill_in "Prefix", with: "Mrs."
-    fill_in "First name", with: "Lisandra"
-    fill_in "Last name", with: "Mueller"
-    fill_in "Job title", with: "CTO"
-    fill_in "Email", with: "limueller@block.name"
-    fill_in "Phone", with: "(123) 123 1234"
-
-    today = Time.current.strftime("%d/%m/%Y")
-    fill_in "organization[invoice_date]", with: today
-
-    click_on "Next"
+    step5.fill_in_contact(
+      prefix: "Mrs.",
+      first_name: "Lisandra",
+      last_name: "Mueller",
+      title: "CTO",
+      email: "limueller@block.name",
+      phone: "(123) 123 1234",
+    )
+    step5.set_invoice_date(Date.current)
+    step6 = step5.submit
     assert_equal organization_step6_path, current_path, validation_errors
 
     # step 6 Letter of Commitment
-    attach_file "organization_commitment_letter", "test/fixtures/files/untitled.pdf"
-    fill_in "organization[government_registry_url]", with: 'http://myregistry.org'
-    click_on "Submit"
+    step6.submit(
+      commitment_letter: "test/fixtures/files/untitled.pdf",
+      registry_url: "http://myregistry.org",
+    )
     assert_equal organization_step7_path, current_path, validation_errors
 
     # verify
@@ -197,6 +194,88 @@ class BusinessSignupTest < ActionDispatch::IntegrationTest
     assert_equal 2, ActionPlatform::Subscription.where(organization: organization).count
   end
 
+  test "financial contact can be the same as primary contact"  do
+    step1 = TestPage::Signup::Step1.new
+    # step 1
+    step1 = TestPage::Signup::Step1.new
+    step1.visit
+
+    step2 = step1.submit(
+      organization_name: "New Organization name",
+      website: "http://some-website.org",
+      employees: "123",
+      ownership: "Publicly Listed",
+      exchange: "ABC-Index",
+      stock_symbol: "ABCD",
+      sector: "Mining",
+      revenue: "$250,000,000",
+      country: "Norway",
+      subsidiary?: false,
+      tobacco?: true,
+      landmines?: true,
+    )
+    assert_equal organization_step2_path, current_path, validation_errors
+
+    step3 = step2.submit(
+      prefix: "Mr.",
+      first_name: "Michael",
+      middle_name: "B.",
+      last_name: "Henry",
+      title: "Contract specialist",
+      email: "MichaelBHenry@rhyta.com",
+      phone: "418-670-0163",
+      street: "4283 rue Garneau",
+      street2: "Suite B",
+      city: "Quebec",
+      state: "QC",
+      postal_code: "G1V 3V5",
+      country: "Canada",
+      username: "Runcest",
+      password: "xou5Eboh",
+    )
+    assert_equal organization_step3_path, current_path, validation_errors
+
+    step4 = step3.submit(
+      prefix: "Ms.",
+      first_name: "Doris",
+      middle_name: "P",
+      last_name: "Frafjord",
+      title: "CEO",
+      email: "DorisFrafjord@teleworm.us",
+      phone: "985 78 958",
+      street: "Eirik Jarls gate 157",
+      street2: "",
+      city: "TRONDHEIM",
+      state: "TRONDHEIM",
+      postal_code: "7030",
+      country: "Norway",
+    )
+    assert_equal organization_step4_path, current_path, validation_errors
+
+    # step4 level of participation, invoice date, action platforms
+    step4.select_engagement_tier("PARTICIPANT")
+    step5 = step4.submit
+    assert_equal organization_step5_path, current_path, validation_errors
+
+    # step5 financial contact info
+    step5.check_same_as_primary_contact
+    step5.set_invoice_date(Date.current)
+    step6 = step5.submit
+    assert_equal organization_step6_path, current_path, validation_errors
+
+    # step 6 Letter of Commitment
+    assert_difference -> { Contact.count }, +2 do
+      step6.submit(commitment_letter: "test/fixtures/files/untitled.pdf",
+        registry_url: "http://myregistry.org")
+    end
+    assert_equal organization_step7_path, current_path, validation_errors
+
+    organization = Organization.find_by(name: "New Organization name")
+    financial_contact = organization.contacts.financial_contacts.first
+    assert_not_nil financial_contact
+    assert_equal "Michael Henry", financial_contact.name
+  end
+
   private
 
   def validation_errors
@@ -211,14 +290,4 @@ class BusinessSignupTest < ActionDispatch::IntegrationTest
     I18n.t(*args)
   end
 
-  def simulate_parent_company_selection(parent_company)
-    find(:xpath, "//input[@id='organization_parent_company_id']", visible: :all).set(parent_company.id)
-  end
-
-  def signup_for_action_platform(platform, contact_name)
-    platform_selector = "organization_subscriptions_#{platform.id}_selected"
-    contact_selector = "organization_subscriptions_#{platform.id}_contact_id"
-    check(platform_selector)
-    select(contact_name, from: contact_selector)
-  end
 end
