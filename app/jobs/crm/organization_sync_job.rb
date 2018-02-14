@@ -12,7 +12,7 @@ module Crm
     end
 
     def foreign_keys(transform_action)
-      parent_record_id(model.local_network, transform_action) { |sf_id| Hash['Parent_LN_Account_Id', sf_id] }
+      parent_record_id(model.local_network, :create) { |sf_id| Hash['Parent_LN_Account_Id__c', sf_id] }
     end
   end
 end

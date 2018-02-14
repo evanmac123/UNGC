@@ -49,7 +49,7 @@ module Crm
       end.returns(ln_record_id)
 
       crm.expects(:create).with do |object_name, params|
-        object_name == 'Account' && params["Parent_LN_Account_Id"] == ln_record_id
+        object_name == 'Account' && params["Parent_LN_Account_Id__c"] == ln_record_id
       end.returns(org_record_id)
 
       Crm::OrganizationSyncJob.perform_now(:create, organization, {}, crm)
@@ -71,7 +71,7 @@ module Crm
       crm.expects(:log).with("creating Account-(#{organization.id}) Organization")
 
       crm.expects(:create).with do |object_name, params|
-        object_name == 'Account' && params["Parent_LN_Account_Id"] == ln_record_id
+        object_name == 'Account' && params["Parent_LN_Account_Id__c"] == ln_record_id
       end.returns(org_record_id)
 
       Crm::OrganizationSyncJob.perform_now(:create, organization, {}, crm)
@@ -122,7 +122,7 @@ module Crm
       crm.expects(:update).with do |object_name, sales_force_id, params|
         object_name == 'Account' &&
             sales_force_id == org_record_id &&
-            params["Parent_LN_Account_Id"] == ln_record_id
+            params["Parent_LN_Account_Id__c"] == ln_record_id
       end.returns(org_record_id)
 
       Crm::OrganizationSyncJob.perform_now(:update, organization, {}, crm)
