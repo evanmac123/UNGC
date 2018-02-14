@@ -52,7 +52,6 @@ module Crm
       record_id = '01I0D0000000001MVK'
 
       crm.expects(:find).with('Account', Crm::Adapters::LocalNetwork.convert_id(network.id), 'External_ID__c').returns(nil)
-      crm.expects(:find).with("Account", "LN-#{'%03d' % network.id}", "External_ID__c").returns(nil)
       crm.expects(:create).with do |object_name, params|
         object_name == 'Account' &&
             params["External_ID__c"] == sf_ln_id &&

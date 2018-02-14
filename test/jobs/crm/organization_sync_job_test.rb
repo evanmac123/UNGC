@@ -41,7 +41,6 @@ module Crm
       crm.expects(:log).with("creating Account-(#{local_network.id}) LocalNetwork")
       crm.expects(:log).with("creating Account-(#{organization.id}) Organization")
 
-      crm.expects(:find).with("Account", "LN-#{'%03d' % local_network.id}", "External_ID__c")
       crm.expects(:find).with("Account", sf_ln_id, "External_ID__c")
       crm.expects(:create).with do |object_name, params|
         object_name == 'Account' &&
@@ -114,7 +113,6 @@ module Crm
       crm.expects(:log).with("creating Account-(#{local_network.id}) LocalNetwork")
       crm.expects(:log).with("updating Account-(#{organization.id}) Organization")
 
-      crm.expects(:find).with("Account", "LN-#{'%03d' % local_network.id}", "External_ID__c")
       crm.expects(:find).with("Account", sf_ln_id, "External_ID__c").returns(nil)
       crm.expects(:create).with do |object_name, params|
         object_name == 'Account' &&

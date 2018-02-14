@@ -46,6 +46,10 @@ class Crm::Adapters::Base
     coerce(input.try!(:truncate, 20))
   end
 
+  def self.convert_id(rails_id)
+    rails_id
+  end
+
   protected
 
   def to_crm_params(transform_action)

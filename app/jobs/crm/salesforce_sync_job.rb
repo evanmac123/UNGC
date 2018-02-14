@@ -113,7 +113,8 @@ module Crm
     end
 
     def find_record_id(rails_id = model_id)
-      find_record(rails_id)&.Id
+      converted_rails_id = adapter.class.convert_id(rails_id)
+      find_record(converted_rails_id)&.Id
     end
 
     def find_record(rails_id = model_id)

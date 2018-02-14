@@ -309,7 +309,6 @@ module Crm
       crm = mock("crm")
       crm.expects(:log).with("creating Account-(#{contact.local_network.id}) LocalNetwork")
       crm.expects(:find).with("Account", "LN-#{contact.local_network.id}", "External_ID__c")
-      crm.expects(:find).with("Account", "LN-#{'%03d' % contact.local_network.id}", "External_ID__c")
       crm.expects(:create).with("Account", anything).returns(ln_record_id)
       crm.expects(:log).with("creating Contact-(#{contact.id}) Contact")
       crm.expects(:create).with do |object_name, params|
@@ -393,7 +392,6 @@ module Crm
 
       crm = mock("crm")
       crm.expects(:log).with("creating Account-(#{contact.local_network.id}) LocalNetwork")
-      crm.expects(:find).with("Account", "LN-#{'%03d' % contact.local_network.id}", "External_ID__c")
       crm.expects(:find).with("Account", "LN-#{contact.local_network.id}", "External_ID__c")
       crm.expects(:create).with("Account", anything).returns(ln_record_id)
       crm.expects(:log).with("updating Contact-(#{contact.id}) Contact")

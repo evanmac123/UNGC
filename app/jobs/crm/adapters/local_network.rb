@@ -22,10 +22,8 @@ module Crm
         if transform_action == :create
           base['RecordTypeId'] = Crm::LocalNetworkSyncJob::SObjectRecordType
           base['Sector__c'] = 'Local_Network'
+          base['External_ID__c'] = self.class.convert_id(model.id)
         end
-
-        # TODO: Add this back to transform_action == :create once all LN's with the new ID format without leading 0s
-        base['External_ID__c'] = self.class.convert_id(model.id)
 
         base
       end
