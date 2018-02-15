@@ -21,7 +21,7 @@ class BasicCopQuestionnaire
   private
 
   def create(*args)
-    FactoryGirl.create(*args)
+    FactoryBot.create(*args)
   end
 
   def create_statement_of_support_question

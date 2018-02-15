@@ -35,15 +35,15 @@ class DueDiligenceReviewMailerPreview < ActionMailer::Preview
   private
 
   def organization
-    @organization ||= FactoryGirl.create(:organization)
+    @organization ||= FactoryBot.create(:organization)
   end
 
   def review
-    @review ||= FactoryGirl.create(:due_diligence_review, organization: organization)
+    @review ||= FactoryBot.create(:due_diligence_review, organization: organization)
   end
 
   def comment
-    @comment ||= FactoryGirl.create(:comment, commentable: review)
+    @comment ||= FactoryBot.create(:comment, commentable: review)
   end
  
 end

@@ -7,7 +7,7 @@ module TestPage
       end
 
       def submit(params = {})
-        defaults = FactoryGirl.attributes_for(:organization).merge(
+        defaults = FactoryBot.attributes_for(:organization).merge(
           organization_name: Faker::Company.name,
           website: Faker::Internet.url,
           employees: 23,

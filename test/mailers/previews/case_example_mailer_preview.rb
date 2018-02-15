@@ -16,15 +16,15 @@ class CaseExampleMailerPreview < ActionMailer::Preview
   end
 
   def country
-    FactoryGirl.create(:country, local_network: local_network)
+    FactoryBot.create(:country, local_network: local_network)
   end
 
   def local_network
-    FactoryGirl.create(:local_network)
+    FactoryBot.create(:local_network)
   end
 
   def sector
-    FactoryGirl.create_list(:sector, 2)
+    FactoryBot.create_list(:sector, 2)
   end
 
 end

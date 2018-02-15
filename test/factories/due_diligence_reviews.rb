@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :due_diligence_review, class: DueDiligence::Review do
     association :organization, factory: :organization_with_participant_manager
     association :event, factory: :event

@@ -36,7 +36,7 @@ class AdvancedCopQuestionnaire
   private
 
   def create(*args)
-    FactoryGirl.create(*args)
+    FactoryBot.create(*args)
   end
 
 end

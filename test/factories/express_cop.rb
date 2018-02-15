@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :express_cop do
     endorses_ten_principles false
     covers_issue_areas false

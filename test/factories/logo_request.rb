@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :logo_request do
     organization
     publication { create(:logo_publication) }

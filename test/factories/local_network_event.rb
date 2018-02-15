@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :local_network_event do
     title { Faker::Lorem.sentence }
     description { Faker::Lorem.paragraph }

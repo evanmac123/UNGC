@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :non_business_organization_registration do
     date { Date.current }
     place { Faker::Address.city }

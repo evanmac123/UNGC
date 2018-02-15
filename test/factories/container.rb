@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :container do
     layout :home
     path { Faker::Internet.url("").gsub('http://', '') }

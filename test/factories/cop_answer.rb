@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :cop_answer do
     communication_on_progress
     cop_attribute

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :principle do
     name { Faker::Name.name }
   end

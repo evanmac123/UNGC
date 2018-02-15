@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :donation_form, class: Donation::Form do
     amount "$0.50"
     first_name { Faker::Name.first_name }

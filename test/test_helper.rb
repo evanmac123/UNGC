@@ -1,5 +1,5 @@
 require 'simplecov'
-require 'factory_girl'
+require 'factory_bot'
 SimpleCov.start
 require 'fake_stripe'
 
@@ -22,7 +22,7 @@ Minitest::Reporters.use! [
                          ] unless ENV["RM_INFO"] || ENV["TEAMCITY_VERSION"]
 
 class ActiveSupport::TestCase
-  include FactoryGirl::Syntax::Methods
+  include FactoryBot::Syntax::Methods
 
   # Add more helper methods to be used by all tests here...
   include ActionDispatch::TestProcess

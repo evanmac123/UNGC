@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :role do
     name Faker::Name.name
     description Faker::Lorem.sentence

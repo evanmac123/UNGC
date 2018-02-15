@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :sdg_pioneer_submission, :class => SdgPioneer::Submission do
     country_name { create(:country).name }
     organization_name Faker::Company.name

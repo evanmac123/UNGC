@@ -4,7 +4,7 @@ module TestPage
 
       def submit(params = {})
         args = params.reverse_merge(
-          FactoryGirl.attributes_for(:contact)
+          FactoryBot.attributes_for(:contact)
         )
         fill_in "Prefix", with: args.fetch(:prefix)
         fill_in "First name", with: args.fetch(:first_name)

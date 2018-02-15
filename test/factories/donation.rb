@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :donation do
     amount { "$#{Faker::Number.decimal(3, 2)}" }
     first_name { Faker::Name.first_name }

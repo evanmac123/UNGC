@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :contact do
     prefix { Faker::Name.prefix }
     first_name { Faker::Name.first_name }

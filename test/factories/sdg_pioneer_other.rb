@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :sdg_pioneer_other, :class => SdgPioneer::Other do
     organization_name Faker::Company.name
     is_participant Faker::Boolean.boolean

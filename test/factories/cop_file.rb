@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :cop_file do
     language
     attachment_file_name { Faker::Lorem.word }

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :sustainable_development_goal do
     name { Faker::Name.name }
     sequence(:goal_number)

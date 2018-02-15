@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :cop_log_entry do
     event :test_event
     cop_type :cop

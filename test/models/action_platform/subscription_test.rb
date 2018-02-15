@@ -4,7 +4,7 @@ class ActionPlatformSubscriptionTest < ActiveSupport::TestCase
   describe 'validations for states' do
     let(:starts_on) { nil }
     let(:expires_on) { nil }
-    let(:subscription) { FactoryGirl.build(:action_platform_subscription,
+    let(:subscription) { FactoryBot.build(:action_platform_subscription,
                                             state: state,
                                             starts_on: starts_on,
                                             expires_on: expires_on) }
@@ -52,12 +52,12 @@ class ActionPlatformSubscriptionTest < ActiveSupport::TestCase
         let(:expires_on) { 1.year.from_now }
 
         let(:approved_subscription) {
-          FactoryGirl.create(:action_platform_subscription,
+          FactoryBot.create(:action_platform_subscription,
                                                :approved,
                                                starts_on: starts_on,
                                                expires_on: expires_on) }
         let(:overlapping) {
-          FactoryGirl.build(:action_platform_subscription,
+          FactoryBot.build(:action_platform_subscription,
                                                organization: approved_subscription.organization,
                                                platform: approved_subscription.platform,
                                                state: state,
@@ -86,15 +86,15 @@ class ActionPlatformSubscriptionTest < ActiveSupport::TestCase
 
   test "path to approval" do
     manager = create(:staff_contact, :action_platform_manager)
-    subscription = FactoryGirl.create(:action_platform_subscription)
+    subscription = FactoryBot.create(:action_platform_subscription)
 
     assert subscription.approve!(manager), subscription.reload.errors.full_messages
   end
 
   describe 'state transitions' do
     let(:state) { :ce_engagement_review }
-    let(:contact) { FactoryGirl.create(:contact) }
-    let(:subscription) { FactoryGirl.create(:action_platform_subscription, state: state) }
+    let(:contact) { FactoryBot.create(:contact) }
+    let(:subscription) { FactoryBot.create(:action_platform_subscription, state: state) }
 
     describe 'to pending' do
       describe 'from ce_engagement_review' do
@@ -192,7 +192,7 @@ class ActionPlatformSubscriptionTest < ActiveSupport::TestCase
       end
 
       describe 'on invalid data' do
-        let(:subscription) { FactoryGirl.create(:action_platform_subscription, state: state, starts_on: nil) }
+        let(:subscription) { FactoryBot.create(:action_platform_subscription, state: state, starts_on: nil) }
 
         it 'fails when dates are not valid' do
           assert_raises(StateMachine::InvalidTransition) { subscription.approve!(contact) }
@@ -232,8 +232,8 @@ class ActionPlatformSubscriptionTest < ActiveSupport::TestCase
   end
 
   describe 'contact organization and subscription organization must match' do
-    let(:contact) { FactoryGirl.create(:contact_point) }
-    let(:subscription) { FactoryGirl.build_stubbed(:action_platform_subscription, contact: contact) }
+    let(:contact) { FactoryBot.create(:contact_point) }
+    let(:subscription) { FactoryBot.build_stubbed(:action_platform_subscription, contact: contact) }
 
     it 'is not valid' do
       subscription.wont_be :valid?, 'Subscription was valid'

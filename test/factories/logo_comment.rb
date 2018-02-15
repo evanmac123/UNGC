@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :logo_comment do
     contact
     logo_request

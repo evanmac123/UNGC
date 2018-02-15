@@ -29,7 +29,7 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
         end
 
         should 'accept valid values' do
-          review = FactoryGirl.build_stubbed(:due_diligence_review)
+          review = FactoryBot.build_stubbed(:due_diligence_review)
 
           review.level_of_engagement = :sponsor
           assert review.valid?, 'level_of_engagement :sponsor was invalid'
@@ -51,7 +51,7 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
         end
 
         should 'disallow an invalid value' do
-          review = FactoryGirl.build(:due_diligence_review)
+          review = FactoryBot.build(:due_diligence_review)
 
           exception = assert_raises( ::ArgumentError) { review.level_of_engagement = :invalid }
           assert_equal("'invalid' is not a valid level_of_engagement", exception.message)
@@ -60,7 +60,7 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
 
       context 'reason_for_decline' do
         should 'accept valid values' do
-          review = FactoryGirl.build_stubbed(:due_diligence_review)
+          review = FactoryBot.build_stubbed(:due_diligence_review)
 
           review.reason_for_decline = :integrity
           assert review.valid?, 'reason_for_decline :integrity was invalid'
@@ -79,7 +79,7 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
         end
 
         should 'disallow an invalid value' do
-          review = FactoryGirl.build(:due_diligence_review)
+          review = FactoryBot.build(:due_diligence_review)
 
           exception = assert_raises( ::ArgumentError) { review.reason_for_decline = :invalid }
           assert_equal("'invalid' is not a valid reason_for_decline", exception.message)
@@ -88,7 +88,7 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
 
       context 'rep_risk_severity_of_news' do
         should 'accept valid values' do
-          review = FactoryGirl.build_stubbed(:due_diligence_review)
+          review = FactoryBot.build_stubbed(:due_diligence_review)
 
           review.rep_risk_severity_of_news = :severity_of_news_na
           assert review.valid?, 'rep_risk_severity_of_news :severity_of_news_na was invalid'
@@ -125,7 +125,7 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
         end
 
         should 'disallow an invalid value' do
-          review = FactoryGirl.build(:due_diligence_review)
+          review = FactoryBot.build(:due_diligence_review)
 
           exception = assert_raises( ::ArgumentError) { review.rep_risk_severity_of_news = :invalid }
           assert_equal("'invalid' is not a valid rep_risk_severity_of_news", exception.message)
@@ -134,7 +134,7 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
 
       context 'with_reservation' do
         should 'accept valid values' do
-          review = FactoryGirl.build_stubbed(:due_diligence_review)
+          review = FactoryBot.build_stubbed(:due_diligence_review)
 
           review.with_reservation = :no_reservation
           assert review.valid?, 'with_reservation :no_reservation was invalid'
@@ -144,7 +144,7 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
         end
 
         should 'disallow an invalid value' do
-          review = FactoryGirl.build(:due_diligence_review)
+          review = FactoryBot.build(:due_diligence_review)
 
           exception = assert_raises( ::ArgumentError) { review.with_reservation = :invalid }
           assert_equal("'invalid' is not a valid with_reservation", exception.message)
@@ -153,7 +153,7 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
 
       context 'highest_controversy_level' do
         should 'accept valid values' do
-          review = FactoryGirl.build_stubbed(:due_diligence_review, :with_research, :integrity_review)
+          review = FactoryBot.build_stubbed(:due_diligence_review, :with_research, :integrity_review)
 
           review.highest_controversy_level = :controversy_na
           assert review.valid?, 'highest_controversy_level :controversy_na was invalid'
@@ -175,7 +175,7 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
         end
 
         should 'disallow an invalid value' do
-          review = FactoryGirl.build(:due_diligence_review, :with_research, :integrity_review)
+          review = FactoryBot.build(:due_diligence_review, :with_research, :integrity_review)
 
           exception = assert_raises( ::ArgumentError) { review.highest_controversy_level = :invalid }
           assert_equal("'invalid' is not a valid highest_controversy_level", exception.message)
@@ -184,7 +184,7 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
 
       context 'rep_risk_scores' do
         should 'accept valid values' do
-          review = FactoryGirl.build_stubbed(:due_diligence_review, :with_research, :integrity_review)
+          review = FactoryBot.build_stubbed(:due_diligence_review, :with_research, :integrity_review)
 
           review.rep_risk_peak = -1
           assert review.valid?, 'rep_risk_peak -1 was invalid'
@@ -206,7 +206,7 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
         end
 
         should 'disallow an invalid value' do
-          review = FactoryGirl.build(:due_diligence_review, :with_research, :integrity_review)
+          review = FactoryBot.build(:due_diligence_review, :with_research, :integrity_review)
 
           exception = assert_raises( ::ArgumentError) { review.highest_controversy_level = :invalid }
           assert_equal("'invalid' is not a valid highest_controversy_level", exception.message)
@@ -216,7 +216,7 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
   end
 
   test "path to integrity_review approval" do
-    review = FactoryGirl.create(:due_diligence_review)
+    review = FactoryBot.create(:due_diligence_review)
 
     assert review.send_to_review(review.requester), review.reload.errors.full_messages
 
@@ -241,13 +241,13 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
 
     review.with_reservation = :no_reservation
 
-    integrity_user = FactoryGirl.create(:staff_contact, :integrity_team_member)
+    integrity_user = FactoryBot.create(:staff_contact, :integrity_team_member)
     assert review.request_integrity_review(integrity_user), review.reload.errors.full_messages
 
     review.additional_research = 'Yes'
     review.integrity_explanation = 'Imperious smirk.'
 
-    integrity_manager = FactoryGirl.create(:staff_contact, :integrity_manager)
+    integrity_manager = FactoryBot.create(:staff_contact, :integrity_manager)
     assert review.approve(integrity_manager), review.reload.errors.full_messages
 
     review.engagement_rationale = 'I think we should go ahead.'
@@ -259,24 +259,24 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
   context 'state transitions' do
     context 'in_review' do
       should "succeed from new_request" do
-        contact = FactoryGirl.create(:contact)
-        review = FactoryGirl.create(:due_diligence_review)
+        contact = FactoryBot.create(:contact)
+        review = FactoryBot.create(:due_diligence_review)
 
         assert review.send_to_review(contact), review.reload.errors.full_messages
         assert review.in_review?, 'state not in_review'
       end
 
       should "succeed from integrity_review" do
-        contact = FactoryGirl.create(:contact)
-        review = FactoryGirl.create(:due_diligence_review, :integrity_review, :with_research, state: :integrity_review)
+        contact = FactoryBot.create(:contact)
+        review = FactoryBot.create(:due_diligence_review, :integrity_review, :with_research, state: :integrity_review)
 
         assert review.send_to_review(contact), review.reload.errors.full_messages
         assert review.in_review?, 'state not in_review'
       end
 
       should "require :requester, :organization, :level_of_engagement and :additional_information" do
-        contact = FactoryGirl.create(:contact)
-        review = FactoryGirl.create(:due_diligence_review, :integrity_review, :with_research)
+        contact = FactoryBot.create(:contact)
+        review = FactoryBot.create(:due_diligence_review, :integrity_review, :with_research)
 
         review.requester_id = ''
         review.organization_id = ''
@@ -294,8 +294,8 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
 
       should "require :individual_subject for a :speaker and :foundation" do
         [:speaker, :foundation].each do |review_type|
-          contact = FactoryGirl.create(:contact)
-          review = FactoryGirl.create(:due_diligence_review)
+          contact = FactoryBot.create(:contact)
+          review = FactoryBot.create(:due_diligence_review)
 
           review.level_of_engagement = review_type
           review.individual_subject = ''
@@ -315,7 +315,7 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
         level_of_engagement = :sponsor
         additional_information = 'To be all that I can be.'
 
-        review = FactoryGirl.create(:due_diligence_review, :with_research,
+        review = FactoryBot.create(:due_diligence_review, :with_research,
                                     requester: contact,
                                     organization: organization,
                                     level_of_engagement: level_of_engagement,
@@ -336,7 +336,7 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
       end
 
       should "use the overridden methods" do
-        review = FactoryGirl.create(:due_diligence_review)
+        review = FactoryBot.create(:due_diligence_review)
 
         assert_raises( ::ArgumentError) { review.send_to_review }
         assert_raises(::ArgumentError) { review.send_to_review! }
@@ -345,16 +345,16 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
 
     context 'request_local_network_input' do
       should "succeed" do
-        contact = FactoryGirl.create(:contact)
-        review = FactoryGirl.create(:due_diligence_review, state: :in_review)
+        contact = FactoryBot.create(:contact)
+        review = FactoryBot.create(:due_diligence_review, state: :in_review)
 
         assert review.request_local_network_input(contact), review.reload.errors.full_messages
         assert review.local_network_review?, 'state not local_network_review'
       end
 
       should "set local_network_input_required" do
-        contact = FactoryGirl.create(:contact)
-        review = FactoryGirl.create(:due_diligence_review,
+        contact = FactoryBot.create(:contact)
+        review = FactoryBot.create(:due_diligence_review,
                                     state: :in_review,
                                     requires_local_network_input: nil,
         )
@@ -373,7 +373,7 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
         level_of_engagement = :award_recipient
         additional_information = 'To be all that I can be.'
 
-        review = FactoryGirl.create(:due_diligence_review, :with_research,
+        review = FactoryBot.create(:due_diligence_review, :with_research,
                                     state: :in_review,
                                     requester: contact,
                                     organization: organization,
@@ -395,7 +395,7 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
       end
 
       should "use the overridden methods" do
-        review = FactoryGirl.create(:due_diligence_review)
+        review = FactoryBot.create(:due_diligence_review)
 
         assert_raises( ::ArgumentError) { review.request_local_network_input }
         assert_raises(::ArgumentError) { review.request_local_network_input! }
@@ -404,24 +404,24 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
 
     context 'request_integrity_review' do
       should "succeed" do
-        contact = FactoryGirl.create(:contact)
-        review = FactoryGirl.create(:due_diligence_review, :with_research, state: :in_review)
+        contact = FactoryBot.create(:contact)
+        review = FactoryBot.create(:due_diligence_review, :with_research, state: :in_review)
 
         assert review.request_integrity_review(contact), review.reload.errors.full_messages
         assert review.integrity_review?, 'state not integrity_review'
       end
 
       should "succeed from local_network_review" do
-        contact = FactoryGirl.create(:contact)
-        review = FactoryGirl.create(:due_diligence_review, :with_research, state: :local_network_review)
+        contact = FactoryBot.create(:contact)
+        review = FactoryBot.create(:due_diligence_review, :with_research, state: :local_network_review)
 
         assert review.request_integrity_review(contact), review.reload.errors.full_messages
         assert review.integrity_review?, 'state not integrity_review'
       end
 
       should "require necessary research attributes" do
-        contact = FactoryGirl.create(:contact)
-        review = FactoryGirl.create(:due_diligence_review,
+        contact = FactoryBot.create(:contact)
+        review = FactoryBot.create(:due_diligence_review,
                                     state: :in_review,
                                     local_network_input: '',
                                     requires_local_network_input: false,
@@ -449,8 +449,8 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
       end
 
       should "validate rep risk current and peak values" do
-        contact = FactoryGirl.create(:contact)
-        review = FactoryGirl.build_stubbed(:due_diligence_review,
+        contact = FactoryBot.create(:contact)
+        review = FactoryBot.build_stubbed(:due_diligence_review,
                                     :integrity_review,
                                     rep_risk_current: 9.9,
                                     rep_risk_peak: 2.3,
@@ -461,7 +461,7 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
         assert_includes review.errors.full_messages, "Rep risk peak must be an integer"
         assert_includes review.errors.full_messages, "Rep risk current must be an integer"
 
-        review = FactoryGirl.build_stubbed(:due_diligence_review,
+        review = FactoryBot.build_stubbed(:due_diligence_review,
                                            :integrity_review,
                                            rep_risk_current: -2,
                                            rep_risk_peak: -101,
@@ -472,7 +472,7 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
         assert_includes review.errors.full_messages, "Rep risk current is not included in the list"
         assert_includes review.errors.full_messages, "Rep risk peak is not included in the list"
 
-        review = FactoryGirl.build_stubbed(:due_diligence_review,
+        review = FactoryBot.build_stubbed(:due_diligence_review,
                                            :integrity_review,
                                            rep_risk_current: 120,
                                            rep_risk_peak: 999,
@@ -485,8 +485,8 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
       end
 
       should "require local_network_input if so flagged" do
-        contact = FactoryGirl.create(:contact)
-        review = FactoryGirl.create(:due_diligence_review, state: :in_review,
+        contact = FactoryBot.create(:contact)
+        review = FactoryBot.create(:due_diligence_review, state: :in_review,
                                     local_network_input: '',
                                     requires_local_network_input: true
         )
@@ -504,7 +504,7 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
         level_of_engagement = :award_recipient
         additional_information = 'To be all that I can be.'
 
-        review = FactoryGirl.create(:due_diligence_review, :with_research,
+        review = FactoryBot.create(:due_diligence_review, :with_research,
                                     state: :in_review,
                                     requester: contact,
                                     organization: organization,
@@ -526,7 +526,7 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
       end
 
       should "use the overridden methods" do
-        review = FactoryGirl.create(:due_diligence_review)
+        review = FactoryBot.create(:due_diligence_review)
 
         assert_raises( ::ArgumentError) { review.request_integrity_review }
         assert_raises(::ArgumentError) { review.request_integrity_review! }
@@ -536,16 +536,16 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
     context 'integrity_review decisions' do
       context 'on approve' do
         should "succeed" do
-          contact = FactoryGirl.create(:contact)
-          review = FactoryGirl.create(:due_diligence_review, :integrity_review, :with_research, with_reservation: nil)
+          contact = FactoryBot.create(:contact)
+          review = FactoryBot.create(:due_diligence_review, :integrity_review, :with_research, with_reservation: nil)
 
           assert review.approve(contact), review.reload.errors.full_messages
           assert review.engagement_review?, 'state not engagement_review'
         end
 
         should "require an explanation" do
-          contact = FactoryGirl.create(:contact)
-          review = FactoryGirl.create(:due_diligence_review, :integrity_review, :with_research,
+          contact = FactoryBot.create(:contact)
+          review = FactoryBot.create(:due_diligence_review, :integrity_review, :with_research,
                                       integrity_explanation: '')
 
           assert_not review.approve(contact), review.reload.errors.full_messages
@@ -562,7 +562,7 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
           integrity_explanation = 'Let me explain...'
           with_reservation = :integrity_reservation # The event should set this to :no_reservation
 
-          review = FactoryGirl.create(:due_diligence_review, :integrity_review, :with_research,
+          review = FactoryBot.create(:due_diligence_review, :integrity_review, :with_research,
                                       requester: contact,
                                       organization: organization,
                                       level_of_engagement: level_of_engagement,
@@ -586,7 +586,7 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
         end
 
         should "use the overridden methods" do
-          review = FactoryGirl.create(:due_diligence_review)
+          review = FactoryBot.create(:due_diligence_review)
 
           assert_raises( ::ArgumentError) { review.approve }
           assert_raises(::ArgumentError) { review.approve! }
@@ -595,16 +595,16 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
 
       context 'on approve_with_reservation' do
         should "succeed" do
-          contact = FactoryGirl.create(:contact)
-          review = FactoryGirl.create(:due_diligence_review, :integrity_review, :with_research)
+          contact = FactoryBot.create(:contact)
+          review = FactoryBot.create(:due_diligence_review, :integrity_review, :with_research)
 
           assert review.approve_with_reservation(contact), review.reload.errors.full_messages
           assert review.engagement_review?, 'state not engagement_review'
         end
 
         should "require an explanation" do
-          contact = FactoryGirl.create(:contact)
-          review = FactoryGirl.create(:due_diligence_review, :integrity_review, :with_research,
+          contact = FactoryBot.create(:contact)
+          review = FactoryBot.create(:due_diligence_review, :integrity_review, :with_research,
                                       integrity_explanation: '')
 
           assert_not review.approve_with_reservation(contact), review.reload.errors.full_messages
@@ -621,7 +621,7 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
           integrity_explanation = 'Let me explain...'
           with_reservation = :no_reservation # The event should set this to :integrity_reservation
 
-          review = FactoryGirl.create(:due_diligence_review, :integrity_review, :with_research,
+          review = FactoryBot.create(:due_diligence_review, :integrity_review, :with_research,
                                       requester: contact,
                                       organization: organization,
                                       level_of_engagement: level_of_engagement,
@@ -645,7 +645,7 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
         end
 
         should "use the overridden methods" do
-          review = FactoryGirl.create(:due_diligence_review)
+          review = FactoryBot.create(:due_diligence_review)
 
           assert_raises( ::ArgumentError) { review.approve_with_reservation }
           assert_raises(::ArgumentError) { review.approve_with_reservation! }
@@ -654,15 +654,15 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
 
       context 'on reject' do
         should "not require a final decision or approving_chief" do
-          contact = FactoryGirl.create(:contact)
-          review = FactoryGirl.create(:due_diligence_review, :integrity_review, :with_research, )
+          contact = FactoryBot.create(:contact)
+          review = FactoryBot.create(:due_diligence_review, :integrity_review, :with_research, )
           assert review.reject(contact), review.reload.errors.full_messages
           assert review.rejected?, 'state not rejected'
         end
 
         should "require an explanation" do
-          contact = FactoryGirl.create(:contact)
-          review = FactoryGirl.create(:due_diligence_review, :integrity_review, :with_research,
+          contact = FactoryBot.create(:contact)
+          review = FactoryBot.create(:due_diligence_review, :integrity_review, :with_research,
                                       integrity_explanation: '')
 
           assert_not review.approve(contact), review.reload.errors.full_messages
@@ -677,7 +677,7 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
           additional_information = 'To be all that I can be.'
           integrity_explanation = 'Let me explain...'
 
-          review = FactoryGirl.create(:due_diligence_review, :integrity_review, :with_research,
+          review = FactoryBot.create(:due_diligence_review, :integrity_review, :with_research,
                                       requester: contact,
                                       organization: organization,
                                       level_of_engagement: level_of_engagement,
@@ -699,7 +699,7 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
         end
 
         should "not fire rejected event when it's already rejected" do
-          review = FactoryGirl.create(:due_diligence_review, :engagement_review, :rejected)
+          review = FactoryBot.create(:due_diligence_review, :engagement_review, :rejected)
           contact = create(:staff_contact)
 
           review.reject(contact)
@@ -708,7 +708,7 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
         end
 
         should "use the overridden methods" do
-          review = FactoryGirl.create(:due_diligence_review)
+          review = FactoryBot.create(:due_diligence_review)
 
           assert_raises( ::ArgumentError) { review.reject }
           assert_raises(::ArgumentError) { review.reject! }
@@ -718,8 +718,8 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
       context 'on return for review' do
 
         should "succeed" do
-          contact = FactoryGirl.create(:contact)
-          review = FactoryGirl.create(:due_diligence_review, :integrity_review, :with_research)
+          contact = FactoryBot.create(:contact)
+          review = FactoryBot.create(:due_diligence_review, :integrity_review, :with_research)
 
           assert review.send_to_review(contact), review.reload.errors.full_messages
           assert review.in_review?, 'state not in_review'
@@ -733,7 +733,7 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
           additional_information = 'To be all that I can be.'
           integrity_explanation = 'Let me explain...'
 
-          review = FactoryGirl.create(:due_diligence_review, :integrity_review, :with_research,
+          review = FactoryBot.create(:due_diligence_review, :integrity_review, :with_research,
                                       requester: contact,
                                       organization: organization,
                                       level_of_engagement: level_of_engagement,
@@ -755,7 +755,7 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
         end
 
         should "not fire rejected event when it's already rejected" do
-          review = FactoryGirl.create(:due_diligence_review, :engagement_review, :rejected)
+          review = FactoryBot.create(:due_diligence_review, :engagement_review, :rejected)
           contact = create(:staff_contact)
 
           review.reject(contact)
@@ -764,7 +764,7 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
         end
 
         should "use the overridden methods" do
-          review = FactoryGirl.create(:due_diligence_review)
+          review = FactoryBot.create(:due_diligence_review)
 
           assert_raises( ::ArgumentError) { review.reject }
           assert_raises(::ArgumentError) { review.reject! }
@@ -775,21 +775,21 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
     context 'engagement_review decisions' do
       context 'on engage' do
         should "succeed" do
-          contact = FactoryGirl.create(:contact)
-          review = FactoryGirl.create(:due_diligence_review, :engagement_review)
+          contact = FactoryBot.create(:contact)
+          review = FactoryBot.create(:due_diligence_review, :engagement_review)
           assert review.engage(contact), review.reload.errors.full_messages
           assert review.engaged?, 'state not engaged'
         end
 
         should "return to integrity_review" do
-          contact = FactoryGirl.create(:contact)
-          review = FactoryGirl.create(:due_diligence_review, :engagement_review, :with_research)
+          contact = FactoryBot.create(:contact)
+          review = FactoryBot.create(:due_diligence_review, :engagement_review, :with_research)
           assert review.request_integrity_review(contact), review.reload.errors.full_messages
           assert review.integrity_review?, 'state not integrity_review'
         end
 
         should "not require engagement_rationale and approving_chief without integrity reservation" do
-          review = FactoryGirl.create(:due_diligence_review, :engagement_review,
+          review = FactoryBot.create(:due_diligence_review, :engagement_review,
                                       engagement_rationale: '',
                                       approving_chief: '',
                                       with_reservation: :no_reservation)
@@ -799,8 +799,8 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
         end
 
         should "require engagement_rationale and approving_chief with an integrity reservation" do
-          contact = FactoryGirl.build_stubbed(:contact)
-          review = FactoryGirl.create(:due_diligence_review, :engagement_review,
+          contact = FactoryBot.build_stubbed(:contact)
+          review = FactoryBot.create(:due_diligence_review, :engagement_review,
                                       engagement_rationale: '',
                                       approving_chief: '',
                                       with_reservation: :integrity_reservation)
@@ -811,8 +811,8 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
         end
 
         should 'be disallowed for rejected reviews' do
-          contact = FactoryGirl.create(:contact)
-          review = FactoryGirl.create(:due_diligence_review, :engagement_review)
+          contact = FactoryBot.create(:contact)
+          review = FactoryBot.create(:due_diligence_review, :engagement_review)
           review.engage(contact)
           assert_not review.engage(contact), review.reload.errors.full_messages
           assert_includes review.reload.errors.full_messages, 'State cannot transition via "engage"'
@@ -824,7 +824,7 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
           approving_chief = 'Chuck E. Cheese'
           with_reservation = :integrity_reservation
 
-          review = FactoryGirl.create(:due_diligence_review, :engagement_review,
+          review = FactoryBot.create(:due_diligence_review, :engagement_review,
                                       requester: contact,
                                       engagement_rationale: engagement_rationale,
                                       approving_chief: approving_chief,
@@ -847,7 +847,7 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
         end
 
         should "use the overridden methods" do
-          review = FactoryGirl.create(:due_diligence_review)
+          review = FactoryBot.create(:due_diligence_review)
 
           assert_raises( ::ArgumentError) { review.engage }
           assert_raises(::ArgumentError) { review.engage! }
@@ -856,15 +856,15 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
 
       context 'on decline' do
         should "succeed" do
-          contact = FactoryGirl.create(:contact)
-          review = FactoryGirl.create(:due_diligence_review, :engagement_review, :with_declination)
+          contact = FactoryBot.create(:contact)
+          review = FactoryBot.create(:due_diligence_review, :engagement_review, :with_declination)
           assert review.decline(contact), review.reload.errors.full_messages
           assert review.declined?, 'state not declined'
         end
 
         should "require engagement_rationale and approving_chief" do
-          contact = FactoryGirl.build_stubbed(:contact)
-          review = FactoryGirl.create(:due_diligence_review, :engagement_review,
+          contact = FactoryBot.build_stubbed(:contact)
+          review = FactoryBot.create(:due_diligence_review, :engagement_review,
                                       engagement_rationale: '',
                                       approving_chief: '')
           assert_not review.decline(contact)
@@ -872,8 +872,8 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
         end
 
         should 'require a reason for declining' do
-          contact = FactoryGirl.build_stubbed(:contact)
-          review = FactoryGirl.create(:due_diligence_review, :engagement_review, reason_for_decline: '')
+          contact = FactoryBot.build_stubbed(:contact)
+          review = FactoryBot.create(:due_diligence_review, :engagement_review, reason_for_decline: '')
           assert_not review.decline(contact)
           assert_includes review.reload.errors.full_messages, "Reason for decline is not included in the list"
         end
@@ -885,7 +885,7 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
           approving_chief = 'Chuck E. Cheese'
           reason_for_decline = :not_available_but_interested
 
-          review = FactoryGirl.create(:due_diligence_review, :engagement_review,
+          review = FactoryBot.create(:due_diligence_review, :engagement_review,
                                       requester: requester,
                                       engagement_rationale: engagement_rationale,
                                       approving_chief: approving_chief,
@@ -908,7 +908,7 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
         end
 
         should "use the overridden methods" do
-          review = FactoryGirl.create(:due_diligence_review)
+          review = FactoryBot.create(:due_diligence_review)
 
           assert_raises( ::ArgumentError) { review.decline }
           assert_raises(::ArgumentError) { review.decline! }
@@ -919,8 +919,8 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
     context 'decision corrections' do
       context 'rejected' do
         should 'be able to transition back to integrity_review' do
-          contact = FactoryGirl.create(:contact)
-          review = FactoryGirl.create(:due_diligence_review, :with_research, :engagement_review, :rejected)
+          contact = FactoryBot.create(:contact)
+          review = FactoryBot.create(:due_diligence_review, :with_research, :engagement_review, :rejected)
           assert review.request_integrity_review(contact), review.reload.errors.full_messages
           assert review.integrity_review?, 'state not integrity_review'
         end
@@ -928,8 +928,8 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
 
       context 'engaged' do
         should 'be able to transition back to engagement_review' do
-          contact = FactoryGirl.create(:contact)
-          review = FactoryGirl.create(:due_diligence_review, :engagement_review, :engaged)
+          contact = FactoryBot.create(:contact)
+          review = FactoryBot.create(:due_diligence_review, :engagement_review, :engaged)
           assert review.revert_to_engagement_decision(contact), review.reload.errors.full_messages
           assert review.engagement_review?, 'state not engagement_review'
         end
@@ -937,15 +937,15 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
 
       context 'declined' do
         should 'be able to transition back to engagement_review' do
-          contact = FactoryGirl.create(:contact)
-          review = FactoryGirl.create(:due_diligence_review, :engagement_review, :declined, :with_declination)
+          contact = FactoryBot.create(:contact)
+          review = FactoryBot.create(:due_diligence_review, :engagement_review, :declined, :with_declination)
           assert review.revert_to_engagement_decision(contact), review.reload.errors.full_messages
           assert review.engagement_review?, 'state not engagement_review'
         end
       end
 
       should "use the overridden methods" do
-        review = FactoryGirl.create(:due_diligence_review)
+        review = FactoryBot.create(:due_diligence_review)
 
         assert_raises( ::ArgumentError) { review.revert_to_engagement_decision }
         assert_raises(::ArgumentError) { review.revert_to_engagement_decision! }
@@ -957,22 +957,22 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
 
   context 'comments' do
     should 'be allowed in rejected state' do
-      contact = FactoryGirl.create(:contact)
-      review = FactoryGirl.create(:due_diligence_review, :engagement_review, :rejected)
+      contact = FactoryBot.create(:contact)
+      review = FactoryBot.create(:due_diligence_review, :engagement_review, :rejected)
       comment = review.comments.create(body: "hello world", contact_id: contact.id)
       assert_not comment.errors.any?
     end
 
     should 'be allowed in engagement_review' do
-      contact = FactoryGirl.create(:contact)
-      review = FactoryGirl.create(:due_diligence_review, :engagement_review)
+      contact = FactoryBot.create(:contact)
+      review = FactoryBot.create(:due_diligence_review, :engagement_review)
       comment = review.comments.create(body: "hello world", contact_id: contact.id)
       assert_not comment.errors.any?
     end
 
     should 'be allowed when engaged' do
-      contact = FactoryGirl.create(:contact)
-      review = FactoryGirl.create(:due_diligence_review, :engagement_review, :engaged, )
+      contact = FactoryBot.create(:contact)
+      review = FactoryBot.create(:due_diligence_review, :engagement_review, :engaged, )
       comment = review.comments.create(body: "hello world", contact_id: contact.id)
       assert_not comment.errors.any?
     end

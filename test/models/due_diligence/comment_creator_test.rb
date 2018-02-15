@@ -4,8 +4,8 @@ require 'sidekiq/testing'
 class CommentCreatorTest < ActiveSupport::TestCase
   context "a comment" do
     setup do
-      @review = FactoryGirl.create(:due_diligence_review, :engagement_review, :rejected)
-      @commentor = FactoryGirl.create(:contact)
+      @review = FactoryBot.create(:due_diligence_review, :engagement_review, :rejected)
+      @commentor = FactoryBot.create(:contact)
       @creator = DueDiligence::CommentCreator.new(@review, @commentor)
       @comment_params = {
         body: "Hello World",

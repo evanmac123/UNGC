@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :action_platform_subscription, class: 'ActionPlatform::Subscription' do
     association :organization, :has_participant_manager
     contact {association :contact_point, organization: organization }

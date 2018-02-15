@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :award do
     title { Faker::Lorem.sentence }
     description { Faker::Lorem.paragraph }

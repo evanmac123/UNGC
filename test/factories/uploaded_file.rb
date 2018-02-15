@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :uploaded_file do
     attachment_file_name { Faker::Lorem.word }
     attachment_content_type { 'application/pdf' }

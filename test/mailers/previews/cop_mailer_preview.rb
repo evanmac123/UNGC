@@ -67,7 +67,7 @@ class CopMailerPreview < ActionMailer::Preview
   private
 
   def organization
-    @organization ||= FactoryGirl.create(:organization,
+    @organization ||= FactoryBot.create(:organization,
       country: country,
       cop_due_on: Date.current - 5.years
     ).tap do |org|
@@ -76,21 +76,21 @@ class CopMailerPreview < ActionMailer::Preview
   end
 
   def cop
-    @cop ||= FactoryGirl.create(:communication_on_progress, organization: organization)
+    @cop ||= FactoryBot.create(:communication_on_progress, organization: organization)
   end
 
   def user
-    @user ||= FactoryGirl.create(:contact, organization: organization)
+    @user ||= FactoryBot.create(:contact, organization: organization)
   end
 
   def country
     @country ||= begin
       # create a local network and a report recipient
-      network = FactoryGirl.create(:local_network)
+      network = FactoryBot.create(:local_network)
       create_report_recipient_for(network)
 
       # create a country in that network
-      FactoryGirl.create(:country, {
+      FactoryBot.create(:country, {
         local_network: network,
         region: 'northern_america'
       })
@@ -98,13 +98,13 @@ class CopMailerPreview < ActionMailer::Preview
   end
 
   def create_contact_point(organization)
-    @contact_point_role ||= FactoryGirl.create(:role, name: Role::FILTERS[:contact_point])
-    FactoryGirl.create(:contact, organization: organization, roles: [@contact_point_role])
+    @contact_point_role ||= FactoryBot.create(:role, name: Role::FILTERS[:contact_point])
+    FactoryBot.create(:contact, organization: organization, roles: [@contact_point_role])
   end
 
   def create_report_recipient_for(local_network)
-    @network_report_recipient_role ||= FactoryGirl.create(:role, name: Role::FILTERS[:network_report_recipient])
-    FactoryGirl.create(:contact, local_network: local_network, roles: [@network_report_recipient_role])
+    @network_report_recipient_role ||= FactoryBot.create(:role, name: Role::FILTERS[:network_report_recipient])
+    FactoryBot.create(:contact, local_network: local_network, roles: [@network_report_recipient_role])
   end
 
 end

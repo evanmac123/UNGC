@@ -3,12 +3,12 @@ class SdgPioneerMailerPreview < ActionMailer::Preview
 
   # Preview this email at http://localhost:3000/rails/mailers/sdg_pioneer_mailer/nomination_submitted
   def nomination_submitted
-    nomination = FactoryGirl.create(:sdg_pioneer_other)
+    nomination = FactoryBot.create(:sdg_pioneer_other)
     SdgPioneerMailer.nomination_submitted(nomination.id)
   end
 
   def email_nominee
-    nomination = FactoryGirl.create(:sdg_pioneer_other)
+    nomination = FactoryBot.create(:sdg_pioneer_other)
     SdgPioneerMailer.email_nominee(nomination.id)
   end
 

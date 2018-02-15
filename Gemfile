@@ -97,7 +97,7 @@ group :development, :test do
   gem 'byebug'
   gem 'spring'
   gem 'guard-spring'
-  gem 'factory_girl_rails', '~> 4.0'
+  gem 'factory_bot_rails'
   gem 'faker'
   gem 'dotenv-rails'
 end

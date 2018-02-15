@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :action_platform_platform, class: ActionPlatform::Platform do
     name { Faker::Hipster.words(2).map(&:titlecase).join(" ") }
     description { Faker::Hipster.sentence }

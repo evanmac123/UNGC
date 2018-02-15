@@ -98,34 +98,34 @@ class OrganizationMailerPreview < ActionMailer::Preview
   private
 
   def create_ceo
-    FactoryGirl.create(:ceo_contact, organization: organization)
+    FactoryBot.create(:ceo_contact, organization: organization)
   end
 
   def create_contact_point
     organization
         .update_columns(level_of_participation: Organization.level_of_participations[:participant_level])
-    FactoryGirl.create(:contact_point, organization: organization,
+    FactoryBot.create(:contact_point, organization: organization,
                        roles: [Role.contact_point])
   end
 
   def create_network_report_recipient
-    FactoryGirl.create(:contact_point, local_network: local_network)
+    FactoryBot.create(:contact_point, local_network: local_network)
   end
 
   def create_staff
-    FactoryGirl.create(:contact, organization: ungc)
+    FactoryBot.create(:contact, organization: ungc)
   end
 
   def organization
-    @organization ||= FactoryGirl.create(:organization, country: country)
+    @organization ||= FactoryBot.create(:organization, country: country)
   end
 
   def country
-    @country ||= FactoryGirl.create(:country, local_network: local_network)
+    @country ||= FactoryBot.create(:country, local_network: local_network)
   end
 
   def local_network
-    @local_network ||= FactoryGirl.create(:local_network)
+    @local_network ||= FactoryBot.create(:local_network)
   end
 
   def ungc
@@ -133,7 +133,7 @@ class OrganizationMailerPreview < ActionMailer::Preview
   end
 
   def create_staff_comment
-    FactoryGirl.create(:comment, body: Faker::Lorem.sentence, contact: create_staff)
+    FactoryBot.create(:comment, body: Faker::Lorem.sentence, contact: create_staff)
   end
 
 end

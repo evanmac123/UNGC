@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :communication do
     title { Faker::Lorem.sentence }
     date { Faker::Date.forward(20) }
