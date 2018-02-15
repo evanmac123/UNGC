@@ -4,7 +4,7 @@ ruby "2.3.3"
 
 gem 'rails', '4.2.10'
 
-gem 'pg', '< 2'
+gem 'pg', '< 1'
 gem 'mysql2' # Required for Thinking Sphinx!!!
 
 gem 'facets',               '~> 3.1.0', require: false
@@ -32,7 +32,7 @@ gem 'coffee-rails',         '~> 4.2.0'
 gem 'jquery-rjs',                       git: 'https://github.com/amatsuda/jquery-rjs.git', branch: 'master'
 gem 'jquery-rails',         '~> 4.0.4'
 gem 'jquery-ui-rails'
-gem 'ckeditor',             '4.1.1'
+gem 'ckeditor'
 gem 'redis-rails'
 gem 'sidekiq', '< 6'
 gem 'uglifier'
