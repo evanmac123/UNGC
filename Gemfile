@@ -56,7 +56,7 @@ gem 'htmlentities', '~> 4.3', '>= 4.3.4'
 gem 'sinatra', :require => nil
 gem 'rails_event_store', '~> 0.14.5'
 gem 'stripe', '<2'
-gem 'saml_idp', '~> 0.5.0'
+gem 'saml_idp', '~> 0.7.2'
 gem 'faraday'
 gem 'faraday-cookie_jar'
 gem 'awesome_print', require: 'ap'

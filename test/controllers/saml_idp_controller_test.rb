@@ -25,6 +25,7 @@ class SamlIdpControllerTest < ActionController::TestCase
 
     login(contact.username, contact.password)
 
+    assert_response :success
     saml = parse(assigns(:saml_response))
 
     assert_equal contact.id.to_s, saml.name_id
@@ -53,6 +54,7 @@ class SamlIdpControllerTest < ActionController::TestCase
   def make_saml_request
     auth_request = OneLogin::RubySaml::Authrequest.new
     settings = OneLogin::RubySaml::Settings.new
+    settings.issuer = "http://example.com"
     settings.idp_sso_target_url = "/saml/auth"
     auth_url = auth_request.create(settings)
     CGI.unescape(auth_url.split("=").last)
