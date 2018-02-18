@@ -20,7 +20,7 @@ module Crm
         }
 
         if transform_action == :create
-          base['RecordTypeId'] = Crm::LocalNetworkSyncJob::SObjectRecordType
+          base['RecordTypeId'] = Crm::LocalNetworkSyncJob::RecordTypeId
           base['Sector__c'] = 'Local_Network'
           base['External_ID__c'] = self.class.convert_id(model.id)
         end

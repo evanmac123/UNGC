@@ -6,7 +6,7 @@ module Crm
     SObjectName = "Account"
     SUngcIdName = 'External_ID__c'
     SObjectPrefix = '001'
-    SObjectRecordType = '0121H000000rHIIQA2'
+    RecordTypeId = '0121H000000rHIIQA2'
 
     def destroy
       soft_delete
