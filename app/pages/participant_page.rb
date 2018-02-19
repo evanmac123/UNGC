@@ -11,7 +11,7 @@ class ParticipantPage < SimpleDelegator
   def hero
     {
       title: {
-        title1: '8,000 companies',
+        title1: '9,000 companies',
         title2: '+ 4,000 non-businesses'
       },
       image: 'https://d306pr3pise04h.cloudfront.net/uploads/b1/b1757c442f979297b1e13aa44dcaf58da156106a---forest.jpg',
