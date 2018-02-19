@@ -9,7 +9,7 @@ module Crm
         config = DEFAULTS[:salesforce]
         ::Restforce.log = log
         ::Restforce.new(
-          api_version: "36.0",
+          api_version: '42.0',
           host: config.fetch(:host),
           username: config.fetch(:username),
           security_token: config.fetch(:token),
