@@ -11,7 +11,7 @@ function countOrganization(data) {
     if (d.properties.name == "Antarctica") {
       return "<strong>Continent: </strong><span class='details'>" + d.properties.name + "<br></span>";
     } else {
-      return "<strong>Country: </strong><span class='details'>" + d.properties.name + "<br></span><strong>Active Participants: </strong><span class='details'>" + (d[colorVariable] || 0) + "</span>";
+      return "<strong>Country: </strong><span class='details'>" + d.properties.name + "<br></span><strong>Active participants: </strong><span class='details'>" + (d[colorVariable] || 0) + "</span>";
     }
   });
 
