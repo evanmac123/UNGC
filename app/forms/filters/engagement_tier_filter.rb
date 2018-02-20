@@ -4,7 +4,7 @@ class Filters::EngagementTierFilter < Filters::FlatSearchFilter
     items = Organization.level_of_participations
 
     super(items, selected)
-    self.label = 'Level'
+    self.label = 'Tier'
     self.key = 'engagement_tiers'
   end
 
