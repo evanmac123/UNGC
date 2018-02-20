@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Searchable::SearchableResource < Searchable::Base
   alias_method :resource, :model
 
@@ -22,7 +24,7 @@ class Searchable::SearchableResource < Searchable::Base
   end
 
   def meta
-    resource.taggings.map(&:content).join(' ')
+    resource.taggings.includes(:author, :language, :initiative, :principle, :country).map(&:content).join(' ')
   end
 
 end

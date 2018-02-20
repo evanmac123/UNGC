@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: resource_links
@@ -29,20 +31,20 @@ class ResourceLink < ActiveRecord::Base
     :video => 'Video'
   }
 
-  validates :link_type, :inclusion => {:in => TYPES.keys.map(&:to_s), :message => "%{value} is not a valid link_type value" }
+  validates :link_type, inclusion: {in: TYPES.keys.map(&:to_s), message: "%{value} is not a valid link_type value" }
 
-  scope :videos, -> { where('link_type = "video"') }
+  scope :videos, -> { where(link_type: :video) }
 
   def increment_views!
     self.increment! :views
   end
 
   def url=(url)
-    write_attribute(:url, url.try(:strip))
+    write_attribute(:url, url&.strip)
   end
 
   def url
-    read_attribute(:url).try(:strip)
+    read_attribute(:url)&.strip
   end
 
 end

@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class LibraryDetailPresenter < SimpleDelegator
   def links_list
-    self.links.map do |l|
+    self.links.order(:id).map do |l|
       LinkPresenter.new(l)
     end
   end

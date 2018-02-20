@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: resources
@@ -63,7 +65,7 @@ class Resource < ActiveRecord::Base
     podcast: 13,
   }
 
-  scope :update_required, lambda { where("content_type IS NULL") }
+  scope :update_required, -> { where(content_type: nil) }
 
   def self.with_principles_count
     select("resources.*, count(principles_resources.principle_id) as principles_count")
