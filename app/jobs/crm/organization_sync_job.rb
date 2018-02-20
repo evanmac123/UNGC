@@ -11,8 +11,8 @@ module Crm
       model.sector_id.present? && model.organization_type_id.present?
     end
 
-    def foreign_keys(transform_action)
-      parent_record_id(model.local_network, :create) { |sf_id| Hash['Parent_LN_Account_Id__c', sf_id] }
+    def foreign_keys
+      parent_record_id('Parent_LN_Account_Id__c', model.local_network, :local_network_id)
     end
   end
 end

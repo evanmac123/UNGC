@@ -2,7 +2,7 @@ require "test_helper"
 
 module Crm
   class LocalNetworkAdapterTest < ActiveSupport::TestCase
-
+    
     test "It converts local network id to the format that the CRM expects" do
       assert_equal "LN-1", Crm::Adapters::LocalNetwork.convert_id(1)
       assert_equal "LN-12", Crm::Adapters::LocalNetwork.convert_id(12)
@@ -47,7 +47,7 @@ module Crm
     test "It converts Region" do
       country = create(:country, :with_local_network, region: 'Narnia')
       local_network = country.local_network
-      converted = Crm::Adapters::LocalNetwork.new(local_network).transformed_crm_params(:create)
+      converted = Crm::Adapters::LocalNetwork.new(local_network, :create).crm_payload
       assert_equal 'Narnia', converted.fetch("Region__c")
     end
 
@@ -79,7 +79,7 @@ module Crm
     def assert_converts(key, expected_value, model_params = {})
       local_network = build_stubbed(:local_network, model_params)
 
-      converted = Crm::Adapters::LocalNetwork.new(local_network).transformed_crm_params(:create)
+      converted = Crm::Adapters::LocalNetwork.new(local_network, :create).crm_payload
       if expected_value.nil?
         assert_nil converted.fetch(key)
       else

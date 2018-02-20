@@ -4,18 +4,18 @@ module Crm
   module Adapters
     class Donation < Crm::Adapters::Base
 
-
-      def to_crm_params(transform_action)
+      def build_crm_payload
         # NB we need to parse the raw stripe response
         # so that we can serialize it all back down as a single
         # JSON field.
-        {
-            Crm::DonationSyncJob::IdField => model.id,
-            Crm::DonationSyncJob::MetadataField => {
-                ungc: model.metadata,
-                stripe_response: JSON.parse(model.full_response),
-            }.to_json
-        }
+        #
+        column(Crm::DonationSyncJob::IdField, :id)
+        column(Crm::DonationSyncJob::MetadataField, :metadata) do |donation|
+          {
+              ungc: donation.metadata,
+              stripe_response: JSON.parse(donation.full_response),
+          }.to_json
+        end
       end
     end
   end

@@ -1,58 +1,52 @@
 # frozen_string_literal: true
 
 class Crm::Adapters::Base
-  attr_reader :model, :changes
+  attr_reader :model, :changes, :transform_action
+  attr_accessor :crm_params
 
-  def initialize(model, changes={})
+  def initialize(model, action, changes={})
     @model = model
-    @changes = changes
+    @transform_action = action
+    @changes = changes || {}
+    @crm_params = {}
   end
 
-  def transformed_crm_params(transform_action, foreign_keys={})
-    result = to_crm_params(transform_action).transform_values { |value| coerce(value) }
-    foreign_keys.blank? ? result : result.merge(foreign_keys)
+  def crm_payload(foreign_keys={})
+    build_crm_payload
+    foreign_keys.blank? ? crm_params : crm_params.merge(foreign_keys)
   end
 
-  def number(input, integer_precision = 18, fractional_precision = 0)
-    # TODO: figure out what to do if the number exceeds the precision
-    coerce(input)
-  end
+  protected
 
   def text(input, length = nil)
-    if length
-      coerce(input.try!(:truncate, length))
-    else
-      coerce(input)
-    end
-  end
-
-  def phone(input)
-    coerce(input.try!(:truncate, 40))
-  end
-
-  def fax(input)
-    coerce(input.try!(:truncate, 40))
+    length ? input&.truncate(length) : input
   end
 
   def picklist(input)
-    coerce(Array.wrap(input).join(";"))
-  end
-
-  def email(input)
-    coerce(input)
-  end
-
-  def postal_code(input)
-    coerce(input.try!(:truncate, 20))
+    a = *input
+    a.join(";")
   end
 
   def self.convert_id(rails_id)
     rails_id
   end
 
-  protected
+  def changed?(attribute)
+    transform_action == :create || (changes[attribute] && changes[attribute][0] != changes[attribute][1])
+  end
 
-  def to_crm_params(transform_action)
+  def column(crm_key, attribute = nil, has_changed = false)
+    return unless has_changed || (attribute && changed?(attribute))
+
+    value = block_given? ? yield(model) : model.public_send(attribute)
+    crm_params[crm_key] = coerce(value)
+  end
+
+  def relation_changed?(relation)
+    model.public_send(relation).collect(&:id).sort != model.public_send(relation).pluck(&:id).sort
+  end
+
+  def build_crm_payload
     {}
   end
 
@@ -76,5 +70,4 @@ class Crm::Adapters::Base
         raise "Unexpected type: #{value.class}"
     end
   end
-
 end

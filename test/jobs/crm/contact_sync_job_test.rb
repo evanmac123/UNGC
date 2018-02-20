@@ -1,7 +1,48 @@
-require "test_helper"
+require 'minitest/autorun'
 
 module Crm
-  class ContactSyncTest < ActiveSupport::TestCase
+  class ContactSyncJobTest < ActiveJob::TestCase
+
+    context 'jobs' do
+      setup do
+        Rails.configuration.x_enable_crm_synchronization = true
+        TestAfterCommit.enabled = true
+      end
+
+      teardown do
+        Rails.configuration.x_enable_crm_synchronization = false
+        TestAfterCommit.enabled = false
+      end
+
+      should 'enqueue a job on create' do
+        assert_enqueued_with(job: Crm::ContactSyncJob) do
+          create(:contact, first_name: "Bobby", organization: nil, local_network: nil)
+        end
+      end
+
+      should 'conditionally enqueue a job on update' do
+        model = create(:contact, first_name: "Robert")
+
+        assert_enqueued_with(job: Crm::ContactSyncJob) do
+          model.update!(first_name: "Bobby")
+        end
+
+        assert_no_enqueued_jobs do
+          model.update!(first_name: "Bobby")
+          model.touch
+        end
+      end
+
+      should 'conditionally enqueue a job on destroy' do
+        model = create(:contact)
+
+        assert_enqueued_with(job: Crm::ContactSyncJob) do
+          model.destroy!
+        end
+      end
+
+    end
+
 
     test ".should_sync" do
       model = create(:contact)
@@ -29,7 +70,7 @@ module Crm
 
       crm = mock("crm")
       crm.expects(:create).never
-      Crm::ContactSyncJob.perform_now(:create, contact, {}, crm)
+      Crm::ContactSyncJob.perform_now(:create, contact, nil, crm)
 
       contact.reload
 
@@ -44,7 +85,7 @@ module Crm
 
       crm = mock("crm")
 
-      Crm::ContactSyncJob.perform_now(:create, contact, {}, crm)
+      Crm::ContactSyncJob.perform_now(:create, contact, nil, crm)
 
       contact.reload
 
@@ -72,7 +113,7 @@ module Crm
       assert_nil contact.record_id
       assert_nil contact.organization.record_id
 
-      Crm::ContactSyncJob.perform_now(:create, contact, {}, crm)
+      Crm::ContactSyncJob.perform_now(:create, contact, nil, crm)
 
       contact.reload
 
@@ -98,7 +139,7 @@ module Crm
       org_record_id = contact.organization.record_id
       refute_nil org_record_id
 
-      Crm::ContactSyncJob.perform_now(:create, contact, {}, crm)
+      Crm::ContactSyncJob.perform_now(:create, contact, nil, crm)
 
       contact.reload
 
@@ -107,7 +148,9 @@ module Crm
     end
 
     test "update a contact without an organization or local_network" do
-      contact = create(:contact, :with_record_id)
+      contact = build(:contact, :with_record_id)
+      changes = contact.changes
+      contact.save!
 
       assert_nil contact.organization
       refute_nil contact.record_id
@@ -116,7 +159,7 @@ module Crm
 
       crm = mock("crm")
       crm.expects(:update).never
-      Crm::ContactSyncJob.perform_now(:update, contact, {}, crm)
+      Crm::ContactSyncJob.perform_now(:update, contact, changes, crm)
 
       contact.reload
 
@@ -125,7 +168,9 @@ module Crm
     end
 
     test "update a contact with an unsynchable organization" do
-      contact = create(:contact, :with_record_id, organization: build(:organization, :with_record_id))
+      contact = build(:contact, :with_record_id, organization: build(:organization, :with_record_id))
+      changes = contact.changes
+      contact.save!
 
       refute_nil contact.organization
       refute_nil contact.organization.record_id
@@ -135,7 +180,7 @@ module Crm
       record_id = contact.record_id
 
       crm = mock("crm")
-      Crm::ContactSyncJob.perform_now(:update, contact, {}, crm)
+      Crm::ContactSyncJob.perform_now(:update, contact, changes, crm)
 
       contact.reload
 
@@ -144,7 +189,9 @@ module Crm
     end
 
     test "update a contact and organization" do
-      contact = create(:contact_point, :with_record_id, organization: build(:organization, :with_sector, :with_record_id))
+      contact = build(:contact_point, :with_record_id, organization: build(:organization, :with_sector, :with_record_id))
+      changes = contact.changes
+      contact.save!
 
       record_id = contact.record_id
       salesforce_contact = Restforce::SObject.new(Id: record_id)
@@ -156,12 +203,10 @@ module Crm
       crm = mock("crm")
       crm.expects(:log).with("updating Contact-(#{contact.id}) Contact")
       crm.expects(:update).with do |object_name, record_id, params|
-        object_name == 'Contact' &&
-            params["UNGC_Contact_ID__c"] == contact.id &&
-            params.has_key?('AccountId')
+        object_name == 'Contact' && !params.has_key?('AccountId')
       end.returns(salesforce_contact)
 
-      Crm::ContactSyncJob.perform_now(:update, contact, {}, crm)
+      Crm::ContactSyncJob.perform_now(:update, contact, changes, crm)
 
       contact.reload
 
@@ -170,7 +215,9 @@ module Crm
     end
 
     test "update a contact and an unsynched organization" do
-      contact = create(:contact_point, :with_record_id, organization: build(:organization, :with_sector))
+      contact = build(:contact_point, :with_record_id, organization: build(:organization, :with_sector))
+      changes = contact.changes
+      contact.save!
 
       record_id = contact.record_id
 
@@ -186,11 +233,10 @@ module Crm
       crm.expects(:log).with("updating Contact-(#{contact.id}) Contact")
       crm.expects(:update).with do |object_name, record_id, params|
         object_name == 'Contact' &&
-            params["UNGC_Contact_ID__c"] == contact.id &&
             params["AccountId"] == org_record_id
       end.returns(record_id)
 
-      Crm::ContactSyncJob.perform_now(:update, contact, {}, crm)
+      Crm::ContactSyncJob.perform_now(:update, contact, changes, crm)
 
       contact.reload
 
@@ -199,7 +245,9 @@ module Crm
     end
 
     test "update a contact that was synced but we don't have the record_id" do
-      contact = create(:contact_point, organization: build(:crm_organization))
+      contact = build(:contact_point, organization: build(:crm_organization))
+      changes = contact.changes
+      contact.save!
 
       contact_record = Restforce::SObject.new(Id: '0030D0000000001MVK')
 
@@ -213,11 +261,9 @@ module Crm
       crm.expects(:update).with do |object_name, record_id, params|
         object_name == 'Contact' &&
             record_id == contact_record.Id
-        params["UNGC_Contact_ID__c"] == contact.id &&
-            params.has_key?('AccountId')
       end.returns(contact_record)
 
-      Crm::ContactSyncJob.perform_now(:update, contact, {}, crm)
+      Crm::ContactSyncJob.perform_now(:update, contact, changes, crm)
 
       contact.reload
 
@@ -226,7 +272,9 @@ module Crm
     end
 
     test "updating a contact that isn't synced, creates it" do
-      contact = create(:contact_point, organization: build(:crm_organization))
+      contact = build(:contact_point, organization: build(:crm_organization))
+      changes = contact.changes
+      contact.save!
 
       contact_record_id = '0030D0000000001MVK'
 
@@ -238,12 +286,10 @@ module Crm
       crm.expects(:log).with("creating Contact-(#{contact.id}) Contact")
       crm.expects(:find).with("Contact", contact.id.to_s, "UNGC_Contact_ID__c")
       crm.expects(:create).with do |object_name, params|
-        object_name == 'Contact' &&
-            params["UNGC_Contact_ID__c"] == contact.id &&
-            params["AccountId"] == org_record_id
+        object_name == 'Contact'
       end.returns(contact_record_id)
 
-      Crm::ContactSyncJob.perform_now(:update, contact, {}, crm)
+      Crm::ContactSyncJob.perform_now(:update, contact, changes, crm)
 
       contact.reload
 
@@ -262,17 +308,18 @@ module Crm
       refute_nil record_id
 
       crm.expects(:destroy).returns(nil)
-      assert_nil Crm::ContactSyncJob.perform_now(:destroy, nil, { record_id: contact.record_id }, crm)
+      assert_nil Crm::ContactSyncJob.perform_now(:destroy, nil, { record_id: [contact.record_id, nil] }, crm)
     end
 
     test "create_contact can recover from a concurrency error by an update" do
       # Given a contact that we are attempting to create in the CRM
-      contact = create(:contact_point, first_name: "Alice", last_name: "Walker", organization: build(:crm_organization))
+      contact = build(:contact_point, first_name: "Alice", last_name: "Walker", organization: build(:crm_organization))
+      changes = contact.changes
+      contact.save!
 
       salesforce_id = "0038761200001lm9Kp"
 
       params = {
-          'UNGC_Contact_ID__c' => contact.id,
           'FirstName' => 'Alice',
           'LastName' => 'Walker',
       }
@@ -293,7 +340,7 @@ module Crm
 
       # try to create the contact
       contact.reload
-      Crm::ContactSyncJob.perform_now(:create, contact, {}, crm)
+      Crm::ContactSyncJob.perform_now(:create, contact, changes, crm)
 
       assert_equal contact.record_id, salesforce_id
     end
@@ -320,7 +367,7 @@ module Crm
       assert_nil contact.record_id
       assert_nil contact.local_network.record_id
 
-      Crm::ContactSyncJob.perform_now(:create, contact, {}, crm)
+      Crm::ContactSyncJob.perform_now(:create, contact, nil, crm)
 
       contact.reload
 
@@ -346,7 +393,7 @@ module Crm
       ln_record_id = contact.local_network.record_id
       refute_nil ln_record_id
 
-      Crm::ContactSyncJob.perform_now(:create, contact, {}, crm)
+      Crm::ContactSyncJob.perform_now(:create, contact, nil, crm)
 
       contact.reload
 
@@ -355,7 +402,9 @@ module Crm
     end
 
     test "update a contact and local network" do
-      contact = create(:contact, :with_record_id, local_network: build(:local_network, :with_record_id))
+      contact = build(:contact, :with_record_id, local_network: build(:local_network, :with_record_id))
+      changes = contact.changes
+      contact.save!
 
       record_id = contact.record_id
       salesforce_contact = Restforce::SObject.new(Id: record_id)
@@ -367,12 +416,10 @@ module Crm
       crm = mock("crm")
       crm.expects(:log).with("updating Contact-(#{contact.id}) Contact")
       crm.expects(:update).with do |object_name, record_id, params|
-        object_name == 'Contact' &&
-            params["UNGC_Contact_ID__c"] == contact.id &&
-            params.has_key?('AccountId')
+        object_name == 'Contact'
       end.returns(salesforce_contact)
 
-      Crm::ContactSyncJob.perform_now(:update, contact, {}, crm)
+      Crm::ContactSyncJob.perform_now(:update, contact, changes, crm)
 
       contact.reload
 
@@ -381,7 +428,9 @@ module Crm
     end
 
     test "update a contact and an unsynched local_network" do
-      contact = create(:contact, :with_record_id, local_network: build(:local_network))
+      contact = build(:contact, :with_record_id, local_network: build(:local_network))
+      changes = contact.changes
+      contact.save!
 
       record_id = contact.record_id
 
@@ -397,16 +446,25 @@ module Crm
       crm.expects(:log).with("updating Contact-(#{contact.id}) Contact")
       crm.expects(:update).with do |object_name, record_id, params|
         object_name == 'Contact' &&
-            params["UNGC_Contact_ID__c"] == contact.id &&
             params["AccountId"] == ln_record_id
       end.returns(record_id)
 
-      Crm::ContactSyncJob.perform_now(:update, contact, {}, crm)
+      Crm::ContactSyncJob.perform_now(:update, contact, changes, crm)
 
       contact.reload
 
       assert_equal ln_record_id, contact.local_network.record_id
       assert_equal contact.record_id, record_id
+    end
+
+    test "update is skipped if nothing was updated by ActiveRecord" do
+      contact = build(:contact, :with_record_id, local_network: build(:local_network, :with_record_id))
+
+      crm = mock("crm")
+      crm.expects(:log).never
+      crm.expects(:update).never
+
+      Crm::ContactSyncJob.perform_now(:update, contact, nil, crm)
     end
   end
 end

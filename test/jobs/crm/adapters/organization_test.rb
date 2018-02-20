@@ -268,19 +268,7 @@ module Crm
     test "an organization with no signings" do
       converted = convert_organization
 
-      expected = {
-        'Anti_corruption__c' => false,
-        'Board__c' => false,
-        'B4P__c' => false,
-        'C4C__c' => false,
-        'CEO_Water_Mandate__c' => false,
-        'GC100__c' => false,
-        'LEAD__c' => false,
-        'Human_Rights_WG__c' => false,
-        'Social_Enterprise__c' => false,
-        'Supply_Chain_AG__c' => false,
-        'WEPs__c' => false,
-      }
+      expected = {}
       actual = converted.slice(*expected.keys)
       assert_equal expected, actual
     end
@@ -326,11 +314,6 @@ module Crm
       assert_equal true, converted.fetch("CEO_Water_Mandate__c")
     end
 
-    test "defaults Participant_Tier to unselected" do
-      converted = convert_organization()
-      assert_equal "Unselected", converted.fetch("Participant_Tier__c")
-    end
-
     test "converts participant when there is a value" do
       converted = convert_organization(participant: false)
       assert_equal false, converted.fetch("Participant__c")
@@ -370,8 +353,8 @@ module Crm
                      else
                        create(:organization, params)
                      end
-      adapter = Crm::Adapters::Organization.new(organization)
-      adapter.transformed_crm_params(:create)
+      adapter = Crm::Adapters::Organization.new(organization, :create)
+      adapter.crm_payload
     end
 
     def create_cop_on(organization, date_string)

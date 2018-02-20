@@ -1,7 +1,45 @@
-require "test_helper"
+require 'minitest/autorun'
 
 module Crm
-  class DonationSyncJobTest < ActiveSupport::TestCase
+  class DonationSyncJobTest < ActiveJob::TestCase
+
+    context 'jobs' do
+      setup do
+        Rails.configuration.x_enable_crm_synchronization = true
+        TestAfterCommit.enabled = true
+      end
+
+      teardown do
+        Rails.configuration.x_enable_crm_synchronization = false
+        TestAfterCommit.enabled = false
+      end
+
+      should 'enqueue no job on create' do
+        organization = create(:organization)
+        contact = create(:contact, organization: organization)
+
+        assert_no_enqueued_jobs do
+          create(:donation, organization: organization, contact: contact)
+        end
+      end
+
+      should 'enqueue no job on update' do
+        model = create(:donation)
+
+        assert_no_enqueued_jobs do
+          model.update!(amount: 30)
+        end
+      end
+
+      should 'conditionally eno job on destroy' do
+        model = create(:donation)
+
+        assert_no_enqueued_jobs do
+          model.destroy!
+        end
+      end
+
+    end
 
     test "create a donation" do
       donation = create(:donation)
@@ -15,7 +53,7 @@ module Crm
 
       assert_nil donation.record_id
 
-      Crm::DonationSyncJob.perform_now(:create, donation, {}, crm)
+      Crm::DonationSyncJob.perform_now(:create, donation, nil, crm)
 
       donation = donation.reload
 
@@ -24,7 +62,7 @@ module Crm
     end
 
     test "update a donation does nothing" do
-      donation = create(:donation, :with_record_id)
+      donation = build(:donation, :with_record_id)
 
       crm = mock("crm")
       crm.expects(:log).never
@@ -36,7 +74,7 @@ module Crm
 
       refute_nil donation.record_id
 
-      Crm::DonationSyncJob.perform_now(:update, donation, {}, crm)
+      Crm::DonationSyncJob.perform_now(:update, donation, donation.changes, crm)
 
       refute_nil donation.record_id
       assert_equal record_id, donation.record_id
@@ -47,7 +85,7 @@ module Crm
       crm = mock("crm")
       crm.expects(:log).never
       crm.expects(:destroy).never
-      Crm::DonationSyncJob.perform_now(:destroy, nil, { record_id: donation.record_id }, crm)
+      Crm::DonationSyncJob.perform_now(:destroy, nil, { record_id: [donation.record_id, nil] }, crm)
     end
   end
 end

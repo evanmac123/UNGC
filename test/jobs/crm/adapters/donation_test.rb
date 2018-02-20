@@ -16,7 +16,7 @@ module Crm
     def converted(model_params = {})
       donation = build_stubbed(:donation, model_params)
 
-      Crm::Adapters::Donation.new(donation).transformed_crm_params(:create)
+      Crm::Adapters::Donation.new(donation, :create).crm_payload
     end
 
   end

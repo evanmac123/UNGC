@@ -10,15 +10,11 @@ class Crm::ActionPlatform::SubscriptionSyncJob < Crm::SalesforceSyncJob
     model.approved?
   end
 
-  def foreign_keys(transform_action)
-    result = {}
-
+  def foreign_keys
     # Sync parents first...
-    parent_record_id(model.platform, transform_action) { |sf_id| result['Action_Platform__c'] = sf_id }
-    parent_record_id(model.organization, transform_action) { |sf_id| result['Organization__c'] = sf_id }
+    parent_record_id('Action_Platform__c', model.platform, :platform_id)
+    parent_record_id('Organization__c', model.organization, :organization_id)
     # Then Children of parents
-    parent_record_id(model.contact, transform_action) { |sf_id| result['Contact_Point__c'] = sf_id }
-
-    result
+    parent_record_id('Contact_Point__c', model.contact, :contact_id)
   end
 end

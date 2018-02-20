@@ -17,10 +17,14 @@
 
 guard :minitest, first_match: true, spring: true, all_on_start: false, cli: "--color --fast_fail" do
 
-  functional_crm_test = Dir[File.join('test/jobs/crm/functional*_test.rb')]
-  # Rails 4
-  watch(%r{^app/jobs/crm/adapters/base.rb$})              { [*Dir[File.join("test/jobs/crm/adapters")], *functional_crm_test] }
-  watch(%r{^app/jobs/crm/salesforce_sync_job.rb$})        { [*Dir[File.join("test/jobs/crm/**/*sync_job*_test.rb")], *functional_crm_test] }
+  functional_crm_test = [Dir[File.join('test/jobs/crm/functional*_test.rb')], *Dir[File.join("test/jobs/crm/sync_job_test.rb")]]
+  all_salesforce = [*Dir[File.join("test/jobs/crm/**/*sync_job*_test.rb")], *functional_crm_test, *Dir[File.join("test/jobs/crm/adapters/**/*_test.rb")]]
+
+  watch(%r{^app/jobs/crm/adapters/base.rb$})              { [*Dir[File.join("test/jobs/crm/adapters/**/*_test.rb")], *functional_crm_test] }
+  watch(%r{^app/jobs/crm/salesforce_sync_job.rb$})        { [*all_salesforce] }
+  watch(%r{^app/models/concerns/salesforce_record_concern.rb$}) { [*all_salesforce] }
+  watch(%r{^app/models/concerns/salesforce_commit_hooks_concern.rb$}) { [*functional_crm_test] }
+
   watch(%r{^app/jobs/crm/adapters/(.+)\.rb$})             { |m| ["test/jobs/crm/adapters/#{m[1]}_test.rb", *functional_crm_test] }
   watch(%r{^app/jobs/(.+)_job\.rb$})                      { |m| ["test/jobs/#{m[1]}_job_test.rb", *functional_crm_test] }
 

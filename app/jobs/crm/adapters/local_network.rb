@@ -4,36 +4,25 @@ module Crm
   module Adapters
     class LocalNetwork < Crm::Adapters::Base
 
-      def to_crm_params(transform_action)
-        base = {
-            Crm::LocalNetworkSyncJob::SUngcIdName => self.class.convert_id(model.id),
-            "Type" => salesforce_type,
-            "Name" => model.name,
-            "State__c" => I18n.t("local_network.states.#{model.state}"),
-            "Join_Date__c" => model.sg_local_network_launch_date, # Date
-            "JoinYear__c" => model.sg_local_network_launch_date&.year, # Number(4, 0)
-            "Website" => model.url,
-            "Region__c" => model.countries.first&.region,
-            "OwnerId" => Crm::Owner::SALESFORCE_OWNER_ID,
-            "Business_Model_LN__c" => (model.business_model ? I18n.t("local_network.business_model.#{model.business_model}") : "N/A"),
-            "To_Be_Invoiced_By_LN__c" => (I18n.t("local_network.invoice_managed_by.#{model.invoice_managed_by}") if model.invoice_managed_by),
-        }
+      def build_crm_payload
+        column(Crm::LocalNetworkSyncJob::SUngcIdName, :id) { |network| self.class.convert_id(network.id) }
+        column('OwnerId', :id) { Crm::Owner::SALESFORCE_OWNER_ID }
+        column('RecordTypeId', :id) { Crm::LocalNetworkSyncJob::RecordTypeId }
+        column('Sector__c', :id) { 'Local_Network' }
 
-        if transform_action == :create
-          base['RecordTypeId'] = Crm::LocalNetworkSyncJob::RecordTypeId
-          base['Sector__c'] = 'Local_Network'
-          base['External_ID__c'] = self.class.convert_id(model.id)
-        end
-
-        base
+        column('Type', :regional_center) { |network| network.regional_center? ? 'UNGC Regional Center' : 'UNGC Local Network' }
+        column('Name', :name)
+        column('State__c', :name) { |network| I18n.t("local_network.states.#{network.state}") }
+        column('Join_Date__c', :sg_local_network_launch_date)
+        column('JoinYear__c', :sg_local_network_launch_date) { |network| network.sg_local_network_launch_date&.year}
+        column('Website', :url)
+        column('Region__c', :country_id) { |network| network.countries.first&.region}
+        column('Business_Model_LN__c', :business_model) { |network| network.business_model ? I18n.t("local_network.business_model.#{network.business_model}") : "N/A"}
+        column('To_Be_Invoiced_By_LN__c', :invoice_managed_by) { |network| I18n.t("local_network.invoice_managed_by.#{network.invoice_managed_by}") if network.invoice_managed_by }
       end
 
       def self.convert_id(rails_id)
         "LN-#{rails_id}"
-      end
-
-      def salesforce_type
-        model.regional_center? ? 'UNGC Regional Center' : 'UNGC Local Network'
       end
     end
   end

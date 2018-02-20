@@ -19,7 +19,7 @@ module SalesforceCommitHooksConcern
 
   def after_destroy_commit
     return unless Rails.configuration.x_enable_crm_synchronization
-    job_class.perform_later('destroy', nil, { record_id: self.record_id })
+    job_class.perform_later('destroy', nil, { record_id: [self.record_id, nil] }.to_json)
   end
 
   private
@@ -29,7 +29,8 @@ module SalesforceCommitHooksConcern
 
       changes = previous_changes.except(:created_at, :updated_at)
 
-      job_class.perform_later(action, self, changes.to_json)
+      # We have to serialize because ActiveJob cannot serialize a Time object
+      job_class.perform_later(action, self, changes.to_json) if changes.any?
     end
 
     def job_class

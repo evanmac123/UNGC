@@ -2,24 +2,12 @@
 
 class Crm::Adapters::ActionPlatform::Subscription < Crm::Adapters::Base
 
-  def to_crm_params(transform_action)
-    base = Hash['Name', name,
-                'Starts_On__c', model.starts_on,
-                'Expires_On__c', model.expires_on,
-                'Status__c', text(model.state, 255),
-    ]
-    if transform_action == :create
-      base["UNGC_AP_Subscription_ID__c"] = model.id
-      base["Created_at__c"] = model.created_at
-    end
-    base
+  def build_crm_payload
+    column('UNGC_AP_Subscription_ID__c', :id)
+    column('Created_at__c', :id) { |sub| sub.created_at }
+    column('Name', :organization_id) { |sub| text("#{sub.organization.name} - #{sub.platform.name}", 80) }
+    column('Starts_On__c', :starts_on)
+    column('Expires_On__c', :expires_on)
+    column('Status__c', :state)
   end
-
-  private
-
-  def name
-    name = "#{model.organization.name} - #{model.platform.name}"
-    text(name, 80)
-  end
-
 end

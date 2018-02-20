@@ -1,7 +1,46 @@
-require "test_helper"
+require 'minitest/autorun'
 
 module Crm
-  class ActionPlatformSubscriptionSyncJobTest < ActiveSupport::TestCase
+  class ActionPlatformSubscriptionSyncJobTest < ActiveJob::TestCase
+
+    context 'jobs' do
+      setup do
+        Rails.configuration.x_enable_crm_synchronization = true
+        TestAfterCommit.enabled = true
+      end
+
+      teardown do
+        Rails.configuration.x_enable_crm_synchronization = false
+        TestAfterCommit.enabled = false
+      end
+
+      should 'conditionally enqueue a job on create' do
+        assert_enqueued_with(job: Crm::ActionPlatform::SubscriptionSyncJob) do
+          create(:action_platform_subscription)
+        end
+      end
+
+      should 'conditional enqueue an update job' do
+        network = create(:action_platform_subscription)
+
+        assert_enqueued_with(job: Crm::ActionPlatform::SubscriptionSyncJob) do
+          network.update!(state: :ce_engagement_review)
+        end
+
+        assert_no_enqueued_jobs do
+          network.update!(state: :ce_engagement_review)
+          network.touch
+        end
+      end
+
+      should 'conditionally enqueue a job on destroy' do
+        subscription = create(:action_platform_subscription)
+
+        assert_enqueued_with(job: Crm::ActionPlatform::SubscriptionSyncJob) do
+          subscription.destroy!
+        end
+      end
+    end
 
 
     test ".should_sync false" do
@@ -33,7 +72,7 @@ module Crm
       subscription = subscription.reload
       assert_nil subscription.record_id
 
-      Crm::ActionPlatform::SubscriptionSyncJob.perform_now(:create, subscription, {}, crm)
+      Crm::ActionPlatform::SubscriptionSyncJob.perform_now(:create, subscription, nil, crm)
 
       refute_nil subscription.reload.record_id
       assert_equal record_id, subscription.record_id
@@ -76,7 +115,7 @@ module Crm
       assert_nil crm_subscription.platform.record_id
       assert_nil crm_subscription.record_id
 
-      Crm::ActionPlatform::SubscriptionSyncJob.perform_now(:create, crm_subscription, {}, crm)
+      Crm::ActionPlatform::SubscriptionSyncJob.perform_now(:create, crm_subscription, nil, crm)
 
       crm_subscription.reload
 
@@ -111,7 +150,7 @@ module Crm
       refute_nil platform.record_id
       assert_nil subscription.record_id
 
-      Crm::ActionPlatform::SubscriptionSyncJob.perform_now(:create, subscription, {}, crm)
+      Crm::ActionPlatform::SubscriptionSyncJob.perform_now(:create, subscription, nil, crm)
 
       refute_nil organization.reload.record_id
       refute_nil contact.reload.record_id
@@ -124,11 +163,14 @@ module Crm
     test "update a synced subscription" do
       organization = build(:crm_organization)
       contact = build(:contact_point, :with_record_id, organization: organization)
-      subscription = create(:crm_action_platform_subscription, :approved,
+      subscription = build(:crm_action_platform_subscription, :approved,
                             platform: build(:crm_action_platform),
                             organization: organization,
                             contact: contact,
                             )
+      changes = subscription.changes
+      subscription.save!
+
 
       crm = mock("crm")
       crm.expects(:log).with("updating Action_Platform_Subscription__c-(#{subscription.id}) ActionPlatform::Subscription")
@@ -138,7 +180,7 @@ module Crm
 
       refute_nil subscription.record_id
 
-      Crm::ActionPlatform::SubscriptionSyncJob.perform_now(:update, subscription, {}, crm)
+      Crm::ActionPlatform::SubscriptionSyncJob.perform_now(:update, subscription, changes, crm)
 
       refute_nil subscription.reload.record_id
 
@@ -150,8 +192,10 @@ module Crm
       contact = create(:contact_point, organization: organization)
       platform = create(:action_platform_platform)
 
-      subscription = create(:crm_action_platform_subscription, :approved,
+      subscription = build(:crm_action_platform_subscription, :approved,
                             platform: platform, organization: organization, contact: contact)
+      changes = subscription.changes
+      subscription.save!
 
       crm = mock("crm")
       crm.expects(:log).with("creating Action_Platform__c-(#{platform.id}) ActionPlatform::Platform")
@@ -185,7 +229,7 @@ module Crm
       assert_nil platform.record_id
       refute_nil subscription.record_id
 
-      Crm::ActionPlatform::SubscriptionSyncJob.perform_now(:update, subscription, {}, crm)
+      Crm::ActionPlatform::SubscriptionSyncJob.perform_now(:update, subscription, changes, crm)
 
       refute_nil organization.reload.record_id
       refute_nil contact.reload.record_id
@@ -200,8 +244,10 @@ module Crm
       contact = create(:contact_point, :with_record_id, organization: organization)
       platform = create(:action_platform_platform)
 
-      subscription = create(:crm_action_platform_subscription, :approved,
+      subscription = build(:crm_action_platform_subscription, :approved,
                             platform: platform, organization: organization, contact: contact)
+      changes = subscription.changes
+      subscription.save!
 
       crm = mock("crm")
       crm.expects(:log).with("creating Action_Platform__c-(#{platform.id}) ActionPlatform::Platform")
@@ -218,7 +264,7 @@ module Crm
             !params.has_key?('Created_at__c') &&
             !params.has_key?('UNGC_AP_Subscription_ID__c') &&
             params['Action_Platform__c'] == platform_record_id &&
-            !params.has_key?('Organization__c')
+            params.has_key?('Organization__c')
       end.returns(Restforce::SObject.new(Id: record_id))
 
       refute_nil organization.record_id
@@ -226,7 +272,7 @@ module Crm
       assert_nil platform.record_id
       refute_nil subscription.record_id
 
-      Crm::ActionPlatform::SubscriptionSyncJob.perform_now(:update, subscription, {}, crm)
+      Crm::ActionPlatform::SubscriptionSyncJob.perform_now(:update, subscription, changes, crm)
 
       refute_nil organization.reload.record_id
       refute_nil contact.reload.record_id
@@ -241,8 +287,10 @@ module Crm
       contact = create(:contact_point, :with_record_id, organization: organization)
       platform = create(:crm_action_platform)
 
-      subscription = create(:crm_action_platform_subscription, :approved,
+      subscription = build(:crm_action_platform_subscription, :approved,
                             platform: platform, organization: organization, contact: contact)
+      changes = subscription.changes
+      subscription.save!
 
       crm = mock("crm")
       crm.expects(:log).with("updating Action_Platform_Subscription__c-(#{subscription.id}) ActionPlatform::Subscription")
@@ -259,7 +307,7 @@ module Crm
             !params.has_key?('Created_at__c') &&
             !params.has_key?('UNGC_AP_Subscription_ID__c') &&
             params['Organization__c'] == org_record_id &&
-            !params.has_key?('Action_Platform__c')
+            params.has_key?('Action_Platform__c')
       end.returns(Restforce::SObject.new(Id: record_id))
 
       assert_nil organization.record_id
@@ -267,7 +315,7 @@ module Crm
       refute_nil platform.record_id
       refute_nil subscription.record_id
 
-      Crm::ActionPlatform::SubscriptionSyncJob.perform_now(:update, subscription, {}, crm)
+      Crm::ActionPlatform::SubscriptionSyncJob.perform_now(:update, subscription, changes, crm)
 
       refute_nil organization.reload.record_id
       refute_nil contact.reload.record_id
@@ -282,8 +330,10 @@ module Crm
       contact = create(:contact_point, :with_record_id, organization: organization)
       platform = create(:crm_action_platform)
 
-      subscription = create(:action_platform_subscription, :approved,
+      subscription = build(:action_platform_subscription, :approved,
                             platform: platform, organization: organization, contact: contact)
+      changes = subscription.changes
+      subscription.save!
 
       record_id = '00x0D0000000001MVK'
 
@@ -295,11 +345,28 @@ module Crm
 
       assert_nil subscription.record_id
 
-      Crm::ActionPlatform::SubscriptionSyncJob.perform_now(:update, subscription, {}, crm)
+      Crm::ActionPlatform::SubscriptionSyncJob.perform_now(:update, subscription, changes, crm)
 
       refute_nil subscription.reload.record_id
 
       assert_equal record_id, subscription.record_id
+    end
+
+    test "update is skipped if nothing was updated by ActiveRecord" do
+      organization = build(:crm_organization)
+      contact = build(:contact_point, :with_record_id, organization: organization)
+      subscription = build(:crm_action_platform_subscription, :approved,
+                           platform: build(:crm_action_platform),
+                           organization: organization,
+                           contact: contact,
+                           )
+
+
+      crm = mock("crm")
+      crm.expects(:log).never
+      crm.expects(:update).with("Action_Platform_Subscription__c", anything).never
+
+      Crm::ActionPlatform::SubscriptionSyncJob.perform_now(:update, subscription, nil, crm)
     end
 
     test "destroy a subscription" do
@@ -313,7 +380,7 @@ module Crm
       refute_nil record_id
 
       crm.expects(:destroy).returns(nil)
-      assert_nil Crm::ActionPlatform::SubscriptionSyncJob.perform_now(:destroy, nil, { record_id: subscription.record_id}, crm)
+      assert_nil Crm::ActionPlatform::SubscriptionSyncJob.perform_now(:destroy, nil, { record_id: [subscription.record_id, nil] }, crm)
     end
   end
 end
