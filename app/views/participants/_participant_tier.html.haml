@@ -19,7 +19,8 @@
       %li
         - share_title = "UN Global Compact profile: #{participant.name}"
         - share_url = u(request.original_url)
-        %a.twitter{href: "https://twitter.com/home?status=#{u("#{share_title} #{request.original_url} —@globalcompact")}", target: "twitter"}
+        - tweet = u("See how #{participant.name} is scaling up efforts to advance the #GlobalGoals by committing to UN @globalcompact #TenPrinciples in the areas of human rights, labour, environment and anti-corruption.")
+        %a.twitter{href: "https://twitter.com/home?status=#{tweet}", target: "twitter"}
           %span Twitter
         %a.facebook{href: "https://www.facebook.com/sharer/sharer.php?u=#{share_url}", target: "facebook"}
           %span Facebook
