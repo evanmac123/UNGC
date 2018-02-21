@@ -4,10 +4,10 @@
 #
 #  id                           :integer          not null, primary key
 #  title                        :string(255)
-#  description                  :text(65535)
+#  description                  :text
 #  starts_at                    :datetime
 #  ends_at                      :datetime
-#  location                     :text(65535)
+#  location                     :text
 #  country_id                   :integer
 #  created_by_id                :integer
 #  updated_by_id                :integer
@@ -18,7 +18,6 @@
 #  approval                     :string(255)
 #  is_all_day                   :boolean
 #  is_online                    :boolean
-#  is_academy                   :boolean
 #  is_invitation_only           :boolean
 #  priority                     :integer          default(1)
 #  contact_id                   :integer
@@ -34,19 +33,20 @@
 #  call_to_action_1_url         :string(255)
 #  call_to_action_2_label       :string(255)
 #  call_to_action_2_url         :string(255)
-#  programme_description        :text(65535)
-#  media_description            :text(65535)
+#  programme_description        :text
+#  media_description            :text
 #  tab_1_title                  :string(255)
-#  tab_1_description            :text(65535)
+#  tab_1_description            :text
 #  tab_2_title                  :string(255)
-#  tab_2_description            :text(65535)
+#  tab_2_description            :text
 #  tab_3_title                  :string(255)
-#  tab_3_description            :text(65535)
+#  tab_3_description            :text
+#  sponsors_description         :text
 #  tab_4_title                  :string(255)
-#  tab_4_description            :text(65535)
+#  tab_4_description            :text
 #  tab_5_title                  :string(255)
-#  tab_5_description            :text(65535)
-#  sponsors_description         :text(65535)
+#  tab_5_description            :text
+#  is_academy                   :boolean
 #
 
 class Event < ActiveRecord::Base

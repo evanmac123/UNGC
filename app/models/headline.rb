@@ -4,7 +4,7 @@
 #
 #  id                   :integer          not null, primary key
 #  title                :string(255)
-#  description          :text(65535)
+#  description          :text
 #  location             :string(255)
 #  published_on         :date
 #  created_by_id        :integer

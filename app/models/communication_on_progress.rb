@@ -15,7 +15,7 @@
 #  notable_program                     :boolean
 #  created_at                          :datetime
 #  updated_at                          :datetime
-#  description                         :text(65535)
+#  description                         :text
 #  state                               :string(255)
 #  include_continued_support_statement :boolean
 #  format                              :string(255)

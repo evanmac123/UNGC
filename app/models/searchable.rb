@@ -6,9 +6,9 @@
 #  last_indexed_at :datetime
 #  url             :string(255)
 #  document_type   :string(255)
-#  title           :text(65535)
-#  content         :text(65535)
-#  meta            :text(65535)
+#  title           :text
+#  content         :text
+#  meta            :text
 #  created_at      :datetime
 #  updated_at      :datetime
 #

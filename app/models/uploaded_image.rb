@@ -8,7 +8,7 @@
 #  mime           :string(255)
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
-#  licensing_data :text(65535)
+#  licensing_data :text
 #  has_licensing  :boolean          default(FALSE)
 #
 

@@ -15,7 +15,7 @@
 #  submitter_phone           :string(255)
 #  accepts_tou               :boolean          default(FALSE), not null
 #  nominee_title             :string(255)
-#  why_nominate              :text(65535)
+#  why_nominate              :text
 #  sdg_pioneer_role          :integer
 #  emailed_at                :datetime
 #  is_participant            :boolean

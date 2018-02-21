@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: organizations
@@ -54,6 +53,8 @@
 #  level_of_participation         :integer
 #  invoice_date                   :date
 #  parent_company_id              :integer
+#  video_embed                    :string(500)
+#  government_registry_url        :string(2000)
 #
 
 class Organization < ActiveRecord::Base

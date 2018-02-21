@@ -1,18 +1,17 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: action_platform_platforms
 #
-#  id           :integer          not null, primary key
-#  name         :string(255)      not null
-#  description  :string(5000)     not null
-#  default_starts_on   :datetime  not null
-#  default_ends_on     :datetime  not null
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  slug         :string(32)       not null
-#  discontinued :boolean          default(FALSE), not null
+#  id                :integer          not null, primary key
+#  name              :string(255)      not null
+#  description       :string(5000)     not null
+#  default_starts_at :date
+#  default_ends_at   :date
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  slug              :string(32)       not null
+#  discontinued      :boolean          default(FALSE), not null
 #
 
 class ActionPlatform::Platform < ActiveRecord::Base

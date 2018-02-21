@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: action_platform_subscriptions
@@ -11,8 +10,10 @@
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  organization_id :integer          not null
-#  status          :integer          not null
+#  status          :integer
+#  starts_on       :date
 #  expires_on      :date
+#  state           :string(20)       default("pending"), not null
 #
 
 class ActionPlatform::Subscription < ActiveRecord::Base

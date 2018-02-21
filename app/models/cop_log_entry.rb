@@ -6,10 +6,10 @@
 #  event           :string(255)
 #  cop_type        :string(255)
 #  status          :string(255)
-#  error_message   :text(65535)
+#  error_message   :text
 #  contact_id      :integer
 #  organization_id :integer
-#  params          :text(65535)
+#  params          :text
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #

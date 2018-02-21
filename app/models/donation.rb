@@ -19,7 +19,7 @@
 #  organization_id  :integer
 #  reference        :string(255)      not null
 #  response_id      :string(255)
-#  full_response    :text(65535)
+#  full_response    :text
 #  status           :integer
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null

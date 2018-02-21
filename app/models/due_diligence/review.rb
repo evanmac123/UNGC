@@ -1,3 +1,40 @@
+# == Schema Information
+#
+# Table name: due_diligence_reviews
+#
+#  id                                 :integer          not null, primary key
+#  organization_id                    :integer
+#  requester_id                       :integer
+#  state                              :string(255)      not null
+#  level_of_engagement                :integer
+#  world_check_allegations            :string(2000)
+#  included_in_global_marketplace     :boolean
+#  subject_to_sanctions               :boolean
+#  excluded_by_norwegian_pension_fund :boolean
+#  involved_in_landmines              :boolean
+#  involved_in_tobacco                :boolean
+#  esg_score                          :integer
+#  highest_controversy_level          :integer
+#  rep_risk_peak                      :integer
+#  rep_risk_current                   :integer
+#  rep_risk_severity_of_news          :integer
+#  local_network_input                :string(2000)
+#  requires_local_network_input       :boolean
+#  analysis_comments                  :text
+#  additional_research                :text
+#  integrity_explanation              :string(1000)
+#  engagement_rationale               :string(2000)
+#  approving_chief                    :string(100)
+#  created_at                         :datetime         not null
+#  updated_at                         :datetime         not null
+#  additional_information             :text
+#  reason_for_decline                 :integer
+#  subject_to_dialog_facilitation     :boolean
+#  with_reservation                   :integer
+#  event_id                           :integer
+#  individual_subject                 :string(100)
+#
+
 class DueDiligence::Review < ActiveRecord::Base
   belongs_to :organization
   belongs_to :requester, class_name: 'Contact'

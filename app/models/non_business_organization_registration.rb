@@ -7,7 +7,7 @@
 #  place             :string(255)
 #  authority         :string(255)
 #  number            :string(255)
-#  mission_statement :text(65535)
+#  mission_statement :text
 #  organization_id   :integer
 #
 

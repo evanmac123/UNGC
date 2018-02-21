@@ -6,7 +6,7 @@
 #  status        :integer          default(0), not null
 #  filename      :string(255)
 #  path          :string(255)
-#  error_message :text(65535)
+#  error_message :text
 #  format        :string(255)
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null

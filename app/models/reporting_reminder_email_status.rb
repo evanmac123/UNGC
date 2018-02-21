@@ -5,7 +5,7 @@
 #  id              :integer          not null, primary key
 #  organization_id :integer          not null
 #  success         :boolean          not null
-#  message         :text(65535)
+#  message         :text
 #  reporting_type  :string(255)
 #  email           :string(255)
 #  created_at      :datetime         not null

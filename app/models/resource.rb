@@ -1,12 +1,11 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: resources
 #
 #  id                 :integer          not null, primary key
 #  title              :string(255)
-#  description        :text(65535)
+#  description        :text
 #  year               :date
 #  isbn               :string(255)
 #  approval           :string(255)

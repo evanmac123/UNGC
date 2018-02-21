@@ -7,7 +7,7 @@
 #  old_id                  :integer
 #  logo_request_id         :integer
 #  contact_id              :integer
-#  body                    :text(65535)
+#  body                    :text
 #  created_at              :datetime
 #  updated_at              :datetime
 #  attachment_file_name    :string(255)

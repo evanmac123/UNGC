@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: local_networks
@@ -50,7 +49,7 @@
 #  facebook                                            :string(255)
 #  linkedin                                            :string(255)
 #  funding_model                                       :string(255)
-#  description                                         :text(65535)
+#  description                                         :text
 #  image_file_name                                     :string(255)
 #  image_content_type                                  :string(255)
 #  image_file_size                                     :integer

@@ -5,7 +5,7 @@
 #  id               :integer          not null, primary key
 #  local_network_id :integer
 #  title            :string(255)
-#  description      :text(65535)
+#  description      :text
 #  award_type       :string(255)
 #  date             :date
 #  created_at       :datetime

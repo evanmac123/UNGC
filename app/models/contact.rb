@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: contacts
@@ -44,6 +43,9 @@
 #  image_updated_at          :datetime
 #  encrypted_password        :string(255)
 #  last_password_changed_at  :datetime
+#  time_zone                 :string(32)       default("UTC"), not null
+#  full_time                 :boolean
+#  employer                  :string(200)
 #
 
 require 'digest/sha1'

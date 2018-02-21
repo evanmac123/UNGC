@@ -1,4 +1,16 @@
 # frozen_string_literal: true
+# == Schema Information
+#
+# Table name: salesforce_records
+#
+#  id         :integer          not null, primary key
+#  record_id  :string(18)       not null
+#  rails_id   :integer
+#  rails_type :string
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 
 class SalesforceRecord < ActiveRecord::Base
   validates :record_id, length: { minimum: 15, maximum: 18 }, presence: true, uniqueness: true

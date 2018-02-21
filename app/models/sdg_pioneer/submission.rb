@@ -4,7 +4,7 @@
 #
 #  id                        :integer          not null, primary key
 #  pioneer_type              :integer
-#  global_goals_activity     :text(65535)
+#  global_goals_activity     :text
 #  matching_sdgs             :string(255)
 #  name                      :string(255)
 #  title                     :string(255)
@@ -13,16 +13,16 @@
 #  organization_name         :string(255)
 #  organization_name_matched :boolean          default(FALSE), not null
 #  country_name              :string(255)
-#  reason_for_being          :text(65535)
+#  reason_for_being          :text
 #  accepts_tou               :boolean          default(FALSE), not null
 #  is_participant            :boolean
 #  website_url               :string(255)
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
-#  company_success           :text(65535)
-#  innovative_sdgs           :text(65535)
-#  ten_principles            :text(65535)
-#  awareness_and_mobilize    :text(65535)
+#  company_success           :text
+#  innovative_sdgs           :text
+#  ten_principles            :text
+#  awareness_and_mobilize    :text
 #
 
 class SdgPioneer::Submission < ActiveRecord::Base

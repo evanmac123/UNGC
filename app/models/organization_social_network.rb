@@ -1,4 +1,16 @@
 # frozen_string_literal: true
+# == Schema Information
+#
+# Table name: organization_social_networks
+#
+#  id              :integer          not null, primary key
+#  organization_id :integer          not null
+#  network_code    :string(30)       not null
+#  handle          :string(50)       not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
+
 
 class OrganizationSocialNetwork < ActiveRecord::Base
   NETWORKS = %w[twitter].freeze
