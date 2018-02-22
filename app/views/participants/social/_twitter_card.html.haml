@@ -1,5 +1,6 @@
 %meta{name: "twitter:card", content: "summary_large_image"}
 %meta{name: "twitter:image", content: image_url('twitter-card-participant-profile.jpg')}
 %meta{name: "twitter:title", content: participant.name}
-%meta{name: "twitter:site", content: "@#{twitter.handle}"}
+- if twitter.present?
+  %meta{name: "twitter:site", content: "@#{twitter}"}
 %meta{name: "twitter:description", content: "UN Global Compact profile: #{participant.name}"}
