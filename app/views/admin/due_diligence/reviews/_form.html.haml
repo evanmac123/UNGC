@@ -13,7 +13,7 @@
     = form.text_field :individual_subject, maxlength: 100
   .field
     = form.label :additional_information, 'Additional Information'
-    = form.text_area :additional_information, maxlength: 512, rows: 2
+    = form.text_area :additional_information, maxlength: 65_535, rows: 2
   %ul.tools.inline{:style => "float: right"}
     %li
       = link_to 'Cancel', for_state_admin_due_diligence_reviews_path(state: :in_review), class: 'cancel_large'
