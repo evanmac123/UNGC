@@ -57,7 +57,7 @@ class ApplicationManifest < Moonshine::Manifest::Rails
       :user => 'rails',
       :hour => 5,
       :minute => 0,
-      :ensure => :present
+      :ensure => :absent
   end
 
   def cron_tasks
@@ -84,6 +84,13 @@ class ApplicationManifest < Moonshine::Manifest::Rails
 
     cron 'start_mysqldump',
       :command => '/srv/unglobalcompact/current/script/cron/start_mysqldump',
+      :user => 'rails',
+      :hour => 5,
+      :minute => 0,
+      :ensure => :absent
+
+    cron 'start_pgdump',
+      :command => '/srv/unglobalcompact/current/script/cron/start_pgdump',
       :user => 'rails',
       :hour => 5,
       :minute => 0,

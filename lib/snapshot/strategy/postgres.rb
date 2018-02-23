@@ -9,9 +9,7 @@ module Snapshot
         @host = host
         @remote_dir = "/home/rails/ungc/pg_dumps"
         @local_dir = "./tmp/pg_snapshots"
-
-        # TODO: stop pointing to staging after migrating to PG on production
-        @ssh_host = "staging.unglobalcompact.org"
+        @ssh_host = "unglobalcompact.org"
       end
 
       def restore(snapshot_path)
