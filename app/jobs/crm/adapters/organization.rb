@@ -27,7 +27,7 @@ module Crm
         column('Participant__c', :participant) { |organization| organization.participant == true }
         column('Reason_for_no_pledge_at_joining__c', :no_pledge_reason_value)
         column('Pledge_at_Joining__c', :pledge_amount)
-        column('FT500__c', :is_ft_500)
+        column('FT500__c', :is_ft_500) { |organization| organization.is_ft_500 == true }
         column('COP_Status__c', :cop_state)
         column('COP_Due_On__c', :cop_due_on)
 

@@ -120,6 +120,9 @@ module Crm
     test "converts is_ft_500" do
       converted = convert_organization(is_ft_500: true)
       assert_equal true, converted.fetch("FT500__c")
+
+      converted = convert_organization(is_ft_500: nil)
+      refute converted.fetch("FT500__c")
     end
 
     test "converts regions" do
