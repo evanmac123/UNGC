@@ -6,10 +6,6 @@ class Crm::ActionPlatform::SubscriptionSyncJob < Crm::SalesforceSyncJob
   SUngcIdName = 'UNGC_AP_Subscription_ID__c'
   SObjectPrefix = '00x'
 
-  def should_sync?
-    model.approved?
-  end
-
   def foreign_keys
     # Sync parents first...
     parent_record_id('Action_Platform__c', model.platform, :platform_id)

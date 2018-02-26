@@ -250,14 +250,15 @@ module Crm
       assert_nil crm_subscription
     end
 
-    test "only approved subscriptions are synced" do
+    test "all subscription states are synced" do
       _crm = mock_restforce
 
-      approved = build(:action_platform_subscription, state: :approved)
-      pending = build(:action_platform_subscription, state: :pending)
+      [:pending, :approved, :ce_engagement_review, :declined].each do |state|
+        subscription = build(:action_platform_subscription, state: state)
 
-      assert Crm::ActionPlatform::SubscriptionSyncJob.perform_now(:should_sync?, approved)
-      refute Crm::ActionPlatform::SubscriptionSyncJob.perform_now(:should_sync?, pending)
+        assert Crm::ActionPlatform::SubscriptionSyncJob.perform_now(:should_sync?, subscription),
+               "Expected should_sync? to be true for :#{state}"
+      end
     end
 
     private

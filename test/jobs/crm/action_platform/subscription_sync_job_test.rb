@@ -44,8 +44,8 @@ module Crm
 
 
     test ".should_sync false" do
-      model = build(:action_platform_subscription)
-      refute Crm::ActionPlatform::SubscriptionSyncJob.perform_now(:should_sync?, model)
+      model = build(:action_platform_subscription, state: :declined)
+      assert Crm::ActionPlatform::SubscriptionSyncJob.perform_now(:should_sync?, model)
     end
 
     test ".should_sync true" do
