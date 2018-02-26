@@ -9,7 +9,7 @@ development:
     :host: 'test.salesforce.com'
     :username: 'salesforce@unglobalcompact.org.fgcfull'
     :password: 'UNGC2017!'
-    :token: 'DCH36fjZz3W6f5xr4sEl5EwCG'
+    :token: '3Zk0h535c2brvEEzF6gaDE4B'
     :client_id: '3MVG9Yb5IgqnkB4qIBUG7lt8Fq3edwKujcgHRMVLhiefQqDUsIHYkf_MFSzEKHJwdOr6IfI98PGantWvDmN9T'
     :client_secret: '4640851639819575954'
     # The only way to push scripts to production are to push to this Sandbox environment first, and publish from there
@@ -46,7 +46,7 @@ staging:
     :host: 'test.salesforce.com'
     :username: 'salesforce@unglobalcompact.org.fgcfull'
     :password: 'UNGC2017!'
-    :token: 'DCH36fjZz3W6f5xr4sEl5EwCG'
+    :token: '3Zk0h535c2brvEEzF6gaDE4B'
     :client_id: '3MVG9Yb5IgqnkB4qIBUG7lt8Fq3edwKujcgHRMVLhiefQqDUsIHYkf_MFSzEKHJwdOr6IfI98PGantWvDmN9T'
     :client_secret: '4640851639819575954'
     :callback_url: 'https://staging.unglobalcompact.org/salesforce/sync'
