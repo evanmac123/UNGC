@@ -44,8 +44,14 @@ module Crm
     end
 
     test "should_sync?" do
+      organization = create(:organization)
+      assert Crm::OrganizationSyncJob.perform_now(:should_sync?, organization)
+
       organization = create(:organization, :with_sector)
       assert Crm::OrganizationSyncJob.perform_now(:should_sync?, organization)
+
+      organization = create(:organization, organization_type: nil)
+      refute Crm::OrganizationSyncJob.perform_now(:should_sync?, organization)
     end
 
     test "create an organization" do

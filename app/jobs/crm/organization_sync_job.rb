@@ -8,7 +8,7 @@ module Crm
     SObjectPrefix = '001'
 
     def should_sync?
-      model.sector_id.present? && model.organization_type_id.present?
+      model.organization_type_id.present?
     end
 
     def foreign_keys

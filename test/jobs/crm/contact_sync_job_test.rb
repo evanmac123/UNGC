@@ -51,11 +51,15 @@ module Crm
 
       # No organization sector
       model = create(:contact, organization: create(:organization))
-      refute Crm::ContactSyncJob.perform_now(:should_sync?, model)
+      assert Crm::ContactSyncJob.perform_now(:should_sync?, model)
 
       # With organization sector
       model = create(:contact, organization: build(:organization, :with_sector))
       assert Crm::ContactSyncJob.perform_now(:should_sync?, model)
+
+      # With organization with no organization_type
+      model = create(:contact, organization: build(:organization, organization_type_id: nil))
+      refute Crm::ContactSyncJob.perform_now(:should_sync?, model)
 
       # With local_network
       model = create(:contact, local_network: build(:local_network))
@@ -79,7 +83,7 @@ module Crm
     end
 
     test "create a contact with an unsyncable organization" do
-      contact = create(:contact, organization: build(:organization))
+      contact = create(:contact, organization: build(:organization, organization_type_id: nil))
 
       assert_nil contact.record_id
 
@@ -168,7 +172,7 @@ module Crm
     end
 
     test "update a contact with an unsynchable organization" do
-      contact = build(:contact, :with_record_id, organization: build(:organization, :with_record_id))
+      contact = build(:contact, :with_record_id, organization: build(:organization, :with_record_id, organization_type_id: nil))
       changes = contact.changes
       contact.save!
 
