@@ -18,5 +18,10 @@ module Crm
       job_class = "Crm::#{parent.class.name}SyncJob".constantize
       job_class.perform_now(:should_sync?, parent, nil, crm)
     end
+
+    def self.excluded_attributes
+      [*super, :last_sign_in_at, :current_sign_in_at, :sign_in_count]
+    end
+
   end
 end

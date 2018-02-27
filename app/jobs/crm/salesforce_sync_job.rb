@@ -100,6 +100,10 @@ module Crm
       end
     end
 
+    def self.excluded_attributes
+      [:created_at, :updated_at]
+    end
+
     def salesforce_record
       @salesforce_record ||= model.salesforce_record
     end

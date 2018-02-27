@@ -29,18 +29,28 @@ module Crm
 
         assert_no_enqueued_jobs do
           model.update!(first_name: "Bobby")
-          model.touch
+        end
+
+        assert_no_enqueued_jobs do
+          model.update!(created_at: 1.year.from_now)
+        end
+
+        assert_no_enqueued_jobs do
+          model.update!(updated_at: 1.year.from_now)
+        end
+
+        assert_no_enqueued_jobs do
+          model.update!(last_sign_in_at: 1.year.from_now)
+        end
+
+        assert_no_enqueued_jobs do
+          model.update!(current_sign_in_at: 1.year.from_now)
+        end
+
+        assert_no_enqueued_jobs do
+          model.update!(sign_in_count: 100)
         end
       end
-
-      should 'conditionally enqueue a job on destroy' do
-        model = create(:contact)
-
-        assert_enqueued_with(job: Crm::ContactSyncJob) do
-          model.destroy!
-        end
-      end
-
     end
 
 

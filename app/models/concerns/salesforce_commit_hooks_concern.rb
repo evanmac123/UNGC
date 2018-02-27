@@ -27,7 +27,7 @@ module SalesforceCommitHooksConcern
     def after_create_update_commit(action)
       return unless Rails.configuration.x_enable_crm_synchronization
 
-      changes = previous_changes.except(:created_at, :updated_at)
+      changes = previous_changes.except(*job_class.excluded_attributes)
 
       # We have to serialize because ActiveJob cannot serialize a Time object
       job_class.perform_later(action, self, changes.to_json) if changes.any?
