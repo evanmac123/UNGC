@@ -54,7 +54,7 @@ module Crm
         column('Removal_Reason__c', :removal_reason) { |organization| organization.removal_reason&.description}
 
         column('Revenue__c', :revenue_range)
-        column('AnnualRevenue', :revenue) do |organization|
+        column('AnnualRevenue', nil, true) do |organization|
           case
             when organization.precise_revenue.present?
               organization.precise_revenue.dollars
