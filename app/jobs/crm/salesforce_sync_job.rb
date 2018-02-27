@@ -55,6 +55,7 @@ module Crm
 
       salesforce_record_id = record_id
       if salesforce_record_id.blank?
+        @action = :create
         create
       else
         log("updating")
@@ -82,17 +83,20 @@ module Crm
     end
 
     def synced_record_id
-      salesforce_record_id = record_id
-      # create the object in Salesforce if it doesn't exist
-      salesforce_record_id = create unless salesforce_record_id
-      salesforce_record_id
+      record_id || create
     end
 
     def parent_record_id(salesforce_key, parent_model, parent_attribute)
-      if parent_model && (changed?(parent_attribute) || parent_model.record_id.blank?)
+      return if parent_model.nil?
+
+      parent_model_record_id = parent_model.record_id
+      newly_stored = parent_model_record_id.nil?
+      if parent_model_record_id.nil?
         job_class = "Crm::#{parent_model.class.name}SyncJob".constantize
         parent_model_record_id = job_class.perform_now(:synced_record_id, parent_model, nil, crm)
         foreign_key_hash[salesforce_key] = parent_model_record_id if parent_model_record_id.present?
+      elsif changed?(parent_attribute) && parent_model_record_id.present?
+        foreign_key_hash[salesforce_key] = parent_model_record_id
       end
     end
 

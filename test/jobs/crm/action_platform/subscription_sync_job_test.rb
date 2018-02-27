@@ -67,7 +67,12 @@ module Crm
 
       record_id = '00x0D0000000001MVK'
 
-      crm.expects(:create).with("Action_Platform_Subscription__c", anything).returns(record_id)
+      crm.expects(:create).with do |object_name, params|
+        object_name == 'Action_Platform_Subscription__c' &&
+            params.has_key?('Contact_Point__c') &&
+            params.has_key?('Action_Platform__c') &&
+            params.has_key?('Organization__c')
+      end.returns(record_id)
 
       subscription = subscription.reload
       assert_nil subscription.record_id
@@ -106,8 +111,9 @@ module Crm
       crm.expects(:create).with("Contact", anything).returns(contact_record_id)
       crm.expects(:create).with do |object_name, params|
         object_name == 'Action_Platform_Subscription__c' &&
-            params.has_key?('Created_at__c') &&
-            params.has_key?('Action_Platform__c') # Organization got synced with the unsynced Contact
+            params.has_key?('Contact_Point__c') &&
+            params.has_key?('Action_Platform__c') &&
+            params.has_key?('Organization__c')
       end.returns(record_id)
 
       assert_nil crm_subscription.organization.record_id
@@ -176,7 +182,12 @@ module Crm
       crm.expects(:log).with("updating Action_Platform_Subscription__c-(#{subscription.id}) ActionPlatform::Subscription")
 
       record_id = subscription.record_id
-      crm.expects(:update).with("Action_Platform_Subscription__c", record_id, anything)
+      crm.expects(:update).with do |object_name, record_id, params|
+        object_name == 'Action_Platform_Subscription__c' &&
+            !params.has_key?('Contact_Point__c') &&
+            !params.has_key?('Action_Platform__c') &&
+            !params.has_key?('Organization__c')
+      end.returns(record_id)
 
       refute_nil subscription.record_id
 
@@ -263,6 +274,7 @@ module Crm
         object_name == 'Action_Platform_Subscription__c' &&
             !params.has_key?('Created_at__c') &&
             !params.has_key?('UNGC_AP_Subscription_ID__c') &&
+            params.has_key?('Contact_Point__c') &&
             params['Action_Platform__c'] == platform_record_id &&
             params.has_key?('Organization__c')
       end.returns(Restforce::SObject.new(Id: record_id))
@@ -306,6 +318,8 @@ module Crm
         object_name == 'Action_Platform_Subscription__c' &&
             !params.has_key?('Created_at__c') &&
             !params.has_key?('UNGC_AP_Subscription_ID__c') &&
+            params.has_key?('Contact_Point__c') &&
+            params['Action_Platform__c'] == platform.record_id &&
             params['Organization__c'] == org_record_id &&
             params.has_key?('Action_Platform__c')
       end.returns(Restforce::SObject.new(Id: record_id))
