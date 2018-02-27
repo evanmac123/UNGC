@@ -111,7 +111,7 @@ module Crm
     def save_record_id(salesforce_record_id)
       if salesforce_record_id.present? && salesforce_record.record_id.blank?
         salesforce_record.record_id = salesforce_record_id
-        salesforce_record.save!
+        salesforce_record.save! if salesforce_record.valid? # This should check for uniqueness
       end
       salesforce_record_id
     end
