@@ -60,8 +60,9 @@
         %dd= @organization.revenue_description
       %dt Revenue
       %dd= @organization.precise_revenue_view
-      %dt Level of Engagement
-      %dd= t(@organization.level_of_participation_view)
+      - if @organization.business?
+        %dt Level of Engagement
+        %dd= t(@organization.level_of_participation_view)
       %dt Sector
       %dd= @organization.sector_name
       %dt Employees

@@ -36,4 +36,20 @@ class ParticipantsControllerTest < ActionController::TestCase
     assert_response :not_found
   end
 
+  test "shows employees for business" do
+    business = create(:business, employees: 123)
+    get :show, id: business
+
+    assert_response :success
+    assert_select "dd[role='employees']", "123"
+  end
+
+  test "does NOT show employees for non-business" do
+    non_business = create(:non_business, employees: 123)
+    get :show, id: non_business
+
+    assert_response :success
+    assert_select "dd[role='employees']", false
+  end
+
 end

@@ -10,7 +10,7 @@
     %li= link_to "Draft #{@organization.cop_acronym.pluralize}", '#cop_drafts'
     - if @organization.business? || current_contact&.from_ungc?
       %li= link_to t("action_platform.labels.dashboard_tab"), "#action_platforms"
-    %li= link_to 'Level of Engagement', '#level_of_engagement'
+      %li= link_to 'Level of Engagement', '#level_of_engagement'
 
   #overview.tab_content
     %ul#contacts_tools{:class => "tools inline"}
@@ -43,8 +43,9 @@
           %dd= @organization.revenue_description
       %dt Revenue
       %dd= @organization.precise_revenue_view
-      %dt Level of Engagement
-      %dd= t(@organization.level_of_participation_view)
+      - if @organization.business?
+        %dt Level of Engagement
+        %dd= t(@organization.level_of_participation_view)
       %dt Sector
       %dd= @organization.sector_name
       %dt Employees
@@ -156,14 +157,15 @@
     #cop_drafts.tab_content
       = render :partial => 'admin/cops/drafts', locals: { drafts: current_contact.organization.communication_on_progresses.in_progress }
 
-    #action_platforms.tab_content
-      = render partial: "/admin/action_platform/landing", locals: { subscriptions: @organization.action_platform_subscriptions }
-      = link_to "Signup for Action Platforms", new_admin_action_platform_subscription_path
+    - if @organization.business? || current_contact&.from_ungc?
+      #action_platforms.tab_content
+        = render partial: "/admin/action_platform/landing", locals: { subscriptions: @organization.action_platform_subscriptions }
+        = link_to "Signup for Action Platforms", new_admin_action_platform_subscription_path
 
-    #level_of_engagement.tab_content
-      %h2 Level of Engagement
-      - if @organization.level_of_participation.present?
-        You have selected the
-        = t(@organization.level_of_participation)
-      - else
-        = link_to "Select a Level of Engagement", admin_choose_level_of_participation_path
+      #level_of_engagement.tab_content
+        %h2 Level of Engagement
+        - if @organization.level_of_participation.present?
+          You have selected the
+          = t(@organization.level_of_participation)
+        - else
+          = link_to "Select a Level of Engagement", admin_choose_level_of_participation_path

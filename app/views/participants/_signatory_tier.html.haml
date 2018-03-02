@@ -50,16 +50,17 @@
         - if participant.sector.present?
           %dt Sector:
           %dd= participant.sector
-        %dt Engagement Tier:
-        %dd= participant&.level_of_participation&.humanize&.chomp(' level') || 'Not Selected'
+        - if participant.business?
+          %dt Engagement Tier:
+          %dd= participant&.level_of_participation&.humanize&.chomp(' level') || 'Not Selected'
         %dt Global Compact Status:
         %dd= participant.global_compact_status
         - if participant.delisted?
           %dt Reason for Delisting:
           %dd= participant.reason_for_delisting
-        - if participant.employees.present?
+        - if participant.business? && participant.employees.present?
           %dt Employees:
-          %dd= participant.employees
+          %dd{role: "employees"}= participant.employees
         - if participant.ownership.present?
           %dt Ownership:
           %dd= participant.ownership
