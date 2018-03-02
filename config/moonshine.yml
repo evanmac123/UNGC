@@ -119,8 +119,7 @@
   :replication_username: ungc_replication
   :track_counts: 'on' # needed for scout monitoring
   :track_activities: 'on' # needed for scout monitoring
-  :work_mem: '4MB'
-  :shared_buffers: '128MB'
+  :work_mem: '256MB'
   :shared_preload_libraries: auto_explain
   :auto_explain_log_min_duration: 1s
 
@@ -154,7 +153,7 @@
     - 'ALL : 99.233.59.124 # Unspace'
 
 :sysctl:
-  vm.overcommit_memory: 2
+  vm.overcommit_memory: 1
 
 :resolv:
   :nameservers:
