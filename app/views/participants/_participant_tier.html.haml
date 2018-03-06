@@ -91,7 +91,7 @@
         %ul
           - action_platforms.each do |ap|
             %li
-              %a{href: "/take-action/action/#{ap.platform.slug}"}
+              %a{href: action_platform_path(ap.platform.slug)}
                 %span= ap.platform.name
   %section.principles-goals
     .column.eight-eighths

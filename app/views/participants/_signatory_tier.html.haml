@@ -37,7 +37,7 @@
           %h3 Engagements
           %div
             - participant.action_platform_subscriptions.each do |subscription|
-              %div= link_to subscription.platform.name, action_platform_platform_path(subscription.platform)
+              %div= link_to subscription.platform.name, action_platform_path(subscription.platform.slug)
     .column.company-information-overview
       %h2 Overview
       %dl

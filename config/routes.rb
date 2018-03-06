@@ -230,8 +230,13 @@ UNGC::Application.routes.draw do
     end
   end
 
-  namespace :action_platform do
-    resources :platforms, only: [:show]
+  # /take-action/action-platforms/...
+  scope "/take-action", module: :action_platform do
+    resources :platforms,
+      as: :action_platform,
+      path: "action-platforms",
+      only: [:show],
+      param: :slug
   end
 
   # Salesforce webook routes
@@ -579,6 +584,18 @@ UNGC::Application.routes.draw do
   get '/sdgs/sdg-solutions-platforms', to: redirect('/sdgs/action-platforms')
   get '/events', to: redirect('/take-action/events')
   get '/sdgpioneers', to: redirect('/sdgs/sdgpioneers')
+
+  # redirect sitemap action pages to action-platform pages
+  get "/take-action/action/breakthrough-innovation", to: redirect("/take-action/action-platforms/breakthrough-innovation")
+  get "/take-action/action/sdg-reporting", to: redirect("/take-action/action-platforms/sdg-reporting")
+  get "/take-action/action/low-carbon-development", to: redirect("/take-action/action-platforms/low-carbon-development")
+  get "/take-action/action/financial-innovation", to: redirect("/take-action/action-platforms/financial-innovation")
+  get "/take-action/action/health", to: redirect("/take-action/action-platforms/health")
+  get "/take-action/action/decent-work-supply-chains", to: redirect("/take-action/action-platforms/decent-work-supply-chains")
+  get "/take-action/action/humanitarian", to: redirect("/take-action/action-platforms/humanitarian")
+  get "/take-action/action/ocean", to: redirect("/take-action/action-platforms/ocean")
+  get "/take-action/action/water", to: redirect("/take-action/action-platforms/water")
+  get "/take-action/action/justice", to: redirect("/take-action/action-platforms/justice")
 
   # SDG related redirects
   get '/SDGpioneers', to: redirect('/sdgs/sdgpioneers')

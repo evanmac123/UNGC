@@ -46,6 +46,7 @@ module UNGC
           field :topics, type: :array
           field :sectors, type: :array
           field :sustainable_development_goals, type: :array
+          field :action_platforms, type: :array
         end
       end
 

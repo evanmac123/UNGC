@@ -7,7 +7,8 @@ class ParticipantSearchForm < FilterableForm
   attribute :countries,           Array[Integer], default: []
   attribute :sectors,             Array[Integer], default: []
   attribute :reporting_status,    Array[String],  default: []
-  attribute :engagement_tiers,    Array[Integer],  default: []
+  attribute :engagement_tiers,    Array[Integer], default: []
+  attribute :action_platforms,    Array[Integer], default: []
   attribute :keywords,            String,         default: ''
   attribute :page,                Integer,        default: 1
   attribute :per_page,            Integer,        default: 12
@@ -22,6 +23,7 @@ class ParticipantSearchForm < FilterableForm
 
   filter :organization_type
   filter :engagement_tier
+  filter :action_platform
   filter :initiative
   filter :country
   filter :sector
@@ -95,10 +97,10 @@ class ParticipantSearchForm < FilterableForm
         sector_ids: sector_filter.effective_selection_set,
         cop_state: reporting_status.map {|state| Zlib.crc32(state)},
         engagement_tiers: engagement_tiers,
+        action_platforms: action_platforms,
       }),
       sql: {
         include: [
-          # TODO update includes
           :organization_type,
           :sector,
           :country
@@ -118,6 +120,7 @@ class ParticipantSearchForm < FilterableForm
         :sector_ids,
         :cop_state,
         :engagement_tiers,
+        :action_platforms,
       ],
     }
   end

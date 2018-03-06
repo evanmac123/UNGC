@@ -56,4 +56,39 @@ namespace :action_platforms do
         .first_or_create(attrs.slice(:name, :slug, :description))
     end
   end
+
+  desc "move sitemap pages to action platform specific locations"
+  task move_pages: :environment do
+    map = {
+      "breakthrough-innovation" => "breakthrough-innovation",
+      "sdg-reporting" => "sdg-reporting",
+      "low-carbon-development" => "low-carbon-development",
+      "financial-innovation" => "financial-innovation",
+      "health" => "health",
+      "decent-work-supply-chains" => "decent-work-supply-chains",
+      "humanitarian" => "huamnitarian",
+      "ocean" => "ocean",
+      "water" => "water-stewardess-for-sdgs",
+      "justice" => "justice-and-strong-institutions",
+    }
+
+    moved = map.keys.select do |slug|
+      old_path = "/take-action/action/#{slug}"
+      new_path = "/take-action/action-platforms/#{slug}"
+      Container.find_by(path: old_path)&.update!(path: new_path)
+    end
+
+    ap "Updated #{moved.count} container paths"
+
+    tagged = map.select do |path, platform_slug|
+      container = Container.find_by(path: "/take-action/action-platforms/#{path}")
+      platform = ActionPlatform::Platform.find_by(slug: platform_slug)
+
+      unless container.taggings.where(action_platform: platform).exists?
+        container.taggings.create!(action_platform: platform)
+        ap "Tagged #{path} with #{platform.name}"
+      end
+    end
+
+  end
 end

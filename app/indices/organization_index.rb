@@ -56,7 +56,11 @@ ThinkingSphinx::Index.define :organization,
     as: :engagement_tiers,
     facet: true
 
- has removal_reason(:id),
+  has action_platforms(:id),
+    as: :action_platforms,
+    facet: true
+
+  has removal_reason(:id),
     as: :removal_reason_id
 
   has organization_type(:name),

@@ -47,6 +47,8 @@ class Tagging < ActiveRecord::Base
   # TODO replace the existing principles join tables with implementations here
   # belongs_to :communication_on_progress
 
+  scope :with_action_platforms, -> { where("taggings.action_platform_id > 0") }
+
   def domain
     author || principle || country || initiative || language || sector || topic || issue || sustainable_development_goal || action_platform
   end

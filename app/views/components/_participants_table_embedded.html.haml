@@ -1,0 +1,18 @@
+- if !participants.empty?
+  %section.component-participants-table-embedded
+    .wrapper
+      %header.component-header
+        %h1 Participants
+        = link_to "<span>View the </span>Full List<span> in Who’s Involved</span>".html_safe, participants.who_is_involved_path, class: 'view-all'
+      %table.table-embedded
+        %thead
+          %tr
+            %th.name Name
+            %th.sector Sector
+            %th.country Country
+        %tbody
+          - participants.each do |p|
+            %tr
+              %td.name= link_to p[:name], participant_path(p[:participant])
+              %td.sector= p[:sector]
+              %td.country= p[:country]

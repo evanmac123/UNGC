@@ -98,6 +98,16 @@ class Organization < ActiveRecord::Base
   has_many :due_diligence_reviews, dependent: :destroy, class_name: 'DueDiligence::Review'
   has_many :action_platform_orders, dependent: :restrict_with_error, class_name: "ActionPlatform::Order"
   has_many :action_platform_subscriptions, class_name: "ActionPlatform::Subscription", dependent: :restrict_with_error
+
+  has_many :active_action_platform_subscriptions,
+    -> { active_at },
+    class_name: "ActionPlatform::Subscription"
+
+  has_many :action_platforms,
+    through: :active_action_platform_subscriptions,
+    source: :platform,
+    class_name: "ActionPlatform::Platform"
+
   has_many :social_network_handles, class_name: 'OrganizationSocialNetwork', inverse_of: :organization
 
   belongs_to :sector

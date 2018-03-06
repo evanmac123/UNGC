@@ -1,37 +1,44 @@
-class ActionPlatform::PlatformPage
+class ActionPlatform::PlatformPage < ActionDetailPage
 
-  attr_reader :platform
-
-  def initialize(platform)
-    @platform = platform
+  def initialize(container, payload, platforms, participants)
+    super(container, payload)
+    @platforms = platforms
+    @participants = participants
   end
 
-  def meta_title
-   platform.name
+  def participants
+    participants = @participants.map do |p|
+      {
+        name: p.name,
+        sector: p.sector_name,
+        country: p.country_name,
+        participant: p,
+      }
+    end
+    Participants.new(participants, @platforms)
   end
 
-  def title
-   platform.name
-  end
+  private
 
-  def meta_description
-    # TODO: might need this later
-  end
+  # Conform to the same interface as Components::Participants
+  # so we can re-use it's template
+  class Participants
+    include Rails.application.routes.url_helpers
 
-  def description
-   platform.description || ""
-  end
+    attr_reader :participants
 
-  def hero
-    {
-      title: {
-        title1: platform.name,
-      },
-      image: 'https://d306pr3pise04h.cloudfront.net/uploads/b1/b1757c442f979297b1e13aa44dcaf58da156106a---forest.jpg',
-      size: 'small',
-      theme: 'light',
-      show_section_nav: false
-    }
-  end
+    delegate :empty?, :each, to: :participants
 
+    def initialize(participants, platforms)
+      @participants = participants
+      @platforms = platforms
+    end
+
+    def who_is_involved_path
+      participant_search_path(search: {
+        action_platforms: @platforms.map(&:id)
+      })
+    end
+
+  end
 end

@@ -1,6 +1,7 @@
 class Components::Participants
   attr_accessor :data
   include Enumerable
+  include Rails.application.routes.url_helpers
 
   def initialize(data)
     self.data = data
@@ -15,6 +16,10 @@ class Components::Participants
         participant: p
       }
     end
+  end
+
+  def who_is_involved_path
+    participant_search_path(search: { initiatives: [initiative_id] })
   end
 
   def initiative_id
