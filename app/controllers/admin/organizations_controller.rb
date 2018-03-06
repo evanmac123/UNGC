@@ -154,7 +154,7 @@ class Admin::OrganizationsController < AdminController
   private
     def load_organization
       if organization_id =~ /\A[0-9]+\Z/ # it's all numbers
-        @organization = Organization.find_by_id(organization_id)
+        @organization = Organization.find(organization_id)
       else
         @organization = Organization.find_by_param(organization_id)
       end
