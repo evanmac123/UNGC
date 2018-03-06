@@ -24,6 +24,11 @@ class Sitemap::Api::TaggingsController < Sitemap::ApiController
     render_json sustainable_development_goals: sdgs.map(&method(:serialize))
   end
 
+  def action_platforms
+    platforms = ActionPlatform::Platform.all
+    render_json action_platforms: platforms.map(&method(:serialize))
+  end
+
   private
 
   def serialize(payload)

@@ -35,6 +35,7 @@ class Tagging < ActiveRecord::Base
   belongs_to :language
   belongs_to :sector
   belongs_to :sustainable_development_goal
+  belongs_to :action_platform, class_name: "ActionPlatform::Platform"
 
   # subjects
   belongs_to :event
@@ -47,7 +48,7 @@ class Tagging < ActiveRecord::Base
   # belongs_to :communication_on_progress
 
   def domain
-    author || principle || country || initiative || language || sector || topic || issue || sustainable_development_goal
+    author || principle || country || initiative || language || sector || topic || issue || sustainable_development_goal || action_platform
   end
 
   def subject

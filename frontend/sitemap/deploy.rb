@@ -71,7 +71,7 @@ class Cmd
   end
 
   def start_port_forward
-    stdin, stdout, stderr, wait_thr = Open3.popen3(port_forward_cmd)
+    _stdin, _stdout, _stderr, wait_thr = Open3.popen3(port_forward_cmd)
     @port_forward_pid = wait_thr[:pid]  # pid of the started process.
   end
 
@@ -81,14 +81,10 @@ class Cmd
 
   def host
     case deploy_env
-    when 'preview'
-      'preview.unglobalcompact.org'
     when 'staging'
       'staging.unglobalcompact.org'
     when 'production'
       'unglobalcompact.org'
-    else
-      nil
     end
   end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180212161106) do
+ActiveRecord::Schema.define(version: 20180305160641) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1301,8 +1301,10 @@ ActiveRecord::Schema.define(version: 20180212161106) do
     t.integer  "issue_id"
     t.integer  "case_example_id"
     t.integer  "sustainable_development_goal_id"
+    t.integer  "action_platform_id"
   end
 
+  add_index "taggings", ["action_platform_id"], name: "index_taggings_on_action_platform_id", using: :btree
   add_index "taggings", ["author_id"], name: "index_taggings_on_author_id", using: :btree
   add_index "taggings", ["case_example_id"], name: "index_taggings_on_case_example_id", using: :btree
   add_index "taggings", ["communication_on_progress_id"], name: "index_taggings_on_communication_on_progress_id", using: :btree
@@ -1375,6 +1377,7 @@ ActiveRecord::Schema.define(version: 20180212161106) do
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "organization_social_networks", "organizations", on_delete: :cascade
   add_foreign_key "organizations", "listing_statuses", on_delete: :nullify
+  add_foreign_key "taggings", "action_platform_platforms", column: "action_platform_id"
   add_foreign_key "taggings", "authors"
   add_foreign_key "taggings", "case_examples"
   add_foreign_key "taggings", "communication_on_progresses"

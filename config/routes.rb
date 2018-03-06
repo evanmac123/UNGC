@@ -246,11 +246,18 @@ UNGC::Application.routes.draw do
         get :current, on: :collection
       end
       resources :events, only: [:index]
-      resources :taggings, only: [:topics, :issues, :sectors, :sustainable_development_goals] do
+      resources :taggings, only: [
+        :topics,
+        :issues,
+        :sectors,
+        :sustainable_development_goals,
+        :action_platforms,
+      ] do
         get :topics, on: :collection
         get :issues, on: :collection
         get :sectors, on: :collection
         get :sustainable_development_goals, on: :collection
+        get :action_platforms, on: :collection
       end
       resources :images do
         post :signed_url, on: :collection
