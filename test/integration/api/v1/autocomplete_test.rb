@@ -3,7 +3,7 @@ require 'test_helper'
 class Api::V1::AutocompleteTest < ActionDispatch::IntegrationTest
 
   should "autocomplete participants" do
-    food_times = create(:organization, name: 'Foods R Us', active: false, participant: true)
+    create(:delisted_participant, name: 'Foods Я Us')
     food_times = create(:organization, name: 'Food Times', active: true, participant: true)
     acme_foods = create(:organization, name: 'ACME Foods', active: true, participant: true)
 

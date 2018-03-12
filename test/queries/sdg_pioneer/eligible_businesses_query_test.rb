@@ -39,7 +39,7 @@ class SdgPioneer::EligibleBusinessesQueryTest < ActiveSupport::TestCase
   end
 
   should 'NOT include in-active participants' do
-    inactive = create_company(active: false)
+    inactive = create(:delisted_participant)
     results = SdgPioneer::EligibleBusinessesQuery.new.run
     assert_not_includes results, inactive
   end

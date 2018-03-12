@@ -83,7 +83,7 @@ class Organization < ActiveRecord::Base
                       :message => "address is invalid. Please enter one address in the format http://website.com/",
                       :unless => Proc.new { |organization| organization.url.blank? }
   validates_presence_of :stock_symbol, :if => Proc.new { |organization| organization.public_company? }
-  validates_presence_of :delisted_on,  :if => Proc.new { |organization| organization.require_delisted_on? }, :on => :update
+  validates_presence_of :delisted_on,  if: Proc.new { |organization| organization.requires_delisted_on? }, on: :update
   validates :isin, length: { is: 12 }, :unless => Proc.new { |organization| organization.isin.blank? }
   validates :url, length: { maximum: 255, too_long: "has a %{count} character limit" }
   validates :government_registry_url, length: { maximum: 2_000 }
@@ -124,7 +124,7 @@ class Organization < ActiveRecord::Base
   ORGANIZATION_FILE_TYPES = { :commitment_letter => 'commitment_letter', # this has to be migrated first
                               :recommitment_letter => 'recommitment_letter',
                               :withdrawal_letter => 'withdrawal_letter',
-                              :legal_status => 'legal_status' }.freeze
+                              :legal_status => 'legal_status' }
 
   has_one :legal_status, -> { where(attachable_key: ORGANIZATION_FILE_TYPES[:legal_status]) },
     class_name: 'UploadedFile', as: 'attachable', dependent: :destroy
@@ -193,7 +193,7 @@ class Organization < ActiveRecord::Base
     3 => 'between USD 250 million and USD 1 billion',
     4 => 'between USD 1 billion and USD 5 billion',
     5 => 'USD 5 billion or more'
-  }.freeze
+  }
 
   # Suggested pledge levels for funding models correspond to the revenue level
   # These are hard coded into the pledge form and are included here for reference
@@ -207,14 +207,14 @@ class Organization < ActiveRecord::Base
     2500 => 'USD 2500',
     3000 => 'USD 3000',
     4000 => 'USD 4000'
-  }.freeze
+  }
 
   COLLABORATIVE_MINIMUM_PLEDGE_LEVELS = {
     250  => 'USD 250',
     500  => 'USD 500',
     1000 => 'USD 1000',
     2000 => 'USD 2000'
-  }.freeze
+  }
 
   # identify why an organization has opted out of pledging during signup
   NO_PLEDGE_REASONS = {
@@ -224,7 +224,7 @@ class Organization < ActiveRecord::Base
     international: 'We cannot make international payments',
     benefits:      'We would like to see the benefits of participating before making a contribution',
     local_network: 'We are significant contributors to one or more Global Compact Local Networks'
-  }.freeze
+  }
 
   # identify why an organization is being reviewed
   REVIEW_REASONS = {
@@ -243,7 +243,7 @@ class Organization < ActiveRecord::Base
     ngo_verification:     'NGO Verification',
     purpose_activity:     'Purpose & Activities',
     logo_misuse:          'Logo Misuse'
-  }.freeze
+  }
 
   state_machine :cop_state, :initial => :active do
     after_transition :on => :delist, :do => :set_delisted_status
@@ -263,45 +263,44 @@ class Organization < ActiveRecord::Base
     participant_level: 2,
   }
 
-  scope :active, lambda { where(active: true) }
-  scope :participants, lambda { where(participant: true) }
-  scope :companies_and_smes, lambda { joins(:organization_type).merge(OrganizationType.for_filter(:sme, :companies)).includes(:organization_type) }
-  scope :companies, lambda { where(organization_type_id: OrganizationType.for_filter(:companies)).includes(:organization_type) }
-  scope :smes, lambda { where(organization_type_id: OrganizationType.for_filter(:sme).pluck(:id)).includes(:organization_type) }
-  scope :businesses, lambda { joins(:organization_type).merge(OrganizationType.business) }
-  scope :non_businesses, lambda { joins(:organization_type).merge(OrganizationType.non_business) }
-  scope :by_type, lambda { |filter_type| where(organization_type_id: OrganizationType.for_filter(filter_type).map(&:id)).includes(:organization_type) }
+  scope :active, -> { where(cop_state: [COP_STATE_ACTIVE, COP_STATE_NONCOMMUNICATING]) }
+  scope :participants, -> { where(participant: true) }
+  scope :companies_and_smes, -> { joins(:organization_type).merge(OrganizationType.for_filter(:sme, :companies)).includes(:organization_type) }
+  scope :companies, -> { where(organization_type_id: OrganizationType.for_filter(:companies)).includes(:organization_type) }
+  scope :smes, -> { where(organization_type_id: OrganizationType.for_filter(:sme).pluck(:id)).includes(:organization_type) }
+  scope :businesses, -> { joins(:organization_type).merge(OrganizationType.business) }
+  scope :non_businesses, -> { joins(:organization_type).merge(OrganizationType.non_business) }
+  scope :by_type, -> (filter_type) { where(organization_type_id: OrganizationType.for_filter(filter_type).map(&:id)).includes(:organization_type) }
 
-  scope :for_initiative, lambda { |symbol| joins(:initiatives).where("initiatives.id IN (?)", Initiative.for_filter(symbol).map(&:id)).includes(:initiatives).order("organizations.name ASC") }
-  scope :last_joined, lambda { order("joined_on DESC, name DESC") }
-  scope :not_delisted, lambda { where("cop_state != ?", COP_STATE_DELISTED) }
+  scope :for_initiative, -> (symbol) { joins(:initiatives).where(initiatives: { id: Initiative.for_filter(symbol) }).includes(:initiatives).order(:name) }
+  scope :last_joined, -> { order(joined_on: :desc, name: :desc) }
+  scope :delisted, -> { where(cop_state: COP_STATE_DELISTED) }
 
-  scope :with_cop_due_on, lambda { |date| where(cop_due_on: date) }
-  scope :with_inactive_on, lambda { |date| where(inactive_on: date) }
-  scope :with_cop_due_between, lambda { |start_date, end_date| where(cop_due_on: start_date..end_date) }
-  scope :delisted_between, lambda { |start_date, end_date| where(delisted_on: start_date..end_date) }
+  scope :with_cop_due_on, -> (date) { where(cop_due_on: date) }
+  scope :with_inactive_on, -> (date) { where(inactive_on: date) }
+  scope :with_cop_due_between, -> (start_date, end_date) { where(cop_due_on: start_date..end_date) }
+  scope :delisted_between, -> (start_date, end_date) { delisted.where(delisted_on: start_date..end_date) }
 
-  scope :noncommunicating, lambda { where(cop_state: COP_STATE_NONCOMMUNICATING, active: true).order('cop_due_on') }
+  scope :noncommunicating, -> { where(cop_state: COP_STATE_NONCOMMUNICATING).order(:cop_due_on) }
 
-  scope :listed, lambda { where(listing_status_id: ListingStatus.publicly_listed).includes([:country, :exchange, :sector]) }
-  scope :without_contacts, lambda { includes(:contacts).where(contacts: {id: nil}) }
+  scope :listed, -> { where(listing_status_id: ListingStatus.publicly_listed).includes([:country, :exchange, :sector]) }
+  scope :without_contacts, -> { includes(:contacts).where(contacts: {id: nil}) }
 
-  scope :created_at, lambda { |month, year| where('created_at >= ? AND created_at <= ?', Date.new(year, month, 1), Date.new(year, month, 1).end_of_month) }
-  scope :joined_on, lambda { |month, year| where('joined_on >= ? AND joined_on <= ?', Date.new(year, month, 1), Date.new(year, month, 1).end_of_month) }
+  scope :created_at, -> (month, year) { where(created_at: Date.new(year, month, 1)..Date.new(year, month, 1).end_of_month) }
+  scope :joined_on, -> (month, year) { where(joined_on: Date.new(year, month, 1)..Date.new(year, month, 1).end_of_month) }
 
-  scope :with_pledge, lambda { where('pledge_amount > 0') }
-  scope :about_to_become_noncommunicating, lambda { where("cop_state=? AND cop_due_on<=?", COP_STATE_ACTIVE, Date.current) }
-  scope :about_to_become_delisted, lambda { where("cop_state=? AND cop_due_on<=?", COP_STATE_NONCOMMUNICATING, EXPULSION_THRESHOLD.ago.to_date) }
+  scope :with_pledge, -> { where('pledge_amount > 0') }
+  scope :about_to_become_noncommunicating, -> { where(cop_state: COP_STATE_ACTIVE, cop_due_on: 50.years.ago..Date.current) }
+  scope :about_to_become_delisted, -> { noncommunicating.where(cop_due_on: 20.years.ago..EXPULSION_THRESHOLD.ago.to_date) }
 
-  scope :ready_for_invoice, lambda {where("joined_on >= ? AND joined_on <= ?", 2.days.ago.beginning_of_day, 2.days.ago.end_of_day)}
-  scope :not_rejected, lambda { where(state: ::ApprovalWorkflow::NON_REJECTED_STATES) }
+  scope :ready_for_invoice, -> {where(joined_on: 2.days.ago.beginning_of_day..2.days.ago.end_of_day)}
+  scope :not_rejected, -> { where(state: ::ApprovalWorkflow::NON_REJECTED_STATES) }
 
-  scope :summary, lambda { includes(:country, :sector, :organization_type) }
+  scope :summary, -> { includes(:country, :sector, :organization_type) }
 
-  scope :expelled, lambda {
-    # currently delisted for failure to communicate
-    where(cop_state: COP_STATE_DELISTED, removal_reason: RemovalReason.delisted)
-  }
+  scope :expelled, -> { delisted.where(removal_reason: RemovalReason.delisted) } # currently delisted for failure to communicate
+  scope :withdrew, -> { delisted.where(removal_reason: RemovalReason.withdrew).includes(:removal_reason) }
+
 
   def self.with_cop_status(filter_type)
     statuses = if filter_type.is_a?(Array)
@@ -328,10 +327,6 @@ class Organization < ActiveRecord::Base
       .includes([:organization_type, :country, :exchange, :listing_status, :sector, :communication_on_progresses])
   end
 
-  def self.withdrew
-    where(cop_state: COP_STATE_DELISTED).where(removal_reason_id: RemovalReason.withdrew.id).includes(:removal_reason)
-  end
-
   # TODO find a way to express the ActiveRecord scope belong in sphinx terms
   # Not sure how we're going to be able to do that without 'or'
   # We want to express "active or has a public removal reason"
@@ -351,10 +346,9 @@ class Organization < ActiveRecord::Base
   end
 
   def self.publicly_delisted
-    where(active: false)
+    delisted
       .where(removal_reason: RemovalReason.publicly_delisted)
-      .where.not(cop_state: [COP_STATE_ACTIVE, COP_STATE_NONCOMMUNICATING].freeze)
-      .order('delisted_on DESC')
+      .order(delisted_on: :desc)
   end
 
   # scopes the organization depending on user_type
@@ -435,7 +429,7 @@ class Organization < ActiveRecord::Base
   end
 
   def review_status_name
-    if state == ApprovalWorkflow::STATE_IN_REVIEW && replied_to == false
+    if in_review? && replied_to == false
       'Updated'
     else
       state.humanize
@@ -478,8 +472,7 @@ class Organization < ActiveRecord::Base
   end
 
   def self.visible_in_local_network
-    statuses = [:noncommunicating, :active, :delisted].freeze
-    participants.active.with_cop_status(statuses)
+    participants.active.where("cop_state > ''")
   end
 
   def company?
@@ -894,16 +887,12 @@ class Organization < ActiveRecord::Base
     end
   end
 
+  VALID_JCI_REFERRAL_URLS = %w[en es fr].map { |ln| "http://www.jci.cc/media/#{ln}/presidentscorner/unglobalcompact" }
   def jci_referral?(url)
-     valid_urls = [
-       'http://www.jci.cc/media/en/presidentscorner/unglobalcompact',
-       'http://www.jci.cc/media/es/presidentscorner/unglobalcompact',
-       'http://www.jci.cc/media/fr/presidentscorner/unglobalcompact'
-      ].freeze
-      valid_urls.include?(url)
+     VALID_JCI_REFERRAL_URLS.include?(url)
   end
 
-  def require_delisted_on?
+  def requires_delisted_on?
     active == false && cop_state == COP_STATE_DELISTED
   end
 
