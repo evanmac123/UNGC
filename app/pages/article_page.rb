@@ -26,5 +26,8 @@ class ArticlePage < ContainerPage
   def news
     Components::News.new(@data)
   end
-end
 
+  def academies
+    Components::Academies.new(@data)
+  end
+end

@@ -8,6 +8,9 @@
       <li class='tab'>
         <button type='button' data-tab-content='news'>News</button>
       </li>
+      <li class='tab'>
+        <button type='button' data-tab-content='academy-events'>Academy</button>
+      </li>
     </menu>
 
     <article class='tab-content events active'>
@@ -72,6 +75,30 @@
 
       <footer class='events-component-footer'>
         View <%= link_to 'All News', press_releases_path -%>
+      </footer>
+    </article>
+
+    <article class='tab-content academy-events'>
+      <header class='tab-content-header'>
+        <h1>Academy</h1>
+      </header>
+
+      <%- @page.academies.each do |academy| -%>
+        <ul class='column future-events'>
+          <%- academy.each do |e| -%>
+            <li><%= link_to event_path(e), class: 'academy' do -%>
+              <time datetime="<%= e.starts_at.strftime('%F') -%>">
+                <%= e.starts_at -%>
+              </time>
+              <address><%= e.full_location -%></address>
+              <h2><%= e.title -%></h2>
+            <%- end -%></li>
+          <%- end -%>
+        </ul>
+      <%- end -%>
+
+      <footer class='events-component-footer'>
+        View <%= link_to 'All Academy Events', events_path(search: { types: ["academy"] }) -%>
       </footer>
     </article>
   </div>

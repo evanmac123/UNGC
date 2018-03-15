@@ -18,4 +18,8 @@ class HomePage < ContainerPage
   def news
     Components::News.new(@data, news_type: :press_release)
   end
+
+  def academies
+    Components::Academies.new(@data)
+  end
 end

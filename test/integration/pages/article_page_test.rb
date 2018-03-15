@@ -14,7 +14,7 @@ class ArticlePageTest < ActionDispatch::IntegrationTest
 
     payload['widget_contact']['contact_id'] = update_contact_with_image(@staff_user).id
     @resources,payload['resources'] = create_resource_content_block_data_and_payload
-    @events,@news = create_event_news_component_data
+    @events, @news, @academies = create_event_news_component_data
 
     container.create_public_payload(
       container_id: container.id,
@@ -60,6 +60,6 @@ class ArticlePageTest < ActionDispatch::IntegrationTest
   end
 
   should 'render events/news component' do
-    assert_render_events_news_component events: @events, news: @news
+    assert_render_events_news_component events: @events, news: @news, academies: @academies
   end
 end

@@ -31,6 +31,10 @@ class ActionDetailPage < ContainerPage
     Components::News.new(@data)
   end
 
+  def academies
+    Components::Academies.new(@data)
+  end
+
   def partners
     Components::Partners.new(@data).data
   end

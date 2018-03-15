@@ -34,4 +34,8 @@ class IssuePage < ContainerPage
   def news
     Components::News.new(@data)
   end
+
+  def academies
+    Components::Academies.new(@data)
+  end
 end

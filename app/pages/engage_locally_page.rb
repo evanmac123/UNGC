@@ -41,6 +41,10 @@ class EngageLocallyPage < ContainerPage
     Components::News.new(@data)
   end
 
+  def academies
+    Components::Academies.new(@data)
+  end
+
   def networks
     return LocalNetwork.none
   end

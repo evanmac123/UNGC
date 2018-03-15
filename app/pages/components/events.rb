@@ -40,7 +40,9 @@ class Components::Events
   end
 
   def scoped
-    scoped = Event.approved.includes(:country)
+    scoped = Event.approved.
+      includes(:country).
+      where("is_academy is null or is_academy = ?", false)
     case tier
     when :tier1
       scoped = scoped.tier1

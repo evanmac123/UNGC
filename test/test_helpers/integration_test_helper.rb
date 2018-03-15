@@ -171,7 +171,13 @@ module IntegrationTestHelper
       news_item
     end
 
-    [events, news]
+    academies = Array.new(3) do
+      academy = create(:event, starts_at: 1.month.from_now, is_academy: true)
+      academy.approve!
+      academy
+    end
+
+    [events, news, academies]
   end
 
   def assert_render_events_news_component(equality)
@@ -204,6 +210,22 @@ module IntegrationTestHelper
           end
         end
         assert_select '.events-component-footer', 'View All News' do
+          assert_select 'a'
+        end
+      end
+
+      assert_select '.academy-events' do |academy|
+        assert_select '.tab-content-header, Academy'
+        assert_select '.future-events .academy' do |event_nodes|
+          event_nodes.each_with_index do |event_node, index|
+            event = equality[:academies][index]
+            assert_equal event_node.attributes['href'].value, event_path(event)
+            assert_select event_node, 'time', event.starts_at.strftime('%d-%b-%Y')
+            assert_select event_node, 'address', event.full_location
+            assert_select event_node, 'h2', event.title
+          end
+        end
+        assert_select '.events-component-footer', 'View All Academy Events' do
           assert_select 'a'
         end
       end
