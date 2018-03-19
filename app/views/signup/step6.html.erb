@@ -32,13 +32,18 @@
             <%= fields.text_area :mission_statement, :maxlength => 1000 %>
           <%- end -%>
 
-          <p>Please note that upon review and acceptance of your application, the Letter of Commitment and your Mission Statement will be made public on this website as adherence to accountability.</p>
+          <p>Please note that upon review and acceptance of your application, the
+            Letter of Commitment and your Mission Statement will be made public
+            on this website as adherence to accountability.</p>
         </fieldset>
       <%- else -%>
         <fieldset>
           <h3>Proof of Registration</h3>
 
-          <p>Please show proof of registration by providing a link to an official Government site.</p>
+          <p>Please show proof of official/legal registration by providing a link
+            to a searchable database that contains company information (for example,
+            registered office address, company status, company type, directors/officers,
+            nature of business, etc.).</p>
 
           <div class='field'>
             <%= form.url_field :government_registry_url, { label: ' ', maxlength: 2_000, placeholder: "Registry Website" } %>
