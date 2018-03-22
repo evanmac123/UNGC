@@ -17,6 +17,7 @@
             #sdg-vis.center= link_to 'Return to SDG Countries Page', data_visualization_sdgs_countries_path
           .wrapper.white-bg.full
             #feedback.center= link_to 'Please provide us with feedback',  "http://unglobalcompact.co1.qualtrics.com/jfe/form/SV_02Ka0fssi2cObkx", :target => "_blank"
+
 :javascript
   $(function() {
   	var sdgCount = #{raw @sdg_count.map { |attr| { sdg: attr.text, count: attr.answer_count, country: @country_name } }.to_json};
@@ -24,6 +25,6 @@
   });
 
   $(function() {
-    var sdgSector = #{raw @sdg_sector_breakdown.flat_map { |attr| [ sdg: attr.text, count: attr.answer_count, sector: attr.sector_name, country: @country_name ] }.to_json};
+    var sdgSector = #{raw @sdg_sector_breakdown.flat_map { |attr| [ sdg: attr.text, count: attr.answer_count, sector: attr.sector_name, country: @country.name ] }.to_json};
     drawSdgSectorCharts(sdgSector);
   });
