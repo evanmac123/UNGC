@@ -200,8 +200,7 @@ $(function(){
     toggleApSelector();
   }
 
-
-  var $primaryContactIsFinancialContact = $("input[name='organization[primary_contact_is_financial_contact]");
+  var $primaryContactIsFinancialContact = $("input[name='organization[primary_contact_is_financial_contact]']");
   if($primaryContactIsFinancialContact.length > 0) {
     var toggleFinancialFields = function() {
       var choice = $("input[name='organization[primary_contact_is_financial_contact]']:checked").val(),
