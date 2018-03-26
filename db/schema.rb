@@ -904,7 +904,7 @@ ActiveRecord::Schema.define(version: 20180305160641) do
   add_index "oauth_applications", ["uid"], name: "index_oauth_applications_on_uid", unique: true, using: :btree
 
   create_table "organization_social_networks", force: :cascade do |t|
-    t.integer  "organization_id", limit: 4,  null: false
+    t.integer  "organization_id",            null: false
     t.string   "network_code",    limit: 30, null: false
     t.string   "handle",          limit: 50, null: false
     t.datetime "created_at",                 null: false
@@ -1118,11 +1118,11 @@ ActiveRecord::Schema.define(version: 20180305160641) do
   end
 
   create_table "salesforce_records", force: :cascade do |t|
-    t.string   "record_id",  limit: 18, null: false
+    t.string   "record_id",  limit: 18,  null: false
     t.integer  "rails_id"
-    t.string   "rails_type"
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
+    t.string   "rails_type", limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   add_index "salesforce_records", ["rails_type", "rails_id"], name: "salesforce_rails_type_idx", using: :btree
