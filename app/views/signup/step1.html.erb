@@ -71,7 +71,7 @@
 
         <div class='field field-required'>
           <%= form.label :precise_revenue, t("level_of_participation.confirm_annual_revenue") %>
-          <%= form.text_field :precise_revenue, placeholder: "$000,000.00" %>
+          <%= form.text_field :precise_revenue, placeholder: "$000,000", value: form.object.precise_revenue_dollars %>
         </div>
 
         <div class="field" id="select-subsidary">

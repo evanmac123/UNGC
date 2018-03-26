@@ -43,7 +43,10 @@
     <h4>Please provide us with updated revenue information</h4>
     <div class="field">
       <%= f.label :revenue, t("action_platform.revenue_label") %>
-      <%= f.text_field :revenue %>
+      <%= f.text_field(:revenue,
+                       value: f.object.revenue_dollars,
+                       placeholder: "$000,000"
+      ) %>
     </div>
   </section>
 

@@ -930,6 +930,13 @@ class Organization < ActiveRecord::Base
 
   alias_method :engagement_tier, :level_of_participation
 
+  def precise_revenue_dollars
+    dollars = precise_revenue&.dollars&.to_i
+    if dollars.present? && dollars > 0
+      dollars
+    end
+  end
+
   private
 
     def set_participant_manager

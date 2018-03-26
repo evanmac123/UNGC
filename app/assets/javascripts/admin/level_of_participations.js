@@ -29,7 +29,7 @@ $(function() {
 
   $revenue.priceFormat({
     prefix: "$",
-    centsLimit: 2,
+    centsLimit: 0,
     clearOnEmpty: true
   });
 

@@ -165,7 +165,7 @@ $(function(){
   var $revenue = $("#organization_precise_revenue");
   $revenue.priceFormat({
     prefix: "$",
-    centsLimit: 2,
+    centsLimit: 0,
     clearOnEmpty: true
   });
 

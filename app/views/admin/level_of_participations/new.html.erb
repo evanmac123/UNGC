@@ -77,7 +77,11 @@
 
       <div class="field">
         <%= form.label :annual_revenue, t("level_of_participation.confirm_annual_revenue") %>
-        <%= form.text_field :annual_revenue, data: @form.invoicing_options %>
+        <%= form.text_field(:annual_revenue,
+                            value: form.object.annual_revenue_dollars,
+                            data: @form.invoicing_options,
+                            placeholder: "$000,000"
+        ) %>
       </div>
 
       <section class="lop-form">

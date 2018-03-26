@@ -76,6 +76,13 @@ module ActionPlatform
       @order.id
     end
 
+    def revenue_dollars
+      dollars = revenue&.dollars&.to_i
+      if dollars.present? && dollars > 0
+        dollars
+      end
+    end
+
     private
 
     def update_organization_revenue

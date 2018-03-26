@@ -273,6 +273,13 @@ class Organization::LevelOfParticipationForm
     subscriptions.values.select(&:selected)
   end
 
+  def annual_revenue_dollars
+    dollars = annual_revenue&.dollars&.to_i
+    if dollars.present? && dollars > 0
+      dollars
+    end
+  end
+
   private
 
   def create_financial_contact(organization)
