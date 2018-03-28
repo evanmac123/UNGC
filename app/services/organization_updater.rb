@@ -10,7 +10,11 @@ class OrganizationUpdater
   def create_signatory_organization
     signings = organization_params.delete(:signings)
     @organization = Organization.new(organization_params)
-    organization.set_non_participant_fields
+
+    organization.organization_type = OrganizationType.signatory
+    organization.state = ApprovalWorkflow::STATE_APPROVED
+    organization.participant = false
+    organization.active = false
 
     if valid? && organization.save
       # XXX this seems to be optional
@@ -50,7 +54,10 @@ class OrganizationUpdater
 
     def update_state
       organization.state = Organization::STATE_IN_REVIEW if organization.state == Organization::STATE_PENDING_REVIEW
-      organization.set_manual_delisted_status if organization_params[:cop_state] == Organization::COP_STATE_DELISTED
+      if organization_params[:cop_state] == Organization::COP_STATE_DELISTED && organization.participant?
+        organization.cop_state = Organization::COP_STATE_DELISTED
+        organization.active = false
+      end
     end
 
     def save_registration(par)

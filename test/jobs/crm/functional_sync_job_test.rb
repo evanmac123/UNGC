@@ -106,6 +106,27 @@ module Crm
       refute_nil restforce.find_contact(contact.id)
     end
 
+    test "Approving a Micro Enterprise also creates it in the changes its organization type to SME" do
+      restforce = mock_restforce
+
+      organization = create(:organization, name: "New Org", employees: 5)
+
+      account = restforce.find_account(organization.id)
+
+      assert_not_nil account
+      assert_equal "New Org", account.Name
+      refute account.Active_c__c
+      assert_equal "Micro Enterprise", account.Type
+      assert_equal 5, account.NumberOfEmployees
+
+      organization.approve!
+
+      account = restforce.find_account(organization.id)
+
+      assert account.Active_c__c
+      assert_equal "SME", account.Type
+    end
+
     test "creating a contact also creates it in the CRM" do
       restforce = mock_restforce
 

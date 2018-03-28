@@ -149,7 +149,7 @@ class Organization < ActiveRecord::Base
   acts_as_commentable
 
   before_create :set_participant_manager
-  before_save :check_micro_enterprise_or_sme
+  before_save :set_business_type
   before_save :set_non_business_sector_and_listing_status
   before_save :set_initiative_signatory_sector
   before_destroy :delete_contacts
@@ -170,9 +170,9 @@ class Organization < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 100
 
-  COP_STATE_ACTIVE = 'active'.freeze
-  COP_STATE_NONCOMMUNICATING = 'noncommunicating'.freeze
-  COP_STATE_DELISTED = 'delisted'.freeze
+  COP_STATE_ACTIVE = 'active'
+  COP_STATE_NONCOMMUNICATING = 'noncommunicating'
+  COP_STATE_DELISTED = 'delisted'
 
   COP_STATES = {
     :active => COP_STATE_ACTIVE,
@@ -245,8 +245,34 @@ class Organization < ActiveRecord::Base
     logo_misuse:          'Logo Misuse'
   }
 
+  # Approval Workflow Event Overrides
+  def approve
+    set_next_cop_due_date_and_cop_status!
+
+    self.active = true
+    self.participant = true
+    self.joined_on = Date.current
+
+    super # commits the state and approved fields together
+  end
+
+  def reject
+    self.rejected_on = Date.current
+    super
+  end
+
+  def reject_micro
+    self.rejected_on = Date.current
+    super
+  end
+
+  def network_review
+    self.network_review_on = Date.current
+    self.review_reason = nil
+    super
+  end
+
   state_machine :cop_state, :initial => :active do
-    after_transition :on => :delist, :do => :set_delisted_status
     event :communication_late do
       transition :from => :active, :to => :noncommunicating
     end
@@ -256,6 +282,23 @@ class Organization < ActiveRecord::Base
     event :communication_received do
       transition :from => [:noncommunicating, :delisted], :to => :active
     end
+    event :withdraw do
+      transition from: [:active, :noncommunicating], to: :delisted
+    end
+  end
+
+  def withdraw
+    self.removal_reason = RemovalReason.withdrew
+    self.active = false
+    self.delisted_on = Time.current
+    super
+  end
+
+  def delist
+    self.removal_reason = RemovalReason.delisted
+    self.active = false
+    self.delisted_on = Time.current
+    super
   end
 
   enum level_of_participation: {
@@ -302,13 +345,8 @@ class Organization < ActiveRecord::Base
   scope :withdrew, -> { delisted.where(removal_reason: RemovalReason.withdrew).includes(:removal_reason) }
 
 
-  def self.with_cop_status(filter_type)
-    statuses = if filter_type.is_a?(Array)
-      filter_type.map { |t| COP_STATES[t] }
-    else
-      COP_STATES[filter_type]
-    end
-    where(cop_state: statuses)
+  def self.with_cop_status(*filter_type)
+    where(cop_state: filter_type)
   end
 
   def self.with_cop_info
@@ -555,10 +593,6 @@ class Organization < ActiveRecord::Base
     listing_status&.name == 'Publicly Listed'
   end
 
-  def micro_enterprise?
-    organization_type_id == OrganizationType.micro_enterprise&.id
-  end
-
   def signatory_of?(initiative_sym)
     initiative_id = Initiative.for_filter(initiative_sym).pluck(:id).first
     initiative_ids.include?(initiative_id)
@@ -610,7 +644,7 @@ class Organization < ActiveRecord::Base
   end
 
   def business_entity?
-    organization_type&.business? || micro_enterprise?
+    organization_type&.business? || organization_type&.micro_enterprise?
   end
 
   # to identify non-participants that were added as signatories
@@ -712,39 +746,9 @@ class Organization < ActiveRecord::Base
     CommunicationOnProgress::LearnerPolicy.new(self).is_triple_learner?
   end
 
-  def rejected?
-    state == ApprovalWorkflow::STATE_REJECTED
-  end
-
-  def noncommunicating?
-    cop_state == COP_STATE_NONCOMMUNICATING
-  end
-
-  # FIXME it is very confusing to have .active? refer to cop_state here
-  # It is also shadowing the rails-provided method active? for the #active field
-  def active?
-    cop_state == COP_STATE_ACTIVE
-  end
-
-  def delisted?
-    cop_state == COP_STATE_DELISTED
-  end
-
   # Is currently expelled. See also: Organization#was_expelled?
   def expelled?
     delisted? && was_expelled?
-  end
-
-  def withdraw
-    self.cop_state = COP_STATE_DELISTED
-    self.removal_reason = RemovalReason.withdrew
-    self.delisted_on = Time.current
-    self.active = false
-  end
-
-  def withdraw!
-    withdraw
-    save!
   end
 
   def participant_for_less_than_years(years)
@@ -795,49 +799,10 @@ class Organization < ActiveRecord::Base
     false
   end
 
-  def set_approved_fields
-    set_next_cop_due_date_and_cop_status!
-    set_approved_on
-  end
-
-  def set_non_participant_fields
-    self.organization_type = OrganizationType.signatory
-    self.state = ApprovalWorkflow::STATE_APPROVED
-    self.participant = false
-    self.active = false
-  end
-
-  def set_rejected_fields
-    self.rejected_on = Date.current
-    self.save
-  end
-
   # called after OrganizationMailer.reject_microenterprise
   def set_rejected_names
     self.update_attribute :name, name + ' (rejected)'
     self.contacts.each {|c| c.rejected_organization_email}
-  end
-
-  def set_network_review
-    self.network_review_on = Date.current
-    self.review_reason = nil
-    self.save
-  end
-
-  def set_approved_on
-    self.active = true
-    self.participant = true
-    self.joined_on = Date.current
-    self.save
-  end
-
-  def set_delisted_status
-    self.update_columns(active: false, removal_reason_id: RemovalReason.delisted.id, delisted_on: Date.current)
-  end
-
-  def set_manual_delisted_status
-    self.cop_state = Organization::COP_STATE_DELISTED if participant?
-    self.active = false if participant?
   end
 
   # predict delisting date based on current status and COP due date
@@ -893,7 +858,7 @@ class Organization < ActiveRecord::Base
   end
 
   def requires_delisted_on?
-    active == false && cop_state == COP_STATE_DELISTED
+    !active && delisted?
   end
 
   def welcome_package?
@@ -958,15 +923,15 @@ class Organization < ActiveRecord::Base
       end
     end
 
-    def check_micro_enterprise_or_sme
+    def set_business_type
       # we don't make assumptions if there is no employee information
       if business_entity? && employees.present?
-        self.organization_type_id = if employees < 10 && !approved?
-          OrganizationType&.micro_enterprise&.id
+        self.organization_type = if employees < 10 && !approved?
+          OrganizationType.micro_enterprise
         elsif employees < 250
-          OrganizationType&.sme&.id
+          OrganizationType.sme
         elsif employees >= 250
-          OrganizationType&.company&.id
+          OrganizationType.company
         end
       end
     end

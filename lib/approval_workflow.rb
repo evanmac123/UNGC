@@ -22,10 +22,6 @@ module ApprovalWorkflow
       belongs_to :reviewer, :class_name => 'Contact'
 
       state_machine :state, :initial => :pending_review do
-        after_transition :on => :approve, :do => :set_approved_fields
-        after_transition :on => :reject, :do => :set_rejected_fields
-        after_transition :on => :reject_micro, :do => :set_rejected_fields
-        after_transition :on => :network_review, :do => :set_network_review
         event :save_as_draft do
           transition :from => :initial, :to => :draft
         end

@@ -72,7 +72,7 @@ class OrganizationTest < ActiveSupport::TestCase
                                           organization_type: OrganizationType.company,
                                           state: ApprovalWorkflow::STATE_APPROVED)
       assert_equal OrganizationType.sme, @organization.organization_type
-      assert !@organization.micro_enterprise?
+      assert !@organization.organization_type.micro_enterprise?
     end
 
     should "set the organization type to Micro Enterprise when it has less than 10 employees
@@ -81,7 +81,7 @@ class OrganizationTest < ActiveSupport::TestCase
                              employees: 2,
                              organization_type: OrganizationType.company,
                              state: ApprovalWorkflow::STATE_PENDING_REVIEW)
-      assert @organization.micro_enterprise?
+      assert @organization.organization_type.micro_enterprise?
 
     end
 
@@ -519,6 +519,18 @@ class OrganizationTest < ActiveSupport::TestCase
 
     organization.update(precise_revenue: Money.from_amount(1))
     assert_equal "less than USD 50 million", organization.revenue_description
+  end
+
+  test 'with_cop_status parameters' do
+    active_org = create(:organization, active: true, cop_state: Organization::COP_STATE_ACTIVE)
+    non_comm_org = create(:organization, cop_state: Organization::COP_STATE_NONCOMMUNICATING)
+    delisted_org = create(:delisted_participant)
+
+    assert_includes Organization.with_cop_status(:active).ids, active_org.id
+    assert_equal [non_comm_org.id], Organization.with_cop_status(:noncommunicating).ids
+    assert_equal [delisted_org.id], Organization.with_cop_status(:delisted).ids
+    assert_same_elements [non_comm_org.id, delisted_org.id],
+                         Organization.with_cop_status(:delisted, :noncommunicating).ids
   end
 
 end
