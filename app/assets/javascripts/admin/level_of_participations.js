@@ -34,13 +34,13 @@ $(function() {
   });
 
   var toggleInvoiceDateSelector = function() {
-    var revenueInCents = $revenue.unmask(),
+    var revenueInDollars = $revenue.unmask(),
         businessModel = $revenue.data("type"),
         showInvoiceDate = false;
 
     if(businessModel === "global_local") {
-      var threshold = $revenue.data("threshold-in-cents");
-      if(revenueInCents >= threshold) {
+      var threshold = $revenue.data("threshold-in-dollars");
+      if(revenueInDollars >= threshold) {
         showInvoiceDate = $revenue.data("global");
       } else {
         showInvoiceDate = $revenue.data("local");

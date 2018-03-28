@@ -95,7 +95,7 @@ class Organization::InvoicingPolicy
     def to_h
       {
         type: @local_network.business_model,
-        threshold_in_cents: THRESHOLD.cents,
+        threshold_in_dollars: THRESHOLD.dollars.to_i,
         local: @local_network.invoice_options_available == "yes",
         global: true,
       }

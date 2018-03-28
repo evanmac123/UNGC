@@ -141,7 +141,7 @@ class Organization::InvoicingPolicyTest < ActiveSupport::TestCase
 
     expected = {
       type: "global_local",
-      threshold_in_cents: 1_000_000_000_00,
+      threshold_in_dollars: 1_000_000_000,
       local: false,
       global: true
     }
