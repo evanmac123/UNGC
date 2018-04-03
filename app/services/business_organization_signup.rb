@@ -97,7 +97,7 @@ class BusinessOrganizationSignup < OrganizationSignup
   end
 
   def select_participation_level(params)
-    level = params.fetch(:level_of_participation)
+    level = params[:level_of_participation]
     real_level = if level == "lead_level"
                    "participant_level"
                  else
