@@ -37,7 +37,6 @@ class ContactsMailMerge < SimpleReport
       'Role',
       'Username',
       'Welcome Package',
-      'Financail Contact'
     ]
   end
 
