@@ -5,7 +5,7 @@ class LocalNetworkParticipantContacts < SimpleReport
     Contact
         .visible_to(user)
         .participants_only
-        .for_roles(Role.ceo, Role.contact_point)
+        .for_roles(Role.ceo, Role.contact_point, Role.financial_contact)
         .includes(:country, organization: [:sector, :country, :organization_type])
         .order("organizations.name")
 

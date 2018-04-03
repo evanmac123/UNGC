@@ -47,7 +47,7 @@ class ContactsForMailMerge < SimpleDelegator
       .where("o.cop_state IN (:cop_states) AND
                      o.participant = :participant AND
                      t.name NOT IN ('Media Organization', 'GC Networks', 'Mailing List') AND
-                     contacts_roles.role_id IN (:roles)", cop_states: cop_states, participant: true, roles: [Role.ceo, Role.contact_point])
+                     contacts_roles.role_id IN (:roles)", cop_states: cop_states, participant: true, roles: [Role.ceo, Role.contact_point, Role.financial_contact])
   end
 
 end
