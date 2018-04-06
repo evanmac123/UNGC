@@ -70,7 +70,7 @@ class Searchable < ActiveRecord::Base
       searchable = new_searchable(model)
 
       if searchable.nil?
-        log.err "Failed to find searchable for: #{model.id}"
+        log.error "Failed to find searchable for: #{model.id}"
         return
       end
 
