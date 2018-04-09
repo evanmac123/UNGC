@@ -37,7 +37,6 @@ class BusinessOrganizationSignup < OrganizationSignup
 
     if primary_contact_is_financial_contact
       primary_contact.roles << Role.financial_contact
-      financial_contact = primary_contact
     else
       # fixes bug caused by storing signup and related objects in session (in rails4)
       financial_contact.roles.reload
@@ -47,7 +46,12 @@ class BusinessOrganizationSignup < OrganizationSignup
 
     if @ap_subscriptions.any?
       organization = @organization.organization # Sigh, unwrap the form object
-      order_service = ActionPlatform::OrderService.new(organization, financial_contact)
+      contact = if primary_contact_is_financial_contact
+                  primary_contact
+                else
+                  financial_contact
+                end
+      order_service = ActionPlatform::OrderService.new(organization, contact)
 
       @ap_subscriptions.each do |subscription|
         contact_index = subscription.contact_id
