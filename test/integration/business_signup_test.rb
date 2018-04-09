@@ -195,6 +195,8 @@ class BusinessSignupTest < ActionDispatch::IntegrationTest
   end
 
   test "financial contact can be the same as primary contact"  do
+    platform = create(:action_platform_platform)
+
     step1 = TestPage::Signup::Step1.new
     # step 1
     step1 = TestPage::Signup::Step1.new
@@ -253,7 +255,8 @@ class BusinessSignupTest < ActionDispatch::IntegrationTest
     assert_equal organization_step4_path, current_path, validation_errors
 
     # step4 level of participation, invoice date, action platforms
-    step4.select_engagement_tier("PARTICIPANT")
+    step4.select_engagement_tier("PARTICIPANT + ACTION PLATFORMS & LEAD ELIGIBILITY")
+    step4.subscribe_to_action_platform(platform, "Michael Henry")
     step5 = step4.submit
     assert_equal organization_step5_path, current_path, validation_errors
 
