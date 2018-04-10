@@ -1,0 +1,7 @@
+- if organization.should_show_exclusionary_criteria?
+  %dl.left_column{ role: "exclusionary-criteria" }
+    %h3 Exclusionary Criteria
+    %dt.first= t('activerecord.attributes.organization.is_tobacco')
+    %dd.first= excluded_by_criteria?(organization.is_tobacco)
+    %dt= t('activerecord.attributes.organization.is_landmine')
+    %dd= excluded_by_criteria?(organization.is_landmine)

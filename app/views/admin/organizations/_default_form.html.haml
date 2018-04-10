@@ -44,6 +44,12 @@
   = default_form.fields_for(:social_network_handles) do |fields|
     = render 'social_network_handle_fields', f: fields
 
+- if @organization.can_edit_exclusionary_criteria?
+  %fieldset{ role: 'exclusionary-criteria' }
+    %legend Exclusionary Criteria
+    = default_form.check_box :is_tobacco
+    = default_form.check_box :is_landmine
+
 - if @organization.can_edit_video?
   %fieldset.video
     %legend Video

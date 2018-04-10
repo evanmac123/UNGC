@@ -61,13 +61,27 @@ class AdminControllerTest < ActionController::TestCase
     end
   end
 
+  should "show exclusionary criteria when the policy allows it" do
+    contact = create(:contact)
+    create(:organization, :active_participant, contacts: [contact])
+    sign_in contact
+
+    # When we visit the page
+    get :dashboard
+    assert_response :success
+
+    # We see them
+    assert_select "*[role='exclusionary-criteria']"
+  end
 
   private
-    def add_organization_data(organization, user)
-      # add some content to the organization
-      create(:logo_publication)
-      create_cop(organization.id)
-      create(:logo_request, :organization_id => organization.id,
-                          :contact_id      => user.id)
-    end
+
+  def add_organization_data(organization, user)
+    # add some content to the organization
+    create(:logo_publication)
+    create_cop(organization.id)
+    create(:logo_request, :organization_id => organization.id,
+      :contact_id      => user.id)
+  end
+
 end

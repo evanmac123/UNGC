@@ -69,6 +69,8 @@
       %dt Contact Point
       %dd= render :partial => 'admin/organizations/contact_overview', :collection => @organization.contacts.contact_points
 
+    = render(partial: "shared/exclusionary_criteria", locals: { organization: @organization })
+
     - if local_network_and_contact_exists?
       %dl.left_column
         %h3 Local Network #{@organization.local_network_name}

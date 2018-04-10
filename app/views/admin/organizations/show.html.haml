@@ -98,7 +98,9 @@
       - else
         %dd{:style => 'color: red'} Not assigned
 
-    -staff_only do
+    = render(partial: "shared/exclusionary_criteria", locals: { organization: @organization })
+
+    - staff_only do
       %dl.left_column
         %h3 Welcome Package
         %dt.first Requested?

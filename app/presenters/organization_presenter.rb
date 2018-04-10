@@ -3,7 +3,10 @@
 class OrganizationPresenter < SimpleDelegator
   attr_reader :organization, :policy
 
-  delegate :can_edit_video?, to: :policy
+  delegate \
+    :can_edit_video?,
+    :can_edit_exclusionary_criteria?,
+    to: :policy
 
   def initialize(organization, contact)
     super(organization)
@@ -41,4 +44,9 @@ class OrganizationPresenter < SimpleDelegator
         .includes(:platform, :order, :contact)
         .order(starts_on: :desc, platform_id: :asc)
   end
+
+  def should_show_exclusionary_criteria?
+    @policy.can_view_exclusionary_criteria?
+  end
+
 end

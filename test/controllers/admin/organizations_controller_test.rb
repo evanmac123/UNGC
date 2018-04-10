@@ -306,4 +306,74 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
 
   end
 
+  context "showing exclusionary criteria" do
+
+    should "show when the policy allows it" do
+      sign_in create(:staff_contact)
+      organization = create(:organization)
+
+      # Given we should be showing exclusionary criteria
+      OrganizationPresenter.any_instance
+        .expects(:should_show_exclusionary_criteria?)
+        .returns(true)
+
+      # When we visit the page
+      get :show, id: organization
+      assert_response :success
+
+      # We see them
+      assert_select "*[role='exclusionary-criteria']"
+    end
+
+    should "not show the policy denies it" do
+      sign_in create(:staff_contact)
+      organization = create(:organization)
+
+      # Given we should be showing exclusionary criteria
+      OrganizationPresenter.any_instance
+        .expects(:should_show_exclusionary_criteria?)
+        .returns(false)
+
+      # When we visit the page
+      get :show, id: organization
+      assert_response :success
+
+      # We don't see them
+      assert_select "*[role='exclusionary-criteria']", false
+    end
+
+  end
+
+  context "Editing exclusionary criteria" do
+
+    should "show the fields when allowed" do
+      sign_in @user
+
+      # Given we should be allowed to edit exclusionary criteria
+      OrganizationPresenter.any_instance
+        .expects(:can_edit_exclusionary_criteria?)
+        .returns(true)
+
+      get :edit, id: @user.organization
+
+      assert_response :success
+      assert_select "input[name='organization[is_landmine]']"
+    end
+
+    should "not show the fields when denied" do
+      sign_in @user
+
+      # Given we should NOT be allowed to edit exclusionary criteria
+      OrganizationPresenter.any_instance
+        .expects(:can_edit_exclusionary_criteria?)
+        .returns(false)
+
+      get :edit, id: @user.organization
+
+      assert_response :success
+      assert_select "input[name='organization[is_landmine]']", false
+    end
+
+  end
+
 end

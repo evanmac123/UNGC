@@ -188,6 +188,13 @@ module Admin::OrganizationsHelper
     link_to(name, '', class: "add_fields", data: { id: id, fields: fields.gsub("\n", "")})
   end
 
+  def excluded_by_criteria?(boolean)
+    if boolean
+      content_tag("span", "Yes", class: "danger")
+    else
+      "No"
+    end
+  end
 
   private
 
