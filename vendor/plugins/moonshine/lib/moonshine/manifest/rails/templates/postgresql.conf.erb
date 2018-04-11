@@ -63,7 +63,7 @@ max_connections = 100			# (change requires restart)
 # connection slot, plus lock space (see max_locks_per_transaction).  You might
 # also need to raise shared_buffers to support more connections.
 #superuser_reserved_connections = 3	# (change requires restart)
-unix_socket_directories = '/var/run/postgresql'		# (change requires restart)
+unix_socket_directory = '/var/run/postgresql'		# (change requires restart)
 #unix_socket_group = ''			# (change requires restart)
 #unix_socket_permissions = 0777		# begin with 0 to use octal notation
 					# (change requires restart)
@@ -168,6 +168,7 @@ shared_buffers = 24MB			# min 128kB or max_connections*16kB
 
 # - Checkpoints -
 
+#checkpoint_segments = 3		# in logfile segments, min 1, 16MB each
 #checkpoint_timeout = 5min		# range 30s-1h
 #checkpoint_completion_target = 0.5	# checkpoint target duration, 0.0 - 1.0
 #checkpoint_warning = 30s		# 0 is off
@@ -489,3 +490,4 @@ default_text_search_config = 'pg_catalog.english'
 # CUSTOMIZED OPTIONS
 #------------------------------------------------------------------------------
 
+#custom_variable_classes = ''		# list of custom variable class names

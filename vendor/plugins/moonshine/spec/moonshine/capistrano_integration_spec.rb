@@ -137,7 +137,7 @@ describe Moonshine::CapistranoIntegration, "loaded into a configuration" do
 
   context "ssh options" do
     it "is made unparanoid" do
-      @configuration.ssh_options[:verify_host_key].should == false
+      @configuration.ssh_options[:paranoid].should == false
     end
 
     it "forwards key agents" do

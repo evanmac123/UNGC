@@ -10,6 +10,7 @@
 
 :scout:
   :agent_key: KnvHOr7ncTokxsZ0PGEcpDSXWoI4cvZweyVIHAdS
+  :scoutd: true
 
 :webdav:
   :domain: webdav.unglobalcompact.org
