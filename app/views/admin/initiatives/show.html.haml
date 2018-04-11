@@ -5,7 +5,16 @@
   %li= link_to 'Back to Initiatives', admin_initiatives_path, :class => 'go_back_large'
 %p
 #add_signatory{:style => 'display: none;'}
-  = render :partial => 'admin/signings/form'
+  = form_for @signing = @initiative.signings.new(:added_on => Date.current), builder: DefaultFormBuilder, :url => admin_initiative_signings_path(@initiative) do |form|
+    %fieldset{:style => 'width: 50%;'}
+      %ol
+        %li
+          %label Organization
+          %input{ type: "text", data: { autocomplete: "unsigned_participants", "autocomplete-target": "#signing_organization_id" } }
+        %li= form.text_field :added_on, {class: 'datepicker iso-date'}, :label => 'Signing Date', :class => 'datepicker iso-date'
+      = form.hidden_field :organization_id
+    = form.submit 'Add'
+
 %p
 %table.dashboard_table
   %tr

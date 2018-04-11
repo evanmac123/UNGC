@@ -4,14 +4,13 @@ class Api::V1::AutocompleteController < ApplicationController
     render json: autocomplete(Organization.active.participants)
   end
 
-  def organizations
-    # Only for staff
-    organizations = if current_contact.from_ungc?
-      Organization.all
-    else
-      Organization.none
-    end
-    render json: autocomplete(organizations)
+  def unsigned_participants
+    organizations = Organization.unsigned_participants
+    render json: autocomplete(organizations, staff_only: true)
+  end
+
+  def organgzations
+    render json: autocomplete(Organization.all, staff_only: true)
   end
 
   def events
@@ -36,7 +35,9 @@ class Api::V1::AutocompleteController < ApplicationController
 
   private
 
-  def autocomplete(scope)
+  def autocomplete(scope, staff_only: false)
+    return scope.none if staff_only && !current_contact.from_ungc?
+
     AutocompleteQuery.new(scope).search(term)
   end
 

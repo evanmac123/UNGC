@@ -343,7 +343,8 @@ class Organization < ActiveRecord::Base
 
   scope :expelled, -> { delisted.where(removal_reason: RemovalReason.delisted) } # currently delisted for failure to communicate
   scope :withdrew, -> { delisted.where(removal_reason: RemovalReason.withdrew).includes(:removal_reason) }
-
+  scope :unsigned, -> { where.not(id: Signing.select(:organization_id)) }
+  scope :unsigned_participants, -> { active.unsigned.participants }
 
   def self.with_cop_status(*filter_type)
     where(cop_state: filter_type)

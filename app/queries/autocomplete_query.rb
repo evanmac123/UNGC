@@ -13,7 +13,7 @@ class AutocompleteQuery
   def do_search(search_term)
     @model.select(:id, :name)
           .order(:name)
-          .where("name like ?", "%#{search_term}%")
+          .where("name ilike ?", "%#{search_term}%")
   end
 
   private

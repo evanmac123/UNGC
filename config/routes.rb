@@ -220,6 +220,7 @@ UNGC::Application.routes.draw do
 
       namespace :autocomplete do
         get :participants
+        get :unsigned_participants
         get :organizations
         get :events
         get :countries
