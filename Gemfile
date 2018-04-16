@@ -60,6 +60,7 @@ gem 'saml_idp', '~> 0.7.2'
 gem 'faraday'
 gem 'faraday-cookie_jar'
 gem 'awesome_print', require: 'ap'
+gem 'bootsnap', require: false
 
 group :development do
   gem 'thin'
