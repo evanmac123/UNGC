@@ -9,7 +9,7 @@
 
   %body{:class => (@body_class || "form")}
     %p.letterhead
-    %p.center.address EMAIL: GLOBALCOMPACT@UN.ORG TEL: +1 212 963 1490
+    %p.center.address EMAIL: INFO@UNGLOBALCOMPACT.ORG TEL: +1 212 963 1490
     %p.right= dd_month_yyyy @organization.joined_on
     %p== Dear #{@organization.contacts.ceos.first.name_with_title},
     #content= yield

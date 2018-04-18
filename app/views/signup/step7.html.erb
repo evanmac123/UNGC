@@ -14,7 +14,7 @@
 
     <p>If you do not receive an email from the UN Global Compact, please check whether the message has been mislabeled as spam mail. To ensure timely delivery of communications from the UN Global Compact, your email server should be configured to accept messages from <strong><%= mail_to 'info@unglobalcompact.org' -%></strong>. For further assistance, please contact your technology staff or network administrator.</p>
 
-    <p>If you still do not receive a confirmation email, please contact <%= mail_to "globalcompact@un.org?subject=Online%20Application%20ID%20#{@signup.organization.id}", 'globalcompact@un.org' -%> and reference Application ID <%= @signup.organization.id -%>.</p>
+    <p>If you still do not receive a confirmation email, please contact <%= mail_to "info@unglobalcompact.org?subject=Online%20Application%20ID%20#{@signup.organization.id}", 'info@unglobalcompact.org' -%> and reference Application ID <%= @signup.organization.id -%>.</p>
 
     <%- if @signup.organization.academic? -%>
       <div class='prme'>
