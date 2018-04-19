@@ -61,12 +61,13 @@ module Snapshot
       adapter = config.fetch(:adapter)
       database = config.fetch(:database)
       host = config[:host]
-      username = config[:username]
+      username = config[:user]
       password = config[:password]
+      port = config[:port]
 
       case adapter
       when "mysql2" then Strategy::Mysql.new(database, host, username, password)
-      when "postgresql" then Strategy::Postgres.new(database, host, username)
+      when "postgresql" then Strategy::Postgres.new(database, host, username, port)
       else
         raise "No Snapshot adapter matching: #{adapter}"
       end

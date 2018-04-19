@@ -3,21 +3,23 @@ module Snapshot
     class Postgres
       attr_reader :remote_dir, :local_dir, :ssh_host
 
-      def initialize(database, host, username)
+      def initialize(database, host, username, port = 5432)
         @database = database
         @username = username
         @host = host
+        @port = port
         @remote_dir = "/home/rails/ungc/pg_dumps"
         @local_dir = "./tmp/pg_snapshots"
         @ssh_host = "unglobalcompact.org"
       end
 
       def restore(snapshot_path)
-        cmd = ['pg_restore', "-d #{@database}", "--no-owner"]
+        cmd = ['pg_restore', "-d #{@database}", "--no-owner", "--no-privileges"]
         cmd << "-U #{@username}" if @username.present?
         cmd << "-h #{@host}" if @host.present?
+        cmd << "-p #{@port}"
         cmd << snapshot_path
-        system cmd.join(" ").tap(&method(:ap))
+        system(cmd.join(" "))
       end
 
       def post_restore_tasks
