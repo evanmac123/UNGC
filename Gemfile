@@ -61,6 +61,7 @@ gem 'faraday'
 gem 'faraday-cookie_jar'
 gem 'awesome_print', require: 'ap'
 gem 'bootsnap', require: false
+gem 'with_advisory_lock', '~> 3.2'
 
 group :development do
   gem 'thin'

@@ -18,6 +18,14 @@ class SalesforceSyncTest < ActiveSupport::TestCase
       end
     end
 
+    should "handle campaign race conditions" do
+      cause_race_condition_with(create_campaign_job)
+    end
+
+    should "handle contribution race conditions" do
+      cause_race_condition_with(create_contribution_job)
+    end
+
   end
 
   context 'updating records' do
@@ -120,6 +128,21 @@ class SalesforceSyncTest < ActiveSupport::TestCase
       raw_amount: params.fetch(:raw_amount, 20000.0),
       payment_type: params.fetch(:payment_type, nil),
     }
+  end
+
+  def cause_race_condition_with(job)
+    5.times do
+      assert (ActiveRecord::Base.connection.pool.size >= 5)
+      concurrency_level = ActiveRecord::Base.connection.pool.size - 1
+
+      threads = concurrency_level.times.map do |i|
+        Thread.new do
+          SalesforceSync.sync([job.dup])
+        end
+      end
+
+      threads.each(&:join)
+    end
   end
 
 end

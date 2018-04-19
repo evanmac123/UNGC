@@ -5,6 +5,51 @@ class SalesforceSync
     new(jobs).process
   end
 
+  def self.sync_async(jobs)
+    Worker.perform_async(jobs)
+  end
+
+  def initialize(jobs)
+    @jobs = Array(jobs)
+  end
+
+  def process
+    m = method(:process_one)
+    jobs.map(&m).all?
+  end
+
+  private
+
+  def process_one(job_args)
+    args = job_args.with_indifferent_access
+
+    type = args.delete(:type)
+    id = args.delete(:id)
+    model_class = type.titlecase.constantize
+    field = "#{type}_id"
+
+    model_class.with_advisory_lock(id) do
+      model_class.transaction do
+        record = model_class.find_by(field => id)
+        case
+        when record.nil? && args[:is_deleted] == true
+          show_delete_warning
+        when record.nil?
+          model_class.create!(args.merge(field => id))
+        when record.present?
+          record.update!(args)
+        end
+      end
+    end
+  end
+
+  def show_delete_warning
+    Rails.logger.warn(<<-WARNING)
+            The record #{id} is being deleted, but we never had it
+            in the first place. Ignoring the command.
+          WARNING
+  end
+
   class Worker
     include Sidekiq::Worker
 
@@ -15,93 +60,4 @@ class SalesforceSync
 
   end
 
-  def self.sync_async(jobs)
-    Worker.perform_async(jobs)
-  end
-
-  def initialize(jobs)
-    @jobs = Array(jobs).map { |args| Job.create(args) }
-  end
-
-  def process
-    jobs.map(&:execute).all?
-  end
-
-  # Abstract job for syncing a model
-  class Job
-    attr_reader :id, :args
-
-    def self.create(args)
-      args = args.with_indifferent_access
-      type = args.delete(:type)
-      id = args.delete(:id)
-      args = args
-
-      case type
-      when 'campaign'
-        CampaignJob.new(id, args)
-      when 'contribution'
-        ContributionJob.new(id, args)
-      else
-        raise "unknown salesforce sync type: #{type}"
-      end
-    end
-
-    def initialize(id, args)
-      @id = id
-      @args = args
-    end
-
-    def execute
-      transaction do
-        record = find_record(id)
-        if record.present?
-          record.update!(args)
-        elsif args[:is_deleted] == true
-          Rails.logger.warn(<<-WARNING)
-            The record #{id} is being deleted, but we never had it
-            in the first place. Ignoring the command.
-          WARNING
-          nil
-        else
-          begin
-            create_record(args)
-          rescue ActiveRecord::RecordNotUnique
-            record = find_record(id)
-            record.update!(args)
-          end
-        end
-      end
-    end
-  end
-
-  # Syncs a Campaign
-  class CampaignJob < Job
-    def transaction(&block)
-      Campaign.transaction(&block)
-    end
-
-    def find_record(id)
-      Campaign.find_by(campaign_id: id)
-    end
-
-    def create_record(args)
-      Campaign.create!(args.merge(campaign_id: id))
-    end
-  end
-
-  # Syncs a Contribution
-  class ContributionJob < Job
-    def transaction(&block)
-      Contribution.transaction(&block)
-    end
-
-    def find_record(id)
-      Contribution.find_by(contribution_id: id)
-    end
-
-    def create_record(args)
-      Contribution.create!(args.merge(contribution_id: id))
-    end
-  end
 end
