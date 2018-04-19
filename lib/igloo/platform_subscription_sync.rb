@@ -74,6 +74,7 @@ module Igloo
       "Water Security through Stewardship" => "Water Security through Stewardship",
       "Peace, Justice and Strong Institutions" => "Justice and Strong Institutions",
       "Business for Humanitarian Action" => "Business for Humanitarian Action",
+      "Business Action Platform for the Ocean" => "Business Action Platform for the Ocean"
     }.freeze
 
   end
