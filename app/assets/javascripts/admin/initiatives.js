@@ -6,7 +6,8 @@ $(function() {
   var $textField = $("input[data-autocomplete]");
   var autocompleteType = $textField.data('autocomplete');
   var $autocompleteTarget = $($textField.data('autocomplete-target'));
-  var autocompleteUrl = "/api/v1/autocomplete/" + autocompleteType + ".json";
+  var initiativeId = $textField.data('initiative-id');
+  var autocompleteUrl = "/api/v1/autocomplete/" + autocompleteType + ".json?initiative_id=" + initiativeId;
 
   $textField.autocomplete({
     source: autocompleteUrl,

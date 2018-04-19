@@ -5,7 +5,8 @@ class Api::V1::AutocompleteController < ApplicationController
   end
 
   def unsigned_participants
-    organizations = Organization.unsigned_participants
+    id = params.fetch(:initiative_id)
+    organizations = Organization.unsigned_participants(id)
     render json: autocomplete(organizations, staff_only: true)
   end
 
