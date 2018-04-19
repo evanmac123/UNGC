@@ -1,0 +1,10 @@
+version: "2"
+services:
+  redis:
+    image: "redis:alpine"
+  db:
+    image: "postgres:10"
+    environment:
+      POSTGRES_PASSWORD: secret
+    ports:
+      - "5433:5432"
