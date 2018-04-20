@@ -39,6 +39,7 @@
           %th.starts_on Starts on
           %th.expires_on Expires on
           %th.type Type
+          %th.status  Status
           %th.cop_status COP Status
           %th.ce_manager CE Manager
           %th.created_at Created At
@@ -54,6 +55,7 @@
             %td.iso-date= subscription.starts_on
             %td.iso-date= subscription.expires_on
             %td= subscription.organization.organization_type_name
+            %td= subscription.organization.state.humanize
             %td= subscription.organization.cop_state.humanize
             %td= subscription.organization&.participant_manager_name
             %td.iso-date= subscription.created_at
