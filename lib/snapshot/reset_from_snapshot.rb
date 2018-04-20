@@ -61,7 +61,7 @@ module Snapshot
       adapter = config.fetch(:adapter)
       database = config.fetch(:database)
       host = config[:host]
-      username = config[:user]
+      username = config[:username]
       password = config[:password]
       port = config[:port]
 
