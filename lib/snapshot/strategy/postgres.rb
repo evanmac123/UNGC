@@ -3,11 +3,11 @@ module Snapshot
     class Postgres
       attr_reader :remote_dir, :local_dir, :ssh_host
 
-      def initialize(database, host, username, port = 5432)
+      def initialize(database, host, username, port = nil)
         @database = database
         @username = username
         @host = host
-        @port = port
+        @port = port || 5432
         @remote_dir = "/home/rails/ungc/pg_dumps"
         @local_dir = "./tmp/pg_snapshots"
         @ssh_host = "unglobalcompact.org"
