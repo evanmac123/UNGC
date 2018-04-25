@@ -7,6 +7,7 @@ module SalesforceCommitHooksConcern
     after_commit :after_create_commit, on: :create
     after_commit :after_update_commit, on: :update
     after_commit :after_destroy_commit, on: :destroy
+    after_save :accumulate_changes
   end
 
   def after_create_commit
@@ -24,10 +25,21 @@ module SalesforceCommitHooksConcern
 
   private
 
+    def accumulate_changes
+      @_transaction_changes ||= HashWithIndifferentAccess.new
+
+      changes.each do |k, v|
+        @_transaction_changes[k] = v
+      end
+    end
+
     def after_create_update_commit(action)
+      # reset transaction_changes, and keep the hash of changes
+      @_transaction_changes, changes_from_tx = HashWithIndifferentAccess.new, @_transaction_changes
+
       return unless Rails.configuration.x_enable_crm_synchronization
 
-      changes = previous_changes.except(*job_class.excluded_attributes)
+      changes = changes_from_tx.except(*job_class.excluded_attributes)
 
       # We have to serialize because ActiveJob cannot serialize a Time object
       job_class.perform_later(action, self, changes.to_json) if changes.any?
