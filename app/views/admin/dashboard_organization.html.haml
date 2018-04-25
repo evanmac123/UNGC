@@ -1,5 +1,7 @@
 - @title = 'Dashboard Overview'
+
 %h2= @organization.name
+
 %div{:class => "tab_container top_tabs"}
   %ul.tab_nav
     %li= link_to 'Overview', '#overview'
@@ -15,6 +17,19 @@
   #overview.tab_content
     %ul#contacts_tools{:class => "tools inline"}
       %li= link_to name_for_edit_link(current_contact), edit_admin_organization_path(@organization.id), :class => 'edit_large', :title => "Edit profile"
+
+
+    #should-show-engagement-modal.modal
+      .modal-content
+        .modal-header
+          %span.close ×
+          %h2
+        .modal-body
+          %p Your Organization has not selected a Level of Engagement
+          %p
+            = link_to "Click here to select a Level of Engagement", admin_choose_level_of_participation_path, class: "level-of-engagement-link"
+        .modal-footer
+          %h3
 
     %dl.left_column
       %h3 Organization Details
@@ -171,3 +186,13 @@
           = t(@organization.level_of_participation)
         - else
           = link_to "Select a Level of Engagement", admin_choose_level_of_participation_path
+
+= raw @organization.level_of_participation_view
+
+:javascript
+  $(function() {
+    var modal = document.getElementById('should-show-engagement-modal');
+    var span = document.getElementsByClassName("close")[0];
+    var participationLevel = #{raw @organization.level_of_participation_view.to_json};
+    openLevelEngagementModal(modal, span, participationLevel);
+  });
