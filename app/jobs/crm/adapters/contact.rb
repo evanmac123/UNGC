@@ -27,7 +27,7 @@ module Crm
         roles_changed = relation_changed?(:roles)
         column('Role__c', :roles, roles_changed) { |contact| picklist(contact.roles.pluck(:name)) }
         street_has_changed = changed?(:address) || changed?(:address_more)
-        column('MailingStreet', nil, street_has_changed) { |contact| contact.full_address }
+        column('MailingStreet', nil, street_has_changed) { |contact| contact.full_address.truncate(255) }
         column('MailingCity', :city) { |contact| text(contact.city, 40) }
         column('MailingState', :state)
         column('MailingPostalCode', :postal_code) { |contact| text(contact.postal_code, 20) }

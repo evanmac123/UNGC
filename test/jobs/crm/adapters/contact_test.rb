@@ -93,6 +93,15 @@ module Crm
       assert_equal "Turnpike\nSuite", converted.fetch("MailingStreet")
     end
 
+    test "truncates MailingStreet when it's too long" do
+      contact = create(:contact,
+        address: Faker::Lorem.characters(200),
+        address_more: Faker::Lorem.characters(200))
+
+      converted = convert_contact(:create, contact)
+      assert_equal 255, converted.fetch("MailingStreet").length
+    end
+
     test "converts MailingCity" do
       converted = convert_contact(:create, city: "Nelson Mandela Bay Metropolitan Municipality")
       assert_equal "Nelson Mandela Bay Metropolitan Munic...", converted.fetch("MailingCity")
