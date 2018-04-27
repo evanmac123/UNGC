@@ -183,6 +183,12 @@ class Contact < ActiveRecord::Base
   scope :for_country, lambda { |country| where(country_id: country.id) }
   scope :with_login, lambda { where("COALESCE(username, '') != ''") }
 
+  def active_for_authentication?
+    if super
+      !self.organization&.delisted?
+    end
+  end
+
   def name
     [first_name, last_name].join(' ')
   end

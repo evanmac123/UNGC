@@ -74,6 +74,17 @@ class AdminControllerTest < ActionController::TestCase
     assert_select "*[role='exclusionary-criteria']"
   end
 
+  test "contacts from delisted organization are no longer allowed to login" do
+    contact = create(:contact)
+    create(:delisted_participant, contacts: [contact])
+
+    sign_in contact
+    get :dashboard
+
+    assert_empty session
+    assert_redirected_to new_contact_session_path
+  end
+
   private
 
   def add_organization_data(organization, user)

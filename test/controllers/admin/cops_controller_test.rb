@@ -63,24 +63,6 @@ class Admin::CopsControllerTest < ActionController::TestCase
       end
     end
 
-    context "with a Delisted status" do
-      setup do
-        create_organization_and_user
-        @organization.approve!
-        # state machine requires organization to be non-communicating first
-        @organization.communication_late
-        @organization.delist
-        sign_in @organization_user
-      end
-      should "not see Grace Letter tab" do
-        assert @organization.delisted?
-        get :introduction
-        assert_response :success
-        links = assert_select 'ul.tab_nav li a'
-        assert_not_includes links.map(&:text), 'Grace Letter'
-      end
-    end
-
     context "SMEs" do
       setup do
         create_organization_and_user
