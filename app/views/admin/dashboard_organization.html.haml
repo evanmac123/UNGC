@@ -187,12 +187,24 @@
         - else
           = link_to "Select a Level of Engagement", admin_choose_level_of_participation_path
 
-= raw @organization.level_of_participation_view
+
+  - if !@organization.level_of_participation.present?
+    #should-show-engagement-modal.modal
+      .modal-content
+        .modal-header
+          %span.close ×
+          %h2
+        .modal-body
+          %p Your Organization has not selected a Level of Engagement
+          %p
+            = link_to "Click here to select a Level of Engagement", admin_choose_level_of_participation_path, class: "level-of-engagement-link"
+        .modal-footer
+          %h3
 
 :javascript
   $(function() {
     var modal = document.getElementById('should-show-engagement-modal');
     var span = document.getElementsByClassName("close")[0];
-    var participationLevel = #{raw @organization.level_of_participation_view.to_json};
+    var participationLevel = #{@organization.level_of_participation.to_json};
     openLevelEngagementModal(modal, span, participationLevel);
   });
