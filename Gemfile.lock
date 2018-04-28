@@ -1,4 +1,10 @@
 GIT
+  remote: https://github.com/MissionCapital/cookiejar.git
+  revision: 68eecc8415338c6e9d636c4f7e4d2e13547e20a2
+  specs:
+    cookiejar (0.3.2)
+
+GIT
   remote: https://github.com/amatsuda/jquery-rjs.git
   revision: 1288c097aa1c25657b46f474e3b6e1c3d84b8e76
   branch: master
@@ -139,7 +145,6 @@ GEM
     coffee-script-source (1.12.2)
     concurrent-ruby (1.0.5)
     connection_pool (2.2.1)
-    cookiejar (0.3.3)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     crass (1.0.4)
@@ -598,6 +603,7 @@ DEPENDENCIES
   capybara
   ckeditor
   coffee-rails (~> 4.2.0)
+  cookiejar!
   custom_error_message!
   database_cleaner
   databasedotcom

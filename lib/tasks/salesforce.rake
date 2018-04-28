@@ -1,30 +1,17 @@
+# frozen_string_literal: true
+
 require "faye"
 
 namespace :salesforce do
 
-  desc "listen for changes to a pushtopic"
-  task listen: :environment do
-    config = DEFAULTS[:salesforce]
-
-    Restforce.log = true
-
-    client = Restforce.new(
-      api_version: "39.0",
-      host: config.fetch(:host),
-      username: config.fetch(:username),
-      security_token: config.fetch(:token),
-      password: config.fetch(:password),
-      client_id: config.fetch(:client_id),
-      client_secret: config.fetch(:client_secret)
+  desc "starts the pushtopic listener daemon"
+  task start_listener: :environment do
+    listener = Crm::Listener.new(
+      log_file: ENV["LOGFILE"],
+      pid_file: ENV["PIDFILE"]
     )
-
-    client.authenticate!
-
-    EM.run do
-      client.subscribe 'ContactUpdates' do |message|
-        ap message
-      end
-    end
+    Rails.logger = listener.logger
+    listener.listen
   end
 
   desc "seed the salesforce contact => sf mapping"

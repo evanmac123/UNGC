@@ -59,6 +59,7 @@ gem 'stripe', '<2'
 gem 'saml_idp', '~> 0.7.2'
 gem 'faraday'
 gem 'faraday-cookie_jar'
+gem "cookiejar", :git => "https://github.com/MissionCapital/cookiejar.git"
 gem 'awesome_print', require: 'ap'
 gem 'bootsnap', require: false
 gem 'with_advisory_lock', '~> 3.2'

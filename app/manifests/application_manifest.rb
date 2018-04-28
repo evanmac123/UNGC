@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 require "#{File.dirname(__FILE__)}/../../vendor/plugins/moonshine/lib/moonshine.rb"
+
 class ApplicationManifest < Moonshine::Manifest::Rails
   include Moonshine::Dnsmasq
   include Moonshine::Postgres10
@@ -49,6 +52,7 @@ class ApplicationManifest < Moonshine::Manifest::Rails
 
   on_stage(:staging) do
     recipe :staging_cron_tasks
+    recipe :salesforce_listener
   end
 
   def staging_cron_tasks
@@ -211,6 +215,13 @@ class ApplicationManifest < Moonshine::Manifest::Rails
       :cwd => '/usr/local/src/pdfminer',
       :creates => '/usr/local/bin/pdf2txt.py',
       :require => [exec('download pdfminer'), package('python')]
+  end
+
+  def salesforce_listener
+    file "/etc/god/salesforce-listener.god",
+      mode: '644',
+      content: template(File.join(File.dirname(__FILE__), 'templates', 'salesforce-listener.god')),
+      require: package('god')
   end
 
 end

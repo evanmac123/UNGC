@@ -43,3 +43,4 @@ provisioning/roles/
 
 # RubyMine
 .idea/**
+pids/*.pid
