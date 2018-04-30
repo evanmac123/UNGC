@@ -14,11 +14,7 @@
       %li= link_to t("action_platform.labels.dashboard_tab"), "#action_platforms"
       %li= link_to 'Level of Engagement', '#level_of_engagement'
 
-  #overview.tab_content
-    %ul#contacts_tools{:class => "tools inline"}
-      %li= link_to name_for_edit_link(current_contact), edit_admin_organization_path(@organization.id), :class => 'edit_large', :title => "Edit profile"
-
-
+  - if !@organization.level_of_participation.present? && @organization.business?
     #should-show-engagement-modal.modal
       .modal-content
         .modal-header
@@ -30,6 +26,10 @@
             = link_to "Click here to select a Level of Engagement", admin_choose_level_of_participation_path, class: "level-of-engagement-link"
         .modal-footer
           %h3
+
+  #overview.tab_content
+    %ul#contacts_tools{:class => "tools inline"}
+      %li= link_to name_for_edit_link(current_contact), edit_admin_organization_path(@organization.id), :class => 'edit_large', :title => "Edit profile"
 
     %dl.left_column
       %h3 Organization Details
@@ -186,20 +186,6 @@
           = t(@organization.level_of_participation)
         - else
           = link_to "Select a Level of Engagement", admin_choose_level_of_participation_path
-
-
-  - if !@organization.level_of_participation.present?
-    #should-show-engagement-modal.modal
-      .modal-content
-        .modal-header
-          %span.close ×
-          %h2
-        .modal-body
-          %p Your Organization has not selected a Level of Engagement
-          %p
-            = link_to "Click here to select a Level of Engagement", admin_choose_level_of_participation_path, class: "level-of-engagement-link"
-        .modal-footer
-          %h3
 
 :javascript
   $(function() {
