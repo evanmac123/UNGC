@@ -26,7 +26,7 @@ module Snapshot
     end
 
     def download_file(&block)
-      @downloader.download(@remote_path, @zip_path)
+      @downloader.download(from: @remote_path, to: @zip_path)
     end
 
     def exists_locally?

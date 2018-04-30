@@ -5,7 +5,7 @@ module Snapshot
     def initialize(date:, database_config:)
       @date = date || 1.day.ago.strftime("%Y_%m_%d")
       @strategy = choose_strategy(database_config)
-      @downloader = Downloader.new(@strategy.ssh_host, "rails")
+      @downloader = ::Downloader.new(@strategy.ssh_host, "rails")
 
       @local_dir = @strategy.local_dir
       @remote_dir = @strategy.remote_dir
