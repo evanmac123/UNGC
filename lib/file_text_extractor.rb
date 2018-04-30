@@ -99,7 +99,10 @@ class FileTextExtractor
           end
         end
 
-        text = output.force_encoding('UTF-8').encode("UTF-8", :invalid => :replace, :undef => :replace, :replace => "?")
+        text = output \
+          .force_encoding('UTF-8')
+          .encode("UTF-8", invalid: :replace, undef: :replace, replace: "?")
+          .gsub("\u0000", " ") # replace invalid nulls
       else
         Rails.logger.error "File does not exist: #{file.inspect}"
       end
@@ -122,4 +125,3 @@ class FileTextExtractor
   end
 
 end
-
