@@ -78,19 +78,19 @@ class DonationsControllerTest < ActionController::TestCase
     end
   end
 
-  test "shows a successful donation" do
-    skip
-    post :create, donation: valid_donation_params(amount: "123")
+  # test "shows a successful donation" do
+  #   skip
+  #   post :create, donation: valid_donation_params(amount: "123")
 
-    assert_equal "Your donation of $123.00 has been accepted.", flash[:notice]
-  end
+  #   assert_equal "Your donation of $123.00 has been accepted.", flash[:notice]
+  # end
 
-  test "shows a failed donation" do
-    skip
-    post :create, donation: valid_donation_params(amount: "123")
+  # test "shows a failed donation" do
+  #   skip
+  #   post :create, donation: valid_donation_params(amount: "123")
 
-    assert_equal "Your donation of $123.00 has been accepted.", flash[:notice]
-  end
+  #   assert_equal "Your donation of $123.00 has been accepted.", flash[:notice]
+  # end
 
   test "donation with missing token" do
     params = valid_donation_params
@@ -111,14 +111,14 @@ class DonationsControllerTest < ActionController::TestCase
     assert_match "Email address can&#39;t be blank", response.body.to_s
   end
 
-  test "company name matches" do
-    skip
-    organization = create(:business)
-    params = valid_donation_params(company_name: organization.name)
+  # test "company name matches" do
+  #   skip
+  #   organization = create(:business)
+  #   params = valid_donation_params(company_name: organization.name)
 
-    post :create, donation: params
-    assigns(:donation)
-  end
+  #   post :create, donation: params
+  #   assigns(:donation)
+  # end
 
   test "index links to the new donation form with params" do
     create(:container, path: "/about/foundation", layout: :article,
