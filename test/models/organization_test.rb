@@ -533,4 +533,10 @@ class OrganizationTest < ActiveSupport::TestCase
                          Organization.with_cop_status(:delisted, :noncommunicating).ids
   end
 
+  test "an approved micro enterprise should have it's COP due date set to 1 year from now" do
+    organization = create(:organization, employees: 8)
+    organization.approve
+    assert_equal 1.year.from_now.to_date, organization.cop_due_on
+  end
+
 end

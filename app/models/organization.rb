@@ -718,11 +718,11 @@ class Organization < ActiveRecord::Base
   end
 
   def cop_name
-    company? ? "Communication on Progress" : "Communication on Engagement"
+    non_business? ? "Communication on Engagement" : "Communication on Progress"
   end
 
   def cop_acronym
-    company? ? "COP" : "COE"
+    non_business? ? "COE" : "COP"
   end
 
   def last_approved_cop
@@ -760,7 +760,7 @@ class Organization < ActiveRecord::Base
   end
 
   def years_until_next_cop_due
-    n = company? ? NEXT_BUSINESS_COP_YEAR : NEXT_NON_BUSINESS_COP_YEAR
+    n = non_business? ? NEXT_NON_BUSINESS_COP_YEAR : NEXT_BUSINESS_COP_YEAR
     n.years
   end
 
