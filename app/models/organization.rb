@@ -242,7 +242,9 @@ class Organization < ActiveRecord::Base
     base_operations:      'Base of Operations',
     ngo_verification:     'NGO Verification',
     purpose_activity:     'Purpose & Activities',
-    logo_misuse:          'Logo Misuse'
+    logo_misuse:          'Logo Misuse',
+    revenue_verification: 'Revenue Verification',
+    corporate_verification: 'Corporate Registration Verification'
   }
 
   # Approval Workflow Event Overrides
