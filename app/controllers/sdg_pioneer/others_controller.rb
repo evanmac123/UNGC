@@ -9,7 +9,7 @@ class SdgPioneer::OthersController < ApplicationController
 
     # do we have an exact match on organization name?
     query = SdgPioneer::EligibleBusinessesQuery.new(named: @other.organization_name)
-    @other.organization_name_matched = query.run.any?
+    @other.organization_name_matched = query.run.exists?
 
     if @other.save
       SdgPioneer::Notification.notify_of_nomination(@other)

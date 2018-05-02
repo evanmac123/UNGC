@@ -59,7 +59,8 @@ class SdgPioneer::EligibleBusinessesQueryTest < ActiveSupport::TestCase
     create(:organization, params.reverse_merge(
       active: true,
       participant: true,
-      employees: 5
+      level_of_participation: :participant_level,
+      employees: 5,
     )).tap do |o|
       assert_not_nil o.organization_type
       assert_equal OrganizationType.micro_enterprise, o.organization_type
@@ -70,7 +71,8 @@ class SdgPioneer::EligibleBusinessesQueryTest < ActiveSupport::TestCase
     create(:organization, params.reverse_merge(
       active: true,
       participant: true,
-      employees: 200
+      level_of_participation: :participant_level,
+      employees: 200,
     )).tap do |o|
       assert_not_nil o.organization_type
       assert_equal OrganizationType.sme, o.organization_type
@@ -85,8 +87,9 @@ class SdgPioneer::EligibleBusinessesQueryTest < ActiveSupport::TestCase
     create(:organization, params.reverse_merge(
       active: true,
       participant: true,
+      level_of_participation: :participant_level,
       employees: 1000,
-      organization_type: company_type
+      organization_type: company_type,
     )).tap do |o|
       assert_not_nil o.organization_type
       assert_equal OrganizationType.company, o.organization_type

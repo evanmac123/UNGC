@@ -34,4 +34,21 @@ class SubmissionTest < ActiveSupport::TestCase
     assert_includes nomination.errors.messages[:country_name], validation_message
   end
 
+  should "require has local network engagement" do
+    nomination = build(:sdg_pioneer_submission, has_local_network: nil)
+    refute nomination.valid?
+    assert_contains nomination.errors.full_messages, "Has local network is not included in the list"
+  end
+
+  should "require accepts interview" do
+    nomination = build(:sdg_pioneer_submission, accepts_interview: nil)
+    refute nomination.valid?
+    assert_contains nomination.errors.full_messages, "Accepts interview is not included in the list"
+  end
+
+  should "require an answer for local network question" do
+    nomination = build(:sdg_pioneer_submission, local_network_question: "")
+    refute nomination.valid?
+    assert_contains nomination.errors.full_messages, "Local network question can't be blank"
+  end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180305160641) do
+ActiveRecord::Schema.define(version: 20180430192045) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1128,53 +1128,6 @@ ActiveRecord::Schema.define(version: 20180305160641) do
   add_index "salesforce_records", ["rails_type", "rails_id"], name: "salesforce_rails_type_idx", using: :btree
   add_index "salesforce_records", ["record_id"], name: "salesforce_record_id_uidx", unique: true, using: :btree
 
-  create_table "sdg_pioneer_businesses", force: :cascade do |t|
-    t.string   "organization_name",         limit: 255
-    t.boolean  "is_participant"
-    t.string   "contact_person_name",       limit: 255
-    t.string   "contact_person_title",      limit: 255
-    t.string   "contact_person_email",      limit: 255
-    t.string   "contact_person_phone",      limit: 255
-    t.string   "website_url",               limit: 255
-    t.string   "country_name",              limit: 255
-    t.integer  "local_network_status"
-    t.text     "positive_outcomes"
-    t.string   "matching_sdgs",             limit: 255
-    t.text     "other_relevant_info"
-    t.string   "local_business_name",       limit: 255
-    t.boolean  "accepts_tou",                           default: false, null: false
-    t.boolean  "is_nominated"
-    t.string   "nominating_organization",   limit: 255
-    t.string   "nominating_individual",     limit: 255
-    t.boolean  "organization_name_matched",             default: false, null: false
-    t.datetime "created_at",                                            null: false
-    t.datetime "updated_at",                                            null: false
-  end
-
-  create_table "sdg_pioneer_individuals", force: :cascade do |t|
-    t.boolean  "is_participant"
-    t.string   "name",                           limit: 255
-    t.string   "email",                          limit: 255
-    t.string   "phone",                          limit: 255
-    t.text     "description_of_individual"
-    t.text     "other_relevant_info"
-    t.string   "organization_name",              limit: 255
-    t.boolean  "accepts_tou",                                default: false, null: false
-    t.string   "supporting_link",                limit: 255
-    t.string   "matching_sdgs",                  limit: 255
-    t.string   "local_business_nomination_name", limit: 255
-    t.boolean  "is_nominated"
-    t.string   "nominating_organization",        limit: 255
-    t.string   "title",                          limit: 255
-    t.string   "country_name",                   limit: 255
-    t.integer  "local_network_status"
-    t.string   "website_url",                    limit: 255
-    t.string   "nominating_individual",          limit: 255
-    t.boolean  "organization_name_matched",                  default: false, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "sdg_pioneer_others", force: :cascade do |t|
     t.string   "submitter_name",            limit: 255
     t.string   "submitter_place_of_work",   limit: 255
@@ -1219,6 +1172,9 @@ ActiveRecord::Schema.define(version: 20180305160641) do
     t.text     "innovative_sdgs"
     t.text     "ten_principles"
     t.text     "awareness_and_mobilize"
+    t.boolean  "accepts_interview"
+    t.boolean  "has_local_network"
+    t.text     "local_network_question"
   end
 
   create_table "searchables", force: :cascade do |t|

@@ -12,7 +12,9 @@
       <%= content_tag(:p, content_tag(:span, notice), {class: 'success-message'}) if notice %>
 
       <p>
-        At the UN Global Compact, the search is on for SDG Pioneers ― business leaders who are doing an exceptional job of taking action to advance the Global Goals.
+        At the UN Global Compact, the search is on for SDG Pioneers who are making
+        Global Goals local business. It's time to celebrate the individuals and
+        businesses behind sustainability in global and local markets.
       </p>
 
       <p>
@@ -33,7 +35,7 @@
 
       <fieldset>
         <div class="field">
-          Is your company a UN Global Compact signatory? (<strong>Please note that only UN Global Compact business signatories will be considered.<strong>)<br />
+          Is your company a UN Global Compact Participant or Signatory? (<strong>Please note that only UN Global Compact Business Signatories or Participants will be considered.<strong> If you have not chosen an Engagement Level <a href="/admin/choose-level-of-participation" target="_blank">click here to select</a>)<br />
           <%= f.radio_button(:is_participant, true) %>
           <%= f.label(:is_participant_true, "Yes") %>
           <br />
@@ -48,7 +50,7 @@
       <fieldset>
         <div id="ungc-participant" class="field field-required ui-widget">
           <%= f.label :organization_name do %>
-            Organization name
+            UN Global Compact Participant or Signatory name
           <% end %>
           <%= f.text_field :organization_name %>
         </div>
@@ -87,7 +89,7 @@
       </fieldset>
 
       <fieldset class='accordion-container'>
-        To which of the 17 <a href="/what-is-gc/our-work/sustainable-development/17-global-goals/" target="_blank">Sustainable Development Goals</a> does this submission specifically relate?
+        To which of the 17 <a href="/sdgs/17-global-goals/" target="_blank">Sustainable Development Goals</a> does this submission specifically relate?
         <div class='accordion-item'>
           <h2 class='accordion-item-header'>Sustainable Development Goals</h2>
 
@@ -113,8 +115,26 @@
 
       <fieldset>
         <div class="field field-required">
+          Are you engaging with the Local Network in your country?<br />
+          <%= f.radio_button(:has_local_network, true) %>
+          <%= f.label(:has_local_network_true, "Yes") %>
+          <br />
+          <%= f.radio_button(:has_local_network, false) %>
+          <%= f.label(:has_local_network_false, "No") %> <br />
+        </div>
+        <%= f.label :local_network_question, id: "has-local-network-question" do %>
+          How have you collaborated with the UN Global Compact and/or its Local Network in your country to advance the SDGs?
+        <% end %>
+        <%= f.label :local_network_question, id: "does-not-have-local-network"  do %>
+          How have you collaborated with the UN Global Compact to advance the SDGs?
+        <% end %>
+        <%= f.text_area :local_network_question, placeholder: 'Please limit to 150 words' %>
+      </fieldset>
+
+      <fieldset>
+        <div class="field field-required">
           <%= f.label :innovative_sdgs do %>
-            Have you led the development of innovative products, services, and/or business models that advance the SDGs? If yes, please be as specific as possible and demonstrate ownership of the process.
+            Have you led the development of innovative products, services and/or business models that advance the SDGs? If yes, please be as specific as possible and demonstrate ownership of the process.
           <% end %>
           <%= f.text_area :innovative_sdgs, placeholder: 'Please limit to 150 words' %>
         </div>
@@ -139,7 +159,7 @@
       </fieldset>
 
       <fieldset style="margin-top: 4em">
-        <strong>Supporting information</strong>
+        <h4>Supporting Information</h4>
         <div class="attachments field field-required">
           Please provide any annual reports, press clippings or other relevant documentation that support your submission.<br />
 
@@ -175,6 +195,9 @@
           <p>We need your permission to potentially share your story with the world.</p>
           <label>
             <%= f.check_box :accepts_tou %> I agree that the UN Global Compact can use this information for any purpose related to the SDG Pioneers.
+          </label><br/>
+          <label>
+            <%= f.check_box :accepts_interview %> If selected, I agree for a 30 minute phone interview and the UN Global Compact can use the information for any purposes related to the SDG Pioneers.
           </label>
         </div>
       </fieldset>

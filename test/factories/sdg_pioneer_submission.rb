@@ -20,6 +20,9 @@ FactoryBot.define do
     # is_nominated Faker::Boolean.boolean
     # nominating_organization Faker::Company.name
     # nominating_individual Faker::Name.name
+    has_local_network true
+    local_network_question Faker::Lorem.paragraph
+    accepts_interview true
     organization_name_matched true
     accepts_tou true
     after(:build) do |o|

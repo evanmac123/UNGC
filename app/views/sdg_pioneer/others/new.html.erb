@@ -16,7 +16,7 @@
       </p>
 
       <p>
-        Do you have a colleague or know someone that you think is doing great work to advance the Sustainable Development Goals? Individuals who are working at any level of a business that is an active participant of the UN Global Compact are eligible for consideration. Your nominee will be requested to submit the "Nominate Yourself" form in order to complete the submission process.
+        Do you have a colleague or know someone that you think is doing great work to advance the <a href="/sdgs/17-global-goals/" target="_blank">Sustainable Development Goals</a>? Individuals who are working at any level of a business that is an active participant of the UN Global Compact are eligible for consideration. Your nominee will be requested to submit the "Nominate Yourself" form in order to complete the submission process.
       </p>
 
       <% if @other.errors.any? %>
@@ -56,7 +56,7 @@
 
       <fieldset>
         <div class="field">
-          Is the nominee's company a UN Global Compact signatory? (*Please note that only UN Global Compact business signatories will be considered.)<br />
+          Is the nominee's company a UN Global Compact Participant or Signatory? (*Please note that only UN Global Compact Business Signatories or Participants will be considered.)<br />
           <%= f.radio_button(:is_participant, true) %>
           <%= f.label(:is_participant_true, "Yes") %>
           <br />
@@ -65,7 +65,7 @@
         </div>
         <div id="ungc-participant" class="field field-required ui-widget">
           <%= f.label :organization_name do %>
-            Organization name
+          UN Global Compact Participant or Signatory name
           <% end %>
           <%= f.text_field :organization_name %>
         </div>

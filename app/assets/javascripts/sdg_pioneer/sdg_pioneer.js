@@ -4,7 +4,7 @@ $(function() {
 
   function addAttachmentField($attachments) {
     var $template = $attachments.find('.attachment-template');
-    var $container = $attachments.find('.attachment-container')
+    var $container = $attachments.find('.attachment-container');
     var nextId = $container.find('.attachment').length + 1;
 
     var $newField = $($template.html());
@@ -53,6 +53,10 @@ $(function() {
   var submitButton = $('#nominate-pioneer');
   var yesButton = $('#submission_is_participant_true, #other_is_participant_true');
   var noButton = $('#submission_is_participant_false, #other_is_participant_false');
+  var $showShowLocalQuestion = $('#has-local-network-question');
+  var $showOtherQuestion = $('#does-not-have-local-network');
+  var yesButtonLocal = $('#submission_has_local_network_true, #other_is_participant_true');
+  var noButtonLocal = $('#submission_has_local_network_false, #other_is_participant_false');
 
   function showParticipantField() {
     $organizationField.show();
@@ -84,6 +88,38 @@ $(function() {
     disableSdgForm();
   } else {
     disableFormAndParticipantField();
+  }
+
+  function showLocalNetworkQuestion() {
+    $showShowLocalQuestion.show();
+    $showOtherQuestion.hide();
+    submitButton.show();
+  }
+
+  function showNoLocalNetworkQuestion() {
+    $showShowLocalQuestion.hide();
+    $showOtherQuestion.show();
+    submitButton.show();
+  }
+
+  function disableFormAndLocalNetworkField() {
+    $showShowLocalQuestion.hide();
+    $showOtherQuestion.hide();
+    submitButton.hide();
+  }
+
+  yesButtonLocal.on('click', showLocalNetworkQuestion);
+  noButtonLocal.on('click', showNoLocalNetworkQuestion);
+
+  var yesLocalNetwork = yesButtonLocal.filter(":checked").length > 0;
+  var noLocalNetwork = noButtonLocal.filter(":checked").length > 0;
+
+  if(yesLocalNetwork) {
+    showLocalNetworkQuestion();
+  } else if (noLocalNetwork) {
+    showNoLocalNetworkQuestion();
+  } else {
+    disableFormAndLocalNetworkField();
   }
 
 });

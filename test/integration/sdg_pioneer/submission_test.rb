@@ -4,7 +4,9 @@ class SdgPioneer::SubmissionTest < ActionDispatch::IntegrationTest
 
   test 'Anonymous user submits a nomination' do
     create(:country, name: 'Canada')
-    create(:business, name: "McExampleson's Emporium")
+    create(:business,
+      name: "McExampleson's Emporium",
+      level_of_participation: :participant_level)
     sdg1, _, sdg3 = 3.times.map { create(:sustainable_development_goal) }
 
     path = sdg_pioneer_index_path
@@ -25,7 +27,10 @@ class SdgPioneer::SubmissionTest < ActionDispatch::IntegrationTest
     fill_in 'submission_country_name', with: 'Canada'
     fill_in 'submission_website_url', with: 'https://example.com/document.html'
     fill_in 'submission_company_success', with: 'My success'
+    choose 'submission_has_local_network_true'
+    fill_in 'submission_local_network_question', with: "By contributing..."
     fill_in 'submission_innovative_sdgs', with: 'My innovation'
+
     fill_in 'submission_ten_principles', with: 'My 10 principles'
     fill_in 'submission_awareness_and_mobilize', with: 'My awareness'
 
@@ -39,6 +44,8 @@ class SdgPioneer::SubmissionTest < ActionDispatch::IntegrationTest
     # submit the nomination
     assert_difference -> { SdgPioneer::Submission.count }, +1 do
       click_on 'Nominate'
+      errors = all('.error').map(&:text)
+      assert_empty errors
     end
 
     # we should be on the landing page with a notice about our submission
@@ -63,7 +70,6 @@ class SdgPioneer::SubmissionTest < ActionDispatch::IntegrationTest
     assert_equal 'My innovation', submission.innovative_sdgs
     assert_equal 'My 10 principles', submission.ten_principles
     assert_equal 'My awareness', submission.awareness_and_mobilize
-
 
     attachment = submission.supporting_documents.first
     assert_not_nil attachment

@@ -15,6 +15,7 @@
 #  country_name              :string(255)
 #  reason_for_being          :text
 #  accepts_tou               :boolean          default(FALSE), not null
+#  accepts_interview         :boolean
 #  is_participant            :boolean
 #  website_url               :string(255)
 #  created_at                :datetime         not null
@@ -40,7 +41,10 @@ class SdgPioneer::Submission < ActiveRecord::Base
   validates :innovative_sdgs,            presence: true, length: { maximum: 1500 }
   validates :ten_principles,             presence: true, length: { maximum: 1500 }
   validates :awareness_and_mobilize,     presence: true, length: { maximum: 1500 }
+  validates :local_network_question,     presence: true, length: { maximum: 1500 }
   validates :accepts_tou,                 inclusion: [true, false]
+  validates :accepts_interview,           inclusion: [true, false]
+  validates :has_local_network,            inclusion: [true, false]
   validates :supporting_documents,        length: { minimum: 1, maximmum: 12 }
   validates :website_url,                 length: { maximum: 255 }
 
