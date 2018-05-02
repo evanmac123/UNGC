@@ -21,6 +21,12 @@
     %td{:style => @row_style} Employees:
     %td= @organization.employees
   %tr
+    %td{:style => @row_style} Level of Engagement:
+    %td= t(@organization.level_of_participation)
+    %tr
+      %td{:style => @row_style} Revenue:
+      %td= @organization.precise_revenue_dollars
+  %tr
     %td{:style => @row_style} Website:
     %td= @organization.url
 
