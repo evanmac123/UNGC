@@ -29,6 +29,10 @@ class ContactPolicy
     end
   end
 
+  def can_sign_in?
+    @policy.can_sign_in?
+  end
+
   private
 
   def create_policy(contact)

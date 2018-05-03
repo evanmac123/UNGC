@@ -185,7 +185,7 @@ class Contact < ActiveRecord::Base
 
   def active_for_authentication?
     if super
-      !self.organization&.delisted?
+      policy.can_sign_in?
     end
   end
 
@@ -421,6 +421,10 @@ class Contact < ActiveRecord::Base
     def last_update
       previous_sign_in_at = previous_changes.fetch(:last_sign_in_at, []).first
       previous_sign_in_at || last_sign_in_at || updated_at
+    end
+
+    def policy
+      @_contact_policy ||= ContactPolicy.new(self)
     end
 
 end

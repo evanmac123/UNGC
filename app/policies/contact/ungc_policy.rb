@@ -20,4 +20,8 @@ class Contact::UngcPolicy
     true
   end
 
+  def can_sign_in?
+    true
+  end
+
 end

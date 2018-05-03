@@ -21,6 +21,11 @@ class Contact::OrganizationPolicy
     @organization_contact.organization.participant? && from_same_organization_as?(contact)
   end
 
+  def can_sign_in?
+    organization = @organization_contact.organization
+    !organization.delisted? || organization.recommitted?
+  end
+
   private
 
   def from_same_organization_as?(contact)

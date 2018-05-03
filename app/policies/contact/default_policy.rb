@@ -20,4 +20,8 @@ class Contact::DefaultPolicy
     false
   end
 
+  def can_sign_in?
+    true
+  end
+
 end

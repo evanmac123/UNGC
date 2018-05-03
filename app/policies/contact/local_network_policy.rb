@@ -21,6 +21,10 @@ class Contact::LocalNetworkPolicy
     in_allowed_role? && from_same_network_as?(contact)
   end
 
+  def can_sign_in?
+    true
+  end
+
   private
 
   def from_same_network_as?(contact)

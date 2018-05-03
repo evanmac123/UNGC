@@ -31,20 +31,6 @@ class ContactPolicyTest < ActiveSupport::TestCase
         assert @ungc_contact_policy.can_upload_image?(@organization_contact)
       end
     end
-
-    context 'organization contact policy' do
-      should 'not allow image upload for UNGC contacts' do
-        assert_not @organization_contact_policy.can_upload_image?(@ungc_contact)
-      end
-
-      should 'not allow image upload for associated network contacts' do
-        assert_not @organization_contact_policy.can_upload_image?(@network_contact)
-      end
-
-      should 'not allow image upload for organization contacts' do
-        assert_not @organization_contact_policy.can_upload_image?(@organization_contact)
-      end
-    end
   end
 
   context 'can create?' do
@@ -59,24 +45,6 @@ class ContactPolicyTest < ActiveSupport::TestCase
 
       should 'allow creation of organization contacts' do
         assert @ungc_contact_policy.can_create?(@organization_contact)
-      end
-    end
-
-    context 'organization contact policy' do
-      should 'not allow creation of UNGC contacts' do
-        assert_not @organization_contact_policy.can_create?(@ungc_contact)
-      end
-
-      should 'not allow creation of network contacts' do
-        assert_not @organization_contact_policy.can_create?(@network_contact)
-      end
-
-      should 'allow creation of associated organization contacts' do
-        assert @organization_contact_policy.can_create?(@organization_contact)
-      end
-
-      should 'not allow creation of unassociated organization contacts' do
-        assert_not @organization_contact_policy.can_create?(@organization_contact_2)
       end
     end
   end
@@ -103,23 +71,6 @@ class ContactPolicyTest < ActiveSupport::TestCase
       end
     end
 
-    context 'organization contact policy' do
-      should 'not allow update of UNGC contacts' do
-        assert_not @organization_contact_policy.can_update?(@ungc_contact)
-      end
-
-      should 'not allow update of network contacts' do
-        assert_not @organization_contact_policy.can_update?(@network_contact)
-      end
-
-      should 'allow update of associated organization contacts' do
-        assert @organization_contact_policy.can_update?(@organization_contact)
-      end
-
-      should 'not allow update of unassociated organization contacts' do
-        assert_not @organization_contact_policy.can_update?(@organization_contact_2)
-      end
-    end
   end
 
   context 'can destroy?' do
@@ -143,49 +94,16 @@ class ContactPolicyTest < ActiveSupport::TestCase
       end
     end
 
-    context 'organization contact policy' do
-      should 'not allow destroy of UNGC contacts' do
-        contact = stub_contact(from_organization?: true)
-        target =  stub_contact(from_ungc?: true)
-
-        policy = ContactPolicy.new(contact)
-        assert_not policy.can_destroy?(target)
-      end
-
-      should 'not allow destroy of network contacts' do
-        contact = stub_contact(from_organization?: true)
-        target =  stub_contact(from_network?: true)
-
-        policy = ContactPolicy.new(contact)
-        assert_not policy.can_destroy?(target)
-      end
-
-      should 'allow destroy of associated organization contacts' do
-        contact = stub_contact(from_organization?: true, organization_id: 123)
-        target =  stub_contact(from_organization?: true, organization_id: 123)
-
-        policy = ContactPolicy.new(contact)
-        assert policy.can_destroy?(target)
-      end
-
-      should 'not allow destroy of unassociated organization contacts' do
-        contact = stub_contact(from_organization?: true, organization_id: 123)
-        target =  stub_contact(from_organization?: true, organization_id: 321)
-
-        policy = ContactPolicy.new(contact)
-        assert_not policy.can_destroy?(target)
-      end
-
-      should 'not allow destroy of organizations by non-participant organization contacts' do
-        contact = stub_contact(from_organization?: true, organization: stub(participant?: false))
-        target = stub_contact
-
-        policy = ContactPolicy.new(contact)
-        assert_not policy.can_destroy?(target)
-      end
-    end
-
   end
+
+  should "staff can always sign in" do
+    contact = build_stubbed(:staff_contact)
+    policy = ContactPolicy.new(contact)
+
+    assert policy.can_sign_in?
+  end
+
+  private
 
   def stub_contact(stubs = {})
     defaults = {

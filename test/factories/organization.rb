@@ -77,5 +77,9 @@ FactoryBot.define do
         create(:contact_point, organization: org)
       end
     end
+
+    trait :non_communicating do
+      cop_state Organization::COP_STATE_NONCOMMUNICATING
+    end
   end
 end

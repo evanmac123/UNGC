@@ -908,6 +908,10 @@ class Organization < ActiveRecord::Base
     end
   end
 
+  def recommitted?
+    recommitment_letter && recommitment_letter.updated_at > delisted_on
+  end
+
   private
 
     def set_participant_manager
@@ -967,10 +971,6 @@ class Organization < ActiveRecord::Base
     # Is currently, or has previously withdrawn
     def voluntarily_withdrawn?
       delisted_on.present? && removal_reason == RemovalReason.withdrew
-    end
-
-    def recommitted?
-      recommitment_letter && recommitment_letter.updated_at > delisted_on
     end
 
 end

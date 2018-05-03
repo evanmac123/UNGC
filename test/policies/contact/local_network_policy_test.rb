@@ -39,6 +39,14 @@ class Contact::LocalNetworkPolicyTest < ActiveSupport::TestCase
     refute_allows :contact_point, from: canada, permission: :can_destroy?, on_contact_from: canada
   end
 
+  should "local network contact can always sign in" do
+    contact = build_stubbed(:contact)
+    contact.local_network = build_stubbed(:local_network)
+
+    policy = ContactPolicy.new(contact)
+    assert policy.can_sign_in?
+  end
+
   private
 
   def assert_allows(role_name, from:, permission:, on_contact_from:)
