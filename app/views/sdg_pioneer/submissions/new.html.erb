@@ -35,13 +35,18 @@
 
       <fieldset>
         <div class="field">
-          Is your company a UN Global Compact Participant or Signatory? (<strong>Please note that only UN Global Compact Business Signatories or Participants will be considered.<strong> If you have not chosen an Engagement Level <a href="/admin/choose-level-of-participation" target="_blank">click here to select</a>)<br />
+          Is your company a UN Global Compact Participant or Signatory? (<strong>Please
+            note that only UN Global Compact Business Signatories or Participants
+            will be considered.</strong> If you have not chosen an Engagement Level
+              <a href="/admin/choose-level-of-participation" target="_blank">click
+                 here to select</a>).</br>
           <%= f.radio_button(:is_participant, true) %>
           <%= f.label(:is_participant_true, "Yes") %>
           <br />
           <%= f.radio_button(:is_participant, false) %>
           <%= f.label(:is_participant_false, "No") %> <br />
         </div>
+        See our <a href='/sdgs/sdgpioneers/faq'>Frequently Asked Questions</a></br>
         <div id="join-ungc">
           <p>We greatly appreciate your interest in the SDG Pioneers. However, at the moment we are only considering UN Global Compact business signatories. For more information on how to join the UN Global Compact, please visit our <a href="/participation/join/application" target="_blank">website.</a></p>
         </div>
