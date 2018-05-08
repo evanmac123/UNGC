@@ -96,6 +96,12 @@ module AdminHelper
     end
   end
 
+  def staff_and_participant_manager_only
+    if current_contact && (current_contact.from_ungc? || current_contact.is?(Role.participant_manager))
+      yield if block_given?
+    end
+  end
+
   def organization_only(&block)
     yield if current_contact && current_contact.from_organization?
   end
