@@ -1,6 +1,6 @@
 <%= render partial: 'components/meta_tags', locals: { title: "SDG Pioneers", description: t('sdg_pioneer.submission.blurb'), keywords: 'sustainable development goals submission pioneers' } %>
 
-<%= render partial: 'components/hero', locals: { hero: {theme: 'dark', size: 'small', title: {first: "SDG Pioneers"}, blurb: t('sdg_pioneer.submission.blurb'), image: image_path('sdg_pioneer/nomination_form_2017.jpg') } } %>
+<%= render partial: 'components/hero', locals: { hero: {theme: 'dark', size: 'small', title: {first: "SDG Pioneers"}, blurb: t('sdg_pioneer.submission.blurb'), image: image_path('sdg_pioneer/nomination_form_2018.jpg') } } %>
 
 <section class='main-content-section main-content-section-narrow'>
   <%= form_for @submission, as: :submission, html: {multipart: true, class: 'form-classic wrapper'} do |f| %>
