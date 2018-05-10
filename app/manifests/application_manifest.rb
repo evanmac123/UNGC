@@ -41,6 +41,7 @@ class ApplicationManifest < Moonshine::Manifest::Rails
   recipe :sidekiq
   recipe :pdfminer
   recipe :xsendfile
+  recipe :salesforce_listener
 
   recipe :postgresql_server, :postgresql_gem, :postgresql_user, :postgresql_database
 
@@ -52,7 +53,6 @@ class ApplicationManifest < Moonshine::Manifest::Rails
 
   on_stage(:staging) do
     recipe :staging_cron_tasks
-    recipe :salesforce_listener
   end
 
   def staging_cron_tasks
