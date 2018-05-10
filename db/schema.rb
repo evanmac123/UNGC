@@ -16,6 +16,7 @@ ActiveRecord::Schema.define(version: 20180430192045) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
+  enable_extension "citext"
 
   create_table "action_platform_orders", force: :cascade do |t|
     t.integer  "organization_id",                                  null: false
@@ -1087,6 +1088,21 @@ ActiveRecord::Schema.define(version: 20180430192045) do
     t.integer  "views",                   default: 0
   end
 
+  create_table "resource_weights", force: :cascade do |t|
+    t.integer  "resource_id"
+    t.text     "full_text",                   null: false
+    t.text     "full_text_raw",               null: false
+    t.jsonb    "weights",        default: {}, null: false
+    t.text     "resource_title",              null: false
+    t.text     "resource_url",                null: false
+    t.text     "resource_type",               null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+  end
+
+  add_index "resource_weights", ["resource_id"], name: "index_resource_weights_on_resource_id", using: :btree
+  add_index "resource_weights", ["weights"], name: "index_resource_weights_on_weights", using: :gin
+
   create_table "resources", force: :cascade do |t|
     t.string   "title",              limit: 255
     t.text     "description"
@@ -1333,6 +1349,7 @@ ActiveRecord::Schema.define(version: 20180430192045) do
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "organization_social_networks", "organizations", on_delete: :cascade
   add_foreign_key "organizations", "listing_statuses", on_delete: :nullify
+  add_foreign_key "resource_weights", "resources"
   add_foreign_key "taggings", "action_platform_platforms", column: "action_platform_id"
   add_foreign_key "taggings", "authors"
   add_foreign_key "taggings", "case_examples"

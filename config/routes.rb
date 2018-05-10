@@ -228,6 +228,12 @@ UNGC::Application.routes.draw do
         get :staff
       end
 
+      namespace :mit_shift, path: "mit-shift" do
+        # MIT/Shift API Hooks
+        post :step1
+        post :step3
+      end
+
     end
   end
 

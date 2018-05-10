@@ -8,6 +8,9 @@ universal: &universal
     # The only way to push scripts to production are to push to this Sandbox environment first, and publish from there
     # So we set the callback_url to the real one that production will use. Be careful.
     :callback_url: 'https://www.unglobalcompact.org/salesforce/sync'
+  mit_shift:
+    api_key: "0&zL.tzqQF>|CG[U@|[3b&.R4!AG%#&)OlKr(hOoa7BF1js'k)F6k{Ob@%k_7L;"
+
 
 development:
   <<: *universal

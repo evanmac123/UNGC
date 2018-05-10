@@ -44,6 +44,7 @@ class Resource < ActiveRecord::Base
   has_and_belongs_to_many :authors
   has_many :links, dependent: :destroy, class_name: 'ResourceLink'
   has_many :languages, through: :links
+  has_one :weight, class_name: "ResourceWeight"
 
   STATES = { pending:    'Pending Review',
              approved:   'Approved',

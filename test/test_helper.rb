@@ -283,7 +283,7 @@ class ActiveSupport::TestCase
     refute model.valid?, "expected #{model} to not be valid"
     assert_includes model.errors.full_messages, message
   end
-  
+
   def event_store
     Rails.configuration.x_event_store
   end
@@ -299,6 +299,11 @@ class ActionDispatch::IntegrationTest
   include Warden::Test::Helpers
   Warden.test_mode!
 
+  JSON_HEADERS = {
+    "Accept" => Mime::JSON.to_s,
+    "Content-Type" => Mime::JSON.to_s,
+  }.freeze
+
   teardown do
     Warden.test_reset!
   end
@@ -307,6 +312,39 @@ class ActionDispatch::IntegrationTest
     I18n.t(*args)
   end
 
+  def post_json(path, body_hash, headers: {}, bearer: nil)
+    body = if body_hash.respond_to?(:to_h)
+             body.to_h
+           else
+             body_hash
+           end
+
+    json_headers = headers.reverse_merge(JSON_HEADERS)
+
+    if bearer.present? && !json_headers.key?("Authorization")
+      json_headers["Authorization"] ||= "Bearer #{bearer}"
+    end
+
+    if block_given?
+      json_headers = yield(json_headers.dup)
+    end
+
+    post path, body.to_s, json_headers
+  end
+
+  def json_response
+    encoded_body = response&.body
+    encoded_body = encoded_body.blank? ? "{}" : encoded_body
+    body = JSON.parse(encoded_body)
+    case
+    when body.is_a?(Hash)
+      body.with_indifferent_access
+    when body.is_a?(Array)
+      body.map(&:with_indifferent_access)
+    else
+      body
+    end
+  end
 end
 
 class JavascriptIntegrationTest < ActionDispatch::IntegrationTest
