@@ -1,6 +1,8 @@
 module Api
   module V1
     class MitShiftController < ApiController
+      protect_from_forgery with: :null_session
+
       before_action :authorize_mit!
 
       def step1
