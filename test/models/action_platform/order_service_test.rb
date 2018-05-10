@@ -22,7 +22,6 @@ module ActionPlatform
       service.subscribe(contact_id: contact.id, platform_id: p1.id)
       service.subscribe(contact_id: contact.id, platform_id: p2.id)
 
-
       order = service.create_order
       subscription1, subscription2 = order.subscriptions
 
@@ -44,7 +43,8 @@ module ActionPlatform
 
       assert_equal "pending", order.status
 
-      assert_not_nil event = event_store.read_all_streams_forward.first
+      stream = organization.event_stream_name
+      assert_not_nil event = event_store.read_stream_events_forward(stream).first
       assert event.is_a?(DomainEvents::ActionPlatformOrderCreated)
     end
 

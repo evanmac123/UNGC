@@ -54,6 +54,7 @@ class Contact < ActiveRecord::Base
   include VisibleTo
   include SalesforceCommitHooksConcern
   include SalesforceRecordConcern
+  include EventPublisherHooks
 
   devise \
     :database_authenticatable,

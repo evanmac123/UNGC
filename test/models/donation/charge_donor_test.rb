@@ -45,6 +45,8 @@ class Donation::ChargeDonorTest < ActiveSupport::TestCase
     assert_equal expected_response, json_response
 
     # And an event is published
+    stream = "donation_#{donation.id}"
+    events = event_store.read_stream_events_forward(stream)
     event = events.last
     assert_not_nil event
     assert event.is_a?(::Donation::CreatedEvent)
@@ -63,7 +65,7 @@ class Donation::ChargeDonorTest < ActiveSupport::TestCase
     refute donation.persisted?
 
     # and no events are recorded
-    assert events.empty?
+    assert donation_events.empty?
   end
 
   test "a card failure" do
@@ -94,6 +96,8 @@ class Donation::ChargeDonorTest < ActiveSupport::TestCase
     assert_equal expected_response, json_response
 
     # Events are produced
+    stream = "donation_#{donation.id}"
+    events = event_store.read_stream_events_forward(stream)
     assert_not_nil event = events.last
     assert event.is_a? ::Donation::FailedEvent
   end
@@ -128,6 +132,8 @@ class Donation::ChargeDonorTest < ActiveSupport::TestCase
     assert_equal({}, json_response)
 
     # Events are produced
+    stream = "donation_#{donation.id}"
+    events = event_store.read_stream_events_forward(stream)
     assert_not_nil event = events.last
     assert event.is_a? ::Donation::FailedEvent
   end
@@ -159,8 +165,10 @@ class Donation::ChargeDonorTest < ActiveSupport::TestCase
     Stripe::APIConnectionError.new("Could not connect to Stripe.")
   end
 
-  def events
-    event_store.read_all_streams_forward
+  def donation_events
+    event_store.read_all_streams_forward.select { |e|
+      e.class.name =~ /Donation/
+    }
   end
 
 end

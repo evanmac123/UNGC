@@ -85,7 +85,7 @@ module ActionPlatform
         platform_ids: order.subscriptions.map(&:platform_id)
       })
 
-      event_store.publish_event(order_event, stream_name: stream_name)
+      EventPublisher.publish(order_event, to: stream_name)
       order.subscriptions.each do |subscription|
         subscription_event = DomainEvents::OrganizationSubscribbedToActionPlatform.new(data: {
           organization_id: subscription.organization_id,
@@ -93,13 +93,9 @@ module ActionPlatform
           contact_id: subscription.contact_id,
           order_id: subscription.order_id,
         })
-        event_store.publish_event(subscription_event, stream_name: stream_name)
+        EventPublisher.publish(subscription_event, to: stream_name)
       end
 
-    end
-
-    def event_store
-      Rails.configuration.x_event_store
     end
   end
 end

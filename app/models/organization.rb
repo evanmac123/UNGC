@@ -64,6 +64,7 @@ class Organization < ActiveRecord::Base
   include ThinkingSphinx::Scopes
   include SalesforceCommitHooksConcern
   include SalesforceRecordConcern
+  include EventPublisherHooks
 
   self.include_root_in_json = false
 

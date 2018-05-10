@@ -63,6 +63,7 @@
 class LocalNetwork < ActiveRecord::Base
   include SalesforceCommitHooksConcern
   include SalesforceRecordConcern
+  include EventPublisherHooks
 
   validates_presence_of :name
 

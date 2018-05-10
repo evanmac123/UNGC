@@ -24,7 +24,7 @@ module DueDiligence
           })
 
         stream_name = "due_diligence_review_#{@review.id}"
-        Rails.configuration.x_event_store.publish_event(event, stream_name: stream_name)
+        EventPublisher.publish(event, to: stream_name)
       end
 
       @comment.persisted?.tap do |success|

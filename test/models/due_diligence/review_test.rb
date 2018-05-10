@@ -704,7 +704,8 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
 
           review.reject(contact)
 
-          assert_empty event_store.read_all_streams_forward
+          stream_name = "due_diligence_review_#{review.id}"
+          assert_empty event_store.read_stream_events_forward(stream_name)
         end
 
         should "use the overridden methods" do
@@ -760,7 +761,8 @@ class DueDiligence::ReviewTest < ActiveSupport::TestCase
 
           review.reject(contact)
 
-          assert_empty event_store.read_all_streams_forward
+          stream_name = "due_diligence_review_#{review.id}"
+          assert_empty event_store.read_stream_events_forward(stream_name)
         end
 
         should "use the overridden methods" do

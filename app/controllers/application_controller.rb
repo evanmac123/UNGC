@@ -125,10 +125,6 @@ class ApplicationController < ActionController::Base
     ActionMailer::Base.default_url_options[:host] = request.host_with_port
   end
 
-  def event_store
-    Rails.configuration.x_event_store
-  end
-
   private
 
   def render_default_template(layout)

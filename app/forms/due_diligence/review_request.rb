@@ -123,11 +123,7 @@ class DueDiligence::ReviewRequest
     })
 
     stream_name = "due_diligence_review_#{@review.id}"
-    event_store.publish_event(event, stream_name: stream_name)
-  end
-
-  def event_store
-    @_client ||= RailsEventStore::Client.new
+    EventPublisher.publish(event, to: stream_name)
   end
 
 end

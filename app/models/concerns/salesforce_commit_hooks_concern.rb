@@ -10,20 +10,20 @@ module SalesforceCommitHooksConcern
     after_save :accumulate_changes
   end
 
-  def after_create_commit
-    after_create_update_commit('create')
-  end
-
-  def after_update_commit
-    after_create_update_commit('update')
-  end
-
-  def after_destroy_commit
-    return unless Rails.configuration.x_enable_crm_synchronization
-    job_class.perform_later('destroy', nil, { record_id: [self.record_id, nil] }.to_json)
-  end
-
   private
+
+    def after_create_commit
+      after_create_update_commit('create')
+    end
+
+    def after_update_commit
+      after_create_update_commit('update')
+    end
+
+    def after_destroy_commit
+      return unless Rails.configuration.x_enable_crm_synchronization
+      job_class.perform_later('destroy', nil, { record_id: [self.record_id, nil] }.to_json)
+    end
 
     def accumulate_changes
       @_transaction_changes ||= HashWithIndifferentAccess.new

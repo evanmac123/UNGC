@@ -351,6 +351,6 @@ class DueDiligence::Review < ActiveRecord::Base
       when 'declined'
         DueDiligence::Events::Declined.new(data: payload)
     end
-    Rails.configuration.x_event_store.publish_event(event, stream_name: stream_name)
+    EventPublisher.publish(event, to: stream_name)
   end
 end
