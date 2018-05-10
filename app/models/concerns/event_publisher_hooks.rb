@@ -49,6 +49,8 @@ module EventPublisherHooks
     # reset transaction_changes, and keep the hash of changes
     @_event_stream_changes, changes_from_tx = HashWithIndifferentAccess.new, @_event_stream_changes
 
+    return if changes_from_tx.blank?
+
     changes = changes_from_tx.except(*job_class.excluded_attributes)
 
     event = event_class.new(data: {

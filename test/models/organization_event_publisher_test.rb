@@ -12,6 +12,11 @@ class OrganizationEventPublisherTest < ActiveSupport::TestCase
     travel_back
   end
 
+  test "no changes publish no events" do
+    create(:organization)
+    Organization.last.touch
+  end
+
   test "Organization lifecycle is published" do
     params = attributes_for(:organization, name: "Nestle", employees: 23)
     o = Organization.create!(params)
