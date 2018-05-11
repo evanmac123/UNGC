@@ -89,6 +89,9 @@ class Comment < ActiveRecord::Base
       if state_event.to_s == ApprovalWorkflow::EVENT_DELAY_REVIEW && body.blank?
         self.body = 'Your application is under review by the Global Compact Office.'
       end
+      if state_event.to_s == ApprovalWorkflow::EVENT_RESUME_REVIEW && body.blank?
+        self.body = 'Your application is under review by the Global Compact Office.'
+      end
       if state_event.to_s == ApprovalWorkflow::EVENT_APPROVE && body.blank?
         self.body = 'Your application has been accepted.'
       end

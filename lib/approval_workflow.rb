@@ -9,13 +9,14 @@ module ApprovalWorkflow
   NON_REJECTED_STATES = [STATE_PENDING_REVIEW, STATE_IN_REVIEW, STATE_NETWORK_REVIEW, STATE_DELAY_REVIEW, STATE_APPROVED]
 
   EVENT_REVISE = 'revise'
+  EVENT_RESUME_REVIEW = 'resume_review'
   EVENT_NETWORK_REVIEW = 'network_review'
   EVENT_DELAY_REVIEW = 'delay_review'
   EVENT_APPROVE = 'approve'
   EVENT_REJECT = 'reject'
   EVENT_REJECT_MICRO = 'reject_micro'
 
-  STAFF_EVENTS = [EVENT_APPROVE, EVENT_REJECT, EVENT_REJECT_MICRO, EVENT_NETWORK_REVIEW, EVENT_DELAY_REVIEW]
+  STAFF_EVENTS = [EVENT_APPROVE, EVENT_REJECT, EVENT_REJECT_MICRO, EVENT_NETWORK_REVIEW, EVENT_DELAY_REVIEW, EVENT_RESUME_REVIEW]
 
   def self.included(klass)
     klass.class_eval do
@@ -30,6 +31,9 @@ module ApprovalWorkflow
         end
         event :revise do
           transition :from => :pending_review, :to => :in_review
+        end
+        event :resume_review do
+          transition :from => :delay_review, :to => :in_review
         end
         event :network_review do
           transition :from => [:in_review, :pending_review, :delay_review], :to => :network_review

@@ -2,8 +2,6 @@
 require 'minitest/autorun'
 
 class OrganizationTest < ActiveSupport::TestCase
-  # FIXME create object first
-  # should validate_uniqueness_of :name
   should validate_presence_of :name
   should have_many :contacts
   should have_many :logo_requests
@@ -537,6 +535,13 @@ class OrganizationTest < ActiveSupport::TestCase
     organization = create(:organization, employees: 8)
     organization.approve
     assert_equal 1.year.from_now.to_date, organization.cop_due_on
+  end
+
+  test "an organization that is in delay_review can resume review on it" do
+    organization = create(:organization, state: :delay_review)
+    assert organization.resume_review!
+
+    assert organization.in_review?
   end
 
 end
