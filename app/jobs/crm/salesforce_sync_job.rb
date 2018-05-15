@@ -6,6 +6,15 @@ module Crm
     ALLOWED_METHODS = [:create, :update, :destroy, :synced_record_id, :should_sync?]
     attr_reader :action, :model, :model_id, :adapter, :changes, :crm, :foreign_key_hash
 
+    def self.resync(model)
+      changes = model.attributes.except(*self.excluded_attributes)
+      # HACK a fake change set
+      changes.transform_values! do |value|
+        [nil, value]
+      end
+      perform_later("create", model, changes.to_json)
+    end
+
     def perform(action, model, changes = nil, crm = Crm::Salesforce.new)
       @action = action.to_sym
 
@@ -90,7 +99,6 @@ module Crm
       return if parent_model.nil?
 
       parent_model_record_id = parent_model.record_id
-      newly_stored = parent_model_record_id.nil?
       if parent_model_record_id.nil?
         job_class = "Crm::#{parent_model.class.name}SyncJob".constantize
         parent_model_record_id = job_class.perform_now(:synced_record_id, parent_model, nil, crm)
