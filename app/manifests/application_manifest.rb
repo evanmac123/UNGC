@@ -48,7 +48,7 @@ class ApplicationManifest < Moonshine::Manifest::Rails
   on_stage(:production) do
     recipe :cron_tasks
     recipe :jungle_disk
-    recipe :scout
+    # recipe :scout
   end
 
   on_stage(:staging) do
