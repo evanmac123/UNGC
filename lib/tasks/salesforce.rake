@@ -14,6 +14,15 @@ namespace :salesforce do
     listener.listen
   end
 
+  desc "sync an organization"
+  task :sync, [:organization_id] => :environment do |t, args|
+    id = args[:organization_id]
+    raise "usage: rake salesforce:sync[123]" if id.blank?
+
+    organization = Organization.find(id)
+    Crm::OrganizationSyncJob.resync(organization)
+  end
+
   desc "seed the salesforce contact => sf mapping"
   task seed_owners: :environment do
     {
