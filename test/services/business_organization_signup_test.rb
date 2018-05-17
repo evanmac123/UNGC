@@ -119,14 +119,6 @@ class BusinessOrganizationSignupTest < ActiveSupport::TestCase
     assert_contains signup.error_messages, "Revenue from landmines must be selected"
   end
 
-  test "validates invoice_date according to a policy" do
-    signup = build_signup()
-    signup.invoicing_policy = stub(invoicing_required?: true)
-
-    refute signup.valid_invoice_date?, "expected signup not to be valid"
-    assert_contains signup.error_messages, "Invoice date can't be blank"
-  end
-
   test "persist revenue questions" do
     signup = build_signup(organization: {
       is_tobacco: "false",

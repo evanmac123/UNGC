@@ -1,30 +1,22 @@
 class Organization::InvoicingPolicy
   attr_reader :organization
 
+  LEGACY_INVOICING_CUTOFF = Date.new(2018, 11, 30)
+
   def initialize(organization, revenue, now: -> { Date.current })
     @organization = organization
     @revenue = revenue
     @today = now.call()
-    @cop_due_on = organization&.cop_due_on
-    @include_cop_due_date = @cop_due_on.present?
   end
 
   def options
-    april1 = next_date month: 4, day: 1
-
     options = [
       ["Invoice me now", @today],
-      ["Invoice me on 1 April #{april1.year}", april1],
     ]
 
-    if @include_cop_due_date && @cop_due_on >= @today
-      options << [
-        I18n.t("level_of_participation.invoice_on_next_cop_due_date", cop_due_on: @cop_due_on),
-        @cop_due_on
-      ]
+    if before_cutoff_date
+      options << ["Invoice me on:", LEGACY_INVOICING_CUTOFF]
     end
-
-    options << ["Invoice me on:", nil]
 
     options
   end
@@ -38,11 +30,15 @@ class Organization::InvoicingPolicy
       record.errors.add :invoice_date, "can't be blank"
     when !invoice_date.is_a?(Date)
       record.errors.add :invoice_date, "must be a valid date"
-    when invoice_date < Date.current
+    when invoice_date < @today
       record.errors.add :invoice_date, "can't be in the past"
     when invoice_date > 1.year.from_now
       record.errors.add :invoice_date, "can't be more than a year from now"
+    when invoice_date > @today && invoice_date < LEGACY_INVOICING_CUTOFF
+      record.errors.add :invoice_date, "must be after #{LEGACY_INVOICING_CUTOFF}"
     end
+
+    record.errors.empty?
   end
 
   def to_h
@@ -121,14 +117,8 @@ class Organization::InvoicingPolicy
 
   private
 
-  def next_date(month:, day:)
-    today = Date.current
-    this_year = Date.new(today.year, month, day)
-    if this_year >= today
-      this_year
-    else
-      this_year + 1.year
-    end
+  def before_cutoff_date
+    @today < LEGACY_INVOICING_CUTOFF
   end
 
   def invoicing_strategy

@@ -14,11 +14,6 @@ module TestPage
         check "The primary contact is also the financial contact"
       end
 
-      def set_invoice_date(date)
-        value = date.strftime("%d/%m/%Y")
-        fill_in "organization[invoice_date]", with: value
-      end
-
       def submit
         click_on "Next"
         Step6.new

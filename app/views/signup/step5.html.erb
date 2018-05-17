@@ -25,12 +25,6 @@
         <%= render partial: 'contact_form', locals: { form: fields, account_info: false, contact_type: 'Financial Contact', financial_contact: true } %>
       <% end %>
 
-      <% if @signup.invoicing_required? %>
-        <%= render(partial: "/shared/invoice_date_selector", locals: {
-          form: form, options: @signup.invoice_date_options
-        }) %>
-      <% end %>
-
       <div class="clear"></div>
 
       <%= form.submit 'Next', class: 'button' %>

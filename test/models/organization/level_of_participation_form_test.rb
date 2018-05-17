@@ -326,6 +326,9 @@ class Organization::LevelOfParticipationFormTest < ActiveSupport::TestCase
         roles: [Role.contact_point]).id
     end
 
+    cutoff = Organization::InvoicingPolicy::LEGACY_INVOICING_CUTOFF
+    invoice_date = [1.week.from_now, cutoff].max
+
     Organization::LevelOfParticipationForm.new(params.reverse_merge(
       level_of_participation: "participant_level",
       is_subsidiary: false,
@@ -336,18 +339,14 @@ class Organization::LevelOfParticipationFormTest < ActiveSupport::TestCase
       organization: organization,
       financial_contact_id: contact_point_id,
       financial_contact_action: "choose",
-      invoice_date: 3.months.from_now.to_date,
+      invoice_date: invoice_date,
     ))
   end
 
   def contact_attrs(contact)
     financial_contact = Organization::LevelOfParticipationForm::FinancialContact.from(contact)
     financial_contact.to_h.transform_values do |v|
-      if v.nil?
-        ""
-      else
-        v
-      end
+      v || ""
     end
   end
 

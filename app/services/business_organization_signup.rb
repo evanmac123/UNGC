@@ -97,10 +97,6 @@ class BusinessOrganizationSignup < OrganizationSignup
     end
   end
 
-  def invoice_date_options
-    invoicing_policy.options
-  end
-
   def select_participation_level(params)
     level = params[:level_of_participation]
     real_level = if level == "lead_level"
@@ -109,7 +105,9 @@ class BusinessOrganizationSignup < OrganizationSignup
                    level
                  end
     organization.level_of_participation = real_level
-    organization.invoice_date = params[:invoice_date]
+    if invoicing_policy.invoicing_required?
+      organization.invoice_date = Date.current
+    end
 
     @ap_subscriptions = params.fetch(:subscriptions, {})
       .values
@@ -129,11 +127,6 @@ class BusinessOrganizationSignup < OrganizationSignup
 
   def invoicing_required?
     invoicing_policy.invoicing_required?
-  end
-
-  def valid_invoice_date?
-    validate_invoice_date
-    organization.errors.empty?
   end
 
   def valid_action_platform_subscriptions?
@@ -206,10 +199,6 @@ class BusinessOrganizationSignup < OrganizationSignup
     if organization.level_of_participation.blank?
       organization.errors.add :level_of_participation, "can't be blank"
     end
-  end
-
-  def validate_invoice_date
-    invoicing_policy.validate(organization)
   end
 
   def validate_revenue_from_sources

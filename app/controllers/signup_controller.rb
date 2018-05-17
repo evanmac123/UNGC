@@ -94,14 +94,13 @@ class SignupController < ApplicationController
     if @signup.business?
       if request.post?
         o = params.fetch(:organization, {})
-        @signup.organization.invoice_date = o[:invoice_date]
         @signup.primary_contact_is_financial_contact = o[:primary_contact_is_financial_contact] == "1"
         @signup.set_financial_contact_attributes(contact_params)
 
         store_organization_signup
       end
 
-      if !@signup.financial_contact_valid? || !@signup.valid_invoice_date?
+      if !@signup.financial_contact_valid?
         flash[:error] = @signup.error_messages
         redirect_to organization_step5_path
       end
@@ -247,7 +246,6 @@ class SignupController < ApplicationController
   def participation_level_params
     params.require(:organization).permit(
       :level_of_participation,
-      :invoice_date,
       subscriptions: [
         :selected,
         :contact_id,

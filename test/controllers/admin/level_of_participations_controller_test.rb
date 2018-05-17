@@ -92,13 +92,16 @@ class Admin::LevelOfParticipationsControllerTest < ActionController::TestCase
   end
 
   def valid_params(params = {})
+    cutoff = Organization::InvoicingPolicy::LEGACY_INVOICING_CUTOFF
+    invoice_date = [1.week.from_now, cutoff].max
+
     params.reverse_merge(
       level_of_participation: "participant_level",
       is_subsidiary: false,
       annual_revenue: 500_000,
       confirm_financial_contact_info: true,
       confirm_submission: true,
-      invoice_date: 3.months.from_now,
+      invoice_date: invoice_date,
       financial_contact: {
         prefix: "Mr",
         first_name: "Ben",

@@ -51,7 +51,7 @@ class Admin::ChooseParticipationLevelTest < ActionDispatch::IntegrationTest
     form.confirm_financial_contact_info
 
     # Set the invoice date
-    form.invoice_on_cop_due_date_of(organization)
+    form.invoice_me_now
 
     # Confirm the submission
     form.confirm_submission
@@ -60,7 +60,7 @@ class Admin::ChooseParticipationLevelTest < ActionDispatch::IntegrationTest
     form.submit
 
     # Then we expect that it will be successful
-    assert_equal dashboard_path, current_path
+    assert_equal dashboard_path, current_path, validation_errors
     page.has_content? I18n.t("level_of_participation.success")
   end
 

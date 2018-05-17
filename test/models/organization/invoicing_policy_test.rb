@@ -104,7 +104,7 @@ class Organization::InvoicingPolicyTest < ActiveSupport::TestCase
 
   test "valid dates are allowed" do
     travel_to Date.new(2017, 1, 2) do
-      policy = create_policy(invoice_date: Date.new(2018, 1, 1))
+      policy = create_policy(invoice_date: Date.new(2017, 1, 2))
 
       policy.validate(policy.organization)
       assert_empty policy.organization.errors.full_messages
@@ -155,6 +155,58 @@ class Organization::InvoicingPolicyTest < ActiveSupport::TestCase
 
     expected = {type: "not_yet_decided", value: false}
     assert_equal expected, strategy.to_h
+  end
+
+  context "When the date is before Nov 30 2018" do
+
+    setup     { travel_to(Date.new(2018, 11, 1)) }
+    teardown  { travel_back }
+
+    should "'Invoice me now' and 'Invoice me on:' are both available" do
+      now, on = create_policy.options.map(&:first)
+      assert_equal "Invoice me now", now
+      assert_equal "Invoice me on:", on
+    end
+
+    should "Today is a valid invoice date" do
+      policy = create_policy(invoice_date: Date.current)
+      organization = policy.organization
+
+      assert policy.validate(organization), organization.errors.full_messages
+    end
+
+    should "Dates between today and Nov 30 are not valid" do
+      policy = create_policy(invoice_date: 1.day.from_now.to_date)
+      organization = policy.organization
+
+      policy.validate(organization)
+
+      assert_includes organization.errors.full_messages,
+        "Invoice date must be after 2018-11-30"
+    end
+
+    should "Nov 30 is a valid invoice date" do
+      policy = create_policy(invoice_date: Date.new(2018, 11, 30))
+      organization = policy.organization
+
+      assert policy.validate(organization), organization.errors.full_messages
+    end
+
+    should "Invoice dates within 1 year are valid" do
+      policy = create_policy(invoice_date: 1.year.from_now)
+      organization = policy.organization
+
+      assert policy.validate(organization), organization.errors.full_messages
+    end
+
+  end
+
+  should "Invoice me now is the only option after Nov 30 2018" do
+    travel_to Date.new(2018, 11, 30) do
+      policy = create_policy
+      options = policy.options.map(&:first)
+      assert_equal ["Invoice me now"], options
+    end
   end
 
   private

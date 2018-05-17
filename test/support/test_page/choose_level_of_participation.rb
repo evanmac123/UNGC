@@ -56,12 +56,6 @@ module TestPage
       check I18n.t("level_of_participation.confirm_financial_contact_info")
     end
 
-    def invoice_on_cop_due_date_of(organization)
-      choose I18n.t("level_of_participation.invoice_on_next_cop_due_date",
-        cop_due_on: organization.cop_due_on)
-      fill_in "level_of_participation[invoice_date]", with: format_date(organization.cop_due_on)
-    end
-
     def invoice_me_now
       choose "Invoice me now"
       fill_in "level_of_participation[invoice_date]", with: format_date(today)

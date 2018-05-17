@@ -100,7 +100,6 @@ class BusinessSignupTest < ActionDispatch::IntegrationTest
       email: "limueller@block.name",
       phone: "(123) 123 1234",
     )
-    step5.set_invoice_date(Date.current)
     step6 = step5.submit
     assert_equal organization_step6_path, current_path, validation_errors
 
@@ -262,7 +261,6 @@ class BusinessSignupTest < ActionDispatch::IntegrationTest
 
     # step5 financial contact info
     step5.check_same_as_primary_contact
-    step5.set_invoice_date(Date.current)
     step6 = step5.submit
     assert_equal organization_step6_path, current_path, validation_errors
 
