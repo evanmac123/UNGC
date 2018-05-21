@@ -152,6 +152,16 @@ class Contact < ActiveRecord::Base
     for_roles(Role.ceo)
   end
 
+  def self.roles_for_network_report
+    roles = [
+      Role.network_report_recipient,
+      Role.network_executive_director,
+      Role.network_board_chair,
+      Role.network_focal_point
+    ].freeze
+
+    for_roles(roles)
+  end
 
   def self.network_roles
     roles = [

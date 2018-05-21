@@ -1,6 +1,6 @@
 class LocalNetworksContacts < SimpleReport
   def records
-    Contact.network_roles.includes(:local_network).order('local_networks.name')
+    Contact.roles_for_network_report.includes(:local_network).order('local_networks.name')
   end
 
   def headers
