@@ -1,7 +1,7 @@
 class SdgPioneerOtherReport < SimpleReport
 
   def records
-    date  = Date.new(2017,04,01)
+    date  = Date.new(2018,05,03)
     SdgPioneer::Other.where("created_at >= ?", date)
   end
 
