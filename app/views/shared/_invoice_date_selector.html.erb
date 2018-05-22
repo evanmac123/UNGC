@@ -6,5 +6,5 @@
       <%= text %>
     </label>
   <% end %>
-  <%= form.date_field(:invoice_date, min: Date.current, max: 1.year.from_now) %>
+  <%= form.date_field(:invoice_date, min: Date.current, max: Date.new(2018,11,30)) %>
 </div>
