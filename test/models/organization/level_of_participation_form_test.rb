@@ -314,6 +314,16 @@ class Organization::LevelOfParticipationFormTest < ActiveSupport::TestCase
     assert_nil mail
   end
 
+  test "requires a valid financial email contact" do
+    form = build_form(
+      financial_contact_action: "create",
+      financial_contact:  {
+        email: "invalid@example,com"
+      }
+    )
+    assert_includes_error form, "Email is not a valid email address"
+  end
+
   private
 
   def build_form(params = {})

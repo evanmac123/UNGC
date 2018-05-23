@@ -38,6 +38,10 @@ class Organization::LevelOfParticipationForm
 
     validate :validate_unique_email
 
+    validates_format_of :email,
+      with: /\A[A-Za-z0-9.'_%+-]+@[A-Za-z0-9'.-]+\.[A-Za-z]{2,6}\z/,
+      message: "is not a valid email address"
+
     def self.from(contact)
       attrs = contact.attributes.slice(*keys)
       new(attrs)
