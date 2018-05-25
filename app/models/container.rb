@@ -115,7 +115,7 @@ class Container < ActiveRecord::Base
 
   def self.lookup(layout, slug = '/')
     where(layout: layouts[layout], slug: normalize_slug(slug)).
-      includes(:public_payload, :draft_payload).
+      includes(:public_payload).
       first
   end
 
