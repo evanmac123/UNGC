@@ -29,3 +29,4 @@
 //= require_tree ./sdg_pioneer
 //= require_tree ./d3
 //= require donations
+//= require cookie_notice

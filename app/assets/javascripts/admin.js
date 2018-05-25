@@ -27,6 +27,7 @@
 //= require_self
 //= require retina
 //= require action_platform
+//= require cookie_notice
 
 // Array Remove - By John Resig (MIT Licensed)
 Array.prototype.remove = function(from, to) {
