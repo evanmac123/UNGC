@@ -22,6 +22,7 @@ en:
         is_tobacco: "Revenue from tobacco"
         is_landmine: "Revenue from landmines"
         is_biological_weapons: "Revenue from weapons"
+        accepts_eula: "The terms of use"
       sdg_pioneer/submission:
         is_nominated: ""
         is_participant: ""

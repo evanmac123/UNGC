@@ -106,6 +106,7 @@ class BusinessSignupTest < ActionDispatch::IntegrationTest
     # step 6 Letter of Commitment
     step6.submit(
       commitment_letter: "test/fixtures/files/untitled.pdf",
+      accepts_eula: true,
       registry_url: "http://myregistry.org",
     )
     assert_equal organization_step7_path, current_path, validation_errors
@@ -130,6 +131,7 @@ class BusinessSignupTest < ActionDispatch::IntegrationTest
     assert_equal Date.new(2019, 1, 1), organization.invoice_date
     assert_equal "participant_level", organization.level_of_participation
     assert_equal "http://myregistry.org", organization.government_registry_url
+    assert organization.accepts_eula?
 
     # commitment letter
     commitment_letter_file_name = organization.commitment_letter_file_name
@@ -266,10 +268,13 @@ class BusinessSignupTest < ActionDispatch::IntegrationTest
 
     # step 6 Letter of Commitment
     assert_difference -> { Contact.count }, +2 do
-      step6.submit(commitment_letter: "test/fixtures/files/untitled.pdf",
-        registry_url: "http://myregistry.org")
+      step6.submit(
+        commitment_letter: "test/fixtures/files/untitled.pdf",
+        accepts_eula: true,
+        registry_url: "http://myregistry.org"
+      )
+      assert_equal organization_step7_path, current_path, validation_errors
     end
-    assert_equal organization_step7_path, current_path, validation_errors
 
     organization = Organization.find_by(name: "New Organization name")
     financial_contact = organization.contacts.financial_contacts.first

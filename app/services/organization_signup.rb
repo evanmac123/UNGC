@@ -40,7 +40,10 @@ class OrganizationSignup
   end
 
   def set_commitment_letter_attributes(params)
-    organization.commitment_letter = params.fetch(:commitment_letter)
+    organization.assign_attributes(params.slice(
+      :commitment_letter,
+      :accepts_eula
+    ))
   end
 
   def valid?
@@ -65,7 +68,12 @@ class OrganizationSignup
       organization.errors.add :commitment_letter, "must be uploaded"
     end
     local_valid_organization?
-    !organization.errors.any?
+
+    unless organization.accepts_eula?
+      organization.errors.add :accepts_eula, "must be accepted"
+    end
+
+    organization.errors.empty?
   end
 
   def set_primary_contact_attributes(par)

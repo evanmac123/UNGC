@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180430192045) do
+ActiveRecord::Schema.define(version: 20180525224544) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -974,6 +974,7 @@ ActiveRecord::Schema.define(version: 20180430192045) do
     t.integer  "parent_company_id"
     t.string   "government_registry_url",        limit: 2000
     t.string   "video_embed",                    limit: 500
+    t.boolean  "accepts_eula"
   end
 
   add_index "organizations", ["country_id"], name: "index_organizations_on_country_id", using: :btree

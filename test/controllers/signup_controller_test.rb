@@ -152,6 +152,10 @@ class SignupControllerTest < ActionController::TestCase
       )
       @signup.set_primary_contact_attributes(@signup_contact)
       @signup.set_ceo_attributes(@signup_ceo)
+      @signup.set_commitment_letter_attributes(
+        accepts_eula: true,
+        government_registry_url: "http://example.com"
+      )
       store_pending(@signup)
 
       post :step7, organization: {commitment_letter: fixture_file_upload('files/untitled.pdf', 'application/pdf'),
@@ -179,6 +183,7 @@ class SignupControllerTest < ActionController::TestCase
                                         mission_statement: "A")
       @signup.set_primary_contact_attributes(@signup_contact)
       @signup.set_ceo_attributes(@signup_ceo)
+      @signup.set_commitment_letter_attributes(accepts_eula: true)
       store_pending(@signup)
 
       assert_difference 'ActionMailer::Base.deliveries.size' do
@@ -206,6 +211,7 @@ class SignupControllerTest < ActionController::TestCase
                                         mission_statement: "A")
       @signup.set_primary_contact_attributes(@signup_contact)
       @signup.set_ceo_attributes(@signup_ceo)
+      @signup.set_commitment_letter_attributes(accepts_eula: true)
       session[:is_jci_referral] = true
       store_pending(@signup)
 
@@ -231,6 +237,10 @@ class SignupControllerTest < ActionController::TestCase
                                         mission_statement: "A")
       @signup.set_primary_contact_attributes(@signup_contact)
       @signup.set_ceo_attributes(@signup_ceo)
+      @signup.set_commitment_letter_attributes(
+        accepts_eula: true,
+        government_registry_url: "http://example.com"
+      )
       store_pending(@signup)
 
       post :step7, organization: {commitment_letter: fixture_file_upload('files/untitled.pdf', 'application/pdf')}

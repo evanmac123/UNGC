@@ -110,6 +110,14 @@ class NonBusinessOrganizationSignupTest < ActiveSupport::TestCase
     assert signup.valid_organization?, signup.organization.errors.full_messages
   end
 
+  test "must accept eula" do
+    signup = build_signup(accepts_eula: false)
+    refute signup.complete_valid?, "should be invalid"
+
+    signup.set_commitment_letter_attributes(accepts_eula: true)
+    assert signup.complete_valid?, signup.organization.errors.full_messages
+  end
+
   private
 
   def new_contact_attributes
@@ -138,6 +146,12 @@ class NonBusinessOrganizationSignupTest < ActiveSupport::TestCase
 
     commitment_letter = fixture_file_upload('files/untitled.pdf', 'application/pdf')
     signup.organization.commitment_letter = commitment_letter
+
+    if params.key?(:accepts_eula)
+      signup.organization.accepts_eula = params.fetch(:accepts_eula)
+    else
+      signup.organization.accepts_eula = true
+    end
 
     signup
   end

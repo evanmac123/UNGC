@@ -50,6 +50,13 @@
           </div>
         </fieldset>
       <%- end -%>
+
+      <div class='field'>
+        <label>
+          <%= form.check_box :accepts_eula %> I have read and agree with the terms of the <a target="_blank" href="/privacy-policy">privacy policy</a> and <a target="_blank" href="/privacy-policy/cookies_notice">cookies policy</a>.
+        </label>
+      </div>
+
       <%= form.submit 'Submit', :class => 'button' %>
     <%- end -%>
   </div>

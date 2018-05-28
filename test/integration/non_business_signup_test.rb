@@ -64,6 +64,7 @@ class NonBusinessSignupTest < ActionDispatch::IntegrationTest
 
     # step 6
     fill_in 'non_business_organization_registration_mission_statement', with: 'This is my mission.'
+    check "organization_accepts_eula"
     attach_file 'organization_commitment_letter', 'test/fixtures/files/untitled.pdf'
 
     click_on 'Submit'
@@ -78,6 +79,7 @@ class NonBusinessSignupTest < ActionDispatch::IntegrationTest
     assert_equal 'Foundation', organization.organization_type.name
     assert_equal 'France', organization.country.name
     assert_nil organization.legal_status
+    assert organization.accepts_eula?
 
     # commitment letter
     commitment_letter_file_name = organization.commitment_letter_file_name
@@ -132,10 +134,11 @@ class NonBusinessSignupTest < ActionDispatch::IntegrationTest
   end
 
   def validation_errors
-    errors = all('#errorExplanation')
-    if errors.any?
-      ap errors.map(&:text).join('\n')
+    errors = all(".error-list .error")
+    if errors.empty?
+      errors = all(".errors-container .error")
     end
+    errors.map(&:text).join("\n")
   end
 
 end
