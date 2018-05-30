@@ -6,7 +6,7 @@
   Engagement Tier.
   They have a revenue of
   %strong
-    = "#{@organization&.precise_revenue_dollars}"
+    = "#{number_to_currency(@organization&.precise_revenue_dollars)}"
 
 %p
   For the entire list of companies that have already selected Participant or Signatory, please check the
