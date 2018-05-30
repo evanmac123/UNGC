@@ -39,7 +39,7 @@
       %dd= full_organization_status(@organization)
       %dt
         Engagement Manager
-        -if @organization.engagement_participant || !@organization.level_of_participation.present?
+        -if @organization.engagement_participant || !@organization.level_of_participation.present? && @organization.business?
           %dd= link_to @organization.participant_manager_name, "mailto:#{@organization.participant_manager_email}?subject=#{@organization.name}%20(ID: #{@organization.id})"
         -else
           %dd Support Team
@@ -114,7 +114,7 @@
         %br/
         Manager
       %dd
-        -if @organization.engagement_participant || !@organization.level_of_participation.present?
+        -if @organization.engagement_participant || !@organization.level_of_participation.present? && @organization.business?
           %p
             = @organization.participant_manager_name
             %br/
