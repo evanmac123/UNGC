@@ -37,8 +37,12 @@
       %dd.first= @organization.id
       %dt Status
       %dd= full_organization_status(@organization)
-      %dt Relationship Manager
-      %dd= link_to @organization.participant_manager_name, "mailto:#{@organization.participant_manager_email}?subject=#{@organization.name}%20(ID: #{@organization.id})"
+      %dt
+        Engagement Manager
+        -if @organization.engagement_participant || !@organization.level_of_participation.present?
+          %dd= link_to @organization.participant_manager_name, "mailto:#{@organization.participant_manager_email}?subject=#{@organization.name}%20(ID: #{@organization.id})"
+        -else
+          %dd Support Team
       %dt Participant since
       %dd= @organization.joined_on || 'n/a'
       %dt== #{@organization.cop_acronym} Due Date
@@ -105,15 +109,32 @@
           %li= popup_link_to 'Welcome Letter from the Executive Director of the Global Compact', show_welcome_letter_admin_organization_path(@organization.id), class: :doc
           %li= link_to_local_network_welcome_letter_if_exists
 
-      %dt Relationship Manager
+      %dt
+        Participant Engagement
+        %br/
+        Manager
       %dd
-        %p
-          = @organization.participant_manager_name
-          %br/
-          = link_to @organization.participant_manager_email, "mailto:#{@organization.participant_manager_email}?subject=#{@organization.name}%20(ID: #{@organization.id})"
-          %br/
-          = @organization.participant_manager_phone
-        %p The Relationship Management team aims to enhance participant engagement by supporting and guiding participants through the broad landscape of initiatives, partnerships, resources and tools offered by the Global Compact. Additionally, they are able to support any technical queries that your organization may have. Please feel free to contact your Relationship Manager with any questions or concerns that you may have regarding your participation in the Global Compact.
+        -if @organization.engagement_participant || !@organization.level_of_participation.present?
+          %p
+            = @organization.participant_manager_name
+            %br/
+            = link_to @organization.participant_manager_email, "mailto:#{@organization.participant_manager_email}?subject=#{@organization.name}%20(ID: #{@organization.id})"
+            %br/
+            = @organization.participant_manager_phone
+            %br/
+        -else
+          %p
+            Support Team
+            %br/
+            = mail_to "info@unglobalcompact.org"
+            %br/
+            +1 212 907 1301
+
+        %p Our Participant Engagement team aims to enhance your experience by supporting and navigating you through the UN Global Compact's broad offering of platforms, partnerships, resources and tools. They are able to assist with any technical queries that your organization may have related to engagement, reporting, and fees.
+
+        %p Organizations in the Participant tier are assigned a dedicated Engagement Manager who will be available every step of the way upon joining our initiative in order to provide guidance on our entire array of opportunities and resources available.
+
+        %p Organizations in the Signatory tier are always able to contact our Support Team to direct their questions and receive prompt assistance.
 
       - if local_network_and_contact_exists?
         %dt
