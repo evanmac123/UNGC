@@ -317,6 +317,8 @@ class Organization < ActiveRecord::Base
   scope :businesses, -> { joins(:organization_type).merge(OrganizationType.business) }
   scope :non_businesses, -> { joins(:organization_type).merge(OrganizationType.non_business) }
   scope :by_type, -> (filter_type) { where(organization_type_id: OrganizationType.for_filter(filter_type).map(&:id)).includes(:organization_type) }
+  scope :le_signatory, -> { where(level_of_participation: 1 ) }
+  scope :le_participant, -> { where(level_of_participation: 2) }
 
   scope :for_initiative, -> (symbol) { joins(:initiatives).where(initiatives: { id: Initiative.for_filter(symbol) }).includes(:initiatives).order(:name) }
   scope :last_joined, -> { order(joined_on: :desc, name: :desc) }
@@ -673,6 +675,11 @@ class Organization < ActiveRecord::Base
     else
       'unknown'
     end
+  end
+
+  def engagement_participant
+    org = self
+    org.level_of_participation == 1
   end
 
   def level_of_participation_view
