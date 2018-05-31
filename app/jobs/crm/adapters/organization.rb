@@ -72,7 +72,7 @@ module Crm
         if relation_changed?(:contacts)
           ceo = model.contacts.ceos.first
           column('BillingStreet', :contacts, true) { ceo&.full_address }
-          column('BillingCity', :contacts, true) { ceo&.city }
+          column('BillingCity', :contacts, true) { ceo&.city&.truncate(40) }
           column('BillingState', :contacts, true) { ceo&.state }
           column('BillingPostalCode', :contacts, true) { ceo&.postal_code&.truncate(20) }
           column('BillingCountry', :contacts, true) { ceo&.country&.name }
