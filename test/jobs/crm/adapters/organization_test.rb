@@ -223,6 +223,14 @@ module Crm
       assert_equal "Toronto", converted.fetch("BillingCity")
     end
 
+    test "truncates billing city" do
+      city = "A" * 100
+      ceo = create(:ceo_contact, city: city)
+      organization = create(:organization, contacts: [ceo])
+      converted = convert_organization(organization)
+      assert_equal 40, converted.fetch("BillingCity").length
+    end
+
     test "converts billing state" do
       ceo = create(:ceo_contact, state: "OH")
       organization = create(:organization, contacts: [ceo])

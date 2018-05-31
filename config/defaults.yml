@@ -1,21 +1,24 @@
+salesforce: &salesforce_defaults
+  :debug: false
+  :api_version: "41.0"
+  # The only way to push scripts to production are to push to this Sandbox environment first, and publish from there
+  # So we set the callback_url to the real one that production will use. Be careful.
+  :callback_url: 'https://www.unglobalcompact.org/salesforce/sync'
+
 universal: &universal
   ungc_organization_name: 'UNGC'
   local_network_guest_name: 'Local Network Guests'
   url_host: 'unglobalcompact.org'
   salesforce:
-    :debug: false
-    :api_version: "41.0"
-    # The only way to push scripts to production are to push to this Sandbox environment first, and publish from there
-    # So we set the callback_url to the real one that production will use. Be careful.
-    :callback_url: 'https://www.unglobalcompact.org/salesforce/sync'
+    <<: *salesforce_defaults
   mit_shift:
     api_key: "0&zL.tzqQF>|CG[U@|[3b&.R4!AG%#&)OlKr(hOoa7BF1js'k)F6k{Ob@%k_7L;"
-
 
 development:
   <<: *universal
   path_to_cop_xml: '../shared/data/cop_xml/*'
   salesforce:
+    <<: *salesforce_defaults
     :host: 'test.salesforce.com'
     :username: 'salesforce@unglobalcompact.org.fgcfull'
     :password: 'UNGC2017!'
@@ -27,6 +30,7 @@ test:
   <<: *universal
   path_to_cop_xml: 'data/cop_xml'
   salesforce:
+    <<: *salesforce_defaults
     :host: 'fake.salesforce.host'
     :username: 'username'
     :password: 'password'
@@ -38,6 +42,7 @@ production:
   <<: *universal
   path_to_cop_xml: '../../shared/data/cop_xml/*'
   salesforce:
+    <<: *salesforce_defaults
     :host: 'unglobalcompact.my.salesforce.com'
     :username: 'salesforce@unglobalcompact.org'
     :password: 'UNGC2017!'
@@ -48,6 +53,7 @@ production:
 staging:
   <<: *universal
   salesforce:
+    <<: *salesforce_defaults
     :host: 'test.salesforce.com'
     :username: 'salesforce@unglobalcompact.org.fgcfull'
     :password: 'UNGC2017!'
