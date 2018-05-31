@@ -138,6 +138,17 @@ class OrganizationTest < ActiveSupport::TestCase
       assert @organization.academic?
     end
 
+    context "organization has engagement manager" do
+      setup do
+        @organization = create(:organization, name: 'Company',
+                                organization_type: OrganizationType.company,
+                                level_of_participation: 'participant_level')
+      end
+      should "show engagment manager" do
+        assert @organization.engagement_participant, true
+      end
+    end
+
     context "approving its participation" do
       setup do
         @organization = create(:organization, name: 'Company',

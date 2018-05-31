@@ -679,7 +679,7 @@ class Organization < ActiveRecord::Base
 
   def engagement_participant
     org = self
-    org.level_of_participation == 1
+    org.level_of_participation == "participant_level"
   end
 
   def level_of_participation_view
