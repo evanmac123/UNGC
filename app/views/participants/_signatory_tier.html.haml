@@ -64,7 +64,6 @@
         - if participant.ownership.present?
           %dt Ownership:
           %dd= participant.ownership
-      = link_to('Letter of Commitment', participant.commitment_letter.url, target: '_blank') if participant.commitment_letter.present?
       %br/
       = link_to('Letter of Re-commitment', participant.recommitment_letter.url, target: '_blank') if participant.recommitment_letter.present?
     .column.company-information-financial-information
