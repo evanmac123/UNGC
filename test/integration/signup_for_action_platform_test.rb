@@ -71,7 +71,7 @@ class SignupForActionPlatformTest < ActionDispatch::IntegrationTest
     assert_equal 2, event.data.fetch(:platform_ids).length
   end
 
-  test "non-participatns cannot signup for action platforms" do
+  test "non-participants cannot signup for action platforms" do
     # Given I'm logged in as a contact from a signatory business
     organization = create(:business, level_of_participation: :signatory_level)
     contact = create(:contact,

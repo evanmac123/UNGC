@@ -266,6 +266,51 @@ class Admin::ChooseParticipationLevelTest < ActionDispatch::IntegrationTest
     assert_equal [platform1.id, platform2.id], order.subscriptions.map(&:platform_id)
   end
 
+  test "Action Platforms selected as LEAD and then switching to Signatory does not result in ActionPlatform subscriptions being created." do
+    # Actual bug.
+
+    # Given a platform
+    platform = create(:action_platform_platform)
+
+    # And an organization from a network
+    organization = create_organization()
+
+    # With a contact point for the organization
+    contact = create_contact_point(organization)
+
+    # And a contact for the network
+    create(:staff_contact, :network_focal_point,
+      local_network: organization.local_network)
+
+    # When we're logged in as the organization contact
+    login_as(contact)
+
+    form = TestPage::ChooseLevelOfParticipation.new
+    visit form.path
+
+    # Select 2 action platforms as LEAD level
+    form.select_level_of_participation("PARTICIPANT + ACTION PLATFORMS & LEAD ELIGIBILITY")
+    form.signup_for_action_platform(platform, contact)
+
+    # Select signatory level
+    form.select_level_of_participation("SIGNATORY")
+    form.annual_revenue = "123,456,567"
+    form.assign_financial_contact_role_to(contact)
+    form.confirm_financial_contact_info
+    form.invoice_me_now
+    form.confirm_submission
+
+    # When we submit
+    assert_no_difference -> { ActionPlatform::Order.count } do
+      form.submit
+    end
+
+    # Then we expect that it will be successful
+    assert_empty form.validation_errors
+    assert_equal dashboard_path, current_path
+    page.has_content? I18n.t("level_of_participation.success")
+  end
+
   private
 
   def create_invoicing_network

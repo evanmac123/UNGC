@@ -225,15 +225,18 @@ class Organization::LevelOfParticipationForm
 
         # Create any Action Platform Subscriptions
         order_service = ActionPlatform::OrderService.new(organization, financial_contact_record)
-        if selected_subscriptions.any?
-          selected_subscriptions.each do |params|
-            order_service.subscribe(
-              contact_id: params.contact_id,
-              platform_id: params.platform_id
-            )
-          end
 
-          order_service.create_order_without_notifications
+        if level_of_participation_chosen && organization.participant_level?
+          if selected_subscriptions.any?
+            selected_subscriptions.each do |params|
+              order_service.subscribe(
+                contact_id: params.contact_id,
+                platform_id: params.platform_id
+              )
+            end
+
+            order_service.create_order_without_notifications
+          end
         end
 
         stream_name = "organization_#{organization.id}"
