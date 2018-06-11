@@ -33,7 +33,7 @@ class SalesforceSync
         record = model_class.find_by(field => id)
         case
         when record.nil? && args[:is_deleted] == true
-          show_delete_warning
+          show_delete_warning(id)
         when record.nil?
           model_class.create!(args.merge(field => id))
         when record.present?
@@ -43,7 +43,7 @@ class SalesforceSync
     end
   end
 
-  def show_delete_warning
+  def show_delete_warning(id)
     Rails.logger.warn(<<-WARNING)
             The record #{id} is being deleted, but we never had it
             in the first place. Ignoring the command.
