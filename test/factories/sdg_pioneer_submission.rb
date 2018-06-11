@@ -1,7 +1,9 @@
 FactoryBot.define do
   factory :sdg_pioneer_submission, :class => SdgPioneer::Submission do
     country_name { create(:country).name }
-    organization_name Faker::Company.name
+    organization_name {
+      create(:business, level_of_participation: "signatory_level").name
+    }
     is_participant Faker::Boolean.boolean
     name Faker::Name.name
     title Faker::Name.title
@@ -15,11 +17,6 @@ FactoryBot.define do
     ten_principles { Faker::Lorem.paragraph }
     awareness_and_mobilize { Faker::Lorem.paragraph }
     matching_sdgs { create_list(:sustainable_development_goal, 2).map(&:id) }
-    # other_relevant_info Faker::Lorem.paragraph
-    # local_business_name Faker::Company.name
-    # is_nominated Faker::Boolean.boolean
-    # nominating_organization Faker::Company.name
-    # nominating_individual Faker::Name.name
     has_local_network true
     local_network_question Faker::Lorem.paragraph
     accepts_interview true

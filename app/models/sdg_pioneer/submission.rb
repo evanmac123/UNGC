@@ -35,7 +35,6 @@ class SdgPioneer::Submission < ActiveRecord::Base
   validates :email,                       presence: true, length: { maximum: 255 }
   validates :phone,                       presence: true, length: { maximum: 255 }
   validates :organization_name,           presence: true, length: { maximum: 255 }
-  validates :organization_name_matched,   inclusion: [true, false], presence: { message: "is not in our system as an active participant" }
   validate :validate_country_name
   validates :company_success,            presence: true, length: { maximum: 1500 }
   validates :innovative_sdgs,            presence: true, length: { maximum: 1500 }
@@ -47,9 +46,12 @@ class SdgPioneer::Submission < ActiveRecord::Base
   validates :has_local_network,            inclusion: [true, false]
   validates :supporting_documents,        length: { minimum: 1, maximmum: 12 }
   validates :website_url,                 length: { maximum: 255 }
+  validate :organization_name_matches
+
+  before_validation :strip_whitespace
 
   has_many :supporting_documents,
-              -> { where attachable_key: 'supporting_document'},
+              -> { where attachable_key: 'supporting_document' },
               class_name: 'UploadedFile',
               as: :attachable,
               dependent: :destroy
@@ -61,6 +63,15 @@ class SdgPioneer::Submission < ActiveRecord::Base
   ]
 
   serialize :matching_sdgs, JSON
+
+  def strip_whitespace
+    name&.strip!
+    title&.strip!
+    email&.strip!
+    phone&.strip!
+    organization_name&.strip!
+    country_name&.strip!
+  end
 
   def uploaded_supporting_documents=(values)
     values.each do |attrs|
@@ -75,7 +86,7 @@ class SdgPioneer::Submission < ActiveRecord::Base
   def validate_country_name
     if Country.where(name: self.country_name).none?
       message = I18n.t('sdg_pioneer.validations.country_name')
-      self.errors.add :country_name, message
+      errors.add :country_name, message
     end
   end
 
@@ -85,6 +96,14 @@ class SdgPioneer::Submission < ActiveRecord::Base
 
   def set_pioneer_type
     self.pioneer_type ||= :business_leader
+  end
+
+  def organization_name_matches
+    query = SdgPioneer::EligibleBusinessesQuery.new(named: organization_name)
+    self.organization_name_matched = query.run.exists?
+    unless self.organization_name_matched?
+      errors.add :organization_name, "is not in our system as an active participant"
+    end
   end
 
 end

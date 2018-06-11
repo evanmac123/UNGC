@@ -15,8 +15,8 @@ ActiveRecord::Schema.define(version: 20180525224544) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "unaccent"
   enable_extension "citext"
+  enable_extension "unaccent"
 
   create_table "action_platform_orders", force: :cascade do |t|
     t.integer  "organization_id",                                  null: false

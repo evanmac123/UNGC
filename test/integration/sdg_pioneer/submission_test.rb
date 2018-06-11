@@ -23,7 +23,7 @@ class SdgPioneer::SubmissionTest < ActionDispatch::IntegrationTest
     fill_in 'submission_title', with: 'Most Contacted Person'
     fill_in 'submission_email', with: 'contact-person@example.com'
     fill_in 'submission_phone', with: '1 (123) 123-1234'
-    fill_in 'submission_organization_name', with: "McExampleson's Emporium"
+    fill_in 'submission_organization_name', with: "McExampleson's Emporium "
     fill_in 'submission_country_name', with: 'Canada'
     fill_in 'submission_website_url', with: 'https://example.com/document.html'
     fill_in 'submission_company_success', with: 'My success'

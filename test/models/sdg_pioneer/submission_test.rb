@@ -14,7 +14,7 @@ class SubmissionTest < ActiveSupport::TestCase
   end
 
   should 'accept active participant names for company' do
-    participant = create(:organization, active: true, participant: true)
+    participant = create(:business, level_of_participation: "signatory_level")
     nomination = build(:sdg_pioneer_submission, organization_name: participant.name)
     assert nomination.valid?, nomination.errors.messages
   end
@@ -50,5 +50,11 @@ class SubmissionTest < ActiveSupport::TestCase
     nomination = build(:sdg_pioneer_submission, local_network_question: "")
     refute nomination.valid?
     assert_contains nomination.errors.full_messages, "Local network question can't be blank"
+  end
+
+  private
+
+  def create_participant
+    create(:business, level_of_participation: "signatory_level")
   end
 end
