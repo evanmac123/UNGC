@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180525224544) do
+ActiveRecord::Schema.define(version: 20180618190156) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1177,7 +1177,7 @@ ActiveRecord::Schema.define(version: 20180525224544) do
     t.string   "email",                     limit: 255
     t.string   "phone",                     limit: 255
     t.string   "organization_name",         limit: 255
-    t.boolean  "organization_name_matched",             default: false, null: false
+    t.boolean  "organization_name_matched",             default: true,  null: false
     t.string   "country_name",              limit: 255
     t.text     "reason_for_being"
     t.boolean  "accepts_tou",                           default: false, null: false
@@ -1192,7 +1192,10 @@ ActiveRecord::Schema.define(version: 20180525224544) do
     t.boolean  "accepts_interview"
     t.boolean  "has_local_network"
     t.text     "local_network_question"
+    t.integer  "organization_id"
   end
+
+  add_index "sdg_pioneer_submissions", ["organization_id"], name: "index_sdg_pioneer_submissions_on_organization_id", using: :btree
 
   create_table "searchables", force: :cascade do |t|
     t.datetime "last_indexed_at"
@@ -1351,6 +1354,7 @@ ActiveRecord::Schema.define(version: 20180525224544) do
   add_foreign_key "organization_social_networks", "organizations", on_delete: :cascade
   add_foreign_key "organizations", "listing_statuses", on_delete: :nullify
   add_foreign_key "resource_weights", "resources"
+  add_foreign_key "sdg_pioneer_submissions", "organizations"
   add_foreign_key "taggings", "action_platform_platforms", column: "action_platform_id"
   add_foreign_key "taggings", "authors"
   add_foreign_key "taggings", "case_examples"

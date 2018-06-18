@@ -1,9 +1,7 @@
 FactoryBot.define do
   factory :sdg_pioneer_submission, :class => SdgPioneer::Submission do
     country_name { create(:country).name }
-    organization_name {
-      create(:business, level_of_participation: "signatory_level").name
-    }
+    organization
     is_participant Faker::Boolean.boolean
     name Faker::Name.name
     title Faker::Name.title

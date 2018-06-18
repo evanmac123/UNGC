@@ -34,22 +34,22 @@ class SdgPioneer::Submission < ActiveRecord::Base
   validates :title,                       presence: true, length: { maximum: 255 }
   validates :email,                       presence: true, length: { maximum: 255 }
   validates :phone,                       presence: true, length: { maximum: 255 }
-  validates :organization_name,           presence: true, length: { maximum: 255 }
   validate :validate_country_name
-  validates :company_success,            presence: true, length: { maximum: 1500 }
-  validates :innovative_sdgs,            presence: true, length: { maximum: 1500 }
-  validates :ten_principles,             presence: true, length: { maximum: 1500 }
-  validates :awareness_and_mobilize,     presence: true, length: { maximum: 1500 }
-  validates :local_network_question,     presence: true, length: { maximum: 1500 }
+  validates :company_success,             presence: true, length: { maximum: 1500 }
+  validates :innovative_sdgs,             presence: true, length: { maximum: 1500 }
+  validates :ten_principles,              presence: true, length: { maximum: 1500 }
+  validates :awareness_and_mobilize,      presence: true, length: { maximum: 1500 }
+  validates :local_network_question,      presence: true, length: { maximum: 1500 }
   validates :accepts_tou,                 inclusion: [true, false]
   validates :accepts_interview,           inclusion: [true, false]
-  validates :has_local_network,            inclusion: [true, false]
+  validates :has_local_network,           inclusion: [true, false]
   validates :supporting_documents,        length: { minimum: 1, maximmum: 12 }
   validates :website_url,                 length: { maximum: 255 }
-  validate :organization_name_matches
+  validates :organization_id,             presence: true
 
   before_validation :strip_whitespace
 
+  belongs_to :organization
   has_many :supporting_documents,
               -> { where attachable_key: 'supporting_document' },
               class_name: 'UploadedFile',
@@ -96,14 +96,6 @@ class SdgPioneer::Submission < ActiveRecord::Base
 
   def set_pioneer_type
     self.pioneer_type ||= :business_leader
-  end
-
-  def organization_name_matches
-    query = SdgPioneer::EligibleBusinessesQuery.new(named: organization_name)
-    self.organization_name_matched = query.run.exists?
-    unless self.organization_name_matched?
-      errors.add :organization_name, "is not in our system as an active participant"
-    end
   end
 
 end

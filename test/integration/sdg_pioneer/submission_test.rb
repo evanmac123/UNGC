@@ -4,7 +4,7 @@ class SdgPioneer::SubmissionTest < ActionDispatch::IntegrationTest
 
   test 'Anonymous user submits a nomination' do
     create(:country, name: 'Canada')
-    create(:business,
+    organization = create(:business,
       name: "McExampleson's Emporium",
       level_of_participation: :participant_level)
     sdg1, _, sdg3 = 3.times.map { create(:sustainable_development_goal) }
@@ -24,6 +24,10 @@ class SdgPioneer::SubmissionTest < ActionDispatch::IntegrationTest
     fill_in 'submission_email', with: 'contact-person@example.com'
     fill_in 'submission_phone', with: '1 (123) 123-1234'
     fill_in 'submission_organization_name', with: "McExampleson's Emporium "
+
+    # simulate matching on the organization name:
+    find("#submission_organization_id", visible: false).set(organization.id)
+
     fill_in 'submission_country_name', with: 'Canada'
     fill_in 'submission_website_url', with: 'https://example.com/document.html'
     fill_in 'submission_company_success', with: 'My success'

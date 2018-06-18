@@ -22,8 +22,13 @@ $(function() {
     addAttachmentField($(this).parent('.attachments'));
   });
 
+  var $organizationId = $("input[name='submission[organization_id]']");
   $("#submission_organization_name").autocomplete({
-    source: "/api/v1/autocomplete/sdg_pioneer_submissions.json"
+    source: "/api/v1/autocomplete/sdg_pioneer_submissions.json",
+    select: function(event, ui) {
+      var organizationId = ui.item.id;
+      $organizationId.val(organizationId);
+    }
   });
 
   $("#other_organization_name").autocomplete({

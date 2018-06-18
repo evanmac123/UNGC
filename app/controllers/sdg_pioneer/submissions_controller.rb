@@ -29,7 +29,7 @@ class SdgPioneer::SubmissionsController < ApplicationController
       :email,
       :phone,
       :organization_name,
-      :organization_name_matched,
+      :organization_id,
       :country_name,
       :accepts_tou,
       :accepts_interview,
