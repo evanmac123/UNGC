@@ -71,7 +71,7 @@ Rails.application.configure do
   }
   config.action_mailer.delivery_method = :smtp
 
-  mailgun = {
+  config.action_mailer.smtp_settings = {
     enable_starttls_auto: true,
     address:              'smtp.mailgun.org',
     port:                 587,
@@ -80,18 +80,6 @@ Rails.application.configure do
     user_name:            'postmaster@unglobalcompact.org',
     password:             '037fde266fc77e5ab6e7c6167aa22771'
   }
-
-  gmail = {
-    enable_starttls_auto: true,
-    address:              'smtp.gmail.com',
-    port:                 587,
-    domain:               'unglobalcompact.org',
-    authentication:       :login,
-    user_name:            'info@unglobalcompact.org',
-    password:             'ungcmail2010'
-  }
-
-  config.action_mailer.smtp_settings = mailgun
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
