@@ -1,7 +1,11 @@
 class StaticController < ApplicationController
   def home
-    set_current_container :home
-    @page = HomePage.new(current_container, current_payload_data)
+    respond_to do |format|
+      format.html {
+        set_current_container :home
+        @page = HomePage.new(current_container, current_payload_data)
+      }
+    end
   end
 
   def layout_sample
