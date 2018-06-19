@@ -25,16 +25,23 @@ class NewsListForm < FilterableForm
   end
 
   def start_date=(value)
-    sanitized = sanitize(value)
-    super(sanitized) unless sanitized.blank?
+    super(parse_date(value))
   end
 
   def end_date=(value)
-    sanitized = sanitize(value)
-    super(sanitized) unless sanitized.blank?
+    super(parse_date(value))
   end
 
   private
+
+  def parse_date(input)
+    sanitized = sanitize(input)
+    if sanitized.present?
+      Date.parse(sanitized)
+    end
+  rescue ArgumentError
+    nil
+  end
 
   def sanitize(input)
     if input.respond_to?(:gsub)
