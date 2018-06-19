@@ -37,7 +37,7 @@ class NewsListForm < FilterableForm
   def parse_date(input)
     sanitized = sanitize(input)
     if sanitized.present?
-      Date.parse(sanitized)
+      Date.parse(sanitized.to_s)
     end
   rescue ArgumentError
     nil
