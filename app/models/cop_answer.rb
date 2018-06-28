@@ -39,7 +39,7 @@ class CopAnswer < ActiveRecord::Base
                 c.position AS best_practice_position,
                 c.text AS best_practice,
                 cop_answers.value,
-                (SELECT CASE cop_answers.value WHEN '1' THEN cop_attribute_id ELSE '' END) AS cop_attribute_id_covered,
+                (SELECT CASE cop_answers.value WHEN '1' THEN cop_attribute_id ELSE '0' END) AS cop_attribute_id_covered,
                 cop.differentiation,
                 cop_answers.created_at")
       .joins("JOIN cop_attributes c ON c.id = cop_answers.cop_attribute_id
