@@ -38,11 +38,13 @@ class SimpleReport
     path
   end
 
+  # This method lies and returns an array of hashes
   def to_h
     records.map do |record|
       Hash[headers.zip(row(record))]
     end
   end
+  alias_method :to_a, :to_h
 
   def render_xls_in_batches
     path = fetch_scratch_file
