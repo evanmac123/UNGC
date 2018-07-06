@@ -309,6 +309,7 @@
       allow from <%= allow %>
       <% end %>
       <% if configuration[:apache][:users] %>
+      require expr %{REQUEST_URI} =~ m#^/.well-known/acme-challenge/#
       require valid-user
       <% end %>
       Satisfy <%= configuration[:apache][:satisfy] || 'Any' %>

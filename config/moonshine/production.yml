@@ -17,9 +17,9 @@
 
 :ssl:
   :only: true
-  :certificate_file: /etc/ssl/www.unglobalcompact.org.crt
-  :certificate_key_file: /etc/ssl/www.unglobalcompact.org.key
-  :certificate_chain_file: /etc/ssl/NetworkSolutionsDVServerCA.crt
+  :certificate_file:  /etc/letsencrypt/live/www.unglobalcompact.org/fullchain.pem
+  :certificate_key_file: /etc/letsencrypt/live/www.unglobalcompact.org/privkey.pem
+  :certificate_chain_file: /etc/letsencrypt/live/www.unglobalcompact.org/chain.pem
   :protocol: ALL -SSLv2 -SSLv3
   :vhost_extra: |
     RewriteEngine On

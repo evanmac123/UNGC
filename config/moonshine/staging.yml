@@ -12,7 +12,7 @@
 
 :ssl:
   :only: true
-  :certificate_file: /etc/ssl/www.unglobalcompact.org.crt
-  :certificate_key_file: /etc/ssl/www.unglobalcompact.org.key
-  :certificate_chain_file: /etc/ssl/NetworkSolutionsDVServerCA.crt
+  :certificate_file:  /etc/letsencrypt/live/staging.unglobalcompact.org/fullchain.pem 
+  :certificate_key_file: /etc/letsencrypt/live/staging.unglobalcompact.org/privkey.pem
+  :certificate_chain_file: /etc/letsencrypt/live/staging.unglobalcompact.org/chain.pem
   :protocol: All -SSLv2 -SSLv3
