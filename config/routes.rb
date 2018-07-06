@@ -567,7 +567,7 @@ UNGC::Application.routes.draw do
   get '/AboutTheGC/tools_resources/', to: redirect('/library')
   get '/NetworksAroundTheWorld/', to: redirect('/engage-locally')
   get '/COP/making_progress/advanced.html', to: redirect('/participation/report/cop/create-and-submit/advanced')
-  get '/leaderssummit', to: redirect('/take-action/events/1635-un-global-compact-leaders-summit-2018')
+  get '/leaderssummit', to: redirect('/take-action/events/leaders_summit_2018')
   get '/leaderssummit2018', to: redirect('take-action/events/1635-un-global-compact-leaders-summit-2018')
   get '/leaderssummit2016', to: redirect('/take-action/events/411-un-global-compact-leaders-summit-2016')
   get '/lead', to: redirect('/take-action/leadership/gc-lead')
