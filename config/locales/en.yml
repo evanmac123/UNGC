@@ -117,6 +117,7 @@ en:
       infographic: 'Infographic'
       policy_document: 'Policy Document'
       podcast: 'Podcast'
+      report: 'Report'
 
   reporting_status:
     active: 'Active'

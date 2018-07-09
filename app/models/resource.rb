@@ -63,6 +63,7 @@ class Resource < ActiveRecord::Base
     infographic: 11,
     policy_document: 12,
     podcast: 13,
+    report: 14,
   }
 
   scope :update_required, -> { where(content_type: nil) }
