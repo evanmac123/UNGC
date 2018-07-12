@@ -34,17 +34,19 @@ class OrganizationEventPublisherTest < ActiveSupport::TestCase
 
     assert activated.is_a?(DomainEvents::OrganizationUpdated)
     expected = {
+      "id" => o.id,
       "active" => true,
-      "cop_due_on" => 1.year.from_now
+      "cop_due_on" => 1.year.from_now,
     }
     assert_equal expected, activated.data.fetch(:changes)
     assert_not_empty activated.data.fetch(:caller)
 
     assert approved.is_a?(DomainEvents::OrganizationUpdated)
     expected = {
+      "id" => o.id,
       "participant" => true,
       "state" => "approved",
-      "joined_on" => Date.current
+      "joined_on" => Date.current,
     }
     assert_equal expected, approved.data.fetch(:changes)
     assert_not_empty approved.data.fetch(:caller)
