@@ -11,7 +11,7 @@ module EventPublisherHooks
   end
 
   def event_stream_name
-    "#{self.class.name.downcase}_#{id}"
+    @_event_stream_name ||= ActiveModel::Name.new(self.class).param_key
   end
 
   private
@@ -53,6 +53,8 @@ module EventPublisherHooks
 
     changes = changes_from_tx.except(*job_class.excluded_attributes)
 
+    changes.reverse_merge!(id: self.id)
+
     event = event_class.new(data: {
       changes: changes,
       caller: local_call_stack
@@ -66,7 +68,7 @@ module EventPublisherHooks
     caller.select do |line|
       line =~ pattern
     end.map do |line|
-      line.gsub(Rails.root.to_s+"/", "")
+      line.gsub(Rails.root.to_s + "/", "")
     end.reject do |line|
       line =~ this_file
     end.lazy.to_a
