@@ -11,7 +11,7 @@ module EventPublisherHooks
   end
 
   def event_stream_name
-    @_event_stream_name ||= ActiveModel::Name.new(self.class).param_key
+    [ActiveModel::Name.new(self.class).param_key, id].join("_")
   end
 
   private
