@@ -1,3 +1,7 @@
 <%= render partial: 'components/meta_tags' %>
 <%= render partial: 'components/hero' %>
-<%= render partial: 'static/highlight' %>
+
+<%= render(partial: 'static/highlight', locals: {
+    sections: @page.main_content_sections,
+    blocks: @page.resources
+}) %>

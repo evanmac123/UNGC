@@ -1,4 +1,4 @@
-<%- @page.main_content_sections.each do |section| -%>
+<%- sections.each do |section| -%>
   <section class='main-content-section <%= section[:classes] -%>' style="<%= section[:styles] -%>">
     <div class='full-width-wrapper'>
       <div class='wrapper'>
@@ -7,10 +7,13 @@
         <section class='main-content-body'>
           <%= section[:content].html_safe if section[:content] %>
 
-          <%= content_tag(:p, link_to(section[:call_to_action][:title],
-                                      section[:call_to_action][:url],
-                                      target: section[:call_to_action][:external] ? "_blank" : "",
-                                      class: "button #{section[:call_to_action][:theme]}")) if section[:call_to_action] %>
+        <% cta = section[:call_to_action] %>
+        <% if cta && cta.fetch(:enabled?, false) %>
+            <%= content_tag(:p, link_to(cta[:title], cta[:url],
+                                        target: cta[:external] ? "_blank" : "",
+                                        class: "button #{cta[:theme]}")) %>
+        <% end %>
+
         </section>
 
         <%- if section[:image] -%>
@@ -23,6 +26,6 @@
   </section>
 <%- end -%>
 
-<%= render layout: 'components/content_blocks', locals: {title: 'From our Library', blocks: @page.resources} do |block| %>
+<%= render layout: 'components/content_blocks', locals: {title: 'From our Library', blocks: blocks} do |block| %>
   <%= render 'components/resource_block', block: block %>
 <% end %>

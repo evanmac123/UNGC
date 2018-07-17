@@ -142,8 +142,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # Assumes .html and .erb
   def layout_template_path(layout)
-    # assumes .html and .erb
     Rails.root.join("app", "views", "static", "#{layout}.html.erb")
   end
 

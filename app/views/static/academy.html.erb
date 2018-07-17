@@ -1,0 +1,65 @@
+<%= render partial: 'components/meta_tags' %>
+<%= render partial: 'components/hero' %>
+
+<%# Highlight blocks %>
+<%= render(partial: 'static/highlight', locals: {
+  sections: @page.article_blocks,
+  blocks: [] }) %>
+
+<%# Accordion %>
+<%- if accordion = @page.accordion -%>
+<section class='main-content-section'>
+  <div class='wrapper'>
+    <%= content_tag(:header, content_tag(:h1, accordion.title), {class: 'main-content-header accordion-header'}) if accordion.title %>
+
+    <section class='main-content-body'>
+      <%= content_tag(:div, accordion.blurb.try(:html_safe), class: 'main-content-blurb') if accordion.blurb %>
+
+      <div class='accordion-container'>
+        <%- accordion.items.each do |item| -%>
+        <article class='accordion-item'>
+          <%= content_tag(:h1, item.title, {class: 'accordion-item-header'}) %>
+
+          <div class='accordion-item-content-wrapper'>
+            <%- if !item.children.try(:blank?) and children = item.children -%>
+            <%- children.each do |child| -%>
+            <article class='accordion-item accordion-child'>
+              <%= content_tag(:h1, child.title, {class: 'accordion-item-header accordion-child-header'}) %>
+              <div class='accordion-item-content-wrapper'>
+                <div class='accordion-item-content'>
+                  <%= child.content.try(:html_safe) %>
+                </div>
+              </div>
+            </article>
+            <%- end -%>
+            <%- else -%>
+            <div class='accordion-item-content'>
+              <%= item.content.try(:html_safe) %>
+            </div>
+            <%- end -%>
+          </div>
+        </article>
+        <%- end -%>
+      </div>
+
+    </section>
+  </div>
+
+</section>
+<%- end -%>
+
+<%# Logos and Partners %>
+<%- if content = @page.logos_and_partners -%>
+<section class='main-content-section'>
+  <div class='wrapper'>
+    <%= content_tag(:header, content_tag(:h1, content[:title]), {class: 'main-content-header'}) if content[:title] %>
+
+    <section class='main-content-body'>
+      <%= content[:content].html_safe if content[:content] %>
+
+      <%= content_tag(:p, link_to(content[:call_to_action][:title], content[:call_to_action][:url], class: "button #{content[:call_to_action][:theme]}")) if content[:call_to_action] %>
+    </section>
+
+  </div>
+</section>
+<%- end -%>

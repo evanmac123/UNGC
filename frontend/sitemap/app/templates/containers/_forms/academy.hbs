@@ -1,0 +1,72 @@
+{{#container/x-fields scope=model.container as |academy|}}
+
+  {{container/macros/x-metatags scope=academy}}
+
+  {{#container/macros/x-hero scope=academy as |hero|}}
+    {{container/macros/x-show-section-nav scope=hero default=true}}
+  {{/container/macros/x-hero}}
+
+  <fieldset>
+    <legend>Highlight Content</legend>
+    {{#container/x-fields tagName="div" key="articleBlocks" array=true min=1 max=3 scope=academy as |article|}}
+      <div class="stat-group">
+        {{container/x-field key="align" type="article-align-select" scope=article}}
+        {{container/x-field key="theme" type="hero-theme-select" scope=article}}
+        {{container/x-field key="title" type="string" limit=50 scope=article}}
+        {{container/x-field key="content" type="redactor" limit=50 scope=article}}
+        {{container/x-field key="bgImage" type="image-upload" label="Background Image" scope=article}}
+
+        {{#container/x-fields key="callToAction" scope=article as |callToAction|}}
+
+          <h2>Call to Action</h2>
+          {{container/x-field key="enabled" label="Show" type="boolean" default=false scope=callToAction}}
+          {{container/x-field key="title" type="string-addon" label="Text" limit=50 scope=callToAction}}
+          {{container/x-field key="url" type="href-addon" limit=50 scope=callToAction}}
+          {{container/x-field key="external" type="boolean" scope=callToAction}}
+          {{container/x-field label="Color" key="theme" type="button-color-select" limit=50 scope=callToAction}}
+        {{/container/x-fields}}
+
+        {{#container/x-fields key="widgetImage" scope=article as |image|}}
+          <h2>Image Widget</h2>
+          {{container/x-field label="Image title" key="alt" type="string" limit=50 scope=image}}
+          {{container/x-field label="Image Url" key="src" type="image-upload" scope=image}}
+          {{container/x-field label="Image Link" key="url" type="href" scope=image}}
+          {{container/x-field key="external" type="boolean" scope=image}}
+        {{/container/x-fields}}
+      </div>
+    {{/container/x-fields}}
+  </fieldset>
+
+  <fieldset>
+    <legend>Accordion</legend>
+    {{#container/x-fields key="accordion" scope=academy as |acc|}}
+      {{container/x-field key="title" type="string" limit=50 scope=acc}}
+      {{container/x-field key="blurb" type="redactor" scope=acc}}
+      {{#container/x-fields key="items" array=true scope=acc as |items|}}
+        <li class="stat-group">
+          {{container/x-field key="title" type="string" scope=items}}
+          <p>This content will not be displayed if you add children.</p>
+          {{container/x-field key="content" type="redactor" height='100px' scope=items}}
+          {{#container/x-fields key="children" array=true scope=items as |children|}}
+            <li class="stat-group">
+              {{container/x-field key="title" type="string" scope=children}}
+              {{container/x-field key="content" type="redactor" height='100px' scope=children}}
+            </li>
+          {{/container/x-fields}}
+        </li>
+      {{/container/x-fields}}
+    {{/container/x-fields}}
+  </fieldset>
+
+  <fieldset>
+    <legend>Logos and Partners</legend>
+    {{#container/x-fields tagName="div" key="logosAndPartners" array=false scope=academy as |article|}}
+      <div class="stat-group">
+        {{container/x-field key="title" type="string" limit=50 scope=article}}
+        {{container/x-field key="content" type="redactor" limit=50 scope=article}}
+        {{container/x-field key="bgImage" type="image-upload" label="Background Image" scope=article}}
+      </div>
+    {{/container/x-fields}}
+  </fieldset>
+
+{{/container/x-fields}}

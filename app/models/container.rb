@@ -53,7 +53,8 @@ class Container < ActiveRecord::Base
     :all_issue,
     :accordion,
     :article_form,
-    :cop_list
+    :cop_list,
+    :academy,
   ]
 
   enum content_type: {

@@ -18,6 +18,10 @@ class ContainerPage
     meta_tags[:keywords]
   end
 
+  def hero
+    @data[:hero] || {}
+  end
+
   private
 
   def meta_tags

@@ -1,5 +1,6 @@
 class Sitemap::Api::LayoutsController < Sitemap::ApiController
   LAYOUTS = {
+    academy: AcademyLayout,
     article:   ArticleLayout,
     highlight: HighlightLayout,
     landing:   LandingLayout,
