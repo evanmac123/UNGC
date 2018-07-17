@@ -71,4 +71,6 @@ Rails.application.configure do
 
   # Salesforce Synchronization
   config.x_enable_crm_synchronization = false
+
+  config.log_level = :debug
 end

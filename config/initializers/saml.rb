@@ -1,11 +1,7 @@
-SamlIdp.config.x509_certificate = <<EOS
-EOS
-
-SamlIdp.config.secret_key = <<EOS
-EOS
+# frozen_string_literal: true
 
 SamlIdp.configure do |config|
-  base = "http://example.com"
+  base = "https://www.unglobalcompact.org"
 
   config.x509_certificate = <<-CERT
 -----BEGIN CERTIFICATE-----
@@ -65,17 +61,17 @@ KMQVdWVKvl3Vu8NFXEv5OnL7KXIwsxOPL3pAhTEXNJYFlMXykas=
 CERT
 
   # config.password = "secret_key_password"
-  # config.algorithm = :sha256
-  # config.organization_name = "Your Organization"
-  # config.organization_url = "http://example.com"
-  # config.base_saml_location = "#{base}/saml"
-  # config.reference_id_generator                   # Default: -> { UUID.generate }
-  # config.attribute_service_location = "#{base}/saml/attributes"
-  # config.single_service_post_location = "#{base}/saml/auth"
+  config.algorithm = :sha256
+  config.organization_name = "UN Global Compact"
+  config.organization_url = "#{base}"
+  config.base_saml_location = "#{base}/saml"
+  config.reference_id_generator                   # Default: -> { UUID.generate }
+  config.attribute_service_location = "#{base}/saml/attributes"
+  config.single_service_post_location = "#{base}/saml/auth"
 
   # Principal (e.g. User) is passed in when you `encode_response`
   config.name_id.formats = {
-    # email_address: -> (principal) { principal.email_address },
+    # email_address: -> (principal) { principal.email },
     # transient: -> (principal) { principal.id },
     persistent: -> (p) { p.id },
   }
@@ -123,11 +119,11 @@ CERT
   # }
   ## EXAMPLE ##
 
-  # config.technical_contact.company = "Example"
-  # config.technical_contact.given_name = "Jonny"
-  # config.technical_contact.sur_name = "Support"
-  # config.technical_contact.telephone = "55555555555"
-  # config.technical_contact.email_address = "example@example.com"
+  config.technical_contact.company = "UN Global Compact"
+  config.technical_contact.given_name = "Ben"
+  config.technical_contact.sur_name = "Moss"
+  config.technical_contact.telephone = "16478609047"
+  config.technical_contact.email_address = "ben@bitfield.co"
 
   service_providers = {
     "some-issuer-url.com/saml" => {
@@ -139,7 +135,7 @@ CERT
   # `identifier` is the entity_id or issuer of the Service Provider,
   # settings is an IncomingMetadata object which has a to_h method that needs to be persisted
   config.service_provider.metadata_persister = ->(identifier, settings) {
-    fname = identifier.to_s.gsub(/\/|:/,"_")
+    fname = identifier.to_s.gsub(/\/|:/, "_")
     `mkdir -p #{Rails.root.join("cache/saml/metadata")}`
     File.open Rails.root.join("cache/saml/metadata/#{fname}"), "r+b" do |f|
       Marshal.dump settings.to_h, f
@@ -149,8 +145,8 @@ CERT
   # `identifier` is the entity_id or issuer of the Service Provider,
   # `service_provider` is a ServiceProvider object. Based on the `identifier` or the
   # `service_provider` you should return the settings.to_h from above
-  config.service_provider.persisted_metadata_getter = ->(identifier, service_provider){
-    fname = identifier.to_s.gsub(/\/|:/,"_")
+  config.service_provider.persisted_metadata_getter = ->(identifier, service_provider) {
+    fname = identifier.to_s.gsub(/\/|:/, "_")
     `mkdir -p #{Rails.root.join("cache/saml/metadata")}`
     full_filename = Rails.root.join("cache/saml/metadata/#{fname}")
     if File.file?(full_filename)
