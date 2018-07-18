@@ -41,7 +41,8 @@
       -if @organization.engagement_participant || !@organization.level_of_participation.present? && @organization.business?
         %dd= link_to @organization.participant_manager_name, "mailto:#{@organization.participant_manager_email}?subject=#{@organization.name}%20(ID: #{@organization.id})"
       -else
-        %dd Support Team
+        %dd
+          =mail_to "info@unglobalcompact.org", "Support Team"
       %dt Participant since
       %dd= @organization.joined_on || 'n/a'
       %dt== #{@organization.cop_acronym} Due Date
