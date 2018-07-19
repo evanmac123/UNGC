@@ -23,7 +23,9 @@ class AcademyPage < ContainerPage
   end
 
   def article_blocks
-    Array(@data[:article_blocks])
+    Array(@data[:article_blocks]).map do |article_block|
+      HighlightPage.prepare_block_for_display(article_block)
+    end
   end
 
   def logos_and_partners
