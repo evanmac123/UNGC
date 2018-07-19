@@ -43,7 +43,11 @@ class AcademyPage < ContainerPage
 
     def items
       @_wrapped_items ||= @items.map do |item|
-        OpenStruct.new(item)
+        OpenStruct.new(item).tap do |wrapped|
+          wrapped.children = Array(wrapped.children).map do |child|
+            OpenStruct.new(child)
+          end
+        end
       end
     end
 
