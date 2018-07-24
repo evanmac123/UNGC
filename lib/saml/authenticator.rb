@@ -12,7 +12,7 @@ module Saml
       case issuer
         when IglooIssuer
           self.new(Igloo::SignInPolicy.new)
-        when DoceboIssuer || DoceboSaasIssuer || DoceboInsecureIssuer
+        when DoceboIssuer, DoceboSaasIssuer, DoceboInsecureIssuer
           self.new(Academy::SignInPolicy.new)
         else
           raise "Unexpected SAML Issuer: \"#{issuer}\""
