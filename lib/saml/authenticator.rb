@@ -3,14 +3,16 @@
 module Saml
   class Authenticator
 
-    IglooIssuer = "https://unglobalcompact.igloocommunities.com/saml.digest"
-    DoceboIssuer = "https://ungc.docebosaas.com/lms/index.php"
+    IglooIssuer = "https://unglobalcompact.igloocommunities.com/saml.digest".freeze
+    DoceboSaasIssuer = "https://ungc.docebosaas.com/lms/index.php".freeze
+    DoceboIssuer = "https://academy.unglobalcompact.org/lms/index.php".freeze
+    DoceboInsecureIssuer = "http://academy.unglobalcompact.org/lms/index.php".freeze
 
     def self.create_for(issuer)
       case issuer
         when IglooIssuer
           self.new(Igloo::SignInPolicy.new)
-        when DoceboIssuer
+        when DoceboIssuer || DoceboSaasIssuer || DoceboInsecureIssuer
           self.new(Academy::SignInPolicy.new)
         else
           raise "Unexpected SAML Issuer: \"#{issuer}\""
