@@ -7,12 +7,11 @@
         <section class='main-content-body'>
           <%= section[:content].html_safe if section[:content] %>
 
-        <% cta = section[:call_to_action] %>
-        <% if cta && cta.fetch(:enabled?, false) %>
+          <% if cta = section[:call_to_action] %>
             <%= content_tag(:p, link_to(cta[:title], cta[:url],
-                                        target: cta[:external] ? "_blank" : "",
-                                        class: "button #{cta[:theme]}")) %>
-        <% end %>
+                            target: cta[:external] ? "_blank" : "",
+                            class: "button #{cta[:theme]}")) %>
+          <% end %>
 
         </section>
 
