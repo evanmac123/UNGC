@@ -577,7 +577,7 @@ UNGC::Application.routes.draw do
   get '/UNGA17', to: redirect('/take-action/events/leaders-summit-2017/ga-week-business-guide')
   get '/unga17', to: redirect('/take-action/events/leaders-summit-2017/ga-week-business-guide')
   get '/SDGMatrix', to: redirect('/library/3111')
-  get '/unpsf', to: redirect('/take-action/events/1051-united-nations-private-sector-forum-2017')
+  get '/unpsf', to: redirect('/take-action/events/1642-un-private-sector-forum')
   get '/2015commitments', to: redirect('/docs/news_events/PSF2017/2015-Check-In-Full-Reports.pdf')
   get '/tiers', to: redirect('/participation/tiers')
   get '/mgglb', to: redirect('/take-action/events/1611-making-global-goals-local-business-argentina')
