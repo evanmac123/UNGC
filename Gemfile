@@ -23,7 +23,7 @@ gem 'custom_error_message',             git: 'https://github.com/jeremydurham/cu
 gem 'devise',               '~> 3.5.4'
 gem 'doorkeeper'
 gem 'dynamic_form',         '~> 1.1.4'
-gem 'honeybadger', '~> 2.0'
+gem 'honeybadger'
 gem 'restforce'
 gem 'faye'
 
