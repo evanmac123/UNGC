@@ -1,7 +1,7 @@
 namespace :postgres do
 
   desc "Add fold_ascii support."
-  task install_extentions: [:environment] do
+  task install_extensions: [:environment] do
     raise 'Extentions can only be added to PostgreSQL.' unless DbConnectionHelper.backend == :postgres
     ActiveRecord::Base.connection.execute 'CREATE EXTENSION IF NOT EXISTS unaccent'
 
@@ -55,4 +55,7 @@ namespace :postgres do
       $$ IMMUTABLE LANGUAGE plpgsql;
     SQL
   end
+
+  # HACK: maintain backward compatibility with older typo :]
+  task install_extentions: [:install_extensions]
 end
