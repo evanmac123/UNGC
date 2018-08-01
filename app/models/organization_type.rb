@@ -13,7 +13,7 @@ class OrganizationType < ActiveRecord::Base
   validates_presence_of :name
   has_many :organizations
 
-  OTHER = 0
+  OTHER = 0 # Micro-enterprises and initiatve signatories 
   NON_BUSINESS = 1
   BUSINESS = 2
   PARTICIPANT = [1,2]
