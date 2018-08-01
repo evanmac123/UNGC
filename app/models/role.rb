@@ -42,9 +42,11 @@ class Role < ActiveRecord::Base
     ceo_water_mandate: 'CEO Water Mandate',
     caring_for_climate: 'Caring for Climate',
     action_platform_manager: 'Action Platform Manager',
+    academy_manager: 'Academy Manager',
+    academy_local_network_representative: "Academy Local Network Representative",
   }
 
-  def self.visible_to(user, current_contact=nil)
+  def self.visible_to(user, current_contact = nil)
     case user.user_type
       when Contact::TYPE_ORGANIZATION
         role_ids = *contact_point.id
@@ -87,25 +89,28 @@ class Role < ActiveRecord::Base
   def self.type_contact_ungc_roles
     Rails.cache.fetch(role_cache_key(:type_contact_ungc_roles)) do
       [
-          ceo,
-          contact_point,
-          network_regional_manager,
-          website_editor,
-          integrity_team_member,
-          integrity_manager,
-          participant_manager,
-          action_platform_manager,
-      ]    end
+        ceo,
+        contact_point,
+        network_regional_manager,
+        website_editor,
+        integrity_team_member,
+        integrity_manager,
+        participant_manager,
+        action_platform_manager,
+        academy_manager,
+      ]
+    end
   end
 
   def self.type_contact_network_roles
     Rails.cache.fetch(role_cache_key(:type_contact_network_roles)) do
       [
-          network_executive_director,
-          network_board_chair,
-          network_focal_point,
-          network_report_recipient,
-          general_contact,
+        network_executive_director,
+        network_board_chair,
+        network_focal_point,
+        network_report_recipient,
+        general_contact,
+        academy_local_network_representative,
       ]
     end
   end
@@ -197,6 +202,14 @@ class Role < ActiveRecord::Base
 
   def self.action_platform_manager
     Rails.cache.fetch(role_cache_key(:action_platform_manager)) { find_by(name: FILTERS[:action_platform_manager]) }
+  end
+
+  def self.academy_manager
+    Rails.cache.fetch(role_cache_key(:academy_manager)) { find_by(name: FILTERS[:academy_manager]) }
+  end
+
+  def self.academy_local_network_representative
+    Rails.cache.fetch(role_cache_key(:academy_local_network_representative)) { find_by(name: FILTERS[:academy_local_network_representative]) }
   end
 
   def self.login_roles
