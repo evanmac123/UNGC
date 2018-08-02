@@ -1,22 +1,49 @@
-<% if @saml_idp_fail_msg %>
-  <div id="saml_idp_fail_msg" class="flash error"><%= @saml_idp_fail_msg %></div>
-<% end %>
+<%= render('components/meta_tags', title: "Single Sign-On", description: "UNGC Single Sign-On") %>
+<%= render('components/hero', title: "hellooooo", hero: {
+    theme: 'dark',
+    size: 'small',
+    title: {
+      first: "UN Global Compact Single-Sign-On",
+    },
+    blurb: "Sign-in to #{@issuer_name} using your UNGC account",
+    image: "https://d36spl5w3z9i0o.cloudfront.net/files/u/n/ungc_docebosaas_com/1533240000/O_p5k4CgPiu8D2MW2SDbvQ/themes/9aad0e3c80a11add1c9e02d99415e948d62c28e6.jpg"
+    }
+  ) %>
 
-<%= form_tag do %>
-  <%= hidden_field_tag("SAMLRequest", params[:SAMLRequest]) %>
-  <%= hidden_field_tag("RelayState", params[:RelayState]) %>
+<section class='main-content-section main-content-section-narrow'>
+  <%= form_for :authentication, url: saml_auth_path, method: :post, html: {class: 'form-classic wrapper'} do |f| %>
+    <header class='main-content-header'>
+      <h1>Login</h1>
+    </header>
 
-  <p>
-    <%= label_tag :username %>
-    <%= text_field_tag :email, params[:email], :autocapitalize => "off", :autocorrect => "off", :autofocus => "autofocus", :spellcheck => "false", :size => 30, :class => "email_pwd txt" %>
-  </p>
+    <section class='main-content-body'>
+      <%= content_tag(:p, content_tag(:span, notice), {class: 'success-message'}) if notice %>
 
-  <p>
-    <%= label_tag :password %>
-    <%= password_field_tag :password, params[:password], :autocapitalize => "off", :autocorrect => "off", :spellcheck => "false", :size => 30, :class => "email_pwd txt" %>
-  </p>
+      <% if @saml_idp_fail_msg %>
+        <div id="saml_idp_fail_msg" class="flash error"><%= @saml_idp_fail_msg %></div>
+      <% end %>
 
-  <p>
-    <%= submit_tag "Sign in", :class => "button big blueish" %>
-  </p>
-<% end %>
+      <fieldset>
+
+        <div class="field field-required field-has-placeholder">
+          <%= label_tag :username %>
+          <%= text_field_tag :email, params[:email], placeholder: "Username", autocapitalize: "off", autocorrect: "off", autofocus: "autofocus", spellcheck: "false", size: 30, class: "email_pwd txt" %>
+        </div>
+
+        <div class="field field-required field-has-placeholder">
+          <%= label_tag :password %>
+          <%= password_field_tag :password, params[:password], placeholder: "Password", autocapitalize: "off", autocorrect: "off", spellcheck: "false", size: 30, class: "email_pwd txt" %>
+        </div>
+
+        <%= link_to 'Forgot your username or password?', new_contact_password_path %>
+
+      </fieldset>
+
+      <%= hidden_field_tag("SAMLRequest", params[:SAMLRequest]) %>
+      <%= hidden_field_tag("RelayState", params[:RelayState]) %>
+
+      <%= f.submit "Sign in" %>
+
+    </section>
+  <% end %>
+</section>

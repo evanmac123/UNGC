@@ -56,7 +56,7 @@ class SamlIdpControllerTest < ActionController::TestCase
   def make_saml_request
     auth_request = OneLogin::RubySaml::Authrequest.new
     settings = OneLogin::RubySaml::Settings.new
-    settings.issuer = Saml::Authenticator::IglooIssuer
+    settings.issuer = Saml::Authenticator::IglooIssuer.issuer_uris.first
     settings.idp_sso_target_url = "/saml/auth"
     auth_url = auth_request.create(settings)
     CGI.unescape(auth_url.split("=").last)

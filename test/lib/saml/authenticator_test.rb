@@ -6,11 +6,13 @@ module Saml
   class AuthenticatorTest < ActiveSupport::TestCase
 
     test "It can create an authenticator for Igloo" do
-      Authenticator.create_for(Authenticator::IglooIssuer)
+      issuer_uri = Authenticator::IglooIssuer.issuer_uris.first
+      Authenticator.create_for(issuer_uri)
     end
 
     test "It can create an authenticator for the Academy" do
-      Authenticator.create_for(Authenticator::DoceboIssuer)
+      issuer_uri = Authenticator::DoceboIssuer.issuer_uris.first
+      Authenticator.create_for(issuer_uri)
     end
 
     test "it wraps a valid contact in a Saml::User" do

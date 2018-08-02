@@ -24,7 +24,7 @@
 
     <%= render 'components/main_footer' %>
 
-    <%  if current_contact && current_contact.from_ungc? %>
+    <%  if current_contact&.from_ungc? && local_assigns.key?(:current_payload) && current_payload.present? %>
       <%= content_tag(:small, "Last updated: #{current_payload.updated_at.strftime('%a %b %-d, %Y at %l:%M %p %Z')}") if current_payload%>
       <small>
         <%= link_to 'edit', sitemap_root_path("containers/#{current_container.id}") if current_container%>
