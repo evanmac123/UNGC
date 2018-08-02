@@ -96,7 +96,16 @@ class Admin::CopsController < AdminController
     published_on = Time.zone.parse(params[:published_on]).to_date
     if BackdateCommunicationOnProgress.backdate(@cop, published_on)
       flash[:notice] = 'The communication was backdated'
-      redirect_to admin_organization_communication_on_progress_url(@organization.id, @cop, tab: :results)
+
+      case @cop.cop_type
+        when "grace"
+          redirect_to admin_organization_grace_letter_url(@organization.id, @cop, tab: :results)
+        when "reporting_cycle_adjustment"
+          redirect_to admin_organization_reporting_cycle_adjustment_url(@organization.id, @cop, tab: :results)
+        else
+          redirect_to admin_organization_communication_on_progress_url(@organization.id, @cop, tab: :results)
+      end
+
       log_event :backdate, :ok
     else
       flash[:error] = 'Sorry, we could not backdate the communication'

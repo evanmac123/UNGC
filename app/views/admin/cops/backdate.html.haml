@@ -1,7 +1,13 @@
-%h2= "Backdate #{@organization.cop_name}"
+-if @cop.title == "Grace Letter"
+  %h2= "Backdate Grace Letter"
+-else
+  %h2= "Backdate #{@organization.cop_name}"
 = form_tag do_backdate_admin_organization_communication_on_progress_path(@organization, @cop) do
   %fieldset
-    %p== Backdating a #{@organization.cop_acronym} will change its publish date. If this #{@organization.cop_acronym} was the latest received from the organization, then the next deadline will be adjusted.
+    -if @cop.title == "Grace Letter"
+      %p== Backdating a grace letter will change its publish date. If this grace letter was the latest received from the organization, then the next deadline will be adjusted.
+    -else
+      %p== Backdating a #{@organization.cop_acronym} will change its publish date. If this #{@organization.cop_acronym} was the latest received from the organization, then the next deadline will be adjusted.
     %ol
       %li
         = label :published_on, 'Select new date'
