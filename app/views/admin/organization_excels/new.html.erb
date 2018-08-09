@@ -1,0 +1,7 @@
+<h1>Update Organization Information from Excel</h1>
+
+<h5>Select File</h5>
+<%= form_tag import_admin_organization_excel_path, multipart: true do %>
+  <%= file_field_tag :file %>
+  <%= submit_tag "Import" %>
+<% end %>
