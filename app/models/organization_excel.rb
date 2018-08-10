@@ -11,11 +11,7 @@ class OrganizationExcel
         row = Hash[[header, spreadsheet.row(i)].transpose]
         organization = Organization.find_by(id: row["id"])
         organization.attributes = row.to_hash
-        if organization.attributes.valid?
-          organization.save!
-        else
-          "There was an issue with the file"
-        end
+        organization.save!
     end
   end
 end
