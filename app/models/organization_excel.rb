@@ -11,7 +11,7 @@ class OrganizationExcel
         row = Hash[[header, spreadsheet.row(i)].transpose]
         organization = Organization.find_by(id: row["id"])
         organization.attributes = row.to_hash
-        organization.save!
+        organization.save
     end
   end
 end
