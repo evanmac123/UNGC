@@ -26,6 +26,7 @@ gem 'dynamic_form',         '~> 1.1.4'
 gem 'honeybadger'
 gem 'restforce'
 gem 'faye'
+gem 'roo',                  '~> 2.7.0'
 
 gem 'sass-rails'
 gem 'coffee-rails',         '~> 4.2.0'

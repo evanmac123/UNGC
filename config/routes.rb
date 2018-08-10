@@ -187,6 +187,12 @@ UNGC::Application.routes.draw do
       end
     end
 
+    resource :organization_excel, only: [:new] do
+      collection do
+        post :import
+      end
+    end
+
     namespace :crm do
       resources :owners, except: [:show]
     end
