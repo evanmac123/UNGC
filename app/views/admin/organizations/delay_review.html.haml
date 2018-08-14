@@ -12,6 +12,7 @@
         %th= sort_header 'Submitted on', field: 'created_at', direction: 'ASC'
         %th Last<br />comment
         %th Comment<br />posted by
+        %th Relationship Manager
         %th Actions
 
       - @organizations.each do |organization|
@@ -29,6 +30,8 @@
               %br/
               %span.small= display_days_ago(organization.last_comment_date)
           %td.small=h organization.last_comment_author
+          %td
+            =h organization.participant_manager_name
           %td
             %ul.actions
               %li

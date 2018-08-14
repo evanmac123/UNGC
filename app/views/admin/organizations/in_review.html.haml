@@ -13,6 +13,7 @@
         %th= "Last<br />comment".html_safe
         %th Comment<br />posted by
         %th= sort_header 'Letter of<br />Commitment'.html_safe, field: 'commitment_letter_updated_at'
+        %th Relationship Manager
         %th Actions
 
       - @organizations.each do |organization|
@@ -31,6 +32,8 @@
               %span.small= display_days_ago(organization.last_comment_date)
           %td.small=h organization.last_comment_author
           %td=h letter_of_commitment_updated(organization)
+          %td
+            =h organization.participant_manager_name
           %td
             %ul.actions
               %li

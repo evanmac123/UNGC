@@ -12,6 +12,7 @@
         %th= sort_header 'Updated on', field: 'updated_at'
         %th Updated by
         %th= sort_header 'Letter of Commitment', field: 'commitment_letter_updated_at'
+        %th Relationship Manager
         %th Actions
 
       - @organizations.each do |organization|
@@ -28,6 +29,8 @@
               %span.small= display_days_ago(organization.updated_at)
           %td=h organization.last_modified_by_full_name
           %td=h letter_of_commitment_updated(organization)
+          %td
+            =h organization.participant_manager_name
           %td
             %ul.actions
               %li
