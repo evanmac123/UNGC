@@ -20,7 +20,9 @@ class CopLanguages < SimpleReport
       'created_at',
       'updated_at',
       'cop_published_on',
-      'language'
+      'language',
+      'cop_file_id',
+      'sector_name'
       ]
   end
 
@@ -36,7 +38,9 @@ class CopLanguages < SimpleReport
       record.created_at.strftime('%Y-%m-%d %X'),
       record.updated_at.strftime('%Y-%m-%d %X'),
       record.communication_on_progress.published_on,
-      record.language_name
+      record.language_name,
+      record.id,
+      record.communication_on_progress.organization.sector_name
     ]
   end
 

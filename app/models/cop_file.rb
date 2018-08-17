@@ -43,7 +43,7 @@ class CopFile < ActiveRecord::Base
 
   def self.all_files
     includes(:language, communication_on_progress: [
-        organization: [:organization_type, :country]
+        organization: [:organization_type, :country, :sector]
       ])
       .joins(:communication_on_progress)
       .where(['language_id IS NOT NULL'])
