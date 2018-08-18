@@ -147,6 +147,7 @@
 :apache:
   :deny:
     - 185.53.100.29 # Hacker
+    - 24.246.63.149 # Test
 
 :denyhosts:
   :allow:
@@ -157,6 +158,7 @@
     - 'ALL : 99.233.59.124 # Unspace'
   :deny:
     - 'ALL : 185.53.100.29 # Hacker'
+    - 'ALL : 24.246.63.149 # Test'
 
 :sysctl:
   vm.overcommit_memory: 1
