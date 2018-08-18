@@ -144,6 +144,10 @@
 :sidekiq:
   :workers: 1
 
+:apache:
+  :deny:
+    - 185.53.100.29 # Hacker
+
 :denyhosts:
   :allow:
     - 'ALL : 127.0.0.1     # localhost'
@@ -152,7 +156,7 @@
     - 'ALL : 64.22.127.26  # Rails Machine'
     - 'ALL : 99.233.59.124 # Unspace'
   :deny:
-    - 'ALL : 185.53.100.29 # Hack'
+    - 'ALL : 185.53.100.29 # Hacker'
 
 :sysctl:
   vm.overcommit_memory: 1
