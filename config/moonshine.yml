@@ -151,6 +151,8 @@
     - 'ALL : 64.22.127.245 # Rails Machine'
     - 'ALL : 64.22.127.26  # Rails Machine'
     - 'ALL : 99.233.59.124 # Unspace'
+  :deny:
+    - 'ALL : 185.53.100.29 # Hack'
 
 :sysctl:
   vm.overcommit_memory: 1
