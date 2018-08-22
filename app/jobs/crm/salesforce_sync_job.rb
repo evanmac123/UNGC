@@ -166,18 +166,18 @@ module Crm
     def adapter_class
       @_adapter_class ||= begin
         crm_prefix = 'Crm::' unless model.class.name[0..4] == 'Crm::'
-        adapter_class_name  = "#{crm_prefix}#{model.class.name}".gsub("Crm::", "Crm::Adapters::")
+        adapter_class_name = "#{crm_prefix}#{model.class.name}".gsub("Crm::", "Crm::Adapters::")
         @_adapter_class = adapter_class_name.constantize
       end
-
     end
 
     private
 
-      def converted_changes(raw_changes)
-        hash_changes = raw_changes || {}
-        return hash_changes if hash_changes.is_a?(Hash)
-        JSON.parse(hash_changes , symbolize_names: true)
-      end
+    def converted_changes(raw_changes)
+      hash_changes = raw_changes || {}
+      return hash_changes if hash_changes.is_a?(Hash)
+      JSON.parse(hash_changes , symbolize_names: true)
+    end
+
   end
 end
