@@ -56,12 +56,6 @@ class ApplicationManifest < Moonshine::Manifest::Rails
   end
 
   def staging_cron_tasks
-    cron "start_pgdump",
-      command: "/srv/unglobalcompact/current/script/cron/start_pgdump",
-      user: "rails",
-      hour: 5,
-      minute: 0,
-      ensure: :absent
   end
 
   def cron_tasks
