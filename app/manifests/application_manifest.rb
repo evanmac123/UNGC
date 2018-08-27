@@ -15,11 +15,11 @@ class ApplicationManifest < Moonshine::Manifest::Rails
   # In the example below, the value configuration[:custom][:random] can be used in
   # your moonshine settings or templates.
   #
-  # require 'net/http'
-  # require 'json'
-  # random = JSON::load(Net::HTTP.get(URI.parse('http://twitter.com/statuses/public_timeline.json'))).last['id']
+  # require "net/http"
+  # require "json"
+  # random = JSON::load(Net::HTTP.get(URI.parse("http://twitter.com/statuses/public_timeline.json"))).last["id"]
   # configure({
-  #   :custom => { :random => random  }
+  #   custom: { random: random  }
   # })
 
   # The default_stack recipe install Rails, Apache, Passenger, the database from
@@ -56,172 +56,166 @@ class ApplicationManifest < Moonshine::Manifest::Rails
   end
 
   def staging_cron_tasks
-    cron 'start_pgdump',
-      :command => '/srv/unglobalcompact/current/script/cron/start_pgdump',
-      :user => 'rails',
-      :hour => 5,
-      :minute => 0,
-      :ensure => :absent
   end
 
   def cron_tasks
-    cron 'cop_state',
-      :command => '/srv/unglobalcompact/current/script/cron/cop_state',
-      :user => 'rails',
-      :hour => 23,
-      :minute => 0,
-      :ensure => :present
+    cron "cop_state",
+      command: "/srv/unglobalcompact/current/script/cron/cop_state",
+      user: "rails",
+      hour: 23,
+      minute: 0,
+      ensure: :present
 
-    cron 'cop_reminder',
-      :command => '/srv/unglobalcompact/current/script/cron/cop_reminder',
-      :user => 'rails',
-      :hour => 23,
-      :minute => 10,
-      :ensure => :present
+    cron "cop_reminder",
+      command: "/srv/unglobalcompact/current/script/cron/cop_reminder",
+      user: "rails",
+      hour: 23,
+      minute: 10,
+      ensure: :present
 
-    cron 'invoice_reminder',
-      :command => '/srv/unglobalcompact/current/script/cron/invoice_reminder',
-      :user => 'rails',
-      :hour => 1,
-      :minute => 0,
-      :ensure => :absent
+    cron "invoice_reminder",
+      command: "/srv/unglobalcompact/current/script/cron/invoice_reminder",
+      user: "rails",
+      hour: 1,
+      minute: 0,
+      ensure: :absent
 
-    cron 'start_mysqldump',
-      :command => '/srv/unglobalcompact/current/script/cron/start_mysqldump',
-      :user => 'rails',
-      :hour => 5,
-      :minute => 0,
-      :ensure => :absent
+    cron "start_mysqldump",
+      command: "/srv/unglobalcompact/current/script/cron/start_mysqldump",
+      user: "rails",
+      hour: 5,
+      minute: 0,
+      ensure: :absent
 
-    cron 'start_pgdump',
-      :command => '/srv/unglobalcompact/current/script/cron/start_pgdump',
-      :user => 'rails',
-      :hour => 5,
-      :minute => 0,
-      :ensure => :present
+    cron "start_pgdump",
+      command: "/srv/unglobalcompact/current/script/cron/start_pgdump",
+      user: "rails",
+      hour: 5,
+      minute: 0,
+      ensure: :present
 
-    cron 'searchable',
-      :command => '/srv/unglobalcompact/current/script/cron/searchable',
-      :user => 'rails',
-      :hour => 6,
-      :minute => 11,
-      :ensure => :present
+    cron "searchable",
+      command: "/srv/unglobalcompact/current/script/cron/searchable",
+      user: "rails",
+      hour: 6,
+      minute: 11,
+      ensure: :present
 
-    cron 'sphinx_index',
-      :command => '/srv/unglobalcompact/current/script/cron/sphinx_index',
-      :user => 'rails',
-      :hour => '*/2',
-      :minute => 40,
-      :ensure => :present
+    cron "sphinx_index",
+      command: "/srv/unglobalcompact/current/script/cron/sphinx_index",
+      user: "rails",
+      hour: "*/2",
+      minute: 40,
+      ensure: :present
 
-    cron 'igloo',
-      :command => '/srv/unglobalcompact/current/script/cron/igloo',
-      :user => 'rails',
-      :minute => '*/5',
-      :ensure => :present
+    cron "igloo",
+      command: "/srv/unglobalcompact/current/script/cron/igloo",
+      user: "rails",
+      minute: "*/5",
+      ensure: :present
   end
 
   def jungle_disk
-    deb_file = 'junglediskserver_316-0_amd64.deb'
+    deb_file = "junglediskserver_316-0_amd64.deb"
     url = "https://downloads.jungledisk.com/jungledisk/#{deb_file}"
 
-    exec 'download jungle_disk',
-      :cwd => '/tmp',
-      :command => "wget #{url}",
-      :require => package('wget'),
-      :creates => "/tmp/#{deb_file}"
+    exec "download jungle_disk",
+      cwd: "/tmp",
+      command: "wget #{url}",
+      require: package("wget"),
+      creates: "/tmp/#{deb_file}"
 
-    package 'junglediskserver',
-      :provider => :dpkg,
-      :ensure => :installed,
-      :source => "/tmp/#{deb_file}",
-      :require => exec('download jungle_disk')
+    package "junglediskserver",
+      provider: :dpkg,
+      ensure: :installed,
+      source: "/tmp/#{deb_file}",
+      require: exec("download jungle_disk")
 
-    file '/etc/jungledisk/junglediskserver-license.xml',
-      :ensure => :present,
-      :owner => 'root',
-      :notify => service('junglediskserver'),
-      :content => template(File.join(File.dirname(__FILE__), '..', '..', 'templates', 'junglediskserver-license.xml'), binding),
-      :require => package('junglediskserver')
+    file "/etc/jungledisk/junglediskserver-license.xml",
+      ensure: :present,
+      owner: "root",
+      notify: service("junglediskserver"),
+      content: template(File.join(File.dirname(__FILE__), "..", "..", "templates", "junglediskserver-license.xml"), binding),
+      require: package("junglediskserver")
 
-    service 'junglediskserver',
-      :provider => :upstart,
-      :enable => true,
-      :ensure => :running,
-      :require => package('junglediskserver')
+    service "junglediskserver",
+      provider: :upstart,
+      enable: true,
+      ensure: :running,
+      require: package("junglediskserver")
   end
 
-  # Add your application's custom requirements here
+  # Add your application"s custom requirements here
   def application_packages
-    # If you've already told Moonshine about a package required by a gem with
+    # If you"ve already told Moonshine about a package required by a gem with
     # :apt_gems in <tt>moonshine.yml</tt> you do not need to include it here.
-    # package 'some_native_package', :ensure => :installed
-    package 'default-jre-headless', :ensure => :installed
-    package 'python', :ensure => :installed
-    package 'screen', :ensure => :installed
+    # package "some_native_package", ensure: :installed
+    package "default-jre-headless", ensure: :installed
+    package "python", ensure: :installed
+    package "screen", ensure: :installed
 
-    # some_rake_task = "/usr/bin/rake -f #{configuration[:deploy_to]}/current/Rakefile custom:task RAILS_ENV=#{ENV['RAILS_ENV']}"
-    # cron 'custom:task', :command => some_rake_task, :user => configuration[:user], :minute => 0, :hour => 0
+    # some_rake_task = "/usr/bin/rake -f #{configuration[:deploy_to]}/current/Rakefile custom:task RAILS_ENV=#{ENV["RAILS_ENV"]}"
+    # cron "custom:task", command: some_rake_task, user: configuration[:user], minute: 0, hour: 0
 
     # %w( root rails ).each do |user|
-    #   mailalias user, :recipient => 'you@domain.com', :notify => exec('newaliases')
+    #   mailalias user, recipient: "you@domain.com", notify: exec("newaliases")
     # end
 
     # farm_config = <<-CONFIG
     #   MOOCOWS = 3
     #   HORSIES = 10
     # CONFIG
-    # file '/etc/farm.conf', :ensure => :present, :content => farm_config
+    # file "/etc/farm.conf", ensure: :present, content: farm_config
 
     # Logs for Rails, MySQL, and Apache are rotated by default
-    # logrotate '/var/log/some_service.log', :options => %w(weekly missingok compress), :postrotate => '/etc/init.d/some_service restart'
+    # logrotate "/var/log/some_service.log", options: %w(weekly missingok compress), postrotate: "/etc/init.d/some_service restart"
 
-    # Only run the following on the 'testing' stage using capistrano-ext's multistage functionality.
-    # on_stage 'testing' do
-    #   file '/etc/motd', :ensure => :file, :content => "Welcome to the TEST server!"
+    # Only run the following on the "testing" stage using capistrano-ext"s multistage functionality.
+    # on_stage "testing" do
+    #   file "/etc/motd", ensure: :file, content: "Welcome to the TEST server!"
     # end
   end
-  # The following line includes the 'application_packages' recipe defined above
+  # The following line includes the "application_packages" recipe defined above
   recipe :application_packages
 
   def webdav
-    a2enmod 'dav_fs'
-    a2enmod 'dav'
+    a2enmod "dav_fs"
+    a2enmod "dav"
 
     file "/etc/apache2/sites-available/webdav",
-      :content => template(File.join(File.dirname(__FILE__), 'templates', 'webdav.vhost.erb')),
-      :owner => 'root',
-      :ensure => :present,
-      :notify => service('apache2')
+      content: template(File.join(File.dirname(__FILE__), "templates", "webdav.vhost.erb")),
+      owner: "root",
+      ensure: :present,
+      notify: service("apache2")
 
-    a2ensite 'webdav'
+    a2ensite "webdav"
   end
 
   def ssh_config
-    file '/etc/ssh/ssh_config',
-      :mode => '644',
-      :content => template('ssh_config', binding),
-      :require => package('ssh')
+    file "/etc/ssh/ssh_config",
+      mode: "644",
+      content: template("ssh_config", binding),
+      require: package("ssh")
   end
 
   def pdfminer
-    exec 'download pdfminer',
-      :command => 'git clone https://github.com/euske/pdfminer.git',
-      :cwd => '/usr/local/src',
-      :creates => '/usr/local/src/pdfminer'
+    exec "download pdfminer",
+      command: "git clone https://github.com/euske/pdfminer.git",
+      cwd: "/usr/local/src",
+      creates: "/usr/local/src/pdfminer"
 
-    exec 'install pdfminer',
-      :command => 'make cmap && sudo python setup.py install',
-      :cwd => '/usr/local/src/pdfminer',
-      :creates => '/usr/local/bin/pdf2txt.py',
-      :require => [exec('download pdfminer'), package('python')]
+    exec "install pdfminer",
+      command: "make cmap && sudo python setup.py install",
+      cwd: "/usr/local/src/pdfminer",
+      creates: "/usr/local/bin/pdf2txt.py",
+      require: [exec("download pdfminer"), package("python")]
   end
 
   def salesforce_listener
     file "/etc/god/salesforce-listener.god",
-      mode: '644',
-      content: template(File.join(File.dirname(__FILE__), 'templates', 'salesforce-listener.god')),
-      require: package('god')
+      mode: "644",
+      content: template(File.join(File.dirname(__FILE__), "templates", "salesforce-listener.god")),
+      require: package("god")
   end
 
 end

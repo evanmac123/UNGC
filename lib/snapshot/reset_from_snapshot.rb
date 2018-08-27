@@ -89,6 +89,8 @@ module Snapshot
     end
 
     def prepare_test_environment
+      return unless Rails.env.development?
+
       puts "Prepare test environment"
       Rake::Task["db:test:prepare"].invoke
     end
