@@ -79,7 +79,6 @@ class DueDiligence::ReviewsReport < SimpleReport
       record.approving_chief,
       record.created_at,
       record.updated_at,
-      record.refer_to_integrity_commitee,
       record.integrity_action_points,
       record.integrity_decision
     ]
