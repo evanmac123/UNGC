@@ -3,7 +3,7 @@
 :pidfile: tmp/pids/sidekiq.pid
 :logfile: ./log/sidekiq.log
 development:
-  :concurrency: 1
+  :concurrency: 5
   :logfile: null
 staging:
   :concurrency: 2

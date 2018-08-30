@@ -11,12 +11,53 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180618190156) do
+ActiveRecord::Schema.define(version: 20180813183620) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "citext"
   enable_extension "unaccent"
+
+  create_table "academy_courses", force: :cascade do |t|
+    t.string   "code"
+    t.string   "name"
+    t.string   "course_type"
+    t.datetime "deleted_at"
+    t.text     "description"
+    t.string   "language"
+    t.integer  "revision",    limit: 8
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
+  add_index "academy_courses", ["code"], name: "index_academy_courses_on_code", using: :btree
+
+  create_table "academy_enrollments", force: :cascade do |t|
+    t.integer  "contact_id"
+    t.integer  "academy_course_id"
+    t.datetime "completed_at"
+    t.decimal  "completion_percentage",           precision: 14, scale: 4
+    t.string   "event_id"
+    t.datetime "first_access"
+    t.datetime "last_access"
+    t.decimal  "max_score",                       precision: 14, scale: 4
+    t.string   "path_completion"
+    t.string   "product_id"
+    t.decimal  "score",                           precision: 14, scale: 4
+    t.string   "so_id"
+    t.string   "status"
+    t.string   "task_id"
+    t.integer  "time_in_course",        limit: 8
+    t.string   "timezone"
+    t.datetime "unenrolled_at"
+    t.string   "user_id"
+    t.string   "user_type"
+    t.datetime "created_at",                                               null: false
+    t.datetime "updated_at",                                               null: false
+  end
+
+  add_index "academy_enrollments", ["academy_course_id"], name: "index_academy_enrollments_on_academy_course_id", using: :btree
+  add_index "academy_enrollments", ["contact_id"], name: "index_academy_enrollments_on_contact_id", using: :btree
 
   create_table "action_platform_orders", force: :cascade do |t|
     t.integer  "organization_id",                                  null: false
@@ -1331,6 +1372,8 @@ ActiveRecord::Schema.define(version: 20180618190156) do
     t.boolean  "has_licensing",              default: false
   end
 
+  add_foreign_key "academy_enrollments", "academy_courses"
+  add_foreign_key "academy_enrollments", "contacts"
   add_foreign_key "action_platform_orders", "contacts", column: "financial_contact_id"
   add_foreign_key "action_platform_subscriptions", "action_platform_orders", column: "order_id"
   add_foreign_key "action_platform_subscriptions", "action_platform_platforms", column: "platform_id"

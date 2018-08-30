@@ -27,4 +27,11 @@ module DomainEvents
   LocalNetworkCreated = Class.new(RailsEventStore::Event)
   LocalNetworkUpdated = Class.new(RailsEventStore::Event)
   LocalNetworkDestroyed = Class.new(RailsEventStore::Event)
+
+  module Academy
+    CourseImported = Class.new(RailsEventStore::Event)
+    CourseUpdated = Class.new(RailsEventStore::Event)
+    ContactEnrolledInCourse = Class.new(RailsEventStore::Event)
+    EnrollmentUpdated = Class.new(RailsEventStore::Event)
+  end
 end

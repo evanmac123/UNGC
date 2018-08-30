@@ -56,6 +56,11 @@ class ApplicationManifest < Moonshine::Manifest::Rails
   end
 
   def staging_cron_tasks
+    cron "academy_course_sync",
+      command: "/srv/unglobalcompact/current/script/cron/academy_course_sync",
+      user: "rails",
+      minute: "0",
+      ensure: :present
   end
 
   def cron_tasks
@@ -112,6 +117,12 @@ class ApplicationManifest < Moonshine::Manifest::Rails
       command: "/srv/unglobalcompact/current/script/cron/igloo",
       user: "rails",
       minute: "*/5",
+      ensure: :present
+
+    cron "academy_course_sync",
+      command: "/srv/unglobalcompact/current/script/cron/academy_course_sync",
+      user: "rails",
+      minute: "0",
       ensure: :present
   end
 
