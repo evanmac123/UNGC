@@ -1,0 +1,49 @@
+<%= render('components/meta_tags', title: "Single Sign-On", description: "UNGC Single Sign-On") %>
+<%= render('components/hero', hero: {
+    theme: 'dark',
+    size: 'small',
+    title: {
+      first: "UN Global Compact Academy",
+    },
+    blurb: "The UN Global Compact Academy is exclusively available to UN Global Compact Participants. Sign in using your Username and Password from the UNGC User Dashboard.",
+    image: image_path("academy/sso-banner.jpg"),
+    }
+  ) %>
+
+<section class='main-content-section main-content-section-narrow'>
+  <%= form_for :authentication, url: saml_auth_path, method: :post, html: {class: 'form-classic wrapper'} do |f| %>
+    <header class='main-content-header'>
+      <h1>Login</h1>
+    </header>
+
+    <section class='main-content-body'>
+      <%= content_tag(:p, content_tag(:span, notice), {class: 'success-message'}) if notice %>
+
+      <% if @saml_idp_fail_msg %>
+        <div id="saml_idp_fail_msg" class="flash error"><%= @saml_idp_fail_msg %></div>
+      <% end %>
+
+      <fieldset>
+
+        <div class="field field-required field-has-placeholder">
+          <%= label_tag :username %>
+          <%= text_field_tag :email, params[:email], placeholder: "Username", autocapitalize: "off", autocorrect: "off", autofocus: "autofocus", spellcheck: "false", size: 30, class: "email_pwd txt" %>
+        </div>
+
+        <div class="field field-required field-has-placeholder">
+          <%= label_tag :password %>
+          <%= password_field_tag :password, params[:password], placeholder: "Password", autocapitalize: "off", autocorrect: "off", spellcheck: "false", size: 30, class: "email_pwd txt" %>
+        </div>
+
+        <%= link_to 'Forgot your username or password?', new_contact_password_path %>
+
+      </fieldset>
+
+      <%= hidden_field_tag("SAMLRequest", params[:SAMLRequest]) %>
+      <%= hidden_field_tag("RelayState", params[:RelayState]) %>
+
+      <%= f.submit "Sign in" %>
+
+    </section>
+  <% end %>
+</section>
