@@ -5,7 +5,7 @@ class Admin::LogoCommentsControllerTest < ActionController::TestCase
     create(:organization_type)
     create(:country)
     @organization = create(:organization)
-    @contact = create(:contact, :organization_id => @organization.id,
+    @contact = create(:contact_point, :organization_id => @organization.id,
                               :email           => "dude@example.com")
     @publication = create(:logo_publication)
     @logo_request = create(:logo_request, :organization_id => @organization.id,

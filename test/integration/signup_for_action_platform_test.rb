@@ -12,7 +12,7 @@ class SignupForActionPlatformTest < ActionDispatch::IntegrationTest
 
     # Given I'm logged in as a contact from a Participant business
     organization = create(:business, level_of_participation: :participant_level)
-    contact = create(:contact,
+    contact = create(:contact_point,
                      state: "California",
                      postal_code: "90210",
                      organization: organization)
@@ -74,7 +74,7 @@ class SignupForActionPlatformTest < ActionDispatch::IntegrationTest
   test "non-participants cannot signup for action platforms" do
     # Given I'm logged in as a contact from a signatory business
     organization = create(:business, level_of_participation: :signatory_level)
-    contact = create(:contact,
+    contact = create(:contact_point,
                      state: "California",
                      postal_code: "90210",
                      organization: organization)

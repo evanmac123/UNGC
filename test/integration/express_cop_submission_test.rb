@@ -8,7 +8,7 @@ class ExpressCopSubmissionTest < ActionDispatch::IntegrationTest
   test "Submitting a Express COP" do
     # Given I'm signed in as a contact from an SME
     o = create(:organization, employees:100, state:'approved')
-    c = create(:contact, organization: o)
+    c = create(:contact_point, organization: o)
     login_as(c)
 
     visit '/admin/cops/introduction'
