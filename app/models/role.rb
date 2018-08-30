@@ -215,14 +215,15 @@ class Role < ActiveRecord::Base
   def self.login_roles
     Rails.cache.fetch(:login_roles) do
       [
-          contact_point,
-          network_report_recipient,
-          network_executive_director,
-          network_board_chair,
-          network_focal_point,
-          network_guest_user,
-          general_contact,
-      ]    end
+        contact_point,
+        network_report_recipient,
+        network_executive_director,
+        network_board_chair,
+        network_focal_point,
+        network_guest_user,
+        general_contact,
+      ]
+    end
   end
 
   scope :filtered, ->(*keys) {
