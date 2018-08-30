@@ -9,7 +9,7 @@ class SamlIdpController < SamlIdp::IdpController
     super
   end
 
-  private
+  protected
 
   def idp_authenticate(username, password)
     saml_authenticator = Saml::Authenticator.create_for(@saml_request.issuer)
@@ -22,7 +22,7 @@ class SamlIdpController < SamlIdp::IdpController
   end
 
   def idp_logout
-    # Unsupported
+    # No-op
   end
 
 end

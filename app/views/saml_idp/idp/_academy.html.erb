@@ -5,7 +5,6 @@
     title: {
       first: "UN Global Compact Academy",
     },
-    blurb: "The UN Global Compact Academy is exclusively available to UN Global Compact Participants. Sign in using your Username and Password from the UNGC User Dashboard.",
     image: image_path("academy/sso-banner.jpg"),
     }
   ) %>
@@ -13,37 +12,60 @@
 <section class='main-content-section main-content-section-narrow'>
   <%= form_for :authentication, url: saml_auth_path, method: :post, html: {class: 'form-classic wrapper'} do |f| %>
     <header class='main-content-header'>
-      <h1>Login</h1>
+        <h1>Login</h1>
+        <p>The UN Global Compact Academy is exclusively available to Participants. Sign in using your <strong>Username</strong> and <strong>Password</strong> from the UN Global Compact User Dashboard. <br /><a href="/participation/tiers" target="_blank">Learn more about our engagement levels</a></p>
+
+        <%= content_tag(:p, content_tag(:span, notice), {class: 'success-message'}) if notice %>
+
+        <% if @saml_idp_fail_msg %>
+            <div id="saml_idp_fail_msg" class="flash error"><%= @saml_idp_fail_msg %></div>
+        <% end %>
     </header>
 
-    <section class='main-content-body'>
-      <%= content_tag(:p, content_tag(:span, notice), {class: 'success-message'}) if notice %>
+    <section class="login-options">
+        <article>
+            <%= image_tag "academy/partnerships.png" %>
+            <p>My company is a UN Global Compact Participant</p>
+            <a href="#login-controls" id="sign-in-toggle" class="button">Sign in</a>
+        </article>
 
-      <% if @saml_idp_fail_msg %>
-        <div id="saml_idp_fail_msg" class="flash error"><%= @saml_idp_fail_msg %></div>
-      <% end %>
+        <article>
+            <%= image_tag "academy/pulp_and_paper.png" %>
+            <p>My company is  not a UN Global Compact Participant</p>
+            <a href="/participation/join/application" target="_blank" class="button">Join</a>
+        </article>
 
-      <fieldset>
+        <article>
+            <%= image_tag "academy/buildings.png" %>
+            <p>Don’t know? Explore our list of Participant Companies</p>
+            <a href="/what-is-gc/participants" target="_blank" class="button">Explore</a>
+        </article>
+    </section>
 
-        <div class="field field-required field-has-placeholder">
-          <%= label_tag :username %>
-          <%= text_field_tag :email, params[:email], placeholder: "Username", autocapitalize: "off", autocorrect: "off", autofocus: "autofocus", spellcheck: "false", size: 30, class: "email_pwd txt" %>
-        </div>
+    <section id="login-controls" name="login-controls">
+        <h3>Sign in</h3>
+        <fieldset>
 
-        <div class="field field-required field-has-placeholder">
-          <%= label_tag :password %>
-          <%= password_field_tag :password, params[:password], placeholder: "Password", autocapitalize: "off", autocorrect: "off", spellcheck: "false", size: 30, class: "email_pwd txt" %>
-        </div>
+            <div class="field field-required field-has-placeholder">
+                <%= label_tag :username %>
+                <%= text_field_tag :email, params[:email], placeholder: "Username", autocapitalize: "off", autocorrect: "off", autofocus: "autofocus", spellcheck: "false", size: 30, class: "email_pwd txt" %>
+            </div>
 
-        <%= link_to 'Forgot your username or password?', new_contact_password_path %>
+            <div class="field field-required field-has-placeholder">
+                <%= label_tag :password %>
+                <%= password_field_tag :password, params[:password], placeholder: "Password", autocapitalize: "off", autocorrect: "off", spellcheck: "false", size: 30, class: "email_pwd txt" %>
+            </div>
 
-      </fieldset>
+            <%= link_to 'Forgot your username or password?', new_contact_password_path %>
 
-      <%= hidden_field_tag("SAMLRequest", params[:SAMLRequest]) %>
-      <%= hidden_field_tag("RelayState", params[:RelayState]) %>
+        </fieldset>
 
-      <%= f.submit "Sign in" %>
+        <%= hidden_field_tag("SAMLRequest", params[:SAMLRequest]) %>
+        <%= hidden_field_tag("RelayState", params[:RelayState]) %>
+
+        <%= f.submit "Sign in" %>
 
     </section>
+
   <% end %>
 </section>
