@@ -90,7 +90,7 @@ class Contact < ActiveRecord::Base
   validates_confirmation_of :password, :if => :password_required?
   validates_length_of       :password, :within => Devise.password_length, :if => :password_required?
   validates_format_of       :email,
-                              :with => /\A[A-Za-z0-9.'_%+-]+@[A-Za-z0-9'.-]+\.[A-Za-z]{2,6}\z/,
+                              :with => /\A[A-Za-z0-9.'_%+-]+@[A-Za-z0-9'.-]+\.[A-Za-z]{2,32}\z/,
                               :message => "is not a valid email address"
   validates_with PasswordStrengthValidator, :if => :password_required?
 
