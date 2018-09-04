@@ -17,20 +17,22 @@ class ContactUsController < ApplicationController
   end
 
   private
-    def load_page
-      set_current_container_by_path '/about/contact'
-      ArticleFormPage.new(current_container, current_payload_data)
-    end
 
-    def contact_us_params
-      params.require(:contact_us_form).permit(
-        :name,
-        :email,
-        :organization,
-        :comments,
-        :magic,
-        :interest_ids => [],
-        :focus_ids => []
-      )
-    end
+  def load_page
+    set_current_container_by_path '/about/contact'
+    ArticleFormPage.new(current_container, current_payload_data)
+  end
+
+  def contact_us_params
+    params.require(:contact_us_form).permit(
+      :name,
+      :email,
+      :organization,
+      :comments,
+      :magic,
+      interest_ids: [],
+      focus_ids: []
+    )
+  end
+
 end

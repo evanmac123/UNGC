@@ -19,7 +19,7 @@ class Admin::ContactsController < AdminController
       @roles = visible_roles
       @return_path = return_path
 
-      render :action => "new"
+      render action: "new"
     end
   end
 
@@ -34,7 +34,7 @@ class Admin::ContactsController < AdminController
 
     if updater.update(contact_params)
       if @contact.id == current_contact.id
-        sign_in(@contact, :bypass => true)
+        sign_in(@contact, bypass: true)
       end
 
       flash[:notice] = 'Contact was successfully updated.'
@@ -43,7 +43,7 @@ class Admin::ContactsController < AdminController
       @roles = visible_roles
       @return_path = return_path
 
-      render :action => "edit"
+      render action: "edit"
     end
   end
 
@@ -84,124 +84,125 @@ class Admin::ContactsController < AdminController
   end
 
   private
-    def load_parent
-      loader = ContactLoader.new(self)
-      if id = params[:organization_id]
-        loader.load_organization(id)
-      elsif id = params[:local_network_id]
-        loader.load_local_network(id)
-      end
-      loader.load_contact(params[:id])
 
-      @parent = loader.parent
-      @contact = loader.contact
-      @roles = loader.roles
-      @reset_password_path = loader.reset_password_path
+  def load_parent
+    loader = ContactLoader.new(self)
+    if id = params[:organization_id]
+      loader.load_organization(id)
+    elsif id = params[:local_network_id]
+      loader.load_local_network(id)
+    end
+    loader.load_contact(params[:id])
+
+    @parent = loader.parent
+    @contact = loader.contact
+    @roles = loader.roles
+    @reset_password_path = loader.reset_password_path
+  end
+
+  def visible_roles
+    Role.visible_to(@contact, current_contact)
+  end
+
+  def display_search_results
+    keyword = params[:keyword].force_encoding("UTF-8")
+    options = {
+      per_page: (params[:per_page] || 15).to_i,
+      page: params[:page]
+    }
+    options[:with] ||= {}
+    options[:with].merge!(email: params[:email]) if params[:email]
+
+    # store what we searched_for so that the helper can pick it apart and make a pretty label
+    @searched_for = keyword
+    @results = Contact.search Riddle::Query.escape(keyword), options
+    raise Riddle::ConnectionError unless @results && @results.total_entries
+    render action: 'search_results'
+  end
+
+  def return_path
+    if current_contact.from_ungc? || current_contact.from_network?
+      contact_parent_path(@contact, [], [], tab: :contacts)
+    else
+      dashboard_path(tab: :contacts)
+    end
+  end
+
+  def network_management_tab?
+    true
+  end
+
+  def contact_params
+    params.fetch(:contact, {}).permit(
+      :prefix,
+      :first_name,
+      :middle_name,
+      :last_name,
+      :job_title,
+      :email,
+      :phone,
+      :fax,
+      :address,
+      :address_more,
+      :city,
+      :state,
+      :postal_code,
+      :country_id,
+      :username,
+      :password,
+      :full_time,
+      :employer,
+      :time_zone,
+      :image,
+      role_ids: []
+    )
+  end
+
+  def policy
+    @policy ||= ContactPolicy.new(current_contact)
+  end
+
+  class ContactLoader
+    attr_reader :parent, :contact, :roles
+
+    def initialize(controller)
+      @controller = controller
     end
 
-    def visible_roles
-      Role.visible_to(@contact, current_contact)
+    def load_organization(id)
+      @kind = :organization
+      @parent = Organization.visible_to(current_contact).find(id)
     end
 
-    def display_search_results
-      keyword = params[:keyword].force_encoding("UTF-8")
-      options = {
-        per_page: (params[:per_page] || 15).to_i,
-        page: params[:page]
-      }
-      options[:with] ||= {}
-      options[:with].merge!(email: params[:email]) if params[:email]
-
-      # store what we searched_for so that the helper can pick it apart and make a pretty label
-      @searched_for = keyword
-      @results = Contact.search Riddle::Query.escape(keyword), options
-      raise Riddle::ConnectionError unless @results && @results.total_entries
-      render :action => 'search_results'
+    def load_local_network(id)
+      @kind = :local_network
+      @parent = LocalNetwork.find(id)
     end
 
-    def return_path
-      if current_contact.from_ungc? || current_contact.from_network?
-        contact_parent_path(@contact, [], [], :tab => :contacts)
+    def load_contact(id)
+      return if id.nil?
+
+      @contact = @parent.contacts.find(id)
+      @roles = Role.visible_to(@contact, current_contact)
+    end
+
+    def reset_password_path
+      return if @contact.nil?
+
+      case @kind
+      when :organization
+        @controller.reset_password_admin_organization_contact_path(@parent.id, @contact.id)
+      when :local_network
+        @controller.reset_password_admin_local_network_contact_path(@parent.id, @contact.id)
       else
-        dashboard_path(:tab => :contacts)
+        raise "Unexpected contact kind: '#{@kind}'."
       end
     end
 
-    def network_management_tab?
-      true
+    def current_contact
+      @controller.current_contact
     end
 
-    def contact_params
-      params.fetch(:contact, {}).permit(
-        :prefix,
-        :first_name,
-        :middle_name,
-        :last_name,
-        :job_title,
-        :email,
-        :phone,
-        :fax,
-        :address,
-        :address_more,
-        :city,
-        :state,
-        :postal_code,
-        :country_id,
-        :username,
-        :password,
-        :full_time,
-        :employer,
-        :time_zone,
-        :image,
-        role_ids: []
-      )
-    end
-
-    def policy
-      @policy ||= ContactPolicy.new(current_contact)
-    end
-
-    class ContactLoader
-      attr_reader :parent, :contact, :roles
-
-      def initialize(controller)
-        @controller = controller
-      end
-
-      def load_organization(id)
-        @kind = :organization
-        @parent = Organization.visible_to(current_contact).find(id)
-      end
-
-      def load_local_network(id)
-        @kind = :local_network
-        @parent = LocalNetwork.find(id)
-      end
-
-      def load_contact(id)
-        return if id.nil?
-
-        @contact = @parent.contacts.find(id)
-        @roles = Role.visible_to(@contact, current_contact)
-      end
-
-      def reset_password_path
-        return if @contact.nil?
-
-        case @kind
-        when :organization
-          @controller.reset_password_admin_organization_contact_path(@parent.id, @contact.id)
-        when :local_network
-          @controller.reset_password_admin_local_network_contact_path(@parent.id, @contact.id)
-        else
-          raise "Unexpected contact kind: '#{@kind}'."
-        end
-      end
-
-      def current_contact
-        @controller.current_contact
-      end
-
-    end
+  end
 
 end

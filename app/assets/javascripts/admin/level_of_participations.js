@@ -6,7 +6,7 @@ $(function() {
   var $isSubsidiary = $('input[name="level_of_participation[is_subsidiary]"]');
   var $parentCompanyField = $('#select-parent-company');
   var $parentCompanyId = $('#level_of_participation_parent_company_id');
-  var $parentCompanyName = $("input[data-autocomplete]");
+  var $parentCompanyName = $("#level_of_participation_parent_company_name");
   var $autocompleteField = $parentCompanyName.data('autocomplete');
   var autocompleteUrl = "/api/v1/autocomplete/" + $autocompleteField + ".json";
   var $invoiceDate = $('#select-invoice-date');

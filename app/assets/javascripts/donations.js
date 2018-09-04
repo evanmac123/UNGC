@@ -50,7 +50,7 @@ $(function() {
     return false;
   });
 
-  var $companyName = $("input[data-autocomplete]");
+  var $companyName = $("#donation_company_name");
   var $organizationId = $("input[name='donation[organization_id]']");
 
   if($companyName.length > 0 && $organizationId.length > 0) {
