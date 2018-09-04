@@ -94,6 +94,35 @@ class OrganizationMailerPreview < ActionMailer::Preview
     OrganizationMailer.level_of_participation_chosen(organization)
   end
 
+  def request_to_join_organization
+    organization = FactoryBot.create(:organization)
+    attributes = FactoryBot.attributes_for(:contact, organization: organization,
+      username: nil, encrypted_password: nil)
+
+    OrganizationMailer.request_to_join_organization(attributes)
+  end
+
+  def request_to_claim_username
+    organization = FactoryBot.create(:organization)
+    contact = FactoryBot.create(:contact, organization: organization,
+      username: nil, encrypted_password: nil)
+
+    attributes = contact.attributes.with_indifferent_access.slice(
+      :id,
+      :email,
+      :organization_id,
+      :prefix,
+      :job_title,
+      :first_name,
+      :last_name,
+      :address,
+      :city,
+      :country_id,
+      :phone,
+    ).merge(username: "alicem")
+
+    OrganizationMailer.request_to_claim_username(attributes)
+  end
 
   private
 

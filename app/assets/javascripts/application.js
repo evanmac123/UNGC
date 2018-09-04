@@ -30,3 +30,4 @@
 //= require_tree ./d3
 //= require donations
 //= require cookie_notice
+//= require autocomplete-fields

@@ -1,0 +1,97 @@
+<%= render 'components/meta_tags', title: "rawr", description: "rawr" %>
+<%= render partial: 'components/hero' %>
+
+<section class='main-content-section main-content-section-narrow'>
+  <%= form_for @contact, url: contacts_path, as: :contact, html: {class: 'form-classic wrapper'} do |f| %>
+  <header class='main-content-header'>
+    <h1>Contact Us</h1>
+  </header>
+
+  <section class='main-content-body'>
+    <%= content_tag(:p, content_tag(:span, notice), {class: 'success-message'}) if notice %>
+
+    <% if @contact.errors.any? %>
+    <div class="errors-container">
+      <h2><%= pluralize(@contact.errors.count, "error") %> prohibited this contact us from being sent:</h2>
+
+      <ul class='errors-list'>
+        <% @contact.errors.full_messages.each do |message| %>
+        <li class='error'><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+    <% end %>
+
+    <fieldset>
+      <div class="field field-required field-has-placeholder">
+        <%= f.text_field(:organization_name, length: 20, placeholder: "Organization name", data: {
+              autocomplete_source: "participants",
+              autocomplete_target: "#contact_organization_id"
+            }) %>
+      </div>
+
+      <div class="field field-required field-has-placeholder">
+        <%= f.text_field :prefix, placeholder: "Prefix" %>
+      </div>
+
+      <div class="field field-required field-has-placeholder">
+        <%= f.text_field :first_name, placeholder: "First name" %>
+      </div>
+
+      <div class="field field-required field-has-placeholder">
+        <%= f.text_field :middle_name, placeholder: "Middle name" %>
+      </div>
+
+      <div class="field field-required field-has-placeholder">
+        <%= f.text_field :last_name, placeholder: "Last name" %>
+      </div>
+
+      <div class="field field-required field-has-placeholder">
+        <%= f.text_field :job_title, placeholder: "Job title" %>
+      </div>
+
+      <div class="field field-required field-has-placeholder">
+        <%= f.email_field :email, placeholder: "Email" %>
+      </div>
+
+      <div class="field field-required field-has-placeholder">
+        <%= f.text_field :phone, placeholder: "Phone" %>
+      </div>
+
+      <div class="field field-required field-has-placeholder">
+        <%= f.text_field :address, placeholder: "Postal address" %>
+      </div>
+
+      <div class="field field-required field-has-placeholder">
+        <%= f.text_field :address_more, placeholder: "Address cont." %>
+      </div>
+
+      <div class="field field-required field-has-placeholder">
+        <%= f.text_field :city, placeholder: "City" %>
+      </div>
+
+      <div class="field field-required field-has-placeholder">
+        <%= f.text_field :state, placeholder: "State/Province" %>
+      </div>
+
+      <div class="field field-required field-has-placeholder">
+        <%= f.text_field(:country_name, length: 20, placeholder: "Country", data: {
+              autocomplete_source: "countries",
+              autocomplete_target: "#contact_country_id"
+            }) %>
+      </div>
+
+      <div class="field field-required field-has-placeholder">
+        <%= f.text_field :postal_code, placeholder: "ZIP/Code" %>
+      </div>
+
+    </fieldset>
+
+    <%= f.hidden_field :country_id %>
+    <%= f.hidden_field :organization_id %>
+
+    <%= f.submit "Add contact" %>
+
+  </section>
+  <% end %>
+</section>

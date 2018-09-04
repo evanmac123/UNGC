@@ -141,4 +141,28 @@ class OrganizationMailer < ActionMailer::Base
       from: "localnetworks@unglobalcompact.org",
       subject: "Engagement Tier '#{@organization&.level_of_participation&.humanize.titleize}' Selected By: #{organization.name}"
   end
+
+  def request_to_join_organization(params)
+    @contact = Contact.new(params)
+
+    @contact_params = params.except(:organization_id)
+    @link = new_admin_organization_contact_url(@contact.organization, contact: @contact_params)
+
+    mail \
+      to: ["ceteam@unglobalcompact.org", "ben@bitfield.co"],
+      subject: "#{@contact.name} requesting to join #{@contact.organization.name}"
+  end
+
+  def request_to_claim_username(params)
+    @contact = Contact.new(params)
+
+    @contact_params = params.except(:organization_id)
+    @link = edit_admin_organization_contact_url(@contact.organization, @contact,
+      username: params.fetch(:username))
+
+    mail \
+      to: ["ceteam@unglobalcompact.org", "ben@bitfield.co"],
+      subject: "#{@contact.name} requesting a username and password"
+  end
+
 end

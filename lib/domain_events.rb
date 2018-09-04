@@ -2,6 +2,11 @@ module DomainEvents
   ActionPlatformOrderCreated = Class.new(RailsEventStore::Event)
   OrganizationSubscribbedToActionPlatform = Class.new(RailsEventStore::Event)
 
+  module Organization
+    ContactRequestedMembership = Class.new(RailsEventStore::Event)
+    ContactClaimedUsername = Class.new(RailsEventStore::Event)
+  end
+
   OrganizationSelectedLevelOfParticipation = Class.new(RailsEventStore::Event)
   OrganizationInvoiceDateChosen = Class.new(RailsEventStore::Event)
   OrganizationParentCompanyIdentified = Class.new(RailsEventStore::Event)

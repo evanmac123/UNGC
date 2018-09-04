@@ -323,3 +323,6 @@ en:
       advanced: Advanced
       inactive: Inactive
       regional_center: Regional Center
+
+  organization:
+    requested_to_join: "Thank you, the Client engagement team will review your submission and get back to you"

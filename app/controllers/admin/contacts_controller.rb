@@ -2,7 +2,7 @@ class Admin::ContactsController < AdminController
   before_filter :load_parent, except: [:search]
 
   def new
-    @contact = @parent.contacts.new
+    @contact = @parent.contacts.new(contact_params)
     @contact.country_id = @parent.country_id if @parent.respond_to?(:country_id)
     @roles = visible_roles
     @return_path = return_path

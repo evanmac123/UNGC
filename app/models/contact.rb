@@ -380,6 +380,16 @@ class Contact < ActiveRecord::Base
     new roles: [Role.ceo]
   end
 
+  def suggested_username
+    [
+      first_name,
+      middle_name,
+      last_name,
+    ].compact
+      .map { |c| c.to_s.downcase.gsub(/[^a-z\d]/, "") }
+      .join(".")
+  end
+
   private
 
     def password_required?
