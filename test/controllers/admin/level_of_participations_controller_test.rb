@@ -86,7 +86,7 @@ class Admin::LevelOfParticipationsControllerTest < ActionController::TestCase
       country: country,
       cop_due_on: 3.months.from_now
     ))
-    contact = create(:contact, :financial_contact, organization: organization)
+    contact = create(:contact_point, :financial_contact, organization: organization)
     sign_in contact
     [organization, contact]
   end

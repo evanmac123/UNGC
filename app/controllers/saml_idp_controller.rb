@@ -3,26 +3,27 @@
 class SamlIdpController < SamlIdp::IdpController
   layout 'application'
 
-  def new
-    saml_authenticator = Saml::Authenticator.create_for(@saml_request.issuer)
-    @issuer_name = saml_authenticator.issuer_name
-    super
-  end
+  before_action :assign_template
+
+  protected
 
   def idp_authenticate(username, password)
-    saml_authenticator = Saml::Authenticator.create_for(@saml_request.issuer)
-    saml_authenticator.authenticate(username, password)
+    @saml_authenticator.authenticate(username, password)
   end
-  private :idp_authenticate
 
   def idp_make_saml_response(user)
     encode_response(user)
   end
-  private :idp_make_saml_response
 
   def idp_logout
-    # Unsupported
+    # No-op
   end
-  private :idp_logout
+
+  def assign_template
+    if @saml_request&.issuer.present?
+      @saml_authenticator = Saml::Authenticator.create_for(@saml_request.issuer)
+      @template = @saml_authenticator.issuer_token
+    end
+  end
 
 end

@@ -6,7 +6,7 @@ class Admin::ExpressCopsControllerTest < ActionController::TestCase
     create(:sme_type)
     organization = create(:business, employees: 1000)
 
-    contact = create(:contact, organization: organization)
+    contact = create(:contact_point, organization: organization)
     sign_in(contact)
 
     assert organization.organization_type != OrganizationType.sme

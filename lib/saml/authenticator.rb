@@ -4,10 +4,11 @@ module Saml
   class Authenticator
 
     class Issuer
-      attr_reader :name, :sign_in_policy, :issuer_uris
+      attr_reader :name, :token, :sign_in_policy, :issuer_uris
 
-      def initialize(name, sign_in_policy, issuer_uris)
+      def initialize(name, token, sign_in_policy, issuer_uris)
         @name = name
+        @token = token
         @sign_in_policy = sign_in_policy
         @issuer_uris = Array(issuer_uris)
       end
@@ -15,11 +16,11 @@ module Saml
       delegate :can_sign_in?, to: :sign_in_policy
     end
 
-    IglooIssuer = Issuer.new("Igloo Communities", Igloo::SignInPolicy.new,
+    IglooIssuer = Issuer.new("Igloo Communities", "igloo", Igloo::SignInPolicy.new,
       "https://unglobalcompact.igloocommunities.com/saml.digest"
     ).freeze
 
-    DoceboIssuer = Issuer.new("The Academy", Academy::SignInPolicy.new, [
+    DoceboIssuer = Issuer.new("The Academy", "academy", Academy::SignInPolicy.new, [
       "https://ungc.docebosaas.com/lms/index.php",
       "https://academy.unglobalcompact.org/lms/index.php",
       "http://academy.unglobalcompact.org/lms/index.php"
@@ -52,6 +53,10 @@ module Saml
 
     def issuer_name
       @issuer.name
+    end
+
+    def issuer_token
+      @issuer.token
     end
 
     private

@@ -176,7 +176,7 @@ class Contact::OrganizationPolicyTest < ActiveSupport::TestCase
   private
 
   def create_organization_contact(params = {})
-    contact = build_stubbed(:contact)
+    contact = create(:contact_point)
     organization_params = params.reverse_merge(
       participant: true
     )

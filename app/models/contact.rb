@@ -325,9 +325,12 @@ class Contact < ActiveRecord::Base
   end
 
   def needs_to_change_password?
-    return true if last_password_changed_at.nil?
-
-    last_password_changed_at < STRONG_PASSWORD_POLICY_DATE.beginning_of_day
+    cutoff = STRONG_PASSWORD_POLICY_DATE.beginning_of_day
+    if last_password_changed_at.present?
+      last_password_changed_at < cutoff
+    else
+      created_at < cutoff
+    end
   end
 
   def rejected_organization_email

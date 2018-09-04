@@ -4,9 +4,7 @@ class PromptForPasswordResetTest < ActionDispatch::IntegrationTest
 
   test "a User with an older password is prompted to change it on login" do
     # Given a contact who needs to change their password
-    organization = create(:business)
-    contact = create(:contact, last_password_changed_at: nil,
-                     organization: organization)
+    contact = create_contact_who_needs_password_change
 
     # When they login
     login_page = TestPage::Login.new
@@ -35,8 +33,26 @@ class PromptForPasswordResetTest < ActionDispatch::IntegrationTest
     assert_equal'/admin/dashboard', current_path
   end
 
+  test "a user created after the strong password change does not have to change their password" do
+    # Given a contact who was forced to create a strong password
+    organization = create(:business)
+    contact = create(:contact_point,
+                     last_password_changed_at: nil,
+                     organization: organization)
+
+    # When they login
+    login_page = TestPage::Login.new
+    login_page.visit
+    login_page.fill_in_username(contact.username)
+    login_page.fill_in_password(contact.password)
+    change_password_page = login_page.click_login
+
+    # They should not be prompted to change their password.
+    assert_equal'/admin/dashboard', current_path
+  end
+
   test "with invalid paramters" do
-    contact = create_contact
+    contact = create_contact_who_needs_password_change
     login_as(contact)
 
     change_password_page = TestPage::ChangePassword.new(contact)
@@ -53,11 +69,7 @@ class PromptForPasswordResetTest < ActionDispatch::IntegrationTest
 
   test "a contact resetting their password" do
     # Given a contact who needs to change their password
-    organization = create(:business)
-    contact = create(:contact,
-                     last_password_changed_at: nil,
-                     password: "OldPass0rd",
-                     organization: organization)
+    contact = create_contact_who_needs_password_change
 
     # And they have been sent a reset password email
     token = contact.send_reset_password_instructions
@@ -75,10 +87,10 @@ class PromptForPasswordResetTest < ActionDispatch::IntegrationTest
 
   private
 
-  def create_contact
-    organization = create(:business)
-    create(:contact, last_password_changed_at: nil,
-           organization: organization)
+  def create_contact_who_needs_password_change
+    create(:contact_point, last_password_changed_at: nil,
+           created_at: Contact::STRONG_PASSWORD_POLICY_DATE - 6.months,
+           organization: create(:business))
   end
 
 end

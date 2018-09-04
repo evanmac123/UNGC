@@ -23,7 +23,7 @@ class Contact::OrganizationPolicy
 
   def can_sign_in?
     organization = @organization_contact.organization
-    !organization.delisted? || organization.recommitted?
+    @organization_contact.can_login? && (!organization.delisted? || organization.recommitted?)
   end
 
   private
