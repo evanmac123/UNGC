@@ -24,7 +24,7 @@ gem 'devise',               '~> 3.5.4'
 gem 'doorkeeper',            '~> 4.4.0'
 gem 'dynamic_form',         '~> 1.1.4'
 gem 'honeybadger'
-gem 'restforce'
+gem 'restforce',            '~> 3.0.0'
 gem 'faye'
 gem 'roo',                  '~> 2.7.0'
 
