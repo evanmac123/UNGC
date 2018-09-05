@@ -90,15 +90,6 @@ $(document).ready(function() {
     }
   });
 
-  // contact form
-  $('.role_for_login_fields').change(function() {
-    if ($(".role_for_login_fields:checked").length > 0) {
-      $('#login_information').show();
-    } else {
-      $('#login_information').hide();
-    }
-  });
-
   $('#add_pledge_continued').click(function(e) {
     e.preventDefault();
     $(this).next(".show_field_target").slideToggle();
