@@ -171,7 +171,7 @@ class OrganizationMailer < ActionMailer::Base
 
   def academy_emails
     if Feature.academy_launched?
-      "ceteam@unglobalcompact.org"
+      "info@unglobalcompact.org"
     else
       "alicino@unglobalcompact.org"
     end
