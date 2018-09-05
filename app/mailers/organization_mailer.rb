@@ -149,7 +149,8 @@ class OrganizationMailer < ActionMailer::Base
     @link = new_admin_organization_contact_url(@contact.organization, contact: @contact_params)
 
     mail \
-      to: ["ceteam@unglobalcompact.org", "ben@bitfield.co"],
+      to: academy_emails,
+      bcc: ["academy@unglobalcompact.org", "ben@bitfield.co"],
       subject: "#{@contact.name} requesting to join #{@contact.organization.name}"
   end
 
@@ -161,8 +162,19 @@ class OrganizationMailer < ActionMailer::Base
       username: params.fetch(:username))
 
     mail \
-      to: ["ceteam@unglobalcompact.org", "ben@bitfield.co"],
+      to: academy_emails,
+      bcc: ["academy@unglobalcompact.org", "ben@bitfield.co"],
       subject: "#{@contact.name} requesting a username and password"
+  end
+
+  private
+
+  def academy_emails
+    if Feature.academy_launched?
+      "ceteam@unglobalcompact.org"
+    else
+      "alicino@unglobalcompact.org"
+    end
   end
 
 end

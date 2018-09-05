@@ -19,4 +19,8 @@ class Feature
     Date.current >= Date.new(2017, 10, 15) || !Rails.env.production?
   end
 
+  def self.academy_launched?
+    false
+  end
+
 end

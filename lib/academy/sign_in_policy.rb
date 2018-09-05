@@ -5,14 +5,14 @@ module Academy
 
     def can_sign_in?(contact)
       case
-        when contact.from_ungc?
-          can_sign_in_as_staff?(contact)
-        when contact.from_network?
-          can_sign_in_from_local_network?(contact)
-        when contact.from_organization?
-          can_sign_in_from_organization?(contact.organization)
-        else
-          false
+      when contact.from_ungc?
+        can_sign_in_as_staff?(contact)
+      when contact.from_network?
+        can_sign_in_from_local_network?(contact)
+      when contact.from_organization?
+        can_sign_in_from_organization?(contact.organization)
+      else
+        false
       end
     end
 
