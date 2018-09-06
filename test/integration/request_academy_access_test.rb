@@ -28,12 +28,6 @@ class RequestAcademyAccessTest < ActionDispatch::IntegrationTest
     fill_in "ZIP/Code", with: "90210"
     fill_in "Username", with: "echeng"
 
-    # simulate matching on the organization name:
-    find("#viewer_organization_id", visible: false).set(organization.id)
-
-    # simulate matching on the country name:
-    find("#viewer_country_id", visible: false).set(country.id)
-
     click_on "Add contact"
 
     # Then we should see a success message

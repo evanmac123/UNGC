@@ -100,7 +100,6 @@ class Admin::ContactsControllerTest < ActionController::TestCase
         Role.financial_contact,
         Role.survey_contact,
         Role.ceo,
-        Role.academy_viewer,
       ].map(&:name)
 
       assert_same_elements roles, assigns(:roles).map(&:name)

@@ -3,7 +3,6 @@ module Academy
     attr_accessor :country_name, :organization_name
 
     validates :organization, presence: true
-    validates :country, presence: true
 
     def can_login?
       true
@@ -14,6 +13,14 @@ module Academy
     end
 
     def save
+      if country_id.blank? && country_name.present?
+        self.country = Country.find_by(name: country_name)
+      end
+
+      if organization_id.blank? && organization_name.present?
+        self.organization = Organization.find_by(name: organization_name)
+      end
+
       existing_contact = Contact.find_by(
         email: email, organization_id: organization_id)
 
