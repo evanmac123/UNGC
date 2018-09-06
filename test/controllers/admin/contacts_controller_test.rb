@@ -95,10 +95,15 @@ class Admin::ContactsControllerTest < ActionController::TestCase
                  :id => @organization_user.to_param
 
       assert_response :success
-      assert_same_elements [ Role.contact_point,
-                             Role.financial_contact,
-                             Role.survey_contact,
-                             Role.ceo], assigns(:roles)
+      roles = [
+        Role.contact_point,
+        Role.financial_contact,
+        Role.survey_contact,
+        Role.ceo,
+        Role.academy_viewer,
+      ].map(&:name)
+
+      assert_same_elements roles, assigns(:roles).map(&:name)
     end
 
     should "display the 'new contact' form for a local network" do
