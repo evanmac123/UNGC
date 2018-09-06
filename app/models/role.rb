@@ -49,34 +49,39 @@ class Role < ActiveRecord::Base
 
   def self.visible_to(user, current_contact = nil)
     case user.user_type
-      when Contact::TYPE_ORGANIZATION
-        role_ids = *contact_point.id
+    when Contact::TYPE_ORGANIZATION
+      role_ids = *contact_point.id
 
-        # give option to check Highlest Level Executive if no CEO has been assigned
-        role_ids = [*role_ids, ceo.id] if user.is?(ceo) || !user.organization.contacts.ceos.exists?
+      # give option to check Highlest Level Executive if no CEO has been assigned
+      role_ids = [*role_ids, ceo.id] if user.is?(ceo) || !user.organization.contacts.ceos.exists?
 
-        # only editable by Global Compact staff
-        if current_contact&.from_ungc?
-          role_ids = [*role_ids, *[ceo.id, survey_contact.id, academy_viewer.id]]
-        end
+      # only editable by Global Compact staff
+      if current_contact&.from_ungc?
+        role_ids = [*role_ids, *[ceo.id, survey_contact.id]]
+      end
 
-        # only business organizations have a financial contact
-        role_ids = [*role_ids, financial_contact.id] if user.organization.business_entity?
+      # Academy Viewers may be added to participant organizations by staff
+      if current_contact&.from_ungc? && user.organization&.participant_level?
+        role_ids = [*role_ids, *[academy_viewer.id]]
+      end
 
-        # if the organization signed an initiative, then add the initiative's role, if available
-        role_ids << where(initiative_id: user.organization.initiative_ids).pluck(:id)
+      # only business organizations have a financial contact
+      role_ids = [*role_ids, financial_contact.id] if user.organization.business_entity?
 
-        where(id: role_ids)
-      when Contact::TYPE_UNGC
-        where(id: type_contact_ungc_roles)
-      when Contact::TYPE_NETWORK
-        where(id: type_contact_network_roles)
-      when Contact::TYPE_NETWORK_GUEST
-        where(id: network_guest_user)
-      when Contact::TYPE_REGIONAL
-        where(id: type_contact_network_roles)
-      else
-        none
+      # if the organization signed an initiative, then add the initiative's role, if available
+      role_ids << where(initiative_id: user.organization.initiative_ids).pluck(:id)
+
+      where(id: role_ids)
+    when Contact::TYPE_UNGC
+      where(id: type_contact_ungc_roles)
+    when Contact::TYPE_NETWORK
+      where(id: type_contact_network_roles)
+    when Contact::TYPE_NETWORK_GUEST
+      where(id: network_guest_user)
+    when Contact::TYPE_REGIONAL
+      where(id: type_contact_network_roles)
+    else
+      none
     end
   end
 
