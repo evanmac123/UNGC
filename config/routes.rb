@@ -243,7 +243,11 @@ UNGC::Application.routes.draw do
     end
   end
 
-  resources :contacts, only: [:new, :create]
+  namespace :academy do
+    resources :viewers, only: [:new, :create] do
+      get :accept
+    end
+  end
 
   # /take-action/action-platforms/...
   scope "/take-action", module: :action_platform do

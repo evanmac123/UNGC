@@ -18,11 +18,11 @@ class PasswordStrengthValidator < ActiveModel::Validator
       record.errors[:password] << 'must have at least 1 digit'
     end
 
-    if password =~ Regexp.new(record.email)
+    if record.email.present? && password =~ Regexp.new(record.email)
       record.errors[:password] << 'must not contain your email'
     end
 
-    if password =~ Regexp.new(record.username)
+    if record.username.present? && password =~ Regexp.new(record.username)
       record.errors[:password] << 'must not contain your username'
     end
 

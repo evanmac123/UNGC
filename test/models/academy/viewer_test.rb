@@ -1,17 +1,23 @@
 require "test_helper"
 
-class JoinOrganizationFormTest < ActiveSupport::TestCase
+class Academy::ViewerTest < ActiveSupport::TestCase
 
   test "organization is required" do
-    contact = JoinOrganizationForm.new(organization_id: nil)
+    contact = Academy::Viewer.new(organization_id: nil)
     refute contact.save
     assert_includes contact.errors.full_messages, "Organization can't be blank"
   end
 
   test "country is reqiured" do
-    contact = JoinOrganizationForm.new(country_id: nil)
+    contact = Academy::Viewer.new(country_id: nil)
     refute contact.save
     assert_includes contact.errors.full_messages, "Country can't be blank"
+  end
+
+  test "username is required" do
+    contact = Academy::Viewer.new(username: nil)
+    refute contact.save
+    assert_includes contact.errors.full_messages, "Username can't be blank"
   end
 
   context "saving a new contact" do
@@ -20,8 +26,9 @@ class JoinOrganizationFormTest < ActiveSupport::TestCase
       attrs = attributes_for(:contact).merge(
         organization: create(:organization),
         country: create(:country),
+        username: "username",
       )
-      form = JoinOrganizationForm.new(attrs)
+      form = Academy::Viewer.new(attrs)
 
       assert form.save
 
@@ -34,8 +41,9 @@ class JoinOrganizationFormTest < ActiveSupport::TestCase
       attrs = attributes_for(:contact).merge(
         organization: organization,
         country: create(:country),
+        username: "username",
       )
-      form = JoinOrganizationForm.new(attrs)
+      form = Academy::Viewer.new(attrs)
 
       assert form.save
       email = OrganizationMailer.deliveries.last
@@ -64,7 +72,8 @@ class JoinOrganizationFormTest < ActiveSupport::TestCase
         :phone,
       )
 
-      form = JoinOrganizationForm.new(attributes)
+      form = Academy::Viewer.new(attributes)
+      form.username = "username"
 
       assert form.save, form.errors.full_messages
 
@@ -90,11 +99,12 @@ class JoinOrganizationFormTest < ActiveSupport::TestCase
         :phone,
       )
 
-      form = JoinOrganizationForm.new(attributes)
+      form = Academy::Viewer.new(attributes)
+      form.username = "username"
 
       assert form.save, form.errors.full_messages
       email = OrganizationMailer.deliveries.last
-      assert_equal "#{form.name} requesting a username and password", email.subject
+      assert_equal "#{form.name} from #{organization.name} is requesting a username and password", email.subject
     end
 
   end

@@ -142,34 +142,31 @@ class OrganizationMailer < ActionMailer::Base
       subject: "Engagement Tier '#{@organization&.level_of_participation&.humanize.titleize}' Selected By: #{organization.name}"
   end
 
-  def request_to_join_organization(params)
-    @contact = Contact.new(params)
-
+  def join_organization(invite_id, params)
+    contact = Contact.new(params)
     @contact_params = params.except(:organization_id)
-    @link = new_admin_organization_contact_url(@contact.organization, contact: @contact_params)
+    @link = academy_viewer_accept_url(invite_id)
 
     mail \
-      to: academy_emails,
+      to: academy_recipients,
       bcc: ["academy@unglobalcompact.org", "ben@bitfield.co"],
-      subject: "#{@contact.name} requesting to join #{@contact.organization.name}"
+      subject: "#{contact.name} requesting to join #{contact.organization.name}"
   end
 
-  def request_to_claim_username(params)
-    @contact = Contact.new(params)
-
+  def claim_username(invite_id, params)
+    contact = Contact.new(params)
     @contact_params = params.except(:organization_id)
-    @link = edit_admin_organization_contact_url(@contact.organization, @contact,
-      username: params.fetch(:username))
+    @link = academy_viewer_accept_url(invite_id)
 
     mail \
-      to: academy_emails,
+      to: academy_recipients,
       bcc: ["academy@unglobalcompact.org", "ben@bitfield.co"],
-      subject: "#{@contact.name} requesting a username and password"
+      subject: "#{contact.name} from #{contact.organization.name} is requesting a username and password"
   end
 
   private
 
-  def academy_emails
+  def academy_recipients
     if Feature.academy_launched?
       "info@unglobalcompact.org"
     else

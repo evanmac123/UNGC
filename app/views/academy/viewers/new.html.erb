@@ -2,7 +2,7 @@
 <%= render partial: 'components/hero' %>
 
 <section class='main-content-section main-content-section-narrow'>
-  <%= form_for @contact, url: contacts_path, as: :contact, html: {class: 'form-classic wrapper'} do |f| %>
+  <%= form_for @viewer, as: :viewer, html: {class: 'form-classic wrapper'} do |f| %>
   <header class='main-content-header'>
     <h1>Contact Us</h1>
   </header>
@@ -10,12 +10,12 @@
   <section class='main-content-body'>
     <%= content_tag(:p, content_tag(:span, notice), {class: 'success-message'}) if notice %>
 
-    <% if @contact.errors.any? %>
+    <% if @viewer.errors.any? %>
     <div class="errors-container">
-      <h2><%= pluralize(@contact.errors.count, "error") %> prohibited this contact us from being sent:</h2>
+      <h2><%= pluralize(@viewer.errors.count, "error") %> prohibited this form from being sent:</h2>
 
       <ul class='errors-list'>
-        <% @contact.errors.full_messages.each do |message| %>
+        <% @viewer.errors.full_messages.each do |message| %>
         <li class='error'><%= message %></li>
         <% end %>
       </ul>
@@ -26,7 +26,7 @@
       <div class="field field-required field-has-placeholder">
         <%= f.text_field(:organization_name, length: 20, placeholder: "Organization name", data: {
               autocomplete_source: "participants",
-              autocomplete_target: "#contact_organization_id"
+              autocomplete_target: "#viewer_organization_id"
             }) %>
       </div>
 
@@ -77,12 +77,16 @@
       <div class="field field-required field-has-placeholder">
         <%= f.text_field(:country_name, length: 20, placeholder: "Country", data: {
               autocomplete_source: "countries",
-              autocomplete_target: "#contact_country_id"
+              autocomplete_target: "#viewer_country_id"
             }) %>
       </div>
 
       <div class="field field-required field-has-placeholder">
         <%= f.text_field :postal_code, placeholder: "ZIP/Code" %>
+      </div>
+
+      <div class="field field-required field-has-placeholder">
+        <%= f.text_field :username, placeholder: "Username" %>
       </div>
 
     </fieldset>

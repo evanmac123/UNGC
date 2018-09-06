@@ -42,6 +42,7 @@ class Role < ActiveRecord::Base
     ceo_water_mandate: 'CEO Water Mandate',
     caring_for_climate: 'Caring for Climate',
     action_platform_manager: 'Action Platform Manager',
+    academy_viewer: "Academy Viewer",
     academy_manager: 'Academy Manager',
     academy_local_network_representative: "Academy Local Network Representative",
   }
@@ -52,10 +53,12 @@ class Role < ActiveRecord::Base
         role_ids = *contact_point.id
 
         # give option to check Highlest Level Executive if no CEO has been assigned
-        role_ids = [*role_ids, ceo] if user.is?(ceo) || !user.organization.contacts.ceos.exists?
+        role_ids = [*role_ids, ceo.id] if user.is?(ceo) || !user.organization.contacts.ceos.exists?
 
         # only editable by Global Compact staff
-        role_ids = [*role_ids, *[ceo, survey_contact]] if current_contact&.from_ungc?
+        if current_contact&.from_ungc?
+          role_ids = [*role_ids, *[ceo.id, survey_contact.id, academy_viewer.id]]
+        end
 
         # only business organizations have a financial contact
         role_ids = [*role_ids, financial_contact.id] if user.organization.business_entity?
@@ -202,6 +205,10 @@ class Role < ActiveRecord::Base
 
   def self.action_platform_manager
     Rails.cache.fetch(role_cache_key(:action_platform_manager)) { find_by(name: FILTERS[:action_platform_manager]) }
+  end
+
+  def self.academy_viewer
+    Rails.cache.fetch(role_cache_key(:academy_viewer)) { find_by(name: FILTERS[:academy_viewer]) }
   end
 
   def self.academy_manager

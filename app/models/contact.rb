@@ -390,6 +390,10 @@ class Contact < ActiveRecord::Base
       .join(".")
   end
 
+  def generate_password
+    SecureRandom.hex(6) + SecureRandom.hex(6).upcase
+  end
+
   private
 
     def password_required?

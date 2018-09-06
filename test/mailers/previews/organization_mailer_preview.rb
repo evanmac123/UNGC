@@ -94,15 +94,15 @@ class OrganizationMailerPreview < ActionMailer::Preview
     OrganizationMailer.level_of_participation_chosen(organization)
   end
 
-  def request_to_join_organization
+  def join_organization
     organization = FactoryBot.create(:organization)
     attributes = FactoryBot.attributes_for(:contact, organization: organization,
       username: nil, encrypted_password: nil)
 
-    OrganizationMailer.request_to_join_organization(attributes)
+    OrganizationMailer.join_organization(attributes)
   end
 
-  def request_to_claim_username
+  def claim_username
     organization = FactoryBot.create(:organization)
     contact = FactoryBot.create(:contact, organization: organization,
       username: nil, encrypted_password: nil)
@@ -121,7 +121,7 @@ class OrganizationMailerPreview < ActionMailer::Preview
       :phone,
     ).merge(username: "alicem")
 
-    OrganizationMailer.request_to_claim_username(attributes)
+    OrganizationMailer.claim_username(attributes)
   end
 
   private
