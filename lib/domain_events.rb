@@ -4,6 +4,7 @@ module DomainEvents
 
   module Organization
     ContactRequestedMembership = Class.new(RailsEventStore::Event)
+    ContactRequestedLogin = Class.new(RailsEventStore::Event)
     ContactClaimedUsername = Class.new(RailsEventStore::Event)
   end
 

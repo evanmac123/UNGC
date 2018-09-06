@@ -69,7 +69,7 @@ module Academy
         EventPublisher.publish(event, to: stream)
       else
         data = contact_attributes.merge(contact_id: id)
-        event = DomainEvents::Organization::ContactClaimedUsername.new(data: data)
+        event = DomainEvents::Organization::ContactRequestedLogin.new(data: data)
         EventPublisher.publish(event, to: stream)
       end
     end

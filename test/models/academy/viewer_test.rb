@@ -78,7 +78,7 @@ class Academy::ViewerTest < ActiveSupport::TestCase
       assert form.save, form.errors.full_messages
 
       event = EventPublisher.client.read_all_streams_backward.first
-      assert event.is_a?(DomainEvents::Organization::ContactClaimedUsername)
+      assert event.is_a?(DomainEvents::Organization::ContactRequestedLogin)
     end
 
     it "sends an email to the CE team" do

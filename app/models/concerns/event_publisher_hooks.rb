@@ -22,12 +22,12 @@ module EventPublisherHooks
 
   def event_stream_after_create_commit
     event_class = "DomainEvents::#{self.class.name}Created".constantize
-    event_stream_publish_change_event(:create, event_class)
+    event_stream_publish_change_event(event_class)
   end
 
   def event_stream_after_update_commit
     event_class = "DomainEvents::#{self.class.name}Updated".constantize
-    event_stream_publish_change_event(:update, event_class)
+    event_stream_publish_change_event(event_class)
   end
 
   def event_stream_after_destroy_commit
@@ -49,7 +49,7 @@ module EventPublisherHooks
     end
   end
 
-  def event_stream_publish_change_event(action, event_class)
+  def event_stream_publish_change_event(event_class)
     # reset transaction_changes, and keep the hash of changes
     @_event_stream_changes, changes_from_tx = HashWithIndifferentAccess.new, @_event_stream_changes
 

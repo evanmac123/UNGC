@@ -49,7 +49,11 @@ class RequestAcademyAccessTest < ActionDispatch::IntegrationTest
 
     welcome_email = ActionMailer::Base.deliveries.last
     assert_equal "Welcome to the UN Global Compact Academy", welcome_email.subject
-    assert_match /reset_password_token=[A-Za-z\d]/, welcome_email.text_part.body.to_s
+    assert_match(/reset_password_token=[A-Za-z\d]/, welcome_email.text_part.body.to_s)
+
+    assert_no_difference -> { ActionMailer::Base.deliveries.size } do
+      visit link
+    end
   end
 
   test "accept request to claim a contact" do
@@ -88,6 +92,10 @@ class RequestAcademyAccessTest < ActionDispatch::IntegrationTest
 
     reset_email = ActionMailer::Base.deliveries.last
     assert_equal "United Nations Global Compact - Reset Password", reset_email.subject
+
+    assert_no_difference -> { ActionMailer::Base.deliveries.size } do
+      visit link
+    end
   end
 
   test "rejects invalid input" do
