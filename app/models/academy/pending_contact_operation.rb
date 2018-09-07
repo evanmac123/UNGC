@@ -1,6 +1,6 @@
 module Academy
   class PendingContactOperation
-    attr_accessor :type, :attributes
+    attr_accessor :type, :attributes, :status, :contact
 
     def self.find(stream)
       events = EventPublisher.client.read_stream_events_forward(stream)
@@ -20,8 +20,10 @@ module Academy
         self.type = :new_contact
       when DomainEvents::Organization::ContactRequestedLogin
         self.type = :claim_username
-      when DomainEvents::Organization::ContactClaimedUsername,  DomainEvents::ContactCreated
-        self.type = :processed
+      when DomainEvents::Organization::ContactClaimedUsername
+        self.type = :claimed_username
+      when DomainEvents::ContactCreated
+        self.type = :contact_created
       else
         raise "Unexpected event #{event}"
       end
@@ -33,6 +35,12 @@ module Academy
         accept_new_contact
       when :claim_username
         claim_username
+      when :claimed_username
+        @status = "We've assigned the contact a username and password. We've emailed them their credentials"
+        @contact = Contact.find(attributes.fetch(:contact_id))
+      when :contact_created
+        @status = "The contact has been created and we've emailed them their credentials"
+        @contact = Contact.find(attributes.fetch(:id))
       end
     end
 
@@ -47,7 +55,8 @@ module Academy
       event = DomainEvents::ContactCreated.new(data: data)
       EventPublisher.publish(event, to: @stream)
 
-      "The contact has been created and we've emailed them their credentials"
+      @status = "The contact has been created and we've emailed them their credentials"
+      @contact = contact
     end
 
     def claim_username
@@ -59,7 +68,8 @@ module Academy
       event = DomainEvents::Organization::ContactClaimedUsername.new(data: data)
       EventPublisher.publish(event, to: @stream)
 
-      "We've assigned the contact a username and password. We've emailed them their credentials"
+      @status = "We've assigned the contact a username and password. We've emailed them their credentials"
+      @contact = contact
     end
 
   end

@@ -19,7 +19,10 @@ module Academy
     def accept
       stream = params.fetch(:viewer_id)
       op = PendingContactOperation.find(stream)
-      render text: op.process
+      op.process
+      @contact = op.contact
+      @organization = @contact.organization
+      @message = op.status
     end
 
     private

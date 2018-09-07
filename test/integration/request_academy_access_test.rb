@@ -45,7 +45,9 @@ class RequestAcademyAccessTest < ActionDispatch::IntegrationTest
 
     email = ActionMailer::Base.deliveries.last
     link = email.body.to_s.scan(/\/academy\/viewers\/.+\/accept/).first
+
     visit link
+    assert page.has_content? "The contact has been created"
 
     welcome_email = ActionMailer::Base.deliveries.last
     assert_equal "Welcome to the UN Global Compact Academy", welcome_email.subject
@@ -54,6 +56,8 @@ class RequestAcademyAccessTest < ActionDispatch::IntegrationTest
     assert_no_difference -> { ActionMailer::Base.deliveries.size } do
       visit link
     end
+
+    assert page.has_content? "The contact has been created"
   end
 
   test "accept request to claim a contact" do
