@@ -20,7 +20,7 @@ class Feature
   end
 
   def self.academy_launched?
-    false
+    (!Rails.env.production?) || Date.current >= Academy::LAUNCH_DATE
   end
 
 end
