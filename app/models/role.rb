@@ -61,7 +61,10 @@ class Role < ActiveRecord::Base
       end
 
       # Academy Viewers may be added to participant organizations by staff
-      if current_contact&.from_ungc? && user.organization&.participant_level?
+      target_is_participant = user.organization&.participant_level?
+      from_ungc_or_participant_org = current_contact&.from_ungc? || current_contact&.organization&.participant_level?
+
+      if from_ungc_or_participant_org && target_is_participant
         role_ids = [*role_ids, *[academy_viewer.id]]
       end
 

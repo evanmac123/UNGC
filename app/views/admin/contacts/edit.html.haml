@@ -16,14 +16,14 @@
 
   %fieldset#reset_password
     %legend Send password reset email
-    - if @contact.has_login_role?
+    - if @contact.username.present?
       = form_for(:contact, url: @reset_password_path) do |form|
         %p Send a reset password email to a new email address for this contact.
         = form.email_field(:email)
         <br/>
         = form.submit('Send password reset email')
     - else
-      %p This contact is not able to login. A contact must have a username and be a Contact Point.
+      %p This contact is not able to login. A contact must have a username and password to be able to login.
 
 = form_for(:contact, builder: DefaultFormBuilder, url: contact_path(@contact), html: {method: :put, novalidate: "novalidate"}) do |form|
   = render partial: form
