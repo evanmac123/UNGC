@@ -42,7 +42,7 @@ class Role < ActiveRecord::Base
     ceo_water_mandate: 'CEO Water Mandate',
     caring_for_climate: 'Caring for Climate',
     action_platform_manager: 'Action Platform Manager',
-    academy_viewer: "Academy Viewer",
+    academy_viewer: "Academy",
     academy_manager: 'Academy Manager',
     academy_local_network_representative: "Academy Local Network Representative",
   }

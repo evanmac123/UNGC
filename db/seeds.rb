@@ -17,7 +17,7 @@ roles = [
   "Integrity Manager",
   "Integrity Team Member",
   "Action Platform Manager",
-  "Academy Viewer",
+  "Academy",
 ]
 roles.each do |name|
   Role.find_or_create_by!(name: name, description: name)
