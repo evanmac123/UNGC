@@ -1,0 +1,33 @@
+<% flash.keep(:alert) %>
+<% flash.keep(:error) %>
+<%= devise_error_messages! %>
+
+<h2>Login</h2>
+<%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+  <fieldset>
+    <ol>
+      <li>
+        <%= f.label :username %>
+        <%= f.text_field :username %>
+      </li>
+      <li>
+        <%= f.label :password %>
+        <%= f.password_field :password %>
+      </li>
+      <li>
+        <%= f.label :remember_me %>
+        <%= f.check_box :remember_me %>
+      </li>
+    </ol>
+  </fieldset>
+  <%= f.submit 'Login', :class => 'button' %>
+  <h3>
+    <%= link_to 'Forgot your username or password?', new_contact_password_path %>
+  </h3>
+<% end %>
+
+<div id="academy-banner">
+  <a href='https://www.unglobalcompact.org/academy'>
+    <%= image_tag("academy-banner-01.jpg", alt: "Academy Banner") %>
+  </a>
+</div>
