@@ -49,4 +49,20 @@ class Contact::CreatorTest < ActiveSupport::TestCase
       assert_contains @contact.errors, 'You are not authorized to create that contact.'
     end
   end
+
+
+  should "send a welcome email to new contacts from participant level organizations" do
+    policy = stub(can_create?: true, can_upload_image?: false)
+    organization = create(:organization, :participant_level, :active_participant)
+
+    contact = build(:contact, organization: organization, username: "foo")
+    service = Contact::Creator.new(contact, policy)
+
+    assert_difference -> { ActionMailer::Base.deliveries.size }, +1 do
+      assert service.create, contact.errors.full_messages
+      email = ActionMailer::Base.deliveries.last
+      assert_equal "Welcome to the UN Global Compact Academy", email.subject
+    end
+  end
+
 end

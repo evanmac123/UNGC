@@ -1,9 +1,9 @@
 Dear CE Team,
 
-A contact is requesting to join an existing organization. Their details can be found below:
+A contact is requesting to join <%= @contact.organization.name %>. Their details can be found below:
 
 <% @contact_params.each do |key, value| %>
     <%= key %>: <%= value %>
 <% end %>
 
-Click here to add them to them: <%= @link %>
+Click here to add: <%= @link %>

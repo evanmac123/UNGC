@@ -143,14 +143,14 @@ class OrganizationMailer < ActionMailer::Base
   end
 
   def join_organization(invite_id, params)
-    contact = Contact.new(params)
+    @contact = Contact.new(params)
     @contact_params = params.except(:organization_id)
     @link = academy_viewer_accept_url(invite_id)
 
     mail \
       to: academy_recipients,
       bcc: ["academy@unglobalcompact.org", "ben@bitfield.co"],
-      subject: "#{contact.name} requesting to join #{contact.organization.name}"
+      subject: "#{@contact.name} requesting to join #{@contact.organization.name}"
   end
 
   def claim_username(invite_id, params)

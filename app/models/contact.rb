@@ -380,18 +380,52 @@ class Contact < ActiveRecord::Base
     new roles: [Role.ceo]
   end
 
-  def suggested_username
-    [
-      first_name,
-      middle_name,
-      last_name,
-    ].compact
-      .map { |c| c.to_s.downcase.gsub(/[^a-z\d]/, "") }
-      .join(".")
+  def generate_username
+    tries = 0
+    while tries < 5
+      tries += 1
+
+      username = [ first_name, middle_name, last_name ]
+        .reject(&:blank?)
+        .map { |c| c.to_s.downcase.gsub(/[^a-z\d]/, "") }
+        .join(".")
+
+      count = Contact.where("username ilike ?", "#{username}%").count
+
+      if count > 0
+        username = "#{username}#{count + 1}"
+      end
+
+      self.username = username
+      valid?
+      if self.errors[:username].empty?
+        return self.username
+      else
+        errors[:username].clear
+        self.username = nil
+      end
+    end
+
+    raise "Failed to suggest a username for #{self.name}"
   end
 
   def generate_password
-    SecureRandom.hex(6) + SecureRandom.hex(6).upcase
+    validator = PasswordStrengthValidator.new
+
+    tries = 0
+    while tries < 25
+      tries += 1
+      self.password = SecureRandom.hex(6) + SecureRandom.hex(6).upcase
+      validator.validate(self)
+      if self.errors[:password].empty?
+        return self.password
+      else
+        errors[:password].clear
+        self.password = nil
+      end
+    end
+
+    raise "Failed to generate a valid passowrd"
   end
 
   private

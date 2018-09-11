@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 class ContactTest < ActiveSupport::TestCase
@@ -149,6 +151,34 @@ class ContactTest < ActiveSupport::TestCase
     )
     expected = '"Anita Dobrzelecki, RN, BSN" <service@iamcleanenergy.us>'
     assert_equal expected, contact.email_recipient
+  end
+
+  test "it generates new valid passwords for a contact" do
+    contact = create(:contact, encrypted_password: nil)
+    contact.password = contact.generate_password
+    refute contact.password.blank?
+
+    validator = PasswordStrengthValidator.new
+    validator.validate(contact)
+    assert_empty contact.errors[:password]
+  end
+
+  test "it can suggest a unique username for a contact" do
+    # Given a contact Alice McGee without a username
+    contact = create(:contact, username: nil, first_name: "Alice",
+                     middle_name: "", last_name: "McGee")
+
+    # And two contacts whose username starts with "alice.mcgee"
+    create(:contact, username: "alice.mcgee")
+    create(:contact, username: "alice.mcgee2")
+
+    # When we suggest a new username for her
+    contact.username = contact.generate_username
+
+    # Then she is assigned a valid username
+    assert_equal "alice.mcgee3", contact.username
+    contact.valid?
+    assert_empty contact.errors[:username]
   end
 
 end
