@@ -2,7 +2,7 @@
 <%= render partial: 'components/hero' %>
 
 <section class='main-content-section main-content-section-narrow'>
-  <%= form_for @viewer, as: :viewer, html: {class: 'form-classic wrapper'} do |f| %>
+  <%= form_for @viewer, as: :viewer, url: academy_viewers_path, html: {class: 'form-classic wrapper'} do |f| %>
   <header class='main-content-header'>
     <h1>Contact Us</h1>
   </header>
