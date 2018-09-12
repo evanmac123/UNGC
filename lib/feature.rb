@@ -19,8 +19,4 @@ class Feature
     Date.current >= Date.new(2017, 10, 15) || !Rails.env.production?
   end
 
-  def self.academy_launched?
-    (!Rails.env.production?) || Date.current >= Academy::LAUNCH_DATE
-  end
-
 end

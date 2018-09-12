@@ -159,19 +159,9 @@ class OrganizationMailer < ActionMailer::Base
     @link = academy_viewer_accept_url(invite_id)
 
     mail \
-      to: academy_recipients,
-      bcc: ["academy@unglobalcompact.org", "ben@bitfield.co"],
+      to: "info@unglobalcompact.org",
+      bcc: ["academy@unglobalcompact.org", "ben@bitfield.co", "alicino@unglobalcompact.org"],
       subject: "#{contact.name} from #{contact.organization.name} is requesting a username and password"
-  end
-
-  private
-
-  def academy_recipients
-    if Feature.academy_launched?
-      "info@unglobalcompact.org"
-    else
-      "alicino@unglobalcompact.org"
-    end
   end
 
 end
