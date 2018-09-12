@@ -148,7 +148,7 @@ class OrganizationMailer < ActionMailer::Base
     @link = academy_viewer_accept_url(invite_id)
 
     mail \
-      to: academy_recipients,
+      to: "info@unglobalcompact.org",
       bcc: ["academy@unglobalcompact.org", "ben@bitfield.co"],
       subject: "#{@contact.name} requesting to join #{@contact.organization.name}"
   end
