@@ -36,6 +36,31 @@ module Saml
       assert_equal organization.name, company_name
     end
 
+    test "particpant users have the Participants branch name" do
+      contact = create(:contact_point)
+      assert contact.from_organization?
+
+      branch_name = saml_encode(contact, "BranchName")
+      assert_equal "Participants", branch_name
+    end
+
+    test "local network users have the Local Networks branch name" do
+      network = create(:local_network)
+      contact = create(:contact, local_network: network)
+      assert contact.from_network?
+
+      branch_name = saml_encode(contact, "BranchName")
+      assert_equal "Local Networks", branch_name
+    end
+
+    test "staff have the UNGC Staff branch name" do
+      contact = create(:staff_contact)
+      assert contact.from_ungc?
+
+      branch_name = saml_encode(contact, "BranchName")
+      assert_equal "UNGC Staff", branch_name
+    end
+
     private
 
     def saml_encode(contact, attribute)

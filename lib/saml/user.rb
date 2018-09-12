@@ -7,6 +7,8 @@ module Saml
       @contact = contact
     end
 
+    # TODO: this supports Igloo and Decobo Academy at the same time.
+    # Consider spliting these out
     def asserted_attributes
       {
         Id:                  { getter: :id },
@@ -25,6 +27,7 @@ module Saml
         JoinedOn:            { getter: :joined_on },
         FT500:               { getter: :ft500 },
         JobTitle:            { getter: :job_title },
+        BranchName:          { getter: :branch_name },
       }
     end
 
@@ -112,6 +115,17 @@ module Saml
 
     def job_title
       @contact.job_title
+    end
+
+    def branch_name
+      case
+      when @contact.from_ungc?
+        "UNGC Staff"
+      when @contact.from_organization?
+        "Participants"
+      when @contact.from_network?
+        "Local Networks"
+      end
     end
 
   end
