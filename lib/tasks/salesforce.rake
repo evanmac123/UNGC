@@ -20,7 +20,10 @@ namespace :salesforce do
     raise "usage: rake salesforce:sync[123]" if id.blank?
 
     organization = Organization.find(id)
-    Crm::OrganizationSyncJob.resync(organization)
+    account_id = Crm::OrganizationSyncJob.resync_now(organization)
+
+    host = DEFAULTS[:salesforce][:host]
+    ap "https://#{host}/lightning/r/Account/#{account_id}/view?nooverride=true"
   end
 
   desc "seed the salesforce contact => sf mapping"

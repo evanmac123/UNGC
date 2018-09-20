@@ -6,13 +6,21 @@ module Crm
     ALLOWED_METHODS = [:create, :update, :destroy, :synced_record_id, :should_sync?]
     attr_reader :action, :model, :model_id, :adapter, :changes, :crm, :foreign_key_hash
 
-    def self.resync(model)
+    def self.resync_now(model)
+      perform_now("update", model, resync_changeset(model))
+    end
+
+    def self.resync_later(model)
+      perform_later("update", model, resync_changeset(model))
+    end
+
+    def self.resync_changeset(model)
+      # HACK a fake change set so all of the attributes get synced.
       changes = model.attributes.except(*self.excluded_attributes)
-      # HACK a fake change set
       changes.transform_values! do |value|
         [nil, value]
       end
-      perform_later("create", model, changes.to_json)
+      changes.to_json
     end
 
     def perform(action, model, changes = nil, crm = Crm::Salesforce.new)
