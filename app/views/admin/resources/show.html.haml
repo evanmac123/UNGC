@@ -25,7 +25,7 @@
           .resource-img-preview
             = retina_image @resource, :featured
       %dt Description
-      %dd= @resource.description
+      %dd= raw(@resource.description)
       %dt Content Type
       %dd= @resource.human_content_type
       - if @resource.isbn?

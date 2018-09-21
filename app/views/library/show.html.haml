@@ -5,7 +5,7 @@
     %header.main-content-header
       %h1= @resource.title
     %section.main-content-body
-      %p= @resource.description
+      %p= raw(@resource.description)
       %time.resource-year{:datetime => year = @resource.year}
         (#{year.to_date.year})
       = render layout: 'components/resource_attributes_list', locals: {attributes: @resource.topics, title: 'Topics'} do |a|

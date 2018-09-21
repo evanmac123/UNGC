@@ -37,4 +37,18 @@ $(function() {
       linkTable.append(linkTemplate);
     });
   }
+
+  $('.resources-html-editor').each(function(i,e) {
+      var element = e;
+      CKEDITOR.replace(element.id, {
+         toolbar: EditorToolbar,
+         width: 800,
+         height: 300,
+         startupMode: 'wysiwyg',
+         dialog_magnetDistance: 5,
+         resize_minWidth: 300,
+         resize_maxWidth: 600,
+         extraAllowedContent: 'iframe[*]'
+      });
+    });
 })
