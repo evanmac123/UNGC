@@ -39,5 +39,6 @@ module DomainEvents
     CourseUpdated = Class.new(RailsEventStore::Event)
     ContactEnrolledInCourse = Class.new(RailsEventStore::Event)
     EnrollmentUpdated = Class.new(RailsEventStore::Event)
+    ViewerAdded = Class.new(RailsEventStore::Event)
   end
 end

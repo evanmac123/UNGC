@@ -24,6 +24,7 @@ module Academy
         self.type = :claimed_username
       when DomainEvents::ContactCreated
         self.type = :contact_created
+      when DomainEvents::Academy::ViewerAdded
       else
         raise "Unexpected event #{event}"
       end
@@ -53,6 +54,9 @@ module Academy
 
       data = attributes.merge(id: contact.id)
       event = DomainEvents::ContactCreated.new(data: data)
+      EventPublisher.publish(event, to: @stream)
+
+      event = DomainEvents::Academy::ViewerAdded.new(data: data)
       EventPublisher.publish(event, to: @stream)
 
       @status = "The contact has been created and we've emailed them their credentials"

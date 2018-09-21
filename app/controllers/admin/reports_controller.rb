@@ -265,6 +265,12 @@ class Admin::ReportsController < AdminController
     render_report(report, "foundation_pledges_#{@year}_#{@month}.xls")
   end
 
+  def academy_viewers
+    report = Academy::ViewersReport.new
+
+    render_report(report, "academy_viewers.xls")
+  end
+
   private
 
   def contact_id
