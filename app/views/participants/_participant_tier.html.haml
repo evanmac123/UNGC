@@ -52,6 +52,7 @@
       %dd= participant.global_compact_status
       %dt Participant Since
       %dd= participant.joined_on
+      = link_to('Letter of Commitment', participant.commitment_letter.url, target: '_blank') if participant.commitment_letter.present?
   .break
   %section.column.three-12s.financial
     - if participant.has_extra_information?
