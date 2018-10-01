@@ -38,7 +38,8 @@ class ParticipantBreakdownReport < SimpleReport
       'Engagement Level',
       'Revenue',
       'Invoice Date',
-      'Parent Company'
+      'Parent Company',
+      'Participant Manager ID'
     ]
   end
 
@@ -71,7 +72,8 @@ class ParticipantBreakdownReport < SimpleReport
     organization_participation_level(record),
     organization_revenue(record),
     organization_invoice_date(record),
-    parent_company_name(record)
+    parent_company_name(record),
+    record.participant_manager_id
   ]
   end
 
