@@ -5,7 +5,7 @@ namespace :cop do
 
     unilever = Organization.find_by(name: "Unilever")
     unilever_subsidiaries = [
-      "Unilever Chile HPC Limitada",
+      "Unilever Chile LTDA",
       "Unilever de Argentina",
       "Unilever Ghana Limited",
       "Unilever Mocambique Lda.",
@@ -16,7 +16,9 @@ namespace :cop do
       "PT. Unilever Indonesia Tbk.",
       "Hindustan Unilever Limited",
       "Unilever Myanmar Limited",
-      "Unilever Sanayi ve Ticaret Turk A.S."
+      "Unilever Sanayi ve Ticaret Turk A.S.",
+      "Unilever Myanmar Limited",
+      "Unilever Colombia"
     ]
     unilever_cops(from: unilever, to: unilever_companies(unilever_subsidiaries))
 
