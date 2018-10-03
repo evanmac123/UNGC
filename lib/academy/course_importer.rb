@@ -100,7 +100,6 @@ module Academy
           course: course, contact: contact)
 
         enrollment.assign_attributes(
-          created_at: row["enrollment.date_inscr"],
           first_access: row["enrollment.date_first_access"],
           last_access: row["enrollment.date_last_accesss"],
           completed_at: row["enrollment.date_complete"],
@@ -113,6 +112,8 @@ module Academy
           completion_percentage: parse_percentage(
             row["enrollment.course_completion_percentage"]),
         )
+
+        enrollment.created_at ||= row["enrollment.date_inscr"]
 
         stream = "contact_#{contact.id}"
         if enrollment.new_record?
@@ -150,14 +151,14 @@ module Academy
 
       matches.reduce(0) do |seconds, (value, unit)|
         case unit
-          when "s"
-            seconds += value.to_i
-          when "m"
-            seconds += value.to_i * 60
-          when "h"
-            seconds += value.to_i * 60 * 60
+        when "s"
+          seconds += value.to_i
+        when "m"
+          seconds += value.to_i * 60
+        when "h"
+          seconds += value.to_i * 60 * 60
         else
-            raise "Unexpected unit: #{unit} in #{input}"
+          raise "Unexpected unit: #{unit} in #{input}"
         end
       end
     end
