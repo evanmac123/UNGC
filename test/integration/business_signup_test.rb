@@ -85,7 +85,7 @@ class BusinessSignupTest < ActionDispatch::IntegrationTest
     assert_equal organization_step4_path, current_path, validation_errors
 
     # step4 level of participation, invoice date, action platforms
-    step4.select_engagement_tier("PARTICIPANT + ACTION PLATFORMS & LEAD ELIGIBILITY")
+    step4.select_engagement_tier("PARTICIPANT")
     step4.subscribe_to_action_platform(platform1, "Michael Henry")
     step4.subscribe_to_action_platform(platform2, "Michael Henry")
     step5 = step4.submit
