@@ -149,7 +149,7 @@ class OrganizationMailer < ActionMailer::Base
 
     mail \
       to: "info@unglobalcompact.org",
-      bcc: ["academy@unglobalcompact.org", "ben@bitfield.co"],
+      bcc: ["academy@unglobalcompact.org"],
       subject: "#{@contact.name} requesting to join #{@contact.organization.name}"
   end
 
