@@ -27,7 +27,9 @@ module Academy
       private
 
       def yield_next_page(data, &block)
-        data.fetch("items").each do |item|
+        items = data.fetch("items")
+        puts "\nProcessing #{items.count} courses"
+        items.each do |item|
           yield(item) if block_given?
         end
 
@@ -63,6 +65,7 @@ module Academy
 
       def yield_next_page(data, &block)
         rows = data.fetch("rows")
+        puts "\nProcessing #{rows.count} enrollments"
         rows.each do |item|
           yield(item) if block_given?
           @processed += 1
@@ -82,6 +85,7 @@ module Academy
     end
 
     def import_courses
+      puts "Importing courses"
       course_pager = CoursePager.new(@api)
       course_pager.each_course do |c|
         # find course if it exists
@@ -107,6 +111,7 @@ module Academy
           course.save!
           EventPublisher.publish(event, to: stream) if event.present?
           ::Crm::Academy::CourseSyncJob.perform_later('create', course) if @sync_with_crm
+          print "+"
         else
           # existing record, see if anything changed
           if course.changes.any?
@@ -116,6 +121,7 @@ module Academy
             course.save!
             EventPublisher.publish(event, to: stream)
             ::Crm::Academy::CourseSyncJob.perform_later('update', course, changes.to_json) if @sync_with_crm
+            print "."
           end
         end
 
@@ -123,6 +129,7 @@ module Academy
     end
 
     def import_enrollments
+      puts "Importing enrollments"
       report_info = @api.list_reports(name: "ReportForSync").first
 
       enrollment_pager = EnrollmentPager.new(@api, report_info.fetch("id_filter"))
@@ -164,6 +171,7 @@ module Academy
           event = DomainEvents::Academy::ContactEnrolledInCourse.new(data: attributes)
           EventPublisher.publish(event, to: stream) if event.present?
           ::Crm::Academy::EnrollmentSyncJob.perform_now('create', enrollment) if @sync_with_crm
+          print "+"
         else
           # existing record, see if anything changed
           changes = enrollment.changes.dup
@@ -173,6 +181,7 @@ module Academy
             enrollment.save!
             EventPublisher.publish(event, to: stream)
             ::Crm::Academy::EnrollmentSyncJob.perform_now('update', enrollment, changes.to_json) if @sync_with_crm
+            print "."
           end
         end
 
