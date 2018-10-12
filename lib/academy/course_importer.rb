@@ -3,8 +3,9 @@
 module Academy
   class CourseImporter
 
-    def initialize(api: Docebo::Api.create)
+    def initialize(api: Docebo::Api.create, sync_with_crm: true)
       @api = api
+      @sync_with_crm = sync_with_crm
     end
 
     def authenticate
@@ -23,6 +24,8 @@ module Academy
         yield_next_page(data, &block)
       end
 
+      private
+
       def yield_next_page(data, &block)
         data.fetch("items").each do |item|
           yield(item) if block_given?
@@ -37,6 +40,43 @@ module Academy
           response = @api.list_courses(cursor: cursor, page: current_page + 1)
           yield_next_page(response.fetch("data"), &block)
         end
+      end
+
+    end
+
+    class EnrollmentPager
+
+      def initialize(api, report_id, page_size: 500)
+        @api = api
+        @report_id = report_id
+        @page_size = page_size
+        @processed = 0
+      end
+
+      def each_enrollment(&block)
+        data = @api.get_report(@report_id, from: @processed, count: @page_size)
+
+        yield_next_page(data, &block)
+      end
+
+      private
+
+      def yield_next_page(data, &block)
+        rows = data.fetch("rows")
+        rows.each do |item|
+          yield(item) if block_given?
+          @processed += 1
+        end
+
+        if rows.count == @page_size
+          # we probably have more
+          response = @api.get_report(@report_id, from: @processed, count: @page_size)
+          if response.fetch("success")
+            # we have more to process
+            yield_next_page(response, &block)
+          end
+        end
+
       end
 
     end
@@ -66,7 +106,7 @@ module Academy
           event = DomainEvents::Academy::CourseImported.new(data: attributes)
           course.save!
           EventPublisher.publish(event, to: stream) if event.present?
-          ::Crm::Academy::CourseSyncJob.perform_later('create', course)
+          ::Crm::Academy::CourseSyncJob.perform_later('create', course) if @sync_with_crm
         else
           # existing record, see if anything changed
           if course.changes.any?
@@ -75,7 +115,7 @@ module Academy
             event = DomainEvents::Academy::CourseUpdated.new(data: changes)
             course.save!
             EventPublisher.publish(event, to: stream)
-            ::Crm::Academy::CourseSyncJob.perform_later('update', course, changes.to_json)
+            ::Crm::Academy::CourseSyncJob.perform_later('update', course, changes.to_json) if @sync_with_crm
           end
         end
 
@@ -84,8 +124,9 @@ module Academy
 
     def import_enrollments
       report_info = @api.list_reports(name: "ReportForSync").first
-      report = @api.get_report(report_info.fetch("id_filter"))
-      report.fetch("rows").each do |row|
+
+      enrollment_pager = EnrollmentPager.new(@api, report_info.fetch("id_filter"))
+      enrollment_pager.each_enrollment do |row|
         course = Course.find(row.fetch("course.course_internal_id"))
 
         # find the contact. Some early staff accounts have their email as their username
@@ -122,7 +163,7 @@ module Academy
           attributes = enrollment.attributes
           event = DomainEvents::Academy::ContactEnrolledInCourse.new(data: attributes)
           EventPublisher.publish(event, to: stream) if event.present?
-          ::Crm::Academy::EnrollmentSyncJob.perform_now('create', enrollment)
+          ::Crm::Academy::EnrollmentSyncJob.perform_now('create', enrollment) if @sync_with_crm
         else
           # existing record, see if anything changed
           changes = enrollment.changes.dup
@@ -131,7 +172,7 @@ module Academy
             event = DomainEvents::Academy::EnrollmentUpdated.new(data: changes)
             enrollment.save!
             EventPublisher.publish(event, to: stream)
-            ::Crm::Academy::EnrollmentSyncJob.perform_now('update', enrollment, changes.to_json)
+            ::Crm::Academy::EnrollmentSyncJob.perform_now('update', enrollment, changes.to_json) if @sync_with_crm
           end
         end
 

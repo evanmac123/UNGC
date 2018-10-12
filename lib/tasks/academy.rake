@@ -4,7 +4,7 @@ namespace :academy do
 
   desc "Import courses and enrollments"
   task import: :environment do
-    importer = Academy::CourseImporter.new
+    importer = Academy::CourseImporter.new(sync_with_crm: true)
     importer.authenticate
     importer.import_courses
     importer.import_enrollments

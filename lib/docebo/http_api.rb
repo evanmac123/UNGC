@@ -75,10 +75,10 @@ module Docebo
     end
 
     # https://www.docebo.com/lms-docebo-api-third-party-integration/legacy-apis/
-    def get_report(report_id, from: nil)
+    def get_report(report_id, from:, count:, date_from: nil)
       # yyy-MM-dd HH:mm:ss UTC
-      body = { id_report: report_id }
-      if from.present?
+      body = { id_report: report_id, from: from, count: count }
+      if date_from.present?
         date_from = from.strftime("%Y-%m-%d %H:%M:%S")
         body[:date_from] = date_from
       end
