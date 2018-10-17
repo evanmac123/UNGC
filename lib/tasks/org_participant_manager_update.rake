@@ -7,8 +7,8 @@ task org_participant_manager_update: :environment do |t, args|
   oceania_orgs = Organization.joins(:country).where(countries: { region: :oceania} ).where(organizations: { active: true } )
 
   AFRICA = 24768
-  ASIA = 326110
-  OCEANIA = 326110
+  ASIA = 330565
+  OCEANIA = 330565
   MENA = 32100
 
 
