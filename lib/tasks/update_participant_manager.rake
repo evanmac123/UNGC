@@ -7,9 +7,9 @@ task participant_manager_update: :environment do |t, args|
     if country.name == 'Morocco'
       country.participant_manager_id = 24768
     elsif country.region == 'asia'
-      country.participant_manager_id = 326110
+      country.participant_manager_id = 330565
     elsif country.region =='oceania'
-      country.participant_manager_id = 326110
+      country.participant_manager_id = 330565
     elsif country.region == 'mena'
       country.participant_manager_id = 32100
     elsif country.region == 'africa'
