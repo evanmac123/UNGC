@@ -126,7 +126,7 @@ class Admin::CommentsControllerTest < ActionController::TestCase
           assert_redirected_to admin_organization_path(@organization.id, :tab => :comments)
           assert_equal 'The Micro Enterprise application was rejected.', flash[:notice]
           assert @organization.reload.rejected?
-          assert_equal "#{original_name} (rejected)", @organization.name
+          assert_equal "#{original_name} (rejected)" + Time.now.to_s, @organization.name
         end
       end
     end

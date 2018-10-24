@@ -334,7 +334,7 @@ class Contact < ActiveRecord::Base
   end
 
   def rejected_organization_email
-    self.update_attribute :email, "rejected.#{self.email}"
+    self.update_attribute :email, "rejected.#{self.email}" + Time.now.to_s 
   end
 
   def last_contact_or_ceo?(role, current_contact)

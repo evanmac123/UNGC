@@ -815,7 +815,7 @@ class Organization < ActiveRecord::Base
 
   # called after OrganizationMailer.reject_microenterprise
   def set_rejected_names
-    self.update_attribute :name, name + ' (rejected)'
+    self.update_attribute :name, name + ' (rejected)' + Time.now.to_s
     self.contacts.each {|c| c.rejected_organization_email}
   end
 
