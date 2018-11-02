@@ -160,7 +160,7 @@ class OrganizationMailer < ActionMailer::Base
 
     mail \
       to: "info@unglobalcompact.org",
-      bcc: ["academy@unglobalcompact.org", "ben@bitfield.co", "alicino@unglobalcompact.org"],
+      bcc: ["academy@unglobalcompact.org"],
       subject: "#{contact.name} from #{contact.organization.name} is requesting a username and password"
   end
 
