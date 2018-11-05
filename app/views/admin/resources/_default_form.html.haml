@@ -52,7 +52,7 @@
     %fieldset
       %legend Links
       %script#link_template{type:'text/x-jquery-tmpl'}
-        = render 'link_row', types:@types, languages:@languages, link:ResourceLink.new
+        = render 'link_row', types: @types, languages: @languages, link: ResourceLink.new
       %table.link_table
         %tr
           %th Title
@@ -61,7 +61,7 @@
           %th Type
           %th &nbsp;
         - @resource.links.each do |link, i|
-          = render 'link_row', types:@types, languages:@languages, link:link
+          = render 'link_row', types: @types, languages: @languages, link: link
       = link_to 'New link...', '#', id:'add_link', :class => 'new_large'
 
   =render partial: "admin/shared/tagging_form", locals: {taggable: @resource, model_name: 'resource'}
