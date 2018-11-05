@@ -55,7 +55,7 @@ class ResourceUpdater
 
   def remove_old_links
     current_ids = updated_links.map { |l| l.id.to_i }
-    resource.links.where('id NOT IN (?)', current_ids).destroy_all
+    resource.links.where.not(id: current_ids).destroy_all
   end
 
   def updated_links
@@ -63,7 +63,7 @@ class ResourceUpdater
       l = resource.links.find_or_initialize_by(id: link[:id])
       l.attributes = link.slice(:title, :url, :link_type, :language_id)
       l
-    end
+    end.compact
   end
 
 end
