@@ -170,7 +170,7 @@ module Academy
           attributes = enrollment.attributes
           event = DomainEvents::Academy::ContactEnrolledInCourse.new(data: attributes)
           EventPublisher.publish(event, to: stream) if event.present?
-          ::Crm::Academy::EnrollmentSyncJob.perform_now('create', enrollment) if @sync_with_crm
+          ::Crm::Academy::EnrollmentSyncJob.perform_later('create', enrollment) if @sync_with_crm
           print "+"
         else
           # existing record, see if anything changed
@@ -180,7 +180,7 @@ module Academy
             event = DomainEvents::Academy::EnrollmentUpdated.new(data: changes)
             enrollment.save!
             EventPublisher.publish(event, to: stream)
-            ::Crm::Academy::EnrollmentSyncJob.perform_now('update', enrollment, changes.to_json) if @sync_with_crm
+            ::Crm::Academy::EnrollmentSyncJob.perform_later('update', enrollment, changes.to_json) if @sync_with_crm
             print "."
           end
         end

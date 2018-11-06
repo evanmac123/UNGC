@@ -1,2 +1,2 @@
 #!/bin/bash
-cd /srv/unglobalcompact/current && bundle exec rake academy:import >> log/academy_import.log
+cd /srv/unglobalcompact/current && RAILS_ENV=production bundle exec rake academy:import >> log/academy_import.log
