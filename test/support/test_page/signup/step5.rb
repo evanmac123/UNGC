@@ -2,7 +2,7 @@ module TestPage
   module Signup
     class Step5 < TestPage::Base
       def fill_in_contact(args)
-        fill_in "Prefix", with: args.fetch(:prefix)
+        select "Mrs.", from: "contact_prefix"
         fill_in "First name", with: args.fetch(:first_name)
         fill_in "Last name", with: args.fetch(:last_name)
         fill_in "Job title", with: args.fetch(:title)

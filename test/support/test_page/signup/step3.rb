@@ -3,7 +3,7 @@ module TestPage
     class Step3 < TestPage::Base
       def submit(args)
         # step2
-        fill_in "Prefix", with: args.fetch(:prefix)
+        select "Ms.", from: "contact_prefix"
         fill_in "First name", with: args.fetch(:first_name)
         fill_in "Middle name", with: args.fetch(:middle_name)
         fill_in "Last name", with: args.fetch(:last_name)

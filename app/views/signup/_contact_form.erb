@@ -2,9 +2,9 @@
   <fieldset>
     <h3>Details for <%= contact_type -%></h3>
 
-    <div class='field field-required field-has-placeholder'>
-      <%= form.label :prefix %>
-      <%= form.text_field :prefix, placeholder: 'Prefix' %>
+    <div class='field field-required'>
+      <%= form.label :prefix, 'Please Select' %>
+      <%= form.select :prefix, ['Mr.', 'Mrs.', 'Ms.'] %>
     </div>
 
     <div class='field field-required field-has-placeholder'>

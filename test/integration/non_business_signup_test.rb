@@ -26,7 +26,7 @@ class NonBusinessSignupTest < ActionDispatch::IntegrationTest
     assert_equal organization_step2_path, current_path, validation_errors
 
     # step2 Primary contact point
-    fill_in 'Prefix', with: 'Mr.'
+    select "Mr.", from: "contact_prefix"
     fill_in 'First name', with: 'Michael'
     fill_in 'Middle name', with: 'B.'
     fill_in 'Last name', with: 'Henry'
@@ -46,7 +46,7 @@ class NonBusinessSignupTest < ActionDispatch::IntegrationTest
     assert_equal organization_step3_path, current_path, validation_errors
 
     # step 3
-    fill_in 'Prefix', with: 'Ms.'
+    select "Ms.", from: "contact_prefix"
     fill_in 'First name', with: 'Doris'
     fill_in 'Last name', with: 'Frafjord'
     fill_in 'Job title', with: 'CEO'

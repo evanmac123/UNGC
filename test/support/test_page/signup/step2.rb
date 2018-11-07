@@ -6,7 +6,7 @@ module TestPage
         args = params.reverse_merge(
           FactoryBot.attributes_for(:contact)
         )
-        fill_in "Prefix", with: args.fetch(:prefix)
+        select "Mr.", from: "contact_prefix"
         fill_in "First name", with: args.fetch(:first_name)
         fill_in "Middle name", with: args.fetch(:middle_name)
         fill_in "Last name", with: args.fetch(:last_name)
