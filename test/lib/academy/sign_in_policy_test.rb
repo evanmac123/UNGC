@@ -15,7 +15,17 @@ module Academy
     context "Organizations" do
 
       should "allow contacts from active, participant level organizations" do
-        organization = create_organization(active: true, cop_state: "active",
+        organization = create_organization(active: true, cop_state: Organization::COP_STATE_ACTIVE,
+          participant: true, level_of_participation: :participant_level)
+        contact = create(:contact, organization: organization)
+        policy = ::Academy::SignInPolicy.new
+
+        assert policy.can_sign_in?(contact)
+      end
+
+      should "allow contacts from non-communicating, participant level organizations" do
+        organization = create_organization(active: true,
+          cop_state: Organization::COP_STATE_NONCOMMUNICATING,
           participant: true, level_of_participation: :participant_level)
         contact = create(:contact, organization: organization)
         policy = ::Academy::SignInPolicy.new

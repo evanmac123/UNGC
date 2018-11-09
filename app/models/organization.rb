@@ -309,7 +309,13 @@ class Organization < ActiveRecord::Base
     participant_level: 2,
   }
 
+  # This scope is meant to reflect non-delisted participants. Participants that can sign in and take
+  # action.
+  # It's name is extremely misleading and adds to the confusion of
+  # Orgnization#active (the attribute) and Organization#active? (the state_machine method)
+  # active_or_noncommunicating should be used until this scope gets factored out.
   scope :active, -> { where(cop_state: [COP_STATE_ACTIVE, COP_STATE_NONCOMMUNICATING]) }
+  scope :active_or_noncommunicating, -> { where(cop_state: [COP_STATE_ACTIVE, COP_STATE_NONCOMMUNICATING]) }
   scope :participants, -> { where(participant: true) }
   scope :companies_and_smes, -> { joins(:organization_type).merge(OrganizationType.for_filter(:sme, :companies)).includes(:organization_type) }
   scope :companies, -> { where(organization_type_id: OrganizationType.for_filter(:companies)).includes(:organization_type) }
@@ -451,6 +457,13 @@ class Organization < ActiveRecord::Base
     organization_type.present? && organization_type == OrganizationType.sme
   end
 
+  # This method is provided by state_machine and is different than
+  # the active attribute here and different again from the scope active.
+  # This property reflects the state machine on cop_state.
+  def active?
+    super
+  end
+
   def as_json(options={})
     only = ['id', 'name', 'participant']
     only += Array(options[:only]) if options[:only]
@@ -520,6 +533,10 @@ class Organization < ActiveRecord::Base
 
   def self.visible_in_local_network
     participants.active.where("cop_state > ''")
+  end
+
+  def active_or_noncommunicating?
+    [COP_STATE_ACTIVE, COP_STATE_NONCOMMUNICATING].include?(cop_state)
   end
 
   def company?

@@ -24,7 +24,7 @@ module Academy
 
     def can_sign_in_from_organization?(organization)
       organization.active &&
-        organization.active? &&
+        organization.active_or_noncommunicating? &&
         organization.participant? &&
         organization.participant_level?
     end
