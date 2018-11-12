@@ -81,7 +81,7 @@
 # - vendor/plugins/moonshine/lib/moonshine/manifest/rails/templates/passenger.conf.erb
 # - vendor/plugins/moonshine/lib/moonshine/manifest/rails/templates/passenger.vhost.erb
 :passenger:
-  :version: 5.0.30
+  :version: 5.3.4
   :max_pool_size: 3
 
 :passenger_monitor:
