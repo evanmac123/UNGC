@@ -6,7 +6,7 @@ module Api
       before_action :authorize_mit!
 
       def step1
-        resource = Resource.find_by(id: resource_id)
+        resource = resource_by_uri
         if resource.present?
           render json: { resource_id: resource.id }
         else
@@ -63,10 +63,19 @@ module Api
       end
 
       def resource_id
-        uri = URI.parse(shift_params.fetch(:resource_url))
+        uri = URI.parse(requested_uri)
         uri&.path&.gsub("/library/", "")&.to_i
       end
 
+      def requested_uri
+        shift_params.fetch(:resource_url)
+      end
+
+      def resource_by_uri
+        # returns the resource from either it's url or one of its links
+        resource_link = ResourceLink.joins(:resource).find_by(url: requested_uri)
+        resource_link&.resource || Resource.find_by(id: resource_id)
+      end
     end
   end
 end

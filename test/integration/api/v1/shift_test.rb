@@ -5,13 +5,23 @@ class Api::V1::ShiftIntegrationTest < ActionDispatch::IntegrationTest
   should "do something useful with shift" do
     # Given that we have a resource
     resource = create(:resource)
+    resource_link = create(:resource_link, resource: resource, url: 'https://google.com/1')
 
-    # And MIT/Shift sends us (via the chrome extension) a resource to identify by it's URL
+    # And MIT/Shift sends us (via the chrome extension) a resource to identify by its resource URL
     step1_request = { resource_url: library_resource_url(resource) }.to_json
     post_json "/api/v1/mit-shift/step1", step1_request, bearer: mit_shift_api_key
 
     # Then we reply with the resource's ID
     assert_equal "200", response.code, json_response
+    assert_equal resource.id, json_response[:resource_id]
+
+    # And MIT/Shift sends us (via the chrome extension) a resource to identify by its resource link URL
+    step1_request = { resource_url: resource_link.url }.to_json
+    post_json "/api/v1/mit-shift/step1", step1_request, bearer: mit_shift_api_key
+
+    # Then we reply with the resource's ID from the resource link
+    assert_equal "200", response.code, json_response
+
     assert_equal resource.id, json_response[:resource_id]
 
     # When MIT/Shift sends us a weight response
