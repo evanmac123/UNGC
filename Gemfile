@@ -108,5 +108,5 @@ end
 
 group :production do
   gem 'scout'
-  gem 'passenger',        '5.3.4'
+  gem 'passenger',        '~> 4.0.60'
 end
