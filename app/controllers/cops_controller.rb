@@ -28,7 +28,6 @@ class CopsController < ApplicationController
     @page = CopListPage.new(current_container, current_payload_data)
     @organizations = Organization.participants
       .summary
-      .companies_and_smes
       .expelled
       .paginate(pagination_params)
   end
