@@ -42,7 +42,7 @@ gem 'bourbon',              '~> 4.2.1'
 gem 'font-awesome-sass'
 gem 'virtus',               '~> 1.0.5'
 
-gem 'capistrano',           '~> 2.15.5'
+gem 'capistrano',           '~> 2.15.9'
 gem 'plugger' # supports moonshine plugin on rails4
 gem 'databasedotcom'
 gem 'net-ssh', '~> 4.2'
