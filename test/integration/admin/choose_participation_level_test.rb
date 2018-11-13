@@ -200,6 +200,117 @@ class Admin::ChooseParticipationLevelTest < ActionDispatch::IntegrationTest
     assert_empty form.validation_errors
   end
 
+  test "ActionPlatform LEAD" do
+    # Given 3 platforms, 2 we will subscribe to and 1 which will remain unsubscribbed to
+    platform1, platform2, _platform3 = create_list(:action_platform_platform, 3)
+
+    # And an organization from a network
+    organization = create_organization()
+
+    # With a contact point for the organization
+    contact = create_contact_point(organization)
+
+    # And a contact for the network
+    create(:staff_contact, :network_focal_point,
+      local_network: organization.local_network)
+
+    # When we're logged in as the organization contact
+    login_as(contact)
+
+    form = TestPage::ChooseLevelOfParticipation.new
+    visit form.path
+
+    form.select_level_of_participation("PARTICIPANT + ACTION PLATFORMS & LEAD ELIGIBILITY")
+    form.confirm_contact_point(contact)
+    form.is_subsidiary = false
+    form.annual_revenue = "123,456,567"
+    form.assign_financial_contact_role_to(contact)
+    form.confirm_financial_contact_info
+    form.invoice_me_now
+    form.confirm_submission
+    form.accept_platform_removal
+
+    # Select 2 action platforms
+    form.signup_for_action_platform(platform1, contact)
+    form.signup_for_action_platform(platform2, contact)
+
+    # When we submit
+    form.submit
+
+    # Then we expect that it will be successful
+    assert_empty form.validation_errors
+    assert_equal dashboard_path, current_path
+    page.has_content? I18n.t("level_of_participation.success")
+
+    engagement_tier_email, ap_subscription_email = ActionMailer::Base.deliveries.last(2)
+
+    # And that an email was sent to the network about the engagement tier
+    assert_not_nil engagement_tier_email
+    assert_equal "Engagement Tier 'Participant Level' Selected By: #{organization.name}",
+      engagement_tier_email.subject
+
+    # And one to the RM team about the Action Platform Subscriptions
+    assert_not_nil ap_subscription_email
+    assert_equal "Action Platform Order Received from #{organization.name}",
+      ap_subscription_email.subject
+
+    # And that there is a new AP order for the organization and financial contact
+    assert_equal 1, organization.action_platform_orders.count
+    order = organization.action_platform_orders.first
+    assert_equal organization, order.organization
+    assert_equal contact, order.financial_contact
+
+    # And it should sign the contact up to the two platforms
+    assert_equal 2, order.subscriptions.count
+    assert_equal [contact.id, contact.id], order.subscriptions.map(&:contact_id)
+    assert_equal [platform1.id, platform2.id], order.subscriptions.map(&:platform_id)
+  end
+
+  test "Action Platforms selected as LEAD and then switching to Signatory does not result in ActionPlatform subscriptions being created." do
+    # Actual bug.
+
+    # Given a platform
+    platform = create(:action_platform_platform)
+
+    # And an organization from a network
+    organization = create_organization()
+
+    # With a contact point for the organization
+    contact = create_contact_point(organization)
+
+    # And a contact for the network
+    create(:staff_contact, :network_focal_point,
+      local_network: organization.local_network)
+
+    # When we're logged in as the organization contact
+    login_as(contact)
+
+    form = TestPage::ChooseLevelOfParticipation.new
+    visit form.path
+
+    # Select 2 action platforms as LEAD level
+    form.select_level_of_participation("PARTICIPANT + ACTION PLATFORMS & LEAD ELIGIBILITY")
+    form.signup_for_action_platform(platform, contact)
+
+    # Select signatory level
+    form.select_level_of_participation("SIGNATORY")
+    form.annual_revenue = "123,456,567"
+    form.assign_financial_contact_role_to(contact)
+    form.confirm_financial_contact_info
+    form.invoice_me_now
+    form.confirm_submission
+
+    # When we submit
+    assert_no_difference -> { ActionPlatform::Order.count } do
+      form.submit
+    end
+
+    # Then we expect that it will be successful
+    assert_empty form.validation_errors
+    assert_equal dashboard_path, current_path
+    page.has_content? I18n.t("level_of_participation.success")
+  end
+
   private
 
   def create_invoicing_network

@@ -18,7 +18,7 @@
       <%= form.error_messages(message: false) %>
       <%= render 'flash_error_messages' %>
 
-      <%= render partial: "/shared/participation_level_selector", locals: { form: form } %>
+      <%= render partial: "/shared/participation_level_selector", locals: { form: form, signup: true } %>
 
       <div id="action-platform-selector">
         <%= render(partial: "shared/action_platform_selector", locals: {
