@@ -73,7 +73,10 @@ module Api
 
       def resource_by_uri
         # returns the resource from either it's url or one of its links
-        resource_link = ResourceLink.joins(:resource).find_by(url: requested_uri)
+        # Need to search both protocols since Rails will force secure protocol but stored URL may be http:
+        link_protocols = *requested_uri
+        link_protocols << "http#{requested_uri[5, requested_uri.length]}" if requested_uri[0, 5] == 'https'
+        resource_link = ResourceLink.joins(:resource).find_by(url: link_protocols)
         resource_link&.resource || Resource.find_by(id: resource_id)
       end
     end
