@@ -177,12 +177,24 @@ class Organization::LevelOfParticipationForm
   def platforms_with_subscriptions
     @_platforms ||= ActionPlatform::Platform.available_for_signup
     @_platforms.map do |platform|
-      [
-        platform,
-        organization.action_platform_subscriptions.active_at.fetch(platform.id) {
-          ActionPlatform::SubscriptionForm.new(platform_id: platform.id)
-        }
-      ]
+      subscription = organization.action_platform_subscriptions
+                       .active_at
+                       .where(platform_id: platform.id)
+                       .first
+
+      sub_form = if subscription.present?
+                   ActionPlatform::SubscriptionForm.new(
+                     platform_id: subscription.platform_id,
+                     contact_id: subscription.contact_id,
+                     selected: true,
+                   )
+                 else
+                   ActionPlatform::SubscriptionForm.new(
+                     platform_id: platform.id
+                   )
+                 end
+
+      [platform, sub_form]
     end
   end
 
