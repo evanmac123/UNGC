@@ -6,6 +6,6 @@ FactoryBot.define do
     resource_type { 'pdf' }
     full_text "MyText"
     full_text_raw "MyText"
-    weights { "" }
+    weights { "{}" }
   end
 end
