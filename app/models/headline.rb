@@ -28,6 +28,7 @@ class Headline < ActiveRecord::Base
   include TrackCurrentUser
   include Indexable
   include Taggable
+  include Permalink
 
   permalink :date_for_permalink
   belongs_to :country

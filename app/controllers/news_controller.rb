@@ -17,14 +17,7 @@ class NewsController < ApplicationController
 
   private
     def find_headline
-      id = headline_id_from_permalink
-      Headline.published.includes(:country).find(id)
-    end
-
-    def headline_id_from_permalink
-      # to_i will convert the leading id portion to an int
-      # or the whole thing it's just the id
-      params.fetch(:id).to_i
+      Headline.published.includes(:country).find(params.fetch(:id))
     end
 
     def search_params

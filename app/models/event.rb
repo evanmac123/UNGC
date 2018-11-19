@@ -54,6 +54,7 @@ class Event < ActiveRecord::Base
   include TrackCurrentUser
   include Indexable
   include Taggable
+  include Permalink
 
   belongs_to :country
   belongs_to :contact

@@ -16,7 +16,7 @@ class EventTest < ActiveSupport::TestCase
     end
 
     should "find event given a permalink" do
-      assert_equal @event1, Event.find_by_permalink(@permalink)
+      assert_equal @event1, Event.find(@permalink)
     end
   end
 

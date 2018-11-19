@@ -10,7 +10,7 @@ class HeadlineTest < ActiveSupport::TestCase
     end
 
     should "find headline given a permalink" do
-      assert_equal @headline1, Headline.find_by_permalink("1-#{Date.current.strftime('%m/%d/%Y')}")
+      assert_equal @headline1, Headline.find("1-#{Date.current.strftime('%m/%d/%Y')}")
     end
   end
 
