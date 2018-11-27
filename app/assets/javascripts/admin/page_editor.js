@@ -14,7 +14,8 @@ function startEditor(replaceMe) {
 		startupMode: startup,
     dialog_magnetDistance: 5,
     resize_minWidth: 300,
-    resize_maxWidth: 600
+    resize_maxWidth: 600,
+    extraAllowedContent: 'iframe[*]'
   });
   editor.config.protectedSource.push( /<\%=?.*\%>/gm);
   editor.config.allowedContent = true;
