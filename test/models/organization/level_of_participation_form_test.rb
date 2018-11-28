@@ -328,7 +328,11 @@ class Organization::LevelOfParticipationFormTest < ActiveSupport::TestCase
 
   def build_form(params = {})
     organization = params.fetch :organization do
-      create(:organization, :participant_level, :has_participant_manager, country: create(:country, :with_local_network))
+      country = create(:country, :with_local_network)
+      create(:organization,
+             :participant_level,
+             :has_participant_manager,
+             country: country)
     end
 
     contact_point_id = params.fetch :contact_point_id do
@@ -337,7 +341,7 @@ class Organization::LevelOfParticipationFormTest < ActiveSupport::TestCase
     end
 
     cutoff = Organization::InvoicingPolicy::LEGACY_INVOICING_CUTOFF
-    invoice_date = [1.week.from_now, cutoff].max
+    invoice_date = [1.week.from_now.to_date, cutoff].max
 
     Organization::LevelOfParticipationForm.new(params.reverse_merge(
       level_of_participation: "participant_level",
