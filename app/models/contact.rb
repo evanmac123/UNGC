@@ -110,6 +110,7 @@ class Contact < ActiveRecord::Base
 
 
   has_many :cop_log_entries, dependent: :nullify
+  has_many :academy_enrollments, dependent: :destroy, class_name: "Academy::Enrollment"
   has_one :crm_owner, class_name: "Crm::Owner"
   has_one :igloo_user, dependent: :destroy
   has_many :due_diligence_reviews, class_name: DueDiligence::Review, foreign_key: :requester_id
@@ -334,7 +335,7 @@ class Contact < ActiveRecord::Base
   end
 
   def rejected_organization_email
-    self.update_attribute :email, "rejected.#{self.email}" + Time.now.to_s 
+    self.update_attribute :email, "rejected.#{self.email}" + Time.now.to_s
   end
 
   def last_contact_or_ceo?(role, current_contact)
