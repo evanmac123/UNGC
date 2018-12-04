@@ -1,0 +1,11 @@
+Dear CE Team,
+
+A new Academy contact was added to the organization: <%= @organization.name %> (<%= @organization.id %>). This contact was not added by anyone at the organization, the contact added themselves as the organization has been granted special permission to let it's members add themselves in this way.
+
+Please review this new contact and take appropriate action if you believe they should not have been added.
+
+<% @contact.attributes.each do |key, value| %>
+  <%= key %>: <%= value %>
+<% end %>
+
+Click here to edit their details: <%= @link %>

@@ -10,6 +10,12 @@ module SalesforceCommitHooksConcern
     after_save :accumulate_changes
   end
 
+  protected
+
+  def should_sync_to_salesforce?
+    Rails.configuration.x_enable_crm_synchronization
+  end
+
   private
 
     def after_create_commit
@@ -21,7 +27,7 @@ module SalesforceCommitHooksConcern
     end
 
     def after_destroy_commit
-      return unless Rails.configuration.x_enable_crm_synchronization
+      return unless should_sync_to_salesforce?
       job_class.perform_later('destroy', nil, { record_id: [self.record_id, nil] }.to_json)
     end
 
@@ -37,7 +43,7 @@ module SalesforceCommitHooksConcern
       # reset transaction_changes, and keep the hash of changes
       @_transaction_changes, changes_from_tx = HashWithIndifferentAccess.new, @_transaction_changes
 
-      return unless Rails.configuration.x_enable_crm_synchronization
+      return unless should_sync_to_salesforce?
 
       changes = changes_from_tx.except(*job_class.excluded_attributes)
 

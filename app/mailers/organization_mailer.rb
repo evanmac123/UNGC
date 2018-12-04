@@ -164,4 +164,29 @@ class OrganizationMailer < ActionMailer::Base
       subject: "#{contact.name} from #{contact.organization.name} is requesting a username and password"
   end
 
+  def vet_newly_created_contact(contact_id)
+    @contact = Contact.find(contact_id)
+    @organization = @contact.organization
+    @link = edit_admin_contact_url(@contact)
+
+    mail(
+      to: "info@unglobalcompact.org",
+      bcc: ["academy@unglobalcompact.org"],
+      subject: "Request to review recent contact added to #{@organization.name}"
+    )
+  end
+
+
+  def vet_newly_claimed_username(contact_id)
+    @contact = Contact.find(contact_id)
+    @organization = @contact.organization
+    @link = edit_admin_contact_url(@contact)
+
+    mail(
+      to: "info@unglobalcompact.org",
+      bcc: ["academy@unglobalcompact.org"],
+      subject: "#{@contact.name} claimed an existing account in #{@organization.name}"
+    )
+  end
+
 end

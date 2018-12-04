@@ -8,9 +8,9 @@ module Academy
     def create
       @viewer = Viewer.new(viewer_params)
 
-      if @viewer.save
-        redirect_to new_academy_viewer_url,
-          notice: I18n.t("organization.requested_to_join")
+      success, message = @viewer.submit_pending_operation
+      if success
+        redirect_to new_academy_viewer_url, notice: message
       else
         render :new
       end

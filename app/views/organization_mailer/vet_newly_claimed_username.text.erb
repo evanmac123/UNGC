@@ -1,0 +1,11 @@
+Dear CE Team,
+
+Someone has claimed the <%= @organization.name %> (<%= @organization.id %>) contact <%= @contact.name %>. This contact was previously unable to login, but as they have now claimed this contact and given it a username, they will be allowed to login. This organization has been given special permission to let it's members claim contacts in this way.
+
+Please review this contact and take appropriate action if you believe they should not have been allowe access.
+
+<% @contact.attributes.each do |key, value| %>
+  <%= key %>: <%= value %>
+<% end %>
+
+Click here to edit their details: <%= @link %>

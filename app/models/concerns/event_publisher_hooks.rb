@@ -23,11 +23,15 @@ module EventPublisherHooks
   def event_stream_after_create_commit
     event_class = "DomainEvents::#{self.class.name}Created".constantize
     event_stream_publish_change_event(event_class)
+  rescue NameError => e
+    Rails.logger.debug "No event class found, will not publish an event"
   end
 
   def event_stream_after_update_commit
     event_class = "DomainEvents::#{self.class.name}Updated".constantize
     event_stream_publish_change_event(event_class)
+  rescue NameError => e
+    Rails.logger.debug "No event class found, will not publish an event"
   end
 
   def event_stream_after_destroy_commit
@@ -39,6 +43,8 @@ module EventPublisherHooks
 
     event = event_class.new(data: data)
     EventPublisher.publish(event, to: event_stream_name)
+  rescue NameError => e
+    Rails.logger.debug "No event class found, will not publish an event"
   end
 
   def event_stream_accumulate_changes

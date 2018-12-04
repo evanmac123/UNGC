@@ -325,4 +325,6 @@ en:
       regional_center: Regional Center
 
   organization:
-    requested_to_join: "Thank you for your interest. We will review your submission and get back to you within 2 business days"
+    requested_to_join: "Thank you for your request to access the UN Global Compact Academy Learning Platform. All requests will be reviewed and responded to within 2 business days"
+    successfully_created_contact: "You have successfully created a contact."
+    successfully_claimed_contact: "You have successfully claimed this contact."
