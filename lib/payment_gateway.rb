@@ -6,13 +6,14 @@ class PaymentGateway
     @gateway = gateway || Stripe::Charge
   end
 
-  def charge(token:, amount_in_cents:, reference:, metadata: {})
+  def charge(token:, amount_in_cents:, reference:, receipt_email:, metadata: {})
     @gateway.create(
       source: token,
       currency: CURRENCY,
       amount: amount_in_cents,
       idempotency_key: reference,
-      metadata: metadata.to_h
+      receipt_email: receipt_email,
+      metadata: metadata.to_h,
     )
   end
 

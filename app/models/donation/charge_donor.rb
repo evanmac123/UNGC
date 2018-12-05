@@ -67,6 +67,7 @@ class Donation::ChargeDonor
       token: donation.token,
       amount_in_cents: donation.amount.cents,
       reference: donation.reference,
+      receipt_email: donation.email_address,
       metadata: donation.metadata
     )
   end

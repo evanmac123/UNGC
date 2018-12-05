@@ -10,6 +10,7 @@ class PaymentGatewayTest < ActiveSupport::TestCase
       source: "token",
       amount: "12345",
       currency: "usd",
+      receipt_email: "alice@example.com",
       idempotency_key: "reference",
       metadata: {
         custom: "true"
@@ -22,12 +23,13 @@ class PaymentGatewayTest < ActiveSupport::TestCase
     }
 
     stub_request(:post, "https://api.stripe.com/v1/charges")
-      .with(body: request, headers: {"Authorization" => "Bearer #{api_key}"})
+      .with(body: request, headers: { "Authorization" => "Bearer #{api_key}" })
       .to_return(body: response.to_json)
 
     charge = gateway.charge(
       token: "token",
       amount_in_cents: 12345,
+      receipt_email: "alice@example.com",
       reference: "reference",
       metadata: { custom: true }
     )
