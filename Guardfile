@@ -28,10 +28,10 @@ guard :minitest, first_match: true, spring: true, all_on_start: false, cli: "--c
   watch(%r{^app/jobs/crm/adapters/(.+)\.rb$})             { |m| ["test/jobs/crm/adapters/#{m[1]}_test.rb", *functional_crm_test] }
   watch(%r{^app/jobs/(.+)_job\.rb$})                      { |m| ["test/jobs/#{m[1]}_job_test.rb", *functional_crm_test] }
 
-  watch(%r{^app/(.+)\.rb$})                               { |m| "test/#{m[1]}_test.rb" }
-  watch(%r{^app/controllers/application_controller\.rb$}) { 'test/controllers' }
-  watch(%r{^app/controllers/(.+)_controller\.rb$})        { |m| "test/integration/#{m[1]}_test.rb" }
+  watch(%r{^app/controllers/application_controller\.rb$}) { %w[test/controllers test/integration] }
+  watch(%r{^app/controllers/(.+)_controller\.rb$})        { |m| ["test/controllers/#{m[1]}_controller_test.rb", "test/integration/#{m[1]}_test.rb"]}
   watch(%r{^app/views/(.+)_mailer/.+})                    { |m| "test/mailers/#{m[1]}_mailer_test.rb" }
+  watch(%r{^app/(.+)\.rb$})                               { |m| "test/#{m[1]}_test.rb" }
   watch(%r{^lib/(.+)\.rb$})                               { |m| "test/lib/#{m[1]}_test.rb" }
   watch(%r{^test/.+_test\.rb$})
   watch(%r{^test/test_helper\.rb$}) { 'test' }
