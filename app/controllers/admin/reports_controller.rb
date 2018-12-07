@@ -66,6 +66,11 @@ class Admin::ReportsController < AdminController
     render_report(report, "approved_logo_requests_#{date_as_filename}.xls")
   end
 
+  def bulletin
+    report = Bulletin.new
+    render_report(report, "bulletin_#{date_as_filename}.xls")
+  end
+
   def initiative_cops
     @initiatives_form = PrepareInitiativeCopReport.new(
       initiative_name: initiative_cop_params["initiative_name"],
