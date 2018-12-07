@@ -1,3 +1,4 @@
 - src: williamyeh.reset-locale
 - src: nodesource.node
-- src: rvm_io.ruby
+- src: rvm.ruby
+- src: ANXS.postgresql 

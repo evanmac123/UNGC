@@ -9,7 +9,7 @@
       with_items:
         - ppa:git-core/ppa
         - ppa:builds/sphinxsearch-rel22
-
+        
     - name: Update apt cache
       tags: prereqs
       apt: update_cache=yes cache_valid_time=3600
@@ -23,9 +23,7 @@
         - vim
         - libmysqlclient-dev
         - sphinxsearch
-        - mysql-server
         - curl
-        - python-mysqldb
         - redis-server
         - imagemagick
         - libmagickwand-dev
@@ -40,10 +38,6 @@
                     path='/home/vagrant/.ssh/ssh_known_hosts'
                     key="{{ lookup('pipe', 'ssh-keyscan -t rsa unglobalcompact.org') }}"
 
-    - name: Create the MySQL user
-      tags: mysql
-      mysql_user: name=rails password=12345 priv=*.*:ALL state=present
-
     - name: Default to /vagrant
       tags: env
       lineinfile: dest="/home/vagrant/.bashrc"
@@ -54,15 +48,30 @@
 
   roles:
     - williamyeh.reset-locale
+    - { role: ANXS.postgresql,
+        postgresql_version: 10,
+        postgresql_encoding: "UTF-8",
+        postgresql_locale: "en_US.UTF-8",
+        postgresql_ctype: "en_US.UTF-8",
+
+        postgresql_admin_user: "postgres",
+        postgresql_default_auth_method: "trust"
+    }
     - { role: nodesource.node,
         nodejs_version: "0.10", }
-    - { role: rvm_io.ruby,
+    - { role: rvm.ruby,
         tags: ruby,
         rvm1_rubies: ['ruby-2.3.3'],
-        rvm1_user: 'vagrant'
+        rvm1_install_flags: '--auto-dotfiles --user-install',
+        rvm1_user: 'vagrant',
+        rvm1_bundler_install: True
       }
 
   tasks:
+    - name: Install PG libs
+      tags: prereqs
+      apt: name="libpq-dev" state=latest
+
     - name: Remove sphinx start
       tags: sphinx
       lineinfile: dest=/etc/init/sphinxsearch.conf
@@ -91,13 +100,13 @@
       tags: sphinx
       service: name=sphinxsearch state=stopped
 
-    - name: Install global npm packages
-      tags: node
-      npm: name={{item}} global=yes
-      with_items:
-        - bower
-        - ember-cli
-        - node-sass
+    # - name: Install global npm packages
+    #   tags: node
+    #   npm: name={{item}} global=yes
+    #   with_items:
+    #     - bower
+    #     - ember-cli
+    #     - node-sass
 
     - name: Create a symlink for pdf2txt
       tags: pdf
@@ -116,56 +125,60 @@
         - "install: --no-rdoc --no-ri"
         - "update: --no-rdoc --no-ri"
 
-    - name: Install ruby gems
-      tags: ruby
-      command: "/bin/bash -l -c 'cd /vagrant && bundle -j2'"
+#    - name: Install ruby gems
+#      tags: ruby
+#      # command: "/bin/bash -l -c 'cd /vagrant && bundle install -j6'"
+#      shell: bundle
+#      args:
+#        chdir: /vagrant
+#        executable: /bin/bash -l
 
-    - name: Configure database.yml
-      tags: railsapp
-      copy:
-        src: ../config/database.yml.sample
-        dest: /vagrant/config/database.yml
+    # - name: Configure database.yml
+    #   tags: railsapp
+    #   copy:
+    #     src: ../config/database.yml.sample
+    #     dest: /vagrant/config/database.yml
 
-    - name: Set the database username
-      tags: railsapp
-      replace:
-        path: /vagrant/config/database.yml
-        regexp: '# username: .*'
-        replace: 'username: rails'
+    # - name: Set the database username
+    #   tags: railsapp
+    #   replace:
+    #     path: /vagrant/config/database.yml
+    #     regexp: '# username: .*'
+    #     replace: 'username: rails'
 
-    - name: Set the database password
-      tags: railsapp
-      replace:
-        path: /vagrant/config/database.yml
-        regexp: '# password: .*'
-        replace: 'password: 12345'
+    # - name: Set the database password
+    #   tags: railsapp
+    #   replace:
+    #     path: /vagrant/config/database.yml
+    #     regexp: '# password: .*'
+    #     replace: 'password: 12345'
 
-    - name: Configure secrets.yml
-      tags: railsapp
-      copy:
-        src: ../config/secrets.yml.example
-        dest: /vagrant/config/secrets.yml
+    # - name: Configure secrets.yml
+    #   tags: railsapp
+    #   copy:
+    #     src: ../config/secrets.yml.example
+    #     dest: /vagrant/config/secrets.yml
 
-    - name: Create the development database
-      tags: railsapp
-      command: "/bin/bash -l -c 'cd /vagrant && rake db:drop db:create db:schema:load'"
+    # - name: Create the development database
+    #   tags: railsapp
+    #   command: "/bin/bash -l -c 'cd /vagrant && rake db:drop db:create postgres:install_extensions db:schema:load db:test:prepare'"
 
-    - name: Create the test database
-      tags: railsapp
-      command: "/bin/bash -l -c 'cd /vagrant && RAILS_ENV=test rake db:drop db:create db:test:prepare'"
+    # - name: Prepare the test database
+    #   tags: railsapp
+    #   command: "/bin/bash -l -c 'cd /vagrant && RAILS_ENV=test postgres:install_extensions'"
 
-    - name: Build the initial search index
-      tags: railsapp
-      command: "/bin/bash -l -c 'cd /vagrant && rake search:rebuild'"
+    # - name: Build the initial search index
+    #   tags: railsapp
+    #   command: "/bin/bash -l -c 'cd /vagrant && rake search:rebuild'"
 
-    - name: Install npm dependencies
-      tags: js
-      command: "/bin/bash -l -c 'cd /vagrant/frontend/sitemap && npm install --no-bin-links'"
+    # - name: Install npm dependencies
+    #   tags: js
+    #   command: "/bin/bash -l -c 'cd /vagrant/frontend/sitemap && npm install --no-bin-links'"
 
-    - name: Install bower dependencies
-      tags: js
-      command: "/bin/bash -l -c 'cd /vagrant/frontend/sitemap && bower install'"
+    # - name: Install bower dependencies
+    #   tags: js
+    #   command: "/bin/bash -l -c 'cd /vagrant/frontend/sitemap && bower install'"
 
-    - name: Build the ember app
-      tags: js
-      command: "/bin/bash -l -c 'cd /vagrant/frontend/sitemap && ember build'"
+    # - name: Build the ember app
+    #   tags: js
+    #   command: "/bin/bash -l -c 'cd /vagrant/frontend/sitemap && ember build'"
