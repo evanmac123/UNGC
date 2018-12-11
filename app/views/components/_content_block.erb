@@ -1,13 +1,22 @@
 <li class='component-content-block'>
   <%= link_to url, class: "component-content-block-link#{" component-content-block-type-#{type}" if type ||= nil}" do %>
     <div class='component-content-block-image' style='background-image: url(<%= thumbnail -%>)'>
-      <%= image_tag thumbnail %>
+      <div class="component-content-block-image-holder">
+          <%= image_tag thumbnail %>
+          <%= content_tag(:div, tag, class: 'component-content-block-tag') if tag ||= nil %>
+      </div>
     </div>
-    <div class='component-content-block-title'>
+    <div class='component-content-block-content'>
+      <%= content_tag(:div, tag, class: 'component-content-block-tag right') if tag ||= nil %>
       <%= content_tag(:h2, title) if title ||= nil %>
+      <div class="description">
+        Summarizes data of bilateral interviews with supply chain, procurement, and sustainability executives of companies that…participate in the UN Global Compact Action Platform on Decent Work in Global Supply Chains.
+      </div>
+      <div class="save">
+        Save
+      </div>
       <%= content_tag(:time, date.string, class: 'date', datetime: date.iso) if date ||= nil %>
       <%= content_tag(:div, location, class: 'location') if location ||= nil %>
     </div>
-    <%= content_tag(:div, tag, class: 'component-content-block-tag') if tag ||= nil %>
-  <% end %>
+    <% end %>
 </li>

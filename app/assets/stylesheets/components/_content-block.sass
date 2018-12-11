@@ -1,12 +1,12 @@
 .component-content-block
   position: relative
-  width: 100%
-  padding: 100% 0 0
-  border: 1px solid white
-  margin: 0 auto 1em
-  height: 0
+  margin: 20px 20px 0 20px
+  height: 400px
+  -webkit-box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.19)
+  -moz-box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.19)
+  box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.19)
 
-  .component-content-block-link
+  &-link
     display: block
     position: absolute
     top: 0
@@ -15,110 +15,135 @@
     bottom: 0
     overflow: hidden
     background: #eee
-    border: 1px solid #ddd
       left-width: 0
       right-width: 0
 
-    .component-content-block-title
-      position: absolute
-      left: 0
-      right: 0
-      bottom: 0
-      padding: .5em .5em .7em
-      margin: 0
-      color: white
-      text-shadow: 0 0 2px color('dark-grey')
+  &-image
+    display: block
+    height: 200px
+    padding: 20px
+    margin: auto
+    position: absolute
+    background: color('light-grey')
+    width: 100%
 
-      h2
-        font-size: 1.25em
-        line-height: 1.3
-        margin: 0 0 .5em
-
-        &:last-child
-          margin-bottom: 0
-
-      .date,
-      .location
-        font:
-          size: .75em
-          weight: 300
-        color: #eee
-
-    .component-content-block-image
-      display: block
-      position: absolute
-      top: 0
-      left: 0
-      right: 0
-      bottom: 0
-      margin: auto
-      background:
-        color: white
-        size: cover
-        repeat: no-repeat
-        position: top center
-
+    &-holder
+      width: 100%
+      height: 200px
+      background: color('orange')
+      -webkit-box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.19)
+      -moz-box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.19)
+      box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.19)
       img
-        display: none
+        width: 100%
+        object-fit: cover
 
-    .component-content-block-tag
-      display: block
-      position: absolute
-      top: 5%
-      right: 0
-      background-color: rgba(black, .7)
-      color: white
-      padding: .25em 1em .25em .5em
-      font:
-        size: .75em
-        family: $flama-condensed-medium
-        weight: 500
+  &-tag
+    display: block
+    position: absolute
+    top: 33px
+    right: 0
+    background-color: color('gold')
+    color: white
+    padding: .25em 1em .25em .5em
+    -webkit-box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.19)
+    -moz-box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.19)
+    box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.19)
+    text-transform: uppercase
+
+    font:
+      size: 1em
+      family: $flama-condensed-medium
+      weight: 500
       text-transform: uppercase
+
+    &:before,
+    &:after
+      content: ''
+      position: absolute
+      left: -1em
+
+    &:before
+      top: 0
+      +triangle(1em, color('gold'), up-right)
+
+    &:after
+      bottom: 0
+      +triangle(1em, color('gold'), down-right)
+
+    &.right
+      display: none
+      position: absolute
+      top: 20px
+      left: 0
+      right: auto
+      box-shadow: none
 
       &:before,
       &:after
         content: ''
         position: absolute
-        left: -1em
+        right: -1em
+        left: auto
 
       &:before
         top: 0
-        +triangle(1em, rgba(black, .7), up-right)
+        +triangle(1em, color('gold'), up-left)
 
       &:after
         bottom: 0
-        +triangle(1em, rgba(black, .7), down-right)
+        +triangle(1em, color('gold'), down-left)
 
-    &.component-content-block-type-resource,
-    &.component-content-block-type-event
-      .component-content-block-title
-        background-color: rgba(black, .8)
+  &-content
+    margin: 0
+    background-color: white
+    height: 200px
+    padding: 10px 15px
+    z-index: 5
+    position: relative
+    top: 200px
 
-    &.component-content-block-type-resource
-      .component-content-block-title
-        +transform(translate3d(0, 100%, 0))
-        +transition-property(transform background-color)
-        +transition-duration(150ms)
-        +transition-timing-function($material-swift-entrance)
+    .save
+      color: color('blue')
+      position: absolute
+      right: 20px
+      bottom: 10px
+      &:after
+        font-family: FontAwesome
+        content: "\f097"
+      &:hover
+        font-family: FontAwesome
+        content: "\f02e"
 
-        h2
-          font-size: 1.125em
 
-      &:hover .component-content-block-title
-        +transform(translate3d(0, 0, 0))
+    h2
+      font-size: 1.3em
+      color: color('blue')
+      line-height: 1.3
+      margin: 0 0 .5em
+      font-weight: 600
+      &:last-child
+        margin-bottom: 0
 
-      .component-content-block-image
-        top: 10px
-        left: 10px
-        right: 10px
-        box-shadow: 0 1px 6px rgba(black, .5)
+    .description
+      height: 70px
+      overflow: hidden
+      color: color('grey')
+
+
+    .date,
+    .location
+      font:
+        size: .75em
+        weight: 300
+        color: #eee
 
     &:hover,
     &:active
       background: white
       border-color: color('pastel-blue')
 
-      .component-content-block-tag
+      &-tag
         background-color: color('light-blue')
 
         &:before
@@ -132,76 +157,53 @@
         .component-content-block-title
           background-color: rgba(color('light-blue'), .8)
 
-  @media only screen and (min-width: 481px)
+
+@media only screen and (min-width: 569px)
+  .component-content-block
     float: left
-    width: 33.333%
-    padding: 33.333% 0 0
-    margin: 0
+    width: 44%
+    margin: 0 0 20px 4%
 
-    .component-content-block-link
-      top: 2px
-      left: 2px
-      right: 2px
-      bottom: 2px
-      border:
-        left-width: 1px
-        right-width: 1px
+@media only screen and (min-width: 701px)
+  .component-content-block
+    height: 250px
+    width: 90%
+    margin: 20px 5% 0 5%
 
-      .component-content-block-title h2
-        font-size: 1em
+  .component-content-block-link
+    height: 250px
 
-      &.component-content-block-type-resource
-        .component-content-block-title h2
-          font-size: .875em
+    .component-content-block-image
+      width: 25%
+      float: left
+      position: relative
 
-        .component-content-block-image
-          top: 10%
-          left: 10%
-          right: 10%
+    .component-content-block-content
+      float: left
+      width: 75%
+      position: relative
+      padding-top: 60px
+      top: auto
 
-  @media only screen and (min-width: 569px)
-    .component-content-block-link
-      top: 5px
-      left: 5px
-      right: 5px
-      bottom: 5px
+    .component-content-block-tag
+      display: none
+      &.right
+        display: block
 
-  @media only screen and (min-width: 701px)
-    .component-content-block-link .component-content-block-title h2
-      font-size: 1.25em
+@media only screen and (min-width: 881px)
+  .component-content-block
+    height: 200px
 
-  @media only screen and (min-width: 881px)
-    .component-content-block-link
-      .component-content-block-title
-        padding: 1em 1em 1.2em
+  .component-content-block-link
+    height: 200px
 
-        h2
-          font-size: 1.5em
+    .component-content-block-title
+      padding: 1em 1em 1.2em
 
-      .component-content-block-tag
-        font-size: .875em
+      h2
+        font-size: 1.5em
 
-      &.component-content-block-type-resource
-        .component-content-block-title h2
-          font-size: 1em
+    .component-content-block-tag
+      font-size: .875em
 
-  @media only screen and (min-width: 1001px)
-    .component-content-block-link
-      top: 10px
-      left: 10px
-      right: 10px
-      bottom: 10px
-
-      .component-content-block-title
-        padding: 1em 1.5em 1.2em
-
-        .date,
-        .location
-          font-size: .875em
-
-      .component-content-block-tag
-        font-size: 1em
-
-      &.component-content-block-type-resource
-        .component-content-block-title h2
-          font-size: 1.125em
+@media only screen and (min-width: 1001px)
