@@ -52,6 +52,7 @@ class SdgCopAnswers < SimpleReport
       "COP Published On",
       "Organization Type",
       "Country",
+      "Regions",
       "Sector",
       "Employees",
       "Opportunities and responsibilities that one or more SDGs represent to our business",
@@ -93,6 +94,7 @@ class SdgCopAnswers < SimpleReport
       cop.published_on,
       cop.organization.organization_type_name,
       cop.organization.country_name,
+      cop.organization.region_name,
       cop.organization.sector_name,
       cop.organization.employees,
     ]
