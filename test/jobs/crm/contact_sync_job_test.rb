@@ -18,6 +18,33 @@ module Crm
         assert_enqueued_with(job: Crm::ContactSyncJob) do
           create(:contact, first_name: "Bobby", organization: nil, local_network: nil)
         end
+
+        assert_enqueued_with(job: Crm::OrganizationSyncJob) do
+          assert_enqueued_with(job: Crm::ContactSyncJob) do
+            create(:contact, first_name: "Bobby", organization: create(:organization), local_network: nil)
+          end
+        end
+
+        assert_enqueued_with(job: Crm::LocalNetworkSyncJob) do
+          assert_enqueued_with(job: Crm::ContactSyncJob) do
+            create(:contact, first_name: "Bobby", local_network: create(:local_network))
+          end
+        end
+
+        organization = create(:organization, :with_record_id)
+        assert_enqueued_with(job: Crm::ContactSyncJob) do
+          create(:contact, first_name: "Bobby", organization: organization, local_network: nil)
+        end
+
+        organization = create(:organization)
+        assert_enqueued_jobs 1 do
+          create(:contact, first_name: "Bobby", organization: organization)
+        end
+
+        local_network = create(:local_network)
+        assert_enqueued_jobs 1 do
+          create(:contact, first_name: "Bobby", local_network: local_network)
+        end
       end
 
       should 'conditionally enqueue a job on update' do

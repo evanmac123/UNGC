@@ -13,8 +13,8 @@ module Crm
       end
 
       def foreign_keys
-        parent_record_id("C_DC_COURSE_ID__c", model.course, :academy_course_id)
-        parent_record_id("Contact_Enrolled__c", model.contact, :contact_id)
+        parent_record_id("C_DC_COURSE_ID__c", model.course, changed?(:academy_course_id))
+        parent_record_id("Contact_Enrolled__c", model.contact, changed?(:contact_id))
       end
 
     end

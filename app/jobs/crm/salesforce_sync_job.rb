@@ -4,7 +4,7 @@ module Crm
   class SalesforceSyncJob < ActiveJob::Base
 
     ALLOWED_METHODS = [:create, :update, :destroy, :synced_record_id, :should_sync?]
-    attr_reader :action, :model, :model_id, :adapter, :changes, :crm, :foreign_key_hash
+    attr_reader :action, :model, :model_id, :adapter, :changes, :crm, :foreign_key_hash, :retries
 
     def self.resync_now(model)
       perform_now("update", model, resync_changeset(model))
@@ -23,7 +23,7 @@ module Crm
       changes.to_json
     end
 
-    def perform(action, model, changes = nil, crm = Crm::Salesforce.new)
+    def perform(action, model, changes = nil, crm = Crm::Salesforce.new, retries: 0)
       @action = action.to_sym
 
       @model = model
@@ -32,6 +32,7 @@ module Crm
       @model_id = model&.id
       @crm = crm
       @foreign_key_hash = {}
+      @retries = retries
 
       if ALLOWED_METHODS.include?(@action)
         send(@action)
@@ -103,7 +104,7 @@ module Crm
       record_id || create
     end
 
-    def parent_record_id(salesforce_key, parent_model, parent_attribute)
+    def parent_record_id(salesforce_key, parent_model, parent_attribute_changed)
       return if parent_model.nil?
 
       parent_model_record_id = parent_model.record_id
@@ -111,7 +112,7 @@ module Crm
         job_class = "Crm::#{parent_model.class.name}SyncJob".constantize
         parent_model_record_id = job_class.perform_now(:synced_record_id, parent_model, nil, crm)
         foreign_key_hash[salesforce_key] = parent_model_record_id if parent_model_record_id.present?
-      elsif changed?(parent_attribute) && parent_model_record_id.present?
+      elsif parent_attribute_changed && parent_model_record_id.present?
         foreign_key_hash[salesforce_key] = parent_model_record_id
       end
     end

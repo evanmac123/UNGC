@@ -12,7 +12,7 @@ module Crm
     end
 
     def foreign_keys
-      parent_record_id('Parent_LN_Account_Id__c', model.local_network, :local_network_id)
+      parent_record_id('Parent_LN_Account_Id__c', model.local_network, changed?(:local_network_id))
     end
   end
 end
