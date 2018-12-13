@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181211172938) do
+ActiveRecord::Schema.define(version: 20181213174943) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -483,7 +483,7 @@ ActiveRecord::Schema.define(version: 20181211172938) do
     t.integer  "local_network_id"
     t.integer  "participant_manager_id"
     t.integer  "regional_center_id"
-    t.boolean  "oced",                               default: false
+    t.boolean  "oecd",                               default: false
   end
 
   add_index "countries", ["participant_manager_id"], name: "index_countries_on_participant_manager_id", using: :btree
