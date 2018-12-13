@@ -45,6 +45,8 @@ gold: "#CBB248"
 dark-grey:    "#3f3f3f"
 grey:         "#b4ada8"
 light-grey:   "#d3cecb"
+white-grey:   "F9F9F9"
+black-grey:   "4C4C4C"
 blue-grey:    "#e0dedb"
 
 # Others
