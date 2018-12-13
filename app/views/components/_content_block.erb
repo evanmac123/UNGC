@@ -9,7 +9,14 @@
     <div class='component-content-block-content'>
       <%= content_tag(:h2, title) if title ||= nil %>
       <div class="description">
+<<<<<<< HEAD
         <%= content_tag(:p, description) if description ||= nil %>
+=======
+        <%= content_tag(:div, description) if description ||= nil %>
+      </div>
+      <div class="save">
+        Save
+>>>>>>> mobile styling for list page
       </div>
       <%= content_tag(:time, date.string, class: 'date', datetime: date.iso) if date ||= nil %>
       <%= content_tag(:div, location, class: 'location') if location ||= nil %>

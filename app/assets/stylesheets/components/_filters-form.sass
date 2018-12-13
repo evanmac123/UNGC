@@ -1,12 +1,22 @@
 .left-sidebar
+<<<<<<< HEAD
   width: 320px
+=======
+  width: 60%
+>>>>>>> mobile styling for list page
   transform: translateX(-100%)
   position: fixed
   left: 0
   top: 0
+<<<<<<< HEAD
   margin-top: 0
   z-index: 9
   padding: 1em 20px
+=======
+  margin-top: 3em
+  z-index: 9
+  padding: 0 20px
+>>>>>>> mobile styling for list page
   background-color: white
   height: 100%
   overflow: scroll
@@ -51,11 +61,17 @@
 .filters-form
   @extend %wrapper
   display: block
+<<<<<<< HEAD
   max-width: 1280px
   background: white
   +font-smoothing(antialiased)
   margin-top: 20px
   width: 90%
+=======
+  background: white
+  +font-smoothing(antialiased)
+  margin-top: 20px
+>>>>>>> mobile styling for list page
 
   &:first-child
     padding-top: 10em
@@ -156,11 +172,31 @@
     font-size: 14px
     margin: 1em 0
     float: left
+<<<<<<< HEAD
     background-color: color('blue')
     padding: 1em
     text-align: center
     width: 100%
     color: white
+=======
+
+  .results-count
+    margin: 1em 0
+    float: right
+    font-weight: 400
+    color: color('light-grey')
+    font-size: 14px
+
+    a
+      font-weight: 600
+      font-size: 14px
+
+    .previous-page
+      padding-right: 1em
+
+    .next-page
+      padding-left: 1em
+>>>>>>> mobile styling for list page
 
   .filter-title
     font-size: 1.4em
@@ -206,6 +242,7 @@
 @media only screen and (min-width: 681px)
   header
     margin-bottom: .5em
+<<<<<<< HEAD
 
   .filter-open
     float: right
@@ -237,6 +274,35 @@
       left: 5%
       right: 5%
 
+=======
+
+  fieldset.filter-lists
+    display: block
+    position: relative
+    padding: 0 0 1em
+    margin: 0 10px
+    border-bottom: 1px solid #eee
+    +clearfix
+
+  fieldset.filter-sorting
+    float: right
+    width: 100%
+
+    input[type='text']
+      padding: .125em .25em
+
+@media only screen and (min-width: 881px)
+  .filters-form
+    .sort-display
+      #section-search
+        width: 50%
+
+  fieldset.filter-lists
+    margin:
+      left: 5%
+      right: 5%
+
+>>>>>>> mobile styling for list page
   header
     h1
       float: left
@@ -256,6 +322,14 @@
   .filter-lists
     margin-top: 20px
 
+<<<<<<< HEAD
+=======
+  .results-count
+    margin: .2em 0 2em 0
+    font-size: 14px
+    font-weight: 400
+
+>>>>>>> mobile styling for list page
   .filter-open
     display: none
 
@@ -274,7 +348,11 @@
     margin: 0
 
   .filters-form .filter-title
+<<<<<<< HEAD
     margin: 0 5% -2px 0
+=======
+    margin: -2px 5% 1.7em
+>>>>>>> mobile styling for list page
 
 @media only screen and (min-width: 1001px)
   fieldset.filter-lists
