@@ -1,6 +1,14 @@
+<<<<<<< HEAD
 .library.index
   = render partial: 'components/meta_tags'
   = render partial: 'components/lib_hero'
   = render 'form', title: "Featured Resources"
   = render layout: 'components/lib_featured', locals: { blocks: @page.featured} do |block|
+=======
+.library.list
+  = render partial: 'components/meta_tags'
+  = render partial: 'components/hero'
+  = render 'form', title: "Featured Resources"
+  = render layout: 'components/lib_content_blocks', locals: {classes: 'library', blocks: @page.featured} do |block|
+>>>>>>> detail page
     = render 'components/resource_block', block: block

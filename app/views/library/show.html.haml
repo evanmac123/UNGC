@@ -1,13 +1,20 @@
 .library.resource
   = render partial: 'components/meta_tags'
+<<<<<<< HEAD
   = render partial: 'components/lib_hero'
+=======
+  = render partial: 'components/hero'
+>>>>>>> detail page
   %section.main-content-section
     .wrapper
       = render partial: 'components/lib_navigation'
       = render layout: 'components/lib_sidebar' do
         = render 'components/widget_image', image: {src: "//www.unglobalcompact.org#{@resource.cover_image(:show, retina: true)}", alt: @resource.title}
         .authors
+<<<<<<< HEAD
           .partner-resource UN Partner Resource
+=======
+>>>>>>> detail page
           .sidebar-title Resource Author
           = render layout: 'components/lib_resource_attributes_list', locals: {attributes: @resource.authors, title: ''} do |a|
             = a.full_name
@@ -43,7 +50,11 @@
                         %source{:src => link.url, :type => "audio/mp3"}
                           Your browser does not support the audio element.
       = render layout: 'components/lib_sidebar' do
+<<<<<<< HEAD
         .sidebar-title Resource Details
+=======
+        .sidebar-title Resource Detail
+>>>>>>> detail page
         = render layout: 'components/lib_resource_attributes_list', locals: {attributes: @resource.topics, title: 'Topics'} do |a|
           - search_hash = a.parent.present? ? {topics: [a.id]} : {topic_groups: [a.id]}
           = link_to a.name, library_search_path(search: search_hash)
@@ -59,4 +70,7 @@
         .sidebar-title Share Resource
         = render partial: 'components/lib_social'
         -# social partial will need to be hooked up to share the page
+<<<<<<< HEAD
     -# Featured Resource partial should be added below
+=======
+>>>>>>> detail page
