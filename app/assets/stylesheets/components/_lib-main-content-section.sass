@@ -1,0 +1,228 @@
+.library.resource
+  .main-content-section
+    .authors
+      display: none
+
+    .authors.mobile
+      display: block
+      
+    .main-content
+      @extend %wrapper
+      background: transparent
+
+      *
+        position: relative
+
+      > .full-width-wrapper
+        @extend %wrapper
+
+      > .wrapper,
+      > .full-width-wrapper > .wrapper
+        padding: 1em 0 4em
+        margin: 0 10px
+
+      &.has-custom-bg
+        max-width: none
+
+        > .wrapper,
+        > .full-width-wrapper > .wrapper
+          padding:
+            top: 6em
+            bottom: 7em
+
+      &:first-child
+        padding-top: 8em
+
+      .component-content-block-tag
+        display: inline
+        top: 0
+        left: 0
+        float: left
+
+        .sidebar-title
+          display: none
+
+      .main-content-header
+        padding: 0
+        clear: both
+
+        h1
+          font-size: 1.2em
+          margin-top: 1em
+          line-height: 1.2
+          color: color('blue')
+
+      .main-content-body
+        width: 100%
+
+        ul,
+        ol
+          padding: 0 0 0 3em
+
+        li
+          margin: 0 0 1em
+
+        h1
+          font-size: 2.5em
+
+        h2
+          font-size: 2em
+          margin: 1.5em 0 1em
+
+        h3
+          font-size: 1.5em
+          margin: 2em 0 1em
+
+        h4
+          font-size: 1.25em
+
+        h5
+          font-size: 1em
+
+        h1,
+        h2,
+        h4,
+        h4,
+        h5
+          + h2,
+          + h3,
+          + h4,
+          + h5,
+          &:first-child
+            margin-top: 0
+
+
+        table
+          border: 1px solid #ccc
+          margin: 0 0 1.5em
+
+          &:last-child
+            margin-bottom: 0
+
+          th,
+          td
+            text-align: left
+            border-bottom: 1px solid #ddd
+            padding: .5em
+
+          th
+            background: #efefef
+            font-weight: bold
+
+        .button
+          margin-top: 1em
+
+        .widget-links-list
+          font-weight: 500
+          margin-top: 2em
+          h2
+            font-size: 1em
+
+        .resource-links-list
+          font-weight
+
+          ul
+            padding-left: 0
+
+      &.align-center
+        text-align: center
+
+        .main-content-body
+          float: none
+          margin: 0 auto
+          width: auto
+
+        .article-sidebar
+          float: none
+          margin: 2em auto 0
+          padding: 0
+
+      &.light-theme,
+      &.dark-theme
+        &.has-custom-bg:before
+          content: ''
+          display: block
+          position: absolute
+          top: 0
+          left: 0
+          right: 0
+          bottom: 0
+
+      &.dark-theme
+        color: #eee
+        max-width: none
+        background-color: color('dark-blue')
+
+        &.has-custom-bg:before
+          background: rgba(black, .3)
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6
+          color: white
+
+      &.light-theme
+        &.has-custom-bg:before
+          background: rgba(white, .3)
+
+      .video-iframe
+        position: relative
+        width: 100%
+        padding: 62.5% 0 0
+        margin: 0 0 1.5em
+        overflow: hidden
+
+        iframe
+          position: absolute
+          top: 0
+          left: 0
+          right: 0
+          bottom: 0
+          height: 100%
+          width: 100%
+
+      time.resource-year
+        display: block
+        margin: 3px 0 0.5em 20px
+        color: color('grey')
+        float: left
+
+      .main-content-blurb p
+        margin-bottom: 1.5em
+
+    @media only screen and (min-width: 601px)
+      .main-content
+        width: 44%
+        margin: 0 3%
+        float: left
+      .authors
+        display: block
+
+      .authors.mobile
+        display: none
+
+      .main-content-body
+        float: left
+        width: 100%
+        p
+          font-size: 14px
+
+    @media only screen and (min-width: 881px)
+      > .wrapper,
+      > .full-width-wrapper > .wrapper
+        margin: 0 5%
+
+    @media only screen and (min-width: 1001px)
+      > .wrapper,
+      > .full-width-wrapper > .wrapper
+        margin: 0 6.25%
+        padding-left: 4.4em
+
+      .main-content-section-wide > .wrapper
+        padding-left: 0
+
+      .main-content-section-narrow > .wrapper
+        padding-right: 4.4em
