@@ -6,13 +6,21 @@
           <%= content_tag(:div, tag, class: 'component-content-block-tag') if tag ||= nil %>
       </div>
     </div>
+    <div class="tag-year">
+      <%= content_tag(:div, tag, class: 'component-content-block-tag right') if tag ||= nil %>
+      <%= content_tag(:div, year, class:'year') if year ||= nil %>
+      <%# This is will need to updated with the data for each year %>
+    </div>
     <div class='component-content-block-content'>
-      <%= content_tag(:h2, title) if title ||= nil %>
+      <%= content_tag(:h3, title) if title ||= nil %>
       <div class="description">
         <%= content_tag(:p, description) if description ||= nil %>
       </div>
       <%= content_tag(:time, date.string, class: 'date', datetime: date.iso) if date ||= nil %>
       <%= content_tag(:div, location, class: 'location') if location ||= nil %>
+    </div>
+    <div class="save">
+      Save
     </div>
     <% end %>
 </li>

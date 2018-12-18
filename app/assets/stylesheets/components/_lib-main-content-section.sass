@@ -2,10 +2,29 @@
   .main-content-section
     .authors
       display: none
+      width: 100%
+      float: left
+
+      h2
+        display: none
 
     .authors.mobile
       display: block
-      
+
+    .partner-resource
+      color: color('dark-blue')
+      padding-left: 2em
+      position: relative
+      font-weight: 600
+      padding-bottom: 1em
+      &:before
+        +fa-icon
+        content: '\f2b5'
+        position: absolute
+        left: 0
+        top: 2px
+
+
     .main-content
       @extend %wrapper
       background: transparent
@@ -48,8 +67,9 @@
 
         h1
           font-size: 1.2em
-          margin-top: 1em
+          margin: 0
           line-height: 1.2
+          padding-top: 10px
           color: color('blue')
 
       .main-content-body
@@ -198,8 +218,13 @@
         width: 44%
         margin: 0 3%
         float: left
+
       .authors
         display: block
+
+      .main-content-header
+        h1
+          padding-top: 0
 
       .authors.mobile
         display: none

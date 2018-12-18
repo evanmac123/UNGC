@@ -1,19 +1,81 @@
-.component-content-blocks
-  @extend %wrapper
-  clear: both
-  padding: 2em 0 1em
-  background: white
+.library
+  .component-content-blocks
+    @extend %wrapper
+    clear: both
+    padding: 2em 0 1em
+    background: white
 
-  + .component-content-blocks
-    padding-top: 1em
+    + .component-content-blocks
+      padding-top: 1em
 
-  &.library
-    padding: 1em 0 0 0
+    &.library
+      padding: 1em 0 0 0
 
-  .component-header
-    margin:
-      right: 10px
-      left: 10px
+    .component-header
+      margin:
+        right: 10px
+        left: 10px
+
+    .component-content-blocks-list
+      list-style: none
+      padding: 0
+      +clearfix
+      display: grid
+      grid-template-columns: 1fr
+      column-gap: 10px
+      row-gap: 1em
+
+  .featured-resources
+      @extend %wrapper
+      margin: 0 5%
+      margin-top: 1em
+      max-width: 1280px
+
+      .year
+        color: color('grey')
+
+      h2
+        width: 50%
+        float: left
+        margin-bottom: 0
+        color: color('blue')
+        font-size: 1.2em
+
+      .component-content-block
+        width: 100%
+
+      .see-all
+        width: 50%
+        float: left
+        text-align: right
+        padding-right: 24px
+        padding-top: 7px
+        &:hover
+          &:after
+            color: color('blue')
+
+        &:after
+          +fa-icon
+          content: $fa-var-chevron-right
+          position: absolute
+          top: 10px
+          right: .25em
+          margin: auto
+          height: 1em
+          font-size: .9em
+          color: color('light-blue')
+
+  @media only screen and (min-width: 569px)
+    &.list
+      .component-content-blocks
+        margin: 0
+        .featured-resources
+          h2
+            font-size: 1.5em
+
+    &.index
+      .component-content-blocks-list
+        grid-template-columns: 1fr 1fr
 
   @media only screen and (min-width: 881px)
     .component-header
@@ -26,8 +88,6 @@
       margin:
         right: 6.25%
         left: 6.25%
-
-.component-content-blocks-list
-  list-style: none
-  padding: 0
-  +clearfix
+    &.index
+      .component-content-blocks-list
+        grid-template-columns: 1fr 1fr 1fr 1fr
