@@ -632,6 +632,10 @@ class Organization < ActiveRecord::Base
     country&.region_name
   end
 
+  def oecd
+    country&.oecd
+  end
+
   def sector_name
     sector&.name
   end
