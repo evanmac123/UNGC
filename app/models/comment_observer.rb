@@ -47,7 +47,7 @@ class CommentObserver < ActiveRecord::Observer
         OrganizationMailer.approved_nonbusiness(organization).deliver
       end
 
-      if organization.network_report_recipients.count > 0
+      if organization.network_report_recipients.count > 0 && organization.local_network.humanize_state != "Inactive"
         OrganizationMailer.approved_local_network(organization).deliver
       end
 
