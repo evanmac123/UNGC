@@ -16,19 +16,6 @@
   &:last-of-type
     margin-right: 0
 
-  &:before
-    +fa-icon
-    content: "\f067"
-    position: absolute
-    top: 0
-    right: .25em
-    bottom: 0
-    margin: auto
-    height: 1em
-    font-size: 0.8em
-    color: color('blue')
-    transition: .4 all
-
   &:hover
     background-color: transparent
     color: color('light-blue')
@@ -41,19 +28,23 @@
   &:disabled
     background-color: color('light-grey')
 
+  &:before
+    +fa-icon
+    content: "\f067"
+    position: absolute
+    top: 0
+    right: .25em
+    bottom: 0
+    margin: auto
+    height: 1em
+    font-size: 0.8em
+    color: color('blue')
+    transition: .4s all
+
   &.is-active
     &:before
-      transform: rotate(90deg)
+      transform: rotate(45deg)
       transition: .4s all
-
-    &:after
-      content: ''
-      position: absolute
-      top: 2em
-      left: 0
-      right: 0
-      margin: auto
-      +triangle(1.5em, rgba(color('dark-grey'), .975), up)
 
 .filter-options-list
   position: relative
@@ -87,7 +78,7 @@
       transform: rotate(-90deg)
       transition: all .4s
 
-    &:checked ~ .filter-options-list
+    &:checked ~ .filter-child-options-list
       max-height: 1000px
       margin-top: 10px
       opacity: 1
@@ -101,9 +92,15 @@
   z-index: 999
   overflow: auto
   margin-top: 0
+  max-height: 0
+  padding: 0
+  transition: all .4s
 
   &.is-active
     display: block
+    max-height: 1000px
+    padding: 1em 1px 1em 1px
+    transition: all .4s
 
   > .filter-option
     position: relative

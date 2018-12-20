@@ -1,9 +1,11 @@
 .library.list
   = render partial: 'components/meta_tags'
   = render partial: 'components/lib_hero'
-  = render 'form', title: "Featured Resources"
-  = render layout: 'components/lib_content_blocks', locals: {classes: 'library', blocks: @page.featured} do |block|
-    = render 'components/resource_block', block: block
+  .form-container
+    = render 'form'
+    .right-sidebar
+      = render layout: 'components/lib_content_blocks', locals: {classes: 'library', blocks: @page.featured} do |block|
+        = render 'components/resource_block', block: block
 
 - if @results.empty?
   %section.main-content-section.main-content-section-wide

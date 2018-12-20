@@ -1,22 +1,6 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 .library.index
   = render partial: 'components/meta_tags'
   = render partial: 'components/lib_hero'
   = render 'form', title: "Featured Resources"
   = render layout: 'components/lib_featured', locals: { blocks: @page.featured} do |block|
-=======
-.library.list
-=======
-.library.index
->>>>>>> detail page and clean up
-  = render partial: 'components/meta_tags'
-  = render partial: 'components/lib_hero'
-  = render 'form', title: "Featured Resources"
-<<<<<<< HEAD
-  = render layout: 'components/lib_content_blocks', locals: {classes: 'library', blocks: @page.featured} do |block|
->>>>>>> detail page
-=======
-  = render layout: 'components/lib_featured', locals: { blocks: @page.featured} do |block|
->>>>>>> detail page and clean up
     = render 'components/resource_block', block: block

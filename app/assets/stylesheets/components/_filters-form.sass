@@ -1,5 +1,22 @@
+
+.form-container
+  max-width: 1280px
+  width: 90%
+  margin: 0 auto
+
+.filter-form
+  display: block
+  background: white
+  +font-smoothing(antialiased)
+
+.right-sidebar
+  width: 90%
+  float: left
+  margin-top: 41px
+  margin: 0 5% 0 5%
+
 .left-sidebar
-  width: 320px
+  width: 100%
   transform: translateX(-100%)
   position: fixed
   left: 0
@@ -11,6 +28,9 @@
   height: 100%
   overflow: scroll
   transition: all .4s
+  &.sidebar-open
+    transform: translateX(0)
+    transition: all .4s
 
   .left-sidebar-close
     margin-top: 50px
@@ -21,20 +41,13 @@
     text-align: center
     color: color('grey')
     transition: all .4s
-    opacity: 0
+    opacity: 1
+    cursor: pointer
+    font-weight: 600
     &:hover
       color: color('dark-grey')
       border: color('dark-grey') 1px solid
       transition: all .4s
-
-.sidebar-open
-  transform: translateX(0)
-  transition: all .4s
-
-  .left-sidebar-close
-    opacity: 1
-    cursor: pointer
-    font-weight: 600
 
   .clear-all-filters
     text-decoration: underline
@@ -42,182 +55,141 @@
     margin-bottom: 2em
     display: none
 
-.right-sidebar
-  width: 90%
+.accessible-submit
+  position: absolute
+  left: -99999em
+
+fieldset
+  border: 0
+  padding: 0
+  margin: 0
+
+.sort-display
+  width: 100%
+  border-bottom: 1px solid color('light-grey')
   float: left
-  margin-top: 41px
-  margin: 0 5% 0 5%
-
-.filters-form
-  @extend %wrapper
+  width: 100%
+  padding: 0 0 1em 0
   display: block
-  max-width: 1280px
-  background: white
-  +font-smoothing(antialiased)
-  margin-top: 20px
-  width: 90%
+  select, .select
+    max-width: 100%
+    margin-top: 1em
+    width: 100%
 
-  &:first-child
-    padding-top: 10em
+#section-search
+  float: left
+  clear: both
+  position: relative
+  width: 100%
 
-  .accessible-submit
+  button
     position: absolute
-    left: -99999em
-
-  header,
-  footer
-    clear: both
-    margin: 0 10px
-
-  header
-    +clearfix
-
-    h1
-      margin: 0
-
-    #section-search
-      margin: .75em 0 0
-
-  footer
-    padding-top: .5em
-
-  fieldset
-    border: 0
-    padding: 0
+    padding: 0 .5em .15em
     margin: 0
-
-  .sort-display
-    width: 100%
-    border-bottom: 1px solid color('light-grey')
-    float: left
-    width: 100%
-    padding: 0 0 1em 0
-    display: block
-    select, .select
-      max-width: 100%
-      margin-top: 1em
-      width: 100%
-    #section-search
-      width: 100%
-
-
-  #section-search
-    float: left
-    clear: both
-    position: relative
-    width: 100%
-
-    button
-      position: absolute
-      padding: 0 .5em .15em
-      margin: 0
-      top: 1px
-      right: 1px
-      bottom: 1px
-      background: color('blue')
-      font-size: inherit
-      z-index: 2
-      color: white
-
-      span
-        display: none
-
-      &:before
-        +fa-icon
-        content: $fa-var-search
-
-      &:hover,
-      &:active
-        background: color('dark-blue')
-
-
-    input[type=search]
-      position: relative
-      padding: 6px 2em 6px 8px
-      width: 100%
-      border: 1px solid #ccc
-      background: white
-      color: white
-      z-index: 1
-      width: 100%
-
-      &:focus
-        background: white
-        color: #222
-
-  fieldset.filter-lists
-    margin: 30px 0 0 0
-
-  .reset-and-submit
-    display: none
-
-  .filter-open
-    font-weight: 600
-    font-size: 14px
-    margin: 1em 0
-    float: left
-    background-color: color('blue')
-    padding: 1em
-    text-align: center
-    width: 100%
+    top: 1px
+    right: 1px
+    bottom: 1px
+    background: color('blue')
+    font-size: inherit
+    z-index: 2
     color: white
 
-  .filter-title
-    font-size: 1.4em
-    margin: 1.5em 5% 0 0
-    color: color('dark-grey')
-    font-weight: 600
+    span
+      display: none
+
+    &:before
+      +fa-icon
+      content: $fa-var-search
+
+    &:hover,
+    &:active
+      background: color('dark-blue')
 
 
-  fieldset.filter-sorting
-    margin: 10px 0
+  input[type=search]
+    position: relative
+    padding: 6px 2em 6px 8px
+    width: 100%
+    border: 1px solid #ccc
+    background: white
+    color: white
+    z-index: 1
+    width: 100%
 
-    .select
-      position: relative
+    &:focus
+      background: white
+      color: #222
 
-    select
-      display: inline-block
-      margin: 0 .1em 0 0
+fieldset.filter-lists
+  margin: 30px 0 0 0
 
-      &:last-of-type
-        margin-right: 0
+.reset-and-submit
+  display: none
 
-    input[type='text']
-      padding: .04em .25em
+.filter-open
+  font-weight: 600
+  font-size: 14px
+  margin: 1em 0
+  float: left
+  background-color: color('blue')
+  padding: 1em
+  text-align: center
+  width: 100%
+  color: white
 
-      &.datepicker
-        +placeholder
-          &:before
-            +fa-icon
-            content: $fa-var-calendar
-            margin-right: .5em
+  &:active, &:hover
+    color: white
 
-    button,
-    .button
-      padding: .2em .5em
-      font:
-        family: $flama-condensed-medium
-        weight: 500
-      vertical-align: top
 
-  + .component-content-blocks
-    padding-top: 0
+.filter-title
+  font-size: 1.4em
+  margin: 1.5em 5% 0 0
+  color: color('dark-grey')
+  font-weight: 600
+
+
+fieldset.filter-sorting
+  margin: 10px 0
+
+  .select
+    position: relative
+
+  select
+    display: inline-block
+    margin: 0 .1em 0 0
+
+    &:last-of-type
+      margin-right: 0
+
+  input[type='text']
+    padding: .04em .25em
+
+    &.datepicker
+      +placeholder
+        &:before
+          +fa-icon
+          content: $fa-var-calendar
+          margin-right: .5em
+
+  button,
+  .button
+    padding: .2em .5em
+    font:
+      family: $flama-condensed-medium
+      weight: 500
+    vertical-align: top
+
++ .component-content-blocks
+  padding-top: 0
 
 @media only screen and (min-width: 681px)
+
   header
     margin-bottom: .5em
 
-  .filter-open
-    float: right
-    text-align: right
-
-  fieldset.filter-lists
-    display: block
-    position: relative
-    padding: 0 0 1em
-    margin: 0 10px
-    border-bottom: 1px solid #eee
-    +clearfix
+  .left-sidebar
+    padding: 4em 20px
+    width: 320px
 
   fieldset.filter-sorting
     float: right
@@ -227,42 +199,20 @@
       padding: .125em .25em
 
 @media only screen and (min-width: 881px)
-  .filters-form
-    .sort-display
-      #section-search
-        width: 50%
-
-  fieldset.filter-lists
-    margin:
-      left: 5%
-      right: 5%
-
-  header
-    h1
-      float: left
-
-  .clear-all-filters
-    display: none
-
-  .filters-form .sort-display .select
-    width: 46%
-    margin-left: 15
-    float: right
-    margin-top: 0
-
-  fieldset.filter-sorting
-    max-width: 50%
-
-  .filter-lists
-    margin-top: 20px
 
   .filter-open
-    display: none
+    float: right
+    text-align: right
+
+  .sort-display
+    #section-search
+      width: 50%
 
   .left-sidebar
     width: 30%
     float: left
     position: relative
+    padding: 1em 20px
     transition: all .4s
     transform: translateX(0)
     .left-sidebar-close
@@ -273,14 +223,22 @@
     float: left
     margin: 0
 
-  .filters-form .filter-title
+  fieldset.filter-sorting
+    max-width: 50%
+    margin: 7px 0
+    .select
+      width: 44%
+      margin-left: 15px
+      float: right
+      margin-top: 0
+
+  .filter-lists
+    margin-top: 20px
+
+  .filter-open
+    display: none
+
+  .filter-title
     margin: 0 5% -2px 0
 
 @media only screen and (min-width: 1001px)
-  fieldset.filter-lists
-    margin:
-      left: 6.25%
-      right: 6.25%
-
-  fieldset.filter-sorting input[type='text']
-    padding: .25em .5em

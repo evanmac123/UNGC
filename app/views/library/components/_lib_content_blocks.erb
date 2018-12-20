@@ -1,0 +1,10 @@
+<%- if blocks && blocks.any? -%>
+<section class='component-content-blocks<%= " #{classes}" if classes ||= nil -%>'>
+  <%= content_tag(:header, content_tag(:h1, title.try(:html_safe)), {class: 'component-header'}) if title ||= nil %>
+  <ul class='component-content-blocks-list'>
+    <%- blocks.each do |block| -%>
+      <%= yield block %>
+    <%- end -%>
+    </ul>
+  </section>
+<%- end -%>
