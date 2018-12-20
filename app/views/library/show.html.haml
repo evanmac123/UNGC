@@ -1,27 +1,27 @@
 .library.resource
   = render partial: 'components/meta_tags'
-  = render partial: 'components/lib_hero'
+  = render partial: 'library/components/hero'
   %section.main-content-section
     .wrapper
-      = render partial: 'components/lib_navigation'
-      = render layout: 'components/lib_sidebar' do
+      = render partial: 'library/components/navigation'
+      = render layout: 'library/components/sidebar' do
         = render 'components/widget_image', image: {src: "//www.unglobalcompact.org#{@resource.cover_image(:show, retina: true)}", alt: @resource.title}
         .authors
           .partner-resource UN Partner Resource
           .sidebar-title Resource Author
-          = render layout: 'components/lib_resource_attributes_list', locals: {attributes: @resource.authors, title: ''} do |a|
+          = render layout: 'library/components/resource_attributes_list', locals: {attributes: @resource.authors, title: ''} do |a|
             = a.full_name
       %div.main-content
         .component-content-block-tag.right Resource Type
         %time.resource-year{:datetime => year = @resource.year}
           (#{year.to_date.year})
         .stars
-          = render partial: 'components/rating'
+          = render partial: 'library/components/rating'
         %header.main-content-header
           %h1= @resource.title
           .authors.mobile
             .sidebar-title Resource Author
-            = render layout: 'components/lib_resource_attributes_list', locals: {attributes: @resource.authors, title: ''} do |a|
+            = render layout: 'library/components/resource_attributes_list', locals: {attributes: @resource.authors, title: ''} do |a|
               = a.full_name
         %section.main-content-body
           %p= raw(@resource.description)
@@ -42,21 +42,21 @@
                       %audio{:controls => ""}
                         %source{:src => link.url, :type => "audio/mp3"}
                           Your browser does not support the audio element.
-      = render layout: 'components/lib_sidebar' do
+      = render layout: 'library/components/sidebar' do
         .sidebar-title Resource Details
-        = render layout: 'components/lib_resource_attributes_list', locals: {attributes: @resource.topics, title: 'Topics'} do |a|
+        = render layout: 'library/components/resource_attributes_list', locals: {attributes: @resource.topics, title: 'Topics'} do |a|
           - search_hash = a.parent.present? ? {topics: [a.id]} : {topic_groups: [a.id]}
           = link_to a.name, library_search_path(search: search_hash)
-        = render layout: 'components/lib_resource_attributes_list', locals: {attributes: @resource.issues, title: 'Issues'} do |a|
+        = render layout: 'library/components/resource_attributes_list', locals: {attributes: @resource.issues, title: 'Issues'} do |a|
           - search_hash = a.parent.present? ? {issues: [a.id]} : {issue_groups: [a.id]}
           = link_to a.name, library_search_path(search: search_hash)
-        = render layout: 'components/lib_resource_attributes_list', locals: {attributes: @resource.sectors, title: 'Sectors'} do |a|
+        = render layout: 'library/components/resource_attributes_list', locals: {attributes: @resource.sectors, title: 'Sectors'} do |a|
           - search_hash = a.parent.present? ? {sectors: [a.id]} : {sector_groups: [a.id]}
           = link_to a.name, library_search_path(search: search_hash)
-        = render layout: 'components/lib_resource_attributes_list', locals: {attributes: @resource.sustainable_development_goals, title: 'SDG'} do |a|
+        = render layout: 'library/components/resource_attributes_list', locals: {attributes: @resource.sustainable_development_goals, title: 'SDG'} do |a|
           - search_hash = {sustainable_development_goals: [a.id]}
           = link_to a.name, library_search_path(search: search_hash)
         .sidebar-title Share Resource
-        = render partial: 'components/lib_social'
+        = render partial: 'library/components/social'
         -# social partial will need to be hooked up to share the page
     -# Featured Resource partial should be added below

@@ -9,7 +9,6 @@
     <div class="tag-year">
       <%= content_tag(:div, tag, class: 'component-content-block-tag right') if tag ||= nil %>
       <%= content_tag(:div, year, class:'year') if year ||= nil %>
-      <%# This is will need to updated with the data for each year %>
     </div>
     <div class='component-content-block-content'>
       <%= content_tag(:h3, title) if title ||= nil %>
@@ -22,5 +21,5 @@
     <div class="save">
       Save
     </div>
-  <% end %>
+    <% end %>
 </li>
