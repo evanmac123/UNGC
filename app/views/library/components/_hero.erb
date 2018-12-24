@@ -23,9 +23,6 @@
            <h2 class="issue-search-link">
              Search by Issues
            </h2>
-           <a class="title-search-link" href="">
-             Title Search
-           </a>
            <div class="issue-search">
              <a class="issue-search-button" href=""> Taking Action on the Global Goals </a>
              <a class="issue-search-button" href=""> Responsible Investment </a>
@@ -35,6 +32,9 @@
              <a class="issue-search-button" href=""> Accelerating Climate Change </a>
            </div>
         </div>
+        <%= render('library/components/library_search') if hero_data[:show_library_search] %>
+
+
       </div>
     </div>
   </header>

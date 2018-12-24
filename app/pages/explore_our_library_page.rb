@@ -16,8 +16,17 @@ class ExploreOurLibraryPage < ContainerPage
   end
 
   def hero
-    (@data[:hero] || {}).merge({size: 'small'})
+    {
+      title: {
+        title1: 'Explore our enhanced library'
+      },
+      size: 'small',
+      blurb: 'Designed to help you find the resources you need to take the next step on your sustainability journey.',
+      theme: 'dark',
+      show_library_search: true
+    }
   end
+
 
   def filters
     [{

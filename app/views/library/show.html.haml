@@ -7,7 +7,7 @@
       = render layout: 'library/components/sidebar' do
         = render 'components/widget_image', image: {src: "//www.unglobalcompact.org#{@resource.cover_image(:show, retina: true)}", alt: @resource.title}
         .authors
-          .partner-resource UN Partner Resource
+          .partner-resource Partner Resource
           .sidebar-title Resource Author
           = render layout: 'library/components/resource_attributes_list', locals: {attributes: @resource.authors, title: ''} do |a|
             = a.full_name
