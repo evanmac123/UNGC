@@ -19,19 +19,7 @@
           <%- end -%></h1>
         <%- end -%>
          <%= content_tag(:p, hero_data[:blurb].html_safe, {class: 'blurb'}) if hero_data[:blurb] %>
-        <div class='hero-search'>
-           <h2 class="issue-search-link">
-             Search by Issues
-           </h2>
-           <div class="issue-search">
-             <a class="issue-search-button" href=""> Taking Action on the Global Goals </a>
-             <a class="issue-search-button" href=""> Responsible Investment </a>
-             <a class="issue-search-button" href=""> Global Goverance </a>
-             <a class="issue-search-button" href=""> Human & Labour Right in Global Supply Chains </a>
-             <a class="issue-search-button" href=""> Sustainable Management Practice </a>
-             <a class="issue-search-button" href=""> Accelerating Climate Change </a>
-           </div>
-        </div>
+    
         <%= render('library/components/library_search') if hero_data[:show_library_search] %>
 
 
