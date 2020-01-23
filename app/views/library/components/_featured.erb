@@ -1,0 +1,26 @@
+<div class="featured-resources">
+  <div class="featured-header">
+    <h2>
+      Featured Resources
+    </h2>
+    <a href="http://localhost:3000/library/search?utf8=✓" class="see-all">
+      Search All
+    </a>
+  </div>
+  <%- if blocks && blocks.any? -%>
+  <section class='component-content-blocks<%= " #{classes}" if classes ||= nil -%>'>
+    <%= content_tag(:header, content_tag(:h1, title.try(:html_safe)), {class: 'component-header'}) if title ||= nil %>
+
+    <ul class='component-content-blocks-list'>
+      <%- blocks[0..3].each do |block| -%> <%# This will need to be updated to pull in featured category  %>
+        <%= yield block %>
+      <%- end -%>
+    </ul>
+  </section>
+  <%- end -%>
+  <a href="https://shift.tools/" class="shift">
+    <span class="shift-label"> Powered by </span>
+    <span class="shift-logo">
+    </span>
+  </a>
+</div>

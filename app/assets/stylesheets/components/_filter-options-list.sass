@@ -2,106 +2,157 @@
   display: block
   position: relative
   float: left
-  width: 13.8%
-  padding: .25em .5em .3em
+  width: 100%
+  padding: 1em 0 1em 0
   line-height: 1.25
-  margin: 0 .5% 0 0
-  background-color: color('grey')
+  background-color: white
+  font-size: 1.4em
   text-align: left
-  color: white
+  border-top: 1px solid color('light-grey')
+  border-bottom: 1px solid color('light-grey')
+  color: color('blue')
+
 
   &:last-of-type
     margin-right: 0
 
+  &:hover
+    background-color: transparent
+    color: color('light-blue')
+    &:after
+      color: white
+
+  &:active,
+  &.is-active
+
+  &:disabled
+    background-color: color('light-grey')
+
   &:before
     +fa-icon
-    content: $fa-var-caret-down
+    content: "\f067"
     position: absolute
     top: 0
     right: .25em
     bottom: 0
     margin: auto
     height: 1em
-    font-size: 1.5em
-    color: color('light-grey')
-    +transition(color 100ms)
-
-  &:hover
-    background-color: color('grey')
-    color: white
-
-    &:before
-      color: white
-
-  &:active,
-  &.is-active
-    background-color: color('dark-grey')
-
-  &:disabled
-    background-color: color('light-grey')
+    font-size: 0.8em
+    color: color('blue')
+    transition: .4s all
 
   &.is-active
     &:before
-      content: "\00d7"
-      height: 1.2em
-
-    &:after
-      content: ''
-      position: absolute
-      top: 2em
-      left: 0
-      right: 0
-      margin: auto
-      +triangle(1.5em, rgba(color('dark-grey'), .975), up)
+      transform: rotate(45deg)
+      transition: .4s all
 
 .filter-options-list
   position: relative
   top: 0
-  padding: 0 0 0 1em
   margin: 0
   list-style: none
-  background-color: transparent
+  padding: 1em 1px 1em 1px
+  width: 100%
+  transition: max-height 1.2s,  opacity .4s, padding .4s
 
   .filter-option
     display: block
     width: auto
     padding: 0
     overflow: hidden
+    position: relative
+    padding-bottom: 4px
 
   input[type='checkbox']
     position: absolute
-    top: -3em
-    left: -3em
+    top: 0
+    left: 0
+    margin: 0
+    opacity: 0
 
-    &:checked + label
-      color: white
-      font-weight: 700
+    &:checked + label::before
+      background-color: color('blue')
+      border: 0px solid white
+
+    &:checked + label::after
+      transform: rotate(-90deg)
+      transition: all .4s
+
+    &:checked ~ .filter-child-options-list
+      max-height: 1000px
+      margin-top: 10px
+      opacity: 1
+      padding: 1em
+      transition: max-height 1.2s,  opacity .4s, padding .4s
+
 
 .filter-parent-options-list
-  display: none
-  position: absolute
-  top: 2.7em
-  left: 0
-  right: 0
-  padding: 1em
-  background-color: rgba(color('dark-grey'), .975)
-  color: color('light-grey')
+  background-color: white
+  color: color('dark-grey')
   z-index: 999
-  max-height: 40em
   overflow: auto
+  margin-top: 0
+  max-height: 0
+  padding: 0
+  transition: all .4s
 
   &.is-active
     display: block
+    max-height: 1000px
+    padding: 1em 1px 1em 1px
+    transition: all .4s
 
   > .filter-option
     position: relative
     display: inline-block
     vertical-align: top
-    width: 48%
+    width: 100%
     font:
-      size: 1.25em
-      weight: 500
-    padding: 1em
+      size: 1em
+      weight: 400
+
+  label
+    margin-left: 2em
+    width: 90%
+    display: inline-block
+    &:before
+      width: 1em
+      height: 1em
+      position: absolute
+      top: 3px
+      left: .25em
+      border: 1px solid color('light-grey')
+      background-color: color('white-grey')
+      content: ""
+      transition: all .4s
+
+    &:after
+      +fa-icon
+      content: "\f104"
+      position: absolute
+      top: 3px
+      right: .25em
+      margin: auto
+      height: 1em
+      font-size: 1.2em
+      color: color('grey')
+      transition: .4s all
+
+.filter-child-options-list
+  background-color: color('white-grey')
+  margin-top: 15px
+  max-height: 0
+  margin: 0
+  padding: 1em 0 0 0
+  opacity: 0
+  transition: all 1s
+
+  label
+    padding-bottom: .5em
+    width: 90%
+    font-size: 14px
+    &:after
+      display: none
 
   &.no-nested-filter > .filter-option
     font-size: 1em
@@ -109,16 +160,12 @@
       top: .5em
       bottom: .5em
 
-  @media only screen and (min-width: 881px)
-    > .filter-option
-      width: 32%
-
-  @media only screen and (min-width: 1001px)
-    top: 3em
-
-    &.no-nested-filter > .filter-option
-      width: 19%
-
 .filter-child-options-list
   .filter-option
     font-size: .8em
+
+@media only screen and (min-width: 881px)
+  .filter-options-list-trigger
+    font-size: 1em
+
+@media only screen and (min-width: 1001px)

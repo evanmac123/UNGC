@@ -1,8 +1,12 @@
-= render partial: 'components/meta_tags'
-= render partial: 'components/hero'
-= render 'form'
-= render layout: 'components/content_blocks', locals: {classes: 'library', blocks: @results} do |block|
-  = render 'components/resource_block', block: block
+.library.list
+  = render partial: 'components/meta_tags'
+  = render partial: 'library/components/hero'
+  .form-container
+    = render 'form'
+    .right-sidebar
+      = render layout: 'library/components/content_blocks', locals: {classes: 'library', blocks: @page.featured} do |block|
+        = render 'components/resource_block', block: block
+
 - if @results.empty?
   %section.main-content-section.main-content-section-wide
     .wrapper

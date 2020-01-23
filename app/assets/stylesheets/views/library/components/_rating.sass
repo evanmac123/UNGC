@@ -1,0 +1,19 @@
+.rating
+  margin-top: 4px
+  margin-left: 5px
+  float: left
+  unicode-bidi: bidi-override
+  direction: rtl
+  .fas
+    &:before
+      +fa-icon
+      color: color("light-grey")
+
+  i:hover:after,
+  i:hover ~ i:after
+    +fa-icon
+    content: $fa-var-star
+    position: absolute
+    color: color('gold')
+    left: 0
+    top: 1px

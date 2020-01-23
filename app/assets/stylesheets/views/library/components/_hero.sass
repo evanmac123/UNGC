@@ -1,0 +1,126 @@
+.library
+  #hero
+    background-image: image-url("background.jpg")
+    text-align: center
+    background-size: cover
+    background-color: transparent
+    max-width: none
+
+    .hero-content-wrapper
+      padding: 0
+      margin: 0 5%
+
+    h1
+      text-align: center
+      .hero-title
+        background-color: white
+        color: color('blue')
+        margin: auto
+        padding: 0 0.25em 0.25em
+        display: inline-block
+
+    h2
+      font-weight: 600
+      font-size: 1.2em
+      color: white
+      text-align: left
+      width: 50%
+
+    .blurb
+      color: white
+      margin: 2em
+      max-width: none
+
+    .issue-search-link, .title-search-link
+      width: 50%
+      float: left
+
+    .title-search-link
+      width: 100%
+      color: white
+      font-weight: 600
+      transition: .4s all
+      margin-top: 46px
+
+      &:hover
+        opacity: .8
+        transition: .4s all
+
+    .issue-search
+      width: 100%
+      text-align: center
+      float: left
+      display: grid
+      grid-template-columns: 1fr
+      row-gap: .5em
+      column-gap: .5em
+
+      .issue-search-button
+        background-color: color('light-blue')
+        width: 100%
+        color: white
+        float: left
+        font-weight: 600
+        text-align: left
+        transition: .4s all
+        -webkit-box-sizing: border-box
+        -moz-box-sizing: border-box
+        box-sizing: border-box
+        padding: 1em
+        font-family: $flama-bold
+
+        &:hover
+          cursor: pointer
+          background-color: white
+          color: color('light-blue')
+          transition: .4s all
+
+        &:after
+          +fa-icon
+          content: $fa-var-caret-right
+          position: absolute
+          right: 20px
+          top: 20px
+          font-size: 1.2em
+
+      .category-search
+        text-align: right
+        width: 50%
+        text-decoration: underline
+        color: white
+        font-weight: 600
+
+    @media only screen and (min-width: 800px)
+      .hero-content-wrapper
+        h1
+          font-size: 2em
+          width: 100%
+
+        h2
+          text-align: left
+
+        .title-search-link
+          margin-left: 25%
+          width: 50%
+
+        .blurb
+          width: 100%
+          margin: 1em 0
+          text-align: center
+          display: inline-block
+          font-size: 1em
+          max-width: 40em
+
+        .issue-search
+          grid-template-columns: 1fr 1fr
+
+          &:after
+            top: 25px
+            right: 20px
+            font-size: 1.3em
+
+.library.list, .library.resource
+  #hero
+    min-height: auto
+    .hero-search, .title-search-link
+      display: none

@@ -1,0 +1,25 @@
+<li class='component-content-block'>
+  <%= link_to url, class: "component-content-block-link#{" component-content-block-type-#{type}" if type ||= nil}" do %>
+    <div class='component-content-block-image' style='background-image: url(<%= thumbnail -%>)'>
+      <div class="component-content-block-image-holder">
+          <%= image_tag thumbnail %>
+          <%= content_tag(:div, tag, class: 'component-content-block-tag') if tag ||= nil %>
+      </div>
+    </div>
+    <div class="tag-year">
+      <%= content_tag(:div, tag, class: 'component-content-block-tag right') if tag ||= nil %>
+      <%= content_tag(:div, year, class:'year') if year ||= nil %>
+    </div>
+    <div class='component-content-block-content'>
+      <%= content_tag(:h3, title) if title ||= nil %>
+      <div class="description">
+        <%= content_tag(:p, description) if description ||= nil %>
+      </div>
+      <%= content_tag(:time, date.string, class: 'date', datetime: date.iso) if date ||= nil %>
+      <%= content_tag(:div, location, class: 'location') if location ||= nil %>
+    </div>
+    <div class="save">
+      Save
+    </div>
+    <% end %>
+</li>

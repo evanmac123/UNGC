@@ -1,0 +1,29 @@
+<%-
+  hero_data = begin
+    local_assigns[:hero] || @page.hero
+  rescue
+    nil
+  end
+-%>
+<%- if hero_data
+  hero_classes = ['page-section']
+  hero_classes << "hero-size-#{hero_data[:size]}" if hero_data[:size]
+  -%>
+  <header id='hero' class='<%= hero_classes.join(' ') -%>'>
+    <div class='wrapper'>
+      <div class='hero-content-wrapper'>
+        <%- if hero_data[:title] -%>
+          <h1><%- hero_data[:title].each do |key, value| -%>
+            <%#= tag(:br) if value -%>
+            <%= content_tag(:div, value.try(:html_safe), {class: 'hero-title'}) if value -%>
+          <%- end -%></h1>
+        <%- end -%>
+         <%= content_tag(:p, hero_data[:blurb].html_safe, {class: 'blurb'}) if hero_data[:blurb] %>
+    
+        <%= render('library/components/library_search') if hero_data[:show_library_search] %>
+
+
+      </div>
+    </div>
+  </header>
+  <%- end -%>

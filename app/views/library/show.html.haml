@@ -1,42 +1,62 @@
-= render partial: 'components/meta_tags'
-= render partial: 'components/hero'
-%section.main-content-section
-  .wrapper
-    %header.main-content-header
-      %h1= @resource.title
-    %section.main-content-body
-      %p= raw(@resource.description)
-      %time.resource-year{:datetime => year = @resource.year}
-        (#{year.to_date.year})
-      = render layout: 'components/resource_attributes_list', locals: {attributes: @resource.topics, title: 'Topics'} do |a|
-        - search_hash = a.parent.present? ? {topics: [a.id]} : {topic_groups: [a.id]}
-        = link_to a.name, library_search_path(search: search_hash)
-      = render layout: 'components/resource_attributes_list', locals: {attributes: @resource.issues, title: 'Issues'} do |a|
-        - search_hash = a.parent.present? ? {issues: [a.id]} : {issue_groups: [a.id]}
-        = link_to a.name, library_search_path(search: search_hash)
-      = render layout: 'components/resource_attributes_list', locals: {attributes: @resource.sectors, title: 'Sectors'} do |a|
-        - search_hash = a.parent.present? ? {sectors: [a.id]} : {sector_groups: [a.id]}
-        = link_to a.name, library_search_path(search: search_hash)
-      = render layout: 'components/resource_attributes_list', locals: {attributes: @resource.sustainable_development_goals, title: 'SDG'} do |a|
-        - search_hash = {sustainable_development_goals: [a.id]}
-        = link_to a.name, library_search_path(search: search_hash)
-      = render layout: 'components/resource_attributes_list', locals: {attributes: @resource.authors, title: 'Authors'} do |a|
-        = a.full_name
-      - if @resource.links.any?
-        %article.resource-links-list
-          %ul
-            - @resource.links_list.each do |link|
-              %li{:class => "resource-link resource-link-type-#{link.type}"}
-                %h2
-                  = link_to link.title, link.url, target: '_blank', data: {resource_link_id: link.id}
-                  %span.resource-link-language
-                    (#{link.language})
-                - if link.is_youtube?
-                  .video-iframe
-                    %iframe{:allowfullscreen => "", :frameborder => "0", :height => "315", :src => link.embed_url, :width => "560"}
-                - if link.is_podcast?
-                  %audio{:controls => ""}
-                    %source{:src => link.url, :type => "audio/mp3"}
-                      Your browser does not support the audio element.
-    = render layout: 'components/sidebar' do
-      = render 'components/widget_image', image: {src: "//www.unglobalcompact.org#{@resource.cover_image(:show, retina: true)}", alt: @resource.title}
+.library.resource
+  = render partial: 'components/meta_tags'
+  = render partial: 'library/components/hero'
+  %section.main-content-section
+    .wrapper
+      = render partial: 'library/components/navigation'
+      = render layout: 'library/components/sidebar' do
+        = render 'components/widget_image', image: {src: "//www.unglobalcompact.org#{@resource.cover_image(:show, retina: true)}", alt: @resource.title}
+        .authors
+          .partner-resource Partner Resource
+          .sidebar-title Resource Author
+          = render layout: 'library/components/resource_attributes_list', locals: {attributes: @resource.authors, title: ''} do |a|
+            = a.full_name
+      %div.main-content
+        .component-content-block-tag.right Resource Type
+        %time.resource-year{:datetime => year = @resource.year}
+          (#{year.to_date.year})
+        .stars
+          = render partial: 'library/components/rating'
+        %header.main-content-header
+          %h1= @resource.title
+          .authors.mobile
+            .sidebar-title Resource Author
+            = render layout: 'library/components/resource_attributes_list', locals: {attributes: @resource.authors, title: ''} do |a|
+              = a.full_name
+        %section.main-content-body
+          %p= raw(@resource.description)
+          - if @resource.links.any?
+            %article.resource-links-list
+              .resource-list-title Access Resource
+              %ul
+                - @resource.links_list.each do |link|
+                  %li{:class => "resource-link resource-link-type-#{link.type}"}
+                    .link-title
+                      = link_to link.title, link.url, target: '_blank', data: {resource_link_id: link.id}
+                      %span.resource-link-language
+                        (#{link.language})
+                    - if link.is_youtube?
+                      .video-iframe
+                        %iframe{:allowfullscreen => "", :frameborder => "0", :height => "315", :src => link.embed_url, :width => "560"}
+                    - if link.is_podcast?
+                      %audio{:controls => ""}
+                        %source{:src => link.url, :type => "audio/mp3"}
+                          Your browser does not support the audio element.
+      = render layout: 'library/components/sidebar' do
+        .sidebar-title Resource Details
+        = render layout: 'library/components/resource_attributes_list', locals: {attributes: @resource.topics, title: 'Topics'} do |a|
+          - search_hash = a.parent.present? ? {topics: [a.id]} : {topic_groups: [a.id]}
+          = link_to a.name, library_search_path(search: search_hash)
+        = render layout: 'library/components/resource_attributes_list', locals: {attributes: @resource.issues, title: 'Issues'} do |a|
+          - search_hash = a.parent.present? ? {issues: [a.id]} : {issue_groups: [a.id]}
+          = link_to a.name, library_search_path(search: search_hash)
+        = render layout: 'library/components/resource_attributes_list', locals: {attributes: @resource.sectors, title: 'Sectors'} do |a|
+          - search_hash = a.parent.present? ? {sectors: [a.id]} : {sector_groups: [a.id]}
+          = link_to a.name, library_search_path(search: search_hash)
+        = render layout: 'library/components/resource_attributes_list', locals: {attributes: @resource.sustainable_development_goals, title: 'SDG'} do |a|
+          - search_hash = {sustainable_development_goals: [a.id]}
+          = link_to a.name, library_search_path(search: search_hash)
+        .sidebar-title Share Resource
+        = render partial: 'library/components/social'
+        -# social partial will need to be hooked up to share the page
+    -# Featured Resource partial should be added below

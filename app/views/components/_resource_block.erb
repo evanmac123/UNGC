@@ -1,1 +1,1 @@
-<%= render 'components/content_block', type: 'resource', title: block.title, url: library_resource_path(block), thumbnail: "#{block.cover_image(:show, retina: true)}", tag: t(block.content_type) %>
+<%= render 'library/components/content_block', type: 'resource', title: block.title, year: block.year, description: block.description, url: library_resource_path(block), thumbnail: "#{block.cover_image(:show, retina: true)}", tag: t(block.content_type) %>

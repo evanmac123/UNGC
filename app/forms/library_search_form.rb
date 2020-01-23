@@ -42,7 +42,7 @@ class LibrarySearchForm < FilterableForm
   end
 
   def disabled?
-    active_filters.count >= 5
+    # active_filters.count >= 5 (taken out for new filtering system)
   end
 
   def options

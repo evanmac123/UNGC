@@ -1,7 +1,7 @@
 .active-filters
-  border-bottom: 1px solid #eee
-  padding: 0 0 .5em
-  margin: 0 10px
+  padding: 22px 0 0
+  margin: 0
+  float: left
   +clearfix
 
   h2
@@ -39,7 +39,7 @@
 
   .active-filter-type,
   .remove-active-filter
-    background-color: darken(color('pastel-blue'), 10%)
+    background-color: darken(color('blue'), 10%)
 
   .remove-active-filter
     padding: .25em .5em
@@ -61,7 +61,7 @@
     +transition-duration(250ms)
 
   .active-filter
-    background-color: darken(color('pastel-blue'), 5%)
+    background-color: #699CC6
     +transform(scale3d(1, 1, 1))
 
     &.removing
@@ -72,7 +72,7 @@
     .remove-active-filter
       &:hover,
       &:active
-        background-color: color('blue')
+        background-color: color('pastel-blue')
         color: white
 
   .clear-all-filters button
@@ -84,18 +84,19 @@
     padding: .25em 1em
     line-height: inherit
     margin: 0
-    background-color: color('light-grey')
+    background-color: color('grey')
 
     &:hover,
     &:active
-      background-color: color('grey')
+      background-color: color('dark-grey')
       color: white
 
   @media only screen and (min-width: 681px)
-    padding-top: .5em
+
+    .active-filter
+      margin: 0
 
   @media only screen and (min-width: 881px)
-    margin: 0 5%
 
     h2,
     .active-filters-list
@@ -112,7 +113,6 @@
 
 
   @media only screen and (min-width: 1001px)
-    margin: 0 6.25%
 
     h2
       font-size: 1.125em

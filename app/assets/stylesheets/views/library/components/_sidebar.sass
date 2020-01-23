@@ -1,0 +1,70 @@
+.library
+  .article-sidebar
+    padding: 0
+    margin: 2em 0 0
+
+    h2
+      display: block
+      width: 100%
+      float: left
+      font-size: 14px
+      margin: 0 .25em 0 0
+      padding: 0
+      font-weight: 600
+      color: color('grey')
+
+    .widget
+      margin: 0 0 1em
+
+      h1
+        font-size: 1.5em
+
+      img
+        border: 0px
+        -webkit-box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.19)
+        -moz-box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.19)
+        box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.19)
+
+    .social
+      list-style: none
+      padding: 0
+      margin: 0 0 2em
+      float: left
+      width: 100%
+
+      li
+        display: inline-block
+        margin: 0 .5em .5em 0
+
+      span
+        display: none
+
+      a
+        color: color('blue')
+        margin-right: 3px
+
+        &:before
+          +fa-icon
+          font-size: 1.66667em
+
+        &:hover,
+        &:active
+          color: color('light-blue')
+
+      .twitter:before
+        content: $fa-var-twitter-square
+
+      .linkedin:before
+        content: $fa-var-linkedin-square
+
+      .facebook:before
+        content: $fa-var-facebook-square
+
+      .mail:before
+        content: $fa-var-envelope
+
+
+    @media only screen and (min-width: 601px)
+      float: left
+      width: 25%
+      margin: 0

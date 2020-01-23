@@ -1,0 +1,81 @@
+.library
+  .nav
+    width: 100%
+
+  .back
+    padding-bottom: 1em
+    text-align: center
+    width: 100%
+    z-index: 1
+
+  &.resource .results-count
+    text-align: center
+
+  .results-count
+    margin: 7px 0 2em 0
+    float: right
+    font-weight: 400
+    color: color('grey')
+    font-size: 14px
+    z-index: 0
+    width: 100%
+    text-align: center
+    @extend %wrapper
+
+    a
+      font-weight: 400
+      font-size: 14px
+
+    .previous-page
+      padding-right: 1em
+      position: relative
+      &:after
+        +fa-icon
+        content: $fa-var-caret-left
+        position: absolute
+        left: -10px
+        top:  1px
+        font-size: 14px
+
+    .next-page
+      padding-left: 1em
+      position: relative
+      &:after
+        +fa-icon
+        content: $fa-var-caret-right
+        position: absolute
+        right: -10px
+        top: 1px
+        font-size: 14px
+
+  @media only screen and (min-width: 569px)
+    .results-count
+      float: right
+      padding-right: 10px
+
+  @media only screen and (min-width: 881px)
+
+    .results-count
+        margin: 2em auto
+        font-size: 14px
+        font-weight: 400
+        text-align: right
+
+    &.resource
+      .nav
+        .back
+          float: left
+          color: color('light-blue')
+          margin-top: 14px
+          font-size: 14px
+          text-align: left
+          padding-bottom: 0
+          margin-bottom: -35px
+
+
+        .results-count
+          margin: 0em auto 2em auto
+          padding: 1em 0
+          width: 100%
+          float: none
+          border-bottom: 1px solid color("white-grey")

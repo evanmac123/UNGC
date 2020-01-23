@@ -1,0 +1,68 @@
+
+<%= form_for @search, as: :search, url: library_search_path, method: :get, html: {id: 'filters-form'} do |f| %>
+  <div class="filters-form"> <%# form will need to be rewritten so that the form still is created%>
+    <div class="left-sidebar">
+      <div class="left-sidebar-close sidebar-toggle">
+        Close
+      </div>
+      <div class="filter-title">
+        Narrow your Results
+      </div>
+      <a class="clear-all-filters">
+        Clear All Filters
+      </a>
+      <fieldset class='filter-lists'>
+        <% @search.filters.each do |filter| %>
+          <%= search_filter filter, disabled: @search.disabled? %>
+        <% end %>
+      </fieldset>
+    </div>
+
+    <div class="right-sidebar">
+
+    <a class="filter-open sidebar-toggle">
+      Filters
+    </a>
+
+    <% if @results.any?  %>
+      <div class='results-count'>
+        <a class="previous-page"> Previous </a>
+        <%- if @search.keywords && !@search.keywords.empty? -%>
+          Searched for: <strong>&ldquo;<%= @search.keywords -%>&rdquo;</strong>&mdash;
+          Searched for: <strong>&ldquo;<%= @search.keywords -%>&rdquo;</strong>&mdash;
+        <%- end -%>
+        Results 10 of <%= @results.total_entries -%>
+        <a class="next-page"> Next </a> <%# pagination will need to be hooked up correctly%>
+      </div>
+    <% end  %>
+
+    <div class="sort-display">
+      <fieldset id='section-search'>
+        <%= f.search_field :keywords, placeholder: 'Search Our Library', tabindex: 1, autofocus: true %>
+        <%= f.button '<span>Search</span>'.html_safe, type: :submit %>
+      </fieldset>
+
+      <div class="display_sort">
+        <fieldset class='filter-sorting'>
+          <%- @page.sorting_options.each do |so| -%><%# Need to include javascript to restyle%>
+          <div class="select">
+            <%- so[:options] = @search.try(so[:options]) -%>
+            <%= f.select so[:field], so[:options], {include_blank: so[:label]}, {id: "filter-#{so[:field].to_s.parameterize}"} %>
+          </div>
+          <%- end -%>
+        </fieldset>
+      </div>
+    </div>
+
+    <%= active_filters(@search) %>
+
+    <%- if blocks && blocks.any? -%>
+    <section class='component-content-blocks<%= " #{classes}" if classes ||= nil -%>'>
+      <%= content_tag(:header, content_tag(:h1, title.try(:html_safe)), {class: 'component-header'}) if title ||= nil %>
+      <ul class='component-content-blocks-list'>
+        <%- blocks.each do |block| -%>
+          <%= yield block %>
+        <%- end -%>
+        </ul>
+      </section>
+<%- end -%>

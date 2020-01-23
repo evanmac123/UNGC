@@ -1,0 +1,20 @@
+<div class='hero-search'>
+   <h2 class="issue-search-link">
+     Search by Issues
+   </h2>
+   <div class="issue-search">
+     <a class="issue-search-button" href=""> Taking Action on the Global Goals </a>
+     <a class="issue-search-button" href=""> Responsible Investment </a>
+     <a class="issue-search-button" href=""> Global Goverance </a>
+     <a class="issue-search-button" href=""> Human & Labour Right in Global Supply Chains </a>
+     <a class="issue-search-button" href=""> Sustainable Management Practice </a>
+     <a class="issue-search-button" href=""> Accelerating Climate Change </a>
+   </div>
+</div>
+
+<%= form_for @search, as: :search, url: library_search_path, method: :get, html: {class: 'title-search-link'} do |f| %>
+  <fieldset id='section-search'>
+    <%= f.search_field :keywords, placeholder: 'Title Search', tabindex: 1, autofocus: true %>
+    <%= f.button '<span>Search</span>'.html_safe, type: :submit %>
+  </fieldset>
+<% end %>

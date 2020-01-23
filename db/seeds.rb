@@ -136,7 +136,7 @@ end
 # Issues
 # Issue.pluck(:id, :name, :type, :parent_id)
 issues = [["Social", nil],
- ["Principle 1", "Social"],
+ ["Hello", "Social"],
  ["Principle 2 ", "Social"],
  ["Principle 3", "Social"],
  ["Principle 4 ", "Social"],
