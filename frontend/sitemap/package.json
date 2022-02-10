@@ -51,7 +51,7 @@
   },
   "dependencies": {
     "broccoli-sass": "^0.7.0",
-    "node-sass": "^4.7.2",
+    "node-sass": "^7.0.0",
     "request": "^2.81.0",
     "uglify-js": "^3.4.5"
   }
